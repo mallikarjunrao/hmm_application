@@ -1,0 +1,56 @@
+<%= error_messages_for 'hmm_user' %>
+
+<p><label for="hmm_user_fname">First name</label><br/>
+<span id="sprytextfield1"><span id="sprytextfield1"><%= text_field 'hmm_user', 'v_fname'  %>&nbsp;&nbsp;<span class="textfieldRequiredMsg">First Name is required.</span></span></span></p>
+
+<p><label for="hmm_user_lname">Last name</label><br/>
+<span id="sprytextfield2"><span id="sprytextfield2"><%= text_field 'hmm_user', 'v_lname'  %>&nbsp;&nbsp;<span class="textfieldRequiredMsg">Last Name is required.</span></span></span></p>
+
+
+<%radio_button "post", "category", "rails"%>
+<p><label for="hmm_user_sex">Sex <br/>
+Male<%= radio_button 'hmm_user', 'e_sex','M'  %>
+Female<%= radio_button 'hmm_user', 'e_sex','F'  %></p></label>
+
+<p><label for="hmm_user_user_name">User name</label><br/>
+<span id="sprytextfield3"><span id="sprytextfield3"><%= text_field 'hmm_user', 'v_user_name'  %>&nbsp;&nbsp;<span class="textfieldRequiredMsg">Username is required.</span></span></span></p>
+
+<p><label for="hmm_user_password">Password</label><br/>
+<span id="sprytextfield4"><span id="sprytextfield4"><%= password_field 'hmm_user', 'v_password'%>&nbsp;&nbsp;<span class="textfieldRequiredMsg">Password is required.</span></span></span></p>
+
+
+
+
+
+<p><label for="hmm_user_country">Country</label><br/>
+<span id="sprytextfield9"><span id="sprytextfield9"><%= text_field 'hmm_user', 'v_country'  %>&nbsp;&nbsp;<span class="textfieldRequiredMsg">Country is required.</span></span></span></p>
+
+<p><label for="hmm_user_zip">Zip</label><br/>
+<span id="sprytextfield10"><span id="sprytextfield10"><%= text_field 'hmm_user', 'v_zip'  %>&nbsp;&nbsp;<span class="textfieldRequiredMsg">Zip is required.</span></span></span></p>
+
+<p><label for="hmm_user_e_mail">E-mail</label><br/>
+<span id="sprytextfield11"><span id="sprytextfield11"><%= text_field 'hmm_user', 'v_e_mail'  %>&nbsp;&nbsp;<span class="textfieldRequiredMsg">Email is required.</span></span></span></p>
+<p><label for="hmm_user_e_mail">Family name</label><br/>
+<span id="sprytextfield11"><span id="sprytextfield11"><%= text_field 'hmm_user', 'family_name'  %>&nbsp;&nbsp;</span></span></p>
+
+<script type="text/javascript">
+<!--
+var sprytextfield1 = new Spry.Widget.ValidationTextField("sprytextfield1", "none", {validateOn:["blur"]});
+var sprytextfield2 = new Spry.Widget.ValidationTextField("sprytextfield2", "none", {validateOn:["blur"]});
+var sprytextfield3 = new Spry.Widget.ValidationTextField("sprytextfield3", "none", {validateOn:["blur"]});
+var sprytextfield4 = new Spry.Widget.ValidationTextField("sprytextfield4", "none", {validateOn:["blur"]});
+var sprytextfield5 = new Spry.Widget.ValidationTextField("sprytextfield5", "none", {validateOn:["blur"]});
+var sprytextfield6 = new Spry.Widget.ValidationTextField("sprytextfield6", "none", {validateOn:["blur"]});
+var sprytextfield7 = new Spry.Widget.ValidationTextField("sprytextfield7", "none", {validateOn:["blur"]});
+var sprytextfield8 = new Spry.Widget.ValidationTextField("sprytextfield8", "none", {validateOn:["blur"]});
+var sprytextfield9 = new Spry.Widget.ValidationTextField("sprytextfield9", "none", {validateOn:["blur"]});
+var sprytextfield10 = new Spry.Widget.ValidationTextField("sprytextfield10", "none", {validateOn:["blur"]});
+var sprytextfield11 = new Spry.Widget.ValidationTextField("sprytextfield11", "none", {validateOn:["blur"]});
+var sprytextfield12 = new Spry.Widget.ValidationTextField("sprytextfield12", "none", {validateOn:["blur"]});
+var sprytextfield13 = new Spry.Widget.ValidationTextField("sprytextfield13", "none", {validateOn:["blur"]});
+var sprytextfield14 = new Spry.Widget.ValidationTextField("sprytextfield14", "none", {validateOn:["blur"]});
+var password 		= new Spry.Widget.ValidationTextField("password", "none", {validateOn:["blur"], minChars:6, maxChars:10});
+var cofirmpassword 	= new Spry.Widget.ValidationTextField("cofirmpassword", "none", {validateOn:["blur"], minChars:6, maxChars:10});
+//-->
+</script>
+

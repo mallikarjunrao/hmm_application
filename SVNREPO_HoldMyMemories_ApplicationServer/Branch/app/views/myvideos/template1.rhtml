@@ -1,0 +1,59 @@
+
+
+<form name="slideshowTemp" id="slideshowTemp" action="/myvideos/createSlideShow/" method="post">
+<table width="905" align="center" cellpadding="0" cellspacing="0" border="0">
+	<tr>
+		<td width="140" align="center" valign="middle">&nbsp;</td>
+		<td>&nbsp;</td>
+		<td>&nbsp;</td>
+	</tr>
+	<tr>
+		<td colspan="3" align="center"><font color="#ffffff" size="5">Preview SlideShow Template</font></td>
+	</tr>
+	<tr>
+		<td >&nbsp;</td>
+		<td>&nbsp;</td>
+		<td>&nbsp;</td>
+	</tr>
+	<tr>
+		
+		
+	
+	<tr>
+		<td width="75" height="450" align="center" valign="middle"><a href="/myvideos/slideshowTemplates">Back</a></td>
+		<td align="center" valign="middle">
+			<script src="/AC_OETags.js" language="JavaScript"></script>
+			<input type="hidden" name="swffile" id="swffile" value="<%=params[:id]%>"/>
+		<script src="DWConfiguration/ActiveContent/IncludeFiles/AC_RunActiveContent.js" type="text/javascript"></script>
+		<script type="text/javascript">
+		var swffilename=document.getElementById('swffile').value;
+		//alert(document.getElementById('swffile').value);
+			AC_FL_RunContent( 'codebase','http://download.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=7,0,19,0',
+					'width','810',
+					'height','450',
+					'src','/'+swffilename,
+					'quality','high',
+					'pluginspage','http://www.macromedia.com/go/getflashplayer',
+					'movie','/'+swffilename,
+					'allowFullScreen','true',
+					'bgcolor','#000000',
+					'flashvars', 'xmlfile=/slideshow.xml' ); //end AC code
+		</script>
+		<noscript>
+                  <object classid="clsid:D27CDB6E-AE6D-11cf-96B8-444553540000" codebase="http://download.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=7,0,19,0" width="810" height="450">
+                  
+                </object>
+                </noscript>
+			
+		</td>
+		<td width="75" height="300" align="center" valign="middle"><a href="/myvideos/createSlideShow/<%=params[:id]%>"> Next</a></td>
+	</tr>
+	
+</table>
+</form>
+
+
+
+
+
+

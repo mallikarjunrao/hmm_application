@@ -1,0 +1,20 @@
+<h1>Manage Sales Tax</h1>
+<font color="#f5dfa6"><%=flash[:notice]%><%=flash[:notice_del]%></font>
+<table>
+  <tr>
+    <th background="/images/body_hor.JPG">Studio Name</th>
+    <th background="/images/body_hor.JPG">Sales Tax </th>
+ <th background="/images/body_hor.JPG" colspan="3" align="center">Action</th>
+  </tr>
+
+<% for hmm_studio in @hmm_studios %>
+  <tr class="<%= cycle('odd', 'even') -%>">
+  <td><%=hmm_studio.studio_branch %></td>
+  <td><%=hmm_studio.tax_rate %></td>
+    <td colspan="2"><%= link_to 'Edit', :action => 'manage_studiosalestax', :id => hmm_studio %></td>
+   </tr>
+<% end %>
+</table>
+
+	<%=will_paginate @hmm_studios%>
+<br />

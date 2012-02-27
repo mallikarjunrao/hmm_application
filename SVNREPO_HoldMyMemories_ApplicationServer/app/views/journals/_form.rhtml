@@ -1,0 +1,123 @@
+<%= error_messages_for 'journal' %>
+<!--[form:journal]-->
+<br></br>
+<center><h3><font color=#dddddd><h2>Add Journal</h2></font></h3>
+<table width="600" border="0">
+	<tr>
+		<td valign="top" align="right" width="200"><label for="hmm_user_fname"><font size=2 color=#dddddd>Title</font></label></td>
+		<td width="5">&nbsp;</td>
+		<td valign="top" align="left" width="160"><span id="sprytextfield1"><span id="sprytextfield1">
+<%= text_field 'journal', 'v_title'  %><br><span class="textfieldRequiredMsg">Journal Title Required.</span></span></span></td>
+		<td valign="top" align="left" width="160">&nbsp;</td>
+		<td>&nbsp;</td>
+		<td>&nbsp;</td>
+		<td>&nbsp;</td>
+		<td>&nbsp;</td>
+	</tr>
+	<tr>
+		<td align="right" valign="top" ><label for="hmm_user_sex"><font size=2 color=#dddddd>My Pic</font></label></td>
+		<td>&nbsp;</td>
+		<td align="left"><span id="sprytextfield4"><span id="sprytextfield4"><%= file_field 'journals_photo', 'v_image_filename'%><br><span class="textfieldRequiredMsg">Pic is required.</span></span></span></td>
+		<td>&nbsp;</td>
+		<td>&nbsp;</td>
+		<td>&nbsp;</td>
+		<td>&nbsp;</td>
+		<td>&nbsp;</td>
+	</tr>
+	<tr>
+		<td align="right" valign="top"><label for="hmm_user_bdate"><font size=2 color=#dddddd>My Video</font></label></td>
+		<td>&nbsp;</td>
+		<td align="left" colspan="2"><span id="sprytextfield5"><span id="sprytextfield5"><%= file_field 'journals_video', 'v_video_filename'  %><br><span class="textfieldRequiredMsg">Video is required.</span></span></span></td>
+		<td>&nbsp;</td>
+		<td>&nbsp;</td>
+		<td>&nbsp;</td>
+		<td>&nbsp;</td>
+	</tr>
+	<tr>
+		<td align="right" valign="top"><label for="hmm_user_e_mail"><font size=2 color=#dddddd>My Audio</font></label></td>
+		<td>&nbsp;</td>
+		<td align="left"><span id="sprytextfield6"><span id="sprytextfield6"><%= file_field 'journals_audio', 'v_audio_filename'  %><br><span class="textfieldRequiredMsg">Audio is required.</span></span></span></td>
+		<td>&nbsp;</td>
+		<td>&nbsp;</td>
+		<td>&nbsp;</td>
+		<td>&nbsp;</td>
+		<td>&nbsp;</td>
+	</tr>
+	<tr>
+		<td align="right" valign="top"><label for="hmm_user_e_mail"><font size=2 color=#dddddd>My Paper Works</font></label></td>
+		<td>&nbsp;</td>
+		<td align="left"><span id="sprytextfield7"><span id="sprytextfield7"><%= file_field 'journals_paperwork', 'v_paper_filename'  %><br><span class="textfieldRequiredMsg">Paper Work is required.</span></span></span></td>
+		<td>&nbsp;</td>
+		<td>&nbsp;</td>
+		<td>&nbsp;</td>
+		<td>&nbsp;</td>
+		<td>&nbsp;</td>
+	</tr>
+	<tr>
+		<td align="right" valign="top"><label for="hmm_user_e_mail"><font size=2 color=#dddddd>Describe In Short</font></label></td>
+		<td>&nbsp;</td>
+		<td align="left"><span id="sprytextfield8"><span id="sprytextfield8"><%= text_field 'journal', 'v_small_description'  %><br><span class="textfieldRequiredMsg">Describe In Short is required.</span></span></span></td>
+		<td>&nbsp;</td>
+		<td>&nbsp;</td>
+		<td>&nbsp;</td>
+		<td>&nbsp;</td>
+		<td>&nbsp;</td>
+	</tr>
+	<tr>
+		<td align="right" valign="top"><label for="hmm_user_e_mail"><font size=2 color=#dddddd>Describe In Detail</font></label></td>
+		<td>&nbsp;</td>
+		<td align="left"><span id="sprytextfield9"><span id="sprytextfield9"><%=text_area  'journal', 'v_large_description', "cols" => 40, "rows" => 5 %><br><span class="textareaRequiredMsg">The value is required.</span> </span></td>
+		<td>&nbsp;</td>
+		<td>&nbsp;</td>
+		<td>&nbsp;</td>
+		<td>&nbsp;</td>
+		<td>&nbsp;</td>
+	</tr>
+	<tr>
+		<td align="right" valign="top"><label for="hmm_user_e_mail"><font size=2 color=#dddddd>Journal Access</font></label></td>
+		<td>&nbsp;</td>
+		<td align="left"><%= radio_button 'journal','e_journal_access','PUBLIC'%><font size=2 color=#dddddd>Public
+<%= radio_button 'journal','e_journal_access','PRIVATE'%><font size=2 color=#dddddd>Private
+<%= radio_button 'journal','e_journal_access','SEMIPRIVATE'%><font size=2 color=#dddddd>Semi Private</td>
+		<td>&nbsp;</td>
+		<td>&nbsp;</td>
+		<td>&nbsp;</td>
+		<td>&nbsp;</td>
+		<td>&nbsp;</td>
+	</tr>
+	
+	<tr>
+		<td align="right" valign="top"><label for="hmm_user_e_mail"><font size=2 color=#dddddd>Reminder Date</font></label></td>
+		<td>&nbsp;</td>
+		<td align="left"><%= datetime_select 'journal', 'd_reminder_date'  %></td>
+		<td>&nbsp;</td>
+		<td>&nbsp;</td>
+		<td>&nbsp;</td>
+		<td>&nbsp;</td>
+		<td>&nbsp;</td>
+	</tr>
+</table>
+</center>
+<script type="text/javascript">
+//function image_val(element,id){
+	//alert("dfgfd");
+	
+	//if((frm.lastIndexOf(".jpg")==-1)&&(frm.lastIndexOf(".bmp")==-1)&&(frm.lastIndexOf(".gif")==-1)&&(frm.lastIndexOf(".JPG")==-1)&&(frm.lastIndexOf(".BMP")==-1)&&(frm.lastIndexOf(".GIF")==-1))
+	///{
+		
+	//	document.getElementById(id).innerHTML="Wrong File Format !!! Try files with .jpg,.bmp,.gif.";
+	//	document.getElementById(id).focus();
+	//	return false;
+	//}
+	
+//}
+	
+var sprytextfield1 = new Spry.Widget.ValidationTextField("sprytextfield1", "none", {validateOn:["blur"]});
+var sprytextfield4 = new Spry.Widget.ValidationTextField("sprytextfield4", "none", {validateOn:["blur"]});
+var sprytextfield5 = new Spry.Widget.ValidationTextField("sprytextfield5", "none", {validateOn:["blur"]});
+var sprytextfield6 = new Spry.Widget.ValidationTextField("sprytextfield6", "none", {validateOn:["blur"]});
+var sprytextfield7 = new Spry.Widget.ValidationTextField("sprytextfield7", "none", {validateOn:["blur"]});
+var sprytextfield8 = new Spry.Widget.ValidationTextField("sprytextfield8", "none", {validateOn:["blur"]});
+var sprytextfield9 = new Spry.Widget.ValidationTextarea("sprytextfield9", {validateOn:["blur"]});
+</script>
+<!--[eoform:journal]-->

@@ -1,0 +1,145 @@
+require 'rubygems'
+
+require 'oauth'
+
+require 'oauth/consumer'
+
+require 'ruby-debug'
+
+require 'json'
+
+API_KEY = "149832372"
+
+API_KEY_PRIVATE = "2a7c351b90c386d9446f33826c8d4c9c"
+
+USERNAME = "mallikarjunarao786"
+
+USERNAME_PW = "9848012345"
+
+#patch to override api.photobucket.com in SBS
+
+module OAuth::RequestProxy
+
+    class Base
+
+        def normalized_uri
+
+            u = URI.parse(uri)
+
+            "#{u.scheme.downcase}://api.photobucket.com#{(u.scheme.downcase == 'http' && u.port != 80) || (u.scheme.downcase == 'https' && u.port != 443) ? ":#{u.port}" : ""}#{(u.path && u.path != '') ? u.path : '/'}"
+
+        end
+
+    end
+
+end
+
+#patch to print out signature_base_string - just for debugging
+
+#module OAuth::Signature::HMAC
+
+    #class Base < OAuth::Signature::Base
+
+        #private
+
+        #def digest
+
+            #puts ">>> " + signature_base_string
+
+            #sig = self.class.digest_class.digest(secret, signature_base_string)
+
+            #puts ">>>>>> " + Base64.encode64(sig).chomp.gsub(/\n/,'')
+
+            #sig
+
+        #end
+
+    #end
+
+#end
+
+#set up the generic consumer
+
+@consumer = OAuth::Consumer.new(API_KEY,
+
+                             API_KEY_PRIVATE,
+
+                             {
+
+    :site => "http://api.photobucket.com",
+
+    :scheme => :header,
+
+    :request_token_path => '/login/request',
+
+    :authorize_path => '/apilogin/login',
+
+    :access_token_path => '/login/access'
+
+})
+
+#print "1111111111111111111111111111111",@consumer.site
+#    @consumer=OAuth::Consumer.new( "key","secret", {
+#    :site=>"https://agree2"
+#    })
+
+#Start the process by requesting a token
+
+#@request_token=@consumer.get_request_token
+##session[:request_token]=@request_token
+#@request_token.authorize_url
+#print "222222222222222222222222222222222222222",@request_token
+
+#When user returns create an access_token
+
+#set up an empty access token because its easier
+@access = OAuth::AccessToken.new(@consumer, '', '')
+print "Fffffffffffffffffffffffffffffffffffff", @access.inspect
+#print "333333333333333333333333333333335555555555555555",@access.authorize_url
+#do a login direct
+@resp = @access.post("/login/direct" +USERNAME,{ :password => USERNAME_PW, :format=>"json" })
+print "22222222222222222222222222222222222222222222",@resp
+#@accessresp = JSON.parse(@resp.body)
+print "--------------------------------------------------------------",@resp.inspect
+
+#
+#todo catch errors here before parsing content, probably
+#
+##pull out stuff from response
+#
+#@access.token = @accessresp['oauth_token'],
+#print "!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!",@access.token
+##
+#@access.secret = @accessresp['oauth_token_secret']
+#print "@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@",@access.secret
+
+##reset the consumer url (yes, do it like this - must set site and url() resets the internal http object
+#
+#@consumer.options[:site] = "http://" + @accessresp['subdomain']
+#print "@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@",@consumer.options[:site]
+#
+#@consumer.uri("http://" + @accessresp['subdomain'])
+##
+#username = @accessresp['username']
+
+#as a test, lets get the current user logged in
+
+#@resp = @access.get("/user?format=json")
+#print "@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@",@resp
+#print JSON.parse(@resp.body)
+#print "____________________________________________________________--"
+##create an album
+#
+##probably want to test to see if it exists first
+
+#@resp = @access.post("/albums/" + USERNAME,
+#
+#                     {:format=>"json"})
+#
+#print JSON.parse(@resp.body)
+#print "____________________________________________________________-444444444444444444444444444444        44444444444-"
+##upload a url to the album
+@resp = @access.post("/upload/albums/" + OAuth::Helper::escape(USERNAME),{:format=>"json", :type=>'url', :imageUrl=>'http://www.google.com/intl/en_ALL/images/logo.gif'})
+
+#print JSON.parse(@resp.body)
+###Instantiate your Consumer object with your credentials:

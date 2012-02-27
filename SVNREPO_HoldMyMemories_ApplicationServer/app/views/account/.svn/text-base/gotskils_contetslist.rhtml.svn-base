@@ -1,0 +1,74 @@
+<h1>Cute Kids Contest Video Entries</h1>
+<font color="#f5dfa6"><%=flash[:contest_rej]%></font>
+<font color="#f5dfa6"><%=flash[:contest_approve]%></font>
+<% session['redirect'] =  '102' %>
+<table>
+  <tr>
+    <td align="left" valign="top" colspan=9><a href="/account/video_contest_excel?phase=phase8" target="_blank">(Click Here to Export to Excel)</a>&nbsp;&nbsp;&nbsp;<br>
+    </td>
+  </tr>
+  <tr>
+    <td align="left" valign="top" colspan=9>&nbsp;</td>
+  </tr>
+  <tr>
+    <th background="/images/body_hor.JPG">Name</th>
+    <th background="/images/body_hor.JPG">User Name</th>
+    <th background="/images/body_hor.JPG">Email</th>
+    <th background="/images/body_hor.JPG">Moment Type</th>
+    <th background="/images/body_hor.JPG">Contest Title</th>
+    <th background="/images/body_hor.JPG">Entrants Name</th>
+    <th background="/images/body_hor.JPG">Studio Branch</th>
+    <th background="/images/body_hor.JPG">Age Group</th>
+    <th background="/images/body_hor.JPG">Entry Date</th>
+    <th background="/images/body_hor.JPG">Status</th>
+    <th background="/images/body_hor.JPG" colspan="4" align="center">Action</th>
+  </tr>
+  <%	odd_or_even = 0
+  if(params[:page])
+    if(params[:page]!='1')
+      i=(Integer(params[:page])* @pg_limit ) - ( @pg_limit - 1 )
+    else
+      i = 1
+    end
+  else
+    i = 1
+  end
+  for contest in @contests
+    odd_or_even = 1 - odd_or_even %>
+    <tr class="<%= cycle('odd', 'even') -%>">
+      <%@hmmuser_name = HmmUser.find(:all, :conditions => "id='#{contest.uid}'")%>
+      <td><% for name in @hmmuser_name %><a  href="/user_account/authenticate/?id=1&hmm_user[v_user_name]=<%=name.v_user_name%>&hmm_user[v_password]=<%=name['v_password']%>" target="_blank" ><%=name.v_fname%>&nbsp;<%=name.v_lname%> <%end%></a></td>
+      <td><% for username in @hmmuser_name %><%=username.v_user_name%><%end%></td>
+      <td><% for email in @hmmuser_name %><%=email.v_e_mail%><%end%></td>
+      <td><%=contest.moment_type%></td>
+      <td>Cute Kids Video Contest</td>
+      <td><%=contest.first_name%></td>
+      <td>
+        <%if(username.studio_id=='' || username.studio_id==nil || username.studio_id==0 || username.studio_id=="0" ) %>
+          Direct Customer
+        <%else%>
+          <% hmmstudio=HmmStudio.find(username.studio_id)   %>
+          <%=hmmstudio.studio_name%>
+        <%end%>
+      </td>
+      <td><%=contest.age_groups%></td>
+      <td><%=contest.contest_entry_date.strftime("%a %b #{contest.contest_entry_date.day.ordinalize} %Y")%></td>
+      <td><%=contest.status%></td>
+      <td><a href="/account/gotskils_moment_view/<%=contest.moment_id%>/?page=<%=i%>&&phase=phase8" >Show</a></td>
+      <%if contest.status == 'pending'%>
+        <td><a href="/account/contest_approve/<%= contest.id %>/?phase=phase8"  >Approve </a></td>
+        <td><a href="/account/reject_email/<%= contest.id %>/?phase=phase8"  >Reject </a></td>
+        <td><%= link_to 'Delete Entry', { :action => 'contest_delete', :id => contest }, :confirm => 'Are you sure?', :method => :post %></td>
+      <%else if contest.status == "active"%>
+          <td><a href="/account/reject_email/<%= contest.id %>/?phase=phase8"  >Reject </a></td>
+          <td><%= link_to 'Delete Entry', { :action => 'contest_delete', :id => contest }, :confirm => 'Are you sure?', :method => :post %></td>
+        <%else if contest.status == "inactive"%>
+            <td><a href="/account/contest_approve/<%= contest.id %>/?phase=phase8" >Approve </a></td>
+            <td><%= link_to 'Delete Entry ', { :action => 'contest_delete', :id => contest }, :confirm => 'Are you sure?', :method => :post %></td>
+          <%end%><%end%><%end%>
+      <td></td>
+    </tr>
+    <% i = i + 1
+  end %>
+</table>
+<%=will_paginate @contests%>

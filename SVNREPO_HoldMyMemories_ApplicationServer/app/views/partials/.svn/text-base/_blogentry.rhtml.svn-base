@@ -1,0 +1,52 @@
+<% if blog %>
+  <table width="100%" border="0" cellspacing="0" cellpadding="0">
+    <tr>
+      <td class="content-trans-bg"><table width="100%" border="0" cellspacing="0" cellpadding="0">
+          <tr>
+            <td height="35" colspan="3" align="left" valign="middle" background="/images/common/tab_trans.png" class="headers">&nbsp;&nbsp;Blog Entry </td>
+                </tr>
+          <tr>
+            <td align="left" valign="top"></td>
+            <td align="left" valign="top">&nbsp;</td>
+            <td align="left" valign="top"></td>
+          </tr>
+          <tr>
+            <td width="28" align="left" valign="top"></td>
+            <td align="left" valign="top"><table width="100%" border="0" cellspacing="0" cellpadding="0">
+                
+
+                <tr>
+                  <td height="35" align="left" valign="top" class="header-paragraph">
+            <%=blog.blog_title %>
+                  </td>
+                </tr>
+                <tr>
+                  <td align="right" valign="top" class="content"><b>Date :</b> <%= blog.blog_date %></td>
+                </tr>
+                <tr>
+                  <td height="1"  align="left" valign="top" bgcolor="#ffffff"></td>
+                </tr>
+                <tr>
+                  <td align="left" valign="top">&nbsp;</td>
+                </tr>
+                <tr>
+                  <td align="left" valign="top" class="content">
+                    <% desc=blog.blog_content %>
+   <%=desc.gsub("\n", "<br />\n") %>
+  </td>
+                </tr>
+                
+                <tr>
+                  <td align="left" valign="top">&nbsp;</td>
+                </tr>
+              </table></td>
+            <td width="28" align="left" valign="top"></td>
+          </tr>
+
+          <tr>
+            <td height="20" colspan="3" align="left" valign="top">&nbsp;</td>
+          </tr>
+        </table></td>
+    </tr>
+  </table>
+<% end %>

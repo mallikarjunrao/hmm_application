@@ -1,0 +1,37 @@
+<h1>List of Market Managers</h1>
+
+<table>
+  <tr>
+ 
+    <th  background="/images/body_hor.JPG">Name</th>
+  <th  background="/images/body_hor.JPG">User Name</th>
+  <th  background="/images/body_hor.JPG">Employee Id</th>
+  <th  background="/images/body_hor.JPG">E-mail</th>
+  <th  background="/images/body_hor.JPG">Address</th>
+  <th  background="/images/body_hor.JPG">Phone No</th>
+  <th  background="/images/body_hor.JPG">Status</th>
+  
+  <th  background="/images/body_hor.JPG" colspan="3" align="center">Action</th>
+  </tr>
+  
+<% for market_manager in @market_managers %>
+  <tr class="<%= cycle('odd', 'even') -%>">
+  
+    <td><%=market_manager.manager_name %></td>
+	<td><%=market_manager.manager_username %></td>
+	<td><%=market_manager.employee_id %></td>
+	<td><%=market_manager.e_mail %></td>
+	<td><%=market_manager.address %></td>
+	<td><%=market_manager.phone_no %></td>
+	<td><%=market_manager.status %></td>
+ 
+    <td><%= link_to 'Show', :action => 'show', :id => market_manager %></td>
+    <td><%= link_to 'Edit', :action => 'edit', :id => market_manager %></td>
+    <td><%= link_to 'Destroy', { :action => 'destroy', :id => market_manager }, :confirm => 'Are you sure?', :method => :post %></td>
+  </tr>
+<% end %>
+</table>
+	<%=will_paginate @market_managers%>
+<br />
+
+<%= link_to 'New market_manager', :action => 'new' %>

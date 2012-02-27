@@ -1,0 +1,18 @@
+<table width="100%" cellpadding="0" cellspacing="0" border="0" style="padding-top: 10px;"  >
+  <tr><td align="left"><h2>Add Standard Print Size</h2></td></tr>
+  <tr><td align="right"><a href="/print_sizes/list_sizes">Back</a></td></tr>
+
+  <tr><td>
+      <% form_for :print_size, @size, :url => { :action => "add_size" } do |f| %>
+        <table width="100%" cellpadding="5" cellspacing="5" border="0">
+          <tr><td align="left" colspan="3"><%= f.error_messages %></td></tr>
+          <tr><td>Label <font color="red">*</font></td><td>:</td><td><%= f.text_field :label %></td></tr>
+          <tr><td>Width <font color="red">*</font></td><td>:</td><td><%= f.text_field :width %> (inches)</td></tr>
+          <tr><td>Height <font color="red">*</font></td><td>:</td><td><%= f.text_field :height %> (inches)</td></tr>
+          <tr><td>Digital Downloads <font color="red">*</font></td><td>:</td><td><%= f.radio_button 'digital_download','yes'%> Yes &nbsp;&nbsp;&nbsp;&nbsp;<%= f.radio_button 'digital_download','no' ,:checked => 'true'%> No</td></tr>
+          <tr><td colspan="3" align="center"><%= submit_tag 'Create' %></td></tr>
+          <tr><td colspan="3"><font color="red">*</font> Indicates required field</td></tr>
+        </table>
+      <% end %>
+    </td></tr>
+</table>

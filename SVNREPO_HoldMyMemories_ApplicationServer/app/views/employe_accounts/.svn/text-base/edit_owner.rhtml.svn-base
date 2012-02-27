@@ -1,0 +1,21 @@
+<script type="text/javascript">
+	function verify()
+	{
+		
+		if (document.getElementById('valid_username').value == 'false') 
+		{
+			document.getElementById('employe_username').focus();
+			return false;
+		}
+	}
+</script>
+<h1>Edit Profile</h1>
+
+<% form_tag :action => 'update', :id => @employe_account do %>
+
+  <%= render :partial => 'form_editowner' %>
+  <center><%= submit_tag 'Edit', :onclick => "return verify();" %></center>
+<% end %>
+
+
+<%= link_to 'Back', :action => 'list_owner' %>

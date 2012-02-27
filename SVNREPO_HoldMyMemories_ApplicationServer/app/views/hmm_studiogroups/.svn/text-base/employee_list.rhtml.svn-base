@@ -1,0 +1,44 @@
+<h1>Listing <%=session[:franchise_name]%> Studio Employees</h1>
+
+<table>
+  <tr>
+
+    <th background="/images/body_hor.JPG"> employee id </th>
+	<th background="/images/body_hor.JPG"> employee name </th>
+	<th background="/images/body_hor.JPG"> employee email</th>
+	<th background="/images/body_hor.JPG"> branch </th>
+	<th background="/images/body_hor.JPG"> employee type </th>
+	<th background="/images/body_hor.JPG"> customer count </th>
+	<th background="/images/body_hor.JPG"> join date </th>
+	<th background="/images/body_hor.JPG"> status </th>
+  
+   <th  background="/images/body_hor.JPG">Actions</th>
+  </tr>
+  
+<%  for studio in @hmm_studio
+        @emp = EmployeAccount.find(:all, :conditions => "store_id='#{studio.id}' ")
+    		for employee in @emp %>
+  <tr class="<%= cycle('odd', 'even') -%>">
+ 
+    <td><%=h employee.employe_id 	 %></td>
+	<td><%=h employee.employe_name 	 %></td>
+	<td><%=h employee.e_mail 	 %></td>
+	<td><%=h studio.studio_branch 	 %></td>
+	<td><%=h employee.emp_type 	 %></td>
+	<td><%=h employee.customer_count 	 %></td>
+	<td><%=h employee.employe_join_date.strftime("%m - %d - %Y") %></td>
+	<td><%=h employee.status %></td>
+	
+    <td><%= link_to 'Show', :controller => 'employe_accounts', :action => 'show', :id => employee.id %></td>
+    <!-- td>< % = link_to 'Edit', :cont roller => 'empl oye_accou nts',:act ion => 'e dit', :i d => e mploye e.id % ></td>
+    <td>< % = link_to 'Destroy', { :controlle r => 'em ploye_accounts ',:ac tion => 'destroy', :i d => employee.id }, : confirm => 'Are you sure?', : method => :post %></td -->
+  </tr>
+<% end 
+ end %>
+</table>
+
+
+
+<br />
+
+

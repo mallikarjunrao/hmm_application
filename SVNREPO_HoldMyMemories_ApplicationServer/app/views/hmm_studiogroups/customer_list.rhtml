@@ -1,0 +1,63 @@
+<h1>Listing <%=session[:franchise_name]%> Studio Customers</h1>
+
+<table>
+  <tr>
+
+    <th background="/images/body_hor.JPG"> First Name</th>
+	<th background="/images/body_hor.JPG"> Last  Name </th>
+	<th background="/images/body_hor.JPG"> Gender</th>
+	<th background="/images/body_hor.JPG"> User Name </th>
+	<th background="/images/body_hor.JPG"> E-Mail </th>
+	<th background="/images/body_hor.JPG"> Account Type </th>
+	<th background="/images/body_hor.JPG"> Created Date </th>
+	<th background="/images/body_hor.JPG"> Expire Date </th>
+	<th background="/images/body_hor.JPG"> Status </th>
+  
+   <th  background="/images/body_hor.JPG">Actions</th>
+  </tr>
+  
+<%  for studio in @hmm_studio
+        @emp = EmployeAccount.find(:all, :conditions => "store_id='#{studio.id}' ")
+    		for employee in @emp 
+				@customers = HmmUser.find(:all, :conditions => "emp_id = '#{employee.id}'")
+                 	for customers in @customers%>
+					<% hmmdet=HmmUser.find(:all,:conditions=>"id=#{customers.id}")%>
+  <tr class="<%= cycle('odd', 'even') -%>">
+ 
+    <td><a href="/user_account/authenticate/?id=1&hmm_user[v_user_name]=<%=customers.v_user_name%>&hmm_user[v_password]=<%=hmmdet[0]['v_password']%>" target="_blank"><%=h customers.v_fname %></a></td>
+	<td><%=h customers.v_lname %></td>
+	<td><%=h customers.e_sex %></td>
+	<td><%=h customers.v_user_name %></td>
+	<td><%=h customers.v_e_mail %></td>
+	<td><%=h customers.account_type %></td>
+	<td>
+	<% if customers.d_created_date == nil || customers.d_created_date == '' %>
+		-
+		<%else%>
+			<%=h customers.d_created_date.strftime("%m - %d - %Y")%>
+		<%end%>
+		</td>
+	<td align="center">
+		<% if customers.account_expdate == nil || customers.account_expdate == '' %>
+		-
+		<%else%>
+			<%=h customers.account_expdate.strftime("%m - %d - %Y")%>
+		<%end%>
+	
+	</td>
+	<td><%=h customers.e_user_status %></td>
+	
+    <td><%= link_to 'Show', :controller => 'employe_accounts', :action => 'show', :id => customers.id %></td>
+    <!-- td>< % = link_to 'Edit', :cont roller => 'empl oye_accou nts',:act ion => 'e dit', :i d => e mploye e.id % ></td>
+    <td>< % = link_to 'Destroy', { :controlle r => 'em ploye_accounts ',:ac tion => 'destroy', :i d => employee.id }, : confirm => 'Are you sure?', : method => :post %></td -->
+  </tr>
+<% end 
+ end 
+  end %>
+</table>
+
+
+
+<br />
+
+

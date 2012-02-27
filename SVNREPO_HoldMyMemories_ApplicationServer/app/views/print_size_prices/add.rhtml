@@ -1,0 +1,95 @@
+<script type="text/javascript">
+function select_print_sizes(id)
+{
+
+  var i="<%=high_resolution%>"
+  var j="<%=low_resolution%>"
+
+   	if(id==i || id==j)
+	{
+		document.getElementById('nor').style.display='none';
+	}else{
+
+		document.getElementById('nor').style.display='block';
+
+	}
+
+
+}
+function checkfor()
+{
+  if(document.getElementById('print_size_price_process_studio_id_0').checked==false)
+    return true;
+}
+</script>
+<script type="text/javascript">
+                      function disableSubmit()
+                      {
+                        var out = verify();
+                        if(out==true){
+                          document.getElementById('sub').style.display = "none";
+			  document.getElementById('process').style.display = "block";
+                          //document.frm.sub.disabled='true';
+                          return true;
+                        }else{
+                          return false;
+                        }
+                      }
+                    </script>
+
+<table width="100%" cellpadding="0" cellspacing="0" border="0" style="padding-top: 10px;"  >
+  <tr><td align="left"><h2>Add Price</h2></td></tr>
+  <tr><td align="right"><a href="/print_size_prices/list">Back</a></td></tr>
+
+  <tr><td>
+      <% form_for :print_size_price, @price, :url => { :action => "add" } do |f| %>
+        <table width="100%" cellpadding="5" cellspacing="5" border="0">
+          <tr><td align="left" colspan="3"><%= f.error_messages %></td></tr>
+          <%if(params[:id]==nil || params[:id]=='' || params[:id]=='0') %>
+          <!--<%@prt=PrintSize.find(:all, :conditions => "1=1 and id!=#{@exclude_sizes}")%>-->
+          <%@prt=PrintSize.find(:all, :conditions => "1=1 #{@exclude_sizes}")%>
+
+		  <tr><td>Sizes <font color="red">*</font></td><td>:</td><td>
+              <select name="print_size_price[print_size_id]" >
+                <%for i in @prt%>
+                <option value="<%=i.id%>"><%=i.label%></option>
+                <%end%>
+              </select>
+            </td></tr>
+          <%else%>
+          <%@prt2=PrintSize.find(:all, :conditions => "1=1 #{@exclude_sizes}")%>
+          <tr><td>Sizes <font color="red">*</font></td><td>:</td><td>
+              <select name="print_size_price[print_size_id]">
+                <%for k in @prt2%>
+                <option value="<%=k.id%>"><%=k.label%></option>
+                <%end%>
+              </select>
+            </td></tr> <%end%>
+          <tr><td>Price <font color="red">*</font></td><td>:</td><td><%= f.text_field :price %> (dollars for single image)</td></tr>
+          <tr><td id="qty">Price within 72 hours </td><td>:</td><td><%= f.text_field :pricelt72 %> (dollars for single image)</td></tr>
+
+          <tr id="nor"><td>
+
+          Processed By <font color="red">*</font></td><td>:</td><td><%=  f.radio_button(:process_studio_id,'0', :checked =>"checked")%>HoldMyMemories
+
+  <%=  f.radio_button(:process_studio_id, params[:id]) %>Self
+
+
+        </td></tr>
+
+          <tr><td id="qty">Quantity <font color="red">*</font></td><td>:</td><td><%= f.text_field :quantity %> </td></tr>
+          <tr><td id="ratio">Maintain Image Aspect Ratio<font color="red">*</font></td><td>:</td><td><%= f.radio_button 'aspect_ratio','yes'%> Yes &nbsp;&nbsp;&nbsp;&nbsp;<%= f.radio_button'aspect_ratio','no'%> No</td></tr>
+
+
+          <tr><td colspan="3" align="center">
+		  <div id='blk' style='display:block;'>
+		  <input type="submit" name="sub" id="sub" value="ADD" onClick="javascript:document.getElementById('blk').style.display='none';">
+		  </div>
+		  </td></tr>
+          <tr><td colspan="3"><font color="red">*</font> Indicates required field</td></tr>
+        </table>
+      <%= f.hidden_field :studio_type, :value=>"#{@studio_type}" %>
+      <%= f.hidden_field :studio_id, :value=>"#{@studio_id}" %>
+      <% end %>
+    </td></tr>
+</table>

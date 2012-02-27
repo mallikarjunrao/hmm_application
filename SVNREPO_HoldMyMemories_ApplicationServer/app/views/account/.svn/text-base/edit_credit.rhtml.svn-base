@@ -1,0 +1,31 @@
+<%= error_messages_for 'hmm_user' %>
+<script type="javascript">
+  function chek()
+  {
+    if(document.getElementById(deduct).value)
+  }
+</script>
+<form name="frm_deduct" id="frm_deduct" action="account/edit_credit" method="post" onsubmit="return chek();">
+  <input type="hidden" name="ap" value="<%=params[:ap]%>">
+<table>
+  <tr>
+    <td colspan="2"><h1>Update Credit Points</h1></td>
+  </tr>
+   <tr>
+    <td>&nbsp;</td>
+    <td>&nbsp;</td>
+  </tr>
+  <tr>
+    <td>Deduct Credit Points</td>
+    <td><input type="text" name="deduct" id="deduct" value=""></td>
+  </tr>
+  <tr>
+    <td>&nbsp;</td>
+    <td>&nbsp;</td>
+  </tr>
+  <tr>
+    <td>&nbsp;</td>
+    <td><input type="submit" name="sub_bt" value="Update"></td>
+  </tr>
+</table>
+</form>

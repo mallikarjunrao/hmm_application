@@ -1,0 +1,144 @@
+ <script type="text/javascript">
+<% if @status == "fail" %>
+    alert("Invalid Coupon code");
+    document.getElementById('coupon<%=params[:studio_id]%>').value = ""
+<% elsif @status == "check" %>
+    alert("Your minimum purchase amount should be greater than "+<%=@coupon_details.min_amount %>);
+     document.getElementById('coupon<%=params[:studio_id]%>').value = ""
+     document.getElementById('coupon<%=params[:studio_id]%>').focus();
+
+  <% elsif @status == "fail1" %>
+  alert('Your cart must have the size <%= @coupon_details.size_label %>');
+   document.getElementById('coupon<%=params[:studio_id]%>').value = ""
+    document.getElementById('coupon<%=params[:studio_id]%>').focus();
+    <%else%>
+    document.getElementById('valid_coupon<%=params[:studio_id]%>').style.display = "none"
+<%end%>
+</script>
+<table width='90%' border='0' cellspacing='0' cellpadding='0' class="content">
+  <% unless  params[:subtotal] == "0"%>
+    <tr>
+      <td colspan="2" align="center">Order Prints</td>
+    </tr>
+    <tr>
+      <td align='left' valign='top'>Subtotal :</td>
+      <td align='left' valign='top' >$<%=number_with_precision(params[:subtotal], :precision => 2)%>
+      </td>
+    </tr>
+  <%end%>
+
+  <!-- Digital Download -->
+  <% unless @subtotal_digital.to_f == 0.00 %>
+    <tr>
+      <td colspan="2" align="center">Digital Download</td>
+    </tr>
+    <tr>
+      <td align="left" valign="top">Subtotal :</td>
+      <td align="left" valign="top" >$<%= number_with_precision(params[:subtotal_digital], :precision => 2) %>
+      </td>
+    </tr>
+  <% end %>
+  <tr>
+    <td align='left' valign='top' >&nbsp;</td>
+    <td align='center' valign='top' >&nbsp;</td>
+  </tr>
+  <tr>
+    <td align='left' valign='top' >Shipping :<% if @shipping_price == 0.00 %><br>(Free Shipping)<%end%></td>
+    <td align='left' valign='top' >$<%=number_with_precision(Float(@shipping_price).round(2), :precision => 2)%>
+    </td>
+  </tr>
+  <tr>
+    <td align='left' valign='top' >&nbsp;</td>
+    <td align='center' valign='top'>&nbsp;</td>
+  </tr>
+  <% unless @discount == 0 %>
+   
+    <tr>
+      <%if @individual_cpn > 0%>
+       <% if  @coupon_details.discount == "free" ||  @coupon_details.discount == "FREE"  %>
+      <td align='left' valign='top' >Discount (<%= @dis_amount.price.to_f %> $) :</td>
+     <% else %>
+       <td align='left' valign='top' >Discount (<%= Float(@coupon_details.discount) %> $) :</td>
+      <%end%>
+
+      <%else%>
+      <td align='left' valign='top' >Discount (<%= Float(@coupon_details.discount) %> %) :</td>
+      <%end%>
+      <td align='left' valign='top' >-$<%=number_with_precision(Float(@discount.to_f.round(2)), :precision => 2)%>
+      </td>
+    </tr>
+  <%else%>
+    <tr>
+      <td align='left' valign='top' >Discount (0 %) :</td>
+      <td align='left' valign='top' >-$<%=number_with_precision(Float(@discount), :precision => 2)%>
+      </td>
+    </tr>
+  <%end%>
+    <tr>
+    <td align='left' valign='top' >&nbsp;</td>
+    <td align='center' valign='top'>&nbsp;</td>
+  </tr>
+  <% if  @final_salestax %>
+  <tr>
+      <td align='left' valign='top' >Sales Tax (<%= Float(params[:sales_tax]) %> %) :</td>
+      <td align='left' valign='top' >$<%=number_with_precision(Float(@final_salestax), :precision => 2)%>
+      </td>
+    </tr>
+    <%else%>
+  <% unless params[:sales_tax] == "0" %>
+    <tr>
+      <td align='left' valign='top' >Sales Tax (<%= Float(params[:sales_tax]) %> %) :</td>
+      <td align='left' valign='top' >$<%=number_with_precision(Float(@salestax.round(2)), :precision => 2)%>
+      </td>
+    </tr>
+      <%end%>
+    <%end%>
+    <tr>
+      <td align='left' valign='top' >&nbsp;</td>
+      <td align='center' valign='top'>&nbsp;</td>
+    </tr>
+
+  <tr>
+    <td align='left' valign='top' >&nbsp;</td>
+    <td align='center' valign='top'>&nbsp;</td>
+  </tr>
+  <tr>
+    <td align='left' valign='top' >Total :</td>
+   <% if  @final_total %>
+     <td align='left' valign='top' >$<%=number_with_precision(Float(@final_total), :precision => 2)%>
+    <%else%>
+    <td align='left' valign='top' >$<%=number_with_precision(Float(@total), :precision => 2)%>
+      <%end%>
+    </td>
+  </tr>
+  <tr>
+    <td align='left' valign='top' >&nbsp;</td>
+    <td align='center' valign='top' >&nbsp;</td>
+  </tr>
+  <tr>
+    <td align='left' valign='top' >&nbsp;</td>
+    <td align='left' valign='top' ></td>
+  </tr>
+</table>
+   <% if @status != "fail"%>
+<table width='90%' border='0' cellspacing='0' cellpadding='0' class="content">
+  <tr>
+    <td align='left' valign='top'> Offer with this coupon: </td>
+   </tr>
+
+  <tr>
+  <td align='left' valign='top' >Discount Amount</td>
+  <td align='left' valign='top' >Discounted Amount</td>
+  </tr>
+ 
+   <tr>
+  <td align='left' valign='top' >$<%=@coupon_details.discount %></td>
+   <% if  @final_total %>
+  <td align='left' valign='top' >$<%=number_with_precision(Float(@final_total), :precision => 2)%>
+    <%else%>
+  <td align='left' valign='top' >$<%=number_with_precision(Float(@total), :precision => 2)%></td>
+  <%end%>
+  </tr>
+ 
+</table>
+ <%end %>

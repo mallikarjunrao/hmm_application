@@ -1,0 +1,152 @@
+<%= javascript_include_tag 'check_flash' %>
+<%= stylesheet_link_tag 'main' %>
+<%= stylesheet_link_tag 'hmmout' %>
+<script type="text/javascript">
+function validateFileExtension(fld) {
+	if(!/(\.png|\.PNG)$/i.test(fld.value)) {
+		alert("Invalid file type.. Please Upload only transparent PNG image file!!");
+		fld.focus();
+		return false;
+	}
+	return true;
+}
+</script>
+
+<%if(@studio.category_image!=nil && @studio.category_image!='')%>
+<script type="text/javascript">
+
+
+function check_terms()
+{
+  
+
+   if(document.frm.portfolio_image.value!='')
+   {
+	if(!/(\.png|\.PNG)$/i.test(document.frm.portfolio_image.value)) {
+		alert("Invalid file type.. Please Upload only transparent PNG image file!!");
+		document.frm.portfolio_image.focus();
+		return false;
+	}
+  }
+if(document.frm.title.value=='')
+	{
+		alert("Please enter the Title");
+		document.frm.title.focus();
+		return false;
+	}
+
+}
+
+</script>
+<%else%>
+<script type="text/javascript">
+function check_terms()
+{
+	
+	if(document.frm.portfolio_image.value=='')
+	{
+		alert("Please Upload a PNG transparent About Us Logo");
+		document.frm.portfolio_image.focus();
+		return false;
+	}
+	if(!/(\.png|\.PNG)$/i.test(document.frm.portfolio_image.value)) {
+		alert("Invalid file type.. Please Upload only transparent PNG image file!!");
+		document.frm.portfolio_image.focus();
+		return false;
+	}
+	
+	if(document.frm.title.value=='')
+	{
+		alert("Please enter the Title");
+		document.frm.title.focus();
+		return false;
+	}
+
+}
+</script>
+<%end%>
+<table width="900"  border="0" cellspacing="0" cellpadding="0">
+  <tr><td valign="top">
+      <%= render :partial => 'links' %>
+    </td><td>
+ <form name="frm" action="<%=request_content_url%>/manage_mobile_studios_content/update_studio_portfolio/<%=params[:id]%>/?studio_id=<%=@employee.store_id%>" method="post" enctype="multipart/form-data"  on>
+<table width="600" border="0" cellspacing="0" cellpadding="0">
+  <tr><td valign="top" class="leftconthr" colspan="4" > <h3><font color="#ff6400">Create your iPhone App in 5 Easy Steps</h3></font></td></tr>
+   
+                          <tr>
+                            <td colspan="4" align="left" valign="top" class="leftconthr"><h3><u>Step3: Edit Studio Portfolio:</u></h3></td>
+                          </tr>
+                          <tr>
+                            <td colspan="4" align="right" valign="top" class="leftconthr"><a href="/manage_mobile_studios/manage_studio_portfolios"><< Back</a>
+
+                            </td>
+                          </tr>
+ <tr>
+                            <td colspan="4" align="center" valign="top" class="leftconthr">
+                            <%if(params[:success]=='1')%>
+                            <font color="#FF0000">Studio Portfolio Updated Successfully</font>
+                            <%end%>                            </td>
+    </tr>
+                         
+                           <tr>
+                            <td align="left" valign="top">&nbsp;</td>
+                            <td align="left" valign="top">&nbsp;</td>
+                            <td align="left" valign="top">&nbsp;</td>
+                            <td align="left" valign="top">&nbsp;</td>
+                          </tr>
+                          <tr>
+                            <td width="1%" align="left" valign="top" class="whitecont">&nbsp;</td>
+                            <td width="150" align="left" valign="top" class="whitecont">Upload Portfolio  Image * </td>
+                            <td width="3%" align="left" valign="top" class="whitecont">:</td>
+                            <td width="54%" align="left" valign="top"><input type="file" name="portfolio_image" onChange="return validateFileExtension(this)">
+                              <br>
+                              Size : 50x50 (WxH)<br />							 
+                              (Upload a PNG transparent image) <br>
+                            <%if(@studio.category_image!=nil && @studio.category_image!='')%>
+                            <img src="<%=@studio.img_url%>/user_content/studio_portfolio_images/<%=@studio.category_image%>" border="0" width="100" height="100"><br />
+                           <!-- <a href="/hmm_studios/delete_logo/<%=params[:id]%>">(Remove)</a>-->
+                            <%else%>
+                            No Image
+                            <%end%>
+                       	</td>
+    </tr>
+     <tr>
+                            <td align="left" valign="top">&nbsp;</td>
+                            <td align="left" valign="top">&nbsp;</td>
+                            <td align="left" valign="top">&nbsp;</td>
+                            <td align="left" valign="top">&nbsp;</td>
+                          </tr>
+<tr>
+                            <td width="1%" align="left" valign="top" class="whitecont">&nbsp;</td>
+                            <td width="42%" align="left" valign="top" class="whitecont">Portfolio Title/Name* </td>
+                            <td width="3%" align="left" valign="top" class="whitecont">:</td>
+<td width="54%" align="left" valign="top"><input type="text" name="title" id="title" size="25" value="<%=@studio.category_name%>"></td>
+    </tr>
+                           <tr>
+                            <td align="left" valign="top">&nbsp;</td>
+                            <td align="left" valign="top">&nbsp;</td>
+                            <td align="left" valign="top">&nbsp;</td>
+                            <td align="left" valign="top">&nbsp;</td>
+                          </tr>
+                          <tr>
+                            <td align="left" valign="top">&nbsp;</td>
+                            <td align="left" valign="top">&nbsp;</td>
+                            <td align="left" valign="top">&nbsp;</td>
+                            <td align="left" valign="top">
+
+                             <input type="submit" id="sub" name="sub" class="cmd-btn" value="Update" style="cursor:pointer;" onClick="return check_terms();">
+                            </td>
+                          </tr>
+
+                          <tr>
+                            <td align="left" valign="top">&nbsp;</td>
+                            <td align="left" valign="top">&nbsp;</td>
+                            <td align="left" valign="top">&nbsp;</td>
+                            <td align="left" valign="top">&nbsp;</td>
+                          </tr>
+
+                        </table>
+                      
+      </form>
+ </td>
+</tr></table>

@@ -1,0 +1,105 @@
+<%= javascript_include_tag "themes/swfobject" %>
+<script language="javascript" type="text/javascript" src="/javascripts/image_slider/mootools-1.2-core.js"></script>
+<script language="javascript" type="text/javascript" src="/javascripts/image_slider/mootools-1.2-more.js"></script>
+<script language="javascript" type="text/javascript" src="/javascripts/image_slider/SlideItMoo.js"></script>
+
+<script type="text/javascript">
+  var Jq = jQuery.noConflict();
+</script>
+
+<%if !@first_img.nil?%>
+  <%if @studio_header.studio_groupid!=pp_studio_group%>
+    <table width="100%" border="0" cellspacing="0" cellpadding="0">
+
+      <%= render :partial => "family_memory/partials/heading"%>
+      <tr>
+        <td class="subHead" align="left">&nbsp;</td>
+      </tr>
+      <%if params[:source]%>
+        <tr>
+          <td align="left" ><a href="/family_memory/home/<%=params[:id]%>" ><img src="/images/family_memory/transaprent.png"   class="btnarrows_gal" border="0"/></a></td>
+        </tr>
+      <%end%>
+      <tr>
+        <td align="center">
+          <%= render :partial => "family_memory/partials/gallery_contents_coverflow"%>
+        </td>
+      </tr>
+      <%= render :partial => "family_memory/partials/search"%>
+      <tr>
+        <td class="subHead">Studio Sessions</td>
+      </tr>
+      <%= render :partial => "family_memory/partials/footer_sessions"%>
+      <tr>
+        <td align="left">&nbsp;</td>
+      </tr>
+    </table>
+
+  <%else%>
+    <table width="100%" border="0" cellspacing="0" cellpadding="0" class="rightBarMdl">
+      <%if params[:source]%>
+        <tr>
+          <td align="left" ><a href="/family_memory/home/<%=params[:id]%>" ><img src="/images/family_memory/transaprent.png"   class="btnarrows_gal" border="0"/></a></td>
+        </tr>
+      <%end%>
+      <tr>
+        <td align="center">
+          <%= render :partial => "family_memory/partials/gallery_contents_coverflow"%>
+        </td>
+      </tr>
+      <%if session[:hmm_user]%>
+        <%if logged_in_hmm_user.id==@family_website_owner.id%>
+          <tr>
+            <td  class="rightBarMdlBtmPtr"><table width="100%" border="0" cellspacing="0" cellpadding="0">
+                <tr>
+                  <td class="rightBarMdlBtm" width="70%"> <%= render :partial => "family_memory/partials/footer_sessions"%></td>
+                </tr>
+                <tr>
+                  <td>&nbsp;</td>
+                </tr>
+              </table></td>
+          </tr>
+        <%else%>
+          <%= render :partial => "family_memory/partials/guest_footer"%>
+        <%end%>
+      <%else%>
+        <%= render :partial => "family_memory/partials/guest_footer"%>
+      <%end%>
+    </table>
+
+  <%end%>
+  <script language="javascript" type="text/javascript">
+
+    window.addEvent('domready', function(){
+      /* thumbnails example , links only */
+
+
+      /* thumbnails example , div containers */
+      new SlideItMoo({itemsVisible:4, // the number of thumbnails that are visible
+        currentElement: 0, // the current element. starts from 0. If you want to start the display with a specific thumbnail, change this
+        thumbsContainer: 'thumbs2',
+        elementScrolled: 'thumb_container2',
+        overallContainer: 'gallery_container2'});
+
+
+    });
+  </script>
+
+<%else%>
+  <table width="100%" border="0" cellspacing="0" cellpadding="0" >
+    <%if @studio_header.studio_groupid!=pp_studio_group%>
+      <%= render :partial => "family_memory/partials/heading"%>
+    <%end%>
+    <tr>
+      <td class="subHead">&nbsp;</td>
+    </tr>
+    <tr>
+      <td  vlaign="center" align="center" class="searchTxt" height="300">No Data Found </td>
+    </tr>
+
+
+  </table>
+  <table width="100%" border="0" cellspacing="0" cellpadding="0" >
+    <%= render :partial => "family_memory/partials/footer_sessions"%>
+  </table>
+<%end%>

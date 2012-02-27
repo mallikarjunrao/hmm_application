@@ -1,0 +1,115 @@
+<%if @customer_count > 0%>
+  <table>
+    <%@studio = HmmStudio.find(params[:store_id])%>
+    <tr>
+      <td colspan="7">
+        Customers of studio <%=@studio.studio_branch%>
+      </td>
+    </tr>
+    <tr>
+      <td colspan="7" height="20" valign="middle">
+        <a href="/account/studio_employee_customers_excel_new/<%=params[:id]%>?fromdate=<%=params[:fromdate]%>&todate=<%=params[:todate]%>&store_id=<%=params[:store_id]%><%if params[:manager_id]%>&manager_id=<%=params[:manager_id]%><%end%>">click here</a> to generate the report in excel sheet.
+      </td>
+    </tr>
+    <tr >
+      <td  background="/images/body_hor.JPG"><font class='txt'><table> <tr><th><%= sort_header_tag('id', :text => "Id") %></th></tr></table></font></td>
+      <td  background="/images/body_hor.JPG"><font class='txt'><table> <tr><th><%= sort_header_tag('v_fname', :text => "First Name") %></th></tr></table></font></td>
+      <td  background="/images/body_hor.JPG"><font class='txt'><table> <tr><th><%= sort_header_tag('v_lname', :text => "Last Name") %></th></tr></table></font></td>
+      <td  background="/images/body_hor.JPG"><font class='txt'><table> <tr><th><%= sort_header_tag('v_user_name', :text => "User Name") %></th></tr></table></font></td>
+      <td  background="/images/body_hor.JPG"><font class='txt'><table> <tr><th><%= sort_header_tag('d_created_date', :text => "Account Created Date") %></th></tr></table></font></td>
+      <td  background="/images/body_hor.JPG"><font class='txt'><table> <tr><th><%= sort_header_tag('subscriptionnumber', :text => "ARB subscription Number") %></th></tr></table></font></td>
+      <td  background="/images/body_hor.JPG"><font class='txt'><table> <tr><th><%= sort_header_tag('substatus', :text => "Current ARB subscription status on #{Time.now.strftime("%m - %d - %Y")}") %></th></tr></table></font></td>
+      <td  background="/images/body_hor.JPG"><font class='txt'><table> <tr><th><%= sort_header_tag('months', :text => "Payment type") %></th></tr></table></font></td>
+      <td  background="/images/body_hor.JPG">Studio Commission</td>
+      <td  background="/images/body_hor.JPG">Manager Commission</td>
+      <td  background="/images/body_hor.JPG"><font class='txt'><table> <tr><th><%= sort_header_tag('membership_sold_by', :text => "Sales Person") %></th></tr></table></font></td>
+      <td  background="/images/body_hor.JPG">Most Recent Payment Received Date</td>
+      <td  background="/images/body_hor.JPG">Most Recent Payment</td>
+      <td  background="/images/body_hor.JPG">Payment Received Dates</td>
+
+    </tr>
+    <%for i in @customers%>
+      <% if i.amount=='' || i.amount==nil || i.amount == 'NULL'
+      else
+      %>
+
+        <tr  class="<%= cycle('odd', 'even') -%>">
+          <td>
+            <%=i.uid%>
+          </td>
+          <td>
+            <%=i.v_fname%>
+          </td>
+          <td>
+            <%=i.v_lname%>
+          </td>
+          <td>
+            <%=i.v_user_name%>
+          </td>
+          <td>
+
+
+            <%=i.d_created_date.strftime("%m - %d - %Y")%>
+
+
+          </td>
+
+
+          <td>
+            <%=i.subscriptionnumber%>
+          </td>
+          <td>
+            <% if(i.cancel_status == 'approved')  %>
+              Subscription Cancelled
+            <%else%>
+              Subscription Active
+            <%end%>
+          </td>
+          <td>
+            <%=i.months%> month(s) membership
+          </td>
+          <td>
+            <%if i.months == '1'%>
+              $4.00 per month
+            <%else%>
+              $3.33 per month
+            <%end%>
+          </td>
+          <td>
+            $2.00 per month
+          </td>
+          <td>
+            <%=i.membership_sold_by%>
+          </td>
+          <td>
+            <%d=StudioCommission.find(:last,:conditions=>"uid=#{i.uid}")%>
+            <%if d%>
+              <%=d.payment_recieved_on.strftime("%m - %d - %Y")%>
+            <%end%>
+          </td>
+          <td>
+            <%if d%>
+             <%amount=(d.amount*2)-0.05%>
+              $<%=number_with_precision(amount, :precision => 2)%>
+            <%end%>
+          </td>
+          <td>
+            <a href="/account/payment_dates/<%=i.uid%>">View</a>
+          </td>
+        </tr>
+      <%end%>
+    <%end%>
+    <tr><td>
+        <%=will_paginate @customers%></td>
+    </tr>
+  </table>
+<%else%>
+  <table>
+    <tr>
+      <td>
+        There are no customers for the Month : <%=params[:date]%>
+      </td>
+    </tr>
+  </table>
+
+<%end%>

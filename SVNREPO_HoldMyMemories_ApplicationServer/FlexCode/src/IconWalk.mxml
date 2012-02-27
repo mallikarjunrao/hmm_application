@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Application xmlns="http://www.adobe.com/2006/mxml" xmlns:local="*" creationComplete="handleCreationComplete()" horizontalAlign="center" layout="absolute" backgroundColor="0">
+	<Image  x="{(this.width-bkimg.width)/2}" id="bkimg"/>
+	<Style>
+			
+		
+		
+		AnimatedRandomWalk {
+			font-family: MyArial;
+			font-size: 12;
+			vertical-gap: 3;
+			horizontal-gap: 20;
+			itemHighlightSkin: ClassReference("randomWalkClasses.RandomWalkHighlightSkin");
+			highlightColors: #FFFF99, #FFDD00;
+			highlightRadius: 4; 
+			
+		}
+		
+		.bitmapSkins {
+			itemHighlightSkin: Embed('img/highlight.gif');
+			backgroundSkin: Embed('img/background.png', scaleGridLeft="20", scaleGridTop="20", scaleGridRight="60", scaleGridBottom="60");
+		}
+		
+		.stopStyle 
+   		{
+            skin: Embed('assets/control_stop.png');
+            downSkin: Embed('assets/control_stop_blue.png');
+        }
+		
+		.playPauseStyle 
+		{
+            /* play button skins */
+            skin: Embed('assets/control_play.png');
+            downSkin: Embed('assets/control_play_blue.png');
+
+            /* pause button skins */
+            selectedUpSkin: Embed('assets/control_pause.png');
+            selectedOverSkin: Embed('assets/control_pause.png');
+            selectedDownSkin: Embed('assets/control_pause_blue.png');
+        }
+	</Style>	
+	<HBox horizontalAlign="center" verticalAlign="middle" width="703" height="441" x="{bkimg.x+158}" y="{bkimg.y+420}" backgroundColor="0" horizontalScrollPolicy="off" verticalScrollPolicy="off">
+		<local:AnimatedRandomWalk id="randomWalk" width="500" height="420" dataProvider="{dataSet}" 
+			historyManagementEnabled="true" itemRenderer="IconItem" itemClick="handleItemClick(event)"/>
+		<TileList id="galleryList" columnCount="1" width="200" itemRenderer="renderers.ImageRenderer" height="420" backgroundColor="0" columnWidth="200" rowHeight="200"/>	
+	</HBox>
+	<HTTPService id="service" url="assets/webfilesystem.xml" result="handleResult(event)" fault="handleFault(event)"/>
+	<XML id="dataSet" source="data/icons.xml"/>
+	<Script>
+		<![CDATA[
+			import renderers.AudioRenderer;
+			import renderers.ImageRenderer;
+			import renderers.VideoPlayerPopup;
+			import vo.GalleryItem;
+			import randomWalkClasses.RandomWalkEvent;
+			import mx.events.ItemClickEvent;
+			import mx.controls.Alert;
+			import mx.collections.ArrayCollection;
+			import model.HmmChaptersModel;
+			import mx.rpc.events.FaultEvent;
+			import mx.rpc.events.ResultEvent;
+			
+			private function handleCreationComplete() : void
+			{
+				//service.send();
+				
+			}
+			
+			private function handleItemClick(event : RandomWalkEvent) : void
+			{
+				trace(event);
+				var x : XML = event.item as XML;
+				trace(x.toXMLString());
+				var px : XMLList =  x.child("items");
+				
+				var dp : ArrayCollection = new ArrayCollection();
+				if(px[0] != undefined)
+				{
+					for each (var property:XML in px.item)
+					{
+					    var icon:String = property.@icon.toString();
+					    var label:String = property.@label.toString();
+					    var obj : GalleryItem = new GalleryItem();
+					    obj.icon = icon;
+					    obj.label = label;
+					    obj.type = property.@type.toString();
+					    dp.addItem(obj);
+					}
+					switch(dp[0].type)
+					{
+						case GalleryItem.VIDEO:
+									galleryList.itemRenderer = new ClassFactory(VideoPlayerPopup);
+									break;
+									
+						case GalleryItem.PICTURE:
+									galleryList.itemRenderer = new ClassFactory(ImageRenderer);
+									break;
+									
+						case GalleryItem.AUDIO:
+									galleryList.itemRenderer = new ClassFactory(AudioRenderer);
+									break;
+					}	
+					galleryList.dataProvider = dp;
+				}
+				
+				
+ 				
+				//galleryList.dataProvider = event.item;
+			}
+			
+			private function handleResult(event : ResultEvent) : void
+			{
+				
+				trace(event.toString());
+				var myModel : HmmChaptersModel = new HmmChaptersModel();
+				myModel.data = event.result.root;
+				
+				
+				//folderView.dataProvider = dataSet;
+				
+			}
+			
+			private function handleFault(event : FaultEvent) : void
+			{
+				trace(event.toString());
+			}
+		]]>
+	</Script>
+</Application>

@@ -1,0 +1,65 @@
+<%= stylesheet_link_tag 'SpryAssets/SpryValidationTextField' %>
+<%= javascript_include_tag 'SpryAssets/SpryValidationTextField' %>
+<% form_tag({:action => "create_journal",:id=>@usercontent.id}) do %>
+
+
+
+
+
+<table align="left"><tr><td>
+   			<img src="<%=@usercontent.img_url%>/<%=@imgpath%>" width="80"/></td><td>
+         <font size=5 color="#FFFFFF" style=face="Arial, Helvetica, sans-serif">&nbsp;&nbsp;&nbsp;Create a journal entry for "<%=@imgname%>" </font>     
+  </td></tr></table><bR><br><br><br><br><br><br>
+
+		  <table width="80%" border="0" cellspacing="0" cellpadding="0" align='center'>
+		  	 <tr>
+              <th width="101" align="left" valign="top" scope="col"></th>
+              <th width="14" align="left" valign="top" scope="col"></th>
+              <th width="91" align="left" valign="top" scope="col"> </tr><div style='display:none;'>
+<p><label for="user_content_v_desc" ></label><br/>
+</p></th>
+               
+</div>
+            <tr>
+              <th width="101" align="left" valign="top" scope="col">Title</th>
+              <th width="14" align="left" valign="top" scope="col">:</th>
+              <th width="91" align="left" valign="top" scope="col"><span id="sprytextfield1"><span id="sprytextfield1"><%= text_field 'journal', 'v_title', :size => 20, :class => "textbox-journals" %><span class="textfieldRequiredMsg"><br>Title is required.</br></span></span></span></th>
+                </tr>
+				<tr>
+					<th>&nbsp;</th>
+				</tr>
+				  <tr>
+              <th width="101" align="left" valign="top" scope="col">Date</th>
+              <th width="14" align="left" valign="top" scope="col">:</th>
+              <th  align="left" valign="top" scope="col"><%= date_select 'journal', 'date_added', :order => [:month, :day, :year], :start_year => Time.now.year - 100, :end_year => Time.now.year   %></th>
+                </tr>
+				<tr>
+					<th>&nbsp;</th>
+				</tr>
+				  <tr>
+              <th width="101" align="left" valign="top" scope="col">Description</th>
+              <th width="14" align="left" valign="top" scope="col">:</th>
+              <th width="91" align="left" valign="top" scope="col"><span id="sprytextfield2"><span id="sprytextfield2"><%=text_area 'journal', 'v_image_comment', :rows =>"10", :cols=>"80",  :class => "textbox-journal"%><span class="textfieldRequiredMsg"><br>Description is required.</br></span></span></span></th>
+                </tr>
+			<tr>
+              <th height="12" colspan="9" align="center" valign="top" scope="col" class="signedtxtwhite">&nbsp;</th>
+              </tr>
+            <tr>
+              <th height="12" colspan="9" align="center" valign="top" scope="col" class="signedtxtwhite">
+              	<input type='image' src="/images/submit_btn.jpg" width="87" height="24" border="0" />
+				&nbsp;&nbsp;
+				<a href="/myphotos/photo_journal/<%=params[:id]%>" border="0"> <img src="/images/cancel_btn.jpg"  value="Cancel" name="cancel" id="cancel" width="87" height="25" border="0"></a>
+</th>
+              </tr>
+          </table>
+		  
+		  <% end %>
+		  <script type="text/javascript">
+<!--
+var sprytextfield1 = new Spry.Widget.ValidationTextField("sprytextfield1", "none", {validateOn:["blur"]});
+var sprytextfield2 = new Spry.Widget.ValidationTextField("sprytextfield2", "none", {validateOn:["blur"]});
+
+//-->
+</script>
+
+					

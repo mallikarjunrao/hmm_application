@@ -1,0 +1,9 @@
+<h1>Editing book_session</h1>
+
+<% form_tag :action => 'update', :id => @book_session do %>
+  <%= render :partial => 'form' %>
+  <%= submit_tag 'Edit' %>
+<% end %>
+
+<%= link_to 'Show', :action => 'show', :id => @book_session %> |
+<%= link_to 'Back', :action => 'list' %>

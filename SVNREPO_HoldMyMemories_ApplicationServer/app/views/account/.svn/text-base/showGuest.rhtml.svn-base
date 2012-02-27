@@ -1,0 +1,33 @@
+<h3>Guest Details</h3>
+
+<table>
+  	<tr>
+   	<td><th>Guest Name</th></td>
+	 <td><p><%=%></p></td>
+   	</tr>
+   
+	<tr>
+	<td><th>Guest E-mail</th></td><td><p><%=h @share.email_list%></p></td>	
+	</tr>
+	
+	<tr>
+	<td><th>Guest Invited By</th></td><td><p><%=h @share.presenter_id%></p></td>	
+	</tr>
+
+	<tr>
+	<td><th>Last Visited</th></td><td><p><%=%></p></td>	
+	</tr>
+
+	
+	<tr>
+	<td><th>Created_On </th></td><td> <p><%=h @share.created_date%></p></td>	
+	</tr>
+
+	<tr>
+	<td><th>Expiry's On </th></td><td> <p><%=h @share.expiry_date %></p></td>	
+	</tr>
+</table>
+
+
+
+<a href='/account/guestReport'>Back</a>

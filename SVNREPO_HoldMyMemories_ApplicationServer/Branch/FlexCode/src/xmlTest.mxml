@@ -1,0 +1,94 @@
+<?xml version="1.0"?>
+<!-- dpcontrols/TreeAddRemoveNode.mxml -->
+<mx:Application xmlns:mx="http://www.adobe.com/2006/mxml"  xmlns:containers="com.dougmccune.containers.*" xmlns:components="components.*">
+	
+   <mx:RemoteObject id="operation" fault="handleFault(event)" destination="rubyamf"
+		endpoint="http://localhost:3000/rubyamf/gateway/"
+		source="CustomersController" />
+	<mx:ViewStack width="100%" height="100%" id="stack">
+		<mx:VBox width="100%" height="100%">
+			<mx:DataGrid id="tagList" width="100%" height="50%">
+			<mx:columns>
+				<mx:DataGridColumn id="userid" dataField="userid"/>
+				<mx:DataGridColumn id="tagid" dataField="tagid"/>
+				<mx:DataGridColumn id="subchapterid" dataField="subchapterid"/>	
+				<mx:DataGridColumn id="galleryid" dataField="galleryid"/>
+				<mx:DataGridColumn id="contentid" dataField="contentid"/>
+				<mx:DataGridColumn id="chapterimage" dataField="chapterimage"/>
+				<mx:DataGridColumn id="chapteraccess" dataField="chapteraccess"/>
+				<mx:DataGridColumn id="chaptername" dataField="chaptername"/>
+				<mx:DataGridColumn id="subchapterimage" dataField="subchapterimage"/>
+				<mx:DataGridColumn id="subchaptername" dataField="subchaptername"/>
+				<mx:DataGridColumn id="subchapteraccess" dataField="subchapteraccess"/>
+				<mx:DataGridColumn id="gallerytype" dataField="gallerytype"/>
+				<mx:DataGridColumn id="galleryaccess" dataField="galleryaccess"/>
+				<mx:DataGridColumn id="contentfilename" dataField="contentfilename"/>
+				<mx:DataGridColumn id="contentfiletype" dataField="contentfiletype"/>
+				
+			</mx:columns>
+		</mx:DataGrid>	
+		<mx:TextInput width="100" id="userIdSel"/>
+		<mx:Button click="handleClick()" label="getData"/>
+		<mx:Button click="handleSetData()" label="test tree"/>	
+		<components:TitledDisplayShelf id="shelf"  horizontalCenter="0"  verticalCenter="0"  dataField="icon" angle="28.6" 
+				popout=".17" selectedIndex="{Math.floor(dataSet.length/2)}" borderColor="0x010101"  
+				 dataProvider="{dataSet}" enableDoubleClick="true" enableHistory="false" width="100%" height="100%" selectOnClick="true"/>
+<!--		<mx:List width="100%" height="50%" id="list" itemClick="handleItemClick(event)" />
+		--></mx:VBox>
+		<mx:VBox width="100%" height="100%">
+			
+		</mx:VBox>
+	</mx:ViewStack>	
+	<mx:CheckBox change="{stack.selectedIndex = int(sel.selected)}" id="sel"/>
+	<mx:Script>
+		<![CDATA[
+			import mx.events.ListEvent;
+			import model.HmmDataModel;
+			import mx.collections.ArrayCollection;
+			import vo.TagVO;
+			import mx.rpc.AbstractOperation;
+			import mx.controls.Alert;
+			import mx.rpc.events.FaultEvent;
+			import mx.rpc.events.ResultEvent;
+			[Bindable]
+			private var dataSet : ArrayCollection
+			private function handleItemClick(event : ListEvent) : void
+			{
+				//list.dataProvider = new ArrayCollection(HmmDataModel.getInstance().getChildren(list.selectedItem));
+			}
+			
+			private function handleSetData() : void
+			{
+				//list.dataProvider = new ArrayCollection(HmmDataModel.getInstance().getChildren(null));
+				shelf.dataProvider = new ArrayCollection(HmmDataModel.getInstance().getChildren(null));
+			}
+			
+			private function handleResult(event : ResultEvent) : void
+			{
+				tagList.dataProvider = event.result;
+				var ac  : ArrayCollection = event.result as ArrayCollection;
+				HmmDataModel.getInstance().data = ac;
+				//dataSet = ac;
+			}
+			
+			private function handleFault(event : FaultEvent) : void
+			{
+				Alert.show(event.fault.toString());
+			}  
+			
+			private function handleClick() : void
+			{
+				var tag : TagVO = new TagVO();
+				var meth : AbstractOperation  = operation.getOperation("chapter_list_test");
+				meth.addEventListener(ResultEvent.RESULT, handleResult);
+				meth.addEventListener(FaultEvent.FAULT, handleFault);
+				
+				
+				meth.send(userIdSel.text);
+			}
+			
+		]]>
+	</mx:Script>
+	
+</mx:Application>
+

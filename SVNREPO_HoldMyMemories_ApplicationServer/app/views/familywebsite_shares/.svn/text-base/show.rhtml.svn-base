@@ -1,0 +1,31 @@
+
+
+
+
+<table>
+	
+	<tr >
+		<td align="left" colspan="3"  background="/images/body_hor.JPG" ><font size="4"><%= @familywebsite_share.family_website %></font></td>
+	</tr>
+	<tr><td>&nbsp;</td></tr>
+	<tr class="<%= cycle('odd', 'even') -%>">
+		<td align="right">Senders Name</td><td>&nbsp;</td><td align="left"><%= @familywebsite_share.senders_name %></td>
+	</tr>
+	<tr class="<%= cycle('odd', 'even') -%>">
+		<td align="right">Senders Email</td><td>&nbsp;</td><td align="left"><%= @familywebsite_share.senders_email %></td>
+	</tr>
+	<tr class="<%= cycle('odd', 'even') -%>">
+		<td align="right">Reciepent Email</td><td>&nbsp;</td><td align="left"><%= @familywebsite_share.reciepent_emails %></td>
+	</tr>
+	<tr class="<%= cycle('odd', 'even') -%>">
+		<td align="right">Share Message</td><td>&nbsp;</td><td align="left"><%= @familywebsite_share.share_message %></td>
+	</tr>
+	<tr class="<%= cycle('odd', 'even') -%>">
+		<td align="right">Share Date</td><td>&nbsp;</td><td align="left"><%= @familywebsite_share.share_date.strftime("%a %b #{@familywebsite_share.share_date.day.ordinalize} %Y") %></td>
+	</tr>
+	
+</table>
+
+
+
+<%= link_to 'Back', :action => 'list' %>

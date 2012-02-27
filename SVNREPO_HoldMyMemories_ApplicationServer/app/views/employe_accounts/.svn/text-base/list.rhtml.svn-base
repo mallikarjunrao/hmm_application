@@ -1,0 +1,76 @@
+<p align="left"><a href="/employe_accounts/list_print" target="_blank">Click here</a> to get the list of employees with print option.</p> 
+<h1>List of Employees</h1>
+<form action="/employe_accounts/list" method="post">
+  <table border="1" cellpadding="0" cellspacing="0" align="center" width="450">
+    <tr><td align="center" colspan="4" height="30"><h3>Search employee</h3></td></tr>
+    <tr><td align="center" height="40">Employee ID:</td><td><input type="text" name="employe_id" value="<%= params[:employe_id] %>"/><br></br>Search by keyword (Eg: "1234")</td>
+      <td align="center" height="40">Employee name:</td><td><input type="text" name="employe_name" value="<%= params[:employe_name] %>"/><br></br>Search by keyword (Eg: "Bob")</td>
+    </tr>
+    <tr><td align="center" height="40">Designation:</td><td><select name="emp_type">
+            <option value="">All</option>
+            <option value="store_manager" <%= @storemgr %>>Store Manager</option>
+            <option value="employee" <%= @emp %>>Employee</option>
+        </select><br></br>Search by keyword (Eg: "employee")</td>
+      <td align="center" height="40">Email-id:</td><td><input type="text" name="e_mail" value="<%= params[:e_mail] %>"/><br></br>Search by keyword (Eg: "bob@example.com")</td>
+    </tr>
+    <tr><td align="center" colspan="4" height="40">Status:  <select name="status">
+          <option value="">All</option>
+          <option value="block" <%= @blocked %>>Blocked</option>
+          <option value="unblock"<%= @unblocked %>>Unblocked</option>
+        </select><br></br>Search by keyword (Eg: "Blocked or Unblocked")</td></tr>
+    <tr><td align="center" colspan="4" height="40"><input type="submit" name="Search" value="Search" class="sub-btn"/></td></tr>
+  </table>
+</form>
+<br></br>
+
+<table>
+  <tr>
+
+    <th background="/images/body_hor.JPG"><font class='txt'><table><tr><th><%= sort_header_tag('employe_id', :text => "Employee Id") %></th></tr></table></font></th>
+    <th background="/images/body_hor.JPG"><font class='txt'><table><tr><th><%= sort_header_tag('employe_name', :text => "Employee Name") %></th></tr></table></font></th>
+    <th background="/images/body_hor.JPG"><font class='txt'><table><tr><th><%= sort_header_tag('emp_type', :text => "Designation") %></th></tr></table></font></th>
+    <th background="/images/body_hor.JPG"><font class='txt'><table><tr><th><%= sort_header_tag('address', :text => "Address") %></th></tr></table></font></th>
+    <th background="/images/body_hor.JPG"><font class='txt'><table><tr><th><%= sort_header_tag('e_mail', :text => "E-mail") %></th></tr></table></font></th>
+    <th background="/images/body_hor.JPG"><font class='txt'><table><tr><th><%= sort_header_tag('phone_no', :text => "Phone No") %></th></tr></table></font></th>
+    <th background="/images/body_hor.JPG"><font class='txt'>Customer Count</font></th>
+    <th background="/images/body_hor.JPG"><font class='txt'><table><tr><th><%= sort_header_tag('status', :text => "Status") %></th></tr></table></font></th>
+    <th background="/images/body_hor.JPG" colspan="2" align="center"><font class='txt'>Actions</font></th>
+
+  </tr>
+
+  <% for i in @employe_accounts %>
+    <tr class="<%= cycle('odd', 'even') -%>">
+
+      <td><%=i.employe_id %></td>
+      <td><%=i.employe_name %></td>
+      <td><%=i.emp_type %></td>
+      <td><%=i.address.gsub("\n", "<br />\n") %></td>
+      <td><%=i.e_mail %></td>
+      <td><%=i.phone_no %></td>
+      <%hmm_reg_count = HmmUser.count(:all, :conditions => "emp_id = #{i.id}")%>
+
+      <%if hmm_reg_count == 0%>
+        <td>NIL</td>
+      <%else%>
+        <td><%=hmm_reg_count %></td>
+      <%end%>
+      <%if i.status == 'block'%>
+        <td><font color="red">Blocked</font></td>
+      <%else if i.status == 'unblock'%>
+          <td><font color="#66ff00">Unblocked</font></td>
+        <%end%>
+      <%end%>
+
+      <td><%= link_to 'Edit', :action => 'edit_admin', :id => i.id %></td>
+      <%if i.status == 'block'%>
+        <td><%= link_to 'Enable Account', { :action => 'unblock', :id => i.id }, :confirm => 'Are you sure?', :method => :post %></td>
+      <%else%>
+        <td><%= link_to 'Disable Account', { :action => 'destroy', :id => i.id }, :confirm => 'Are you sure?', :method => :post %></td>
+      <%end%>
+    </tr>
+  <% end %>
+</table>
+<%= will_paginate @employe_accounts, :params => params%>
+<br />
+
+

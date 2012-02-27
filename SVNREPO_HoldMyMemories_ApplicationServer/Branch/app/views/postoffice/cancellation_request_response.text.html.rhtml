@@ -1,0 +1,26 @@
+<p>Hello <i><%=@v_fname%> <%=@l_fname%></i>. </p>
+
+<% 
+                if( @account_type=='platinum_user') 
+                 @account_type = "Premium Account"
+                 @amount="$9.95"
+                else
+                  if(@account_type=='familyws_user')
+                    @account_type = "Family Website Account" 
+                    @amount="$4.95"                    
+                  end  
+                end  
+%>
+
+<p> Request has been sent for the cancellation of your <%=@account_type%> with HoldMyMemories.com. your subscription will be cancelled within 15 days from the date of cancellation request registered. <br></p>
+<br><br>
+<p> <b>Your Subscription Details:</b></p>
+
+<p>Invoice Number : <%= @invoicenumber%> </p>  
+<p>Subscription Number : <%= @subscriptionnumber%></p>  
+<p>Account type: <%=@account_type%></p>
+<p>Subscription Amount : <%= @amount%> </p><br>
+<br>
+
+<p>Thank-you,</p>
+<p>Your HoldMyMemories.com Team</p>

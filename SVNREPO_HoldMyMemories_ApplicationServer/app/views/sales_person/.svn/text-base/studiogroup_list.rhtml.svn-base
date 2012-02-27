@@ -1,0 +1,116 @@
+<h1>Listing Studio Groups</h1>
+<form action="/sales_person/studiogroup_list" method="post">
+  <table border="1" cellpadding="0" cellspacing="0" align="center" width="450">
+    <tr><td align="center" colspan="4" height="30"><h3>Search Studio groups</h3></td></tr>
+    <tr><td align="center" height="40">Studio Group/Company Name:</td><td><input type="text" name="hmm_franchise_studio" value="<%= params[:hmm_franchise_studio] %>"/><br></br>Search by keyword (Eg: "Studio One to One")</td>
+      <td align="center" height="40">City:</td><td><input type="text" name="city" value="<%= params[:city] %>"/><br></br>Search by keyword (Eg: "Texas")</td></tr>
+    <tr><td align="center" height="40">E-mail :</td><td><input type="text" name="contact_email" value="<%= params[:contact_email] %>"/>
+        <br></br>Search by keyword (Eg: "bob@example.com")</td>
+      <td align="center" height="40">Contact Name:</td><td><input type="text" name="contact_name" value="<%= params[:contact_name] %>"/><br></br>Search by keyword (Eg: "John")</td></tr>
+
+    <tr><td align="center" colspan="4" height="40"><input type="submit" name="Search" value="Search" class="sub-btn"/></td></tr>
+  </table>
+</form>
+<br></br>
+<SCRIPT language="JavaScript">
+  <!--
+  function go_there()
+  {
+    var where_to= confirm("This Studio Group Contains Users under their Studios\n In order To Delete this Studio Group Assign the respective studios of this Studio Group to different Studio Group\n Click Ok to continue");
+    if (where_to== true)
+    {
+      return true;
+   
+    }
+    else
+    {
+      return false;
+    }
+  }hmm_franchise_studio
+
+  function go_there1()
+  {
+    var where_to= confirm("Are you sure to delete this Studio Group ?");
+    if (where_to== true)
+    {
+      return true;
+   
+    }
+    else
+    {
+      return false;
+    }
+  }
+
+
+  //-->
+</SCRIPT>
+<br><a target="_blank" href="/sales_person/studiogroup_list_excel"><u>Click here</u></a> to generate the report in excel sheet.
+
+<br><br><br>
+<p align="center"><font color="#FF0000"><%=flash[:msg]%></font></p>
+
+<table>
+  <tr>
+    <th background="/images/body_hor.JPG"><table> <tr><th><%= sort_header_tag('hmm_franchise_studio', :text => "Studio Group/Company Name") %></th></tr></table></th>
+    <th background="/images/body_hor.JPG"><table> <tr><th><%= sort_header_tag('studio_address', :text => "Studio Address") %></th></tr></table></th>
+    <th background="/images/body_hor.JPG"><table> <tr><th><%= sort_header_tag('city', :text => "City") %></th></tr></table></th>
+    <th background="/images/body_hor.JPG">State
+    <th background="/images/body_hor.JPG"><table> <tr><th><%= sort_header_tag('country', :text => "Country") %></th></tr></table></th>
+    <th background="/images/body_hor.JPG"><table> <tr><th><%= sort_header_tag('zip_code', :text => "Zip Code") %></th></tr></table></th>
+    <th background="/images/body_hor.JPG"><table> <tr><th><%= sort_header_tag('studio_phone', :text => "Studio Phone") %></th></tr></table></th>
+    <th background="/images/body_hor.JPG"><table> <tr><th><%= sort_header_tag('contact_name', :text => "Contact Name") %></th></tr></table></th>
+    <th background="/images/body_hor.JPG"><table> <tr><th><%= sort_header_tag('contact_phone', :text => "Contact Phone") %></th></tr></table></th>
+    <th background="/images/body_hor.JPG"><table> <tr><th><%= sort_header_tag('contact_email', :text => "Contact Email") %></th></tr></table></th>
+    <th background="/images/body_hor.JPG"><table> <tr><th><%= sort_header_tag('studiogroup_username', :text => "Studio Group Username") %></th></tr></table></th>
+    <th background="/images/body_hor.JPG"><table> <tr><th><%= sort_header_tag('password', :text => "Studio Group Password") %></th></tr></table></th>
+    <th background="/images/body_hor.JPG"><table> <tr><th><%= sort_header_tag('date_joined', :text => "Created Date") %></th></tr></table></th>
+    <th background="/images/body_hor.JPG">Actions</th>
+  </tr>
+
+  <% for hmm_studiogroup in @hmm_studiogroups %>
+    <tr class="<%= cycle('odd', 'even') -%>">
+      <% @cnt=HmmUser.count(:all,:joins=>"as a , hmm_studios as b",:conditions=>"b.studio_groupid=#{hmm_studiogroup.id} and a.studio_id=b.id")
+    %>
+      <td><%=h hmm_studiogroup.hmm_franchise_studio %></td>
+      <td><%=h hmm_studiogroup.studio_address %></td>
+      <td><%=h hmm_studiogroup.city %></td>
+      <td>
+        <% if(hmm_studiogroup.state_id!=nil && hmm_studiogroup.state_id!=0)
+          @statname=State.find(hmm_studiogroup.state_id) %>
+          <%=@statname.state %>
+        <%end%>
+      </td>
+      <td><%=h hmm_studiogroup.country %></td>
+      <td><%=h hmm_studiogroup.zip_code %></td>
+      <td><%=h hmm_studiogroup.studio_phone %></td>
+      <td><%=h hmm_studiogroup.contact_name %></td>
+      <td><%=h hmm_studiogroup.contact_phone %></td>
+      <td><%=h hmm_studiogroup.contact_email %></td>
+      <td><%=h hmm_studiogroup.studiogroup_username%></td>
+      <td><%=h hmm_studiogroup.password %></td>
+      <% if (hmm_studiogroup.date_joined == nil || hmm_studiogroup.date_joined=='' ) %>
+        <%  if (hmm_studiogroup.created_at==nil || hmm_studiogroup.created_at=='' ) %>
+          <td>Thu Jan 14 00:00:00 -0500 2010</td>
+        <%else%>
+          <td><%=h hmm_studiogroup.created_at %></td>
+        <%end%>
+      <%else%>
+        <td><%=h hmm_studiogroup.date_joined %></td>
+      <%end%>
+      <%if(@cnt==0)%>
+        <td><a href="/sales_person/studiogroup_delete/<%=hmm_studiogroup.group_id%>" onClick="return go_there1();">Delete</a>
+        </td>
+      <%else%>
+        <td><a href="/sales_person/studiogroup_assign_form/<%=hmm_studiogroup.group_id%>" onClick="return go_there();">Delete</a></td>
+      <%end%>
+    </tr>
+  <% end %>
+</table>
+<br />
+<%= will_paginate @hmm_studiogroups, :params => params%>
+
+
+<br />
+
+<%= link_to 'New Studio Group', :controller=>'sales_person',:action => 'studio_signup' %>

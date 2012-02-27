@@ -1,0 +1,17 @@
+<p>Hello <i><%= @name %></i>. </p>
+
+<p>Welcome to HoldMyMemories.com!</p>
+<p>Thank you for setting up your account. Below are your login details.<br></p>
+<p>Username: <%= @username%></p>
+<p>Password: <%= @password%></p>
+<br>
+<p>HoldMyMemories.com also make your own personal website</p>
+<p>Please click here to enter the contest : <%=@link%></p>
+<%if @password_req == "no"%>
+<%else%>
+<p>password : <%=@pass%></p>
+<%end%>
+<br>
+<p>We hope you enjoy your account. Please see our "tips" section for useful ideas on how to best hold and share your memories!</p>
+<p>Thank-you,</p>
+<p>Your HoldMyMemories.com Team</p>

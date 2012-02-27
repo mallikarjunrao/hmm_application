@@ -1,0 +1,311 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:TitleWindow xmlns:mx="http://www.adobe.com/2006/mxml" width="800" height="600" showCloseButton="true" close="handleClose()">
+	<mx:VBox  width="100%" height="100%" creationComplete="handleCreationComplete()" backgroundColor="0" verticalAlign="middle" horizontalAlign="center">
+		<mx:Label text="Click on an chapter to descend down to a sub-chapter and then to a gallery." fontSize="12" color="0xFFFFFF"/>
+		<mx:Label text="Select an image on the Left, click the copy button or just double click it to move it to right list." fontSize="12" color="0xFFFFFF"/>
+		<mx:Label text="You have selected {selectedData.length} images."  fontSize="14" color="0xFFFFFF"/>
+		<mx:HBox width="100%" height="90%" verticalAlign="middle" horizontalAlign="center" backgroundColor="0">
+			<mx:Tree  id="tree" width="50%" height="100%" labelFunction="treeLabel" itemRenderer="renderers.GallerySelectionRenderer" itemClick="handleItemClick(event)" 
+				itemDoubleClick="Alert.show('Please left click on check box to select the image')" disclosureClosedIcon="Tree_disclosureClosedIcon" disclosureOpenIcon="Tree_disclosureOpenIcon"
+				doubleClickEnabled="true" styleName="tree" backgroundAlpha="0.7" color="#ffffff" backgroundColor="0x333333" fontFamily="Arial" allowDragSelection="true" dropEnabled="true" creationComplete="handleTreComplete()"/>
+			<mx:Spacer width="10"/>
+			<mx:TileList columnCount="1" id="selectedImages" width="50%" height="100%" backgroundColor="0" itemRenderer="renderers.ImageRenderer"  dropEnabled="true" dragOver="handleDragOver(event)" verticalScrollPosition="{selectedImages.maxVerticalScrollPosition}"/>
+			
+			
+		</mx:HBox>
+		<mx:HBox width="100%" horizontalAlign="center">
+			<mx:Button label="Add" click="handleAdd()" cornerRadius="0"/>
+			<mx:Button label="Cancel" click="handleClose()" cornerRadius="0"/>
+			
+		</mx:HBox>
+	</mx:VBox>		
+	<mx:HTTPService id="service" url="/customers/chapters_list" result="handleResult(event)" fault="handleFault(event)"/>
+	<mx:Style>
+		.tree
+		{
+			
+			disclosureClosedIcon: ClassReference("Tree_disclosureClosedIcon");
+			disclosureOpenIcon: ClassReference("Tree_disclosureOpenIcon");
+			
+		}
+		
+	</mx:Style>
+	<mx:Script>
+		<![CDATA[
+			import components.FadingNotifier;
+			import mx.managers.PopUpManager;
+			import mx.events.CloseEvent;
+			import vo.AlbumVO;
+			import com.adobe.utils.DictionaryUtil;
+			import model.SlideShowCreatorModel;
+			import events.WizardEvent;
+			import mx.core.Application;
+			import flash.net.navigateToURL;
+			import flash.sampler.NewObjectSample;
+			import events.SlideShowEvent;
+			import mx.managers.DragManager;
+			import mx.events.ListEvent;
+			import mx.collections.XMLListCollection;
+			import vo.GalleryVO;
+			import vo.SubChapterVO;
+			import vo.ChapterVO;
+			import vo.BaseVO;
+			import vo.WebFileVO;
+			import mx.containers.Canvas;
+			import mx.managers.PopUpManager;
+			import mx.core.IFlexDisplayObject;
+			import mx.managers.CursorManager;
+			import model.HmmChaptersModel;
+			import mx.events.DragEvent;
+			import mx.collections.IList;
+			import mx.controls.Alert;
+			import mx.collections.ArrayCollection;
+			import mx.rpc.events.ResultEvent;
+			import mx.rpc.events.FaultEvent;
+			
+		
+		[Bindable]
+		private var selectedData : ArrayCollection = new ArrayCollection();
+		[Bindable]
+		private var allData : ArrayCollection;	
+		private var popup : IFlexDisplayObject;
+		private var dataSet : XML = <list></list>;
+		private var type : String;
+		private var item : XML;
+		private var templateName : String;
+		private var idList : String;
+		
+		private function handleBack() : void
+		{
+			if(this.parentApplication.isFromPreview)
+			 navigateToURL(new URLRequest("/myvideos/template1/"+Application.application.parameters.flashName),"_self");
+			else
+			 this.parentApplication.videoCreationStack.selectedIndex = 0;
+		}
+		
+		private function handleTreComplete() : void
+		{
+			this.addEventListener(SlideShowEvent.CHECKBOXCHECKED,handleCheckBoxChecked);
+			this.addEventListener(SlideShowEvent.CHECKBOXUNCHECKED,handleCheckBoxUnchecked)
+		}
+		
+		private function handleCheckBoxChecked(event : SlideShowEvent) : void
+		{
+			item = event.data as XML;
+			handleCopyLeft();
+        }
+		
+		private function handleCheckBoxUnchecked(event : SlideShowEvent) : void
+		{
+			//Alert.show("Check box unchecked");
+			item = event.data as XML;
+			handleRemoveLeft();
+		}
+		
+		private function handleRemoveLeft() : void
+		{
+			for(var i : int = 0 ; i < selectedData.length; i++)
+			{
+				if(selectedData[i].name == item.@label)
+				 selectedData.removeItemAt(i);
+			}
+			
+		}
+		private function handleCopyLeft() : void
+		{
+			
+			//var item : XML = tree.selectedItem as XML;
+			if(item && item.@type == "content")
+			{
+				var file : WebFileVO = new WebFileVO();
+				file.id = item.@id;
+				file.type = item.@hmmtype;
+				file.icon = item.@icon;
+				file.name = item.@label;
+				selectedData.addItem(file);
+			}	
+			else
+			{
+				Alert.show("Please single click on the item to descend into the tree to an item and then double click the item to add to selection."); 
+			}
+		}
+		
+		private function handleDragOver(event : DragEvent) : void
+		{
+			 DragManager.showFeedback(DragManager.COPY);
+		}
+		
+		private function handleItemClick(event : ListEvent) : void
+		{
+			var xmlData : XML = event.itemRenderer.data as XML;
+			var node:XML = tree.selectedItem as XML;     // — this will get the node
+			var isOpen:Boolean = tree.isItemOpen(node);    //— this will check tree is opened or not
+			tree.expandItem(node, !isOpen);                        // — this will expand the tree if not and close if opened (viceversa)
+		}
+		
+		
+		private function handleCreationComplete() : void
+		{
+			service.send();
+			CursorManager.setBusyCursor();
+			popup = PopUpManager.createPopUp(this, Canvas,true);
+			popup.width = 0;
+			popup.height = 0;
+		}
+		
+		public function set treeData (dataProvider : ArrayCollection) : void
+			{
+				
+                for(var i : int = 0; i < dataProvider.length; i++)
+				{
+					
+						var chapter : ChapterVO = dataProvider[i] as ChapterVO;
+						var subchapters : Array = chapter.subchapters;
+						var newNode:XML = <node></node>;
+                		newNode.@label = chapter.name;
+						newNode.@icon = chapter.icon;
+						newNode.@id = chapter.id;
+						newNode.@type = "tags";
+						newNode.@select = false;
+						for(var j : int = 0; j < subchapters.length; j++)
+						{
+							var subchapter : SubChapterVO = subchapters[j] as SubChapterVO;
+							var subNode : XML = <node></node>;
+							subNode.@label = subchapter.name;
+							subNode.@icon = subchapter.icon;
+							subNode.@id = subchapter.id;
+							subNode.@type = "subchapter";
+							subNode.@select = false;
+							var galleries : Array = subchapter.gallery;
+							for(var k : int = 0; k < galleries.length; k++)
+							{
+								var gal : GalleryVO = galleries[k] as GalleryVO;
+								if(gal.type == "image")
+								{
+									var galNode : XML = <node></node>;
+									galNode.@label = gal.name;
+									galNode.@icon = gal.icon;
+									galNode.@id = gal.id;
+									galNode.@type = "gallery";
+									galNode.@hmmtype = gal.type;
+									galNode.@select = false;
+									var contents : Array = gal.files;
+									for(var l : int = 0; l < contents.length; l++)
+									{
+										var content : WebFileVO = contents[l];
+										var contentNode = <node/>;
+										contentNode.@label = content.name;
+										contentNode.@icon = content.icon;
+										contentNode.@id = content.id;
+										contentNode.@type = "content";
+										contentNode.@hmmtype = content.type;
+										contentNode.@select = false;
+										galNode.appendChild(contentNode); 
+									}
+									subNode.appendChild(galNode);	
+								}
+								
+							}
+							newNode.appendChild(subNode);
+						}
+						dataSet.appendChild(newNode);
+						type = "tags";	
+				}
+				
+				//randomWalk.dataProvider = dataSet;
+				tree.dataProvider = new XMLListCollection(dataSet.node);
+				trace(dataSet);
+			}
+		
+		private function handleFault(event : FaultEvent) : void
+		{
+			trace(event.fault);
+		}
+		private function treeLabel(item:Object):String {
+                var node:XML = XML(item);
+               
+                    return item.@label;
+            }
+			
+		private function handleResult(event : ResultEvent) : void
+		{
+			var myModel : HmmChaptersModel = new HmmChaptersModel();
+				myModel.data = event.result.root;
+				//myModel.attachEventListeners(menu);
+				//service.send(event.result.root);
+			HmmChaptersModel.setInstance(myModel);
+			selectedImages.dataProvider = selectedData;
+			treeData = HmmChaptersModel.getInstance().folderList;
+			
+			CursorManager.removeBusyCursor();
+			PopUpManager.removePopUp(popup);	
+		}
+		
+		private var statuspopup : IFlexDisplayObject;
+
+		private function handleAdd() : void
+		{
+			if(selectedData.length > 0)
+			{
+				FadingNotifier.setBusyState();
+				cursorManager.setBusyCursor();
+				var selecteImagesArr : ArrayCollection = selectedImages.dataProvider as ArrayCollection;
+				if(selecteImagesArr)
+				{
+					idList = new String();
+					for(var i : int =0; i <selecteImagesArr.length; i++) 
+					{
+						var obj : Object = selecteImagesArr[i];
+						idList += obj.id.toString()+":";
+					}	
+				}
+				
+				var saveService : HTTPService = new HTTPService();
+				saveService.addEventListener(FaultEvent.FAULT, handleFaultService);
+				saveService.addEventListener(ResultEvent.RESULT, handleAddResultService);
+				saveService.url = "/photobook/addphotos/";
+				saveService.method = "POST";
+				obj = new Object();
+				obj.idList = idList;
+				saveService.send(obj);
+			}
+			else
+			{
+				Alert.show("Please select some images to create a Photo Book");
+			}
+		}
+		
+		private function handleAddResultService(event : ResultEvent) : void
+		{
+			FadingNotifier.removeBusyState();
+            cursorManager.removeBusyCursor();
+            this.parentApplication.resultImages = event.result;
+            dispatchEvent(new Event("addimages"));
+            PopUpManager.removePopUp(this);
+          
+		}
+		
+		private function handleAlertClose(event : CloseEvent) : void
+		{
+			
+			if(event.detail == Alert.YES) 
+			{
+			 	navigateToURL(new URLRequest("/myvideos/flipbook"),"_self");
+			 	//this.enabled = false;
+			}
+			
+		}
+		private function handleFaultService(event : FaultEvent) : void
+		{
+			FadingNotifier.removeBusyState();
+            cursorManager.removeBusyCursor();
+			Alert.show(event.fault.message);
+		}
+		
+		private function handleClose() : void
+		{
+			PopUpManager.removePopUp(this);
+		}
+		]]>
+	</mx:Script>
+</mx:TitleWindow>

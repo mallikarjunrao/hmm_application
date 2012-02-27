@@ -1,0 +1,59 @@
+<h1>Contests List</h1>
+<p><font color="#FF0000">
+<%if(params[:success]=='1')%>
+New Contest Added successfully
+<%end%>
+<%if(params[:success]=='2')%>
+Contest Updated successfully
+<%end%>
+<%=flash[:notice]%><br>
+<%=flash[:contest_rej]%>
+</font></p>
+<table width="700">
+  <tr>
+   <th background="/images/body_hor.JPG">Title</th>
+   <th background="/images/body_hor.JPG">Type</th>
+   <th background="/images/body_hor.JPG">Start Date</th>   
+   <th background="/images/body_hor.JPG">End Date</th>   
+   <th background="/images/body_hor.JPG">Status</th>   
+   <th colspan="6" background="/images/body_hor.JPG">Actions</th>
+  </tr>
+  
+<% for contest in @contests %>
+  <tr class="<%= cycle('odd', 'even') -%>">
+   <% con_id=contest.contestant_id %>
+    <td><%=contest.title %></td>
+    <td><%=contest.contest_type %></td>
+	<td><%=contest.start_date.strftime("%m - %d - %Y") %></td>
+	<td><%=contest.end_date.strftime("%m - %d - %Y") %></td>
+	<td><%=contest.status %></td>
+	<td><%= link_to 'Preview', :action => 'preview', :id => contest.id %></td>
+    <%if(contest.contest_type=='photo') %>
+    <td><%= link_to 'View Entries', :action => 'contestantlist', :id => contest.id , :typ => 'photo' %></td>
+    <%else%>
+     <td><%= link_to 'View Entries', :action => 'contestantlist', :id => contest.id , :typ => 'video' %></td>
+    <%end%>
+     <%if(contest.contestant_id='' && contest.contestant_id==nil) %>
+		<%if(contest.contest_type=='photo') %>
+		<td><%= link_to 'Select Winner', :action => 'view_entries', :id => contest.id , :typ => 'photo' %></td>
+		<%else%>
+		 <td><%= link_to 'Select Winner', :action => 'view_entries', :id => contest.id , :typ => 'video' %></td>
+		<%end%>
+	<%else%>
+		<%if(contest.contest_type=='photo') %>
+		<td><a href="/manage_contests/photo_contestantview/<%=con_id %>?cid=<%= contest.id %>&w=1" >View Winner</a></td>
+		<%else%>
+		 <td><a href="/manage_contests/video_contestantview/<%=con_id %>?cid=<%= contest.id %>&w=1" >View Winner</a></td>
+		<%end%>
+    <%end%>
+    <td><%= link_to 'Edit', :action => 'edit_contest', :id => contest.id %></td>
+    <td><%= link_to 'Delete', { :action => 'destroy', :id => contest.id }, :confirm => 'Are you sure?', :method => :post %></td>
+  </tr>
+<% end %>
+</table>
+
+
+
+<br />
+
+<%= link_to 'New Contest', :action => 'create_contest' %>

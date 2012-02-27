@@ -1,0 +1,19 @@
+<%= error_messages_for 'product' %>
+
+<!--[form:product]-->
+<p><label for="product_product_name">Size</label><br/>
+<%= text_field 'product', 'name'  %></p>
+
+<p><label for="product_product_name">Height</label><br/>
+<%= text_field 'product', 'height'  %></p>
+
+<p><label for="product_product_name">Width</label><br/>
+<%= text_field 'product', 'width'  %></p>
+
+<p><label for="product_product_name">DPI</label><br/>
+<%= text_field 'product', 'dpi'  %></p>
+
+<p><label for="product_price">Price</label><br/>
+<%= text_field 'product', 'price'  %></p>
+<!--[eoform:product]-->
+

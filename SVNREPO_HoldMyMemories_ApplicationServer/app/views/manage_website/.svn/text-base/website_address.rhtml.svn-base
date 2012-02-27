@@ -1,0 +1,197 @@
+<script type="text/javascript">
+function escapeSpecialCharacters(field)
+{
+	var name = document.getElementById(field).value;
+	name =  name.replace(/[^a-zA-Z0-9]+/g,'');
+	document.getElementById(field).value=name;
+}
+</script>
+<form name="webaddress" action="/manage_website/website_address/<%= params[:id] %>" method="post">
+  <table width="970" border="0" cellspacing="0" cellpadding="0">
+    <tr>
+      <td align="center" valign="top" class="tab-dots"><table width="970" border="0" cellspacing="0" cellpadding="0" id="tab_bgcolor_repeat">
+        
+          <tr>
+            <td align="left" valign="top"><table width="100%" border="0" cellspacing="0" cellpadding="0">
+                <tr>
+                  <td width="13" align="left" valign="top"></td>
+                  <td width="944" align="left" valign="top"><table width="100%" border="0" cellspacing="0" cellpadding="0">
+                      <tr>
+                        <td height="10" align="left" valign="top"></td>
+                      </tr>
+                      <tr>
+                        <td height="35" align="left" valign="bottom" class="header-page">Manage My Site</td>
+                      </tr>
+                      <tr>
+                        <td height="10" align="left" valign="top"></td>
+                      </tr>
+                      <tr>
+                        <td height="1" align="left" valign="top" bgcolor="#454545"></td>
+                      </tr>
+                      <tr>
+                        <td height="10" align="left" valign="top"></td>
+                      </tr>
+                      <tr>
+                        <td align="left" valign="top"><table width="100%" border="0" cellspacing="0" cellpadding="0">
+                            <tr>
+                              <td width="183" align="left" valign="top" class="content-trans-bg">
+                                <%= render :partial => "partials/manage_website_menu", :locals => { :current_item => "#{@current_item}"} %>
+
+                              </td>
+                              <td width="17" align="left" valign="top"></td>
+                              <td width="744" align="left" valign="top"><table width="100%" border="0" cellspacing="0" cellpadding="0">
+                                  <tr>
+                                    <td class="content-trans-bg"><table width="100%" border="0" cellspacing="0" cellpadding="0">
+                                        <tr>
+                                          <td height="10" colspan="3" align="left" valign="top"></td>
+                                        </tr>
+                                        <tr>
+                                          <td width="20" align="left" valign="top"></td>
+                                          <td align="left" valign="top"><table width="100%" border="0" cellspacing="0" cellpadding="0">
+                                              <tr>
+                                                <td align="right" valign="top" class="side-heading">&nbsp;</td>
+                                              </tr>
+                                              <tr>
+                                                <td align="left" valign="top" class="header-paragraph">Edit URL:</td>
+                                              </tr>
+                                              <tr>
+                                                <td align="left" valign="top">&nbsp;</td>
+                                              </tr>
+                                              <% if flash[:error] %>
+                                              <tr>
+                                                <td align="center" valign="middle" class="content-trans-bg" height="30"><span class="side-heading"><%= flash[:error] %></span></td>
+                                              </tr>
+                                              <tr>
+                                                <td align="left" valign="top">&nbsp;</td>
+                                              </tr>
+                                              <% end %>
+                                              <tr>
+                                                <td align="left" valign="top" class="content-trans-bg"><table width="100%" border="0" cellspacing="0" cellpadding="0">
+                                                    <tr>
+                                                      <td align="left" valign="top"></td>
+                                                      <td align="left" valign="top">&nbsp;</td>
+                                                      <td align="left" valign="top"></td>
+                                                    </tr>
+                                                    <tr>
+                                                      <td align="left" valign="top"></td>
+                                                      <td align="left" valign="top" class="content-white"><strong>Your family name is:</strong>&nbsp;&nbsp;&nbsp;&nbsp;<span class="content-orange"><strong><%= params[:id] %></strong></span></td>
+                                                      <td align="left" valign="top"></td>
+                                                    </tr>
+                                                    <tr>
+                                                      <td align="left" valign="top"></td>
+                                                      <td align="left" valign="top">&nbsp;</td>
+                                                      <td align="left" valign="top"></td>
+                                                    </tr>
+                                                    <tr>
+                                                      <td align="left" valign="top"></td>
+                                                      <td align="left" valign="top" class="content">To make it easier for people to find you, you can choose a family website URL. Your family website URL is unique to you. <br />
+                                                        <br />
+                                                        Think of your family website as your &quot;family address on the internet&quot;-- you can give your family website URL to anyone so they can find you on Holdmymemories. <br />                                          </td>
+                                                      <td align="left" valign="top"></td>
+                                                    </tr>
+                                                    <tr>
+                                                      <td width="20" align="left" valign="top"></td>
+                                                      <td align="left" valign="top">&nbsp;</td>
+                                                      <td width="20" align="left" valign="top"></td>
+                                                    </tr>
+                                                    <tr>
+                                                      <td align="left" valign="top"></td>
+                                                      <td align="left" valign="top" class="cont-white-title"><strong>Pick Your Holdmymemories URL:</strong></td>
+                                                      <td align="left" valign="top"></td>
+                                                    </tr>
+
+                                                    <tr>
+                                                      <td align="left" valign="top"></td>
+                                                      <td align="left" valign="top">&nbsp;</td>
+                                                      <td align="left" valign="top"></td>
+                                                    </tr>
+                                                    <tr>
+                                                      <td align="left" valign="top"></td>
+                                                      <td align="left" valign="middle"><table width="100%" border="0" cellspacing="0" cellpadding="0">
+                                                          <tr>
+                                                            <td width="200" align="left" valign="middle" class="content-orange"><strong>http://www.holdmymemories.com/ </strong></td>
+                                                            <td width="250" align="left" valign="middle"><label>
+                                                                <input name="family_name" type="text" id="family_name" value="<%= params[:id] %>" onKeyUp="escapeSpecialCharacters('family_name')"/>
+                                                              </label></td>
+                                                            <td align="left" valign="top"><input name="button2" type="submit" class="cmd-btn" id="button2" value="Save" /></td>
+                                                          </tr>
+                                                        </table></td>
+                                                      <td align="left" valign="top"></td>
+                                                    </tr>
+
+                                                    <tr>
+                                                      <td align="left" valign="top"></td>
+                                                      <td align="left" valign="top">&nbsp;</td>
+                                                      <td align="left" valign="top"></td>
+                                                    </tr>
+                                                  </table></td>
+                                              </tr>
+
+                                              <tr>
+                                                <td align="left" valign="top">&nbsp;</td>
+                                              </tr>
+                                              <tr>
+                                                <td align="left" valign="top" class="content-trans-bg"><table width="100%" border="0" cellspacing="0" cellpadding="0">
+                                                    <tr>
+                                                      <td width="20" align="left" valign="top"></td>
+                                                      <td align="left" valign="top">&nbsp;</td>
+                                                      <td width="20" align="left" valign="top"></td>
+                                                    </tr>
+
+                                                    <tr>
+                                                      <td align="left" valign="top"></td>
+                                                      <td align="left" valign="top" class="cont-white-title"><strong>HoldMyMemories URL Example:</strong></td>
+                                                      <td align="left" valign="top"></td>
+                                                    </tr>
+
+                                                    <tr>
+                                                      <td align="left" valign="top"></td>
+                                                      <td align="left" valign="middle"><table width="100%" border="0" cellspacing="0" cellpadding="0">
+                                                          <tr>
+                                                            <td width="20" align="left" valign="middle">&nbsp;</td>
+                                                            <td width="300" align="left" valign="middle"><span  class="content-white"><strong>I chose:</strong></span>&nbsp;&nbsp;<a href="http://www.holdmymemories.com/bob" target="_blank"><span class="content-orange"><strong>http://www.holdmymemories.com/bob</strong></span></a></td>
+                                                            <td align="left" valign="top"><img src="/images/common/site-address-img.png" width="116" height="79" /></td>
+                                                          </tr>
+                                                        </table></td>
+                                                      <td align="left" valign="top"></td>
+                                                    </tr>
+
+                                                    <tr>
+                                                      <td align="left" valign="top"></td>
+                                                      <td align="left" valign="top">&nbsp;</td>
+                                                      <td align="left" valign="top"></td>
+                                                    </tr>
+                                                  </table></td>
+                                              </tr>
+
+                                              <tr>
+                                                <td align="left" valign="top">&nbsp;</td>
+                                              </tr>
+
+                                            </table></td>
+                                          <td width="20" align="left" valign="top"></td>
+                                        </tr>
+
+
+                                      </table></td>
+                                  </tr>
+                                  <tr>
+                                    <td>&nbsp;</td>
+                                  </tr>
+
+
+
+                                </table></td>
+                            </tr>
+                          </table></td>
+                      </tr>
+
+                    </table></td>
+                  <td width="13" align="left" valign="top"></td>
+                </tr>
+              </table></td>
+          </tr>
+        </table></td>
+    </tr>
+  </table>
+</form>

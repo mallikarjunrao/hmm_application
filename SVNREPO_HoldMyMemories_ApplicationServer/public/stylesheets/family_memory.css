@@ -1,0 +1,300 @@
+@charset "utf-8";
+body{
+    background:url(/images/family_memory/bg.jpg) no-repeat center center #002339 fixed;
+    font-family:Arial, Helvetica, sans-serif;
+    margin-top:0;
+}
+
+
+.date{
+    font-size:12px;
+    color:#87a3b5;
+    text-decoration:none;
+}
+.albumImg{
+    width:174px;
+    height:122px;
+    float:left;
+    margin-right:10px;
+}
+.divider{
+    background:url(/images/family_memory/divider-bg.png) repeat-y;
+    width:30px;
+}
+.profileName{
+    font-size:16px;
+    color:#bcd2e0;
+    font-weight:normal;
+}
+.studioCredit{
+    font-size:14px;
+    color:#7b9baf;
+    font-weight:normal;
+    line-height:18px;
+}
+/* ----------  menus start here -------- */
+ul#menu{margin:0; padding:0; list-style:none; clear:both;}
+#menu li{overflow:hidden; text-indent:-9999px; display:block; float:left; margin-left:0; margin-bottom:13px;}
+#menu li a{width:100%; height:100%; display:block; background-image:url(/images/family_memory/buttons.png); background-repeat: no-repeat;}
+/* addPhotos Button */
+#menu li.addPhotos{width:156px; height:36px;}
+#menu li.addPhotos a{background-position:-0px -0px;}
+#menu li.addPhotos a:hover{background-position:-0px -36px;}
+#menu li.addPhotos a.selected{background-position:-0px -36px;}
+/* blog Button */
+#menu li.blog{width:156px; height:36px;}
+#menu li.blog a{background-position:-156px -0px;}
+#menu li.blog a:hover{background-position:-156px -36px;}
+#menu li.blog a.selected{background-position:-156px -36px;}
+/* contests Button */
+#menu li.contests{width:156px; height:36px;}
+#menu li.contests a{background-position:-312px -0px;}
+#menu li.contests a:hover{background-position:-312px -36px;}
+#menu li.contests a.selected{background-position:-312px -36px;}
+/* bookSession Button */
+#menu li.bookSession{width:156px; height:36px;}
+#menu li.bookSession a{background-position:-468px -0px;}
+#menu li.bookSession a:hover{background-position:-468px -36px;}
+#menu li.bookSession a.selected{background-position:-468px -36px;}
+/* studioSessions  Button */
+#menu li.studioSessions{width:157px; height:36px;}
+#menu li.studioSessions a{background-position:-624px -0px;}
+#menu li.studioSessions a:hover{background-position:-624px -36px;}
+#menu li.studioSessions a.selected{background-position:-624px -36px;}
+
+.menuMargin{
+    margin-left:24px;
+}
+/*.add{
+    background:url(/images/family_memory/notice-img.png) no-repeat center center;
+    width:181px;
+    height:248px;
+    font-size:22px;
+    color:#aec6d5;
+    line-height:28px;
+    text-transform: uppercase;
+}*/
+.add div{
+    margin:34px 47px ;
+}
+
+.add span{
+    font-size:38px;
+    font-weight:normal;
+    line-height:45px;
+
+}
+.powered{
+    font-size:12px;
+    color:#bcd2e0;
+}
+.msg{
+    font-size:15px;
+    color:#8db4ca;
+    font-weight:normal;
+    line-height:18px;
+}
+.msgHead{
+    font-size:17px;
+    color:#7b9baf;
+    font-weight:normal;
+}
+
+.msgSmall{
+    font-size:12px;
+    color:#7b9baf;
+    font-weight:normal;
+}
+
+.menus {background-image:url(/images/family_memory/btn.png); background-repeat: no-repeat;}
+
+.btn .mySite { background-position: 0 0; width: 179px; height: 40px; }
+.btn .mySite:hover { background-position: 0 -50px;}
+
+.btn .guest{ background-position: 0 -100px; width: 179px; height: 40px; }
+.btn .guest:hover{ background-position: 0 -150px; width: 179px; height: 40px; }
+
+.btn .contest{ background-position: 0 -200px; width: 157px; height: 36px; }
+.btn .contest:hover{ background-position: 0 -246px; width: 157px; height: 36px; }
+
+.btn .order{ background-position: 0 -292px; width: 157px; height: 36px; }
+.btn .order:hover{ background-position: 0 -338px; width: 157px; height: 36px; }
+
+.btn .bkSession{ background-position: 0 -384px; width: 157px; height: 36px; }
+.btn .bkSession:hover{ background-position: 0 -430px; width: 157px; height: 36px; }
+
+.btn .share{ background-position: 0 -476px; width: 157px; height: 36px; }
+.btn .share:hover{ background-position: 0 -522px; width: 157px; height: 36px; }
+
+.btn .blogThis{ background-position: 0 -570px; width: 179px; height: 40px; }
+.btn .blogThis:hover{ background-position: 0 -621px; width: 179px; height: 40px; }
+
+.btn .loginHome{ background-position: 0 -671px; width: 156px; height: 36px; }
+.btn .loginHome:hover{ background-position: 0 -718px; width: 156px; height: 36px; }
+
+.btn .logoutHome{ background-position: 0 -765px; width: 156px; height: 36px; }
+.btn .logoutHome:hover{ background-position: 0 -812px; width: 156px; height: 36px; }
+
+.btn .comment{ background-position: 0 -850px; width: 156px; height: 36px; }
+.btn .comment:hover{ background-position: 0 -888px; width: 156px; height: 36px; }
+
+.btn .blogView{ background-position: 0 -926px; width: 156px; height: 36px; }
+.btn .blogView:hover{ background-position: 0 -964px; width: 156px; height: 36px; }
+
+.btn .newEntry{ background-position: 0 -1002px; width: 156px; height: 36px; }
+.btn .newEntry:hover{ background-position: 0 -1040px; width: 156px; height: 36px; }
+
+.padBtn{
+    margin:0 10px 10px 0;
+}
+
+.popDiv{
+    background:url(/images/family_memory/pop-up-bg.png) repeat;
+    width:600px;
+    border:3px solid #88a7bb;
+    padding:15px;
+}
+
+.popUp {
+    background: url(/images/family_memory/pop-up-btn.png) no-repeat top left;
+}
+
+.pop .close{ background-position: -49px 0; width: 44px; height: 43px; }
+.pop .close:hover{ background-position: 0 0; width: 44px; height: 43px; }
+
+.pop .selectImages{ background-position: -329px 0; width: 226px; height: 52px; }
+.pop .selectImages:hover{ background-position: -98px 0; width: 226px; height: 52px; }
+
+.pop .Fshare{ background-position: -815px 0; width: 250px; height: 52px; }
+.pop .Fshare:hover{ background-position: -560px 0; width: 250px; height: 52px; }
+
+.pop .albumName{ background-position: -1325px 0; width: 250px; height: 52px; }
+.pop .albumName:hover{ background-position: -1070px 0; width: 250px; height: 52px; }
+
+.pop .memory{ background-position: -1927px 0; width: 342px; height: 50px; }
+.pop .memory:hover{ background-position: -1580px 0; width: 342px; height: 50px; }
+
+.pop .upload{ background-position: -236px -57px; width: 231px; height: 52px; }
+.pop .upload:hover{ background-position: 0 -57px; width: 231px; height: 52px; }
+
+
+.pop .cart{ background-position: -469px -57px; width: 41px; height: 37px; }
+.pop .cart:hover{ background-position: -512px -57px; width: 41px; height: 37px; }
+
+.pop .email{ background-position: -1888px -57px; width: 156px; height: 36px; }
+.pop .email:hover{ background-position: -2045px -57px; width: 156px; height: 36px; }
+
+.pop .enterContest{ background-position: -2202px -57px; width: 156px; height: 36px; }
+.pop .enterContest:hover{ background-position: -2359px -57px; width: 156px; height: 36px; }
+
+.pop .viewCart{ background-position: -555px -57px; width: 220px; height: 40px; }
+.pop .viewCart:hover{ background-position: -777px -57px; width: 220px; height: 40px; }
+
+.pop .editImage{ background-position: -999px -57px; width: 220px; height: 40px; }
+.pop .editImage:hover{ background-position: -1221px -57px; width: 220px; height: 40px; }
+
+.pop .diffrentGallery{ background-position: -1444px -57px; width: 220px; height: 40px; }
+.pop .diffrentGallery:hover{ background-position: -1667px -57px; width: 220px; height: 40px; }
+
+.LoginHomeTxt{
+    font-size:15px;
+    font-weight:bold;
+    font-variant:small-caps;
+    color:#7b9baf;
+    text-decoration:none;
+}
+.LoginHomefeild{
+    width:140px;
+    height:25px
+        border:1px solid #88a7bb;
+    font-size:12px;
+    color:#7b9baf;
+    padding:0 5px;
+}
+
+.box-bg{
+    background:url(/images/family_memory/box-bg.png) repeat;
+}
+.textFeildBlog{
+    background:transparent;
+    background-image:url(/images/family_memory/search-bg.png);
+    background-repeat: no-repeat;
+    border:none;
+    width:269px;
+    height:37px;
+    padding:0 5px;
+    font-size:15px;
+    color:#bcd2e0;
+}
+
+
+.contest-bg{
+	background:url(/images/family_memory/contest-bg.png) repeat;
+}
+
+.contest-bg-top{
+	background:url(/images/family_memory/contest-top.png) no-repeat bottom;
+}
+
+
+.icons {
+   background: url(/images/family_memory/icon-images.png) no-repeat top left;
+}
+
+.ico .btn-delete{ background-position: -61px 0; width: 56px; height: 36px; }
+.ico .btn-delete:hover{ background-position: 0 0; width: 56px; height: 36px; }
+
+.ico .btn-edit{ background-position: -183px 0; width: 56px; height: 36px; }
+.ico .btn-edit:hover{ background-position: -122px 0; width: 56px; height: 36px; }
+
+.ico .btn-refresh{ background-position: -305px 0; width: 56px; height: 36px; }
+.ico .btn-refresh:hover{ background-position: -244px 0; width: 56px; height: 36px; }
+
+.ico .currentcon{ background-position: -587px 0; width: 216px; height: 49px; }
+.ico .currentcon:hover{ background-position: -366px 0; width: 216px; height: 49px; }
+
+.ico .icon-home{ background-position: -880px 0; width: 67px; height: 60px; }
+.ico .icon-home:hover{ background-position: -808px 0; width: 67px; height: 60px; }
+
+.ico .icon-setting{ background-position: -1002px 0; width: 45px; height: 41px; }
+.ico .icon-setting:hover{ background-position: -952px 0; width: 45px; height: 41px; }
+
+.ico .memorylane{ background-position: -1213px 0; width: 156px; height: 36px; }
+.ico .memorylane:hover{ background-position: -1052px 0; width: 156px; height: 36px; }
+
+.ico .prevwinner{ background-position: -1681px 0; width: 302px; height: 46px; }
+.ico .prevwinner:hover{ background-position: -1374px 0; width: 302px; height: 46px; }
+
+.ico .rules{ background-position: 0 -65px; width: 302px; height: 46px; }
+.ico .rules:hover{ background-position: -1988px 0; width: 302px; height: 46px; }
+
+.blogTxt{
+	font-family: "Century Gothic", Arial, Helvetica, sans-serif;
+	font-size: 15px;
+	font-weight: bold;
+	color: #f2720d;
+	text-decoration: none;
+	}
+.blogTxt span{
+	font-size:10px;
+}
+.blogWht{
+	font-family: "Century Gothic", Arial, Helvetica, sans-serif;
+	font-size: 11px;
+	font-weight: bold;
+	color: #ffffff;
+	text-decoration: none;
+	}
+
+.blogAu{
+	font-family: "Century Gothic", Arial, Helvetica, sans-serif;
+	font-size: 11px;
+	font-weight: bold;
+	color: #7d9cae;
+	text-decoration: none;
+	padding-left:18px;
+	}
+.blogAu span {
+	margin-left:30px;
+
+	}

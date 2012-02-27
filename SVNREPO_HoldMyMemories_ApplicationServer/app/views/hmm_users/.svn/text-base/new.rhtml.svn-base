@@ -1,0 +1,47 @@
+<%= error_messages_for 'hmm_user' %>
+
+<!--[form:hmm_user]-->
+<p><label for="hmm_user_fname">First Name</label><br/>
+<span id="sprytextfield1"><span id="sprytextfield1"><%= text_field 'hmm_user', 'v_fname'  %>&nbsp;&nbsp;<span class="textfieldRequiredMsg">First Name is required.</span></span></span></p>
+
+<label for="hmm_user_lname">Last Name</label><br/>
+<span id="sprytextfield2"><span id="sprytextfield2"><%= text_field 'hmm_user', 'v_lname'  %>&nbsp;&nbsp;<span class="textfieldRequiredMsg">Last Name is required.</span></span></span>
+
+
+<%radio_button "post", "category", "rails"%>
+<p><label for="hmm_user_sex">Sex <br/>
+Male<%= radio_button 'hmm_user', 'e_sex','M'  %>
+Female<%= radio_button 'hmm_user', 'e_sex','F'  %></p></label>
+
+<p><label for="hmm_user_user_name">User name</label><br/>
+<span id="sprytextfield3"><span id="sprytextfield3"><%= text_field 'hmm_user', 'v_user_name'  %>&nbsp;&nbsp;<span class="textfieldRequiredMsg">Username is required.</span></span></span></p>
+
+<p><label for="hmm_user_password">Password</label><br/>
+<span id="sprytextfield4"><span id="sprytextfield4"><%= password_field 'hmm_user', 'v_password'%>&nbsp;&nbsp;<span class="textfieldRequiredMsg">Password is required.</span></span></span></p>
+
+<p><label for="hmm_user_add1">Add1</label><br/>
+<span id="sprytextfield5"><span id="sprytextfield5"><%= text_field 'hmm_user', 'v_add1'  %>&nbsp;&nbsp;<span class="textfieldRequiredMsg">Address 1 is required.</span></span></span></p>
+
+<p><label for="hmm_user_add2">Add2</label><br/>
+<span id="sprytextfield6"><span id="sprytextfield6"><%= text_field 'hmm_user', 'v_add2'  %>&nbsp;&nbsp;<span class="textfieldRequiredMsg">Address 2 is required.</span></span></span></p>
+
+<p><label for="hmm_user_city">City</label><br/>
+<span id="sprytextfield7"><span id="sprytextfield7"><%= text_field 'hmm_user', 'v_city'  %>&nbsp;&nbsp;<span class="textfieldRequiredMsg">City is required.</span></span></span></p>
+
+<p><label for="hmm_user_state">State</label><br/>
+<span id="sprytextfield8"><span id="sprytextfield8"><%= text_field 'hmm_user', 'v_state'  %>&nbsp;&nbsp;<span class="textfieldRequiredMsg">State is required.</span></span></span></p>
+
+<p><label for="hmm_user_country">Country</label><br/>
+<span id="sprytextfield9"><span id="sprytextfield9"><%= text_field 'hmm_user', 'v_country'  %>&nbsp;&nbsp;<span class="textfieldRequiredMsg">Country is required.</span></span></span></p>
+
+<p><label for="hmm_user_zip">Zip</label><br/>
+<span id="sprytextfield10"><span id="sprytextfield10"><%= text_field 'hmm_user', 'v_zip'  %>&nbsp;&nbsp;<span class="textfieldRequiredMsg">Zip is required.</span></span></span></p>
+
+<p><label for="hmm_user_e_mail">E-mail</label><br/>
+<span id="sprytextfield11"><span id="sprytextfield11"><%= text_field 'hmm_user', 'v_e_mail'  %>&nbsp;&nbsp;<span class="textfieldRequiredMsg">Email is required.</span></span></span></p>
+
+
+<%= submit_tag 'Sign Up' %>
+
+<!--[eoform:hmm_user]-->
+

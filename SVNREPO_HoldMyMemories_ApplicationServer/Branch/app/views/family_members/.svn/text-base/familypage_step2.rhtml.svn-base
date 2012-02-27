@@ -1,0 +1,246 @@
+<style>
+
+.familyheading {
+font-family:Arial, Helvetica, sans-serif;
+font-size: 16px;
+color: #d04c00;
+
+
+}
+.border10 {
+	border-top: none;
+	border-bottom: none;
+}
+
+
+.notetext{
+	font-family: "Book Antiqua";
+	font-size: 12px;
+	color: #888888;
+}
+
+.notetext_bor{
+	font-family: "Book Antiqua";
+	font-size: 12px;
+	color: #888888;
+	border-bottom: thin solid #333333;
+}
+
+.notetext_bor1{
+	font-family: "Book Antiqua";
+	font-size: 12px;
+	color: #888888;
+	border-top: thin solid #333333;
+}
+.border_top {
+	border-top: thin solid #333333;
+}
+
+</style>
+<%= stylesheet_link_tag 'SpryAssets/SpryValidationTextField' %>
+<%= javascript_include_tag 'SpryAssets/SpryValidationTextField' %>
+
+<%= javascript_include_tag 'effects' %>
+<%= javascript_include_tag 'popup.js' %>
+<%= stylesheet_link_tag 'popup.css' %>
+
+<%= javascript_include_tag 'modalbox/prototype' %>
+<script type="text/javascript" src="/javascripts/modalbox/scriptaculous.js?load=effects"></script>
+<script type="text/javascript" src="/javascripts/modalbox/modalbox.js"></script>
+<%= stylesheet_link_tag 'modalbox/modalbox' %>
+
+<%session[:sharepath]='fnf'%>
+<% session[:friend]=''%>
+<table border="0">
+<tr>
+  <th width="0" align="left" valign="top" scope="col"></th>
+  <th width="510" align="left" valign="top" scope="col">
+  	<table width="100%" border="0" cellspacing="0" cellpadding="0">
+    <tr>
+      <th width="140" height="22" align="left" valign="top" scope="col">
+      	
+      	<a href="/customers/edit_profile/<%=logged_in_hmm_user.id%>" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('Image22','','/images/manage-profile_over.jpg',1)">
+      	<img src="/images/manage-profile_def.jpg" name="Image22" width="140" height="22" border="0" id="Image22" /></a>
+	  </th>
+      
+      
+	  <th width="206" align="left" valign="top" scope="col">
+	  
+	  	<a href="/customers/FnF_Request" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('Image24','','/images/manage-fndsandfmly_over.jpg',1)">
+	  		<img src="/images/manage-fndsandfmly_def.jpg" name="Image24" width="206" height="22" border="0" id="Image24" /></a>
+			</th>
+      
+	  <th width="164" align="left" valign="top" scope="col">
+	  	<a href="/chapter_comment/allcmt_list/" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('Image25','','/images/manage-comments_over.jpg',1)">
+	  	<img src="/images/manage-comments_def.jpg" name="Image25" width="164" height="22" border="0" id="Image25" /></a>	  </th>
+		
+		<th width="164" align="left" valign="top" scope="col">
+	  	<a href="/share_moments/manageShare/" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('Image26','','/images/manage-share_over.jpg',1)">
+	  	<img src="/images/manage-share_def.jpg" name="Image26" width="140" height="22" border="0" id="Image26" /></a>	  
+		</th>
+		
+		<th width="206" align="left" valign="top" scope="col">
+			<img src="/images/mang_family_web_over.jpg" name="Image27" width="206" height="22" border="0" id="Image27" /></a>
+	  	
+		</th>
+		
+    </tr>
+  </table></th>
+  <th width="390" align="left" valign="top" scope="col"></th>
+</tr>
+</table>
+<div align="right"><a href="/<%=logged_in_hmm_user.family_name%>" target="_blank"><img src="/images/pre_family_website.jpg" border="0" /></a></div> 
+<% form_tag ("http://content.holdmymemories.com/familywebsite_setup/step2_update/#{@hmm_user.id}" ,{:multipart => true}) do %>
+<table width="100%" border="0" class="border" bordercolor="#333333" cellpadding="0" cellspacing="0">
+	<font color="#f5dfa6"><%=flash[:notice_step1succes]%></font>
+	<tr>
+		<th height="20" colspan="2" bgcolor="#333333">
+			<font size="3" ><span class="familyheading">Step 2</span></font>
+		</th>
+	</tr>
+	<tr><td class="notetext_bor" bordercolor="#333333" colspan="2"  align="center">This step allows you to select a Family Image, displayed on the header of your family website.  Entering text for the About Family and Family History section allows information to be displayed on your family's homepage.  
+    <a href="http://www.holdmymemories.com/eveleth" target="_blank" > < See The Sample Family Website > </a> 
+	<br>
+	<br> <a href="/<%=logged_in_hmm_user.family_name%>" target="_blank">  Preview of your family website.. </a></td></tr>
+	<tr><th  align="center" colspan="2" valign="bottom" scope="col" class="border10">
+		
+		
+</th></tr>
+	<tr>
+            		<th rowspan="4"  align="top"><img src="<%=@hmm_user.img_url%>/hmmuser/familyphotos/thumbs/<%=@hmm_user.family_pic%>"></th>
+              		<th  align="left" valign="bottom" scope="col" class="border10">
+              		<table width="100%" valign="bottom" border="0" cellspacing="0" cellpadding="0">
+                 	<tr>
+              			<th  width="180"  align="right" valign="bottom" class="contmanagepage" scope="col">Upload Family Image:</th>
+            			<th width="13" align="left" valign="top" scope="col" rowspan="2">&nbsp;</th>
+              			<th align="left" width="300" valign="bottom" scope="col">
+              			<%= file_field 'hmm_user', 'family_pic', :size => 30, :class => "textlinkbox-signup" %>
+						&nbsp;&nbsp;
+						
+					</th>
+					<th align="left" valign="bottom">
+						<span class="popup_link" id="infolink">
+						<img src="/images/question.gif" border="0"></span>
+						<div id="info" class="popup" style="display:none;">
+					<table>
+						<tr>
+							<td class="TTtext">
+							Tips:
+							</td>
+						</tr>
+						<tr>
+							<td class="TTtext">
+							Family Image will be displayed on the header of your family website...
+							</td>
+						</tr>
+						<tr>
+							<td class="TTtext">
+							Please upload Your family image...
+							</td>
+						</tr>
+						<tr>
+							<td class="TTtext">
+								
+								<a href="/eveleth" target="_blank">  Click hear to view Sample Family Website </a>
+							</td>
+						</tr>
+						
+					</table>
+					</div>
+					</th>
+            		</tr>
+              		</table>
+					</th>
+            	</tr>
+				
+				<tr><td class="border10">&nbsp;</td></tr>
+				<tr>
+            		
+              		<th  align="left" valign="top" scope="col" class="border10">
+              		<table width="100%" border="0" cellspacing="0" cellpadding="0">
+                 	<tr>
+              			<th height="39" width="180"  align="right" valign="top" class="contmanagepage" scope="col">About Family:</th>
+            			<th width="13" align="left" valign="top" scope="col" rowspan="2">&nbsp;</th>
+              			<th width="413" height="20" align="left" valign="top" scope="col">
+              			<%= text_area 'hmm_user', 'about_family', :rows =>"8", :cols=>"40", :class => "textbox-journal" %>
+					<span class="textfieldRequiredMsg">E-mail Required</span><span class="textfieldInvalidFormatMsg">Invalid E-mail</span></span></span>
+						</th>
+						<th height="20" align="left" valign="top" scope="col" >
+							<span class="popup_link" id="aboutlink">
+							<img src="/images/question.gif" border="0"></span>
+					
+							<div id="aboutinfo" class="popup" style="display:none;">
+					
+					<table>
+						<tr>
+							<td class="TTtext">
+							Tips:
+							</td>
+						</tr>
+						<tr>
+							<td class="TTtext">
+							In About Family section you can enter number of family members, relation and bond that keeps the family united... 
+							</td>
+						</tr>
+					</table>
+					</div>
+						</th>
+            		</tr>
+              		</table>
+					</th>
+            	</tr>
+				<tr><td class="border10">&nbsp;</td></tr>
+				<tr>
+            		<th rowspan="2" align="top">&nbsp;</th>
+              		<th  align="left" valign="top" scope="col" class="border10">
+              		<table width="100%" border="0" cellspacing="0" cellpadding="0">
+                 	<tr>
+              			<th height="39" width="180"  align="right" valign="top" class="contmanagepage" scope="col">Family History :</th>
+            			<th width="13" align="left" valign="top" scope="col" rowspan="2">&nbsp;</th>
+              			<th width="413" height="20" align="left" valign="top" scope="col">
+              			<%= text_area 'hmm_user', 'family_history', :rows =>"8", :cols=>"40", :class => "textbox-journal"  %>
+							<span class="textfieldRequiredMsg">About family is Required</span><span class="textfieldInvalidFormatMsg">Invalid E-mail</span></span></span>
+						</th>
+						<th height="20" align="left" valign="top" scope="col">
+							<span class="popup_link" id="historylink">
+							<img src="/images/question.gif" border="0"></span>
+					
+							<div id="historyinfo" class="popup" style="display:none;">
+					
+					<table>
+						<tr>
+							<td class="TTtext">
+							Tips:
+							</td>
+						</tr>
+						<tr>
+							<td class="TTtext">
+							In this section you can share your family's years of history... 
+							</td>
+						</tr>
+					</table>
+					</div>
+						</th>
+						
+            		</tr>
+              		</table>
+					</th>
+            	</tr>
+           		<tr>
+           			<td colspan="2">&nbsp;</td>
+           		</tr>
+				<tr>
+					<td align="center"  class="border_top" colspan="2">
+						<a href="/family_members/familypage_step1" ><img src="/images/yes_btn_arrow.jpg" name="yes" value="yes" id="yes" border="0"></a>
+						<input type='image' src="/images/pro_nextstep1.jpg" width="200" height="29" value="Create" onclick="return validate();" />
+					</td>
+				</tr>
+				
+</table>
+<%end%>
+
+<script type="text/javascript">
+    new Popup('info','infolink');
+	new Popup('aboutinfo','aboutlink');
+	new Popup('historyinfo','historylink');
+  </script>

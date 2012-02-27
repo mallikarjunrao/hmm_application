@@ -1,0 +1,124 @@
+<form name="cuponform" action="/customers/newcupon_account" method="post">
+  <input type="hidden" name="cupon_no" id="cupon_no" value="<%=@cupon.unid%>">
+  <input type="hidden" name="cupon_validperiod" id="cupon_validperiod" value="<%=@cupon.valid_period%>">
+  <input type="hidden" name="acc_type" id="acc_type" value="<%=@cupon.cupon_type%>">
+  <table width="810" border="0">
+    <%=flash[:unid_succes]%>
+    <tr>
+      <th>
+        <table width="800" border="0">
+          <tr>
+            <td width="200">&nbsp;</td>
+            <td width="200">&nbsp;</td>
+            <td>&nbsp;</td>
+            <td width="400">&nbsp;</td>
+          </tr>
+          <tr>
+            <td colspan="4" align="center"><font size="3">HoldMyMemories Free Coupon</font></td>
+          </tr>
+          <tr>
+            <td width="200">&nbsp;</td>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+          </tr>
+          <tr>
+            <td colspan="3" align="left">Coupon No : <%=@cupon.unid%> </td>
+          </tr>
+          <tr>
+            <td width="200">&nbsp;</td>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+          </tr>
+          <tr>
+            <td width="200">&nbsp;</td>
+            <td align="left">Coupon Type</td>
+            <td>&nbsp;</td>
+            <td align="left"><%=@cupon.cupon_type.capitalize%></td>
+          </tr>
+          <tr>
+            <td width="200">&nbsp;</td>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+          </tr>
+          <tr>
+            <td width="200">&nbsp;</td>
+            <td align="left">Coupon Validity period</td>
+            <td>&nbsp;</td>
+            <td align="left"><%if @cupon.valid_period == 'ff'%> Free Forever <%else%><%=@cupon.valid_period%> Months<%end%></td>
+          </tr>
+          <tr>
+            <td width="200">&nbsp;</td>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+          </tr>
+          <tr>
+            <td width="200">&nbsp;</td>
+            <td align="left">Coupon Start Date</td>
+            <td>&nbsp;</td>
+
+            <td align="left"><%=@cupon.start_date.strftime("%a %b #{@cupon.start_date.day.ordinalize} %Y ") %></td>
+          </tr>
+          <tr>
+            <td width="200">&nbsp;</td>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+          </tr>
+          <tr>
+            <td width="200">&nbsp;</td>
+            <td align="left">Coupon Expiration Date</td>
+            <td>&nbsp;</td>
+
+            <td align="left"><%=@cupon.expire_date.strftime("%a %b #{@cupon.expire_date.day.ordinalize} %Y ") %></td>
+          </tr>
+          <tr>
+            <td width="200">&nbsp;</td>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+          </tr>
+          <tr>
+            <td colspan="4">Note: coupon issued is valid from the date of activated to the valid period or the expire date of this offer<br>
+              &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            </td>
+          </tr>
+          <tr>
+            <td width="200">&nbsp;</td>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+          </tr>
+        </table>
+      </th>
+    </tr>
+    <tr>
+      <td height="5" colspan="4" align="center">
+        <% if @cupon_res > 0 && @cupon_res_start  > 0%>
+          <input type="submit" name"create_acc" id="create_acc" value="Create Customer Account" >
+        <%else if @cupon_res_start == 0 %>
+                   <font color="00cc00" size="3">The cupon can be redeem between <%=@cupon.start_date.strftime(" %b #{@cupon.start_date.day.ordinalize} %Y ") %> to <%=@cupon.expire_date.strftime(" %b #{@cupon.expire_date.day.ordinalize} %Y ") %>
+              <br> Please try after <%=@cupon.start_date.strftime(" %b #{@cupon.start_date.day.ordinalize} %Y ") %> to avail this offer. thank you!!
+            </font>
+          <%else%>
+            <font color="ff3300" size="3">The cupon has expired!! The cupon is no longer valid.</font>
+          <%end%><%end%>
+      </td>
+    </tr>
+    <tr>
+      <td width="200">&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+    </tr>
+    <tr>
+      <td align="left"></td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+    </tr>
+  </table>
+</form>

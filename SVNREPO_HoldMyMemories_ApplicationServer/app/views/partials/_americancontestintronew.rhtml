@@ -1,0 +1,541 @@
+<%= javascript_include_tag 'modalbox/prototype' %>
+<script type="text/javascript" src="/javascripts/modalbox/scriptaculous.js?load=effects"></script>
+<script type="text/javascript" src="/javascripts/modalbox/modalbox.js"></script>
+<%= stylesheet_link_tag 'modalbox/modalbox' %>
+<style type="text/css">
+  .img-txt {
+    font-family:"Times New Roman", Times, serif;
+    font-size:16px;
+    color: #000000;
+    text-decoration:none;
+    font-weight:none;
+  }
+
+  .middle-backround-bg {
+    background-image:url(/images/all_american_family/backround-img-bg.jpg);
+    background-position:center top;
+    background-repeat:repeat-y;
+    height:817px;
+  }
+
+  .cont-big {
+    font-family:"Times New Roman", Times, serif;
+    font-size:20px;
+    color:#FFFFFF;
+    line-height:26px;
+    text-decoration:none;
+    font-weight:normal;
+  }
+
+  .cont-small {
+    font-family:"Times New Roman", Times, serif;
+    font-size:15px;
+    color:#FFFFFF;
+    line-height:20px;
+    text-decoration:none;
+    font-weight:normal;
+  }
+
+</style>
+
+
+<table width="911" align="center" cellpadding="0" cellspacing="0" style="border:solid 9px #ffffff; margin-top:13px;">
+  <tr>
+    <td align="left" valign="top" bgcolor="#f1ede6"><table width="893" border="0" align="center" cellpadding="0" cellspacing="0">
+        <tr>
+          <td width="223" align="center" valign="top"><table width="147" border="0" align="center" cellpadding="0" cellspacing="0">
+              <tr>
+                <td height="60" colspan="3" align="left" valign="top">&nbsp;</td>
+              </tr>
+              <tr>
+                <td colspan="3" align="center" valign="top"><img src="/images/all_american_family/top-10-photo.png" width="147" height="109" /></td>
+              </tr>
+              <tr>
+                <td colspan="3" align="left" valign="top">&nbsp;</td>
+              </tr>
+              <tr>
+                <%if topentries_photo[0]%>
+                  <td width="64" align="left" valign="top">
+                    <% if website_type == "familywebsite" %>
+                      <%if(session[:hmm_user]) %>
+                        <a href="/familywebsite_american_family/manage_momentdetails/<%=id%>?contest_id=<%=topentries_photo[0].moment_id%>">
+                        <%else%>
+                          <a href="/familywebsite_american_family/momentdetails/<%=id%>?contest_id=<%=topentries_photo[0].moment_id%>">
+                          <%end%>
+                        <%else%>
+                          <a href="/american_family/momentdetails/<%=topentries_photo[0].moment_id%>">
+                          <%end%>
+                          <img src="<%=topentries_photo[0].img_url %>/user_content/photos/big_thumb/<%= topentries_photo[0].v_filename %>" width="60" height="54" style="z-index:0;" border="0"/><img src="/images/all_american_family/img-box.png" width="64" height="58" style="z-index:9999; position:absolute; display:inline; margin-left:-62px; margin-top:-2px;" border="0"/></a></td>
+                      <%end%>
+                      <td width="19" align="left" valign="top">&nbsp;</td>
+                      <%if topentries_photo[1]%>  <td width="64" align="left" valign="top"><% if website_type == "familywebsite" %>
+                            <%if(session[:hmm_user]) %>
+                              <a href="/familywebsite_american_family/manage_momentdetails/<%=id%>?contest_id=<%=topentries_photo[1].moment_id%>">
+                              <%else%>
+                                <a href="/familywebsite_american_family/momentdetails/<%=id%>?contest_id=<%=topentries_photo[1].moment_id%>">
+                                <%end%>
+                              <%else%>
+                                <a href="/american_family/momentdetails/<%=topentries_photo[1].moment_id%>">
+                                <%end%>
+
+                                <img src="<%=topentries_photo[1].img_url %>/user_content/photos/big_thumb/<%= topentries_photo[1].v_filename %>" width="60" height="54" style="z-index:0;" border="0"/><img src="/images/all_american_family/img-box.png" width="64" height="58" style="z-index:9999; position:absolute; display:inline; margin-left:-62px; margin-top:-2px;" border="0"/></a>
+                            <%end%>
+                            </td>
+                            </tr>
+                            <tr>
+                              <%if topentries_photo[0]%>
+                                <% count = ContestVotes.count_by_sql("select COUNT(*) AS COUNT from contest_votes where contest_id='#{topentries_photo[0].contest_id}' and conformed='yes'") %>
+                                <td height="30" align="center" valign="middle" class="img-txt"><%=count%> <% if count.to_i > 1 %> Votes<%else%>Vote<%end%></td>
+                              <%end%>
+                              <td align="left" valign="middle">&nbsp;</td>
+                              <%if topentries_photo[1]%>
+                                <% count = ContestVotes.count_by_sql("select COUNT(*) AS COUNT from contest_votes where contest_id='#{topentries_photo[1].contest_id}' and conformed='yes'") %>
+                                <td height="30" align="center" valign="middle" class="img-txt"><%=count%> <% if count.to_i > 1 %> Votes<%else%>Vote<%end%></td>
+                              <%end%>
+                            </tr>
+                            <tr> <%if topentries_photo[2]%>
+                                <td width="64" align="left" valign="top"><% if website_type == "familywebsite" %>
+                                    <%if(session[:hmm_user]) %>
+                                      <a href="/familywebsite_american_family/manage_momentdetails/<%=id%>?contest_id=<%=topentries_photo[2].moment_id%>">
+                                      <%else%>
+                                        <a href="/familywebsite_american_family/momentdetails/<%=id%>?contest_id=<%=topentries_photo[2].moment_id%>">
+                                        <%end%>
+                                      <%else%>
+                                        <a href="/american_family/momentdetails/<%=topentries_photo[2].moment_id%>">
+                                        <%end%>
+
+                                        <img src="<%=topentries_photo[2].img_url %>/user_content/photos/big_thumb/<%= topentries_photo[2].v_filename %>" width="60" height="54" style="z-index:0;" border="0"/><img src="/images/all_american_family/img-box.png" width="64" height="58" style="z-index:9999; position:absolute; display:inline; margin-left:-62px; margin-top:-2px;" border="0"/></a></td>
+                                    <%end%>
+                                    <td align="left" valign="top">&nbsp;</td>
+                                    <%if topentries_photo[3]%>  <td width="64" align="left" valign="top"><% if website_type == "familywebsite" %>
+                                          <%if(session[:hmm_user]) %>
+                                            <a href="/familywebsite_american_family/manage_momentdetails/<%=id%>?contest_id=<%=topentries_photo[3].moment_id%>">
+                                            <%else%>
+                                              <a href="/familywebsite_american_family/momentdetails/<%=id%>?contest_id=<%=topentries_photo[3].moment_id%>">
+                                              <%end%>
+                                            <%else%>
+                                              <a href="/american_family/momentdetails/<%=topentries_photo[3].moment_id%>">
+                                              <%end%>
+
+                                              <img src="<%=topentries_photo[3].img_url %>/user_content/photos/big_thumb/<%= topentries_photo[3].v_filename %>" width="60" height="54" style="z-index:0;" border="0"/><img src="/images/all_american_family/img-box.png" width="64" height="58" style="z-index:9999; position:absolute; display:inline; margin-left:-62px; margin-top:-2px;" border="0"/></a></td>
+                                          <%end%>
+                                          </tr>
+                                          <tr>
+                                            <%if topentries_photo[2]%>
+                                              <% count = ContestVotes.count_by_sql("select COUNT(*) AS COUNT from contest_votes where contest_id='#{topentries_photo[2].contest_id}' and conformed='yes'") %>
+                                              <td height="30" align="center" valign="middle" class="img-txt"><%=count%> <% if count.to_i > 1 %> Votes<%else%>Vote<%end%></td>
+                                            <%end%>
+                                            <td align="left" valign="middle">&nbsp;</td>
+                                            <%if topentries_photo[3]%>
+                                              <% count = ContestVotes.count_by_sql("select COUNT(*) AS COUNT from contest_votes where contest_id='#{topentries_photo[3].contest_id}' and conformed='yes'") %>
+                                              <td height="30" align="center" valign="middle" class="img-txt"><%=count%> <% if count.to_i > 1 %> Votes<%else%>Vote<%end%></td>
+                                            <%end%>
+                                          </tr>
+                                          <tr> <%if topentries_photo[4]%>
+                                              <td width="64" align="left" valign="top"><% if website_type == "familywebsite" %>
+                                                  <%if(session[:hmm_user]) %>
+                                                    <a href="/familywebsite_american_family/manage_momentdetails/<%=id%>?contest_id=<%=topentries_photo[4].moment_id%>">
+                                                    <%else%>
+                                                      <a href="/familywebsite_american_family/momentdetails/<%=id%>?contest_id=<%=topentries_photo[4].moment_id%>">
+                                                      <%end%>
+                                                    <%else%>
+                                                      <a href="/american_family/momentdetails/<%=topentries_photo[4].moment_id%>">
+                                                      <%end%>
+
+                                                      <img src="<%=topentries_photo[4].img_url %>/user_content/photos/big_thumb/<%= topentries_photo[4].v_filename %>" width="60" height="54" style="z-index:0;" border="0"/><img src="/images/all_american_family/img-box.png" width="64" height="58" style="z-index:9999; position:absolute; display:inline; margin-left:-62px; margin-top:-2px;" border="0"/></a></td>
+                                                  <%end%>
+                                                  <td align="left" valign="top">&nbsp;</td>
+                                                  <%if topentries_photo[5]%>
+                                                    <td width="64" align="left" valign="top"><% if website_type == "familywebsite" %>
+                                                        <%if(session[:hmm_user]) %>
+                                                          <a href="/familywebsite_american_family/manage_momentdetails/<%=id%>?contest_id=<%=topentries_photo[5].moment_id%>">
+                                                          <%else%>
+                                                            <a href="/familywebsite_american_family/momentdetails/<%=id%>?contest_id=<%=topentries_photo[5].moment_id%>">
+                                                            <%end%>
+                                                          <%else%>
+                                                            <a href="/american_family/momentdetails/<%=topentries_photo[5].moment_id%>">
+                                                            <%end%>
+
+                                                            <img src="<%=topentries_photo[5].img_url %>/user_content/photos/big_thumb/<%= topentries_photo[5].v_filename %>" width="60" height="54" style="z-index:0;" border="0"/><img src="/images/all_american_family/img-box.png" width="64" height="58" style="z-index:9999; position:absolute; display:inline; margin-left:-62px; margin-top:-2px;" border="0"/></a></td>
+                                                        <%end%>
+                                                        </tr>
+                                                        <tr>
+                                                          <%if topentries_photo[4]%>
+                                                            <% count = ContestVotes.count_by_sql("select COUNT(*) AS COUNT from contest_votes where contest_id='#{topentries_photo[4].contest_id}' and conformed='yes'") %>
+                                                            <td height="30" align="center" valign="middle" class="img-txt"><%=count%> <% if count.to_i > 1 %> Votes<%else%>Vote<%end%></td>
+                                                          <%end%>
+                                                          <td align="left" valign="middle">&nbsp;</td>
+                                                          <%if topentries_photo[5]%>
+                                                            <% count = ContestVotes.count_by_sql("select COUNT(*) AS COUNT from contest_votes where contest_id='#{topentries_photo[5].contest_id}' and conformed='yes'") %>
+                                                            <td height="30" align="center" valign="middle" class="img-txt"><%=count%> <% if count.to_i > 1 %> Votes<%else%>Vote<%end%></td>
+                                                          <%end%>
+                                                        </tr>
+                                                        <tr>
+                                                          <%if topentries_photo[6]%>
+                                                            <td width="64" align="left" valign="top"><% if website_type == "familywebsite" %>
+                                                                <%if(session[:hmm_user]) %>
+                                                                  <a href="/familywebsite_american_family/manage_momentdetails/<%=id%>?contest_id=<%=topentries_photo[6].moment_id%>">
+                                                                  <%else%>
+                                                                    <a href="/familywebsite_american_family/momentdetails/<%=id%>?contest_id=<%=topentries_photo[6].moment_id%>">
+                                                                    <%end%>
+                                                                  <%else%>
+                                                                    <a href="/american_family/momentdetails/<%=topentries_photo[6].moment_id%>">
+                                                                    <%end%>
+
+                                                                    <img src="<%=topentries_photo[6].img_url %>/user_content/photos/big_thumb/<%= topentries_photo[6].v_filename %>" width="60" height="54" style="z-index:0;" border="0"/><img src="/images/all_american_family/img-box.png" width="64" height="58" style="z-index:9999; position:absolute; display:inline; margin-left:-62px; margin-top:-2px;" border="0"/></a></td>
+                                                                <%end%>
+                                                                <td align="left" valign="top">&nbsp;</td>
+                                                                <%if topentries_photo[7]%>
+                                                                  <td width="64" align="left" valign="top"><% if website_type == "familywebsite" %>
+                                                                      <%if(session[:hmm_user]) %>
+                                                                        <a href="/familywebsite_american_family/manage_momentdetails/<%=id%>?contest_id=<%=topentries_photo[7].moment_id%>">
+                                                                        <%else%>
+                                                                          <a href="/familywebsite_american_family/momentdetails/<%=id%>?contest_id=<%=topentries_photo[7].moment_id%>">
+                                                                          <%end%>
+                                                                        <%else%>
+                                                                          <a href="/american_family/momentdetails/<%=topentries_photo[7].moment_id%>">
+                                                                          <%end%>
+
+                                                                          <img src="<%=topentries_photo[7].img_url %>/user_content/photos/big_thumb/<%= topentries_photo[7].v_filename %>" width="60" height="54" style="z-index:0;" border="0"/><img src="/images/all_american_family/img-box.png" width="64" height="58" style="z-index:9999; position:absolute; display:inline; margin-left:-62px; margin-top:-2px;" border="0"/></a></td>
+                                                                      <%end%>
+                                                                      </tr>
+                                                                      <tr>
+                                                                        <%if topentries_photo[6]%>
+                                                                          <% count = ContestVotes.count_by_sql("select COUNT(*) AS COUNT from contest_votes where contest_id='#{topentries_photo[6].contest_id}' and conformed='yes'") %>
+                                                                          <td height="30" align="center" valign="middle" class="img-txt"><%=count%> <% if count.to_i > 1 %> Votes<%else%>Vote<%end%></td>
+                                                                        <%end%>
+                                                                        <td align="left" valign="middle">&nbsp;</td>
+                                                                        <%if topentries_photo[7]%>
+                                                                          <% count = ContestVotes.count_by_sql("select COUNT(*) AS COUNT from contest_votes where contest_id='#{topentries_photo[7].contest_id}' and conformed='yes'") %>
+                                                                          <td height="30" align="center" valign="middle" class="img-txt"><%=count%> <% if count.to_i > 1 %> Votes<%else%>Vote<%end%></td>
+                                                                        <%end%>
+                                                                      </tr>
+                                                                      <tr>
+                                                                        <%if topentries_photo[8]%>
+                                                                          <td width="64" align="left" valign="top"><% if website_type == "familywebsite" %>
+                                                                              <%if(session[:hmm_user]) %>
+                                                                                <a href="/familywebsite_american_family/manage_momentdetails/<%=id%>?contest_id=<%=topentries_photo[8].moment_id%>">
+                                                                                <%else%>
+                                                                                  <a href="/familywebsite_american_family/momentdetails/<%=id%>?contest_id=<%=topentries_photo[8].moment_id%>">
+                                                                                  <%end%>
+                                                                                <%else%>
+                                                                                  <a href="/american_family/momentdetails/<%=topentries_photo[8].moment_id%>">
+                                                                                  <%end%>
+
+                                                                                  <img src="<%=topentries_photo[8].img_url %>/user_content/photos/big_thumb/<%= topentries_photo[8].v_filename %>" width="60" height="54" style="z-index:0;" border="0"/><img src="/images/all_american_family/img-box.png" width="64" height="58" style="z-index:9999; position:absolute; display:inline; margin-left:-62px; margin-top:-2px;" border="0"/></a></td>
+                                                                              <%end%>
+                                                                              <td align="left" valign="top">&nbsp;</td>
+                                                                              <%if topentries_photo[9]%>
+                                                                                <td width="64" align="left" valign="top"><% if website_type == "familywebsite" %>
+                                                                                    <%if(session[:hmm_user]) %>
+                                                                                      <a href="/familywebsite_american_family/manage_momentdetails/<%=id%>?contest_id=<%=topentries_photo[9].moment_id%>">
+                                                                                      <%else%>
+                                                                                        <a href="/familywebsite_american_family/momentdetails/<%=id%>?contest_id=<%=topentries_photo[9].moment_id%>">
+                                                                                        <%end%>
+                                                                                      <%else%>
+                                                                                        <a href="/american_family/momentdetails/<%=topentries_photo[9].moment_id%>">
+                                                                                        <%end%>
+
+                                                                                        <img src="<%=topentries_photo[9].img_url %>/user_content/photos/big_thumb/<%= topentries_photo[9].v_filename %>" width="60" height="54" style="z-index:0;" border="0"/><img src="/images/all_american_family/img-box.png" width="64" height="58" style="z-index:9999; position:absolute; display:inline; margin-left:-62px; margin-top:-2px;" border="0"/></a></td>
+                                                                                    <%end%>
+                                                                                    </tr>
+                                                                                    <tr>
+                                                                                      <%if topentries_photo[8]%>
+                                                                                        <% count = ContestVotes.count_by_sql("select COUNT(*) AS COUNT from contest_votes where contest_id='#{topentries_photo[8].contest_id}' and conformed='yes'") %>
+                                                                                        <td height="30" align="center" valign="middle" class="img-txt"><%=count%> <% if count.to_i > 1 %> Votes<%else%>Vote<%end%></td>
+                                                                                      <%end%>
+                                                                                      <td align="left" valign="middle">&nbsp;</td>
+                                                                                      <%if topentries_photo[9]%>
+                                                                                        <% count = ContestVotes.count_by_sql("select COUNT(*) AS COUNT from contest_votes where contest_id='#{topentries_photo[9].contest_id}' and conformed='yes'") %>
+                                                                                        <td height="30" align="center" valign="middle" class="img-txt"><%=count%> <% if count.to_i > 1 %> Votes<%else%>Vote<%end%></td>
+                                                                                      <%end%>
+                                                                                    </tr>
+
+                                                                                    <tr>
+                                                                                      <td colspan="3" align="left" valign="top">&nbsp;</td>
+                                                                                    </tr>
+                                                                                    <tr>
+                                                                                      <td colspan="3" align="left" valign="top">&nbsp;</td>
+                                                                                    </tr>
+                                                                                    </table></td>
+                                                                                    <td width="434" align="left" valign="top" class="middle-backround-bg"><table width="100%" border="0" align="center" cellpadding="0" cellspacing="0">
+
+                                                                                        <tr>
+                                                                                          <td height="263" colspan="3" align="center" valign="middle" style="padding-left:5px;"><img src="/images/all_american_family/AAF-logo.jpg" width="349" height="187" /></td>
+                                                                                        </tr>
+
+                                                                                        <tr>
+                                                                                          <td colspan="3" align="center"><img src="/images/all_american_family/prize-winners.jpg" width="293" height="38" /></td>
+                                                                                        </tr>
+                                                                                        <tr>
+                                                                                          <td height="30" colspan="3">&nbsp;</td>
+                                                                                        </tr>
+                                                                                        <tr>
+                                                                                          <td width="57" align="right" valign="top"><span class="cont-big">-</span></td>
+                                                                                          <td width="14" align="left" valign="top">&nbsp;</td>
+                                                                                          <td width="363" align="left" valign="top" class="cont-big">$250 Portfolio from a participating
+                                                                                            HoldMyMemories.com studio</td>
+                                                                                        </tr>
+                                                                                        <tr>
+                                                                                          <td height="10" colspan="3"></td>
+                                                                                        </tr>
+                                                                                        <tr>
+                                                                                          <td width="57" align="right" valign="top"><span class="cont-big">-</span></td>
+                                                                                          <td width="14" align="left" valign="top">&nbsp;</td>
+                                                                                          <td width="363" align="left" valign="top" class="cont-big">Featuring in HoldMyMemories.com
+                                                                                            promotional materials</td>
+                                                                                        </tr>
+                                                                                        <tr>
+                                                                                          <td height="10" colspan="3"></td>
+                                                                                        </tr>
+                                                                                        <tr>
+                                                                                          <td width="57" align="right" valign="top"><span class="cont-big">-</span></td>
+                                                                                          <td width="14" align="left" valign="top">&nbsp;</td>
+                                                                                          <td width="363" align="left" valign="top" class="cont-big">One year premium membership
+                                                                                            with HoldMyMemories.com</td>
+                                                                                        </tr>
+                                                                                        <tr>
+                                                                                          <td height="10" colspan="3"></td>
+                                                                                        </tr>
+                                                                                        <tr>
+                                                                                          <td height="24" colspan="3">&nbsp;</td>
+                                                                                        </tr>
+                                                                                        <tr>
+                                                                                          <td colspan="3" align="center" class="cont-small">One prize winner will be chosen from both
+                                                                                            <br />
+                                                                                            the photo and video contests</td>
+                                                                                        </tr>
+                                                                                        <tr>
+                                                                                          <td height="24" colspan="3">&nbsp;</td>
+                                                                                        </tr>
+                                                                                        <tr>
+                                                                                          <td colspan="3" align="center" class="backroung-img-bg"><a href="/american_family/enter_contest?type=view_vote&website_type=<%=website_type%>&id=<%=id%>"  onclick="Modalbox.show(this.href, {title:'My Image', width: 400, height:530});return false;"><img src="/images/all_american_family/american_fb_images/view-vote.png" width="345" height="62" border="0" /></a></td>
+                                                                                        </tr>
+                                                                                         <tr>
+                                                                                          <td height="25" colspan="3">&nbsp;</td>
+                                                                                        </tr>
+                                                                                        <tr>
+                                                                                          <td colspan="3" align="center" class="backroung-img-bg"><a href="/american_family/rules"  onclick="Modalbox.show(this.href, {title:'My Image', width: 600, height:530});return false;"><img src="/images/all_american_family/american_fb_images/rules-regulations.png" width="345" height="62" border="0" /></a></td>
+                                                                                        </tr>
+                                                                                        <tr>
+                                                                                          <td height="105" colspan="3" align="left" valign="top" class="backroung-img-bg">&nbsp;</td>
+                                                                                        </tr>
+
+
+                                                                                      </table></td>
+                                                                                    <td width="223" align="left" valign="top"><table width="147" border="0" align="center" cellpadding="0" cellspacing="0">
+                                                                                        <tr>
+                                                                                          <td height="60" colspan="3" align="left" valign="top">&nbsp;</td>
+                                                                                        </tr>
+                                                                                        <tr>
+                                                                                          <td colspan="3" align="center" valign="top"><img src="/images/all_american_family/top-10-video.png" width="147" height="109" /></td>
+                                                                                        </tr>
+                                                                                        <tr>
+                                                                                          <td colspan="3" align="left" valign="top">&nbsp;</td>
+                                                                                        </tr>
+                                                                                        <tr><%if topentries_video[0]%><td width="64" align="left" valign="top">
+                                                                                              <% if website_type == "familywebsite" %>
+                                                                                                <%if(session[:hmm_user]) %>
+                                                                                                  <a href="/familywebsite_american_family/manage_videomoment_details/<%=id%>?contest_id=<%=topentries_video[0].moment_id%>">
+                                                                                                  <%else%>
+                                                                                                    <a href="/familywebsite_american_family/videomoment_details/<%=id%>?contest_id=<%=topentries_video[0].moment_id%>">
+                                                                                                    <%end%>
+
+                                                                                                  <%else%>
+                                                                                                    <a href="/american_family/videomoment_details/<%=topentries_video[0].moment_id%>">
+                                                                                                    <%end%>
+                                                                                                    <img src="<%= topentries_video[0].img_url %>/user_content/videos/thumbnails/<%= topentries_video[0].v_filename+'.jpg' %>" width="60" height="54" style="z-index:0;" border="0"/><img src="/images/all_american_family/img-box.png" width="64" height="58" style="z-index:9999; position:absolute; display:inline; margin-left:-62px; margin-top:-2px;" border="0"/></a></td>
+                                                                                                <%end%>
+                                                                                                <td align="left" valign="top">&nbsp;</td>
+                                                                                                <%if topentries_video[1]%><td width="64" align="left" valign="top">
+                                                                                                    <% if website_type == "familywebsite" %>
+                                                                                                      <%if(session[:hmm_user]) %>
+                                                                                                        <a href="/familywebsite_american_family/manage_videomoment_details/<%=id%>?contest_id=<%=topentries_video[1].moment_id%>">
+                                                                                                        <%else%>
+                                                                                                          <a href="/familywebsite_american_family/videomoment_details/<%=id%>?contest_id=<%=topentries_video[1].moment_id%>">
+                                                                                                          <%end%>
+
+                                                                                                        <%else%>
+                                                                                                          <a href="/american_family/videomoment_details/<%=topentries_video[1].moment_id%>">
+                                                                                                          <%end%>
+                                                                                                          <img src="<%= topentries_video[1].img_url %>/user_content/videos/thumbnails/<%= topentries_video[1].v_filename+'.jpg' %>" width="60" height="54" style="z-index:0;" border="0"/><img src="/images/all_american_family/img-box.png" width="64" height="58" style="z-index:9999; position:absolute; display:inline; margin-left:-62px; margin-top:-2px;" border="0"/></a></td>
+                                                                                                      <%end%></td>
+                                                                                                      </tr>
+                                                                                                      <tr>
+                                                                                                        <%if topentries_video[0]%>
+                                                                                                          <% count = ContestVotes.count_by_sql("select COUNT(*) AS COUNT from contest_votes where contest_id='#{topentries_video[0].contest_id}' and conformed='yes'") %>
+                                                                                                          <td height="30" align="center" valign="middle" class="img-txt"><%=count%> <% if count.to_i > 1 %> Votes<%else%>Vote<%end%></td>
+                                                                                                        <%end%>
+                                                                                                        <td align="left" valign="middle">&nbsp;</td>
+                                                                                                        <%if topentries_video[1]%>
+                                                                                                          <% count = ContestVotes.count_by_sql("select COUNT(*) AS COUNT from contest_votes where contest_id='#{topentries_video[1].contest_id}' and conformed='yes'") %>
+                                                                                                          <td height="30" align="center" valign="middle" class="img-txt"><%=count%> <% if count.to_i > 1 %> Votes<%else%>Vote<%end%></td>
+                                                                                                        <%end%>
+                                                                                                      </tr>
+                                                                                                      <tr><%if topentries_video[2]%><td width="64" align="left" valign="top">
+                                                                                                            <% if website_type == "familywebsite" %>
+                                                                                                              <%if(session[:hmm_user]) %>
+                                                                                                                <a href="/familywebsite_american_family/manage_videomoment_details/<%=id%>?contest_id=<%=topentries_video[2].moment_id%>">
+                                                                                                                <%else%>
+                                                                                                                  <a href="/familywebsite_american_family/videomoment_details/<%=id%>?contest_id=<%=topentries_video[2].moment_id%>">
+                                                                                                                  <%end%>
+
+                                                                                                                <%else%>
+                                                                                                                  <a href="/american_family/videomoment_details/<%=topentries_video[2].moment_id%>">
+                                                                                                                  <%end%>
+                                                                                                                  <img src="<%= topentries_video[2].img_url %>/user_content/videos/thumbnails/<%= topentries_video[2].v_filename+'.jpg' %>" width="60" height="54" style="z-index:0;" border="0"/><img src="/images/all_american_family/img-box.png" width="64" height="58" style="z-index:9999; position:absolute; display:inline; margin-left:-62px; margin-top:-2px;" border="0"/></a></td>
+                                                                                                              <%end%>
+                                                                                                              <td  align="left" valign="top">&nbsp;</td>
+                                                                                                              <%if topentries_video[3]%><td width="64" align="left" valign="top">
+                                                                                                                  <% if website_type == "familywebsite" %>
+                                                                                                                    <%if(session[:hmm_user]) %>
+                                                                                                                      <a href="/familywebsite_american_family/manage_videomoment_details/<%=id%>?contest_id=<%=topentries_video[3].moment_id%>">
+                                                                                                                      <%else%>
+                                                                                                                        <a href="/familywebsite_american_family/videomoment_details/<%=id%>?contest_id=<%=topentries_video[3].moment_id%>">
+                                                                                                                        <%end%>
+
+                                                                                                                      <%else%>
+                                                                                                                        <a href="/american_family/videomoment_details/<%=topentries_video[3].moment_id%>">
+                                                                                                                        <%end%>
+                                                                                                                        <img src="<%= topentries_video[3].img_url %>/user_content/videos/thumbnails/<%= topentries_video[3].v_filename+'.jpg' %>" width="60" height="54" style="z-index:0;" border="0"/><img src="/images/all_american_family/img-box.png" width="64" height="58" style="z-index:9999; position:absolute; display:inline; margin-left:-62px; margin-top:-2px;" border="0"/></a></td>
+                                                                                                                    <%end%></td>
+                                                                                                                    </tr>
+                                                                                                                    <tr>
+                                                                                                                      <%if topentries_video[2]%>
+                                                                                                                        <% count = ContestVotes.count_by_sql("select COUNT(*) AS COUNT from contest_votes where contest_id='#{topentries_video[2].contest_id}' and conformed='yes'") %>
+                                                                                                                        <td height="30" align="center" valign="middle" class="img-txt"><%=count%> <% if count.to_i > 1 %> Votes<%else%>Vote<%end%></td>
+                                                                                                                      <%end%>
+                                                                                                                      <td align="left" valign="middle">&nbsp;</td>
+                                                                                                                      <%if topentries_video[3]%>
+                                                                                                                        <% count = ContestVotes.count_by_sql("select COUNT(*) AS COUNT from contest_votes where contest_id='#{topentries_video[3].contest_id}' and conformed='yes'") %>
+                                                                                                                        <td height="30" align="center" valign="middle" class="img-txt"><%=count%> <% if count.to_i > 1 %> Votes<%else%>Vote<%end%></td>
+                                                                                                                      <%end%>
+                                                                                                                    </tr>
+                                                                                                                    <tr><%if topentries_video[4]%><td width="64" align="left" valign="top">
+                                                                                                                          <% if website_type == "familywebsite" %>
+                                                                                                                            <%if(session[:hmm_user]) %>
+                                                                                                                              <a href="/familywebsite_american_family/manage_videomoment_details/<%=id%>?contest_id=<%=topentries_video[4].moment_id%>">
+                                                                                                                              <%else%>
+                                                                                                                                <a href="/familywebsite_american_family/videomoment_details/<%=id%>?contest_id=<%=topentries_video[4].moment_id%>">
+                                                                                                                                <%end%>
+
+                                                                                                                              <%else%>
+                                                                                                                                <a href="/american_family/videomoment_details/<%=topentries_video[4].moment_id%>">
+                                                                                                                                <%end%>
+                                                                                                                                <img src="<%= topentries_video[4].img_url %>/user_content/videos/thumbnails/<%= topentries_video[4].v_filename+'.jpg' %>" width="60" height="54" style="z-index:0;" border="0"/><img src="/images/all_american_family/img-box.png" width="64" height="58" style="z-index:9999; position:absolute; display:inline; margin-left:-62px; margin-top:-2px;" border="0"/></a></td>
+                                                                                                                            <%end%>
+                                                                                                                            <td  align="left" valign="top">&nbsp;</td>
+                                                                                                                            <%if topentries_video[5]%><td width="64" align="left" valign="top">
+                                                                                                                                <% if website_type == "familywebsite" %>
+                                                                                                                                  <%if(session[:hmm_user]) %>
+                                                                                                                                    <a href="/familywebsite_american_family/manage_videomoment_details/<%=id%>?contest_id=<%=topentries_video[5].moment_id%>">
+                                                                                                                                    <%else%>
+                                                                                                                                      <a href="/familywebsite_american_family/videomoment_details/<%=id%>?contest_id=<%=topentries_video[5].moment_id%>">
+                                                                                                                                      <%end%>
+
+                                                                                                                                    <%else%>
+                                                                                                                                      <a href="/american_family/videomoment_details/<%=topentries_video[5].moment_id%>">
+                                                                                                                                      <%end%>
+                                                                                                                                      <img src="<%= topentries_video[5].img_url %>/user_content/videos/thumbnails/<%= topentries_video[5].v_filename+'.jpg' %>" width="60" height="54" style="z-index:0;" border="0"/><img src="/images/all_american_family/img-box.png" width="64" height="58" style="z-index:9999; position:absolute; display:inline; margin-left:-62px; margin-top:-2px;" border="0"/></a></td>
+                                                                                                                                  <%end%>
+                                                                                                                                  </tr>
+                                                                                                                                  <tr>
+                                                                                                                                    <%if topentries_video[4]%>
+                                                                                                                                      <% count = ContestVotes.count_by_sql("select COUNT(*) AS COUNT from contest_votes where contest_id='#{topentries_video[4].contest_id}' and conformed='yes'") %>
+                                                                                                                                      <td height="30" align="center" valign="middle" class="img-txt"><%=count%> <% if count.to_i > 1 %> Votes<%else%>Vote<%end%></td>
+                                                                                                                                    <%end%>
+                                                                                                                                    <td align="left" valign="middle">&nbsp;</td>
+                                                                                                                                    <%if topentries_video[5]%>
+                                                                                                                                      <% count = ContestVotes.count_by_sql("select COUNT(*) AS COUNT from contest_votes where contest_id='#{topentries_video[5].contest_id}' and conformed='yes'") %>
+                                                                                                                                      <td height="30" align="center" valign="middle" class="img-txt"><%=count%> <% if count.to_i > 1 %> Votes<%else%>Vote<%end%></td>
+                                                                                                                                    <%end%>
+                                                                                                                                  </tr>
+                                                                                                                                  <tr><%if topentries_video[6]%><td width="64" align="left" valign="top">
+                                                                                                                                        <% if website_type == "familywebsite" %>
+                                                                                                                                          <%if(session[:hmm_user]) %>
+                                                                                                                                            <a href="/familywebsite_american_family/manage_videomoment_details/<%=id%>?contest_id=<%=topentries_video[6].moment_id%>">
+                                                                                                                                            <%else%>
+                                                                                                                                              <a href="/familywebsite_american_family/videomoment_details/<%=id%>?contest_id=<%=topentries_video[6].moment_id%>">
+                                                                                                                                              <%end%>
+
+                                                                                                                                            <%else%>
+                                                                                                                                              <a href="/american_family/videomoment_details/<%=topentries_video[6].moment_id%>">
+                                                                                                                                              <%end%>
+                                                                                                                                              <img src="<%= topentries_video[6].img_url %>/user_content/videos/thumbnails/<%= topentries_video[6].v_filename+'.jpg' %>" width="60" height="54" style="z-index:0;" border="0"/><img src="/images/all_american_family/img-box.png" width="64" height="58" style="z-index:9999; position:absolute; display:inline; margin-left:-62px; margin-top:-2px;" border="0"/></a></td>
+                                                                                                                                          <%end%>
+
+                                                                                                                                          <td  align="left" valign="top"><%if topentries_video[7]%><td width="64" align="left" valign="top">
+                                                                                                                                              <% if website_type == "familywebsite" %>
+                                                                                                                                                <%if(session[:hmm_user]) %>
+                                                                                                                                                  <a href="/familywebsite_american_family/manage_videomoment_details/<%=id%>?contest_id=<%=topentries_video[7].moment_id%>">
+                                                                                                                                                  <%else%>
+                                                                                                                                                    <a href="/familywebsite_american_family/videomoment_details/<%=id%>?contest_id=<%=topentries_video[7].moment_id%>">
+                                                                                                                                                    <%end%>
+
+                                                                                                                                                  <%else%>
+                                                                                                                                                    <a href="/american_family/videomoment_details/<%=topentries_video[7].moment_id%>">
+                                                                                                                                                    <%end%>
+                                                                                                                                                    <img src="<%= topentries_video[7].img_url %>/user_content/videos/thumbnails/<%= topentries_video[7].v_filename+'.jpg' %>" width="60" height="54" style="z-index:0;" border="0"/><img src="/images/all_american_family/img-box.png" width="64" height="58" style="z-index:9999; position:absolute; display:inline; margin-left:-62px; margin-top:-2px;" border="0"/></a></td>
+                                                                                                                                                <%end%></td>
+                                                                                                                                                </tr>
+                                                                                                                                                <tr>
+                                                                                                                                                  <%if topentries_video[6]%>
+                                                                                                                                                    <% count = ContestVotes.count_by_sql("select COUNT(*) AS COUNT from contest_votes where contest_id='#{topentries_video[6].contest_id}' and conformed='yes'") %>
+                                                                                                                                                    <td height="30" align="center" valign="middle" class="img-txt"><%=count%> <% if count.to_i > 1 %> Votes<%else%>Vote<%end%></td>
+                                                                                                                                                  <%end%>
+                                                                                                                                                  <td align="left" valign="middle">&nbsp;</td>
+                                                                                                                                                  <%if topentries_video[7]%>
+                                                                                                                                                    <% count = ContestVotes.count_by_sql("select COUNT(*) AS COUNT from contest_votes where contest_id='#{topentries_video[7].contest_id}' and conformed='yes'") %>
+                                                                                                                                                    <td height="30" align="center" valign="middle" class="img-txt"><%=count%> <% if count.to_i > 1 %> Votes<%else%>Vote<%end%></td>
+                                                                                                                                                  <%end%>
+                                                                                                                                                </tr>
+                                                                                                                                                <tr><%if topentries_video[8]%><td width="64" align="left" valign="top">
+                                                                                                                                                      <% if website_type == "familywebsite" %>
+                                                                                                                                                        <%if(session[:hmm_user]) %>
+                                                                                                                                                          <a href="/familywebsite_american_family/manage_videomoment_details/<%=id%>?contest_id=<%=topentries_video[8].moment_id%>">
+                                                                                                                                                          <%else%>
+                                                                                                                                                            <a href="/familywebsite_american_family/videomoment_details/<%=id%>?contest_id=<%=topentries_video[8].moment_id%>">
+                                                                                                                                                            <%end%>
+
+                                                                                                                                                          <%else%>
+                                                                                                                                                            <a href="/american_family/videomoment_details/<%=topentries_video[8].moment_id%>">
+                                                                                                                                                            <%end%>
+                                                                                                                                                            <img src="<%= topentries_video[8].img_url %>/user_content/videos/thumbnails/<%= topentries_video[8].v_filename+'.jpg' %>" width="60" height="54" style="z-index:0;" border="0"/><img src="/images/all_american_family/img-box.png" width="64" height="58" style="z-index:9999; position:absolute; display:inline; margin-left:-62px; margin-top:-2px;" border="0"/></a></td>
+                                                                                                                                                        <%end%>
+                                                                                                                                                        <td align="left" valign="top">&nbsp;</td>
+                                                                                                                                                      <%if topentries_video[9]%><td width="64" align="left" valign="top">
+                                                                                                                                                            <% if website_type == "familywebsite" %>
+                                                                                                                                                              <%if(session[:hmm_user]) %>
+                                                                                                                                                                <a href="/familywebsite_american_family/manage_videomoment_details/<%=id%>?contest_id=<%=topentries_video[9].moment_id%>">
+                                                                                                                                                                <%else%>
+                                                                                                                                                                  <a href="/familywebsite_american_family/videomoment_details/<%=id%>?contest_id=<%=topentries_video[9].moment_id%>">
+                                                                                                                                                                  <%end%>
+
+                                                                                                                                                                <%else%>
+                                                                                                                                                                  <a href="/american_family/videomoment_details/<%=topentries_video[9].moment_id%>">
+                                                                                                                                                                  <%end%>
+                                                                                                                                                                  <img src="<%= topentries_video[9].img_url %>/user_content/videos/thumbnails/<%= topentries_video[9].v_filename+'.jpg' %>" width="60" height="54" style="z-index:0;" border="0"/><img src="/images/all_american_family/img-box.png" width="64" height="58" style="z-index:9999; position:absolute; display:inline; margin-left:-62px; margin-top:-2px;" border="0"/></a></td>
+                                                                                                                                                              <%end%>
+                                                                                                                                                              </tr>
+                                                                                                                                                              <tr>
+                                                                                                                                                                <%if topentries_video[8]%>
+                                                                                                                                                                  <% count = ContestVotes.count_by_sql("select COUNT(*) AS COUNT from contest_votes where contest_id='#{topentries_video[8].contest_id}' and conformed='yes'") %>
+                                                                                                                                                                  <td height="30" align="center" valign="middle" class="img-txt"><%=count%> <% if count.to_i > 1 %> Votes<%else%>Vote<%end%></td>
+                                                                                                                                                                <%end%>
+                                                                                                                                                                <td align="left" valign="middle">&nbsp;</td>
+                                                                                                                                                                <%if topentries_video[9]%>
+                                                                                                                                                                  <% count = ContestVotes.count_by_sql("select COUNT(*) AS COUNT from contest_votes where contest_id='#{topentries_video[9].contest_id}' and conformed='yes'") %>
+                                                                                                                                                                  <td height="30" align="center" valign="middle" class="img-txt"><%=count%> <% if count.to_i > 1 %> Votes<%else%>Vote<%end%></td>
+                                                                                                                                                                <%end%>
+                                                                                                                                                              </tr>
+                                                                                                                                                              <tr>
+                                                                                                                                                                <td colspan="3" align="left" valign="top">&nbsp;</td>
+                                                                                                                                                              </tr>
+                                                                                                                                                              <tr>
+                                                                                                                                                                <td colspan="3" align="left" valign="top">&nbsp;</td>
+                                                                                                                                                              </tr>
+                                                                                                                                                              </table></td>
+                                                                                                                                                              </tr>
+                                                                                                                                                              </table></td>
+                                                                                                                                                              </tr>
+                                                                                                                                                              </table>

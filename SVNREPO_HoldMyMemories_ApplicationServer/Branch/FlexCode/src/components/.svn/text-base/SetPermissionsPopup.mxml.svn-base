@@ -1,0 +1,318 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ItemPopup xmlns="components.*" xmlns:mx="http://www.adobe.com/2006/mxml" layout="vertical" width="250" height="170" color="#ffffff" fontFamily="Arial" fontWeight="bold"
+	 horizontalAlign="center" verticalAlign="middle" title="Set Permissions." backgroundAlpha="0">
+	<mx:RadioButtonGroup id="permissions" selectedValue="{selectedVO.access}" />
+	<mx:VBox width="100%" height="100%" backgroundAlpha="0" color="white" fontFamily="Arial" fontSize="13">
+		<mx:RadioButton id="all" group="{permissions}" label="Visible to all." value="public"/>
+		<mx:RadioButton id="friendsAndFamily" group="{permissions}" label="Visible to friends and family." value="semiprivate"/>
+		<mx:RadioButton id="none" group="{permissions}" label="Visible to None." value="private"/>	
+	</mx:VBox>
+	
+	<mx:Button click="handleOkClicked()" styleName="lastButtonName" label="Ok"/>
+	
+	<mx:Script>
+		<![CDATA[
+			import vo.WebFileVO;
+			import vo.GalleryVO;
+			import vo.SubChapterVO;
+			import mx.formatters.SwitchSymbolFormatter;
+			import mx.events.CloseEvent;
+			import mx.collections.ArrayCollection;
+			import mx.controls.Alert;
+			import model.HmmVOTypes;
+			import vo.BaseVO;
+			import mx.rpc.events.ResultEvent;
+			import mx.rpc.events.FaultEvent;
+			import mx.rpc.http.HTTPService;
+			import mx.managers.PopUpManager;
+			[Bindable]
+			public var selectedVO : BaseVO;
+			[Bindable]
+			public var selectedItem : Object;
+			public var targetList : ChaptersView;
+			private var serviceUrl : String;
+			private function handleOkClicked() : void
+			{
+					if(selectedVO == null)
+					{
+						Alert.show("Please select an item first.", "Message");
+						return;
+					}
+					
+					//var service : HTTPService = new HTTPService();
+					switch(selectedVO.classType)
+					{
+						case HmmVOTypes.CHAPTER_VO:
+								//service.url = "/tags/permissions/";
+								serviceUrl = "/tags/permissions/";
+								 Alert.show("Do you want to set this permision for subchapters, galleries and moments", 
+								"Message",Alert.YES | Alert.NO, this,handleAlertResult,null,Alert.NO); 
+								break;
+						case HmmVOTypes.SUBCHAPTER_VO:
+								//service.url = "/sub_chapter/permissions/";
+								serviceUrl = "/sub_chapter/permissions/";
+								Alert.show("Do you want to set this permision for  galleries and moments", 
+								"Message",Alert.YES | Alert.NO, this,handleAlertResult,null,Alert.NO);
+								break;
+						case HmmVOTypes.GALLERY_VO:
+								//service.url = "/galleries/permissions/";
+								serviceUrl = "/galleries/permissions/";
+								Alert.show("Do you want to set this permision for moments", 
+								"Message",Alert.YES | Alert.NO, this,handleAlertResult,null,Alert.NO);
+								break;
+						case HmmVOTypes.WEBFILE_VO:
+								//service.url = "/user_content/permissions/";
+								serviceUrl =  "/user_content/permissions/";
+								setPermissions();
+								break;
+					}
+					 
+					/* service.addEventListener(ResultEvent.RESULT, handleResult);	
+					service.addEventListener(FaultEvent.FAULT, handleFault);
+					
+					var obj : Object = new Object();
+					obj.permission = permissions.selectedValue;
+					obj.id = selectedVO.id;
+					service.send(obj);
+					FadingNotifier.setBusyState(); */
+			}
+			
+			private function handleAlertResult(event : CloseEvent) : void
+			{
+				if(event.detail == Alert.YES)
+				{
+					switch(serviceUrl)
+					{
+						case "/tags/permissions/":
+								serviceUrl = "/tags/permissionsall/";
+								break;
+								
+						case "/sub_chapter/permissions/":
+								serviceUrl = "/sub_chapter/permissionsall/";
+								break;
+								
+						case "/galleries/permissions/":
+								serviceUrl = "/galleries/permissionsall/"
+								break;
+					}
+					setPermissionsAll();
+				}
+				else
+				{
+					setPermissions();
+				}
+				
+			}
+			
+			private function setPermissionsAll() : void
+			{
+				var service : HTTPService = new HTTPService();
+				service.url = serviceUrl;
+				service.addEventListener(ResultEvent.RESULT, handleSetPermissionsAllResult);	
+				service.addEventListener(FaultEvent.FAULT, handleFault);
+				var obj : Object = new Object();
+				obj.permission = permissions.selectedValue;
+				obj.id = selectedVO.id;
+				service.send(obj);
+				FadingNotifier.setBusyState();
+			}
+			
+			private function setPermissions() : void
+			{
+				var service : HTTPService = new HTTPService();
+				service.url = serviceUrl;
+				service.addEventListener(ResultEvent.RESULT, handleResult);	
+				service.addEventListener(FaultEvent.FAULT, handleFault);
+				var obj : Object = new Object();
+				obj.permission = permissions.selectedValue;
+				obj.id = selectedVO.id;
+				service.send(obj);
+				FadingNotifier.setBusyState();
+			}
+			
+			private function handleFault(event : FaultEvent) : void
+			{
+				Alert.show(event.fault.toString(), "Error");			
+				FadingNotifier.removeBusyState();	
+			}
+			
+			private function handleResult(event : ResultEvent) : void
+			{
+				/* if(event.result == true)
+				{ */
+					Alert.show("Permissions set successfully");
+					selectedVO.access = permissions.selectedValue as String;	
+					targetList.dataProvider = targetList.dataProvider as ArrayCollection;
+				/* } */
+				switch(selectedVO.classType)
+				{
+					case HmmVOTypes.SUBCHAPTER_VO:
+											    var arr : Array = event.result.toString().split("$");
+											        if(arr[0] != "nothing")
+											        {
+											        	for(var i : int = 0; i < arr.length; i++)
+											        	{
+											        		switch(arr[i])
+											        		{
+											        			case "chapter":
+											        			     targetList.currentChapter.access = permissions.selectedValue as String;
+											        			     break;
+											        		}
+											        	}
+											        }
+												break;
+					case HmmVOTypes.GALLERY_VO:
+											     var arr : Array = event.result.toString().split("$");
+											        if(arr[0] != "nothing")
+											        {
+											        	for(var i : int = 0; i < arr.length; i++)
+											        	{
+											        		switch(arr[i])
+											        		{
+											        			case "chapter":
+											        			     targetList.currentChapter.access = permissions.selectedValue as String;
+											        			     break;
+											        			case "subchapter":
+											        			     targetList.currentSubChapter.access = permissions.selectedValue as String;
+											        			     break;
+											        		}
+											        	}
+											        }
+												break;
+					case HmmVOTypes.WEBFILE_VO:
+					        var arr : Array = event.result.toString().split("$");
+					        if(arr[0] != "nothing")
+					        {
+					        	for(var i : int = 0; i < arr.length; i++)
+					        	{
+					        		switch(arr[i])
+					        		{
+					        			case "chapter":
+					        			     targetList.currentChapter.access = permissions.selectedValue as String;
+					        			     break;
+					        			case "subchapter":
+					        			     targetList.currentSubChapter.access = permissions.selectedValue as String;
+					        			     break;
+					        			case "gallery":
+					        			     targetList.currentGallery.access = permissions.selectedValue as String;
+					        			     break;           
+					        		}
+					        	}
+					        }
+						break;
+				}
+				
+				FadingNotifier.removeBusyState();
+				PopUpManager.removePopUp(this);
+			}
+			
+			private function handleSetPermissionsAllResult(event : ResultEvent) : void
+			{
+				Alert.show("Permissions set successfully");
+				selectedVO.access = permissions.selectedValue as String;	
+				targetList.dataProvider = targetList.dataProvider as ArrayCollection;
+				var contents : ArrayCollection;
+				var subchapters :  ArrayCollection;
+				var galleries : ArrayCollection;
+				switch(selectedVO.classType)
+					{
+						case HmmVOTypes.CHAPTER_VO:
+							    subchapters = new ArrayCollection(selectedItem["subchapters"]);
+							    for(var i : int = 0; i < subchapters.length; i++)
+							    {
+							    	var sub_chapter : SubChapterVO = subchapters[i] as SubChapterVO;
+							    	sub_chapter.access = permissions.selectedValue as String;
+							    	galleries = new ArrayCollection(sub_chapter.gallery);
+							    	for(var j : int = 0; j < galleries.length; j++)
+							    	{
+							    		var gallery : GalleryVO = galleries[j] as GalleryVO;
+							    		gallery.access =  permissions.selectedValue as String;
+							    		contents = new ArrayCollection(gallery.files);
+							    		for(var k : int = 0; k < contents.length; k++)
+							    		{
+							    			var content : WebFileVO = contents[k]  as WebFileVO;
+							    			content.access = permissions.selectedValue as String;
+							    		}
+							    	}
+							    }
+								break;
+						case HmmVOTypes.SUBCHAPTER_VO:
+								galleries = new ArrayCollection(selectedItem["gallery"]);
+								for(var j : int = 0; j < galleries.length; j++)
+							    {
+							    	var gallery : GalleryVO = galleries[j] as GalleryVO;
+							    	gallery.access =  permissions.selectedValue as String;
+							    	contents = new ArrayCollection(gallery.files);
+							    	for(var k : int = 0; k < contents.length; k++)
+							    	{
+							    		var content : WebFileVO = contents[k]  as WebFileVO;
+							    		content.access = permissions.selectedValue as String;
+							    	}
+							    }
+							    var arr : Array = event.result.toString().split("$");
+								if(arr[0] != "nothing")
+								{
+									for(var i : int = 0; i < arr.length; i++)
+									{
+										switch(arr[i])
+										{
+											case "chapter":
+												targetList.currentChapter.access = permissions.selectedValue as String;
+											    break;
+										}
+									}
+								}
+								break;
+						case HmmVOTypes.GALLERY_VO:
+								contents = new ArrayCollection(selectedItem["files"]);
+								for(var k : int = 0; k < contents.length; k++)
+							    {
+							    	var content : WebFileVO = contents[k]  as WebFileVO;
+							    	content.access = permissions.selectedValue as String;
+							    }
+							    var arr : Array = event.result.toString().split("$");
+								if(arr[0] != "nothing")
+								{
+									for(var i : int = 0; i < arr.length; i++)
+									{
+										switch(arr[i])
+										{
+											case "chapter":
+											    targetList.currentChapter.access = permissions.selectedValue as String;
+											    break;
+											case "subchapter":
+											    targetList.currentSubChapter.access = permissions.selectedValue as String;
+											    break;
+										}
+									}
+								}
+								break;
+						case HmmVOTypes.WEBFILE_VO:
+							        var arr : Array = event.result.toString().split("$");
+							        if(arr[0] != "nothing")
+							        {
+							        	for(var i : int = 0; i < arr.length; i++)
+							        	{
+							        		switch(arr[i])
+							        		{
+							        			case "chapter":
+							        			     targetList.currentChapter.access = permissions.selectedValue as String;
+							        			     break;
+							        			case "subchapter":
+							        			     targetList.currentSubChapter.access = permissions.selectedValue as String;
+							        			     break;
+							        			case "gallery":
+							        			     targetList.currentGallery.access = permissions.selectedValue as String;
+							        			     break;           
+							        		}
+							        	}
+							        }
+									break;		
+					}
+				FadingNotifier.removeBusyState();
+				PopUpManager.removePopUp(this);
+			}
+			
+		]]>
+	</mx:Script>
+</ItemPopup>

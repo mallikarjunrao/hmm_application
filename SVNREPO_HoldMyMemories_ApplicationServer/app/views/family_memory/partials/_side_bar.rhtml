@@ -1,0 +1,76 @@
+ <td width="292" valign="top" id="leftBar">
+          <table width="100%" border="0" cellspacing="0" cellpadding="0" style="position:static;">
+          <%  if session[:hmm_user] && logged_in_hmm_user.id==@family_website_owner.id %>
+            <tr>
+              <td align="right"><table border="0"><tr><td><a href="/family_memory/logout/<%=params[:id]%>" class="avenirLight cmnTxtSmlLink">Logout</a></td><td width="5"></td></tr></table></td>
+            </tr>
+            <%else%>
+            <tr>
+              <td align="right"><table border="0"><tr><td><a href="/family_memory/login/<%=params[:id]%>" class="avenirLight cmnTxtSmlLink">Login</a></td><td width="5"></td></tr></table></td>
+            </tr>
+            <%end%>
+            <tr>
+              <td><a href="/family_memory/home/<%=params[:id]%>" style="text-decoration: none"><img src="/images/pp_family_memory/picture-people-logo.png" style="border: 0"/></a></td>
+            </tr>
+            <tr>
+              <td height="40">&nbsp;</td>
+            </tr>
+
+            <% @studio_groups=HmmUser.find(:first,:select => "a.*,b.*,c.*,d.* ", :joins =>"as a ,employe_accounts as b,hmm_studios as c,hmm_studiogroups  as d ",:conditions => "a.id=#{@family_website_owner.id} and b.id=a.emp_id and b.store_id=c.id and c.studio_groupid=d.id ")
+            @creditpt=CreditPoint.find(:first,:conditions=>"user_id=#{@family_website_owner.id}")
+            @cp=CreditPoint.count(:all,:conditions=>"user_id=#{@family_website_owner.id}")%>
+            <%if @cp==1%>
+              <tr>
+                <td height="35" valign="top" class="matrix cmnTxt">Your Picture People credits:</td>
+              </tr>
+              <tr>
+                <td valign="middle"><div class="crdBox">
+                    <% if @studio_groups.credit_system =="Dollars" %>
+                      $<%=number_with_precision(@creditpt.available_credits, :precision => 2)%>
+                    <%else%>
+                      <%=@creditpt.available_credits.round%>
+                    <%end%>
+                  </div></td>
+              </tr>
+              <tr>
+                <td height="55" align="left" valign="top"><div style="width:233px; text-align:center"><a href="#" class="avenirLight cmnTxtSmlLink">How do I redeem my credits?</a></div></td>
+              </tr>
+            <%end%>
+
+            <tr>
+              <td class="matrix cmnTxt">Plus, you get:
+                <ul class="avenirBook">
+                  <li>One <span class="matrix">FREE</span> 8x10 each month</li>
+                  <li>Unlimited <span class="matrix">FREE</span> tonal enhancements</li> </ul></td>
+            </tr>
+            <tr>
+              <td>&nbsp;</td>
+            </tr>
+            <tr>
+              <td> <% if ((@family_website_owner.studio_id).to_i == 0 )%>
+                  Book Session</a>
+                <%else%>
+                  <a href="<%=link%>" title="Book Sessions" target="_blank"   class="cmnBtnB cmnBtnMar">Book a Session</a>
+                <%end%>
+                <%@contents = UserContent.find(:first, :conditions => "e_filetype= 'image' and status='active'  and uid=#{@family_website_owner.id}")%>
+
+                <a href="/family_memory/order_prints/<%=params[:id]  %>?moment_id=<%=@contents.id%>" class="cmnBtnB cmnBtnMar">Order prints</a></td>
+            </tr>
+            <tr>
+              <td align="left" class="cmnTxt matrix" style="padding:31px 0;">Your Family Website URL is:
+                <div class="urlDiv"> www.holdmymemories.com/<%=@family_website_owner.family_name%></div></td>
+            </tr>
+            <tr>
+              <td>
+                <a href="/family_memory/customize_site/<%=params[:id]%>" class="cmnBtnB cmnBtnMar">Customize your site</a> <a href="/family_memory/upload/<%=params[:id]%>" title="Create a new Album" class="cmnBtnB cmnBtnMar">Create a new album</a>
+                <a href="/family_memory/blog/<%=params[:id]%>" title="Blog" class="cmnBtnB cmnBtnMar">Blog</a> <a href="/family_memory/edit_profile/<%=params[:id]%>" title="Manage your account" class="cmnBtnB cmnBtnMar">Manage your account</a></td>
+            </tr>
+            <tr>
+              <td>&nbsp;</td>
+            </tr>
+     
+            <tr>
+              <td class=" avenirLight cmnTxt">Powered by<img src="/images/pp_family_memory/hmm-logo.jpg" align="absmiddle" style="margin-left:10px;"></td>
+            </tr>
+          </table>
+        </td>

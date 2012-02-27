@@ -1,0 +1,153 @@
+<style type="text/css">
+  <!--
+
+  body {
+    font-family:Arial, Helvetica, sans-serif;
+    color:#333;
+    text-decoration:none;
+  }
+  p {
+    font-size: 13px;
+    text-decoration: none;
+    margin:0px;
+    padding-bottom:10px;
+    font-weight:bold;
+  }
+  .smaltxt {
+    font-size: 11px;
+    text-decoration: none;
+    font-weight:normal;
+    color:#666;
+  }
+  h1{
+    font-size: 20px;
+    color:#cc6600;
+    font-weight:bold;
+    text-decoration: none;
+    margin:0px;
+    padding-bottom:10px;
+  }
+
+  #content {
+    font-size:14px;
+    color:#333;
+    line-height:1.4em;
+  }
+  .sub-btn{
+    background:transparent;
+    background-image: url(/images/sub-btn.png);
+    height:24px;
+    width:94px;
+    border:none;
+    font-size:13px;
+    font-weight:bold;
+    color:#FFF;
+    cursor:pointer;
+  }
+  .sub-btn:hover{
+    background-image: url(/images/sub-btn-ovr.png);
+  }
+
+  -->
+</style>
+<div id="DivIdToPrint">
+  <table width="880" border="0" align="center" cellspacing="0" cellpadding="0" style="border:#cc6600 solid 1px; background-color: #ffffff;margin-top:30px">
+    <tr>
+      <td width="246"><img src="http://www.holdmymemories.com/images/hmm_logo_whitebg.jpg" width="246" height="71" /></td>
+      <td width="388" align="center"><h1>Gift Certificate</h1>
+        <strong>Certificate Number:</strong>   <%=@certificate_info.certificate_id%><%if @certificate_info.certificate_name!=''%><br />
+          <strong>Certificate Name:</strong>   <%=@certificate_info.certificate_name%><%end%>
+      </td>
+      <td width="246" align="right"><img src="<%=@studio.img_url%>/user_content/studio_top_logos/<%=@studio.studio_top_logo%>_black.png" height="71" /></td>
+    </tr>
+
+    <tr>
+      <td height="1" colspan="3" bgcolor="#CCCCCC"></td>
+    </tr>
+    <tr>
+      <td colspan="3" style="padding:50px;">
+        <table width="100%" border="0" cellspacing="0" cellpadding="0" id="content">
+          <tr>
+            <td width="29%" align="right" valign="top" style="padding-right:30px;"><strong>This certificate is valid for : </strong></td>
+            <td width="71%"><%for certificate_des in @certificate_desc%>
+                <%=certificate_des.description%>
+                <br />
+              <%end%>
+              <%logger.info(@cert_info.membership_fee.to_f)%>
+              <%if @certificate_info.membership_option=="yes"%>
+                <% membership_terms=MembershipTerm.find(:first,:conditions=>"id=#{@certificate_info.membership_term_id}")%>
+                <%if @cert_info.membership_fee.to_f > 0%>
+                  <%=membership_terms.full_text%>
+                  <br />
+                <%end%>
+              <%end%>
+            </td>
+          </tr>
+          <tr>
+            <td height="25" colspan="2" valign="top">&nbsp;</td>
+          </tr>
+          <tr>
+            <td width="29%" valign="top">&nbsp;</td>
+            <td class="smaltxt"><em><%=@certificate_info.disclaimer_notes%></em></td>
+          </tr>
+          <tr>
+            <td height="25" colspan="2" valign="top">&nbsp;</td>
+          </tr>
+
+          <tr>
+            <td align="right" valign="top" style="padding-right:30px;"><strong>This certificate is valid at the following locations :</strong></td>
+            <td><table border="0"> <% for studios in @other_studios %>
+                  <tr>
+                    <td>&nbsp;</td>
+                    <td valign="top"><b><%=studios.studio_name%></b></td>
+                  </tr>
+                  <tr>
+                    <td>&nbsp;</td>
+                    <td>Studio Phone : <%=studios.studio_phone%></td>
+                  </tr>
+                  <tr>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                  </tr>
+                <%end%></table></td>
+          </tr>
+
+
+          <tr>
+            <td valign="top" colspan="2" height="30"></td>
+          </tr>
+          <tr>
+            <td align="right" valign="top" style="padding-right:30px;"><strong>Payment Received From:</strong></td>
+            <td valign="top"><%=@cert_info.first_name%>&nbsp;<%=@cert_info.last_name%></td>
+          </tr>
+          <tr>
+            <td align="right" valign="top" style="padding-right:30px;"><strong>Order Number:</strong></td>
+            <td valign="top"><%=@cert_info.order_no%></td>
+          </tr>
+          <tr>
+            <td align="right" valign="top" style="padding-right:30px;"><strong>Amount:</strong></td>
+            <td valign="top">$<%=number_with_precision(Float(@cert_info.amount).round(2), :precision => 2)%></td>
+          </tr>
+        </table>
+      </td>
+    </tr>
+  </table>
+</div>
+<table width="880" border="0" cellspacing="0" cellpadding="0" style="margin-top: 20px">
+  <tr><td align="center" colspan="2"><input type="button" name="Print" value="Print" class="sub-btn" onclick="printDiv()"/></td></tr>
+</table>
+<table width="480" border="0" cellspacing="0" cellpadding="0" style="margin-top: 20px" align="centers">
+  <tr><td align="center" >A copy of the certificate has been emailed to :</td><td align="left"><%=@cert_info.deliver_email%></td></tr>
+  <tr><td align="center" >A receipt has been emailed to :</td><td align="left"><%=@cert_info.email%></td></tr>
+</table>
+<script type="text/javascript">
+  function printDiv()
+  {
+    var divToPrint=document.getElementById('DivIdToPrint');
+    var newWin=window.open('','Print-Window','width=880');
+    newWin.document.open();
+    newWin.document.write('<head><link href="/stylesheets/giftstyle.css" rel="stylesheet" type="text/css" /><html><body style="background-color:#000000; margin:0px" onload="window.print()">'+divToPrint.innerHTML+'</body></html></head>');
+    newWin.document.close();
+    // setTimeout(function(){newWin.close();},10);
+  }
+</script>

@@ -1,0 +1,31 @@
+ <%= javascript_include_tag 'prototype' %>
+ <%= javascript_include_tag 'scriptaculous' %>
+<form name="frm" action="/gift_coupons/submit_gift_coupon" method="post">
+<table width="430" border="0" cellpadding="0" cellspacing="0" class="grayfont" align="center">
+    <tr><td colspan="2" height="50">&nbsp;</td></tr>
+    <tr>
+      <td align="center" colspan="2" class="grayheaderhome">Activate Gift Coupon Number</td>
+    </tr>
+     <tr><td colspan="2" height="50">&nbsp;</td></tr>
+    <tr>
+      <td align="center" colspan="2" ><font color="#FF0000"><%=flash[:error]%></font></td>
+    </tr>
+   <tr><td colspan="2" height="50">&nbsp;</td></tr>
+    <tr>
+      <td align="right">Enter Coupon Number</td><td>&nbsp;&nbsp;&nbsp;<input type="text" name="coupon_id" id="coupon_id"  value="<%=params[:id]%>" size=35><br>
+	  <%= observe_field   :'coupon_id',
+        :with       => "coupon_id",
+        :frequency  => 0.25,          
+        :url        => {:action => :validate_coupon  },
+        :update     => :message
+    %>
+      <br><span id="message"></span>
+	  </td>
+    </tr>
+    <tr><td colspan="2" height="50">&nbsp;</td></tr>
+    <tr>
+      <td align="center" colspan=2><input type="submit" class="cmd-btn" value="Submit" /></td>
+      <td>&nbsp;&nbsp;&nbsp;</td>
+    </tr>
+  </table>
+  </form>

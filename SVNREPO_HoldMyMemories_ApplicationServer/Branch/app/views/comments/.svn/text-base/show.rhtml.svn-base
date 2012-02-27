@@ -1,0 +1,8 @@
+<p>
+  <b>V name:</b>
+  <%=h @comments.v_name %>
+</p>
+
+
+<%= link_to 'Edit', edit_comments_path(@comments) %> |
+<%= link_to 'Back', comments_path %>

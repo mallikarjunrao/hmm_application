@@ -1,0 +1,92 @@
+<script language="JavaScript">
+  function valid(){
+     if (document.getElementById('credit_option').value == '')
+          {
+            alert("Select the Credit option");
+            document.getElementById('credit_option').focus();
+            return false;
+          }
+    if (document.getElementById('credit_option').value == 'yes')
+          {
+            if (document.getElementById('credit_percentage').value == '')
+          {
+            alert("Enter the percentage value");
+            document.getElementById('credit_percentage').focus();
+            return false;
+          }
+          }
+    
+     if(confirm("Are you sure to update the all the HMH Studios?"))
+       {
+         return true;
+       }
+     else
+       {
+         return false
+       }
+
+  }
+
+function sub(val)
+{
+  window.location="/hmm_studios/credit_list/"+val;
+}
+
+</script>
+<h1>HMM Studios Credits</h1>
+<font color="#f5dfa6"><%=flash[:notice_del]%></font>
+<table width="100%" border="0" cellpadding="0" cellspacing="0">
+  <tr><td>
+
+      <table>
+        <tr><td><h4>HMM Studio Groups:&nbsp;
+              <select name="credit_option" id="credit_option" class ="combobox1" onchange="return sub(this.value);">
+                <option value="">-Select-</option>
+                <%for k in @studio_groups%>
+                <option value="<%=k.id%>" <%if(Integer(params[:id])==Integer(k.id))%>selected<%end%> ><%=k.hmm_franchise_studio%></option>
+                <%end%>
+              </select>
+             </h4></td></tr>
+      </table>
+     </td></tr>
+  <tr><td>
+      <form action="/hmm_studios/credit_updateall/<%= params[:id] %>" method="post" onsubmit="return valid();" >
+      <table>
+        <tr><td><h4>Set Equal Credits for HMM Studios:&nbsp;
+              <select name="credit_option" id="credit_option" class ="combobox1" >
+                <option value="">--Select--</option>
+                <option value="yes">Yes</option>
+                <option value="no">No</option>
+              </select>
+              <input type="text" name="credit_percentage" id="credit_percentage" value="" >&nbsp;
+              <input type="submit" name="sub_bt" id="sub_bt" value="Submit">
+            </h4></td></tr>
+      </table>
+      </form>
+    </td></tr>
+  <tr><td>
+      <table border="0">
+        <tr>
+          <th background="/images/body_hor.JPG">Studio Branch</th>
+          <th background="/images/body_hor.JPG">Studio address</th>
+          <th background="/images/body_hor.JPG">Credit option</th>
+          <th background="/images/body_hor.JPG"  align="center">Actions</th>
+        </tr>
+
+        <% for hmm_studio in @hmm_studios %>
+          <tr class="<%= cycle('odd', 'even') -%>">
+            <td><%=hmm_studio.studio_branch %></td>
+            <td><%=hmm_studio.studio_address %></td>
+            <td align="center"><%=hmm_studio.credit_option %></td>
+            <td align="center"><%= link_to 'Edit', :action => 'credit_edit', :id => hmm_studio %></td>
+          </tr>
+        <% end %>
+          <tr>
+            <td colspan="4">&nbsp;</td>
+          </tr>
+          <tr>
+            <td colspan="4"><%=will_paginate @hmm_studios%></td>
+          </tr>
+      </table>
+    </td></tr>
+</table>

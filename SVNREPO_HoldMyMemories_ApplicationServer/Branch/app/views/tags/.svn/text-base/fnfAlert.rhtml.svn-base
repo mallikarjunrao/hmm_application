@@ -1,0 +1,86 @@
+
+
+
+<table width="600" border="0" cellspacing="0" cellpadding="0">
+	
+  <tr>
+    <td width="10" height="10" align="left" valign="top"><img src="/images/1.gif" width="10" height="10" /></td>
+    <td align="left" width="580" valign="top" background="/images/2.gif"></td>
+    <td width="10" height="10" align="left" valign="top"><img src="/images/3.gif" width="10" height="10" /></td>
+  </tr>
+   <tr>
+    <td align="left" valign="top" background="/images/4.gif">&nbsp;</td>
+    <td align="left" valign="top" bgcolor="#000000"><center><img src='/images/logomodelbox.jpg'\></center></td>
+    <td align="left" valign="top" background="/images/5.gif">&nbsp;</td>
+	 <tr>
+    <td align="left" valign="top" background="/images/4.gif">&nbsp;</td>
+    <td height="20" align="left" valign="top" bgcolor="#000000"><center><font color="#ffffff" size="2">Welcome to <b>HoldMy<font color="#fe6809">Memories</font>.com</b></center></font></td>
+    <td align="left" valign="top" background="/images/5.gif">&nbsp;</td>
+  </tr>
+  <% if @total_alertcount != 0%>
+  <%if @total != 0%>
+  <tr>
+    <td align="left" valign="top" background="/images/4.gif">&nbsp;</td>
+    <td height="20" align="left" valign="top" bgcolor="#000000"><center><font color="#ffffff" size="2">You have <%=@total%> new Friends Requests.. to view <a href="/customers/FnF_Request">Click Here</a></center></font></td>
+    <td align="left" valign="top" background="/images/5.gif">&nbsp;</td>
+  </tr>
+  <%end%>
+  <% @totalshare = @sharemomentcnt+@total1%>
+  
+  <%if @totalshare != 0%>
+  <tr>
+    <td align="left" valign="top" background="/images/4.gif">&nbsp;</td>
+    <td height="20" align="left" valign="top" bgcolor="#000000"><center><font color="#ffffff" size="2">You have <%=@totalshare%> new Shared Moments.. to view <a href="/customers/list_share/">Click Here</a></center></font></td>
+    <td align="left" valign="top" background="/images/5.gif">&nbsp;</td>
+  </tr>
+   <%end%>
+  <%if @total2 != 0%>
+  <tr>
+    <td align="left" valign="top" background="/images/4.gif">&nbsp;</td>
+    <td height="20" align="left" valign="top" bgcolor="#000000"><center><font color="#ffffff" size="2">You have <%=@total2%> Imported Moments.. to view <a href="/customers/list_imports/">Click Here</a></center></font></td>
+    <td align="left" valign="top" background="/images/5.gif">&nbsp;</td>
+  </tr>
+   <%end%>
+  <%if @total_comments != 0%>
+  <tr>
+    <td align="left" valign="top" background="/images/4.gif">&nbsp;</td>
+    <td height="20" align="left" valign="top" bgcolor="#000000"><center><font color="#ffffff" size="2">You have <%=@total_comments%> new Comments for today.. to view <a href="/chapter_comment/allcmt_list/">Click Here</a></center></font></td>
+    <td align="left" valign="top" background="/images/5.gif">&nbsp;</td>
+  </tr>
+   <%end%>
+   
+  <%if @share_journal != 0%>
+  <tr>
+    <td align="left" valign="top" background="/images/4.gif">&nbsp;</td>
+    <td height="20" align="left" valign="top" bgcolor="#000000"><center><font color="#ffffff" size="2">You have <%=@share_journal%> new Share Journal... to view <a href="/customers/shareJournal_list/">Click Here</a></center></font></td>
+    <td align="left" valign="top" background="/images/5.gif">&nbsp;</td>
+  </tr>
+  <%end%>
+  
+  <%if @guestcmt != 0%>
+  <tr>
+    <td align="left" valign="top" background="/images/4.gif">&nbsp;</td>
+    <td height="20" align="left" valign="top" bgcolor="#000000"><center><font color="#ffffff" size="2">You have <%=@guestcmt%> new Guest comments... to view <a href="/chapter_comment/allcmt_list/">Click Here</a></center></font></td>
+    <td align="left" valign="top" background="/images/5.gif">&nbsp;</td>
+  </tr>
+  <%end%>
+  <%else%>
+   <tr>
+    <td align="left" valign="top" background="/images/4.gif">&nbsp;</td>
+    <td height="20" align="left" valign="top" bgcolor="#000000"><center><font color="#f5dfa6" size="2">You have no alerts for today!! </center></font></td>
+    <td align="left" valign="top" background="/images/5.gif">&nbsp;</td>
+  </tr>
+  
+  <%end%> 
+  <tr>
+    <td align="left" valign="top" background="/images/4.gif">&nbsp;</td>
+    <td height="20" align="right" valign="top" bgcolor="#000000"><input type="image" src="/images/close.jpg" value="close" id="close" title="Close window" onclick="Modalbox.hide(); return false;"></td>
+    <td align="left" valign="top" background="/images/5.gif"></td>
+  </tr>
+  <tr>
+    <td align="left" valign="top"><img src="/images/6.gif" width="10" height="10" /></td>
+    <td align="left" valign="top" background="/images/7.gif"></td>
+    <td align="left" valign="top"><img src="/images/8.gif" width="10" height="10" /></td>
+  </tr>
+  
+</table>

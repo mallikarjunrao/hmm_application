@@ -1,0 +1,20 @@
+<table>
+<tr>
+			<td align="left" rowspan="2" valign="top" height="100%">
+				<% non_hmmcnt = NonhmmUser.count_by_sql("SELECT count(*) FROM nonhmm_users where  v_email NOT IN(select v_e_mail from hmm_users) and uid=#{logged_in_hmm_user.id}")%>
+				<% if non_hmmcnt != 0 %>
+				<% non_hmm = NonhmmUser.find_by_sql("SELECT * FROM nonhmm_users where  v_email NOT IN(select v_e_mail from hmm_users) and uid=#{logged_in_hmm_user.id}")%>
+				<table border="0">
+				<% for j in non_hmm %>
+				<tr><td>
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="checkbox" name="nhmmuser[]" id="select_nonhmm" value="<%=j.id%>" <% if(@temp[1]=="true")%> checked=checked <%end%> > <font size="2"> <%= j.v_name %></font>
+				<%end%>
+				
+				<%else%>
+				<font color="#f5dfa6" size="2">Note: You dont have Non-Hmm Users in your Friend's List!! Please add to share with Non-Hmm Friends...</font>
+				<%end%>
+				</td></tr></table>
+				</td>
+				<td class="border-none" >&nbsp;</td>
+</tr>
+</table>

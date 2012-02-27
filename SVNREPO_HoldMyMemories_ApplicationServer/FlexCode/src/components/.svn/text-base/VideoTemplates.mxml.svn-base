@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:VBox xmlns="qs.controls.*" xmlns:mx="http://www.adobe.com/2006/mxml" verticalAlign="middle" 
+	creationComplete="handleCreationComplate()" horizontalAlign="center" width="100%">
+	<mx:HBox width="100%" >
+		<mx:TileList id="videoTempList" itemRenderer="renderers.VideoTemplateItemRenderer"
+		rowCount="2" width="80%"   columnCount="4" columnWidth="100" rowHeight="150" backgroundColor="0"/>
+		<mx:TextArea width="20%" backgroundColor="0" color="white" height="100%" 
+			editable="false" htmlText="{tipText}" selectable="false" wordWrap="true"/>	
+	</mx:HBox>
+	
+	<mx:Button label="Next" click="handleClick()" cornerRadius="0"/>
+	<mx:Script>
+		<![CDATA[
+			import mx.rpc.events.FaultEvent;
+			import mx.rpc.events.ResultEvent;
+			import mx.messaging.channels.HTTPChannel;
+			import mx.rpc.http.HTTPService;
+			import mx.controls.Alert;
+			import renderers.VideoTemplateItemRenderer;
+			import mx.collections.ArrayCollection;
+			private var templateData : Object;
+			private var templateArray : ArrayCollection = new ArrayCollection();
+			private var tipText : String = "<p><font color='#666666' size='20'>Tips : </p><p><font color='#666666' size='15'> Click on “Preview” button to view preview of video template.</font></p>" +
+											"<p><font color='#666666' size='18'> OR</p> <p><font color='#666666' size='15'>Left click on a template to select a template and click on “Next” to create a video</p>";
+			
+			
+			private function handleClick() : void
+			{
+				if(videoTempList.selectedItem == null)
+				 Alert.show("Please select a video template to create video");
+				else
+				{
+				 this.parentApplication.videoCreationStack.selectedIndex = 1;
+				 this.parentApplication.isFromPreview = false;
+				 this.parentApplication.templateName = videoTempList.selectedItem.name;
+				}
+					
+			}
+			
+			private function handleCreationComplate() : void
+			{
+				/* templateData = new Object();
+				templateData.link = "/myvideos/template1/baby";
+				templateData.image = "/images/Temp1icon.png";
+				templateData.tempImage = "Template 1";//"/images/tem_1.jpg";
+				templateData.name = "baby";
+				templateArray.addItem(templateData);
+				templateData = new Object();
+				templateData.link = "/myvideos/template1/dad";
+				templateData.image = "/images/Temp2icon.png";
+				templateData.tempImage = "Template 2";//"/images/tem_2.jpg";
+				templateData.name = "dad";
+				templateArray.addItem(templateData);
+				templateData = new Object();
+				templateData.link = "/myvideos/template1/danielho";
+				templateData.image = "/images/Temp33icon.png";
+				templateData.tempImage = "Template 3";//"/images/tem_3.jpg";
+				templateData.name = "danielho";
+				templateArray.addItem(templateData);
+				templateData = new Object();
+				templateData.link = "/myvideos/template1/family";
+				templateData.image = "/images/Temp4icon.png";
+				templateData.tempImage = "Template 4";//"/images/tem_4.jpg";
+				templateData.name = "family";
+				templateArray.addItem(templateData);
+				templateData = new Object();
+				templateData.link = "/myvideos/template1/waiting";
+				templateData.image = "/images/temp55icon.png";
+				templateData.tempImage = "Template 5";//"/images/tem_5.jpg";
+				templateData.name = "waiting";
+				templateArray.addItem(templateData);
+				templateData = new Object();
+				templateData.link = "/myvideos/template1/music";
+				templateData.image = "/images/temp6icon.png";
+				templateData.tempImage = "Template 6";//"/images/tem_6.jpg";
+				templateData.name = "music";
+				templateArray.addItem(templateData);
+				templateData = new Object();
+				templateData.link = "/myvideos/template1/shine";
+				templateData.image = "/images/temp7icon.JPG";
+				templateData.tempImage = "Template 7";//"/images/tem_7.jpg";
+				templateData.name = "shine";
+				templateArray.addItem(templateData);
+				templateData = new Object();
+				templateData.link = "/myvideos/template1/familyAlbum";
+				templateData.image = "/images/temp7icon.JPG";
+				templateData.tempImage = "Template 8";//"/images/tem_7.jpg";
+				templateData.name = "familyAlbum";
+				templateArray.addItem(templateData);
+				videoTempList.dataProvider = templateArray; */
+				cursorManager.setBusyCursor();
+				var httpservice : HTTPService = new HTTPService();
+				httpservice.url = "/videoTemplates.xml";//("/videoTemplates.xml");
+				httpservice.addEventListener(ResultEvent.RESULT,handleResultEvent);
+				httpservice.addEventListener(FaultEvent.FAULT,handleFaultEvent);
+				httpservice.send();
+			}
+			
+			private function handleResultEvent(result : ResultEvent) : void
+			{
+				templateArray = result.result.root.template as ArrayCollection;
+				videoTempList.dataProvider = templateArray;
+				cursorManager.removeBusyCursor();
+			}
+			
+			private function handleFaultEvent(fault : FaultEvent) : void
+			{
+				
+			}
+			
+		]]>
+	</mx:Script>
+</mx:VBox>

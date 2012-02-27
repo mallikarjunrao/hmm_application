@@ -1,0 +1,367 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:Canvas xmlns:mx="http://www.adobe.com/2006/mxml" width="{imageWidth}" height="{imageHeight}"  
+	horizontalScrollPolicy="off" verticalScrollPolicy="off" creationComplete="handleCreationComplete()" addedToStage="handleAddedToStage()" xmlns:local="*" 
+	xmlns:FlipBookComponents="FlipBookComponents.*" xmlns:PhotoBookComponents="PhotoBookComponents.*">
+	<PhotoBookComponents:SmoothImage source="{path}" width="{imageWidth}" height="{imageHeight}" 
+		id="image"  click="handleShowImageHandles()" complete="adjustImageSize()"  ioError="{Alert.show('Error occured');}"/>
+	<mx:Style>
+		.leftRotateStyle
+		{
+			icon:Embed(source="assets/flipbookAssets/arrowleft.png");
+			corner-radius: 20;
+			background-color: #FFFFFF;
+		}
+		.rightRotateStyle
+		{	
+			icon: Embed(source='assets/flipbookAssets/arrowright.png');
+			corner-radius: 20;
+			background-color: #FFFFFF;
+		}
+		
+		.resizeStyle
+		{	
+			icon: Embed(source='assets/flipbookAssets/stretch.png');
+			corner-radius: 20;
+			background-color: #FFFFFF;
+		}
+		.deleteStyle
+		{
+			icon: Embed(source='assets/flipbookAssets/stop.png');	
+			corner-radius: 30;
+			background-color: #FFFFFF;
+		}
+		
+		.moveStyle
+		{
+			icon: Embed(source='assets/flipbookAssets/Move_icon.png');	
+			corner-radius: 30;
+			background-color: #FFFFFF;
+		}
+	</mx:Style>
+	<mx:Script>
+		<![CDATA[
+			import mx.controls.Alert;
+			import events.ImageEvent;
+			//import geometry.Resizor;
+			import mx.controls.Button;
+			
+			[Bindable]
+			private var path : String;
+			static protected const DEFAULT_IMAGE_WIDTH:int = 150;
+			static protected const DEFAULT_IMAGE_HEIGHT:int= 112;
+		
+			[Bindable] public    var imageWidth:int = DEFAULT_IMAGE_WIDTH;
+			[Bindable] public    var imageHeight:int= DEFAULT_IMAGE_HEIGHT;
+			[Bindable] protected var matteSize:int  = 12;
+			private var resize : Button = new Button();
+			private var leftRotate : Button = new Button();
+			private var rightRotate : Button = new Button();
+			private var deleteBut : Button = new Button();
+			private var moveBut : Button = new Button();
+			private var resizor : Resizor;
+			private var isRotateLeft : Boolean = false;
+			private var isRotateRight : Boolean = false;
+			private var _angle : Number;
+			private var previousMousePosition : Point;
+			private var targetObject : DisplayObject;
+			private var oldMouseX : Number;
+			private var oldMouseY : Number;
+			
+			public function get boundry() : Rectangle
+			{
+				var boundingWidth: Number = Math.abs(this.transform.matrix.a) * this.width + Math.abs(this.transform.matrix.c)  * this.height;
+				var boundingHeight: Number = Math.abs(this.transform.matrix.b) * this.width + Math.abs(this.transform.matrix.d) * this.height;
+				return new Rectangle(this.x,this.y,boundingWidth,boundingHeight);	
+			}
+			
+			public function set angle(ang : Number) : void
+			{
+				_angle = ang;
+				var m : Matrix = this.transform.matrix;
+				FlexMatrixTransformer.rotateAroundInternalPoint(m,imageWidth/2,imageHeight/2,ang);
+				this.transform.matrix = m;
+			}
+			
+			public function get angle() : Number
+			{
+				return _angle;
+			}
+			private function adjustImageSize() : void
+			{
+				
+				if(imageWidth == 0 && imageHeight == 0)
+				{
+					imageWidth = image.contentWidth; //* ratio;
+					imageHeight= image.contentHeight; //* ratio;
+				}
+				
+			}
+			
+			public function updateMatrix() : void
+			{
+				var a : Number = this.transform.matrix.a;
+				var b : Number = this.transform.matrix.b;
+				var c : Number = this.transform.matrix.c;
+				var d : Number = this.transform.matrix.d;
+				var tx : Number = this.transform.matrix.tx;
+				var ty : Number = this.transform.matrix.ty;
+				/* var newx : Number = this.x*a + this.y*c + tx;
+				var newy : Number = this.x*b + this.y*d + ty; */
+				var radians : Number = angle * Math.PI/180;
+				var newx : Number = Math.cos(radians)*this.x - Math.sin(radians)*this.y + 0;
+				var newy : Number = Math.sin(radians)*this.x + Math.cos(radians)*this.y + 0;
+				dispatchEvent(new ImageEvent(ImageEvent.POSITION,this.name,this,angle,new Point(this.x,this.y),new Point(newx,newy),this.transform.matrix));
+			}
+			private function handleCreationComplete() : void
+			{
+				//resize = new Button();
+				resizor = new Resizor(this, resizeComplete);
+				resize.setStyle("bottom",0);
+				resize.setStyle("right",0);
+				resize.styleName = "resizeStyle";
+				leftRotate.setStyle("top",0);
+				leftRotate.setStyle("left",0);
+				leftRotate.styleName = "leftRotateStyle";
+				rightRotate.setStyle("top",0);
+				rightRotate.setStyle("right",0);
+				rightRotate.styleName = "rightRotateStyle";
+				deleteBut.setStyle("bottom",0);
+				deleteBut.setStyle("left",0);
+				deleteBut.styleName = "deleteStyle";
+				moveBut.setStyle("horizontalCenter",0);
+				moveBut.setStyle("verticalCenter",0);
+				moveBut.styleName = "moveStyle";
+				resize.addEventListener(MouseEvent.MOUSE_DOWN,handleResizeDown);
+				leftRotate.addEventListener(MouseEvent.MOUSE_DOWN,handleRoateLeft);
+				rightRotate.addEventListener(MouseEvent.MOUSE_DOWN,handleRotateRight);
+				deleteBut.addEventListener(MouseEvent.CLICK,handleDeleteImage);
+				moveBut.addEventListener(MouseEvent.MOUSE_DOWN,handleMove);
+				//this.parentDocument.addEventListener(ImageEvent.BRODCASTIMAGEHANDLE,handleBroadcastImageHandle);
+				addChild(resize);
+				addChild(leftRotate);
+				addChild(rightRotate);	
+				addChild(deleteBut);
+				addChild(moveBut);
+				resize.visible = false;
+				leftRotate.visible = false;
+				rightRotate.visible = false;
+				deleteBut.visible  = false;
+				moveBut.visible = false;
+						
+			}
+			
+			private function handleAddedToStage() : void
+			{
+				this.parentDocument.addEventListener(ImageEvent.BRODCASTIMAGEHANDLE,handleBroadcastImageHandle);
+				this.parentDocument.addEventListener(ImageEvent.REMOVEIMAGEHANDLE,handleRemoveImageHandle);
+			}
+			
+			private function handleMove(event : MouseEvent) : void
+			{
+				previousMousePosition = this.parent.globalToLocal(new Point(mouseX,mouseY));
+				oldMouseX = this.parent.mouseX;
+				oldMouseY = this.parent.mouseY;
+				stage.addEventListener(MouseEvent.MOUSE_UP,handleMouseMoveUp);
+				//stage.addEventListener(MouseEvent.MOUSE_MOVE,handleMouseMove);
+				this.startDrag();
+			}
+			
+			private function handleMouseMove(event : MouseEvent) : void
+			{
+				/* var position : Point = this.parent.globalToLocal(new Point(mouseX,mouseY));
+				this.x += position.x - previousMousePosition.x;
+				this.y += position.y - previousMousePosition.y;
+				previousMousePosition = this.parent.globalToLocal(new Point(mouseX,mouseY));  */
+			
+			}
+			
+			private function handleMouseMoveUp(event : MouseEvent) : void
+			{
+				this.stopDrag();
+				stage.removeEventListener(MouseEvent.MOUSE_UP,handleMouseMoveUp);
+				var a : Number = this.transform.matrix.a;
+				var b : Number = this.transform.matrix.b;
+				var c : Number = this.transform.matrix.c;
+				var d : Number = this.transform.matrix.d;
+				var tx : Number = this.transform.matrix.tx;
+				var ty : Number = this.transform.matrix.ty;
+				/* var newx : Number = this.x*a + this.y*c + tx;
+				var newy : Number = this.x*b + this.y*d + ty; */
+				var radians : Number = angle * Math.PI/180;
+				var newx : Number = Math.cos(radians)*this.x - Math.sin(radians)*this.y + 0;
+				var newy : Number = Math.sin(radians)*this.x + Math.cos(radians)*this.y + 0;
+				dispatchEvent(new ImageEvent(ImageEvent.POSITION,this.name,this,angle,new Point(this.x,this.y),new Point(newx,newy),this.transform.matrix));
+			}
+			
+			private function handleBroadcastImageHandle(event : ImageEvent) : void
+			{
+				if(this.name != event.name)
+				 hideImageHandles();
+			}
+			
+			private function handleRemoveImageHandle(event : ImageEvent) : void
+			{
+				hideImageHandles();	
+			}
+			
+			private function handleDeleteImage(event : Event) : void
+			{
+				this.parent.dispatchEvent(new ImageEvent(ImageEvent.DELETE,this.name,this));
+				this.parent.removeChild(this);
+			}
+			
+			private function handleRoateLeft(event : MouseEvent) : void
+			{
+				isRotateLeft = true;
+				stage.addEventListener(MouseEvent.MOUSE_UP,handleMouseUp);
+				addEventListener(Event.ENTER_FRAME,handleEnterFrameRotateLeft);
+			}
+			
+			private function handleEnterFrameRotateLeft(event : Event) : void
+			{
+				if(isRotateLeft)
+				{
+					
+					var m : Matrix = this.transform.matrix;
+					FlexMatrixTransformer.rotateAroundInternalPoint(m,this.width/2,this.height/2,-3);
+					this.transform.matrix = m;
+				    _angle -= 3;
+				    	
+				}
+				
+			}
+			
+			
+			private function handleRotateRight(event : MouseEvent) : void
+			{
+				isRotateRight = true;
+				stage.addEventListener(MouseEvent.MOUSE_UP,handleMouseUp);
+				addEventListener(Event.ENTER_FRAME,handleEnterFrameRotateRight);	
+			}
+			
+			private function handleEnterFrameRotateRight(event : Event) : void
+			{
+				if(isRotateRight)
+				{
+					
+					var m : Matrix = this.transform.matrix;
+					FlexMatrixTransformer.rotateAroundInternalPoint(m,this.width/2,this.height/2,3);
+					this.transform.matrix = m;
+					if(_angle >= 360)
+					{
+						_angle = (_angle -360) + 3;
+					}
+					else
+					 _angle  += 3;
+					 
+					
+				}	
+			}
+			
+			private function handleResizeDown( event:MouseEvent ) : void
+			{
+				if( event.currentTarget == resize ) {
+					resizor.beginResize(event);
+				}
+			}
+			
+			private function handleMouseUp(event : MouseEvent) : void
+			{
+				if(isRotateLeft)
+				{
+					isRotateLeft = false;
+					removeEventListener(Event.ENTER_FRAME,handleEnterFrameRotateLeft);
+					
+				}
+				if(isRotateRight)
+				{
+					isRotateRight = false;
+					removeEventListener(Event.ENTER_FRAME,handleEnterFrameRotateRight);
+				}
+				stage.removeEventListener(MouseEvent.MOUSE_UP,handleMouseUp);
+				var a : Number = this.transform.matrix.a;
+				var b : Number = this.transform.matrix.b;
+				var c : Number = this.transform.matrix.c;
+				var d : Number = this.transform.matrix.d;
+				var tx : Number = this.transform.matrix.tx;
+				var ty : Number = this.transform.matrix.ty;
+				/* var newx : Number = this.x*a + this.y*c + tx;
+				var newy : Number = this.x*b + this.y*d + ty; */
+				var radians : Number = angle * Math.PI/180;
+				var newx : Number = Math.cos(radians)*this.x - Math.sin(radians)*this.y + 0;
+				var newy : Number = Math.sin(radians)*this.x + Math.cos(radians)*this.y + 0;
+				dispatchEvent(new ImageEvent(ImageEvent.POSITION,this.name,this,angle,new Point(this.x,this.y),new Point(newx,newy),this.transform.matrix));
+			}
+			
+			public function set source(url : String) : void
+			{
+				path = url;
+			}
+			
+			public function get source() : String
+			{
+				return path;
+			}
+			
+			public function setImageSize( newWidth:Number, newHeight:Number ) : void
+			{
+				imageWidth = newWidth;
+				imageHeight = newHeight;
+				invalidateDisplayList();
+				validateNow();
+				var a : Number = this.transform.matrix.a;
+				var b : Number = this.transform.matrix.b;
+				var c : Number = this.transform.matrix.c;
+				var d : Number = this.transform.matrix.d;
+				var tx : Number = this.transform.matrix.tx;
+				var ty : Number = this.transform.matrix.ty;
+				/* var newx : Number = this.x*a + this.y*c + tx;
+				var newy : Number = this.x*b + this.y*d + ty; */
+				var radians : Number = angle * Math.PI/180;
+				var newx : Number = Math.cos(radians)*this.x - Math.sin(radians)*this.y + 0;
+				var newy : Number = Math.sin(radians)*this.x + Math.cos(radians)*this.y + 0;
+				dispatchEvent(new ImageEvent(ImageEvent.POSITION,this.name,this,angle,new Point(this.x,this.y),new Point(newx,newy),this.transform.matrix));
+			}
+			
+			override protected function updateDisplayList(unscaledWidth:Number, unscaledHeight:Number):void
+			{
+				super.updateDisplayList(unscaledWidth,unscaledHeight);
+			
+				//removeButton.move( imgBorder.width-removeButton.width/2, imgBorder.y-removeButton.height/2 );
+				//resize.move( this.width-resize.width, this.y+this.height-resize.height-10 );
+				//rotateArea.move( imgBorder.x-rotateArea.width, imgBorder.y+imgBorder.height-rotateArea.height-10 );
+			}
+			
+			private function resizeComplete() : void
+			{
+				// do something, if you want, when the resize completes
+			}
+			
+			private function hideImageHandles() : void
+			{
+				resize.visible = false;
+				leftRotate.visible = false;
+				rightRotate.visible = false;
+				deleteBut.visible  = false;
+				moveBut.visible = false;
+			}
+			private function handleShowImageHandles() : void
+			{
+				if(this.parentApplication.hasOwnProperty("edit"))
+				{
+					if(this.parentApplication.edit)
+					{
+						resize.visible = true;
+						leftRotate.visible = true;
+						rightRotate.visible = true;
+						deleteBut.visible  = true;
+						moveBut.visible = true;
+						this.parentDocument.dispatchEvent(new ImageEvent(ImageEvent.BRODCASTIMAGEHANDLE,this.name));
+					}
+				}
+				
+			}
+			
+		]]>
+	</mx:Script>
+</mx:Canvas>

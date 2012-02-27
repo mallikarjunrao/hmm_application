@@ -1,0 +1,131 @@
+
+<%= javascript_include_tag 'SpryAssets/SpryValidationRadio' %>
+<%= javascript_include_tag 'SpryAssets/SpryValidationPassword' %>
+<%= javascript_include_tag 'SpryAssets/SpryValidationConfirm' %>
+<%= stylesheet_link_tag 'SpryAssets/SpryValidationRadio' %>
+<%= stylesheet_link_tag 'SpryAssets/SpryValidationPassword' %>
+<%= stylesheet_link_tag 'SpryAssets/SpryValidationConfirm' %>
+
+<link href="/stylesheets/main.css" media="screen" rel="Stylesheet" type="text/css" />
+<link href="/stylesheets/hmm.css" media="screen" rel="Stylesheet" type="text/css" />
+<%= stylesheet_link_tag 'hmmout' %> 
+ <%= stylesheet_link_tag 'SpryAssets/SpryValidationTextField' %>
+ <%= stylesheet_link_tag 'SpryAssets/SpryValidationRadio' %>
+ <%= stylesheet_link_tag 'SpryAssets/SpryValidationPassword' %>
+ <%= stylesheet_link_tag 'SpryAssets/SpryValidationConfirm' %>
+ <%= javascript_include_tag 'check_flash' %>
+
+ 
+ <%= javascript_include_tag 'SpryAssets/SpryValidationTextField' %>
+ <%= javascript_include_tag 'SpryAssets/SpryValidationRadio' %>
+
+ <%= javascript_include_tag 'info_access' %>
+ <%= javascript_include_tag 'prototype' %>
+ <%= javascript_include_tag 'scriptaculous' %>
+
+<%= javascript_include_tag 'effects' %>
+<%= javascript_include_tag 'popup.js' %>
+ <%= javascript_include_tag 'AC_OETags' %>
+ <%= javascript_include_tag 'SpryAssets/SpryValidationPassword' %>
+ <%= javascript_include_tag 'SpryAssets/SpryValidationConfirm' %>
+<link href="/stylesheets/main.css" media="screen" rel="Stylesheet" type="text/css" />
+<link href="/stylesheets/hmm.css" media="screen" rel="Stylesheet" type="text/css" />
+<%= stylesheet_link_tag 'hmmout' %> 
+ <link href="/stylesheets/hmmnew.css" media="screen" rel="Stylesheet" type="text/css" />
+<style type="text/css">
+<!--
+.style3 {color: #999999}
+.stylewhite { color: #FFFFFF }
+-->
+
+
+</style>
+
+
+<form name="frm" action="<%=request_server_url%>/gift_coupons/submit_sender_details/<%=params[:id]%>" method="post" onSubmit="return verify()"   >
+<table border="0" cellpadding="2" cellspacing="2" width="100%">
+<tr>
+
+                <th class="stylewhite"  align="left" width="40%" valign="top"><b>Recipient Details :</b></th>
+              </tr>
+              <tr>
+
+                <th class="stylewhite"  align="left" width="40%" valign="top">&nbsp;</th>
+              </tr>
+
+              <tbody><tr>
+
+                <td class="stylewhite"  align="right" width="40%" valign="top">Name *</td>
+                <td class="stylewhite"  align="left">
+                	<span id="sprytextfield3">
+                        <input name="name" id="name" type="text" value="<%=params[:name]%>">&nbsp;<br> 
+                        <span class="textfieldRequiredMsg">Name is required.</span></span>
+						 </td>
+              </tr>
+              <tr>
+                <td class="stylewhite"  align="right">Email Address *&nbsp;&nbsp;</td>
+                <td class="stylewhite"  align="left">
+                	<span id="sprytextfield8">
+                	<input name="email" id="email" value='' type="text">&nbsp;
+					<span class="textfieldMinCharsMsg">Invalid Email Address.</span><span class="textfieldInvalidFormatMsg">Invalid Email Address.</span></span></span> </td>
+              </tr>
+				<tr>
+                <td class="stylewhite"  align="right">Message&nbsp;&nbsp;</td>
+                <td class="stylewhite"  align="left">
+                	
+                	<textarea name="message" id="message" rows="10" cols="50"></textarea>
+					 </td>
+              </tr>
+              <tr>
+          <td></td><td class="stylewhite"  align="left">
+          	<input type="submit" name="sub" id="sub" value="submit" /></td>
+	</tr>
+            </tbody></table></td>
+          </tr>
+        </tbody></table>
+</table>
+
+</form>
+<script type="text/javascript">
+    new Popup('info','infolink');
+	
+  </script>
+<script type="text/javascript">
+<!--
+
+var sprytextfield1 = new Spry.Widget.ValidationTextField("sprytextfield1", "none", {validateOn:["blur"],hint:'First Name',isRequired:true});
+var sprytextfield2 = new Spry.Widget.ValidationTextField("sprytextfield2", "none", {validateOn:["blur"]});
+var sprytextfield3 = new Spry.Widget.ValidationTextField("sprytextfield3", "none", {validateOn:["blur"]});
+var sprytextfield4 = new Spry.Widget.ValidationTextField("sprytextfield4", "none", {validateOn:["blur"]});
+var sprytextfield5 = new Spry.Widget.ValidationTextField("sprytextfield5", "none", {validateOn:["blur"]});
+var sprytextfield6 = new Spry.Widget.ValidationTextField("sprytextfield6", "none", {validateOn:["blur"]});
+
+
+
+var sprytextfield9 = new Spry.Widget.ValidationTextField("sprytextfield9", "integer", {validateOn:["blur"], minChars:2});
+
+var sprytextfield8 = new Spry.Widget.ValidationTextField("sprytextfield8", "email", {validateOn:["blur"], minChars:7,isRequired:false});
+
+var cc_visa = new Spry.Widget.ValidationTextField("cc_visa", "credit_card", {validateOn:["blur", "change"]});
+
+
+-->
+
+function arboption()
+        {
+           //alert("dqwdqwdw")
+           if(document.getElementById('arb').checked==true)
+           {
+             document.getElementById('show_arb').style.display='block'
+             document.getElementById('arb_res').value='1'
+
+           }
+           else
+           {
+             document.getElementById('show_arb').style.display='none'
+             document.getElementById('arb_res').value='0'
+           }      
+        }
+        
+ 
+</script>

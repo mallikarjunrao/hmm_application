@@ -1,0 +1,31 @@
+<table>
+		<input type="hidden" name="id" value="<%=@temp[0]%>" />
+		<%@frd_list = FamilyFriend.find(:all, :joins => "as a, hmm_users as b", 
+											:conditions => "a.fnf_category = #{@temp[0]}
+											and b.id=a.fid 
+											and a.status='accepted' 
+											and a.block_status='unblock' " )%>
+
+		<% for i in @frd_list %>
+		<tr>
+			<td height="2" colspan="3">&nbsp;</td>
+		</tr>
+		<tr>
+			<td width="40">&nbsp;</td>
+			
+			<td align="left" valign="top" class="border">
+				<img src="<%=i.img_url%>/hmmuser/photos/thumb/<%=i.v_myimage%>" border="0">
+			</td>
+			<td align="top" width="150" class="border">
+				&nbsp;&nbsp;<%=i.v_fname%>
+				
+			</td>
+		</tr>
+		<tr>
+			<td></td>
+			<td class="border" colspan="2" ><input onclick="if(this.checked==false) document.getElementById('hmmGroup<%=@temp[0]%>').checked = false
+			" name="user[]" type="checkbox" id="select" value="<%=i.id%>" <% if(@temp[1]=="true")%> checked=checked <%end%> >check to share a journal.</td>
+			
+		</tr>
+		<%end%>
+</table>

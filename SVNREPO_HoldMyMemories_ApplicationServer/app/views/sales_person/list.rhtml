@@ -1,0 +1,116 @@
+<h2>Initial Studio Details</h2>
+<form action="/sales_person/list" method="post">
+  <table border="1" cellpadding="0" cellspacing="0" align="center" width="450">
+    <tr><td align="center" colspan="4" height="30"><h3>Search Studio details</h3></td></tr>
+    <tr><td align="center" height="40">Studio Name:</td><td><input type="text" name="studio_name" value="<%= params[:studio_name] %>"/><br></br>Search by keyword (Eg: "xyz123")</td>
+      <td align="center" height="40">City:</td><td><input type="text" name="city" value="<%= params[:city] %>"/><br></br>Search by keyword (Eg: "Texas")</td></tr>
+    <tr><td align="center" height="40">E-mail :</td><td><input type="text" name="email" value="<%= params[:email] %>"/>
+        <br></br>Search by keyword (Eg: "xyz@example.com")</td>
+      <td align="center" height="40">Owner name:</td><td><input type="text" name="name" value="<%= params[:name] %>"/><br></br>Search by keyword (Eg: "John")</td></tr>
+
+    <tr><td align="center" colspan="4" height="40"><input type="submit" name="Search" value="Search" class="sub-btn"/></td></tr>
+  </table>
+</form>
+<br></br>
+<table>
+  <tr>
+    <th align="center" colspan="21"><font color="#FF0000"><%=flash[:notice]%></font></th>
+  </tr>
+  <tr>
+    <th colspan="21">&nbsp;</th>
+  </tr>
+  <tr>
+    <th align="left" colspan="21"><a href="/sales_person/initial_studio_form">Add New Client</a>&nbsp;&nbsp;&nbsp; <a href="/sales_person/list_excel" target="_blank">Export to Excel</a></th>
+  </tr>
+  <tr>
+    <th width="46" height="100" background="/images/body_hor.JPG"><table> <tr><th><%= sort_header_tag('studio_name', :text => "Studio Name") %></th></tr></table></th>
+    <th width="55" background="/images/body_hor.JPG"><table> <tr><th><%= sort_header_tag('address', :text => "Address") %></th></tr></table></th>
+    <th width="52" background="/images/body_hor.JPG"><table> <tr><th><%= sort_header_tag('city', :text => "City , State , Zipcode") %></th></tr></table></th>
+    <th width="54" background="/images/body_hor.JPG"><table> <tr><th><%= sort_header_tag('studio_phone', :text => "Studio Phone Number") %></th></tr></table></th>
+    <th width="59" background="/images/body_hor.JPG"><table> <tr><th><%= sort_header_tag('website', :text => "Studio Website") %></th></tr></table></th>
+    <th width="40" background="/images/body_hor.JPG"><table> <tr><th><%= sort_header_tag('name', :text => "Name") %></th></tr></table></th>
+    <th width="54" background="/images/body_hor.JPG"><table> <tr><th><%= sort_header_tag('phone', :text => "Phone Number") %></th></tr></table></th>
+    <th width="28" background="/images/body_hor.JPG"><table> <tr><th><%= sort_header_tag('email', :text => "E-mail") %></th></tr></table></th>
+    <th width="61" background="/images/body_hor.JPG"><table> <tr><th><%= sort_header_tag('children', :text => "Children Session") %></th></tr></table></th>
+    <th width="51" background="/images/body_hor.JPG"><table> <tr><th><%= sort_header_tag('family', :text => "Family Session") %></th></tr></table></th>
+    <th width="72" background="/images/body_hor.JPG"><table> <tr><th><%= sort_header_tag('maternity', :text => "Maternity Session") %></th></tr></table></th>
+    <th width="62" background="/images/body_hor.JPG"><table> <tr><th><%= sort_header_tag('glamour', :text => "Glamour Session") %></th></tr></table></th>
+    <th width="51" background="/images/body_hor.JPG"><table> <tr><th><%= sort_header_tag('high_school', :text => "High school Session") %></th></tr></table></th>
+    <th width="51" background="/images/body_hor.JPG"><table> <tr><th><%= sort_header_tag('bridal', :text => "Bridal Session") %></th></tr></table></th>
+    <th width="63" background="/images/body_hor.JPG"><table> <tr><th><%= sort_header_tag('weddings', :text => "Wedding Session") %></th></tr></table></th>
+    <th width="51" background="/images/body_hor.JPG"><table> <tr><th><%= sort_header_tag('others', :text => "Other Session") %></th></tr></table></th>
+    <th width="61" background="/images/body_hor.JPG"><table> <tr><th><%= sort_header_tag('avg_sessions', :text => "Average Number of Session per week") %></th></tr></table></th>
+    <th width="40" background="/images/body_hor.JPG"><table> <tr><th><%= sort_header_tag('notes', :text => "Notes") %></th></tr></table></th>
+    <th width="47" background="/images/body_hor.JPG"><table> <tr><th><%= sort_header_tag('follow_datetime', :text => "Follow Up Date Time") %></th></tr></table></th>
+    <th width="47" background="/images/body_hor.JPG"><table> <tr><th><%= sort_header_tag('follow_person', :text => "Follow Up Person") %></th></tr></table></th>
+    <th width="79" background="/images/body_hor.JPG"><table> <tr><th><%= sort_header_tag('created_at', :text => "Submitted Date") %></th></tr></table></th>
+    <th background="/images/body_hor.JPG" colspan="2">Actions</th>
+  </tr>
+
+  <%	odd_or_even = 0
+  i = 0
+  for studiodet in @studiodet
+    i = i + 1
+    odd_or_even = 1 - odd_or_even %>
+
+    <tr class="<%= cycle('odd', 'even') -%>">
+
+      <td><div align="center"><%=studiodet.studio_name%></div></td>
+      <td><div align="center"><%=studiodet.address%></div></td>
+      <td><div align="center"><%=studiodet.city%></div></td>
+      <td><div align="center"><%=studiodet.studio_phone%></div></td>
+      <td><div align="center"><%=studiodet.website%></div></td>
+      <td><div align="center"><%=studiodet.name%></div></td>
+      <td><div align="center"><%=studiodet.phone%></div></td>
+      <td><div align="center"><%=studiodet.email%></div></td>
+      <% if(studiodet.children!=nil) %>
+        <td><div align="center"><%=studiodet.children%></div></td>
+      <%else%>
+        <td><div align="center">no</div></td>
+      <%end%>
+      <% if(studiodet.family!=nil) %>
+        <td><div align="center"><%=studiodet.family%></div></td>
+      <%else%>
+        <td><div align="center">no</div></td>
+      <%end%>
+      <% if(studiodet.maternity!=nil) %>
+        <td><div align="center"><%=studiodet.maternity%></div></td>
+      <%else%>
+        <td><div align="center">no</div></td>
+      <%end%>
+      <% if(studiodet.glamour!=nil) %>
+        <td><div align="center"><%=studiodet.glamour%></div></td>
+      <%else%>
+        <td><div align="center">no</div></td>
+      <%end%>
+      <% if(studiodet.high_school!=nil) %>
+        <td><div align="center"><%=studiodet.high_school%></div></td>
+      <%else%>
+        <td><div align="center">no</div></td>
+      <%end%>
+      <% if(studiodet.bridal!=nil) %>
+        <td><div align="center"><%=studiodet.bridal%></div></td>
+      <%else%>
+        <td><div align="center">no</div></td>
+      <%end%>
+      <% if(studiodet.weddings!=nil) %>
+        <td><%=studiodet.weddings%></td>
+      <%else%>
+        <td width="15">no</td>
+      <%end%>
+      <td width="23"><%=studiodet.others%></td>
+      <td width="17"><%=studiodet.avg_sessions%></td>
+      <td width="17"><%=studiodet.notes%></td>
+      <td width="17"><%=studiodet.follow_datetime%></td>
+      <td width="17"><%=studiodet.follow_person%></td>
+      <td width="17"><%=studiodet.created_at.strftime("%m / %d / %Y %H:%M:%S") %></td>
+      <td width="24"><a href="/sales_person/edit_client_details/<%=studiodet.id%>" >Edit</a></td>
+      <td width="39"><a href="/sales_person/delete_studiodet/<%=studiodet.id%>" onClick="return confirm('Are you sure you want to delete the studio details?');
+                        ">Delete</a></td>
+    </tr>
+  <% end %>
+  <tr>
+    <th valign="bottom" scope="col" align="center" colspan="13" height="30">
+      <%= will_paginate @studiodet, :params => params%></th>
+  </tr>
+</table>

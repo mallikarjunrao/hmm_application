@@ -1,0 +1,224 @@
+<%
+@share_image = "#{@family_website_owner.img_url}/hmmuser/familyphotos/thumbs/#{@family_website_owner.family_pic}" if @share_image.blank?
+@share_type = 'image' if @share_type.blank?
+@share_video = '' if @share_video.blank?
+
+@theme = Theme.find(@family_website_owner.theme_id) #get theme details
+@header_logo_color = @theme.header_logo_color
+@studio_header_img_url = "http://content.holdmymemories.com"
+@studio_header_img="default_top_logo_#{@header_logo_color}.png" #default logo depending upon the header logo color specified in the themes table
+@studio_website = "/" #default studio link
+
+unless @family_website_owner.studio_id==0
+  @studio_header = HmmStudio.find(@family_website_owner.studio_id)
+  if @studio_header
+    @studio_header_img = "#{@studio_header.studio_top_logo}_#{@header_logo_color}.png" if @studio_header.studio_top_logo != nil
+    @studio_website = @studio_header.studio_website if @studio_header.studio_website != nil
+  end
+end
+
+if(@detail)
+  if(@store=="" || @store==nil)
+    @title="Brought to you by HoldMyMemories.com"
+  else
+    @title="Brought to you by #{@store} Studios"
+  end
+else
+  @title="Brought to you by HoldMyMemories.com"
+end
+
+%>
+
+
+<script type="text/javascript">
+  fullurl=document.URL;
+  url=fullurl.split("/");
+  for(i=0;i<=url.length;i++)
+  {
+    if(url[i])
+    {
+      url[i]=url[i].toUpperCase();
+      if((url[i].indexOf("%3CSCRIPT%3E") >= 0) || (url[i].indexOf("%3C/SCRIPT%3E") >= 0) || (url[i].indexOf("%3C/SCRIP%3E") >= 0) || (url[i].indexOf("%3CSCRIP") >= 0) ||(url[i].indexOf("JAVASCRIPT:ALERT") >= 0))
+      {
+        window.location="/contests/error_page"
+      }
+    }
+  }
+</script>
+<script type="text/javascript">
+  function facebook_share_image(url)
+  {
+
+    document.getElementById('share_image').value="url";
+
+  }
+
+  function fbs_click_facebook(id) {
+
+    new Ajax.Request("/contests/create_sharecount/"+id+"?from=facebook");
+
+    return false;
+  }
+  function fbs_click_myspace(id)
+  {
+
+    new Ajax.Request("/contests/create_sharecount/"+id+"?from=myspace");
+    return false;
+  }
+
+</script>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+    <meta name="title" content="<%=@title%>" />
+    <meta name="description" content="www.HoldMyMemories.com" />
+    <%url= request.url.split("/")
+    if url[4]!="moments"
+      if url[4]!="share"%>
+        <link rel="image_src" href="<%= @share_image %>" />
+      <%end%>
+    <%end%>
+    <% unless @share_video.blank? %>
+      <link rel="video_src" href="<%=  @share_video %>"/>
+      <meta name="video_height" content="280" />
+      <meta name="video_width" content="420" />
+      <meta name="video_type" content="application/x-shockwave-flash" />
+    <% end %>
+    <meta name="medium" content="<%=  @share_type %>" />
+    <title>HoldMyMemories</title>
+    <link rel="SHORTCUT ICON" href="/images/common/favicon.ico" type="image/x-icon" />
+    <%= stylesheet_link_tag "themes/common.css"%>
+    <%= stylesheet_link_tag "themes/#{@family_website_owner.theme}"%>
+    <%= javascript_include_tag 'themes/iepngfix/iepngfix_tilebg' %>
+    <style type="text/css">
+      img, div, table, tr, td { behavior: url(iepngfix.htc) }
+    </style>
+
+  </head>
+  <body class="body_bg">
+    <table width="100%" border="0" cellspacing="0" cellpadding="0" class="body_bg_design">
+      <tr>
+        <td width="65%" align="center" valign="top"><div class="themeshad"><table width="100%" border="0" cellspacing="0" cellpadding="0">
+              <tr>
+                <td width="100%" height="46" align="left" valign="top"><table width="970" border="0" align="center" cellpadding="0" cellspacing="0">
+                    <tr>
+                      <td width="372" height="46" align="left" valign="middle">
+                        <% if session[:visitor_id] %>
+                          <img src="/images/familywebsite_v3/new-logo.png" width="200" height="46" style="margin-left:0px;" border="0" />
+                        <% else %>
+                          <a href="/familywebsite_studio/home/<%=@family_website_owner.family_name%>">
+                            <img src="/images/familywebsite_v3/new-logo.png" width="200" height="46" style="margin-left:0px;" border="0"/>
+                          </a>
+                        <% end %>
+                      </td>
+                      <td align="right" valign="middle">
+                        <% if !session[:hmm_user] or @family_website_owner.id != session[:hmm_user] and !session[:visitor_id] %>
+                          <form name="login" method="post" action="/familywebsite_studio/login/<%=@family_website_owner.family_name%>" >
+                            <table width="450" border="0" cellspacing="0" cellpadding="0">
+                              <tr>
+                                <td width="190">
+                                  <table width="190" border="0" cellspacing="0" cellpadding="0">
+                                    <tr>
+                                      <td width="60" class="login-text">Username:</td>
+                                      <td width="100"><input name="username" type="text" class="login-field" id="textfield2" /></td>
+                                    </tr>
+                                  </table></td>
+
+                                <td width="190"><table width="190" border="0" cellspacing="0" cellpadding="0">
+                                    <tr>
+                                      <td width="60" class="login-text">Password:</td>
+                                      <td width="100"><input name="password" type="password" class="login-field" id="textfield3" autocomplete="off" /></td>
+                                    </tr>
+                                  </table></td>
+
+                                <td width="72" align="left"><input type="image" src="/images/familywebsite_v3/login.png" name="button" id="button" value="" onclick="return login_form_validation();"/></td>
+                              </tr>
+                            </table>
+                          </form>
+                        <% else %>
+                          <% if session[:visitor_id] %>
+                            <% @visitor = OrderRequest.find(session[:visitor_id]) %>
+                            <td align="right" style="color:#ac4f19;">Hi Visitor <%= @visitor.email_address %> Welcome</td>
+                            <td width="5"></td>
+                            <td align="right" width="72"><%= link_to image_tag("/images/familywebsite_v3/logout.png",:border=>0),:controller=>"familywebsite_studio",:action=>"logout",:id=>@family_website_owner.family_name,:visitor=>"visitor" %></td>
+                          <% else %>
+                            <td width="72" align="left"><%= link_to image_tag("/images/familywebsite_v3/logout.png",:border=>0),:controller=>"familywebsite_studio",:action=>"logout",:id=>params[:id] %></td>
+                          <% end %>
+                        <% end %>
+                        <% if flash[:error] %>
+                          <div style="float:right;margin-bottom: 2px;" class="error-message"><%= flash[:error] %></div>
+                        <% end %>
+                      </td>
+                    </tr>
+                  </table></td>
+              </tr>
+              <tr>
+                <td height="120" align="center" valign="middle"><table width="954" border="0" cellspacing="0" cellpadding="0">
+                    <tr>
+                      <td width="10" background="/images/familywebsite_v3/image-left.png">&nbsp;</td>
+                      <td width="934"><table width="934" border="0" cellspacing="0" cellpadding="0">
+                          <tr>
+                            <td height="100" align="center" valign="middle" class="top-header">THE <%=@family_website_owner.v_lname%> FAMILY</td>
+                          </tr>
+                        </table></td>
+                      <td width="10" background="/images/familywebsite_v3/image-right.png">&nbsp;</td>
+                    </tr>
+                  </table></td>
+              </tr>
+
+              <tr>
+                <td height="370"><table width="100%" border="0" cellspacing="0" cellpadding="0">
+
+                    <tr>
+                      <td width="100%" height="339" align="center" valign="top"><%=  yield %></td>
+                    </tr>
+
+                    <tr>
+                      <td></td>
+                    </tr>
+
+
+                    <tr>
+                      <td align="center" valign="bottom">&nbsp;</td>
+                    </tr>
+
+                  </table></td>
+              </tr>
+
+
+              <tr>
+                <td height="61" align="center" valign="middle" class="content-white">
+                  <table cellpadding="0" cellspacing="0" border="0"  id="new_bgcolor1" height="61">
+                    <tr>
+                      <td><div class="footer-copyright" style="float:center;display: inline;" >&copy; 2011 HoldMyMemories.com, LLC. All rights reserved.</div>
+                        <div class="footer-link" style="padding-bottom:10px;float:center;display: inline;"><a href="/">HMM Home</a> | <a href="/contact_us/new">Contact Us</a> | <a href="/static/abouthmm">About HMM</a> | <a href="/user_account/faq">FAQ</a> | <a href="/user_account/privacy_policy">Privacy Policy</a> | <a href="/user_account/termsof_use">End Users License Agreement</a></div>
+                      </td>
+                    </tr>
+                  </table>
+                </td>
+              </tr>
+
+            </table>
+          </div></td>
+
+      </tr>
+
+    </table>
+  </body>
+</html>
+
+
+<script type="text/javascript">
+  var uname = document.getElementById('textfield2');
+  var password = document.getElementById('textfield3');
+
+  function login_form_validation()
+  {
+    if(uname.value == "" || password.value == "")
+    {
+      alert('Invalid login details');
+    }
+
+  }
+</script>

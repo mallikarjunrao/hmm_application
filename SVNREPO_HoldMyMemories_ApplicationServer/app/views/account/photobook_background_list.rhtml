@@ -1,0 +1,26 @@
+<h1>PhotoBook backgrounds List</h1>
+
+<table border=1>
+  <tr>
+
+    <th>Background Name</th>
+    <th>Background Image</th>
+
+
+
+  <th align="center" colspan="3">Actions</th>
+  </tr>
+
+<% for background in @background %>
+  <tr>
+
+    <td><%= background.background_image %></th>) </td>
+   <td><img width="40" src="<%=request_content_url%>/user_content/photobook_backgrounds/<%= background.background_image %>" /></td>
+    <td><%= link_to 'Destroy', { :action => 'destroy', :id => background }, :confirm => 'Are you sure?', :method => :post %></td>
+  </tr>
+<% end %>
+</table>
+<%=will_paginate @background%>
+
+
+

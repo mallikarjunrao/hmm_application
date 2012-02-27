@@ -1,0 +1,96 @@
+
+<table  width="100%" cellpadding="0" cellspacing="1" border="0"  align="center" >
+  <tr><td align="right">&nbsp;</td></tr>
+
+
+  <tr><td align ="center">
+
+     
+    <table  width="100%" cellpadding="0" cellspacing="0" border="0" height="500" align ="center" >
+      <tr><td align="center" style="color:red;"></td></tr>
+      <tr><td align="right">&nbsp;</td></tr>
+      <tr><td align="center" >
+
+          <form name="frm" action="import_image" method="get" >
+            <table cellpadding="4" cellspacing="4" border="1" bordercolor="#e5b467" align="center" width="400">
+              <tr>
+                <td align="center" colspan="4" height="48"><font size="4">Search Users </font></td>
+              </tr>
+
+              <tr>
+                <td> FirstName</td>
+                <td><input type="text" name="v_fname" id="v_fname" value="<%= params[:v_fname]%>" size="20" class="textbox-signup" />   </td>
+              </tr>
+
+              <tr>
+                <td>LastName </td>
+                <td><input type="text" name="v_lname" id="v_lname" value="<%= params[:v_lname]%>" size="20" class="textbox-signup" /> </td>
+              </tr>
+
+
+              <tr>
+                <td>FamilyName </td>
+                <td><input type="text" name="family_name" id="family_name" value="<%= params[:family_name]%>" size="20" class="textbox-signup" /></td>
+              </tr>
+
+        
+             
+              <tr>
+                <td> &nbsp;</td>
+                <td align="left"><input type="submit" name="sub1" value="Search"/>&nbsp;&nbsp;<input type="button" name="view_all" value="View All" onclick="window.location='/account/import_image'"/></td>
+              </tr>
+          </form>
+    </table><br/><br/><br/>
+
+
+  </td></tr>
+
+<%  if @users.length == 0  %>
+             <tr><td align="center" style="color:red;"><%= "No Records Found" %></td></tr>
+             <tr><td align="right">&nbsp;</td></tr>
+<% else %>
+
+  <tr>
+    <td align="center" >
+      <table  border="0"  cellpadding="1" cellspacing="1"  width="610"   align="center"  >
+        <tr  height="25" style="background-color: #cc5100;">
+          <td align="center" width="10" ><font class='txt'>Sl.No</font></td>
+          <td align="center" width="150"><font class='txt'><table><tr><th><%= sort_header_tag('v_fname', :text => "First Name") %></th></tr></table> </font></td>
+          <td align="center" width="150"><font class='txt'><table><tr><th><%= sort_header_tag('v_lname', :text => "Last Name") %></th></tr></table></font></td>
+          <td align="center" width="150"><font class='txt'><table><tr><th><%= sort_header_tag('family_name', :text => "Family Name") %></th></tr></table></font></td>
+          <td align="center" width="50"><font class='txt'>FaceBook</font></td>
+          <td align="center" width="50"><font class='txt'>Picasa</font></td>
+          <td align="center" width="50" ><font class='txt'>FlickrBook</font></td>
+        </tr>
+        <%
+        i = 0
+        for user in @users
+          i=i+1  %>
+
+          <tr height="20" class="<%= cycle('odd', 'even') %>">
+            <td align ="center" ><%=  i %> </td>
+            <td align ="center" ><%= user.v_fname %></td>
+            <td align ="center" ><%= user.v_lname %></td>
+            <td align ="center" ><%=  user.family_name%></td>
+            <td align ="center" ><% @val = user.id %> <% details ={} %>   <% details =@controller.import(@val) %>  <%= details['facebook'] %>  </td>
+            <td align ="center" ><%= details['picasa'] %></td>
+            <td align ="center" ><%= details['flickr'] %></td>
+          </tr>
+
+        <% end %>
+      </table>
+      <br/>
+      <%= will_paginate @users %>
+
+    </td>
+  </tr>
+<% end %>
+</table>
+</td></tr>
+
+</table>
+
+
+
+
+

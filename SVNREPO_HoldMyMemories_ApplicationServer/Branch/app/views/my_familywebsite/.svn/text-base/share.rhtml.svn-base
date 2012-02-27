@@ -1,0 +1,157 @@
+<script language="javascript">
+function validate() {
+    alert("2dffewfwe");
+    return false;
+}
+/*
+      Following filter taken from
+      
+      http://www.quirksmode.org/js/mailcheck.html
+      
+      */
+    /*  var filter = /^([a-zA-Z0-9_\.\-])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/;
+      var addresses = document.getElementById( "reciepent_email" ).value.split( "," );
+      var ok = true;
+      for ( var i=0; i<addresses.length; ++i ) {
+        if ( !addresses[i].match(filter) ) {
+          ok = false;
+          
+		  break;
+        }
+      }
+      if ( ok ) {
+       // alert( "Input is valid!" );
+		return true;
+      } else {
+        alert( "Input is not valid!" );
+		return false;
+      }
+    }
+    */
+	
+	function verify()
+	{
+		
+		if (document.getElementById('valid_pass').value == 'false') 
+		{
+			alert('invalid password!!');
+			document.getElementById('employe_username').focus();
+			return false;
+		}
+		
+	}
+</script>
+
+
+
+
+
+
+
+
+<form action="/my_familywebsite/shareWorker" method="post" >
+<table width="600" border="0" cellspacing="0" cellpadding="0">
+	<input type="hidden" value="<%=params[:link]%>" name="link" />
+	<input type="hidden" value="<%=params[:id]%>" name="share_type" />
+  <tr>
+    <td width="10" height="10" align="left" valign="top"><img src="/images/1.gif" width="10" height="10" /></td>
+    <td align="left" width="580" valign="top" background="/images/2.gif" colspan="2"></td>
+    <td width="10" height="10" align="left" valign="top"><img src="/images/3.gif" width="10" height="10" /></td>
+  </tr>
+   <tr>
+    <td align="left" valign="top" background="/images/4.gif">&nbsp;</td>
+    <td align="left" valign="top" bgcolor="#000000" colspan="2"><center><img src='/images/logomodelbox.jpg'\></center></td>
+    <td align="left" valign="top" background="/images/5.gif">&nbsp;</td>
+	 <tr>
+    <td align="left" valign="top" background="/images/4.gif">&nbsp;</td>
+    <td height="20" align="left" valign="top" bgcolor="#000000" colspan="2"><font color="#ffffff" size="4">Lets Share <font color="#fe6809">Memories</font> with our Friends and Family!!</b></font></td>
+    <td align="left" valign="top" background="/images/5.gif">&nbsp;</td>
+  </tr>
+ 
+  <tr>
+    <td align="left" valign="top" background="/images/4.gif">&nbsp;</td>
+    <td height="20" align="left" valign="top" bgcolor="#000000" colspan="2"><center><font color="#ffffff" size="2"></center></font></td>
+    <td align="left" valign="top" background="/images/5.gif">&nbsp;</td>
+  </tr>
+
+  <tr>
+    <td align="left" valign="top" background="/images/4.gif">&nbsp;</td>
+    <td height="20" align="left" valign="top" bgcolor="#000000"><font color="#ffffff" size="2">Sender Name &nbsp;&nbsp;
+	<span id="sprytextfield1"> <input type="text" name="sender_name" id="sender_name" class="textbox-signup"> 
+	<span class="textfieldRequiredMsg"><br>Name is required.</br></span></font></td>
+	<td height="20" align="left" valign="top" bgcolor="#000000"><font color="#ffffff" size="2">Sender E-mail &nbsp;&nbsp; 
+	<span id="sprytextfield11"><input type="text" name="sender_email" id="sender_email" class="textbox-signup"> 
+	<span class="textfieldRequiredMsg"><br>E-mail Required</span><span class="textfieldInvalidFormatMsg"><br>Invalid E-mail</span></span></span></font></td>
+    <td align="left" valign="top" background="/images/5.gif">&nbsp;</td>
+  </tr>
+  
+  <tr>
+    <td align="left" valign="top" background="/images/4.gif">&nbsp;</td>
+    <td height="20" align="left" valign="top" bgcolor="#000000" colspan="2"><font color="#ffffff" size="2"> </font></td>
+    <td align="left" valign="top" background="/images/5.gif">&nbsp;</td>
+  </tr>
+  
+  <tr>
+    <td align="left" valign="top" background="/images/4.gif">&nbsp;</td>
+    <td height="20" align="left" valign="top" bgcolor="#000000" colspan="2"><font color="#ffffff" size="2"> Recipient's email &nbsp;&nbsp; 
+	<span id="sprytextfield3"><input type="text"  name="reciepent_email" id="reciepent_email" class="textbox-signup-managepage">  
+	</font><span class="textfieldRequiredMsg"><br>Value is required.</br></span></span></font></td>
+    <td align="left" valign="top" background="/images/5.gif">&nbsp;</td>
+  </tr>
+ 
+  <tr>
+    <td align="left" valign="top" background="/images/4.gif">&nbsp;</td>
+    <td height="20" align="left" valign="top" bgcolor="#000000" colspan="2"><font color="#f5dfa6" size="2">Please add multiple email addresses by separating with a comma </font></td>
+    <td align="left" valign="top" background="/images/5.gif">&nbsp;</td>
+  </tr>
+ <tr>
+    <td align="left" valign="top" background="/images/4.gif">&nbsp;</td>
+    <td height="20" align="left" valign="top" bgcolor="#000000" colspan="2"><font color="#ffffff" size="2"> </font></td>
+    <td align="left" valign="top" background="/images/5.gif">&nbsp;</td>
+  </tr>
+  
+  <tr>
+    <td align="left" valign="top" background="/images/4.gif">&nbsp;</td>
+    <td height="20" align="left" valign="top" bgcolor="#000000" colspan="2" valign="top">
+    <table><tr><td valign="top">	
+		<font color="#ffffff" size="2"> Message to your friend </font> </td><td>
+	<textarea rows="5" cols="40"   name="reciepent_message" ></textarea>  
+	
+	</td></tr></table>
+	</td>
+    <td align="left" valign="top" background="/images/5.gif">&nbsp;</td>
+  </tr>
+  
+  
+  
+  
+  <tr>
+    <td align="left" valign="top" background="/images/4.gif">&nbsp;</td>
+    <td height="20" align="left" valign="top" bgcolor="#000000" colspan="2"><font color="#ffffff" size="2"> </font></td>
+    <td align="left" valign="top" background="/images/5.gif">&nbsp;</td>
+  </tr>
+  <tr>
+    <td align="left" valign="top" background="/images/4.gif">&nbsp;</td>
+	 <td height="20" align="right" valign="top" bgcolor="#000000" ><input type="image" src="/images/share.jpg" value="submit" id="submit"  >&nbsp;&nbsp;</td>
+    <td height="20" align="left" valign="top" bgcolor="#000000" >&nbsp;&nbsp;
+	<a href="#" onclick="Modalbox.hide();return false;"><img src="/images/cancel.jpg" id="close" border="0" title="Close window" ></a></td>
+    <td align="left" valign="top" background="/images/5.gif"></td>
+  </tr>
+  
+  <tr>
+    <td align="left" valign="top"><img src="/images/6.gif" width="10" height="10" /></td>
+    <td align="left" valign="top" background="/images/7.gif" colspan="2"></td>
+    <td align="left" valign="top"><img src="/images/8.gif" width="10" height="10" /></td>
+  </tr>
+  
+</table>
+</form>
+
+<script type="text/javascript">
+	
+	var sprytextfield1 = new Spry.Widget.ValidationTextField("sprytextfield1", "none", {validateOn:["blur"]});
+	var sprytextfield11 = new Spry.Widget.ValidationTextField("sprytextfield11", "email", {validateOn:["blur"]});
+        var sprytextfield3 = new Spry.Widget.ValidationTextField("sprytextfield3", "none", {validateOn:["blur"]});
+	//var sprytextfield12 = new Spry.Widget.ValidationTextField("sprytextfield12", "email", {validateOn:["blur"]});
+
+</script>

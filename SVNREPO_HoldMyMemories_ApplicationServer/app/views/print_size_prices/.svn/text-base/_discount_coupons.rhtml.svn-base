@@ -1,0 +1,71 @@
+<tr height="10"><td></td><td></td></tr>
+
+    <tr><td> Discount Coupon ID&nbsp;*</td><td><input type="text" name="coupon_id"  id="coupon_id" onKeyUp="valid(this,'special')"/>
+       <br>
+      <%= observe_field   :'coupon_id',
+        :with       => "coupon_id",
+        :frequency  => 0.25,
+        :url        => {:action => :validate_coupon  },
+        :update     => :message
+    %>
+      <span id="message"></span></td></tr>
+
+    <tr height="10"><td></td><td></td></tr>
+
+    <tr><td> Discount Title&nbsp;*</td><td><input type="text" name="coupon_title"  id="coupon_title" onKeyUp="valid(this,'special')"/></td></tr>
+
+    <tr><td></td><td>(Ex: ImagingUSA001,HMMOnline100 etc...)</td></tr>
+    <tr height="10"><td></td><td></td></tr>
+
+    <tr><td> Discount Amount on this item &nbsp;*</td><td><div id="dis" style="display: inline"><input type="text" name="discount_amount" size="6"  id="discount_amount" onKeyUp="valid(this,'special')"/>$</div> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Free:<input type="checkbox"  id="discount_amount1"  name="discount_amount" value="FREE" onclick="makenone('dis')"/></td></tr>
+    <tr height="10"><td></td><td></td></tr>
+
+    <tr><td> Minimum Purchase Required:</td><td><input type="radio" name="purchase_required" value="Yes"  id="purchase_required" onclick="return toggleMe('makeminimum','makeminimum1')"/>Yes</td></tr>
+    <tr><td></td><td><input type="radio" name="purchase_required" value="No" onclick="return toggleMe1('makeminimum','makeminimum1')" checked/>No</td></tr>
+    <tr height="10"><td></td> <td></td></tr>
+
+    <tr ><td colspan="2" width="500"><table id="makeminimum"  style="display:none" ><tr><td> Minimum Amount Of Purchase: </td><td><input type="text" name="min_amount" size="6" id="min_discount" onKeyUp="valid(this,'special')"/>$</td></tr></table></td></tr>
+    <tr height="10"><td></td><td></td></tr>
+
+    <tr><td ><label for="cupon_start_date">Start Date :</label></td>
+
+      <td><%= date_select 'discount_coupon', 'start_date', :id => 'start_date' ,  :order => [:month, :day, :year], :start_year => Time.now.year , :end_year => Time.now.year + 1    %>
+      </td>
+    </tr>
+    <tr height="10"><td></td></tr>
+    <tr>
+      <td><label for="cupon_expire_date">Expire Date :</label></td>
+      <td><%= date_select  'discount_coupon','end_date', :id => 'expire_date' ,  :order => [:month, :day, :year], :start_year => Time.now.year , :end_year => Time.now.year + 1    %>
+      </td>
+    </tr>
+
+    <tr><td><input type="hidden" name="studio_id" value="<%=  @price.studio_id %>" /></td></tr>
+    <tr height="10"><td></td></tr>
+
+
+     <tr height="10"><td></td></tr>
+     <tr>
+       <td valign="top"><label for="cupon_cupon_type">Studios :</label></td>
+      <td> <%  if(@hmmstudiocnt>0)
+     if @studiogroups[0].id.to_i == 1 %>
+       <input type='checkbox' name='studios[]' id='studios[]' value=0 />&nbsp;&nbsp; All Dirrect Customers<br>
+       <%end
+      for k in @hmmstudios
+        %>
+       <input type='checkbox' name='studios[]' id='studios[]' value=<%= k.id %> />&nbsp;&nbsp;<%= k.studio_name%><br>
+     <% end %>
+      <br><a href='javascript:select(1)'>Check all</a> |
+      <a href='javascript:select(0)'>Uncheck all</a><br>
+   <%  else   %>
+      "No Studios Found"
+    <%  end  %></td>
+     </tr>
+    
+    <%  session[:price_id]=params[:id] %>
+    <tr><td><input type="hidden" name="size_label" value='<%=@price.label %>' size="50"/></td></tr>
+
+     <tr><td><input type="hidden" name="print_size_id" value="<%=  @price.print_size_id %>" />
+       <input type="hidden" name="studio_group" value="<%=@studiogroups[0].id%>" /></td></tr>
+    <tr height="25"><td></td></tr>
+
+    <tr align="center"><td><input type="submit" name="create"  value="create" onClick="return formcheck();"/></td></tr>

@@ -1,0 +1,172 @@
+
+<script type="text/javascript">
+	function card_chg(val)
+	{
+		if(document.getElementById('card_type').value == 'select')
+		{
+			document.getElementById('card_block').style.display = 'none'
+			alert('please select the card type!!')
+			document.getElementById('card_type').focus();
+			return false;
+		}
+		else 
+			if(document.getElementById('card_type').value == 'visa')
+			{
+				//alert("12")
+				document.getElementById('card_block').style.display = 'block'
+				document.getElementById('cc_visa').style.display = 'block'
+				document.getElementById('cc_visa_1').style.display = 'block'
+				document.getElementById('cc_mastercard').style.display = 'none'
+				document.getElementById('cc_mastercard_1').style.display = 'none'
+			}
+		else 
+			if (document.getElementById('card_type').value == 'master')	
+			{
+				//alert("1234")
+				document.getElementById('card_block').style.display = 'block'
+				document.getElementById('cc_visa').style.display = 'none'
+				document.getElementById('cc_visa_1').style.display = 'none'
+				document.getElementById('cc_mastercard').style.display = 'block'
+				document.getElementById('cc_mastercard_1').style.display = 'block'
+			}
+	
+	}
+	
+	</script>
+
+<style type = "text/css">
+.info_text{
+	color:#999999;
+	font-family:Arial;
+	font-size: 20px;
+}
+
+.click_text{
+	color:#999999;
+	font-family:Arial;
+	font-size: 24px;
+	text-decoration:none;
+}
+</style>
+
+
+<table border="0" width="890">
+	<tr>
+	<td width="42%" align="right" >&nbsp;</td>
+	<td width="1%">&nbsp;</td>
+	<td align="left">&nbsp;</td>
+</tr>
+	<tr>
+		<td colspan="3" class="click_text" align="center">
+			WelCome to HoldMyMemories.com Payment Gateway
+		</td>
+	</tr>
+	<tr>
+		<td colspan="3" class="info_text" align="center">
+			Payment Information
+		</td>
+	</tr>
+	
+	<tr>
+		<td colspan="3">&nbsp;</td>
+	</tr>
+	
+	<tr>
+	<td  align="right" >Card Type</td>
+	<td>&nbsp;</td>
+	<td align="left"><select type="text" name="card_type" id="card_type" onchange='return card_chg(this.value)'>
+		<option value="select">Select</option>
+		<option value="visa">Visa</option>
+		<option value="master">Master</option>
+		
+		 </select></td>
+</tr>
+
+<div id="card_block" style='display:none;'>
+	<tr>
+		<td colspan="3">&nbsp;</td>
+	</tr>
+<tr>
+	<td  align="right" >
+		<div id='cc_visa_1' style='display:none;'><font color="#ffffff">Card Number(V)</font></div>
+		<div id='cc_mastercard_1' style='display:none;'>Card Number(M)</div>
+		</td>
+	<td>&nbsp;</td>
+	<td align="left">
+		<div id='cc_visa' style='display:none;'><input type="text" maxlength="16" id="card_no" name="card_no" id="card_no"><span class="textfieldInvalidFormatMsg">Invalid format.</span><span class="textfieldRequiredMsg">The value is required.</span></div>
+		<div id='cc_mastercard' style='display:none;'><input type="text" maxlength="16" id="card_no" name="card_no" id="card_no"><span class="textfieldInvalidFormatMsg">Invalid format.</span><span class="textfieldRequiredMsg">The value is required.</span></div>
+		</td>
+</tr>
+
+</div>
+
+<tr>
+		<td colspan="3">&nbsp;</td>
+	</tr>
+<tr>
+	<td align="right" >Card CVV Number</td>
+	<td>&nbsp;</td>
+	<td align="left">
+		<span id="sprytextfield9">
+		<input type="text" name="cardcvv_no" id="cardcvv_no" size="5" maxlength="4" >
+		<span class="textfieldRequiredMsg">Enter your CVV number.</span><span class="textfieldMinCharsMsg">Minimum number not met.</span><span class="textfieldInvalidFormatMsg">Numbers Only.</span></span></span> </td>
+</tr>
+<tr>
+		<td colspan="3">&nbsp;</td>
+	</tr>
+<tr>
+	<td align="right" >Expiry Date</td>
+	<td>&nbsp;</td>
+	<td align="left">
+          <select name="exp_month" id="exp_month">
+            <option value="1">1</option>
+            <option value="2">2</option>
+            <option value="3">3</option>
+            <option value="4">4</option>
+            <option value="5">5</option>
+            <option value="6">6</option>
+            <option value="7">7</option>
+            <option value="8">8</option>
+            <option value="9">9</option>
+            <option value="10">10</option>
+            <option value="11">11</option>
+            <option value="12">12</option>
+            
+           
+           </select>&nbsp;&nbsp;
+           <select name="exp_year" id="exp_year">
+            <option value="2008">2008</option>
+            <option value="2009">2009</option>
+            <option value="2010">2010</option>
+            <option value="2010">2011</option>
+            <option value="2010">2012</option>
+            <option value="2010">2013</option>
+            <option value="2010">2014</option>
+            <option value="2010">2015</option>
+            <option value="2010">2016</option>
+            <option value="2010">2017</option>
+            <option value="2010">2018</option>
+            <option value="2010">2019</option>
+            <option value="2010">2020</option>
+                      
+           
+           </select>
+		</td>
+</tr>
+
+
+<tr>
+		<td colspan="3">&nbsp;</td>
+	</tr>
+	<tr>
+		<td colspan="3" align="center"><input type="submit" name="sub" id="sub" value="submit" /></td>
+	</tr>
+
+</table>
+
+<script type="text/javascript">
+<!--
+var cc_visa = new Spry.Widget.ValidationTextField("cc_visa", "credit_card", {format:"visa", validateOn:["blur"]});
+var cc_mastercard = new Spry.Widget.ValidationTextField("cc_mastercard", "credit_card", {format:"mastercard", validateOn:["blur", "change"]});
+var sprytextfield9 = new Spry.Widget.ValidationTextField("sprytextfield9", "integer", {validateOn:["blur", "change"], minChars:2});
+</script>

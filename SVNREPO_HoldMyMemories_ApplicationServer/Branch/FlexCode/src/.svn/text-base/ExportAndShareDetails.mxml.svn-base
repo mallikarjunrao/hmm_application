@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:Application xmlns:mx="http://www.adobe.com/2006/mxml" layout="absolute" xmlns:components="components.*" 
+	backgroundColor="0" preloader="custompreloader.PreloaderHourGlass">
+	<mx:Script>
+		<![CDATA[
+			import custompreloader.PreloaderHourGlass;
+		]]>
+	</mx:Script>
+	
+	<mx:VBox width="100%" height="100%" horizontalAlign="center" verticalAlign="middle" verticalGap="0">
+		<mx:ToggleButtonBar id="toggleButtonBar" dataProvider="exportSahreDetails" styleName="lastButtonStyle"/>
+		<mx:ViewStack id="exportSahreDetails" width="100%" height="100%">
+			<components:ShareDetails label="Share"  width="100%" height="100%"/>
+			<components:ExportDetails label="Export" width="100%" height="100%"/>
+		</mx:ViewStack>
+	</mx:VBox>	
+	
+	<mx:Style>       
+			DataGrid {
+   						backgroundColor: #000000;
+					   headerColors: #000000, #666666;
+					   horizontalGridLines: true;
+						 horizontalGridLineColor: #ffffff;     
+   						verticalGridLines: true;
+   						verticalGridLineColor: #ffffff;
+   						useRollOver: true;
+  						 rollOverColor: #333333;
+   						textRollOverColor: #ffffff;
+					   borderThickness: 0;
+					   selectionColor: #000000;
+					   color: #000000;
+					    textSelectedColor: #ffffff;
+					   textIndent: 0;
+					   dropShadowEnabled: false;
+					   fontWeight: bold;
+					   headerStyleName: "mydataGridHeaderStyle";
+					}
+
+					.mydataGridHeaderStyle {
+   												color: #ffffff;
+											}
+											
+					.lastButtonStyle
+					{
+						fillColors: #000000, #000000, #000000, #cccccc;
+						corner-radius : 0;
+						selection-color : #ff6633;
+						color : #Ffffff;
+						theme-color : #ff6633;
+						textRollOverColor: #ff6633;
+					}
+	</mx:Style>
+</mx:Application>

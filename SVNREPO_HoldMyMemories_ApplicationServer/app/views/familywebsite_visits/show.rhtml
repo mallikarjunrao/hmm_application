@@ -1,0 +1,8 @@
+<% for column in FamilywebsiteVisit.content_columns %>
+<p>
+  <b><%= column.human_name %>:</b> <%=h @familywebsite_visit.send(column.name) %>
+</p>
+<% end %>
+
+<%= link_to 'Edit', :action => 'edit', :id => @familywebsite_visit %> |
+<%= link_to 'Back', :action => 'list' %>

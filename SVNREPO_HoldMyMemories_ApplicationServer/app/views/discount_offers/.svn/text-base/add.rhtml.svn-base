@@ -1,0 +1,216 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<meta name="medium" content="mult"/>
+<meta name="title" content="Holdmymemories"/>
+<meta name="description" content="Discount"/>
+<fb:fbml version="1.1">
+
+  <script><!--
+function submitAjaxForm()
+{
+	// declare a new FBJS AJAX object
+	first_name = document.getElementById('first_name').getValue();
+        email_address =  document.getElementById('email_address').getValue();
+        last_name = document.getElementById('last_name').getValue();
+        contact = document.getElementById('contact').getValue();
+	 if(email_address == '')
+          {
+            new Dialog().showMessage('Alert', 'Enter Your Email Address.');  
+            return false;
+          }
+          if(first_name == '')
+          {
+            new Dialog().showMessage('Alert', 'Enter Your First Name.');
+            return false;
+          }
+
+          if(last_name == '')
+          {
+            new Dialog().showMessage('Alert', 'Enter your Last Name.');
+            return false;
+          }
+          if(contact == '')
+          {
+            new Dialog().showMessage('Alert', 'Enter Your Contact Information.');
+            return false;
+          }
+          if(isNaN(contact))
+          {
+            new Dialog().showMessage('Alert', 'Please Enter Correct Phone Number.');
+            return false;
+          }
+	return true;
+}
+//--></script>
+
+<table width="520" border="0" cellspacing="0" cellpadding="0">
+  <tr>
+    <td align="left" valign="top" bgcolor="#000000"><table width="100%" border="0" cellspacing="0" cellpadding="0">
+      <tr>
+        <td height="124" align="left" valign="top"><img src="http://staging.holdmymemories.com/images/discount_offers/HMM-logo.jpg" alt="" width="414" height="124" /></td>
+      </tr>
+      <tr>
+        <td height="312" align="left" valign="top"><img src="http://staging.holdmymemories.com/images/discount_offers/50-per-off-img.jpg" alt="" width="520" height="312" /></td>
+      </tr>
+      <tr>
+        <td align="center" valign="top"><span style="font-family: Arial, Helvetica, sans-serif;
+	color:#666666;
+	font-weight:bold;
+	font-size:16px;
+	line-height:20px;">TO PARTICIPATE IN THIS <span style="color: #FFFFFF">HoldMy</span><span style="color: #f96401">Memories</span> OFFER, <br />
+  PLEASE CLICK THE &quot;LIKE&quot; BUTTON ABOVE AND <br />
+          COMPLETE THE CONTACT INFORMATION FORM <br />
+          BELOW AND HIT THE SUBMIT BUTTON.</span></td>
+      </tr>
+      <tr>
+        <td height="10" align="center" valign="middle"></td>
+      </tr>
+<fb:visible-to-connection>
+                        <fb:else>
+                          <div id="img2" style=" width:520px;
+            background-image: url(http://hercules.softwaytechnologies.com/meriyadein_fb/overlay.png);
+            height:500px;
+            z-index:0;
+            padding-top:0px;
+            position:absolute;
+            left: 0px;
+            top: 575px;"></div>
+                        </fb:else>
+                    </fb:visible-to-connection>
+
+      <tr>
+        <td align="center" valign="top">
+          <div id="img1">
+          <form target="_blank" action="http://contentbackup.holdmymemories.com/discount_offers/create" method="post"><table width="450" border="0" cellspacing="0" cellpadding="0">
+          <tr>
+            <td height="40" colspan="3" align="left" valign="middle" style="font-family:Arial, Helvetica, sans-serif;
+	font-size:12px;
+	text-decoration:none;
+	color:#F60;
+	letter-spacing:1.2px;
+	font-weight:bold;" >SIMPLY FILL IN THE FORM AND YOU COULD BE THE LUCKY WINNER</td>
+            </tr>
+          <tr>
+            <td width="130" height="40" align="left" valign="middle"><span style="font-family:Century Gothic, Arial, Verdana;
+	font-size:12px;
+	text-decoration:none;
+	font-weight:bold;
+	color:#F60;">EMAIL ADDRESS:</span></td>
+            <td width="10" align="left" valign="middle"></td>
+            <td align="left" valign="middle"><input type="text" name="email_address" id="email_address" style="width:250px;
+	background-color:#ffffff;
+	border:none;
+	font-family:Arial, Helvetica, sans-serif;
+	font-size:11px;
+	font-weight:bold;
+	height:20px;
+	padding-top:5px;
+	padding-left:4px;
+	padding-right:4px;
+	color:#000000;"/></td>
+          </tr>
+          <tr>
+            <td height="40" align="left" valign="middle"><span style="font-family:Century Gothic, Arial, Verdana;
+	font-size:12px;
+	text-decoration:none;
+	font-weight:bold;
+	color:#F60;">FIRST NAME:</span></td>
+            <td align="left" valign="middle"></td>
+            <td align="left" valign="middle"><input type="text" name="first_name" id="first_name" style="width:250px;
+	background-color:#ffffff;
+	border:none;
+	font-family:Arial, Helvetica, sans-serif;
+	font-size:11px;
+	font-weight:bold;
+	height:20px;
+	padding-top:5px;
+	padding-left:4px;
+	padding-right:4px;
+	color:#000000;"/>
+             
+          </tr>
+          <tr>
+            <td height="40" align="left" valign="middle"><span style="font-family:Century Gothic, Arial, Verdana;
+	font-size:12px;
+	text-decoration:none;
+	font-weight:bold;
+	color:#F60;">LAST NAME:</span></td>
+            <td align="left" valign="middle"></td>
+            <td align="left" valign="middle"><input type="text" name="last_name" id="last_name" style="width:250px;
+	background-color:#ffffff;
+	border:none;
+	font-family:Arial, Helvetica, sans-serif;
+	font-size:11px;
+	font-weight:bold;
+	height:20px;
+	padding-top:5px;
+	padding-left:4px;
+	padding-right:4px;
+	color:#000000;"/></td>
+          </tr>
+          <tr>
+            <td height="40" align="left" valign="middle" style="font-family:Century Gothic, Arial, Verdana;
+	font-size:12px;
+	text-decoration:none;
+	font-weight:bold;
+	color:#F60;">CONTACT NUMBER:</td>
+            <td align="left" valign="middle"></td>
+            <td align="left" valign="middle"><input type="text" name="contact" id="contact" width:150px;
+	background-color:#ffffff;
+	border:none;
+	font-family:Arial, Helvetica, sans-serif;
+	font-size:11px;
+	font-weight:bold;
+	height:20px;
+	padding-top:5px;
+	padding-left:4px;
+	padding-right:4px;
+	color:#000000;/></td>
+          </tr>
+          <tr>
+            <td height="40" colspan="3" align="left" valign="middle" style="font-family:Century Gothic, Arial, Verdana;
+	font-size:12px;
+	text-decoration:none;
+	font-weight:bold;
+	color:#F60;"><table width="100%" border="0" cellspacing="0" cellpadding="0">
+              <tr align="center">
+                <td></td><td align="right" valign="middle"><input type="checkbox" name="rules" id="rules" /></td><td  align="left" valign="middle">I AGREE TO THE OFFICIAL RULES</td>
+                
+                </tr>
+            </table></td>
+            </tr>
+          <tr>
+            <td></td><td></td> <td height="40" colspan="3" align="left" valign="middle" style="font-family:Century Gothic, Arial, Verdana;
+	font-size:12px;
+	text-decoration:none;
+	font-weight:bold;
+	color:#F60;"><input  type="submit" style="height:37px;
+	background-image: url(http://staging.holdmymemories.com/images/discount_offers/submitdef.png);
+	width:84px;
+	font-family:Arial, Helvetica, sans-serif;
+	font-size:12px;
+	color:#fff;
+	font-weight:bold;
+	border-top-width: 0px;
+	border-right-width: 0px;
+	border-bottom-width: 0px;
+	border-left-width: 0px;
+	border-top-style: none;
+	border-right-style: none;
+	border-bottom-style: none;
+	border-left-style: none;
+	vertical-align:middle;
+        background-color:transparent;" value="" onclick="return submitAjaxForm()" />
+            </td>
+          </tr>
+        </table></form></td>
+      </tr>
+           
+      <tr>
+        <td align="center" valign="top">&nbsp;</td>
+      </tr>
+    </table></td>
+  </tr>
+</table>
+
+
+</fb:fbml>

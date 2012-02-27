@@ -1,0 +1,140 @@
+<%= javascript_include_tag 'modalbox/prototype' %>
+<script type="text/javascript" src="/javascripts/modalbox/scriptaculous.js?load=effects"></script>
+<script type="text/javascript" src="/javascripts/modalbox/modalbox.js"></script>
+<%= stylesheet_link_tag 'modalbox/modalbox' %>
+<% if @moment_count > 0%>
+<table align="center" width="899" border="0">
+	<tr>
+		<td>
+			<font color="#f5dfa6"><%= flash[:notice_vote]%></font>
+		</td>
+	</tr>
+	<tr>
+		<td colspan="5"><img src="/images/gotskill_contest_heading.jpg" border="0"> </td>
+	</tr>
+	
+	
+	
+	<tr>
+		<th>
+			<table><tr><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr>
+			<tr>
+			
+		<% j =  0 
+for i in @contest_memoriable 
+ 
+if  j==3 
+ j=0
+%>
+</tr><tr><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr>
+<tr><%else
+j=j+1
+%><td>
+		<table width="192" border="0" cellpadding="0" cellspacing="0">
+             <tr>
+                <td height="134" align="center" valign="middle" style="border:solid; border-color:#383838; border-width:1px;">
+					
+					<a href="/contests/videomoment_details/<%=i.moment_id%>"> 
+					
+					<img src="<%= i.img_url %>/user_content/videos/thumbnails/<%= i.v_filename+'.jpg' %>" border="0" /></a>
+					</td>
+             </tr>
+             <tr>
+                <td height="4" align="center" valign="middle"></td>
+             </tr>
+             <tr>
+                <td height="15" align="center" valign="middle" class="contsubm_whitesmalltxt" style="border:solid; border-color:#383838; border-width:1px;"><%= i.first_name %></td>
+             </tr>
+             <tr>
+                <td height="20" align="center" valign="top" class="cont2" style="padding-top:5px;">
+			 	<span class="contsubm_whitesmalltxt" >
+			 		<%if i.contest_entry_date.nil?%>
+				<%=Time.now.strftime("Submitted : %m/%d/%Y") %>
+				<%else%>
+				<%=  i.contest_entry_date.strftime("Submitted : %m/%d/%Y") %></span >
+				<%end%>
+					
+					</td>
+             </tr>
+             <tr><%@count = ContestVotes.count(:conditions => "contest_id = '#{i.contest_id}' and conformed = 'yes'")  %>
+                <td height="20" align="center" valign="top" class="cont2" style="padding-top:3px;">
+					<%=@count%> Votes
+				</td>
+             </tr>
+        </table>
+		</td><td>&nbsp;</td>
+		<%end%>
+		<%end%>
+		</table>
+		</th>
+		
+		<th>&nbsp;</th>
+		<tr>
+		<th align="center" colspan="5" valign="top" class="signedtxtwhite" id="padding_photos" scope="col">
+          	<span class="nextprevioustxt-act"></span>&nbsp;  <span class="nextprevioustxt">
+          	<%=will_paginate @contest_memoriable%>
+			</span></span>
+			</th>
+		</tr>
+		<th>&nbsp;</th>
+		
+</table>
+<%else%>
+	<table> 
+		<tr>
+			<td>
+				&nbsp;
+			</td>
+		</tr>
+		<tr>
+			<td>
+				<font color="#ffffff">You have no Contest Moment's..</font>
+			</td>
+		</tr>
+		<tr>
+			<td>
+				&nbsp;
+			</td>
+		</tr>
+		<tr>
+			<td>
+				&nbsp;
+			</td>
+		</tr>
+		<tr>
+			<td>
+				&nbsp;
+			</td>
+		</tr>
+		<tr>
+			<td>
+				&nbsp;
+			</td>
+		</tr>
+		<tr>
+			<td>
+				&nbsp;
+			</td>
+		</tr>
+		<tr>
+			<td>
+				&nbsp;
+			</td>
+		</tr>
+		<tr>
+			<td>
+				&nbsp;
+			</td>
+		</tr>
+		<tr>
+			<td>
+				&nbsp;
+			</td>
+		</tr>
+		<tr>
+			<td>
+				&nbsp;
+			</td>
+		</tr>
+	</table>
+<%end%>

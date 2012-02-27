@@ -1,0 +1,26 @@
+<p>Dear <i><%= @customer_name %></i>. </p>
+<br>
+<p>Your credit card payment to HoldMyMemories.com has been declined by your credit card company. This could be for a number of reasons, including an expired card. <br></p>
+<p><a href="https://www.holdmymemories.com/user_account/login">Please click here to re-enter your credit card information, or to use a different card.</a></p>
+<br><br>
+<p><b> Payment Invoice </b></p>
+<p>Invoice Number : <%= @invoicenumber%> </p>  
+<p>Subscription Number : <%= @subscriptionnumber%> </p>  
+<p>Subscription Status : Payment Declined </p>  
+<p>Cutomers Name: <%= @customer_name%></p>
+
+<% if @account_type == "platinum_user" %>
+<p>Account type: Premium User Account</p>
+<p>Subscription Amount : $9.95 </p><br>
+<%else%>
+<p>Account type: Family Website User</p>
+<p>Subscription Amount : $4.95 </p><br>
+<%end%>
+
+
+
+<br>
+<p>Please write to us at <a href="mail_to">admin@holdmymemories.com </a> for more details.</a></p>
+<br>
+<p>Thank-you,</p>
+<p>Your HoldMyMemories.com Team</p>

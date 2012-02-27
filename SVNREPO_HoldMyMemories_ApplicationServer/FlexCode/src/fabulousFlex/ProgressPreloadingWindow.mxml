@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:TitleWindow xmlns:mx="http://www.adobe.com/2006/mxml" 
+	layout="vertical" width="132" verticalGap="0" implements="fabulousFlex.IProgress"
+	verticalAlign="middle" horizontalAlign="center" borderStyle="none" backgroundAlpha="0.0" borderThickness="0" borderThicknessBottom="0" borderThicknessLeft="0" borderThicknessRight="0" borderThicknessTop="0" headerHeight="0"
+	show="onShow(event)" hide="onHide(event)" creationComplete="init()" showCloseButton="false">
+	<mx:Metadata>
+	 	/** 
+				TitleWindow subclass that implements preloading
+				graphic display.
+				Simple percentage counting.
+		**/
+	 </mx:Metadata>
+	<mx:Canvas  borderStyle="none" horizontalScrollPolicy="off" verticalScrollPolicy="off" backgroundColor="#ffffff" dropShadowEnabled="true">
+		<mx:HBox x="0" y="0" horizontalGap="0">
+			<mx:Label text="Loading" color="{_themeColor}"/>
+			<mx:HBox horizontalGap="0">
+				<mx:Label text="0" id="percentLabel"
+					color="{_themeColor}" paddingLeft="0" paddingRight="0" textIndent="0" width="28" textAlign="right"/>
+				<mx:Label id="lbl100" 
+					color="{_themeColor}" paddingLeft="2" paddingRight="0" textIndent="0" textAlign="center" text="%" width="18"/>
+			</mx:HBox>
+		</mx:HBox>
+	</mx:Canvas>
+	<mx:Script>
+		<![CDATA[
+			
+			public static var themeColor:uint = 0x808080;
+			[Bindable]
+			private var _themeColor:uint;
+			
+			private function init():void
+			{
+				//initialize themeColor from static member
+				_themeColor = themeColor;
+				 if(this.visible)
+				{
+					onShow(null);
+				} 
+			}
+			
+			private function onShow(event:Event):void
+			{
+				percentLabel.text = '' + 0;
+				
+			}
+			
+			
+			private function onHide(event:Event):void
+			{
+				percentLabel.text = '' + 0;
+			}
+			
+			/**impl of IProgress**/
+			public function progress(bytesLoaded:int,bytesTotal:int):void
+			{
+				var progressNum:int = (bytesLoaded /  bytesTotal)*100;
+				if(percentLabel!=null)
+					percentLabel.text = '' + progressNum;
+			}
+			
+		]]>
+	</mx:Script>
+</mx:TitleWindow>

@@ -1,0 +1,130 @@
+<%= javascript_include_tag "themes/nyromodal/jquery-1.3.2.min" %>
+<%= javascript_include_tag "themes/nyromodal/jquery.nyroModal-1.5.2.pack.js" %>
+<%= stylesheet_link_tag '/stylesheets/themes/nyromodal/nyroModal'%>
+<%= javascript_include_tag "themes/swfobject" %>
+
+<table width="970" border="0" cellspacing="0" cellpadding="0">
+  <tr>
+    <td width="660" valign="top"><table width="650" border="0" cellspacing="0" cellpadding="0">
+          <tr><td align="right"><a href="/familywebsite_studio/home/<%=@family_website_owner.family_name %>"><font color="white" size="4">&lt;&lt;Back</font></a></td></tr>
+        <tr>
+
+          <td height="339" align="center" valign="top">
+            <% if @detail.e_filetype=='video' ||  @detail.e_filetype=='audio'%>
+              <div id="flash_content">
+                <h1>Get Flash Player</h1>
+                <p><a href="http://www.adobe.com/go/getflashplayer"><img src="http://www.adobe.com/images/shared/download_buttons/get_flash_player.gif" alt="Get Adobe Flash player" /></a></p>
+              </div>
+              <script type="text/javascript">
+                var flashvars = {};
+                flashvars.hmmtype = "<%= @detail.e_filetype %>";
+                flashvars.gallery = "<%= @detail.gallery_id %>";
+                flashvars.gallery_id = "<%= @detail.gallery_id %>";
+                flashvars.user_id = "<%= @detail.uid %>";
+                flashvars.proxyurl = "<%= @detail.img_url %>";
+  <% if @detail.e_filetype == 'video' %>
+    flashvars.content = "<%=@detail.img_url%>/user_content/videos/<%=@detail.v_filename%>.flv";
+  <% else %>
+    flashvars.content = "<%=@detail.img_url%>/user_content/audios/<%=@detail.v_filename%>";
+  <% end %>
+
+
+  var params = {};
+  params.wmode = "transparent";
+  params.allowFullScreen = true
+  swfobject.embedSWF("/MediaPlayer.swf", "flash_content", "640", "500", "9.0.0", "/expressInstall.swf",flashvars,params);
+              </script>
+
+
+
+              <%if (@detail.e_filetype == "video")%>
+                <br/><br/>
+                <img src="/images/plus_box_new.gif" border="0" onClick="document.getElementById('generate_script').style.display='block';" alt="click to get embed source of the video" style="cursor:pointer;"><br/>
+                <br/>
+                <div id="generate_script" style="display:none;" align="center">
+
+                  <font class="content">Embeddable Player</font><br/>
+                  <textarea cols="45" rows="5"><object classid="clsid:d27cdb6e-ae6d-11cf-96b8-444553540000" codebase="http://fpdownload.macromedia.com/pub/shockwave/cabs/flash/swflash.cab" width="320" height="266" id="flv1">
+                                                                                                                                                           <param name="movie" value="http://blog.holdmymemories.com/BlogVideoPlayer.swf" />
+                                                                                                                                                           <param name="allowfullscreen" value="true" /><param name="flashvars" value="videopath=<%=@detail.img_url%>/user_content/videos/<%=@detail.v_filename%>.flv" />
+                                                                                                                                                           <embed src="http://blog.holdmymemories.com/BlogVideoPlayer.swf" flashvars="videopath=<%=@detail.img_url%>/user_content/videos/<%=@detail.v_filename%>.flv" allowfullscreen="true" width="320" height="266" name="flv1" type="application/x-shockwave-flash" pluginspage="http://www.adobe.com/go/getflashplayer" /></object></textarea><br />
+                  <font class="content">Copy text to place this video in your website or blog</font>
+                </div>
+              <%end%>
+            <% elsif @detail.e_filetype=='image' %>
+              <div id="flash_content">
+                <h1>Get Flash Player</h1>
+                <p><a href="http://www.adobe.com/go/getflashplayer"><img src="http://www.adobe.com/images/shared/download_buttons/get_flash_player.gif" alt="Get Adobe Flash player" /></a></p>
+              </div>
+              <%
+              if(@family_website_owner.studio_id > 0)
+                hmm_studios= HmmStudio.find(@family_website_owner.studio_id)
+                watermark = hmm_studios.watermark
+                if (watermark=='yes')
+                  # imgswfname="SecureImageWithWatermark"
+                  @versions=VersionDetail.find(:first,:conditions=>"file_name='SecureImageWithWatermark'")
+                else
+                  # imgswfname="SecureImage"
+                  @versions=VersionDetail.find(:first,:conditions=>"file_name='SecureImage'")
+                end
+              else
+                #  imgswfname="SecureImage"
+                @versions=VersionDetail.find(:first,:conditions=>"file_name='SecureImage'")
+              end
+            %>
+                <link rel="image_src" href="<%=@detail.img_url%>/user_content/photos/journal_thumb/<%=@detail.v_filename%>" />
+
+                <img src="<%=@detail.img_url%>/user_content/photos/journal_thumb/<%=@detail.v_filename%>" style="display:none;"   />
+                 
+              <script type="text/javascript">
+
+                var flashvars = {imgUrl:'<%=@detail.img_url%>/user_content/photos/journal_thumb/<%=@detail.v_filename%>',moment_id:'<%= @detail.id %>',proxyurl :'<%= @content_server_url %>'};
+                var params = {allowfullscreen:true,bgcolor:'#000000',wmode:'transparent'};
+                var attributes = {};
+                window.onload=swfobject.embedSWF("<%=@versions.file_url%>?v=<%= @versions.major%>_<%=@versions.minor %>", "flash_content", "690", "510", "9.0.0","expressInstall.swf", flashvars, params, attributes);
+              </script>
+
+            <%elsif(@detail.e_filetype == "swf")%>
+              <div id="flash_content">
+                <h1>Get Flash Player</h1>
+                <p><a href="http://www.adobe.com/go/getflashplayer"><img src="http://www.adobe.com/images/shared/download_buttons/get_flash_player.gif" alt="Get Adobe Flash player" /></a></p>
+              </div>
+              <script type="text/javascript">
+                var flashvars = {};
+                flashvars.xmlfile = "/slideshow/get_slideshow_moment_list/<%= @detail.id %>.xml";
+                flashvars.proxyurl = "<%= @content_server_url %>";
+                var params = {};
+                // params.bgcolor = "#000000";
+                params.wmode = "transparent";
+                params.allowFullScreen = true
+                swfobject.embedSWF("/slideShow.swf", "flash_content", "810", "370", "9.0.0", "/expressInstall.swf",flashvars,params);
+              </script>
+            <% end %>
+          </td>
+        </tr>
+        <tr><td>
+            <div id="flash_content1">
+              <h1>Get Flash Player</h1>
+              <p><a href="http://www.adobe.com/go/getflashplayer"><img src="http://www.adobe.com/images/shared/download_buttons/get_flash_player.gif" alt="Get Adobe Flash player" /></a></p>
+            </div>
+            <script type="text/javascript">
+              var flashvars = {};
+              flashvars.gallery_id = "<%= @detail.gallery_id %>";
+              flashvars.gallery_type = "<%= @detail.e_filetype %>";
+              flashvars.proxyurl = "<%= @content_server_url %>";
+              flashvars.familyname = "<%= params[:id] %>"
+              flashvars.proxyurls = "<%= @proxyurls %>"
+              flashvars.moment_id = "<%= @detail.id %>"
+              flashvars.website_type = "familywebsite_v3";
+              var params = {};
+              params.bgcolor = "#000000";
+              params.allowFullScreen = true
+              params.wmode = "transparent"
+              swfobject.embedSWF("/ImageScrollerComponent.swf", "flash_content1", "660", "200", "9.0.0", "/expressInstall.swf",flashvars,params);
+            </script>
+          </td></tr>
+
+      </table></td>
+    <td width="292" valign="top"><%= render :partial => "partials/rightsidefamilymenu"%></td>
+  </tr>
+</table>

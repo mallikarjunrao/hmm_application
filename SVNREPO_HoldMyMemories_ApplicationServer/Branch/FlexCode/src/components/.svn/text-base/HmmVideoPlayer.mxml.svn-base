@@ -1,0 +1,197 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PlayerWithSlider xmlns="components.*" xmlns:mx="http://www.adobe.com/2006/mxml" creationComplete="handleCreationComplete()" >
+	<!--<mx:VideoDisplay width="478" height="324" x="14" y="28" id="video"  autoPlay="false" ready="videoLoaded(event)"
+					progress="videoLoadProgress(event)" complete="handleVideoEnded(event)"/>-->
+					
+	<mx:Script>
+		<![CDATA[
+			import mx.core.IDataRenderer;
+			import mx.core.IFlexDisplayObject;
+			import mx.managers.PopUpManager;
+			import mx.core.Application;
+			import mx.events.ResizeEvent;
+			import mx.events.FlexEvent;
+			import mx.events.VideoEvent;
+			import mx.controls.VideoDisplay;
+				private var video : SmoothVideoDisplay;
+				private var windowRect : Rectangle;
+				private var videoRect : Rectangle = new Rectangle();
+				private var videoSource : String;
+				private var dimensions : Rectangle = new Rectangle();
+				private var fullscreenVideoPopup : IFlexDisplayObject;
+				private var isFullScreen : Boolean;
+				private function handleCreationComplete() : void
+				{
+					video = new SmoothVideoDisplay();
+					if(isFullScreen)
+					{
+						video.width = Capabilities.screenResolutionX;
+						video.height = Capabilities.screenResolutionY;
+						video.x = 0;
+						video.y = 0;
+						play.y = Capabilities.screenResolutionY - play.height - 20;
+						play.x = (Capabilities.screenResolutionX - play.width - sliderContainer.width - fullscreen.width - 30)/2
+						sliderContainer.y = Capabilities.screenResolutionY - sliderContainer.height - 25;
+						sliderContainer.x = (Capabilities.screenResolutionX - sliderContainer.width)/2;
+						fullscreen.y = 	Capabilities.screenResolutionY - play.height - 20;
+						fullscreen.x = (Capabilities.screenResolutionX + sliderContainer.width + 30)/2
+					}else
+					{
+						video.height = 324;
+						video.width = 478;
+						video.x = (this.width - video.width)/2;
+						video.y = (this.height - video.height)/2;
+					}
+					
+					videoRect.x = video.x;
+					videoRect.y = video.y;
+					videoRect.width = video.width;
+					videoRect.height = video.height;
+					video.autoPlay = false;
+					video.addEventListener(VideoEvent.READY,  videoLoaded);
+					video.addEventListener(VideoEvent.PLAYHEAD_UPDATE, videoPlayProgress);
+					video.addEventListener(VideoEvent.COMPLETE, handleVideoEnded);
+					video.addEventListener(ProgressEvent.PROGRESS, handleVideoLoadProgress);
+					video.addEventListener(FlexEvent.CREATION_COMPLETE, handlePlayerCreation);
+					this.addChild(video);
+					dimensions.x = 0;
+					dimensions.y = 0;
+					dimensions.width = this.width;
+					dimensions.height = this.height;
+					fullscreen.addEventListener(MouseEvent.CLICK, handleFullScreen);
+					stage.addEventListener(FullScreenEvent.FULL_SCREEN, handleResizeEvent);
+					//vid
+					
+				}
+				
+				private function handleResizeEvent( event :FullScreenEvent) : void
+				{
+					trace("entering fullscreen handler");
+					 if(event.fullScreen)
+					{
+						trace("going fullscreen");
+					}else
+					{
+						 if(isFullScreen)
+						{	
+							if(video.playing)
+							video.stop();
+						PopUpManager.removePopUp(this.parentDocument as IFlexDisplayObject);
+						trace("resizing from fullscreen");
+						
+						}
+					}
+				}
+				
+				protected function handleFullScreen(event : MouseEvent) : void
+				{
+ 					if(this.stage.displayState=="normal")
+					{
+						goFullscreen();					    
+					}else
+					{
+					    goWindowed();
+					}
+				}
+				
+				override protected function handleProgressChange(event:Event):void
+				{
+					video.playheadTime = slider.value;
+				}
+				
+				private function handlePlayerCreation(event : Event) : void
+				{
+					if(videoSource)
+					{
+						video.source = videoSource;
+						this.setChildIndex(video, 0);
+					}
+						
+				}
+			
+				public function get source() : String
+    			{
+    				return videoSource;
+    			}
+    			
+    			public function set source(src : String) : void
+    			{
+    				videoSource = src;
+    			}
+    			
+    			private function videoLoaded(event : Event) : void
+    			{
+    				
+    			}
+    			
+    			private function handleVideoLoadProgress(event : ProgressEvent) : void
+    			{
+    				var percent : Number = event.bytesLoaded/event.bytesTotal;
+    				slider.width = percent*slider.maxWidth;
+    			}
+    			
+    			private function videoPlayProgress(event : VideoEvent) : void
+    			{
+    				slider.maximum = video.totalTime;
+    				
+    				slider.value = event.playheadTime;
+    			}
+    			
+    			public function handleCloseClick():void
+    			{
+    				
+    				if(video.playing)
+    					video.stop();
+    				
+    			}
+    			
+    			override protected function updateVolume(event : Event) : void
+    			{
+    				if(video)
+    					video.volume = volumeSlider.value*0.01;
+    			}
+    			
+    			override protected function handlePlayPause(event:Event):void
+    			{
+    				if(video.playing)
+    				{
+    					video.pause();
+    				}else
+    				{
+    					video.play();
+    				}	
+    			}
+    			
+    			private function goFullscreen() : void
+    			{
+    					if(video.playing)
+    						video.stop();
+ 						Application.application.stage["displayState"]="fullScreen";
+					    Application.application.stage.scaleMode = StageScaleMode.NO_SCALE; 
+					    fullscreenVideoPopup = PopUpManager.createPopUp(Application.application as DisplayObject, PreviewPopup, true);
+						fullscreenVideoPopup.width = Capabilities.screenResolutionX;
+						fullscreenVideoPopup.height = Capabilities.screenResolutionY;
+						//(popup as PreviewPopup).galleryType = currentGallery.type;
+						
+						(fullscreenVideoPopup as IDataRenderer).data = this.parentDocument.data;
+						(fullscreenVideoPopup as PreviewPopup).setFullscreen();
+    			}
+    			
+    			public function setFullscreenHeight() : void
+    			{
+    				isFullScreen = true; 
+    			}
+    			
+    			private function goWindowed() : void
+    			{
+    				if(this)
+    				{
+    					Application.application.stage["displayState"]="normal";
+						Application.application.stage.scaleMode = StageScaleMode.NO_SCALE;	
+    				}
+ 					
+				    
+    			}
+		]]>
+	</mx:Script>
+</PlayerWithSlider>

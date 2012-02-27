@@ -1,0 +1,281 @@
+<table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top">
+    <td width="170" valign="top"><%= render :partial => "leftnav", :locals => { :current => "biography"} %></td>
+    <td valign="top"><script type="text/javascript">
+                
+                
+                function show_text_boxes(i){
+                    var txt;
+                    for (j = 1; j <= 15; j++) {
+                    
+                        document.getElementById(j).style.display = 'none';
+                        
+                    }
+                    for (j = 1; j <= i; j++) {
+                    
+                        document.getElementById(j).style.display = 'block';
+                        
+                    }
+                }
+                
+                function checkrelation(val, i){
+                
+                    var leng = document.getElementById('count').value;
+                    
+                    for (j = 1; j <= leng; j++) {
+                    
+                        if (val == "mother" || val == "father" || val == "husband" || val == "wife") {
+                        
+                            if (j != i) {
+                            
+                                var len = document.getElementById('relation' + j).options.length
+                                for (x = 0; x < len - 1; x++) {
+                                
+                                    if (document.getElementById('relation' + j).options[x].value == val) {
+                                    
+                                    
+                                        document.getElementById('relation' + j).options[x] = null;
+                                    }
+                                }
+                            }
+                        }
+                        
+                        if (document.getElementById('relation' + j).value == 'other') {
+                        
+                            document.getElementById('other_rel' + j).style.display = 'block';
+                        }
+                        else {
+                            document.getElementById('other_rel' + j).style.display = 'none';
+                        }
+                    }
+                    
+                }
+                
+                
+                function check_chapter(i, k){
+                
+                    var x = document.getElementById('count').value;
+                    for (l = 1; l <= 2; l++) {
+                    
+                        if (l == k) {
+                        
+                        }
+                        else {
+                        
+                        
+                            if (document.getElementById('chapter' + k).value == document.getElementById('chapter' + l).value) {
+                            
+                                document.getElementById('chapter' + k).value = "default"
+                                alert("this chapter is already selected");
+                                return false;
+                            }
+                        }
+                    }
+                }
+                
+                function verify(i){
+                    var x = document.getElementById('count').value;
+                    if (x == 0) {
+                        alert("Please select how many family members do you want to add!")
+                        return false;
+                    }
+                    else {
+                        for (j = 1; j <= x; j++) {
+                            if (document.getElementById('relation' + j).value == 'other' && document.getElementById('other_relation' + j).value == '') {
+                                alert("please enter the Relationship");
+                                document.getElementById('other_relation' + j).focus();
+                                return false;
+                            }
+                            if (document.getElementById('family' + j).value == '') {
+                                alert("please enter family member name");
+                                document.getElementById('family' + j).focus();
+                                return false;
+                            }
+                            if (document.getElementById('relation' + j).value == 'select') {
+                                alert("please select family member Relation");
+                                document.getElementById('relation' + j).focus();
+                                return false;
+                            }
+                            if (document.getElementById('bio' + j).value == '') {
+                                alert("please enter family member Biography");
+                                document.getElementById('bio' + j).focus();
+                                return false;
+                            }
+                            
+                            if (document.getElementById('chapterselect' + j) == 'yes' + j && document.getElementById('chapter' + j).value == 'default') {
+                                alert("please select a chapter");
+                                document.getElementById('chapter' + j).focus();
+                                return false;
+                            }
+                            
+                        }
+                        
+                    }
+                }
+                
+                function validateFileExtension(fld){
+                    if (!/(\.bmp|\.gif|\.jpg|\.jpeg)$/i.test(fld.value)) {
+                        alert("Invalid file type.. Please enter only image files!!");
+                        fld.focus();
+                        return false;
+                    }
+                    return true;
+                }
+            </script>
+      <style>
+                
+                .familyheading {
+                    font-family: Arial, Helvetica, sans-serif;
+                    font-size: 16px;
+                    color: #d04c00;
+                } .notetext {
+                    font-family: "Book Antiqua";
+                    font-size: 12px;
+                    color: #888888;
+                }
+            </style>
+      <%session[:sharepath]='fnf' %>
+      <% session[:friend]='' %>
+	  <%@fmname=params[:id]%>
+      <% form_tag ("#{request_content_url}/familywebsite_setup/create_familymember/"+params[:id]+"?uid=#{logged_in_hmm_user.id}" ,{:multipart => true}) do %>
+      <table width="100%" border="1" bordercolor="#333333" cellpadding="0" cellspacing="0">
+        <tr>
+          <td class="notetext" align="center"> This section allows you to create chapters for each member of your family and write biographies to be included in your list of chapters. <br>
+            <a href="/my_familywebsite/biographies/bob" target="_blank">click hear to view a sample </a></td>
+        </tr>
+        <tr>
+          <td class="border10"><br>
+            <%@familymember_count = FamilyMember.count(:all, :conditions => "uid='#{logged_in_hmm_user.id}'") %>
+            <%if @familymember_count > 1 %>
+            <font color="#ffffff"> Please select how many biographies do you want to add </font>&nbsp;
+            <%else %>
+            <font color="#ffffff"> Please select the number of members in your family </font>&nbsp;
+            <%end %>
+            <select name="count" id="count" onchange="show_text_boxes(this.value)">
+              <option value="0">select</option>
+              <%
+                            i=0
+                            until i == 15
+                            i=i+1 %>
+              <option value="<%=i%>"><%=i %></option>
+              <%end %>
+            </select>
+			
+			</td>
+        </tr>
+        <tr>
+          <td class="border10">&nbsp;</td>
+        </tr>
+        <tr>
+          <td colspan="5" class="border10"><% i=0
+                        until i == 15
+                        i=i+1 %>
+            <div id="<%=i%>" style="display:none">
+            <table width="100%" border="0" class="border" cellspacing="0" cellpadding="0">
+              <tr>
+                <th colspan="8">&nbsp; </th>
+              </tr>
+              <tr>
+                <th height="0" width="10" align="left" valign="top" scope="col">&nbsp; </th>
+                <th align="left" width="200" valign="top" scope="col"> Name </th>
+                <th align="left" width="9" valign="top" scope="col">&nbsp; </th>
+                <th align="left" width="120" valign="top" scope="col"> Relation </th>
+                <th align="left" width="8" valign="top" scope="col">&nbsp; </th>
+                <th width="250" height="10" align="left" valign="top" scope="col"> Date Of Birth </th>
+                <th align="left" width="9" valign="top" scope="col">&nbsp; </th>
+                <th width="188" valign="top" scope="col"> Biography </th>
+              </tr>
+              <tr>
+                <th height="0" align="left" valign="top" scope="col">&nbsp; </th>
+                <th align="left" width="200" valign="top" scope="col"> <input type="text" name="family<%=i%>" style="display:block" id="family<%=i%>" />
+                </th>
+                <th align="left" width="9" valign="top" scope="col">&nbsp; </th>
+                <th align="left" width="120" valign="top" scope="col"> <%  
+                                        relation_check = FamilyMember.find(:all, :conditions => "uid='#{logged_in_hmm_user.id}'") %>
+                  <select name="relation<%=i%>" style="display:block" id="relation<%=i%>" onChange="checkrelation(this.value,<%=i%>)">
+                    <option value="select">select</option>
+                    <%
+                                            for k in relation_check
+                                            if k.relation == "mother"
+                                            m=1
+                                            end
+                                            if k.relation == "father"
+                                            fa=1
+                                            end
+                                            if k.relation == "husband"
+                                            ha=1
+                                            end
+                                            if k.relation == "wife"
+                                            w=1
+                                            end
+                                            end %>
+                    <%if m==1 %>
+                    <%else %>
+                    <option value="mother">Mother</option>
+                    <%end %>
+                    <%if fa==1 %>
+                    <%else %>
+                    <option value="father">Father</option>
+                    <%end %>
+                    <option value="brother">Brother</option>
+                    <option value="sister">Sister</option>
+                    <%if ha==1 %>
+                    <%else %>
+                    <option value="husband">Husband</option>
+                    <%end %>
+                    <%if w==1 %>
+                    <%else %>
+                    <option value="wife">Wife</option>
+                    <%end %>
+                    <option value="son">Son</option>
+                    <option value="daughter">Daughter</option>
+                    <option value="pet">Pets</option>
+                    <option value="other">Others</option>
+                  </select>
+                </th>
+                <br>
+                <th align="left" valign="top" scope="col">&nbsp; </th>
+                <th width="250" valign="top" align="left" scope="col"> <%= date_select "family_members#{i}", "bdate", :use_short_month => true,  :order => [:month, :day, :year], :start_year => Time.now.year - 100, :end_year => Time.now.year %> </th>
+                <th align="left" width="9" valign="top" scope="col">&nbsp; </th>
+                <th width="188"> <textarea name="bio<%=i%>" style="display:block" id="bio<%=i%>" rows="5" cols="25"></textarea>
+                </th>
+              </tr>
+              <br>
+              <br>
+              <tr>
+                <td>&nbsp;</td>
+                <td colspan="6" align="left"><div id='other_rel<%=i%>' style="display:none"> <font color="#ffffff" size="2"> Other Relation </font> &nbsp;&nbsp;
+                    <input type='text' name='other_relation<%=i%>' id='other_relation<%=i%>'>
+                  </div>
+                  <br>
+                  <font color="#ffffff" size="2"> Have you already created a chapter for this family member </font> &nbsp;&nbsp; <font color="#ffffff"> Yes </font>
+                  <input type="radio" name="chapterselect<%=i%>" id="chapterselect<%=i%>" value="yes<%=i%>" onclick="new Ajax.Updater('choose_chapter<%=i%>','/family_members/choose_chapter/<%=i%>', 
+{asynchronous:true,  evalScripts:true,  onLoading:function(request) {Effect.Appear('fnf');}});return  true;">
+                  <font color="#ffffff"> No </font>
+                  <input type="radio" name="chapterselect<%=i%>" id="chapterselect<%=i%>" value="no<%=i%>" checked="checked" onclick="new Ajax.Updater('choose_chapter<%=i%>','/family_members/choose_image/<%=i%>',
+{asynchronous:true,  evalScripts:true,  onLoading:function(request) {Effect.Appear('fnf');}});  return true;">
+                  <div id="choose_chapter<%=i%>">
+                    <table>
+                      
+                      <tr>
+                        <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                          <input type="file" name="img<%=i%>" id="img<%=i%>" onchange ="return validateFileExtension(this)"/></td>
+                      </tr>
+                    </table>
+                  </div>
+                  <br></td>
+              </tr>
+            </table>
+            </p>
+            <%end %></td>
+        </tr>
+        <tr>
+          <th colspan="5"><input type="submit" name="Submit" value="Create" onClick="return verify();"/> &nbsp;<input type="button" name="can" value="Cancel" onclick="window.location= '/manage_site/manage_biography/<%=@fmname%>';" />
+          </th>
+        </tr>
+      </table>
+      <%end %></td>
+  </tr>
+</table>

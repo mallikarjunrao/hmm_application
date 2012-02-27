@@ -1,0 +1,76 @@
+
+<table>
+	<tr>
+		<td>
+			Process Order No <%=@print[0]['order_id']%><%=@filenames%>
+		</td>
+	</tr>
+	<tr>
+		<td>&nbsp;</td>
+	</tr>
+	<tr>
+		<td>
+			First Name = <%=@print[0]['fname']%>
+		</td>
+	</tr>
+	<tr>
+		<td>
+			Last Name = <%=@print[0]['lname']%>
+		</td>
+	</tr>
+	<%a=0%>
+	<%for i in @print
+      @order = OrderDetail.find(:all, :conditions => "order_unid='#{i.order_id}'")
+      for j in @order
+        if j.moment_type=='chap'
+          @print_moments = UserContent.find(:all, :conditions => "tagid='#{j.moment_id}' and e_filetype='image'" ,:order =>'id asc')
+          for k in @print_moments
+            @user_contentids = k.id %>
+			<tr>
+				<td>
+					
+					chap Moments = <%=@user_contentids%> <br>
+				</td>
+			</tr>
+         <% a=a+1
+			end
+        elsif j.moment_type=='subchapter'
+          @print_moments = UserContent.find(:all, :conditions => "sub_chapid='#{j.moment_id}' and e_filetype='image'" ,:order =>'id asc')
+          for l in @print_moments
+            @user_contentids = l.id %>
+			<tr>
+				<td>
+					sub chap Moments = <%=@user_contentids%><br>
+				</td>
+			</tr>
+          <%a=a+1
+		  end
+        elsif j.moment_type=='gallery'
+          @print_moments = UserContent.find(:all, :conditions => "gallery_id='#{j.moment_id}' and e_filetype='image'",:order =>'id asc')
+          for m in @print_moments
+            @user_contentids = m.id %>
+			<tr>
+				<td>
+					gal Moments = <%=@user_contentids%><br>
+				</td>
+			</tr>
+          <% a=a+1
+			end
+        elsif j.moment_type=='moment'
+          @print_moments = UserContent.find(:all, :conditions => "id='#{j.moment_id}'")
+            @user_contentids = @print_moments[0]['id']	%>
+			<tr>
+				<td>
+					Moments = <%=@user_contentids%><br>
+				</td>
+			</tr>
+	<%  a=a+1
+		end
+      end
+    end%>
+	<tr>
+		<td>
+			count = <%=a%>
+		</td>
+	</tr>
+</table>

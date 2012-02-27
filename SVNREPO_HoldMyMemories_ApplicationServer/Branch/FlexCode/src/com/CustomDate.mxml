@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<mx:HBox xmlns:mx="http://www.adobe.com/2006/mxml"
+    xmlns:custom="com.mycustom.components.*"
+    creationComplete="init()" xmlns:com="com.*">
+    <mx:Script>
+        <![CDATA[
+            import mx.events.ListEvent;
+
+            [Bindable]
+            private var days:Array;
+            [Bindable]
+            public var selectedDay : int;
+            [Bindable]
+            public var selectedMonth : int;
+            [Bindable]
+            private var years:Array = new Array();
+            [Bindable]
+            public var isSetJournalDate : Boolean = false;
+            [Bindable]
+            public var dateString : String;
+            public function setJournalDate(date : String) : void
+            {
+            	isSetJournalDate = true;
+            	dateString = date;
+                /*  var now : Date = new Date(date);
+            	var month : int = now.getMonth();
+            	var dateint : int = now.getDate() - 1;
+            	var yearIndex : int = years.indexOf(now.getFullYear());
+            	this.monthsCB.selectedIndex = month;
+                this.daysCB.selectedIndex = dateint;
+                this.yearsCB.selectedIndex = yearIndex;  */
+            }
+               
+            private function init():void{
+                this.monthsCB.addEventListener(ListEvent.CHANGE,monthsHandler);
+                var now : Date = new Date();
+                
+               
+                setDays(now.getMonth());  
+                setYears(now.getFullYear());
+                if(isSetJournalDate)
+                {
+	                 now   = new Date(dateString);
+	            	var month : int = now.getMonth();
+	            	var dateint : int = now.getDate();
+	            	var yearIndex : int = years.indexOf(now.getFullYear());
+	            	this.monthsCB.selectedIndex = month;
+	                this.daysCB.selectedIndex = dateint;
+	                this.yearsCB.selectedIndex = yearIndex;  
+                }
+                else
+                {
+	                this.monthsCB.selectedIndex = now.getMonth();
+	                this.daysCB.selectedIndex = now.getDate() - 1;
+	                this.yearsCB.selectedIndex = years.indexOf(now.getFullYear());
+                }
+            }
+
+            private function monthsHandler(event:ListEvent):void{
+                setDays(event.currentTarget.selectedIndex);
+                this.daysCB.selectedIndex = 0;
+            }
+
+            private function setDays(month:int):void{
+                this.days = new Array();
+                var i:int;
+
+                if (month == 0 || month == 2 || month == 4 || month == 6 || month == 7 || month == 9 || month == 11){
+                    for(i=1; i<=31; i++)
+                        this.days.push(i);
+
+                    }else if (month == 3 || month == 5 || month == 8 || month == 10){
+                        for(i=1; i<=30; i++)
+                            this.days.push(i);
+
+                    }else if (month == 1){
+                        if (yearsCB.selectedIndex % 4 == 0){
+                            for(i=1; i<=29; i++)
+                                this.days.push(i);
+                        }else{
+                            for(i=1; i<=28; i++)
+                                this.days.push(i);
+                        }
+                    }
+                }
+
+            private function setYears(year:int):void{
+                var j:int;
+                for(j=1950; j<=year; j++){
+                    this.years.push(j);
+                }
+            }
+        ]]>
+    </mx:Script>
+    <mx:Style>
+    	.comboBox {
+   cornerRadius: 0;
+   rollOverColor: #aadeff;
+   textAlign: center;
+   fontFamily: Arial;
+   fontSize: 14;
+   fontWeight: bold;
+   background-color : #ffffff
+}
+
+    </mx:Style>
+    <com:Months id="monthsCB" />
+    <mx:ComboBox id="daysCB" dataProvider="{this.days}" width="70" styleName="comboBox" /> 
+    <mx:ComboBox id="yearsCB" dataProvider="{this.years}" width="80" styleName="comboBox"  />
+</mx:HBox>

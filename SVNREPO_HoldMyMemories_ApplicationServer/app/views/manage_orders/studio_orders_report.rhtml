@@ -1,0 +1,109 @@
+<h1>Order Details</h1>
+<form name="frm" action="" method="post">
+	<table cellpadding="4" cellspacing="4" border="1" bordercolor="#e5b467" align="center" >
+	<tr>
+		<td align="center" colspan="4" height="48">
+			<font size="4">Search Orders </font>		</td>
+	</tr>
+
+	<tr>
+		<td>
+			Order Number
+		</td>
+		<td>
+			<input type="text" name="order_number" id="order_number" value="<%=params[:order_number]%>" size="20" class="textbox-signup" />
+		</td>
+
+	</tr>
+     <tr>
+		<td>
+			Status
+		</td>
+		<td>
+			<select name="status">
+            <option value="">-Select-</option>
+            <option value="pending" <% if(params[:status] == 'pending') %> selected="selected" <%end%>>Pending</option>
+            <option value="processing" <% if(params[:status] == 'processing') %> selected="selected" <%end%>>Processing</option>
+            <option value="completed" <% if(params[:status] == 'completed') %> selected="selected" <%end%>>Completed</option>
+            </select>
+		</td>
+
+
+	</tr>
+     <tr>
+		<td>
+			&nbsp;
+		</td>
+		<td>
+			<input type="submit" name="srch" value="Search">
+		</td>
+
+
+	</tr>
+    </table>
+    </form><br>
+<table>
+  <%if(@ordcnt>0)%>
+  <tr><th align="center"><font color="red"><%=flash[:notice]%></font></th></tr>
+  <tr>
+    <th background="/images/body_hor.JPG"><font class='txt'><table> <tr><th><%= sort_header_tag('order_number', :text => "Order Number") %></th></tr></table></font></th>
+    <th background="/images/body_hor.JPG"><font class='txt'>No of Photos</font></th>
+         <th background="/images/body_hor.JPG"><font class='txt'>Name</font></th>
+    <th background="/images/body_hor.JPG"><font class='txt'>Telephone</font></th>
+    <th background="/images/body_hor.JPG"><font class='txt'>Email</font></th>
+    <th background="/images/body_hor.JPG"><font class='txt'>Total Amount</font></th>
+    <th background="/images/body_hor.JPG"><font class='txt'><table> <tr><th><%= sort_header_tag('orders_status', :text => "Status") %></th></tr></table></font></th>
+    <th background="/images/body_hor.JPG"><font class='txt'><table> <tr><th><%= sort_header_tag('created_at', :text => "Ordered Date") %></th></tr></table></font></th>
+    <th background="/images/body_hor.JPG" colspan="2"><font class='txt'>Actions</font></th>
+  </tr>
+
+  <%
+  if(@order_details)
+  odd_or_even = 0
+  i = 0
+  for order_detail in @order_details
+    i = i + 1
+    odd_or_even = 1 - odd_or_even
+
+  %>
+    <tr class='ListLine<%=odd_or_even %>'>
+      <td><%=order_detail.order_number %></td>
+      <td><%=OrderProduct.count(:all, :conditions => "order_id ='#{order_detail.id}'")%></td>
+      	<% uname=HmmUser.find(order_detail.user_id) %>
+      <%=uname.v_fname %> <%=uname.v_lname %></td>
+       <td>
+      	
+      <%=uname.telephone %></td>
+       <td>
+      	
+      <%=uname.v_e_mail %></td>
+      <td><%=order_detail.total_price %></td>
+      <td><%=order_detail.orders_status %></td>
+      <td><%=order_detail.created_at.strftime("%m / %d / %Y %H:%M:%S") %></td>
+      <td class="cont"><%= link_to '<font color=#000000>View</font>', :action => 'studio_order_view', :id => order_detail %></td>
+      <td class="cont"><%= link_to '<font color=#000000>Delete</font>', { :action => 'delete_studio_order', :id => order_detail ,:class =>'cont'}, :confirm => 'Are you sure?', :method => :post %></td>
+     </tr>
+  <% end %>
+   <%else%>
+     <tr>
+       <th colspan="8"><font class='txt'>No Records Found</font></th>
+  </tr>
+     <%end%>
+</table>
+
+<table>
+  <tr>
+    <th align="left">
+      <%=will_paginate @order_details%>
+    </th>
+  </tr>
+</table>
+<%else%>
+    <table>
+  <tr>
+    <th align="left">No Orders Found</th>
+  </tr>
+</table>
+   <%end%>
+<br />
+

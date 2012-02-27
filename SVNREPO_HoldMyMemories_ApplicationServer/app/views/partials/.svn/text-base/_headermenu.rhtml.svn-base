@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<%#*<link rel="stylesheet" type="text/css" media="all" href="/jquery.selectbox-0.6.1/css/default.css" />%>
+<script type="text/javascript" src="/jquery.selectbox-0.1.3/js/jquery-1.5.1.min.js"></script>
+<script type="text/javascript" src="/jquery.selectbox-0.1.3/js/jquery.selectbox-0.1.3.js"></script>
+<link href="/jquery.selectbox-0.1.3/css/jquery.selectbox.css" type="text/css" rel="stylesheet" />
+<style type="text/stylesheets">
+  .sbHolder {
+    background: url(/images/tab_trans.png);
+    border: solid 1px #515151;
+    font-family: Arial,sans-serif;
+    font-size: 14px;
+    font-weight: bold;
+    height: 27px;
+    width: 140px;
+  }
+  .sbOptions{
+    /*    	background-color: #212121;*/
+    background: url(/images/tab_trans.png);
+    border: solid 1px #515151;
+    list-style: none;
+    left: -1px;
+    margin: 0;
+    padding: 0;
+
+    top: 30px;
+    width: 140px;
+    z-index: 1;
+    overflow-y: auto;
+  }
+  .sbSelector{
+    display: block;
+    height: 30px;
+    left: 0;
+    line-height: 30px;
+    outline: none;
+    overflow: hidden;
+    position: absolute;
+    text-indent: 0px;
+    top: 0;
+    width: 98px;
+  }
+  .sbToggle{
+    background: url(/jquery.selectbox-0.1.3/img/select-icons.png) 0 -116px no-repeat;
+    display: block;
+    height: 31px;
+    outline: none;
+    position: absolute;
+    right: 0;
+    top: 0;
+    width: 23px;
+  }
+</style>
+<script type="text/javascript">
+  function change_loc(loc)
+  {
+    if(loc == "memory_lane")
+    {
+      window.location='/family_memory/home/<%=params[:id]%>';
+    }
+    else
+    {
+      window.location='/familywebsite/home?id=<%=params[:id]%>&version=4';
+    }
+  }
+</script>
+<% sub_type=SubChapter.find(:first,:conditions=>"uid=#{@family_website_owner.id} and status='active' and (client='mliphoneapp' || client='mlandriodapp')")
+if !sub_type.nil? && !sub_type.blank?
+  wid=950%>
+<%else%>
+  <%  if  @family_website_owner.studio_id == 0
+    wid=707
+  else
+    studio = HmmStudio.find(:first,:conditions=>"id=#{@family_website_owner.studio_id}",:select=>"family_website_version")
+    if studio.family_website_version == 4
+      wid=950
+    else
+      wid=707
+    end
+  end
+end%>
+<div id="navcontainer" align="center" style="width:<%=wid%>;" >
+  <table width="<%=wid%>" border="0">
+    <tr>
+      <td width="100%">
+        <table width="100%">
+          <tr id="navlist">
+            <td><a href="/<%= params[:id] %>" <% if current_page == nil || current_page == "home" %>  id="current"<% end %> >Home</a></td>
+            <td><a href="/familywebsite/biography/<%= params[:id] %>" <% if current_page != nil && current_page == "biography" %>  id="current"<% end %> >Biography</a></td>
+            <td><a href="/blog/index/<%= params[:id] %>" <% if current_page != nil && current_page == "blog" %>  id="current"<% end %>>Blog</a></td>
+            <td><a href="/guest_book/display_comments/<%= params[:id] %>" <% if current_page != nil && current_page == "guest book" %>  id="current"<% end %>>Guest Book</a></td>
+            <td><a href="/familywebsite_contest/select_contest/<%= params[:id] %>" <% if current_page != nil && current_page == "contest" %>  id="current"<% end %>>Contest</a></td>
+            <td><a href="/familywebsite/emailus/<%= params[:id] %>" <% if current_page != nil && current_page == "emailus" %>  id="current"<% end %> >Email</a></td>
+            <td><a href="/manage_website/home/<%= params[:id] %>" <% if current_page != nil && current_page == "manage my site" %>  id="current"<% end %>>Manage My Site</a></td>
+            <td><a href="/user_account/faq/<%= params[:id] %>" <% if current_page != nil && current_page == "FAQ" %>  id="current"<% end %>>FAQ</a></td>
+            <td>
+              <% if session[:hmm_user] && logged_in_hmm_user.id == @family_website_owner.id %>
+                <a href="/familywebsite/logout/<%=  params[:id] %>">Logout</a>
+              <% else %>
+                <a href="/familywebsite/login/<%=  params[:id] %>" <% if current_page != nil && current_page == "login" %>  id="current"<% end %>>Login</a>
+              <% end %>
+            </td>
+          </tr>
+        </table>
+      </td>
+    <script type="text/javascript">
+      //<![CDATA[
+      var Ddown = jQuery.noConflict();
+      Ddown(function () {
+        Ddown("#country_id").selectbox();
+        Ddown("html").live('mousedown', function(e) {
+          e.stopPropagation();
+          Ddown("select").selectbox('close');
+        });
+        Ddown('.sbHolder, .sbSelector').mousedown(function(event){
+          event.stopPropagation();
+        });
+      });
+      //]]>
+    </script>
+    <% if !sub_type.nil? && !sub_type.blank? %>
+      <td>
+        <select name="country_id" id="country_id" onchange="change_loc(this.value)">
+          <option value="memory_lane" <% if params[:controller]=='family_memory' %> selected <% end %>>Memory Lane</option>
+          <option value="family_website" <% if params[:controller]=='familywebsite' %> selected <% end %>>Family Website</option>
+        </select>
+      </td>
+    <% elsif(studio)
+      if studio.family_website_version == 4 %>
+
+        <td>
+          <select name="country_id" id="country_id" onchange="change_loc(this.value)">
+            <option value="memory_lane" <% if params[:controller]=='family_memory' %> selected <% end %>>Memory Lane</option>
+            <option value="family_website" <% if params[:controller]=='familywebsite' %> selected <% end %>>Family Website</option>
+          </select>
+        </td>
+      <% end %>
+  <% end %>
+
+    </tr>
+  </table>
+</div>
+
+

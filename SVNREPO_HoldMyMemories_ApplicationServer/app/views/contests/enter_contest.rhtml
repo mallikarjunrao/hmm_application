@@ -1,0 +1,66 @@
+<font color="#ffffff">
+  <table border="0" align="center" valign="center">
+    <tr>
+      <td align="center"> Enter into </td></tr></font>
+<tr>
+  <td  align="center" >
+
+    <% if params[:website_type] == "familywebsite" %>
+      <% @contest_phase = Base64.decode64(params[:p])
+      contest = ContestDetail.find_by_id(@contest_phase)
+    %>
+      <%if(session[:hmm_user]) %>
+        <% if params[:type]== "enter" %>
+          <a href="/familywebsite_contest/manage_terms_conditions/<%= params[:id]%>?contest=photo&&p=<%= params[:p]%>"> <img src=<%= contest.photo_logo %> border="0" /></a>
+        <%elsif params[:type]== "view_vote" %>
+          <a id="test2" href="/familywebsite_contest/manage_moments_vote/<%= params[:id]%>?p=<%= params[:p]%>"> <img src=<%= contest.photo_logo %> border="0"></a>
+        <%end%>
+      <%else%>
+        <% if params[:type]== "enter" %>
+          <a href="/familywebsite_contest/manage_terms_conditions/<%= params[:id]%>?contest=photo&&p=<%= params[:p]%>"> <img src=<%= contest.photo_logo %> border="0" /></a>
+        <%elsif params[:type]== "view_vote" %>
+          <a id="test2" href="/familywebsite_contest/moments_vote/<%= params[:id]%>?p=<%= params[:p]%>"> <img src=<%= contest.photo_logo %> border="0"></a>
+        <%end%>
+      <%end%>
+    <%else%>
+      <% contest = ContestDetail.find(params[:contest_id]) %>
+      <% if params[:type]== "enter" %>
+        <a href="/contests/contest_terms_conditions?contest_id=<%= params[:contest_id] %>&contest_type=photo"> <img src=<%= contest.photo_logo %> border="0" /></a>
+      <%elsif params[:type]== "view_vote" %>
+        <a id="test2" href="/contests/moments_vote?contest_id=<%= params[:contest_id] %>"> <img src=<%= contest.photo_logo %> border="0"/></a>
+        <% end %>
+      <%end%>
+  </td>
+</tr>
+<tr height="30">
+  <td></td>
+</tr>
+<tr>
+  <td align="center" > Enter into </td></tr>
+<tr>
+  <td  align="center" >
+    <% if params[:website_type] == "familywebsite" %>
+      <%if(session[:hmm_user]) %>
+        <% if params[:type]== "enter" %>
+          <a  href="/familywebsite_contest/manage_terms_conditions/<%= params[:id]%>?contest=memorable&&p=<%= params[:p]%>"> <img  src=<%= contest.video_logo %> border="0"></a>
+        <%elsif params[:type]== "view_vote" %>
+          <a  href="/familywebsite_contest/manage_videomoment_vote/<%= params[:id]%>?p=<%= params[:p]%>"> <img src=<%= contest.video_logo %> border="0"></a>
+        <%end%>
+      <%else%>
+        <% if params[:type]== "enter" %>
+          <a  href="/familywebsite_contest/manage_terms_conditions/<%= params[:id]%>?contest=memorable&&p=<%= params[:p]%>"> <img  src=<%= contest.video_logo %> border="0"></a>
+        <%elsif params[:type]== "view_vote" %>
+          <a  href="/familywebsite_contest/videomoment_vote/<%= params[:id]%>?p=<%= params[:p]%>"> <img src=<%= contest.video_logo %> border="0"></a>
+        <%end%>
+      <%end%>
+    <%else%>
+      <% if params[:type]== "enter" %>
+        <a  href="/contests/contest_terms_conditions?contest_id=<%= params[:contest_id] %>&contest_type=video"> <img  src=<%= contest.video_logo %> border="0"></a>
+      <%elsif params[:type]== "view_vote" %>
+        <a  href="/contests/videomoment_vote?contest_id=<%= params[:contest_id] %>"> <img src=<%= contest.video_logo %> border="0"></a>
+      <%end%>
+    <%end%>
+  </td>
+</tr>
+</table>
+</font>

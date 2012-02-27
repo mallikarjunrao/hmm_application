@@ -1,0 +1,42 @@
+xml.instruct! :xml, :version=>"1.0"
+  xml.subChapters{
+         for subchapter123 in @sub_chapters
+           xml.subchapter{
+            xml.id("#{subchapter123.id}")
+            xml.tagid(subchapter123.tagid)
+            xml.access(subchapter123.e_access)
+            xml.ordernum(subchapter123.order_num)
+            xml.name("#{subchapter123.sub_chapname}")
+#            if @tag.tag_type=='mobile_uploads'
+#              xml.icon(@tag.img_url+"/user_content/photos/icon_thumbnails/mobile_uploads.png")
+#            else
+              xml.icon(subchapter123.img_url+"/user_content/photos/icon_thumbnails/#{subchapter123.v_image}")
+            #end
+            
+            xml.tags(subchapter123.v_subchapter_tags)
+            xml.description(subchapter123.v_desc)
+            subchaptercheck=SubChapter.count(:all, :conditions => "id='#{subchapter123.id}' and store_id is not null")
+            if(subchaptercheck > 0)
+              xml.editable("false")
+            else
+              xml.editable("true")
+            end
+
+             #Blog Data Read
+              blogcount=Blog.count(:conditions => "blog_type_id='#{subchapter123.id}' and blog_type='subchapter'")
+              if(blogcount>0)
+                 blogdata=Blog.find(:first, :conditions => "blog_type_id='#{subchapter123.id}' and blog_type='subchapter'")
+                 xml.blog_status("yes")
+                 xml.blog_id(blogdata.id)
+                 xml.blog_date(blogdata.added_date)
+                 xml.blog_description(blogdata.description)
+                 xml.blog_title(blogdata.title)
+                else
+                  xml.blog_status("no")
+              end
+
+
+
+           }  
+         end
+  }

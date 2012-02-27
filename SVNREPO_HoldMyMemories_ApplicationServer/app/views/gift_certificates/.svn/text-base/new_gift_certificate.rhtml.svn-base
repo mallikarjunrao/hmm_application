@@ -1,0 +1,277 @@
+<script type="text/javascript">
+  function add_more() {
+    var ni = document.getElementById('myDiv');
+    var numi = document.getElementById('theValue');
+    var num = (document.getElementById("theValue").value -1)+ 2;
+    numi.value = num;
+    var divIdName = num;
+    var txt = "<tr><td height='50'>&nbsp;</td>"+divIdName+")<td><textarea name='description[]'  rows='1' cols='33'></textarea></td>";
+    var table = document.getElementById('dvFile1');
+    var temp  = document.createElement("div");
+    temp.innerHTML =  txt;
+    table.appendChild(temp);
+  }
+
+
+
+  function check_form()
+  {
+    if((document.getElementById('membership_option').checked==true) && (document.getElementById('membership_term_id').value==""))
+    {
+      alert("Please add membership information");
+      return false;
+    }
+    var field=document.getElementsByName('studio_id[]');
+    var haschecked=false;
+    for (i = 0; i < field.length; i++)
+    {
+
+      if(field[i].checked==true)
+      {
+        haschecked=true;
+        break;
+      }
+    }
+    if(haschecked==false)
+    {
+      alert("Select the studios");
+      return false;
+    }
+    return true;
+  }
+
+  function show_div(a,b){
+    var e=document.getElementById(a);
+    var e1=document.getElementById(b);
+    e.style.display="inline"
+    e1.style.display="inline"
+    return true;
+  }
+  function show_div1(a,b){
+    var e=document.getElementById(a);
+    var e1=document.getElementById(b);
+    e.style.display="none"
+    e1.style.display="none"
+    return true;
+  }
+
+  
+
+  function notifySelect()
+  {
+    var studio_ids = "";
+    var field1 = document.getElementById("studiogroup_id");
+    for (i=0; i<field1.length; i++)
+    {
+      if(field1.options[i].selected)
+      {
+        if(studio_ids == "")
+        {
+          studio_ids = field1.options[i].value;
+        }
+        else
+        {
+          studio_ids = studio_ids+","+field1.options[i].value;
+        }
+      }
+    }
+    new Ajax.Updater('studio_div', '/gift_certificates/get_studios?owner_id='+studio_ids, {asynchronous:true, evalScripts:true});
+    return false;
+  };
+
+</script>
+<script type="text/javascript">
+  function validateFileExtension(fld) {
+    if(!/(\.png|\.PNG|\.jpg|\.JPG|\.jpeg|\.JPEG|)$/i.test(fld.value)) {
+      alert("Invalid file type.. Please Upload only PNG,JPEG or JPG image file!!");
+      fld.focus();
+      return false;
+    }
+    else{
+      document.getElementById("cert_logo").value = fld.value;
+      return true;
+    }
+  }
+</script>
+<table border="0" cellpadding="0" cellspacing="0">
+  <tr><td>
+      <h2>Generate Gift Certificate</h2>
+    </td></tr>
+
+</table>
+<form name="gift" id="gift" action="/gift_certificates/generate_certificate" method="post">
+  <table border="0" cellpadding="0" cellspacing="0" align="center" width="900">
+    <tr><td width="250"></td><td>
+        <table border="0" cellpadding="0" cellspacing="0" align="center" width="650">
+          <tr><td height="50" valign="top">Gift Certificate Name*:</td><td valign="top"><input type="text" name="certificate_name" id="certificate_name" value="<%=params[:certificate_name]%>"/></td></tr>
+          <tr><td height="50" >Do you want to add Membership Details*:</td><td>
+              <input type="radio" name="membership_option" id="membership_option" value="yes" onclick="show_div('membersip','membersip1')" <%if params[:membership_option]=="yes"%>checked="yes"<%end%>/>Yes
+              <input type="radio" name="membership_option" id="membership_option1" value="no" <%if params[:membership_option]=="no"%>checked="yes"<%end%> <%if params[:membership_option].nil?%>checked="yes"<%end%> onclick="show_div1('membersip','membersip1')"/>No
+            </td></tr>
+          <tr><td height="50" ><p  style="display: none" id="membersip" valign="center"> Premium Membership Term*:</p></td><td height="50" valign="center">
+              <p style="display: none" id="membersip1">  <select name="membership_term_id" id="membership_term_id">
+                  <option value="">---Select---</option>
+                  <% for  membership_term  in @membership_terms %>
+                    <option value="<%=membership_term.id%>" <%if params[:membership_term_id].to_i==membership_term.id.to_i%>selected <%end%> ><%=membership_term.name%></option>
+                  <%end%>
+                </select></p>
+            </td></tr>
+          <tr><td height="50">Description*:</td><td valign="middle">
+              <%if params[:description]%>
+                <%if params[:description].length >  0%>
+                  <%  for i in 0..params[:description].length-1 %>
+                    <textarea name="description[]" id="description" rows="1" cols="33s"><%=params[:description][i]%></textarea>
+                    <br />
+                    <input type="hidden" value="<%=params[:description].length%>" id="theValue" />
+                  <%end%>
+                <%else%>
+                  1)<textarea name="description[]" id="description" rows="1" cols="33s"></textarea>
+                  <input type="hidden" value="1" id="theValue" />
+                <%end%>
+              <%else%>
+                1)<textarea name="description[]" id="description" rows="1" cols="33s"></textarea>
+                <input type="hidden" value="1" id="theValue" />
+              <%end%>
+            </td></tr>
+          <tr><td></td><td><font color="green">Note:Do not mention the Membership Period.</font></td></tr>
+          <tr><td></td><td valign="middle" align="right"><input type="button" name="Add More" value="Add More" id="addmore" onclick="add_more();" /></td></tr>
+          <tr><td colspan="1"></td><td id="dvFile1" align="left"></td></tr>
+          <tr><td height="20"></td><td></td></tr>
+          <tr><td height="50">Price of the certificate Excluding the HMM Membership*:</td><td valign="top">$<input type="text" name="certificate_price" id="certificate_price" value="<%=params[:certificate_price]%>"/></td></tr>
+        <!--  <tr><td height="50">Total Gift Certificate Price*:</td><td id="price">$<input type="text" name="total_price" id="total_price" value="<%=params[:total_price]%>" /></td></tr> -->
+          <tr><td height="50">Disclaimer*:</td><td><textarea name="disclaimer_notes"  id="disclaimer_notes" rows="7" cols="33s"><%=params[:disclaimer_notes]%></textarea></td></tr>
+          <tr><td height="50">Studio Group*:</td><td>
+              <select name="studiogroup_id[]" id='studiogroup_id' multiple="multiple" size="10">
+                <option value="">-Select-</option>
+                <%  for i in @studiogroups %>
+                  <option value="<%=i.id%>" <%if params[:studiogroup_id] && params[:studiogroup_id].include?("#{i.id}") %> selected <%end%> ><%=i.hmm_franchise_studio%></option>
+                <%end%>
+              </select>
+              <br>
+              <input type="button" value="Show Studios" onclick="notifySelect();"/>
+            </td>
+          </tr>
+          <tr>
+            <td align="left" valign="top" height="50">Studios :</td>
+            <td>
+              <div id="studio_div">
+              </div>
+            </td>
+          </tr>
+          <% studios_list=Array.new
+          if params[:studio_id]%>
+            <%if params[:studio_id].length > 0
+              for i in 0..params[:studio_id].length-1
+                studios_list.push(params[:studio_id][i])
+              end%>
+              <%studios_list=studios_list.join(",")%>
+              <input type="hidden" name="studio_id_coll" id="studio_id_coll" value="<%= studios_list %>" />
+            <%end%>
+          <%end%>
+          <tr><td></td><td> </td></tr>
+          <tr><td height="50"></td><td> <input type="submit" name="Next" value="Next" onclick="return check_form()"/></td></tr>
+        </table>
+      </td>
+    </tr>
+  </table>
+
+</form>
+
+
+<%= javascript_include_tag 'livevalidation_prototype','livevalidation'%>
+<script type="text/javascript">
+  var f1 = new LiveValidation('certificate_name');
+  var f4 = new LiveValidation('certificate_price');
+  var f3 = new LiveValidation('disclaimer_notes');
+  var f6 = new LiveValidation('studiogroup_id');
+
+  f1.add( Validate.Presence );
+  f3.add( Validate.Presence );
+  f4.add( Validate.Presence );
+  f6.add( Validate.Presence );
+  f4.add( Validate.Numericality  ,{ maximum: 99999999 } );
+  f4.add( Validate.Format,{ pattern: /^[0-9]/, failureMessage: "No Special Characters!" } );
+
+
+
+</script>
+<style type="text/css">
+  .LV_validation_message{
+    font-weight:bold;
+    margin:0 0 0 5px;
+  }
+
+  .LV_valid {
+    color:#00CC00;
+  }
+
+  .LV_invalid {
+    color:#CC0000;
+  }
+
+  .LV_valid_field,
+  input.LV_valid_field:hover,
+  input.LV_valid_field:active,
+  textarea.LV_valid_field:hover,
+  textarea.LV_valid_field:active {
+    border: 1px solid #00CC00;
+  }
+
+  .LV_invalid_field,
+  input.LV_invalid_field:hover,
+  input.LV_invalid_field:active,
+  textarea.LV_invalid_field:hover,
+  textarea.LV_invalid_field:active {
+    border: 1px solid #CC0000;
+  }
+</style>
+
+<script type="text/javascript">
+
+  function show_ajax()
+  {
+    var studio_ids = "";
+    var field1 = document.getElementById("studiogroup_id");
+    for (i=0; i<field1.length; i++)
+    {
+      if(field1.options[i].selected)
+      {
+        if(studio_ids == "")
+        {
+          studio_ids = field1.options[i].value;
+        }
+        else
+        {
+          studio_ids = studio_ids+","+field1.options[i].value;
+        }
+      }
+    }
+    if(document.getElementById('studio_id_coll'))
+    {
+      studio_id=document.getElementById('studio_id_coll').value;
+      new Ajax.Updater('studio_div', '/gift_certificates/get_studios?studio_id='+studio_id+'&&owner_id='+studio_ids, {asynchronous:true, evalScripts:true}); return false;
+    }
+  }
+  function select(a) {
+    var field1=document.getElementsByName('studio_id[]');
+    for (i=0; i<field1.length; i++) {
+      field1[i].checked = a;
+    }
+  }
+
+
+</script>
+
+<script type="text/javascript">
+  function loadpage()
+  {
+    if ( "<%= params[:membership_option] %>" == "yes")
+    {
+      show_div('membersip','membersip1');
+    }
+    show_ajax();
+  }
+  window.onload = function() {
+    loadpage();
+  }
+</script>

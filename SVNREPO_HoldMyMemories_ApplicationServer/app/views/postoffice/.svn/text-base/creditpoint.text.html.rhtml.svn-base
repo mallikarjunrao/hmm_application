@@ -1,0 +1,108 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+    <title>Hold My Memories</title>
+    <style type="text/css">
+      .border{
+        border:1px solid #000000;
+      }
+
+      .blacktext{
+        font-family:Arial, Helvetica, sans-serif;
+        font-size:13px;
+        color:#000000;
+        text-decoration:none;
+      }
+      .blacktextitalic{
+        font-family:Arial, Helvetica, sans-serif;
+        font-size:13px;
+        color:#000000;
+        text-decoration:none;
+        font-style:italic;
+      }
+      .orangetext{
+        font-family:Arial, Helvetica, sans-serif;
+        font-size:13px;
+        color:#ff8000;
+        text-decoration:none;
+      }
+      .navybluetext{
+        font-family:Arial, Helvetica, sans-serif;
+        font-size:13px;
+        color:#1f497d;
+        text-decoration:none;
+      }
+      .graytext{
+        font-family:Arial, Helvetica, sans-serif;
+        font-size:10px;
+        color:#999999;
+        text-decoration:none;
+      }
+      #paddingtext{
+        padding-left:20px;
+      }
+    </style>
+  </head>
+
+  <body >
+    <table width="700" border="0" align="center" cellpadding="0" cellspacing="0" class="border">
+      <tr>
+        <td align="left" valign="top"><img src="http://staging.holdmymemories.com/images/creditemailheader.jpg" width="700" height="151" w/></td>
+      </tr>
+      <tr>
+        <td align="left" valign="top" id="paddingtext" class="blacktext">Dear <%=@first_name%> <%=@last_name%>,</td>
+      </tr>
+      <tr>
+        <td align="left" valign="top">&nbsp;</td>
+      </tr>
+      <tr>
+        <td align="left" valign="top" id="paddingtext" class="blacktext">Thank you for your <a href="http://www.holdmymemories.com/" class="orangetext">HoldMyMemories.com</a> Membership. You currently have a studio credit of <% if @credit_system=="Dollars"%> $<%=number_with_precision(@total_creditpoint, :precision => 2)%> <%else%> <%=(@total_creditpoint).round%> points<%end%> redeemable at
+          <br /><span class="blacktextitalic"><% if @studio_groupid==1 || @studio_groupid==2 %> Studio One to One <%else%> <%=@studio_groupname%><%end%>.</span></td>
+      </tr>
+      <tr>
+        <td align="left" valign="top">&nbsp;</td>
+      </tr>
+      <tr>
+        <td align="left" valign="top" id="paddingtext" class="navybluetext">Click now to request an appointment at <span class="blacktextitalic"><% if @studio_groupid==1 || @studio_groupid==2 %> Studio One to One <%else%> <%=@studio_groupname%><%end%></span>:<br />
+          <% if @studio_groupid==1 || @studio_groupid==2 %>
+            <a href="http://s121.com/bookonline.asp" class="orangetext" target="_blank">http://s121.com/bookonline.asp</a>
+          <%else%>
+            <a href="http://www.holdmymemories.com/my_familywebsite/book_session/?id=<%=@family_name%>&studio_id=<%=@studio_id%>" target="_blank">
+              http://www.holdmymemories.com/my_familywebsite/book_session</a>
+          <%end%>
+          </td>
+      </tr>
+      <tr>
+        <td align="left" valign="top">&nbsp;</td>
+      </tr>
+      <tr>
+        <td align="left" valign="top" id="paddingtext" class="blacktext">For information about the additional studio benefits you receive with your
+          <br/>HoldMyMemories.com Membership, please contact <span class="blacktextitalic"><% if @studio_groupid==1 || @studio_groupid==2 %> Studio One to One <%else%> <%=@studio_groupname%><%end%></span> at <span class="blacktextitalic"><%=@studio_phone%></span>, or visit their website at
+          <br /><a href="<%=@studio_website%>" class="orangetext"><%=@studio_website%></a>
+          
+        </td>
+      </tr>
+      <tr>
+        <td align="left" valign="top">&nbsp;</td>
+      </tr>
+      <tr>
+        <td align="left" valign="top" id="paddingtext" class="navybluetext">Sincerely,</td>
+      </tr>
+      <tr>
+        <td align="left" valign="top" id="paddingtext" class="navybluetext">Your HoldMyMemories.com Team</td>
+      </tr>
+      <tr>
+        <td align="left" valign="top" id="paddingtext2" class="navybluetext">&nbsp;</td>
+      </tr>
+      <tr>
+        <td align="center" valign="top" id="paddingtext" class="graytext"><%=@studio_name%>
+          <br />
+          <%=@studio_address%>. | <%=@studio_address%>, <%=@studio_city%> <%=@studio_zipcode%></td>
+      </tr>
+      <tr>
+        <td align="left" valign="top" id="paddingtext" class="navybluetext">&nbsp;</td>
+      </tr>
+    </table>
+  </body>
+</html>

@@ -1,0 +1,17 @@
+<h1>Editing galleries</h1>
+
+<%= error_messages_for :galleries %>
+
+<% form_for(:galleries, :url => galleries_path(@galleries), :html => { :method => :put }) do |f| %>
+  <p>
+    <b>V gallery name</b><br />
+    <%= f.text_field :v_gallery_name %>
+  </p>
+
+  <p>
+    <%= submit_tag "Update" %>
+  </p>
+<% end %>
+
+<%= link_to 'Show', galleries_path(@galleries) %> |
+<%= link_to 'Back', galleries_path %>

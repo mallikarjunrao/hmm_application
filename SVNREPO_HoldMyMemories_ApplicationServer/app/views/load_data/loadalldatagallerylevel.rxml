@@ -1,0 +1,29 @@
+xml.instruct! :xml, :version=>"1.0"
+                #files within Gallery
+                xml.files{
+                 for user_content in @user_content
+                  xml.file{
+                   xml.id("#{user_content.id}")
+                   xml.ordernum("#{user_content.order_num}")
+                   xml.access(user_content.e_access)
+                   xml.galleryid(user_content.gallery_id)
+                   xml.name("#{user_content.v_tagphoto}")
+                   xml.type("#{user_content.e_filetype}")
+                   if(user_content.e_filetype == "image")
+                    xml.icon(user_content.img_url + "/user_content/photos/big_thumb/#{user_content.v_filename}")
+                   end
+                   if(user_content.e_filetype == "video" || user_content.e_filetype == "swf")
+                    xml.icon(user_content.img_url + "/user_content/videos/thumbnails/#{user_content.v_filename}.jpg")
+                  end
+                  if(user_content.e_filetype == "audio")
+                    xml.icon(user_content.img_url + "/user_content/audios/#{user_content.v_filename}")
+                  end
+                   xml.tags(user_content.v_tagname)
+                   xml.description(user_content.v_desc)
+                   xml.creationdate(user_content.d_momentdate)
+                  }
+                 end
+                }
+               
+
+

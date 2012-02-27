@@ -1,0 +1,313 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:Application xmlns:mx="http://www.adobe.com/2006/mxml" layout="absolute" creationComplete="creationComplete()" xmlns:components="components.*" 
+	backgroundColor="0x0" horizontalAlign="right" xmlns:fabulousFlex="fabulousFlex.*" modalTransparencyColor="0x111111" modalTransparency="0.9" modalTransparencyBlur="1">
+	 
+	<mx:Style>
+		 
+		.firstButtonStyle
+		{
+			 fillColors: #000000, #000000, #000000, #cccccc;
+			corner-radius : 0;
+			color : #Ffffff;
+			selection-color : #ff6633;
+			theme-color : #ff6633;
+		}
+		
+		Alert {
+		    corner-radius: 8;
+		    header-height: 27;
+		    header-colors: #999999, #000000;
+		    background-color: #000000;
+		    color: #ffffff;
+		    border-thickness: 4;
+		    border-color: #000000;
+		    panel-border-style: roundCorners;
+		    shadow-distance: 4;
+		    shadow-direction: bottom;
+		    button-style-name: "firstButtonStyle";
+		  }
+		
+		.breadCrumb
+		{
+			up-skin: ClassReference("skins.BreadCrumbSkin");
+			down-skin: ClassReference("skins.BreadCrumbSkin");
+			over-skin: ClassReference("skins.BreadCrumbSkin");
+			fillColors: #000000, #000000, #000000, #cccccc;
+			corner-radius : 0;
+			crumb-Color : #ffffff;
+			selection-color : #ff6633;
+			color : #Ffffff;
+			theme-color : #ff6633;
+		}
+		.breadCrumbLastButton
+		{
+			up-skin: ClassReference("skins.BreadCrumbSkin");
+			down-skin: ClassReference("skins.BreadCrumbSkin");
+			over-skin: ClassReference("skins.BreadCrumbSkin");
+			fillColors: #000000, #000000, #000000, #cccccc;
+			corner-radius : 0;
+			crumb-Color : #000000;
+			selection-color : #ff6633;
+			color : #Ffffff;
+			theme-color : #ff6633;
+		}
+		.selectedButton
+		{
+			color : #ff6633;
+		}
+			
+		.lastButtonStyle
+		{
+			fillColors: #000000, #000000, #000000, #cccccc;
+			corner-radius : 0;
+			selection-color : #ff6633;
+			color : #Ffffff;
+			theme-color : #ff6633;
+		}
+		
+		.buttonBarFirst
+		{
+			 fillColors: #000000, #000000, #000000, #cccccc;
+			corner-radius : 0;
+		}
+		.buttonBar
+		{
+			 fillColors: #000000, #000000, #000000, #cccccc;
+			corner-radius : 0;
+		}
+		.buttonBarLast
+		{
+			 fillColors: #000000, #000000, #000000, #cccccc;
+			corner-radius : 0;
+		}	
+	</mx:Style>
+	<mx:ViewStack id="buttonBarDataStack" height="0" width="0">
+		
+	</mx:ViewStack>
+	<mx:HBox height="100%" width="100%" verticalGap="1" horizontalGap="1" verticalAlign="middle" backgroundColor="0x0">
+		<mx:VBox width="95%" height="100%" id="mainVBox" backgroundColor="0x0">
+			<components:UploadAndView width="100%" id="uploadView" height="100%" showEffect="{fadeIn}" hideEffect="{fadeOut}"/>
+			<!--<mx:Label id="path" text="Root" color="#FFFFFFF"/>-->
+			<!--<mx:ViewStack id="stageView" width="100%" height="100%">
+				<components:UploadAndView width="100%" id="uploadView" height="100%" showEffect="{fadeIn}" hideEffect="{fadeOut}"/>
+				<components:BatchEditTags width="100%" id="editTags" height="100%" showEffect="{fadeIn}" hideEffect="{fadeOut}" creationPolicy="all"/>
+				<components:ThrashBinView width="100%" id="thrashView" height="100%" showEffect="{fadeIn}" hideEffect="{fadeOut}" creationPolicy="all"/>
+							
+			</mx:ViewStack>
+			-->
+		</mx:VBox>	
+		<mx:ButtonBar buttonStyleName="buttonBar" firstButtonStyleName="buttonBarFirst" itemClick="handleButtonBarItemClicked(event)" iconField="icon"
+			 lastButtonStyleName="buttonBarLast" direction="vertical"  barColor="0x0" id="verticalButtonBar" height="0" width="0" visible="false"/>
+	</mx:HBox>
+	
+	
+	<mx:HTTPService id="service" url="/customers/chapters_list" result="handleResult(event)" fault="handleFault(event)"/>
+	<mx:HTTPService id="thrashService" url="/thrash/getThrashContents/" result="handleThrashResult(event)" fault="handleFault(event)"/>
+	<mx:HTTPService id="login" url="/user_account/authenticate" method="POST" result="handleLoginResult(event)" fault="handleLoginFault(event)"/>
+	<mx:Fade duration="600" id="fadeOut" alphaFrom="1" alphaTo="0"/>
+	<mx:Fade duration="600" id="fadeIn" alphaFrom="0" alphaTo="1"/>
+	<mx:Script>
+		<![CDATA[
+			import mx.managers.CursorManager;
+			import mx.containers.Canvas;
+			import vo.BaseVO;
+			import components.ExportControl;
+			import mx.managers.PopUpManager;
+			import mx.core.IFlexDisplayObject;
+			import model.HmmThrashModel;
+			import components.FadingNotifier;
+			import components.HmmContextMenuTypes;
+			import components.HmmContextMenuManager;
+			import components.HmmContextMenu;
+			import com.adobe.serialization.json.JSON;
+			import mx.utils.ArrayUtil;
+			import events.FolderEvent;
+			import model.HmmChaptersModel;
+			import model.WebFileSystemModel;
+			import vo.AlbumVO;
+			import vo.WebFileVO;
+			import vo.GalleryVO;
+			import vo.ChapterVO;
+			import mx.controls.Alert;
+			import mx.events.DragEvent;
+			import vo.WebFolderVO;
+			import mx.rpc.events.FaultEvent;
+			import mx.rpc.Fault;
+			import mx.rpc.events.ResultEvent;
+			import mx.events.ItemClickEvent;
+			import mx.events.ListEvent;
+			import mx.collections.ArrayCollection;
+			
+			private var chaptersDataArrived : Boolean = false;
+			private var trashDataArrived : Boolean;
+			
+			private var dataSet : ArrayCollection;
+			private var stack : Array = new Array();
+			private var menu : HmmContextMenu;
+			public var ready : Boolean = false;
+			
+			private var previousStackChildIndex : int = -1;
+			[Bindable]
+			private var controlButtonData : ArrayCollection = new ArrayCollection([{icon:"/images/deletechapter_mouseover.png",name:"Delete Chapter"},
+																				   {icon:"/images/hidechapter_mouseover.png",name:"Hide Chapter"},
+																				   {icon:"/images/newchapter_mouseover.png",name:"New Chapter"},
+																		   {icon:"/images/permissions_mouseover.png",name:"Set Permissions"}]);
+																		   
+			private var popup : IFlexDisplayObject;																				   
+			private function handleUpdateServer() : void
+			{
+				HmmChaptersModel.getInstance().commitModelToServer();
+			}
+			
+			private function handleButtonBarItemClicked(event : ItemClickEvent) : void
+			{
+				trace(event.target);
+				var func : Function = event.item.data as Function;
+				if(func != null)
+					func(null);
+			}
+			
+			
+						
+			
+			
+			private function handleLoginResult(event : ResultEvent) : void
+			{
+				trace(event.toString());
+				trace(event.result.toString());
+				service.send();
+				
+			}
+			
+			private function handleLoginFault(event : FaultEvent) : void
+			{
+				trace(event.toString());
+				//service.send();
+			}
+			
+			
+			
+			private function handleDropEvent(event : DragEvent) : void
+			{
+				
+			}
+			
+			private function handleResult(event : ResultEvent) : void
+			{
+				 uploadView.stageView.selectedIndex = 0;
+				
+				dataSet = new ArrayCollection();
+				trace(event.toString());
+				var myModel : HmmChaptersModel = new HmmChaptersModel();
+				myModel.data = event.result.root;
+				//myModel.attachEventListeners(menu);
+				//service.send(event.result.root);
+				HmmChaptersModel.setInstance(myModel);
+				uploadView.folderView.model = myModel;
+				uploadView.editTags.dataProvider = uploadView.folderView.dataProvider as ArrayCollection;
+				stack.push(dataSet);
+				
+				uploadView.folderView.attachEventListeners(menu);
+				//folderView.dataProvider = dataSet;
+				ready = true;
+				FadingNotifier.addNotifier(mainVBox);
+				chaptersDataArrived = true;
+				if(chaptersDataArrived && trashDataArrived)
+				{
+					// dispatch event to operations enabled
+					//operations.enabled = true;
+					PopUpManager.removePopUp(popup);
+					CursorManager.removeBusyCursor();
+				} 
+				
+			}
+			
+			
+			
+			private function handleFault(event : FaultEvent) : void
+			{
+				trace(event.toString());
+			}
+			
+			
+			
+			
+			private function creationComplete() : void
+			{
+				dataSet = new ArrayCollection();
+				HmmContextMenuManager.getInstance().view = uploadView.folderView;
+				HmmContextMenuManager.getInstance().tagEdit = uploadView.editTags;
+				
+				uploadView.folderView.contextMenu = HmmContextMenuManager.getInstance().getContextMenu(HmmContextMenuTypes.ROOT_MENU);
+				verticalButtonBar.dataProvider = HmmContextMenuManager.getInstance().getContextButtons(HmmContextMenuTypes.ROOT_MENU);
+				/* for(var i : int = 0; i < 100; i++)
+				{
+					var obj : Object = new Object();
+					var str : Object = new Object();
+					
+					str = "Folder "+i;
+					obj.foldername = str;
+					var subfolders : ArrayCollection = new ArrayCollection();
+					for(var j : int =0; j < 20; j++)
+					{
+						
+						var subObj : Object = new Object();
+						var str2 : Object = "SubFolder "+j;
+						subObj.foldername = str2;
+						subfolders.addItem(subObj);
+					}
+					obj.subFolders = subfolders;
+					dataSet.addItem(obj);
+				}
+				folderView.dataProvider = dataSet; */
+				//stack.push(dataSet);
+				
+				
+				//uploadControl.uploadImageSelection.imageView.dataProvider = images;
+				uploadView.uploadControl.hideControls();
+				uploadView.hideControls();
+				//backButton.enabled = false;
+				var userObj : Object = new Object();
+				userObj["hmm_user"] = new Object();
+				//{v_user_name:"shivu"}, {v_password:"shivu"}
+				userObj["v_user_name"] = "shivu";
+				userObj["v_password"] = "shivu";  
+				//userObj.hmm_user["v_password"] = new String("shivu");
+				//var params : Array = ArrayUtil.toArray(userObj);
+				//var str : String = JSON.encode(userObj.hmm_user);
+				//userObj.hmm_user = str;
+				//login.request = userObj;
+				//login.send(userObj);
+				service.send();
+				thrashService.send();
+				//service.send();s
+				//Alert.show("service sent");
+				popup = PopUpManager.createPopUp(this, Canvas, true);
+				popup.width = 0;
+				popup.height = 0;
+				CursorManager.setBusyCursor();
+				menu  = new HmmContextMenu();
+				uploadView.folderView.hmmContextMenu = menu;
+			}
+			
+			
+			
+			
+			private function handleThrashResult(event : ResultEvent) : void
+			{
+				var thrashModel : HmmThrashModel = new HmmThrashModel();
+				thrashModel.data = event.result.root;
+				HmmThrashModel.setInstance(thrashModel);
+				trashDataArrived = true;
+				if(chaptersDataArrived && trashDataArrived)
+				{	
+					//operations.enabled = true;
+					PopUpManager.removePopUp(popup);
+					CursorManager.removeBusyCursor();
+				}
+				//thrashView.data = HmmThrashModel.getInstance().folderList;
+			}
+		]]>
+	</mx:Script>
+	
+</mx:Application>

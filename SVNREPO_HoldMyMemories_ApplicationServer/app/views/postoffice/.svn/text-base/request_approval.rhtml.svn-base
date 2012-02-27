@@ -1,0 +1,12 @@
+<p>Hello <i><%= @name %></i>. </p>
+
+<p>Please login using below credentials to order for prints from the <%= @owner %>’s studio sessions.</p>
+
+<p><a href="<%= @link %>/order_request/visitor_login">Click here</a> to login</p>
+<p>Email address: <%= @recipients %></p>
+<p>Passcode to access the studio images: <%= @password %></p>
+
+Thank-you,<br/>
+
+HoldMYMemories.com Team
+

@@ -1,0 +1,234 @@
+<font color="#f5dfa6"><%=flash[:share_familypage]%></font>
+<font color="#ff0000"><%=flash[:share_unsuccefull]%></font>
+<%= javascript_include_tag 'modalbox/prototype' %>
+<script type="text/javascript" src="/javascripts/modalbox/scriptaculous.js?load=effects"></script>
+<script type="text/javascript" src="/javascripts/modalbox/modalbox.js"></script>
+<%= stylesheet_link_tag 'modalbox/modalbox' %>
+<% session['redirect'] = '10' %>
+<input type="hidden" name="family_name" id="family_name" value="<%=params[:familyname]%>" />
+<% if(params[:modal] == '1')%>
+  <script language='javascript'>
+    var familyname = document.getElementById('family_name').value;
+    Modalbox.show('/my_familywebsite/share?link=/'+familyname+'&error=Invalid Capcha Please try again!!', {title: '<br><font color="#f5dfa6">Share this Page with your friends!</font>',  width:625})
+  </script>
+
+
+<%end%>
+
+<table width="100%" border="0" background="#000000">
+
+  <% @sub_chap = SubChapter.find(:all, :conditions => "id=#{params[:id]}")
+  for @i in @sub_chap
+    @subname=@i.sub_chapname;
+  %>
+  <%end%>				 </th>
+<tr>
+  <th width="100%" align="right" valign="top"><a href="/my_familywebsite/gallery_grid_view/<%=params[:familyname]%>?subchapter_id=<%=params[:id]%>"  class="orangelinkswitch">
+      <!--img src="/images/gridicon1.jpg" border="0"-->
+				Switch To Grid View</a>&nbsp;&nbsp;</th>
+</tr> </table>
+<table width="100%" border="0" cellspacing="0" cellpadding="0">
+
+  <tr><td>
+
+      <input type="hidden" name="subchapterid" id="subchapterid" value="<%=@subchapterid%>">
+      <input type="hidden" id="proxyurls" value="<%=@proxyurls%>"/>
+      <input type="hidden" id="familynam" value="<%=params[:familyname]%>"/>
+      <%
+      if (@password_protected_user.themes == 'myfamilywebsite' or  @password_protected_user.themes == 'familywebsite_pink_bottom' or  @password_protected_user.themes == 'familywebsite_white_bottom')
+
+        cwidth=898
+        cheight=350
+
+      else
+
+        cwidth=560
+        cheight=350
+
+      end
+    %>
+      <input type="hidden" name="buttonVisible" id="buttonVisible" value="<%=@buttonVisibility%>">
+      <script src="/AC_OETags.js" language="JavaScript"></script>
+      <script src="DWConfiguration/ActiveContent/IncludeFiles/AC_RunActiveContent.js" type="text/javascript"></script>
+      <script type="text/javascript">
+        var subchapid = document.getElementById("subchapterid").value;
+        var proxyurls = document.getElementById("proxyurls").value;
+        var familynam = document.getElementById("familynam").value;
+        var visibility = document.getElementById("buttonVisible").value;
+        AC_FL_RunContent( 'codebase','http://download.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=7,0,19,0',
+        'width','<%=cwidth%>',
+        'height','<%=cheight%>',
+        'src','/LeftDisplayStack',
+        'quality','high',
+        'wmode','transparent',
+        'pluginspage','http://www.macromedia.com/go/getflashplayer',
+        'movie','/LeftDisplayStack',
+
+        'flashvars', 'serverUrl=/my_familywebsite/gallerycoverflowimages/'+subchapid+'&navigateToUrl=/my_familywebsite/gallery_fisheye/&buttonsVisible='+visibility+'&proxyurls='+proxyurls+'&familyname='+familynam); //end AC code
+
+      </script>
+    </td></tr>
+
+</table>
+
+<table border="0" width="800">
+  <tr><td align="center">
+      <%if session[:hmm_user] && logged_in_hmm_user.family_name == params[:familyname] %><a href="/manage_content/new_subchapjournal/<%=params[:id]%>?familyname=<%=params[:familyname]%>" class="journal_txt_link">Journal this</a><%else%>
+
+
+    <tr><td colspan="3" align="center">
+        <font color="white" face="arial" size="2"><u><%= link_to_remote("<span class='commentcont'>Add Comment</span>", :update =>"add_comment",
+            :url => {:controller => :my_familywebsite, :action => :new_subchap_comment, :id=> params[:id] , :familyname => params[:familyname]} ,:layout => false  ) %></u>
+          &nbsp; <%  @subchapter_comment_count = SubchapComment.count(:all,:conditions => "subchap_id=#{params[:id]} and subchap_jid='0' and e_approval='approve'")
+          if @subchapter_comment_count > 0 %>
+
+            <u><%= link_to_remote("<span class='commentcont'>View Comments </span>", :update =>"add_comment",
+              :url => {:controller => :my_familywebsite, :action => :view_subchap_comments, :subchap_id => params[:id], :jid => 0, :familyname => params[:familyname]  } ,:layout => false  ) %></u>
+          <%end%>
+        </font>
+        <p>
+        <div id="add_comment"></div>
+        </p>
+
+      </td></tr>
+
+  <%end%>&nbsp;&nbsp;&nbsp;&nbsp;
+  <font color="#f5dfa6"><%=  flash[:notice_cc]%></font>
+  <font color="#f5dfa6"><%=  flash[:notice_cca]%></font>
+  <font color="#f5dfa6"><%=  flash[:notice_ccr]%></font>
+
+  <font color="#f5dfa6"><%=  flash[:notice_ccd]%></font>
+  <font color="#f5dfa6"><%=flash[:notice2]%></font>
+  <font color="#f5dfa6" size="2" ><%=flash[:notice_scc_add]%></font>
+</td></tr>
+</table>
+
+<%    @sub_chap_journal_count = SubChapJournal.count(:all,:conditions => "sub_chap_id=#{params[:id]}")
+%>
+<%if @sub_chap_journal_count>0%>
+
+  <table width="88%" border="0" class="border" cellspacing="0" cellpadding="0">
+
+
+    <tr>
+
+      <th align="left" valign="top" scope="col">
+        <table width="100%" border="0"  align="center" cellpadding="0" cellspacing="0"  id="table_br">
+
+          <tr>
+            <th width="22" height="32" align="center" valign="top" scope="col"  id="table_bar_bg">&nbsp;</th>
+            <th align="left" valign="middle" scope="col" id="table_bar_bg"><table width="100%" border="0" cellspacing="0" cellpadding="0">
+                <tr>
+                  <td width="50%" height="30" align="left" valign="middle"><span class="btmtxt">Journal
+                      <% for @i in @sub_chapter_journal %>
+                      </span>	</td>
+                    <td align="right" valign="middle"><span><font size="2"></font></span></td>
+                  </tr>
+                </table>
+              </th>
+
+              <th width="22" align="left" valign="top" scope="col"  id="table_bar_bg">&nbsp;</th>
+            </tr>
+
+            <tr>
+              <th height="32" align="left" valign="top" scope="col">&nbsp;</th>
+              <th align="left" valign="middle" scope="col"><span class="commenthr"><%= @i.journal_title %> &nbsp;&nbsp;
+
+                <%=@i.created_on.strftime("%a %b %d, %Y")%></span></th>
+
+
+              <th align="left" valign="top" scope="col">&nbsp;</th>
+            </tr>
+            <tr>
+              <th align="left" valign="top" scope="col">&nbsp;</th>
+              <th align="left" valign="top" class="commentcont" scope="col"><%= @i.subchap_journal.gsub("\n", "<br />\n") %></th>
+              <th align="left" valign="top" scope="col">&nbsp;</th>
+            </tr>
+            <tr>
+              <th align="left" valign="top" scope="col">&nbsp;</th>
+              <th align="left" valign="top" class="text-journal" scope="col">&nbsp;</th>
+              <th align="left" valign="top" scope="col">&nbsp;</th>
+            </tr>
+
+            <!-- comments to be viewed once approved-->
+            <tr>
+              <th>&nbsp;</th>
+              <th colspan="3">
+                <% @tag_cnt = SubchapComment.count(:joins => "as a , sub_chap_journals as c " , :conditions => "c.sub_chap_id=#{params[:id]} and c.id=a.subchap_jid and a.e_approval = 'approve'") %>
+                <% if @tag_cnt != 0 %>
+                  <table width="94%" cellspacing="0" cellpadding="3" id="table_br">
+                    <tr bordercolor="#000000">
+                      <th height="30" colspan="3" align="left" valign="middle"  scope="col" id="table_bar_bg"><span class="btmtxt"><%if session[:friend]==''%>Approved<%end%> Journal Comments</th>
+                    </tr>
+                    <%	@tag_c = SubchapComment.find_by_sql("select a.*,b.*,c.*, a.id as cid from subchap_comments as a , hmm_users as b, sub_chap_journals as c where c.sub_chap_id=#{params[:id]} and c.id=a.subchap_jid and a.uid=b.id and a.e_approval = 'approve' ORDER BY a.id DESC")
+
+                    for j in @tag_c %>
+
+                      <tr bordercolor="#000000">
+
+                        <th width="149" align="left" valign="top" class="text-journal" scope="col"><span class="style1">Commented By&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>  :</th>
+                        <th width="630" align="left" valign="top" scope="col"><%= j.v_fname%></th>
+                      </tr>
+
+                      <tr bordercolor="#000000">
+
+                        <th align="left" valign="top" class="text-journal" scope="col"><span class="style1">Description&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>  :</th>
+
+                        <th align="left" valign="top" scope="col"><%= j.v_comments.gsub("\n", "<br />\n")  %></th>
+                      </tr>
+
+                      <tr bordercolor="#000000">
+                        <th height="10" colspan="3" align="right" valign="middle"  class="text-journal" scope="col">
+                        </th>
+                      </tr>
+                      <tr bordercolor="#000000">
+                        <th align="right" colspan="3" valign="middle" bgcolor="#191919" class="text-journal" scope="col"></th>
+                      </tr>
+                      <tr bordercolor="#000000">
+                        <th align="right" colspan="3" valign="middle" bgcolor="#191919" class="text-journal" scope="col"></th>
+                      </tr>
+                    <%end%>
+                  </table>
+
+                </th>
+              </tr><%end%>
+            <tr>
+              <th>&nbsp;</th>
+              <th>&nbsp;</th><th>&nbsp;</th>
+            </tr>
+            <!-- comments to be viewed once approved-->
+
+
+            <font color="#f5dfa6"><%=  flash[:notice_sjc]%></font>
+            <font color="#f5dfa6"><%=  flash[:notice_sce]%></font>
+
+
+
+          <%end%>
+
+        </table></th>
+
+
+
+
+    </tr>
+  </table>
+<%end%>
+
+<script type="text/javascript">
+
+
+  function call_cntbx()
+  {
+    if(document.getElementById('show_comment').style.display=='none')
+    {
+      document.getElementById('show_comment').style.display = 'block';
+    }else{
+
+      document.getElementById('show_comment').style.display = 'none';
+    }
+
+  }
+
+</script>
+

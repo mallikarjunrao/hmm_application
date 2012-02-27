@@ -1,0 +1,9 @@
+<form name="frm" action="http://content.holdmymemories.com/manage_hmm_account/customer_upload_avtar/" method="post" enctype="multipart/form-data">
+	<input type="file" id="hmm_user_v_myimage" name="hmm_user[v_myimage]" />
+	<input type="text" id="hmm_user_id" name="hmm_user[id]" value="<%=params[:id]%>"  />
+	<input type="submit" name="sub1" value="upload" />
+	
+	
+</form>
+
+<img src="http://content.holdmymemories.com/hmm_user/photos/<%=@results.v_myimage%>" name="img1" />

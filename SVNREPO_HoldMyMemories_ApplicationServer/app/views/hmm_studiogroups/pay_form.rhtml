@@ -1,0 +1,611 @@
+ <%= stylesheet_link_tag 'main' %>
+<%= stylesheet_link_tag 'hmmout' %>
+ <%= stylesheet_link_tag 'hmm' %>
+<%= stylesheet_link_tag 'popup.css' %>
+<%= javascript_include_tag 'popup.js' %>
+<%= stylesheet_link_tag 'SpryAssets/SpryValidationRadio' %>
+<%= stylesheet_link_tag 'SpryAssets/SpryValidationTextField' %>
+<%= stylesheet_link_tag 'SpryAssets/SpryValidationRadio' %>
+<%= javascript_include_tag 'scriptaculous' %>
+<%= javascript_include_tag 'AC_OETags' %>
+<%= javascript_include_tag 'SpryAssets/SpryValidationTextField' %>
+<link href="/stylesheets/modalbox/modalbox.css?1247066130" media="screen" rel="stylesheet" type="text/css" />
+
+<style type="text/css">
+<!--
+.style3 {color: #999999}
+-->
+</style>
+
+
+<script type="text/javascript">
+function windowOpener(windowHeight, windowWidth, windowName, windowUri)
+{
+	//alert();
+    var centerWidth = (window.screen.width - windowWidth) / 2;
+    var centerHeight = (window.screen.height - windowHeight) / 2;
+
+	var features='resizable=0,width='+ windowWidth + 
+        ',height='+ windowHeight + 
+        ',left='+ centerWidth + 
+        ',top='+ centerHeight;
+    newWindow = window.open(windowUri,'',features);
+
+    //newWindow.focus();
+    //return newWindow.name;
+}
+</script>
+
+<script type="text/javascript">
+
+
+
+        function go()
+        {
+            document.frm1.submit();
+
+        }
+
+        function verify()
+        {
+			
+			 if(document.getElementById('card_no').value == "")
+                {
+                    alert("Credit Card Number is a required field")
+                    document.getElementById('card_no').focus();
+                    return false;
+                }
+           if(document.getElementById('cardcvv_no').value == "")
+                {
+                    alert("CVV number is a required field")
+                    document.getElementById('cardcvv_no').focus();
+                    return false;
+                }
+				if(document.getElementById('fname').value == "")
+                {
+                    alert("First Name is a required field")
+                    document.getElementById('fname').focus();
+                    return false;
+                }
+
+           if(document.getElementById('lname').value == "")
+                {
+                    alert("Last Name is a required field")
+                    document.getElementById('lname').focus();
+                    return false;
+                }
+             if(document.getElementById('bfname').value == "")
+                {
+                    alert("Billing First Name is a required field")
+                    document.getElementById('bfname').focus();
+                    return false;
+                }
+
+           if(document.getElementById('blname').value == "")
+                {
+                    alert("Billing Last Name is a required field")
+                    document.getElementById('blname').focus();
+                    return false;
+                }
+
+            if(document.getElementById('street_address').value == "")
+                {
+                    alert("Street Address is a required field")
+                    document.getElementById('street_address').focus();
+                    return false;
+                }
+            if(document.getElementById('city').value == "")
+                {
+                    alert("City is a required field")
+                    document.getElementById('city').focus();
+                    return false;
+                }
+           if(document.getElementById('state').value == "")
+                {
+                    alert("State is a required field")
+                    document.getElementById('state').focus();
+                    return false;
+                }
+
+           if(document.getElementById('postcode').value == "")
+                {
+                    alert("Zip/Postal code is a required field")
+                    document.getElementById('postcode').focus();
+                    return false;
+                }
+          if(document.getElementById('telephone').value == "")
+                {
+                    alert("Phone Number is a required field")
+                    document.getElementById('telephone').focus();
+                    return false;
+                }
+         if(document.getElementById('telephone').value != "")
+                {
+                    var res = televerify();
+                    if(res==false)
+                    {
+                        //alert("Invalid Telephone Number");
+                        document.getElementById('telephone').focus();
+                        return false;
+                    }
+                }
+
+
+
+           if(document.getElementById('email').value == "")
+                {
+                    alert("Email Address  is a required field")
+                    document.getElementById('email').focus();
+                    return false;
+                }
+
+
+
+        }
+
+        function televerify()
+        {
+
+                 /*   var Phone=document.getElementById('stelephone')
+
+                    if ((Phone.value==null)||(Phone.value=="")){
+                            alert("Please Enter your Phone Number")
+                            Phone.focus()
+                            return false
+                    }
+                    if (checkInternationalPhone(Phone.value)==false){
+                            alert("Please Enter a Valid Phone Number")
+                            Phone.value=""
+                            Phone.focus()
+                            return false
+                    }
+
+                    var Phone=document.getElementById('telephone')
+
+                    if ((Phone.value==null)||(Phone.value=="")){
+                            alert("Please Enter your Phone Number")
+                            Phone.focus()
+                            return false
+                    }
+                    if (checkInternationalPhone(Phone.value)==false){
+                            alert("Please Enter a Valid Phone Number")
+                            Phone.value=""
+                            Phone.focus()
+                            return false
+                    }
+		    return true
+
+*/
+                }
+
+	</script>
+
+
+      <script language = "Javascript">
+/**
+ * DHTML phone number validation script. Courtesy of SmartWebby.com (http://www.smartwebby.com/dhtml/)
+ */
+
+// Declaring required variables
+var digits = "0123456789";
+// non-digit characters which are allowed in phone numbers
+var phoneNumberDelimiters = "()- ";
+// characters which are allowed in international phone numbers
+// (a leading + is OK)
+var validWorldPhoneChars = phoneNumberDelimiters + "+";
+// Minimum no of digits in an international phone no.
+var minDigitsInIPhoneNumber = 10;
+
+function isInteger(s)
+{   var i;
+    for (i = 0; i < s.length; i++)
+    {
+        // Check that current character is number.
+        var c = s.charAt(i);
+        if (((c < "0") || (c > "9"))) return false;
+    }
+    // All characters are numbers.
+    return true;
+}
+function trim(s)
+{   var i;
+    var returnString = "";
+    // Search through string's characters one by one.
+    // If character is not a whitespace, append to returnString.
+    for (i = 0; i < s.length; i++)
+    {
+        // Check that current character isn't whitespace.
+        var c = s.charAt(i);
+        if (c != " ") returnString += c;
+    }
+    return returnString;
+}
+function stripCharsInBag(s, bag)
+{   var i;
+    var returnString = "";
+    // Search through string's characters one by one.
+    // If character is not in bag, append to returnString.
+    for (i = 0; i < s.length; i++)
+    {
+        // Check that current character isn't whitespace.
+        var c = s.charAt(i);
+        if (bag.indexOf(c) == -1) returnString += c;
+    }
+    return returnString;
+}
+
+function checkInternationalPhone(strPhone){
+var bracket=3
+strPhone=trim(strPhone)
+if(strPhone.indexOf("+")>1) return false
+if(strPhone.indexOf("-")!=-1)bracket=bracket+1
+if(strPhone.indexOf("(")!=-1 && strPhone.indexOf("(")>bracket)return false
+var brchr=strPhone.indexOf("(")
+if(strPhone.indexOf("(")!=-1 && strPhone.charAt(brchr+2)!=")")return false
+if(strPhone.indexOf("(")==-1 && strPhone.indexOf(")")!=-1)return false
+s=stripCharsInBag(strPhone,validWorldPhoneChars);
+return (isInteger(s) && s.length >= minDigitsInIPhoneNumber);
+}
+
+function ValidateForm(){
+	var Phone=document.frmSample.txtPhone
+
+	if ((Phone.value==null)||(Phone.value=="")){
+		alert("Please Enter your Phone Number")
+		Phone.focus()
+		return false
+	}
+      if (checkInternationalPhone(Phone.value)==false){
+		alert("Please Enter a Valid Phone Number")
+		Phone.value=""
+		Phone.focus()
+		return false
+	}
+	return true
+ }
+
+
+
+</script>
+
+<style type = "text/css">
+.info_text{
+	color:#999999;
+	font-family:Arial;
+	font-size: 20px;
+}
+
+.click_text{
+	color:#999999;
+	font-family:Arial;
+	font-size: 24px;
+	text-decoration:none;
+}
+
+.main{
+	color:#ffffff;
+	font-family:Arial;
+	font-size: 12px;
+	text-decoration:none;
+}
+</style>
+
+<form name="frm" action="/hmm_studiogroups/process_payment/" method="post" onSubmit="return verify()"   >
+<table width="901" border="0" cellspacing="0" cellpadding="0">
+
+              <tr>
+                <td align="center" valign="top"><font color="#FF0000"><%=flash[:error]%>
+                <% for j in response %>
+
+                <%=j%>
+
+                <%end%>
+                </font></td>
+              </tr>
+              <tr>
+                <td width="901" align="center" valign="top"><table width="850" border="0" cellspacing="0" cellpadding="0">
+                  <tr>
+                    <td width="11" align="left" valign="top"><img src="/images/c_round1.jpg" width="11" height="11" /></td>
+                    <td width="828" align="left" valign="top" background="/images/c_round2.jpg"></td>
+                    <td width="11" align="left" valign="top"><img src="/images/c_round3.jpg" width="11" height="11" /></td>
+                  </tr>
+                  <tr>
+                    <td align="left" valign="top" background="/images/c_round7.jpg"></td>
+                    <td align="right" valign="top" background="/images/c_roundmid.jpg" bgcolor="#050505"><table width="820" border="0" cellspacing="0" cellpadding="0">
+                      <tr>
+                        <td width="423" align="left" valign="top"><table width="93%" border="0" cellspacing="0" cellpadding="0">
+                          <tr>
+                            <td colspan="2" align="left" valign="top" class="leftconthr">Payment Information</td>
+                      </tr>
+                      <tr>
+                            <td width="48%" align="left" valign="top">&nbsp;</td>
+                            <td width="52%" align="left" valign="top">&nbsp;</td>
+                          </tr>
+
+                          <tr>
+                            <td align="left" valign="top" class="whitecont">Initial License Fee</td>
+                            <td align="left" valign="top">$295.00
+                            <input type="hidden" name="amt" value="295">
+                            </td>
+                          </tr>
+                          <tr>
+                            <td width="48%" align="left" valign="top">&nbsp;</td>
+                            <td width="52%" align="left" valign="top">&nbsp;</td>
+                          </tr>
+
+                          <tr>
+                            <td align="left" valign="top" class="whitecont">Card Number *</td>
+                            <td align="left" valign="top"><div class="main" style='display:block;'><span id="cc_visafield"><input type="text" maxlength="16" id="card_no" name="card_no" class="carttxtbox"/><br><span class="textfieldInvalidFormatMsg">Invalid format.</span><span class="textfieldRequiredMsg">The value is required.</span></span></div></td>
+                          </tr>
+                          <tr>
+                            <td align="left" valign="top">&nbsp;</td>
+                            <td align="left" valign="top">&nbsp;</td>
+                          </tr>
+                          <tr>
+                            <td align="left" valign="top" class="whitecont">CVV Number*</td>
+                            <td align="left" valign="top"><span id="sprytextfield9" ><input type="text" name="cardcvv_no" id="cardcvv_no" size="5" maxlength="4" class="carttxtboxcvv"/> &nbsp;<span class="textfieldRequiredMsg">Enter your CVV number.</span></span>
+		<!--<a href="javascript:windowOpener('300','300', 'windowName', 'cvv.rhtml')">Click Here</a>--><br>
+		</td>
+                          </tr>
+                          <tr>
+                            <td align="left" valign="top">&nbsp;</td>
+                            <td align="left" valign="top">&nbsp;</td>
+                          </tr>
+                          <tr>
+                            <td align="left" valign="top" class="whitecont">Expiration Date *</td>
+                            <td align="left" valign="top"><select name="exp_month" id="exp_month" onChange="calculate_amount_months()">
+            <option value="1">1</option>
+            <option value="2">2</option>
+            <option value="3">3</option>
+            <option value="4">4</option>
+            <option value="5">5</option>
+            <option value="6">6</option>
+            <option value="7">7</option>
+            <option value="8">8</option>
+            <option value="9">9</option>
+            <option value="10">10</option>
+            <option value="11">11</option>
+            <option value="12">12</option>
+
+
+           </select>&nbsp;&nbsp;
+           <select name="exp_year" id="exp_year" onChange="calculate_amount_months()">
+
+             <%
+                i=2009
+                until i == 2030
+
+
+             %>
+            <option value="<%=i%>"><%=i%></option>
+
+
+              <%
+                    i=i+1
+                end
+            %>
+
+           </select>
+
+             </td>
+                          </tr>
+                          <tr>
+                            <td align="left" valign="top">&nbsp;</td>
+                            <td align="left" valign="top">&nbsp;</td>
+                          </tr>
+
+                          <tr>
+                            <td align="left" valign="top" class="whitecont">First Name on Card *</td>
+                            <td align="left" valign="top" class="whitecont">
+                            <span id="sprytextfield10">
+                            <input type="text" name="fname" id="fname" class="carttxtbox"/><br><span class="textfieldRequiredMsg">First Name is required.</span></span></td>
+                          </tr>
+                          <tr>
+                            <td align="left" valign="top">&nbsp;</td>
+                            <td align="left" valign="top">&nbsp;</td>
+                          </tr>
+
+                          <tr>
+                            <td align="left" valign="top" class="whitecont">Last Name on Card *</td>
+                            <td align="left" valign="top" class="whitecont"><span id="sprytextfield11"><input type="text" name="lname" id="lname" class="carttxtbox"/><br>
+                            <span class="textfieldRequiredMsg">Last Name is required.</span></span></td>
+                          </tr>
+                          <tr>
+                            <td align="left" valign="top"><label></label></td>
+                            <td align="left" valign="top">&nbsp;</td>
+                          </tr>
+
+                          <tr>
+                            <td colspan="2" align="center" valign="top"><span class="whitecont"><img src="/images/cc.jpg" width="199" height="23" /></span></td>
+                      </tr>
+                             <tr>
+                            <td colspan="2" align="center" valign="top">&nbsp;</td>
+                            </tr>
+
+                      </table></td>
+                        <td width="1" bgcolor="#323232"></td>
+                         <td width="396" align="right" valign="top"><table width="93%" border="0" cellspacing="0" cellpadding="0">
+                          <tr>
+                            <td colspan="2" align="left" valign="top" class="leftconthr">Billing Information</td>
+                          </tr>
+
+                          <tr>
+                            <td align="left" valign="top">&nbsp;</td>
+                            <td align="left" valign="top">&nbsp;</td>
+                          </tr>
+                          <tr>
+                            <td align="left" valign="top">&nbsp;</td>
+                            <td align="left" valign="top">&nbsp;</td>
+                          </tr>
+                           <tr>
+                            <td width="45%" align="left" valign="top"><span class="whitecont">First Name *</span></td>
+                           <td width="55%" align="left" valign="top"><span id="sprytextfield14">
+                           <input type="text" name="bfname" id="bfname" class="carttxtbox"/><br><span class="textfieldRequiredMsg">First Name is required.</span></span></td>
+                          </tr>
+                          <tr>
+                            <td align="left" valign="top">&nbsp;</td>
+                            <td align="left" valign="top">&nbsp;</td>
+                          </tr>
+                          <tr>
+                            <td width="45%" align="left" valign="top"><span class="whitecont">Last Name *</span></td>
+                            <td width="55%" align="left" valign="top"><span id="sprytextfield15">
+                            <input type="text" name="blname" id="blname" class="carttxtbox"/><br><span class="textfieldRequiredMsg">Last Name is required.</span></span></td>
+                          </tr>
+                          <tr>
+                            <td align="left" valign="top">&nbsp;</td>
+                            <td align="left" valign="top">&nbsp;</td>
+                          </tr>
+                          <tr>
+                            <td width="45%" align="left" valign="top"><span class="whitecont">Street Address *</span></td>
+                            <td width="55%" align="left" valign="top"><span id="sprytextfield3">
+                            <input type="text" name="street_address" id="street_address" class="carttxtbox"/><br><span class="textfieldRequiredMsg">Street Address is required.</span></span></td>
+                          </tr>
+                          <tr>
+                            <td align="left" valign="top" class="whitecont">&nbsp;</td>
+                            <td align="left" valign="top" class="whitecont">&nbsp;</td>
+                          </tr>
+                          <tr>
+                            <td align="left" valign="top" class="whitecont">City *</td>
+                            <td align="left" valign="top" class="whitecont"><span id="sprytextfield6"><input type="text" name="city" id="city" value="" class="carttxtbox"/><br><span class="textfieldRequiredMsg">City is required.</span></span></td>
+                          </tr>
+                          <tr>
+                            <td align="left" valign="top" class="whitecont">&nbsp;</td>
+                            <td align="left" valign="top" class="whitecont">&nbsp;</td>
+                          </tr>
+                          <tr>
+                            <td align="left" valign="top" class="whitecont">State *</td>
+                            <td align="left" valign="top" class="whitecont">
+                          <span id="sprytextfield4">
+				<select name="state" id="state">
+                <option value="">-Select-</option>
+                <% for k in @states %>
+                <option value="<%=k.id%>"><%=k.state%></option>
+                <%end%>
+                </select>
+                <br><span class="textfieldRequiredMsg">State/Province is required.</span></span></td>
+                          </tr>
+                          <tr>
+                            <td align="left" valign="top">&nbsp;</td>
+                            <td align="left" valign="top">&nbsp;</td>
+                          </tr>
+
+                          <tr>
+                            <td align="left" valign="top" class="whitecont">Zip *</td>
+                            <td align="left" valign="top"><span id="sprytextfield13"><input type="text" name="postcode" value="" id="postcode" class="carttxtbox"/><br><span class="textfieldRequiredMsg">Zipcode is required.</span></span></td>
+                          </tr>
+                          <tr>
+                            <td align="left" valign="top" class="whitecont">&nbsp;</td>
+                            <td align="left" valign="top">&nbsp;</td>
+                          </tr>
+                          <tr>
+                            <td align="left" valign="top" class="whitecont">Country *</td>
+                            <td align="left" valign="top"><input name="country" id="country" value="United States" class="carttxtbox" readonly></td>
+                          </tr>
+                          <tr>
+                            <td align="left" valign="top">&nbsp;</td>
+                            <td align="left" valign="top">&nbsp;</td>
+                          </tr>
+
+                          <tr>
+
+
+
+
+
+
+
+
+                            <td align="left" valign="top" class="whitecont">Phone  *</td>
+                            <td align="left" valign="top"> <span id="sprytextfield12"><input name="telephone" id="telephone" type="text" class="carttxtbox">&nbsp;<br> <font size="1" color="green">Example: 555-555-5555   or 5555555555</font><br><span class="textfieldRequiredMsg">Phone  is required.</span></span></td>
+                          </tr>
+                          <tr>
+                            <td align="left" valign="top">&nbsp;</td>
+                            <td align="left" valign="top">&nbsp;</td>
+                          </tr>
+                          <tr>
+                            <td align="left" valign="top" class="whitecont">Email  *</td>
+                            <td align="left" valign="top"><span id="sprytextfield8">
+                	<input name="email" id="email" type="text" class="carttxtbox"><br><span class="textfieldRequiredMsg">Email is Required.</span><span class="textfieldInvalidFormatMsg">Invalid format.</span>
+</span> </td>
+                          </tr>
+
+                          <tr>
+                            <td align="left" valign="top">&nbsp;</td>
+                            <td align="left" valign="top">&nbsp;</td>
+                          </tr>
+
+                        </table></td>
+                      </tr>
+
+                    </table></td>
+                    <td align="left" valign="top" background="/images/c_round8.jpg"></td>
+                  </tr>
+                  <tr>
+                    <td align="left" valign="top"><img src="/images/c_round4.jpg" width="11" height="11" /></td>
+                    <td align="left" valign="top" background="/images/c_round5.jpg"></td>
+                    <td align="left" valign="top"><img src="/images/c_round6.jpg" width="11" height="11" /></td>
+                  </tr>
+                </table></td>
+
+              </tr>
+              <tr>
+                <td align="center" valign="top"><table width="850" border="0" cellspacing="0" cellpadding="0">
+                  <tr>
+                    <td width="561">&nbsp;</td>
+                    <td width="289" align="right" valign="top">&nbsp;</td>
+                  </tr>
+                  <tr>
+                    <td align="center">
+                    
+                    </td>
+                    <td align="right" valign="top">&nbsp;</td>
+                  </tr>
+                </table></td>
+              </tr>
+              <tr>
+                <td align="center" valign="top">
+                <input type="submit" name="sub" id="sub" value="Pay">
+</td>
+              </tr>
+              <tr>
+                <td align="center" valign="top">&nbsp;</td>
+              </tr>
+              <tr>
+                <td align="center" valign="top">&nbsp;</td>
+              </tr>
+  </table>
+             <input type="hidden" name="arb_res" id="arb_res" value="1" />
+       <input type="hidden" name="end_date" id="end_date" value="" />
+       <input type="hidden" name="start_date"  id="start_date" value='<%=Time.now.strftime("%Y-%m-%d") %>' />
+
+
+</form>
+
+<script type="text/javascript">
+
+var sprytextfield1 = new Spry.Widget.ValidationTextField("sprytextfield1", "none", {validateOn:["blur"],hint:'First Name',isRequired:true});
+var sprytextfield2 = new Spry.Widget.ValidationTextField("sprytextfield2", "none", {validateOn:["blur"]});
+var sprytextfield3 = new Spry.Widget.ValidationTextField("sprytextfield3", "none", {validateOn:["blur"]});
+var sprytextfield4 = new Spry.Widget.ValidationTextField("sprytextfield4", "none", {validateOn:["blur"]});
+var sprytextfield5 = new Spry.Widget.ValidationTextField("sprytextfield5", "none", {validateOn:["blur"]});
+var sprytextfield6 = new Spry.Widget.ValidationTextField("sprytextfield6", "none", {validateOn:["blur"]});
+
+
+var sprytextfield10 = new Spry.Widget.ValidationTextField("sprytextfield10", "none", {validateOn:["blur"]});
+var sprytextfield11 = new Spry.Widget.ValidationTextField("sprytextfield11", "none", {validateOn:["blur"]});
+var sprytextfield12 = new Spry.Widget.ValidationTextField("sprytextfield12", "none", {validateOn:["blur"]});
+var sprytextfield13 = new Spry.Widget.ValidationTextField("sprytextfield13", "none", {validateOn:["blur"]});
+var sprytextfield14 = new Spry.Widget.ValidationTextField("sprytextfield14", "none", {validateOn:["blur"]});
+var sprytextfield15 = new Spry.Widget.ValidationTextField("sprytextfield15", "none", {validateOn:["blur"]});
+
+
+var sprytextfield9 = new Spry.Widget.ValidationTextField("sprytextfield9", "integer", {validateOn:["blur"], minChars:2});
+
+var sprytextfield8 = new Spry.Widget.ValidationTextField("sprytextfield8", "email", {validateOn:["blur"]});
+
+
+</script>
+<script type="text/javascript">
+    new Popup('info','infolink');
+</script>
+<%= link_to 'Back', :action => 'license_form' %>

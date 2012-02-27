@@ -1,0 +1,352 @@
+<script src="file:///C|/Documents and Settings/imran/Application Data/Adobe/Dreamweaver 9/Configuration/Temp/Assets/eam138.tmp/SpryValidationTextField.js" type="text/javascript"></script>
+<link href="file:///C|/Documents and Settings/imran/Application Data/Adobe/Dreamweaver 9/Configuration/Temp/Assets/eam138.tmp/SpryValidationTextField.css" rel="stylesheet" type="text/css">
+<p align="left">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+<% @shipping_details=ShippingInformation.find(:all,:conditions=>"user_id='#{session[:hmm_user]}'")
+
+%>
+
+</p>
+<%= stylesheet_link_tag 'popup.css' %>
+<%= stylesheet_link_tag 'SpryAssets/SpryValidationRadio' %>
+ <%= stylesheet_link_tag 'main' %>
+<%= stylesheet_link_tag 'hmmout' %>
+ <%= stylesheet_link_tag 'hmm' %>
+ <%= stylesheet_link_tag 'SpryAssets/SpryValidationTextField' %>
+ <%= stylesheet_link_tag 'SpryAssets/SpryValidationRadio' %>
+ <%= javascript_include_tag 'scriptaculous' %>
+<%= javascript_include_tag 'popup.js' %>
+ <%= javascript_include_tag 'AC_OETags' %>
+ <%= javascript_include_tag 'SpryAssets/SpryValidationTextField' %>
+
+<style type="text/css">
+<!--
+.style3 {color: #999999}
+-->
+</style>
+
+
+
+<script type="text/javascript">
+
+
+
+        function go()
+        {
+            document.frm1.submit();
+
+        }
+
+        function verify()
+        {
+			
+			 if(document.getElementById('promocode').value == "")
+                {
+                    alert("Enter the Discount Code")
+                    document.getElementById('promocode').focus();
+                    return false;
+                }
+           
+
+
+
+        }
+
+        function televerify()
+        {
+
+                 /*   var Phone=document.getElementById('stelephone')
+
+                    if ((Phone.value==null)||(Phone.value=="")){
+                            alert("Please Enter your Phone Number")
+                            Phone.focus()
+                            return false
+                    }
+                    if (checkInternationalPhone(Phone.value)==false){
+                            alert("Please Enter a Valid Phone Number")
+                            Phone.value=""
+                            Phone.focus()
+                            return false
+                    }
+
+                    var Phone=document.getElementById('telephone')
+
+                    if ((Phone.value==null)||(Phone.value=="")){
+                            alert("Please Enter your Phone Number")
+                            Phone.focus()
+                            return false
+                    }
+                    if (checkInternationalPhone(Phone.value)==false){
+                            alert("Please Enter a Valid Phone Number")
+                            Phone.value=""
+                            Phone.focus()
+                            return false
+                    }
+		    return true
+
+*/
+                }
+
+	</script>
+
+
+      <script language = "Javascript">
+/**
+ * DHTML phone number validation script. Courtesy of SmartWebby.com (http://www.smartwebby.com/dhtml/)
+ */
+
+// Declaring required variables
+var digits = "0123456789";
+// non-digit characters which are allowed in phone numbers
+var phoneNumberDelimiters = "()- ";
+// characters which are allowed in international phone numbers
+// (a leading + is OK)
+var validWorldPhoneChars = phoneNumberDelimiters + "+";
+// Minimum no of digits in an international phone no.
+var minDigitsInIPhoneNumber = 10;
+
+function isInteger(s)
+{   var i;
+    for (i = 0; i < s.length; i++)
+    {
+        // Check that current character is number.
+        var c = s.charAt(i);
+        if (((c < "0") || (c > "9"))) return false;
+    }
+    // All characters are numbers.
+    return true;
+}
+function trim(s)
+{   var i;
+    var returnString = "";
+    // Search through string's characters one by one.
+    // If character is not a whitespace, append to returnString.
+    for (i = 0; i < s.length; i++)
+    {
+        // Check that current character isn't whitespace.
+        var c = s.charAt(i);
+        if (c != " ") returnString += c;
+    }
+    return returnString;
+}
+function stripCharsInBag(s, bag)
+{   var i;
+    var returnString = "";
+    // Search through string's characters one by one.
+    // If character is not in bag, append to returnString.
+    for (i = 0; i < s.length; i++)
+    {
+        // Check that current character isn't whitespace.
+        var c = s.charAt(i);
+        if (bag.indexOf(c) == -1) returnString += c;
+    }
+    return returnString;
+}
+
+function checkInternationalPhone(strPhone){
+var bracket=3
+strPhone=trim(strPhone)
+if(strPhone.indexOf("+")>1) return false
+if(strPhone.indexOf("-")!=-1)bracket=bracket+1
+if(strPhone.indexOf("(")!=-1 && strPhone.indexOf("(")>bracket)return false
+var brchr=strPhone.indexOf("(")
+if(strPhone.indexOf("(")!=-1 && strPhone.charAt(brchr+2)!=")")return false
+if(strPhone.indexOf("(")==-1 && strPhone.indexOf(")")!=-1)return false
+s=stripCharsInBag(strPhone,validWorldPhoneChars);
+return (isInteger(s) && s.length >= minDigitsInIPhoneNumber);
+}
+
+function ValidateForm(){
+	var Phone=document.frmSample.txtPhone
+
+	if ((Phone.value==null)||(Phone.value=="")){
+		alert("Please Enter your Phone Number")
+		Phone.focus()
+		return false
+	}
+      if (checkInternationalPhone(Phone.value)==false){
+		alert("Please Enter a Valid Phone Number")
+		Phone.value=""
+		Phone.focus()
+		return false
+	}
+	return true
+ }
+
+
+
+</script>
+
+<style type = "text/css">
+.info_text{
+	color:#999999;
+	font-family:Arial;
+	font-size: 20px;
+}
+
+.click_text{
+	color:#999999;
+	font-family:Arial;
+	font-size: 24px;
+	text-decoration:none;
+}
+
+.main{
+	color:#ffffff;
+	font-family:Arial;
+	font-size: 12px;
+	text-decoration:none;
+}
+</style>
+
+<form name="frm" action="/hmm_studiogroups/submit_discountcode/" method="post" onSubmit="return verify()"   >
+<table width="450" border="0" cellspacing="0" cellpadding="0">
+
+<tr>
+  <td align="center" valign="top">&nbsp;</td>
+                <td align="center" valign="top"><font color="#FF0000"><%=flash[:promomsg]%>
+                
+                </font></td>
+              </tr>
+              <tr>
+                <td width="901" align="left" valign="top">&nbsp;</td>
+                <td width="901" align="center" valign="top"><table width="442" border="0" cellspacing="0" cellpadding="0">
+                  <tr>
+                    <td width="11" align="left" valign="top"><img src="/images/c_round1.jpg" width="11" height="11" /></td>
+                    <td width="828" align="left" valign="top" background="/images/c_round2.jpg"></td>
+                    <td width="11" align="left" valign="top"><img src="/images/c_round3.jpg" width="11" height="11" /></td>
+                  </tr>
+                  <tr>
+                    <td align="left" valign="top" background="/images/c_round7.jpg"></td>
+                    <td align="right" valign="top" background="/images/c_roundmid.jpg" bgcolor="#050505"><table width="442" border="0" cellspacing="0" cellpadding="0">
+                      <tr>
+                        <td width="19" align="left" valign="top">&nbsp;</td>
+                        <td width="405" ><table width="154%" border="0" cellspacing="0" cellpadding="0">
+                          <tr>
+                            <td colspan="2" align="left" valign="top" class="leftconthr">Submit Discount Code :</td>
+                          </tr>
+                          <tr>
+                            <td align="left" valign="top">&nbsp;</td>
+                            <td align="left" valign="top">&nbsp;</td>
+                          </tr>
+                          <tr>
+                            <td align="left" valign="top">&nbsp;</td>
+                            <td align="left" valign="top">&nbsp;</td>
+                          </tr>
+                          <tr>
+                            <td width="45%" align="left" valign="top"><span class="whitecont">Discount Code*</span></td>
+                            <td width="55%" align="left" valign="top"><span id="sprytextfield1">
+                              <input type="text" name="promocode" id="promocode" class="carttxtbox"/> <br>
+                          <br>
+                              <span class="textfieldRequiredMsg">Discount Code is required.</span></span></td>
+                          </tr>
+                          <tr>
+                            <td align="left" valign="top">&nbsp;</td>
+                            <td align="left" valign="top">&nbsp;</td>
+                          </tr>
+                          <tr>
+                            <td align="left" valign="top" class="whitecont">&nbsp;</td>
+                            <td align="left" valign="top" class="whitecont">&nbsp;</td>
+                          </tr>
+                         
+                          <tr>
+                            <td align="left" valign="top">&nbsp;</td>
+                            <td align="left" valign="top">&nbsp;</td>
+                          </tr>
+                        </table></td>
+                        <td width="396" align="right" valign="top">&nbsp;</td>
+                      </tr>
+
+                    </table></td>
+                    <td align="left" valign="top" background="/images/c_round8.jpg"></td>
+                  </tr>
+                  <tr>
+                    <td align="left" valign="top"><img src="/images/c_round4.jpg" width="11" height="11" /></td>
+                    <td align="left" valign="top" background="/images/c_round5.jpg"></td>
+                    <td align="left" valign="top"><img src="/images/c_round6.jpg" width="11" height="11" /></td>
+                  </tr>
+                </table></td>
+              </tr>
+              <tr>
+                <td align="center" valign="top">&nbsp;</td>
+                <td align="center" valign="top"><table width="850" border="0" cellspacing="0" cellpadding="0">
+                  <tr>
+                    <td width="561">&nbsp;</td>
+                    <td width="289" align="right" valign="top">&nbsp;</td>
+                  </tr>
+                  <tr>
+                    <td align="right"><input type="submit" name="sub" id="sub" value="Activate" /></td>
+                    <td align="right" valign="top">&nbsp;</td>
+                  </tr>
+                </table></td>
+              </tr>
+              <tr>
+                <td align="center" valign="top">&nbsp;</td>
+              <td align="center" valign="top">&nbsp;</td>
+                <td align="left" valign="top">&nbsp;</td>
+              </tr>
+              <tr>
+                <td align="center" valign="top">&nbsp;</td>
+                <td align="center" valign="top">&nbsp;</td>
+              </tr>
+              <tr>
+                <td align="center" valign="top">&nbsp;</td>
+                <td align="center" valign="top">&nbsp;</td>
+              </tr>
+  </table>
+           
+</form>
+
+<script type="text/javascript">
+    new Popup('info','infolink');
+
+  </script>
+<script type="text/javascript">
+
+var sprytextfield1 = new Spry.Widget.ValidationTextField("sprytextfield1", "none", {validateOn:["blur"]});
+var sprytextfield2 = new Spry.Widget.ValidationTextField("sprytextfield2", "none", {validateOn:["blur"]});
+var sprytextfield5 = new Spry.Widget.ValidationTextField("sprytextfield5", "none", {validateOn:["blur"]});
+
+
+
+
+
+function arboption()
+        {
+           //alert("dqwdqwdw")
+           if(document.getElementById('arb').checked==true)
+           {
+             document.getElementById('show_arb').style.display='block'
+             document.getElementById('arb_res').value='1'
+
+           }
+           else
+           {
+             document.getElementById('show_arb').style.display='none'
+
+
+             document.getElementById('arb_res').value='0'
+           }
+        }
+
+
+</script>
+<script language="javascript" type="text/javascript">
+<!--
+function popitup(url) {
+	newwindow=window.open(url,'name','height=400,width=550');
+	if (window.focus) {newwindow.focus()}
+	return false;
+}
+
+/
+var sprytextfield8 = new Spry.Widget.ValidationTextField("sprytextfield8", "email", {validateOn:["blur"]});
+var sprytextfield12 = new Spry.Widget.ValidationTextField("sprytextfield12", "none", {validateOn:["blur"]});
+var sprytextfield13 = new Spry.Widget.ValidationTextField("sprytextfield13", "none", {validateOn:["blur"]});
+var sprytextfield4 = new Spry.Widget.ValidationTextField("sprytextfield4", "none", {validateOn:["blur"]});
+var sprytextfield6 = new Spry.Widget.ValidationTextField("sprytextfield6", "none", {validateOn:["blur"]});
+var sprytextfield3 = new Spry.Widget.ValidationTextField("sprytextfield3", "none", {validateOn:["blur"]});
+var sprytextfield15 = new Spry.Widget.ValidationTextField("sprytextfield15", "none", {validateOn:["blur"]});
+var sprytextfield14 = new Spry.Widget.ValidationTextField("sprytextfield14", "none", {validateOn:["blur"]});
+//-->
+</script>
+<%= link_to 'Back', :action => 'license_form' %>

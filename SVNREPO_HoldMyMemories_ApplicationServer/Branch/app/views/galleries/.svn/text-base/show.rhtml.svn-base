@@ -1,0 +1,8 @@
+<p>
+  <b>V gallery name:</b>
+  <%=h @galleries.v_gallery_name %>
+</p>
+
+
+<%= link_to 'Edit', edit_galleries_path(@galleries) %> |
+<%= link_to 'Back', galleries_path %>

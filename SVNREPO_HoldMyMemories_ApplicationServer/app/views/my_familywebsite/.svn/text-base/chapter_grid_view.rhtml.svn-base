@@ -1,0 +1,88 @@
+<% familyname= params[:id]
+@userid = HmmUser.find(:all, :conditions => "(family_name='#{familyname}' || alt_family_name='#{familyname}')") %>
+<%= javascript_include_tag 'modalbox/prototype' %>
+<script type="text/javascript" src="/javascripts/modalbox/scriptaculous.js?load=effects"></script>
+<script type="text/javascript" src="/javascripts/modalbox/modalbox.js"></script>
+<%= stylesheet_link_tag 'modalbox/modalbox' %>
+<table align="center" width="100%" border="0" cellspacing="0" cellpadding="0">
+  <tr>
+    <td valign="top">
+      <table align="left" cellspacing="10">
+        <tr>
+          <%= sort_header_tag('d_updateddate', :text => "<u>Sort By Date</u>",:title => "Sort By Date") %>
+		  
+          <%= sort_header_tag('v_tagname', :text => "<u>Sort By Name</u>",:title => "Sort By Name") %>
+        </tr>
+      </table>
+    </td>
+    <td align="right" valign="top"><a href="/<%=params[:id]%>"  class="orangelinkswitch">
+    	Switch To Coverflow View<!--img src="/images/photoflowicon.jpg" border="0" title="Clicking this button will switch to coverflow view"--></a></td>
+  </tr>
+  <tr> <td height="25"></td></tr>
+  <tr>
+    <td colspan="2" height="300px;" valign="top">
+      <table align="center" cellpadding="0" cellspacing="0" border="0">
+      <% if @countcheck > 0 %>
+        <% j=0 %>
+        <% @tags.each do |@tag| %>
+          <% if j == 0 %> <tr>
+            <% elsif j >= 3 %>
+              <% j=0 %>
+        </tr>
+        <tr>
+          <th height="30" colspan="10" align="left" valign="top" scope="col"></th>
+        </tr>
+        <tr>
+          <% end %>
+          <% if @tag.tag_type=="chapter"
+                @link="/my_familywebsite/subchapter_grid_view/#{params[:id]}?chapter_id=#{@tag.id}"
+             else
+               @gallery_count = UserContent.count(:all,:conditions=>"tagid='#{@tag.id}'")
+               if @gallery_count >0
+                  @gallery = UserContent.find(:all,:conditions=>"tagid='#{@tag.id}'")
+                  @link="/my_familywebsite/content_grid_view/#{params[:id]}?gallery_id=#{@gallery[0]['gallery_id']}"
+               else
+                  @link="/my_familywebsite/nophoto/#{params[:id]}?chapter_id=#{@tag.id}"
+               end
+             end
+          %>
+        <th width="29" align="left" valign="top" scope="col"><% j=j+1%>&nbsp;&nbsp;&nbsp;</th>
+        <th width="73" align="left" valign="top" scope="col" ><a href='<%=@link%>' ><img src="<%= @tag.img_url %>/user_content/photos/icon_thumbnails/<%= @tag.v_chapimage %>" border="0"  height="85"/></a>
+          <br>
+        <th width="10" align="left" valign="top" scope="col">&nbsp;</th>
+        <th width="139" align="left" valign="top" scope="col">
+          <table width="100%" border="0" cellspacing="0" cellpadding="0">
+            <tr>
+              <th height="13" align="left" valign="top" scope="col"></th>
+            </tr>
+            <tr>
+              <th height="21" align="left" valign="top"  scope="col"><a href='<%=@link%>' ><%= @tag.v_tagname %></a></th>
+            </tr>
+            <tr>
+             <th align="left" class="chapindex-text2" valign="top"  scope="col">Created <br>
+              <%= @tag.d_createddate.strftime("%a %b #{@tag.d_createddate.day.ordinalize} %Y,   %I:%M %p") %></th>
+             </tr>
+            
+          </table>	 </th>
+
+      <% end %>
+    <% else %>
+        <font size=4 face="Arial, Helvetica, sans-serif" color="#eeeeee">
+      No chapters found...
+      </font>
+    <% end %>
+      </table>
+    </td>
+  </tr>
+  <tr>
+    <td valign="bottom" scope="col" align="center" colspan="2" height="30">
+   <%= will_paginate @tags%>
+</td>
+  </tr>
+</table>
+<table  width="100%" align="right">
+        <tr><td align="right" >&nbsp;</td></tr>
+        <tr><td align="right" ><%= render :partial => "sharesocialnetwork" %></td></tr>
+        <tr><td align="right" >&nbsp;</td></tr>
+      </table>
+

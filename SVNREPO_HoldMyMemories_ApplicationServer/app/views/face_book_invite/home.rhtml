@@ -1,0 +1,1117 @@
+<fb:add-profile-tab></fb:add-profile-tab>
+<fb:if-is-own-profile>
+  Welcome back to your profile!
+  <fb:else>To view hmm family website, the owner has to login..</fb:else>
+</fb:if-is-own-profile>
+
+
+<!--link href="http://holdmymemories.com/stylesheets/themes/common.css" media="screen" rel="stylesheet" type="text/css" /-->
+<!--link href="http://holdmymemories.com/stylesheets/themes/winter.css" media="screen" rel="stylesheet" type="text/css" /-->
+<% profile = false
+facebookid = false
+%>
+<% unless @profile_id.nil?%>
+  <%  profile = true %>
+
+  <% unless @hmm_user.nil?
+    facebookid = true
+  end
+end%>
+<% if profile == false || (profile == true && facebookid == true) %>
+  <style type="text/css">
+    img, div, table, tr, td { behavior: url(iepngfix.htc) }
+    .body_bg{
+      background-image: url(http://holdmymemories.com/images/themes/winter/theme1-bg.jpg);
+      background-repeat:repeat-x;
+      background-repeat:repeat-y;
+      background-position:center top;
+      background-attachment:fixed;
+      background-color:#152f54;
+      margin: 0px;
+      padding: 0px;
+    }
+    .body_bg_design{
+      background-image: url(http://holdmymemories.com/images/themes/winter/theme1.jpg);
+      background-repeat:repeat-y;
+      background-position:center top;
+      /*background-attachment:fixed;*/
+    }
+    /*--Shadows start---*/
+    .themeshad{
+      background-image: url(http://holdmymemories.com/images/theme_shad.png);
+      background-repeat: repeat-y;
+      background-position:center top;
+      height:100%;
+      border:1px solid transparent;
+    }
+    .rightshad{
+      background-image: url(http://holdmymemories.com/images/themes/winter/right_shad.png);
+      background-repeat: repeat-y;
+      background-position:left top;
+      height:100%;
+      border:1px solid transparent;
+    }
+
+    .leftshad{
+      background-image: url(http://holdmymemories.com/images/themes/winter/left_shad.png);
+      background-repeat: repeat-y;
+      background-position:right top;
+      height:100%;
+      border:1px solid transparent;
+    }
+    /*--Shadows end---*/
+
+    /*--Background for the family website header(welcome to bob's Familywebsite)-   start--*/
+    .content-texture{
+      background-image: url(http://holdmymemories.com/images/themes/winter/family_header_bg.png);
+      background-repeat: repeat-x;
+    }
+    /*--Background for the family website header(welcome to bob's Familywebsite)-   end--*/
+
+    /*--Panel Header text for all the sections-----start--*/
+
+    .headers{
+      font-family:Arial, Helvetica, sans-serif;
+      font-size:14px;
+      font-weight:bold;
+      color:#fff;
+    }
+    .header-page{
+      font-family:Arial, Helvetica, sans-serif;
+      font-size:18px;
+      font-weight:normal;
+      color:#fff;
+      padding-left:35px;
+      background-image:url(http://holdmymemories.com/images/themes/winter/hr-img.png);
+      background-repeat:no-repeat;
+      background-position:left bottom;
+    }
+    .header-paragraph{
+      font-family:Arial, Helvetica, sans-serif;
+      font-size:18px;
+      font-weight:normal;
+      color:#fff;
+    }
+    /*--Panel Header text for all the sections-----end--*/
+    .cmd-btn {
+      font-family:Arial, Helvetica, sans-serif;
+      font-size:12px;
+      font-weight:normal;
+      color:#000;
+      font-weight:bold;
+      background-image:url(http://holdmymemories.com/images/themes/winter/nav_cmd_btn_mid1.png);
+      background-repeat:repeat-x;
+      background-position: left top;
+      border-top-width: 0px;
+      border-right-width: 0px;
+      border-bottom-width: 0px;
+      border-left-width: 0px;
+      padding:0 8px 0 8px;
+      height:27px;
+    }
+
+    #cmd-btn {
+      font-family:Arial, Helvetica, sans-serif;
+      font-size:12px;
+      font-weight:normal;
+      color:#000;
+      font-weight:bold;
+      background-image:url(http://holdmymemories.com/images/themes/winter/nav_cmd_btn_mid1.png);
+      background-repeat:repeat-x;
+      background-position: left top;
+      border-top-width: 0px;
+      border-right-width: 0px;
+      border-bottom-width: 0px;
+      border-left-width: 0px;
+      padding:0 8px 0 8px;
+      height:27px;
+    }
+    .cmd-btn-trans {
+      font-family:Arial, Helvetica, sans-serif;
+      font-size:12px;
+      font-weight:normal;
+      color:#FFFFFF;
+      font-weight:bold;
+      background-image:url(http://holdmymemories.com/images/themes/winter/nav_cmd_btn_mid-trans.png);
+      background-repeat:repeat-x;
+      background-position: left top;
+      border-top-width: 0px;
+      border-right-width: 0px;
+      border-bottom-width: 0px;
+      border-left-width: 0px;
+      padding:0 10px 0 10px;
+      height:24px;
+    }
+    /*--Sections styles with padding, backgroundcolor and font style-----start --*/
+
+    /*--Content styles with Colors, Link and bullet style-----start --*/
+    .content{
+      font-family:Arial, Helvetica, sans-serif;
+      font-size:12px;
+      color:#FFFFFF;
+      text-decoration:none;
+    }
+    .content-note{
+      font-family:Arial, Helvetica, sans-serif;
+      font-size:11px;
+      color:#888888;
+      text-decoration:none;
+    }
+    a{
+      font-family:Arial, Helvetica, sans-serif;
+      font-size:12px;
+      color:#FFFFFF;
+      text-decoration:none;
+    }
+    a:hover{
+      font-family:Arial, Helvetica, sans-serif;
+      font-size:12px;
+      color:#ff6100;
+      text-decoration:none;
+    }
+
+    .content-white{
+      font-family:Arial, Helvetica, sans-serif;
+      font-size:12px;
+      color:#FFFFFF;
+      text-decoration:none;
+    }
+    .content-white a{
+      font-family:Arial, Helvetica, sans-serif;
+      font-size:12px;
+      color:#FFFFFF;
+      text-decoration:none;
+    }
+    .content-white a:hover{
+      font-family:Arial, Helvetica, sans-serif;
+      font-size:12px;
+      color:#FFFFFF;
+      text-decoration:underline;
+    }
+    .cont-white-title{
+      font-family:Arial, Helvetica, sans-serif;
+      font-size:14px;
+      color:#ffffff;
+      text-decoration:none;
+    }
+    .side-heading{
+      font-family:Arial, Helvetica, sans-serif;
+      font-size:12px;
+      color:#ff6800;
+      text-decoration:none;
+    }
+    .content-orange{
+      font-family:Arial, Helvetica, sans-serif;
+      font-size:12px;
+      color:#ff6800;
+      text-decoration:none;
+    }
+    .content-orange a{
+      font-family:Arial, Helvetica, sans-serif;
+      font-size:12px;
+      color:#ff6800;
+      text-decoration:none;
+      text-transform:uppercase;
+    }
+    .content-orange a:hover{
+      font-family:Arial, Helvetica, sans-serif;
+      font-size:12px;
+      color:#ff6800;
+      text-decoration:underline;
+      text-transform:uppercase;
+    }
+    .cont-orange-hr{
+      font-family:Arial, Helvetica, sans-serif;
+      font-size:18px;
+      color:#ff6800;
+      text-decoration:none;
+      font-weight:bold;
+    }
+    .content-yellow{
+      font-family:Arial, Helvetica, sans-serif;
+      font-size:12px;
+      color:#d7c89d;
+      font-style: normal;
+      font-weight: normal;
+      line-height: 21px;
+    }
+    #tab_bgcolor{
+      background-image: url(http://holdmymemories.com/images/themes/winter/tab_trans1.png);
+      background-repeat: repeat-x;
+    }
+    #tab_bgcolor_repeat{
+      background-image: url(http://holdmymemories.com/images/themes/winter/tab_trans1.png);
+      background-repeat: repeat;
+    }
+    .tab-dots{
+      /*background-image: url(http://holdmymemories.com/images/themes/winter/tab_trans_dots.png);*/
+      background-repeat:no-repeat;
+      background-position:top right;
+    }
+    .content-trans-bg{
+      background-image: url(http://holdmymemories.com/images/themes/winter/cont-trans-bg.png);
+      background-repeat: repeat;
+      border: 1px solid #202020;
+    }
+    .content-trans-dark-bg{
+      background-image: url(http://holdmymemories.com/images/themes/winter/cont-trans-dark-bg.png);
+      background-repeat: repeat;
+      border: 1px solid #202020;
+    }
+    .thummbimg_title{
+      font-family:Arial, Helvetica, sans-serif;
+      font-size:12px;
+      color:#ff6800;
+      text-decoration:none;
+      font-weight:bold;
+    }
+    .contest-left-br{
+      background-image: url(http://holdmymemories.com/images/themes/winter/contest-left-line.gif);
+      background-repeat:repeat-y;
+      background-position:left top;
+    }
+    .contest-right-br{
+      background-image: url(http://holdmymemories.com/images/themes/winter/contest-right-line.gif);
+      background-repeat:repeat-y;
+      background-position:right top;
+    }
+    /*--Content styles with Colors, Link and bullet style-----end--*/
+
+    /*--footer link css-----start--*/
+    .footer-link{
+      font-family:Arial, Helvetica, sans-serif;
+      font-size:10px;
+      color:#ffffff;
+      text-decoration:none;
+      padding-right:12px;
+      padding-left:12px;
+    }
+    .footer-link a{
+      font-family:Arial, Helvetica, sans-serif;
+      font-size:10px;
+      color:#FFF;
+      text-decoration:none;
+      padding-right:12px;
+      padding-left:12px;
+    }
+    .footer-link a:hover{
+      font-family:Arial, Helvetica, sans-serif;
+      font-size:10px;
+      color:#ff6100;
+      text-decoration:underline;
+      padding-right:12px;
+      padding-left:12px;
+    }
+    .footer-copyright{
+      font-family:Arial, Helvetica, sans-serif;
+      font-size:10px;
+      color:#ffffff;
+      text-decoration:none;
+      padding-right:12px;
+      padding-left:12px;
+    }
+    .footer-copyright a{
+      font-family:Arial, Helvetica, sans-serif;
+      font-size:10px;
+      color:#ff6100;
+      text-decoration:none;
+    }
+    .footer-copyright a:hover{
+      font-family:Arial, Helvetica, sans-serif;
+      font-size:10px;
+      color:#ff6100;
+      text-decoration:underline;
+    }
+    /*--footer link css-----end--*/
+
+    /*--copyright css -----start--*/
+
+    .form-field {
+      font-family:Arial, Helvetica, sans-serif;
+      font-size:12px;
+      color:#000000;
+      width:270px;
+      height:20px;
+      padding-top:3px;
+      padding-left:5px;
+      border-top-style: none;
+      border-right-style: none;
+      border-bottom-style: none;
+      border-left-style: none;
+      background-color: #FFFFFF;
+    }
+    .list-field {
+      font-family:Arial, Helvetica, sans-serif;
+      font-size:12px;
+      color:#000000;
+      width:270px;
+      height:20px;
+      padding-top:3px;
+      padding-left:5px;
+      border-top-style: none;
+      border-right-style: none;
+      border-bottom-style: none;
+      border-left-style: none;
+      background-color: #FFFFFF;
+    }
+    .name-field {
+      font-family:Arial, Helvetica, sans-serif;
+      font-size:12px;
+      color:#000000;
+      width:130px;
+      height:20px;
+      padding-top:3px;
+      padding-left:5px;
+      border-top-style: none;
+      border-right-style: none;
+      border-bottom-style: none;
+      border-left-style: none;
+      background-color: #FFFFFF;
+    }
+    .cmt-field {
+      font-family:Arial, Helvetica, sans-serif;
+      font-size:12px;
+      color:#000000;
+      width:270px;
+      height:80px;
+      padding-top:3px;
+      padding-left:5px;
+      border-top-style: none;
+      border-right-style: none;
+      border-bottom-style: none;
+      border-left-style: none;
+      background-color: #FFFFFF;
+    }
+    .submit-btn {
+      font-family:Arial, Helvetica, sans-serif;
+      font-size:14px;
+      font-weight:normal;
+      color:#FFFFFF;
+      background-color:#282828;
+      border-top-width: 0px;
+      border-right-width: 0px;
+      border-bottom-width: 0px;
+      border-left-width: 0px;
+      padding:0 15px 0 15px;
+      height:25px;
+    }
+    .submit-btn:hover {
+      font-family:Arial, Helvetica, sans-serif;
+      font-size:14px;
+      font-weight:normal;
+      color:#FFFFFF;
+      background-color:#ff6100;
+      border-top-width: 0px;
+      border-right-width: 0px;
+      border-bottom-width: 0px;
+      border-left-width: 0px;
+      padding:0 15px 0 15px;
+      height:25px;
+    }
+    .contest-btn {
+      font-family:Arial, Helvetica, sans-serif;
+      font-size:12px;
+      font-weight:bold;
+      color:#FFFFFF;
+      background-image:url(http://holdmymemories.com/images/themes/winter/contest-btn.gif);
+      background-repeat:no-repeat;
+      border-top-width: 0px;
+      border-right-width: 0px;
+      border-bottom-width: 0px;
+      border-left-width: 0px;
+      height:21px;
+      width:220px;
+    }
+    /*--copyright css -----end--*/
+
+    /*--Bottom common Band css (background, fontstyle-----start--*/
+    #bot_banner{
+      background-image: url(http://holdmymemories.com/images/themes/winter/bot_ban.png);
+      background-repeat: repeat-x;
+    }
+    /*--Bottom common Band css (background, fontstyle-----end--*/
+
+    /*------top menu Css start --------*/
+    #navlist
+    {
+      margin: 0;
+      margin-bottom:8px;
+      padding: 0 0 20px 0px;
+    }
+
+    #navlist ul, #navlist li
+    {
+      margin: 0;
+      padding: 0;
+      display: inline;
+      list-style-type: none;
+    }
+
+    #navlist a:link, #navlist a:visited
+    {
+      float: left;
+      line-height: 16px;
+      font-weight: bold;
+      margin: 0 4px 4px 4px;
+      text-decoration: none;
+      color: #FFFFFF;
+      font-family:Arial, Helvetica, sans-serif;
+      font-size:10px;
+    }
+
+    #navlist a:link#current, #navlist a:visited#current, #navlist a:hover
+    {
+      border-bottom: 2px solid #ffffff;
+      padding-bottom: 2px;
+      background: transparent;
+      color: #ff6800;
+    }
+
+    .navlist-menu {
+      line-height: 16px;
+      font-weight: bold;
+      margin: 0 4px 4px 4px;
+      text-decoration: none;
+      color: #FFFFFF;
+      font-family:Arial, Helvetica, sans-serif;
+      font-size:10px;
+    }
+    .navlist-menu:hover {
+      border-bottom: 2px solid #ffffff;
+      padding-bottom: 2px;
+      background: transparent;
+      color: #ff6800;
+    }
+    .navlist-menu a {
+      line-height: 16px;
+      font-weight: normal;
+      margin: 0 4px 4px 4px;
+      text-decoration: none;
+      color: #FFFFFF;
+      font-family:Arial, Helvetica, sans-serif;
+      font-size:10px;
+    }
+    .navlist-menu a:hover
+    {
+      border-bottom: 2px solid #ffffff;
+      padding-bottom: 2px;
+      background: transparent;
+      color: #ff6800;
+    }
+    #navlist a:hover { color: #ff6800; }
+
+    /*------top menu Css End --------*/
+
+    /*------Login menu Css Top  --------*/
+
+
+
+
+
+    /*------Login menu Css Top  --------*/
+    .login-box {
+      background-image:url(http://holdmymemories.com/images/themes/winter/login-bg.png);
+      background-position:center top;
+      background-repeat:no-repeat;
+    }
+    #textfield {
+      font-family:Arial, Helvetica, sans-serif;
+      font-size:12px;
+      color:#000000;
+      width:198px;
+      height:20px;
+      padding-top:3px;
+      padding-left:5px;
+      border-top-style: none;
+      border-right-style: none;
+      border-bottom-style: none;
+      border-left-style: none;
+      background-image: url(http://holdmymemories.com/images/themes/winter/login-field.png);
+      background-repeat: repeat-x;
+      background-position: left top;
+      margin: 0px;
+      border-top-width: 0px;
+      border-right-width: 0px;
+      border-bottom-width: 0px;
+      border-left-width: 0px;
+    }
+
+    /*----bottom float- start--------*/
+
+
+    #bottom {
+      background-image:url(http://holdmymemories.com/images/themes/winter/bottomband.png);
+      background-repeat:no-repeat;
+      background-position:center;
+      position:fixed;
+      bottom:0px;
+      left:0px;
+      width: 100%;
+      text-align: center;
+    }
+
+    /*----bottom float- start--------*/
+
+
+    /*------side menu start--------*/
+    #navlist2
+    {
+      padding-left: 0;
+      margin-left: 0;
+    }
+
+    #navlist2 li
+    {
+      list-style: none;
+      margin: 0;
+      padding: 0.25em;
+      height:18px;
+      width:175px;
+      float:left;
+    }
+    #navlist2 a:link, #navlist2 a:visited
+    {
+      float: left;
+      line-height: 16px;
+      font-weight: bold;
+      margin: 0 10px 4px 0px;
+      text-decoration: none;
+      color: #FFFFFF;
+      font-family:Arial, Helvetica, sans-serif;
+      font-size:12px;
+
+    }
+
+    #navlist2 a:link#current, #navlist2 a:visited#current, #navlist2 a:hover
+    {
+      border-bottom: 2px solid #ffffff;
+      padding-bottom: 2px;
+      background: transparent;
+      color: #ff6800;
+    }
+
+    #navlist2 li a { text-decoration: none; }
+
+    /*------side menu end--------*/
+
+
+    /*Manage Themem Css Starts*/
+    .manage-theme-box {
+      background-image:url(http://holdmymemories.com/images/themes/winter/manage-theme-bg.png);
+      background-repeat:repeat;
+      width:280px;
+      height:220px;
+    }
+    .manage-theme-bg {
+      background-image:url(http://holdmymemories.com/images/themes/winter/manage-theme-bg.png);
+      background-repeat:repeat;
+      color: #FFFFFF;
+      font-family:Arial, Helvetica, sans-serif;
+      font-size:12px;
+      font-weight:bold;
+    }
+    .manage-theme-title {
+      background-image:url(http://holdmymemories.com/images/themes/winter/manage-theme-bg-dark.png);
+      background-repeat:repeat;
+      text-decoration: none;
+      color: #FFFFFF;
+      font-family:Arial, Helvetica, sans-serif;
+      font-size:12px;
+      font-weight:bold;
+      position: absolute;
+      display: block;
+      top: 10px;
+      right:10px;
+      padding:5px 10px 5px 10px;
+    }
+    .manage-theme-img {
+      position: absolute;
+      display: block;
+      padding: 10px;
+      width:260px;
+      height:200px;
+    }
+    .content-trans-white-bg{
+      background-image: url(http://holdmymemories.com/images/themes/winter/cont-trans-white-bg.png);
+      background-repeat: repeat;
+      border: 1px solid #202020;
+    }
+    #list-field-small {
+      font-family:Arial, Helvetica, sans-serif;
+      font-size:12px;
+      color:#000000;
+      height:24px;
+      border-top-style: none;
+      border-right-style: none;
+      border-bottom-style: none;
+      border-left-style: none;
+      background-color: #FFFFFF;
+    }
+    .manage-theme-orange{
+      font-family:Arial, Helvetica, sans-serif;
+      font-size:12px;
+      color:#ff6800;
+      text-decoration:none;
+    }
+
+    /*Manage Themem Css End*/
+
+
+    .error-message{
+      font-family:Arial, Helvetica, sans-serif;
+      font-size:12px;
+      color:#CC0000;
+      text-decoration:none;
+    }
+    .error-message a{
+      font-family:Arial, Helvetica, sans-serif;
+      font-size:12px;
+      color:#CC0000;
+      text-decoration:none;
+    }
+    .error-message a:hover{
+      font-family:Arial, Helvetica, sans-serif;
+      font-size:12px;
+      color:#CC0000;
+      text-decoration:underline;
+    }
+
+
+    /*Account Upgrate CSS Starts */
+
+    .content-orange-bullet{
+      font-family:Arial, Helvetica, sans-serif;
+      font-size:14px;
+      color:#ff6100;
+      text-decoration:none;
+      font-weight:normal;
+    }
+    .content-white-bullet{
+      font-family:Arial, Helvetica, sans-serif;
+      font-size:14px;
+      color:#ffffff;
+      text-decoration:none;
+      line-height:35px;
+    }
+    .content-white-bullet ul{
+      margin:0px;
+      padding-left:25px;
+    }
+    .content-white-bullet ul li{
+      list-style-image:url(http://holdmymemories.com/images/themes/winter/bullet-btn2.png);
+      padding-left:5px;
+    }
+    .content-white-bullet ul li a{
+      font-family:Arial, Helvetica, sans-serif;
+      font-size:14px;
+      color:#ffffff;
+      text-decoration:none;
+      list-style-image:url(http://holdmymemories.com/images/themes/winter/bullet-btn2.png);
+    }
+    .content-white-bullet ul li a:hover{
+      font-family:Arial, Helvetica, sans-serif;
+      font-size:14px;
+      color:#ff6100;
+      text-decoration:none;
+      list-style-image:url(http://holdmymemories.com/images/themes/winter/bullet-btn2-over.png);
+    }
+
+    .top-banner-grad-bg {
+      background-image:url(http://holdmymemories.com/images/themes/winter/tab_trans_new.png);
+      background-position:center;
+      background-repeat:repeat-x;
+    }
+
+
+    /*Account Upgrate CSS End */
+  </style>
+
+
+
+  <table width="750" border="0" cellspacing="0" cellpadding="0" class="body_bg_design" align="center">
+
+    <tr>
+      <td align="center" valign="top">
+        <table width="100%" border="0" cellspacing="0" cellpadding="0" align="center">
+          <tr>
+
+            <td width="100%" align="left" valign="top"><div class="themeshad"><table width="100%" border="0" cellspacing="0" cellpadding="0" align="left">
+                  <tr>
+                    <td height="12"  align="left" valign="top"></td>
+                  </tr>
+                  <tr>
+                    <td  align="center" valign="top">
+                      <table width="100%" border="0" cellspacing="0" cellpadding="0" class="content-texture">
+                        <tr>
+
+                          <td height="5" colspan="5" align="right" valign="top"></td>
+                        </tr>
+                        <tr>
+                          <td width="2%" align="right" valign="top">&nbsp;</td>
+                          <td width="30%" height="152" align="center" valign="top" ><table width="100%" border="0" cellspacing="0" cellpadding="0" class="top-banner-grad-bg">
+                              <tr>
+                                <td align="center" valign="middle" height="152" ><div align="center"><a href="/uday"><img src="http://content.holdmymemories.com/hmmuser/familyphotos/thumbs/17606_umnxwd1qoylhlzalq4tkjstwp.jpg" width="50%" height="50%" border="0" align="middle"  style="vertical-align: middle;margin-top: -1.5px;" /></a></div></td>
+                              </tr>
+                            </table>                            </td>
+                          <td width="60" align="right" valign="top" ><table width="100%" border="0" cellspacing="0" cellpadding="0">
+                              <tr>
+                                <td height="152" align="center" valign="middle"><table width="96%" border="0" align="center" cellpadding="0" cellspacing="0">
+                                    <tr>
+                                      <td height="37" align="left" valign="middle" class="banner-welcome-txt">
+                                        <img src="http://content.holdmymemories.com/familytitleImages/17606titleheader.png" />                                        </td>
+                                    </tr>
+                                    <tr>
+                                      <td height="60" align="center" valign="middle">
+                                        <img src="http://content.holdmymemories.com/familytitleImages/17606title.png" />                                        </td>
+                                    </tr>
+                                    <tr>
+                                      <td height="37" align="right" valign="middle" class="banner-welcome-txt">
+                                        <img src="http://content.holdmymemories.com/familytitleImages/17606titlefooter.png" />                                        </td>
+                                    </tr>
+                                  </table></td>
+                              </tr>
+                            </table></td>
+
+                          <td width="30%" height="152" align="left" valign="top" >
+                            <table width="100%" border="0" cellspacing="0" cellpadding="0">
+                              <tr>
+
+                                <td height="152" align="center" valign="middle" class="top-banner-grad-bg"><div align="center">
+                                    <a href="/" target="_blank">
+                                      <img src="http://content.holdmymemories.com/user_content/studio_top_logos/19_logo_white.png" width="50%" height="50%" border="0" align="middle" usemap="#Map"/>                                    </a>                                  </div></td>
+                              </tr>
+                            </table>                            </td>
+
+                          <td width="2%" align="right" valign="top">&nbsp;</td>
+                        </tr>
+                        <tr>
+                          <td height="5" colspan="5" align="right" valign="top"></td>
+                        </tr>
+                      </table>                      </td>
+                  </tr>
+                  <tr>
+
+                    <td height="12"  align="left" valign="top"></td>
+                  </tr>
+                  <tr>
+                    <td height="36" align="center" valign="middle" id="tab_bgcolor"><table width="100%" border="0" cellspacing="0" cellpadding="0">
+                        <tr>
+                          <td align="center" valign="middle" >
+                            <div align="center">
+                              <a href="/uday" id="current" class="navlist-menu">Home</a>
+
+                              <a href="/familywebsite/biography/uday"  class="navlist-menu">Biography</a>
+                              <a href="/blog/index/uday"  class="navlist-menu">Blog</a>
+                              <a href="/guest_book/display_comments/uday"  class="navlist-menu">Guest Book</a>
+                              <a href="/familywebsite_contest/intro/uday"  class="navlist-menu">Contest</a>
+                              <a href="/familywebsite/emailus/uday"   class="navlist-menu">Email Us</a>
+                              <a href="/manage_website/home/uday"  class="navlist-menu">Manage My Site</a>
+                              <a href="/user_account/faq/uday"  class="navlist-menu">FAQ</a>
+                              <a href="/familywebsite/logout/uday" class="navlist-menu">Logout</a>						  </div>						  </td>
+                        </tr>
+                      </table> </td>
+                  </tr>
+
+                  <tr>
+                    <td height="12"  align="left" valign="top"></td>
+                  </tr>
+
+                  <tr>
+                    <td height="370" align="center" valign="top">
+                      <div id="content">
+
+                        <table width="100%" border="0" cellspacing="0" cellpadding="0">
+                          <tr>
+                            <td align="center" valign="top">
+                              <font color="#e75e16"></font>
+                              <font color="#ff0000"></font>                              </td>
+                          </tr>
+                          <tr>
+                            <td height="339" align="center" valign="top">
+
+                              <!--div id="flash_content" align="center">
+                             <h1>Get Flash Player</h1>
+                             <p><a href="http://www.adobe.com/go/getflashplayer"><img src="http://www.adobe.comhttp://holdmymemories.com/images/shared/download_buttons/get_flash_player.gif" alt="Get Adobe Flash player" /></a></p>
+                           </div-->
+
+                              <div id="flash_content_coverflow" align="center" onmousedown="do_ajax(Ajax.FBML)">
+                                <fb:swf flashvars='serverUrl=http://holdmymemories.com/my_familywebsite/chapters_display/17606&navigateToUrl=/http://holdmymemories.com/familywebsite/subchapters/uday&proxyurls=http://content.holdmymemories.com&familyname=uday'  swfsrc='http://holdmymemories.com/Chapter.swf' imgsrc='http://staging.holdmymemories.com/images/facebookhomepageimage.png' width='600' height='250' />
+                              </div>
+                              <script type="text/javascript">
+                                /*
+
+
+                                                          var swf = document.createElement('fb:swf');
+                                                           swf.setId('my_swf_id');
+                                                           swf.setWidth('500');
+                                                           swf.setHeight('250');
+                                                           swf.setSWFSrc('http://holdmymemories.com/Chapter.swf');
+                                                           swf.addParam("PLAY", "true");
+                                                           swf.setFlashVar("serverUrl", "http://holdmymemories.com/my_familywebsite/chapters_display/17606","navigateToUrl","/http://holdmymemories.com/familywebsite/subchapters/uday?chapter_id=","proxyurls","http://content.holdmymemories.com","familyname","uday");
+                                                           document.getElementById('flash_content').appendChild(swf);
+
+
+                                var flashvars = {};
+                                flashvars.serverUrl = "http://holdmymemories.com/my_familywebsite/chapters_display/17606";
+                                flashvars.navigateToUrl = "/http://holdmymemories.com/familywebsite/subchapters/uday?chapter_id=";
+                                flashvars.proxyurls = "http://content.holdmymemories.com";
+                                flashvars.familyname = "uday";
+
+                                var params = {};
+                                params.wmode = "transparent";
+                               swfobject.embedSWF("/Chapter.swf", "flash_content", "500", "250", "9.0.0", "/expressInstall.swf",flashvars,params);
+                                 */   </script>
+                            </td>
+                          </tr>
+                          <tr>
+
+                            <td align="center" valign="top"><table width="100%" border="0" cellspacing="0" cellpadding="0">
+                                <tr>
+                                  <td align="center" valign="top" class="tab-dots"><table width="100%" border="0" cellspacing="0" cellpadding="0" id="tab_bgcolor">
+                                      <tr>
+                                        <td width="5%" align="left" valign="middle" background="http://holdmymemories.comhttp://holdmymemories.com/images/common/tab_trans.png" ></td>
+                                        <td width="95%" height="36" align="left" valign="middle" background="http://holdmymemories.comhttp://holdmymemories.com/images/common/tab_trans.png" class="headers">Recently Added Moments</td>
+                                      </tr>
+                                      <tr>
+
+                                        <td height="155" align="center" valign="middle" colspan="2">
+
+                                          <table width="100%" height="93" cellpadding="0" cellspacing="0">
+                                            <tr valign="middle">
+
+                                              <td align="center">
+                                                <a href="/familywebsite/moments/uday?moment_id=2482042">
+                                                  <img src="http://content.holdmymemories.com/user_content/photos/big_thumb/2482042_img_2814.jpg" width="86" height="86"  alt="" border="0" />                                                  </a>                                                </td>
+
+
+                                              <td align="center">
+                                                <a href="/familywebsite/moments/uday?moment_id=2482041">
+                                                  <img src="http://content.holdmymemories.com/user_content/photos/big_thumb/2482041_img_2811.jpg" width="86" height="86"  alt="" border="0" />                                                  </a>                                                </td>
+
+                                              <td align="center">
+                                                <a href="/familywebsite/moments/uday?moment_id=2482040">
+                                                  <img src="http://content.holdmymemories.com/user_content/photos/big_thumb/2482040_img_2809.jpg" width="86" height="86"  alt="" border="0" />                                                  </a>                                                </td>
+
+                                              <td align="center">
+                                                <a href="/familywebsite/moments/uday?moment_id=2482039">
+                                                  <img src="http://content.holdmymemories.com/user_content/photos/big_thumb/2482039_img_2808.jpg" width="86" height="86"  alt="" border="0" />                                                  </a>                                                </td>
+
+                                              <td align="center">
+                                                <a href="/familywebsite/moments/uday?moment_id=2482038">
+                                                  <img src="http://content.holdmymemories.com/user_content/photos/big_thumb/2482038_img_2807.jpg" width="86" height="86"  alt="" border="0" />                                                  </a>                                                </td>
+                                            </tr>
+                                          </table>                                          </td>
+                                      </tr>
+                                    </table></td>
+                                </tr>
+                              </table></td>
+                          </tr>
+                          <tr>
+                            <td height="19"></td>
+                          </tr>
+                          <tr>
+                            <td align="center" valign="top"><table width="100%" border="0" cellspacing="0" cellpadding="0">
+                                <tr>
+                                  <td width="50%" align="left" valign="top" class="tab-dots"><table width="95%" border="0" cellspacing="0" cellpadding="0" id="tab_bgcolor">
+                                      <tr>
+                                        <td width="25" align="left" valign="middle" background="http://holdmymemories.comhttp://holdmymemories.com/images/common/tab_trans.png"  ></td>
+                                        <td height="36" align="left" valign="middle" background="http://holdmymemories.comhttp://holdmymemories.com/images/common/tab_trans.png" class="headers">About Us</td>
+                                      </tr>
+                                      <tr>
+                                        <td align="left" valign="middle"></td>
+                                        <td height="155" align="left" valign="top" class="content" ><br />test123                                        </tr>
+                                    </table></td>
+                                  <td width="50%" align="right" valign="top" class="tab-dots"><table width="95%" border="0" align="right" cellpadding="0" cellspacing="0" id="tab_bgcolor">
+                                      <tr>
+                                        <td width="25" align="left" valign="middle" background="http://holdmymemories.comhttp://holdmymemories.com/images/common/tab_trans.png" ></td>
+                                        <td height="36" align="left" valign="middle" background="http://holdmymemories.comhttp://holdmymemories.com/images/common/tab_trans.png" class="headers">Links</td>
+                                      </tr>
+                                      <tr>
+                                        <td  align="left" valign="middle" ></td>
+                                        <td height="155" align="left" valign="top" class="content"><br />
+                                          <a href="http://http://udayakumar.sqweebs.com" target="_blank">http://udayakumar.sqweebs.com</a><br />
+                                          <br />
+                                          <br />                                          </td>
+                                      </tr>
+                                    </table></td>
+                                </tr>
+                              </table></td>
+                          </tr>
+                          <tr>
+                            <td height="19"></td>
+                          </tr>
+                        </table>
+                      </div>                      </td>
+                  </tr>
+
+                  <tr>
+
+                    <td height="61" align="center" valign="middle" id="tab_bgcolor" class="content-white">
+                      <div class="footer-copyright" style=" width:400px;" align="center">&copy; 2010 HoldMyMemories.com, LLC. All rights reserved.</div>                      </td>
+                  </tr>
+                  <tr>
+                    <td align="center" valign="top" height="25">&nbsp;</td>
+                  </tr>
+                  <tr>
+                    <td align="center" valign="bottom">
+
+
+                  <link href="http://holdmymemories.com/stylesheets/themes/modalbox/modalbox.css?1261995782" media="screen" rel="stylesheet" type="text/css" />
+
+                  <div id="bottom" align="center">
+                    <table width="500" border="0" cellspacing="0" cellpadding="0" align="center">
+                      <tr>
+                        <td width="69" align="left" valign="middle" class="content-white">
+
+
+
+
+
+                          Credit&nbsp;:&nbsp;&nbsp;<span class="manage-theme-orange">119&nbsp;points</span>                              </td>
+                        <td width="289" align="left" valign="middle" class="content-white">
+
+                          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                          &nbsp;&nbsp;&nbsp;</td>
+                        <td width="3" align="right" valign="middle" class="content-white"></td>
+                        <td width="240" align="left" valign="middle">
+
+
+
+
+                          <a href="http://holdmymemories.com/my_familywebsite/book_session/uday/?studio_id=19" ><img src="http://content.holdmymemories.com/user_content/studio_button_logos/button_1_headerlogo.gif" width="207" height="26" border="0" ></a>                              </td>
+                      </tr>
+                    </table>
+                  </div>
+
+                  <script type="text/javascript">
+                    function password_check(){
+
+                      return true;
+                    }
+
+                    function GetThisTwitter(targetUrl)
+                    {
+                      if(password_check()){
+                        share_counter('twitter');
+                        window.open(targetUrl);
+                      }
+                      else return false;
+                    }
+
+                    function GetThis()
+                    {
+                      if(password_check()){
+                        share_counter('myspace');
+                        T = 'Brought to you by HoldMyMemories';
+                        C = '<img src="http://content.holdmymemories.com/hmmuser/familyphotos/thumbs/17606_umnxwd1qoylhlzalq4tkjstwp.jpg"><br/>www.HoldMyMemories.com'
+                        U = 'http://holdmymemories.com/uday'
+                        L = '2'
+                        var targetUrl = 'http://www.myspace.com/Modules/PostTo/Pages/?' + 't=' + encodeURIComponent(T)+ '&c=' + encodeURIComponent(C) + '&u=' + encodeURIComponent(U) + '&l=' + L;
+                        window.open(targetUrl);
+                      }
+                    }
+
+                    function fbs_click() {
+                      if(password_check()){
+                        share_counter('facebook');
+
+                        u='http://holdmymemories.com/uday?facebook=true';
+                        t='Brought to you by HoldMyMemories'
+                        window.open('http://www.facebook.com/sharer.php?u='+encodeURIComponent(u)+'&t='+encodeURIComponent(t),'sharer','toolbar=0,status=0,width=626,height=436');
+
+
+
+                        return false;
+                      }
+                    }
+                    function others(){
+                      result= password_check();
+                      if(result){
+                        share_counter('other');
+                        return addthis_sendto();
+                      }else return false;
+                    }
+
+                    function share_counter(type){
+                      new Ajax.Request('/social_networkings/create/17606?type='+type);
+
+                      new Ajax.Request('/social_networkings/create_sharecount/17606?type='+type);
+
+                    }
+                  </script>                      </td>
+                  </tr>
+                </table>
+              </div></td>
+          </tr>
+        </table>
+      </td>
+    </tr>
+  </table>
+<%end%>
+
+<% if facebookid == false && profile == true %>
+  <% if facebookid == false %>
+    <fb:visible-to-owner>
+    <%end%>
+    <script type="text/javascript" language="javascript">
+      function checkForm(form) {
+        var params = form.serialize();
+        if (params.user_name == '' ){
+          new Dialog().showMessage('Error!','Enter your HMM Username');
+          return false;
+        }else if(params.email == '' ){
+          new Dialog().showMessage('Error!','Enter your HMM Email');
+          return false;
+        }else if(params.email != '' ){
+          var email;
+          email = "^[_a-z0-9-]+(\.[_a-z0-9-]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,3})$";
+          returnval = (params.email).match(email);
+          if (returnval==false){
+            new Dialog().showMessage('Error!','Invalid Email');
+            return false;
+          }
+        }else{
+          return true;
+        }
+
+      }
+    </script>
+    <table width="500" border="0" cellspacing="0" cellpadding="0" align="center">
+      <tr>
+        <td>Login to Holdmymemories.com</td>
+      </tr>
+      <tr>
+        <td>&nbsp;</td>
+      </tr>
+      <tr>
+        <td>
+          <form name="frm_login" action="" method="post" onsubmit="return checkForm(this);"><%=flash[:message]%><table width="500" border="0" cellspacing="0" cellpadding="0" align="center">
+              <tr>
+                <td>Username:</td>
+                <td><input type="text" name="user_name" value="" /></td>
+              </tr>
+              <tr>
+                <td>Email:</td>
+                <td><input type="text" name="email" value="" /></td>
+              </tr>
+              <tr>
+                <td>&nbsp;</td>
+                <td><input type="submit" name="bt_sub" value="Submit" /></td>
+              </tr>
+              <tr>
+                <td align="right" colspan="2"><a href="http://staging.holdmymemories.com/customers/authorise_verify" >Click here</a> to Register</td>
+              </tr>
+            </table>
+            <input type="hidden" name="profile_id" id="profile_id" value="<%=@profile_id%>"  />
+            <input type="hidden" name="fb_sig_user" id="fb_sig_user" value="<%=@fb_sig_user%>"  />
+          </form></td>
+      </tr>
+      <tr>
+        <td>&nbsp;</td>
+      </tr>
+    </table>
+
+    <% if facebookid == false %>
+    </fb:visible-to-owner>
+  <%end%>
+<%end%>

@@ -1,0 +1,98 @@
+<%= javascript_include_tag 'modalbox/prototype' %>
+<script type="text/javascript" src="/javascripts/modalbox/scriptaculous.js?load=effects"></script>
+<script type="text/javascript" src="/javascripts/modalbox/modalbox.js"></script>
+<%= stylesheet_link_tag 'modalbox/modalbox' %>
+<style type="text/css">
+  .content-trans-bg {
+    background-image: url("/images/themes/love_maroon/cont-trans-bg.png");
+    background-repeat: repeat;
+    border: 0px solid #202020;
+    border-radius: 0;
+    -moz-border-radius: 0;
+  }
+</style>
+
+<table width="840" border="0" align="center" cellpadding="0" cellspacing="0">
+  <tr>
+    <td align="center">&nbsp;</td>
+  </tr>
+  <tr>
+    <% if @contests.count > 1 %>
+      <td align="center"><img src="/webpage/imgs_new/contest-head-plural.png" /></td>
+    <% else %>
+      <td align="center"><img src="/webpage/imgs_new/contest-head.png" /></td>
+    <% end %>
+
+  </tr>
+  <tr>
+
+    <td>
+      <table width="840" border="0" align="center" cellpadding="0" cellspacing="0" >
+        <tr>
+          <td height="23" align="center" valign="middle" colspan="2" class="content-trans-bg">&nbsp;</td>
+          <td align="left" valign="top" colspan="2">&nbsp;</td>
+        </tr>
+        <tr><% count = 0 %>
+
+          <td width="420" height="23" align="center" valign="middle" colspan="2" class="content-trans-bg">
+            <% @contests.each do |contest| %>
+
+              <%if params[:id]
+                if params[:controller] == "familywebsite_contest"
+                  link="/familywebsite_contest/intro/#{params[:id]}?p=#{Base64.encode64(contest.id.to_s)}"
+                else
+                  link="/familymemory_contests/intro/#{params[:id]}?p=#{Base64.encode64(contest.id.to_s)}"
+                end
+              else
+                link="/contests/hmm_contest?contest_id=#{Base64.encode64(contest.id.to_s)}"
+              end%>
+              <a href="<%=link%>"><img src="<%= contest.home_logo %>" width="364" height="139" border="0"/></a>
+              <% count+=1 %>
+            <% end %>
+          </td>
+        </tr>
+        <tr>
+          <td height="23" align="center" valign="middle" colspan="2" class="content-trans-bg">&nbsp;</td>
+          <td align="left" valign="top" colspan="2">&nbsp;</td>
+        </tr>
+      </table>
+
+    </td>
+
+  </tr>
+  <tr>
+    <td align="left">&nbsp;</td>
+  </tr>
+
+  <tr>
+    <td align="center" valign="top"><a href="/contests/specific_rules" class="newBtnCont" onclick="Modalbox.show(this.href, {title:'My Image', width:860, height:450});return false;">Rules and Regulations</a></td>
+  </tr>
+  <tr>
+    <td height="25" align="left" valign="top">&nbsp;</td>
+  </tr>
+  <%if(params[:controller] == "familywebsite_contest" && session[:hmm_user]) %>
+    <tr>
+      <td align="center" valign="top"><a href="/familywebsite_contest/manage_previous_contest/<%=params[:id]%>" class="newBtnCont">Previous Contest Winners</a></td>
+    </tr>
+
+  <%else
+    if params[:controller] == "familywebsite_contest"
+    %>
+      <tr>
+        <td align="center" valign="top"><a href="/familywebsite_contest/previous_contest/<%=params[:id]%>" class="newBtnCont">Previous Contest Winners</a></td>
+      </tr>
+    <% else %>
+      <tr>
+        <td align="center" valign="top"><a href="/contests/previous_contest" class="newBtnCont">Previous Contest Winners</a></td>
+      </tr>
+    <% end %>
+  <%end%>
+  <tr>
+    <td align="left" valign="top">&nbsp;</td>
+  </tr>
+  <tr>
+    <td align="left" valign="top">&nbsp;</td>
+  </tr>
+
+</table>
+

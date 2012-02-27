@@ -1,0 +1,83 @@
+<style type="text/css">
+<!--
+.style1 {
+	font-family: Arial, Helvetica, sans-serif;
+	font-weight: bold;
+	font-size: 12px;
+	color:#e36500;
+}
+.style3 {font-family: Arial, Helvetica, sans-serif; font-weight: bold; font-size: 18px; }
+-->
+</style>
+
+
+<%if @total==0%>
+<font color='#fdf1ca' >There are no Comments!!</font>
+<br><font color="#f5dfa6"> <%=flash[:notice_cca]%></font>
+		<br><font color="#f5dfa6"> <%=flash[:notice_ccd]%></font> 
+		<font color="#f5dfa6"> <%=flash[:notice_ccr]%></font>
+<%else%>
+<br><font color="#f5dfa6"> <%=flash[:notice_cca]%></font>
+		<br><font color="#f5dfa6"> <%=flash[:notice_ccd]%></font> 
+		<font color="#f5dfa6"> <%=flash[:notice_ccr]%></font>
+<table width="100%" border="0" class="border" height="30" cellspacing="0" cellpadding="10">
+  
+	
+	<tr bordercolor="#000000">
+     
+      <th align="left" valign="middle" id="table_bar_bg"  scope="col" colspan="3"><span class="btmtxt">Comments:</th>
+    </tr>
+	<input type="hidden" value="<%= params[:id] %>" name="tag_id" />
+	<input type="hidden" value="<%= params[:redirect] %>" name="redirect" />
+	
+		<%
+		for j in @gallery_c %>
+		
+		
+	<tr bordercolor="#000000">
+      
+      <th width="25%" align="left" valign="top" class="commenthr" scope="col"><span class="style1">Commented By&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>  </th>
+      <th width="75%" colspan="2" align="left" valign="top" scope="col" class="commentcont"><%= j.v_name %></th>
+    </tr>
+	
+	<tr bordercolor="#000000">
+      
+      <th align="left" valign="top" class="commenthr" scope="col"><span class="style1">Comment&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>  </th>
+      <th align="left" valign="top" scope="col" class="commentcont"><%= j.v_comment.gsub("\n", "<br />\n") %></th>
+    </tr>
+	<tr bordercolor="#000000">
+      
+      <th colspan="2" align="left" valign="top" class="text-journal" scope="col"><hR color="#151515"></th>
+      
+    </tr>
+
+  <%end%> 
+  <tr><td align="right" class="commentcont">
+		  	
+			<%if @page==0 %>
+			
+			<% if @nonext==1%>
+			<%else%>
+			<%= link_to_remote("Next >> ",
+				:update => "add_comment", :url => {  :action =>:view_photo_comments, :page => @nextpage, :photo_id => @phid, :familyname => @familyname} ) %>
+			<%end%>
+			<%else%>
+			
+			<%= link_to_remote("  << Previous ",
+				:update => "add_comment", :url => {  :action =>:view_photo_comments, :page => @previouspage, :photo_id => @phid,  :familyname => @familyname } ) %>
+			&nbsp;&nbsp;&nbsp; 
+			<% if @nonext==1%>
+			<%else%>
+			<%= link_to_remote("Next >> ",
+				:update => "add_comment", :url => {  :action =>:view_photo_comments, :page => @nextpage, :photo_id => @phid, :familyname => @familyname } ) %>
+			<%end%>
+			
+			<%end%>&nbsp;&nbsp;&nbsp; (Pages <%= @page+1 %> of <%=@numberofpages+1%>) 
+			
+			</td></tr>  
+</table>
+
+			<%end%>
+          
+<p></p>
+<p></p>

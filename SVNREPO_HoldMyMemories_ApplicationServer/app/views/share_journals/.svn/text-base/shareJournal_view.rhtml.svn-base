@@ -1,0 +1,490 @@
+<script type="text/javascript">
+		function grow_text_boxes(textareaid,divid,profileimg)
+	{
+		document.getElementById(divid).style.display='block';
+		document.getElementById(textareaid).style.width='300px';
+		document.getElementById(textareaid).style.height='100px';
+		document.getElementById(profileimg).style.display='block';
+		if (document.getElementById(textareaid).value == 'Type your comments here...') {
+			document.getElementById(textareaid).value = '';
+		}
+	}
+	function shrink_text_boxes(textareaid,divid,profileimg)
+	{
+		if (document.getElementById(textareaid).value == '') {
+			document.getElementById(textareaid).style.width = '300px';
+			document.getElementById(textareaid).style.height = '50px';
+			document.getElementById(textareaid).value='Type your comments here...';
+			document.getElementById(divid).style.display='none';
+			document.getElementById(profileimg).style.display='none';
+		}
+	}
+</script>
+
+
+<style>
+	.text-color{
+		font-family: Verdana, Arial, Helvetica, sans-serif;
+		color: #ffffff
+	}
+	.text-header{
+		font-family: Verdana, Arial, Helvetica, sans-serif;
+		font-size: larger;
+		color: #ffffff
+	}
+</style>
+
+<script src="/AC_OETags.js" language="javascript"></script>
+	<%session['shareid']= @shareid%>
+ <%session['redirect']='11'%> 
+<% if @journaltype == 'chapter' %>
+	<%@chap_journal = ChapterJournal.find(:all, :select =>"a.*,b.*", :joins => "as a, tags as b", :conditions => "a.id=#{@journalid} and a.tag_id=b.id") %>
+	<% for @j in @chap_journal%>
+		<table width="898" border="0">
+			<tr>
+				<td colspan="2" align="left" class="text-header" bgcolor="#191919">
+					&nbsp;&nbsp;<%=@name.capitalize%>'s Journal Entry  
+				</td>
+			</tr>
+			
+				<%if(@j.v_chapimage == "folder_img.png")
+					imgpath='/user_content/photos/big_thumb/noimage.jpg'
+	  			else	
+        			imageName  = @j.v_chapimage
+        			imageName.slice!(-3..-1)
+        			imgpath=@j.img_url+"/user_content/photos/flex_icon/"+imageName+"jpg"
+      			end %>
+				
+			<tr>
+				<td width="100">
+					<a href="/tags/subchap_coverflow/<%=@j.tag_id%>"><img src="<%=imgpath%>" border='0' width="192"/></a>
+				</td >
+				<td align="left" valign="top" class="heading-journal">
+					<%= @j.v_tag_title %>&nbsp;&nbsp;
+					<% ActiveSupport::CoreExtensions::Time::Conversions::DATE_FORMATS.merge!(
+    				:date => "%Y-%m-%d",
+    				:presentable_datetime => "%a %b %d, %Y %H:%M",
+    				:presentable_date => "%a %b %d, %Y") 
+					@created_date=@j.d_created_at%>  
+
+				<%=@created_date.to_s(:presentable_date)%></span>
+				<br><br>
+				<font color="#ffffff" size="2"><%=@j.v_tag_journal%></font>
+				</td>
+			</tr>
+		</table>
+		<table border="0">
+		<%@chap_journal = Tag.find_by_sql("select b.*, a.* from tags as b, chapter_journals as a where a.id=#{@journalid} and a.tag_id=b.id") %>
+		<%for cmtchap in @chap_journal %>
+		<tr>
+			<td>
+				<table >
+						<tr>
+							<td valign="top">
+								<div id="profile_img<%=cmtchap.tag_id%><%=cmtchap.id%>" style="display:none">
+									<table border="0">
+											<tr>
+												<td align="top">
+													<img src="<%=logged_in_hmm_user.img_url %>/hmmuser/photos/thumb/<%=logged_in_hmm_user.v_myimage %>" width="77" height="78" border="0" />
+												</td>
+											</tr>
+									</table>
+								</div>
+							</td>	
+							<td>
+								<form name="frm1" action="/chapter_comment/create_jcmt">
+									<input type="hidden" value="<%= params[:id]%>" name="id" />
+									<input type="hidden" value="<%= cmtchap.tag_id%>" name="tag_id" />
+									<input type="hidden" value="<%=cmtchap.id %>" name="tag_j_id" />
+									<input type="hidden" value="<%= params[:redirect]%>" name="redirect" />
+									<table border="0">
+										<tr>
+											<td align="center">
+												<textarea class='textbox-1' onfocus="grow_text_boxes(this.id,'create_sub<%=cmtchap.tag_id%><%=cmtchap.id%>','profile_img<%=cmtchap.tag_id%><%=cmtchap.id%>');" onblur="shrink_text_boxes(this.id,'create_sub<%=cmtchap.tag_id%><%=cmtchap.id%>','profile_img<%=cmtchap.tag_id%><%=cmtchap.id%>');" cols='40' id='chapter_comment_v_comment<%=cmtchap.tag_id%><%=cmtchap.id%>' name='chapter_comment[v_comment]' rows='2'>Type your comments here...</textarea>
+												
+											</td>
+										</tr>
+										<tr>
+											<td >
+												<div id="create_sub<%=cmtchap.tag_id%><%=cmtchap.id%>" style="display:none">
+													<table>
+														<tr>
+															<td  >
+																<input type="submit" value="Create" name="Create" id="Create">
+															</td>
+														</tr>
+													</table>
+												</div>
+											</td>
+										</tr>
+												
+									</table>
+								</form>
+							</td>
+						</tr>
+				</table>
+
+				<div id="cmt" ></div>
+				<font color="#f5dfa6"><%=flash[:notice_share_jlist]%></font>
+			</td>
+		</tr>
+		<%end%>
+		</table>
+	<%end%>
+
+<%else if @journaltype == 'subchap' %>
+	<%@subchap_journal = SubChapJournal.find(:all,:select =>"a.*,b.*", :joins => "as a, sub_chapters as b", :conditions => "a.id=#{@journalid} and a.sub_chap_id=b.id") %>
+	<% for @k in @subchap_journal%>
+	<table width="898" border="0">
+			<tr>
+				<td colspan="2" align="left" class="text-header" bgcolor="#191919">
+					&nbsp;&nbsp;<%=@name.capitalize%>'s Journal Entry  
+				</td>
+			</tr>
+			
+				<%if(@k.v_image == "folder_img.png")
+					imgpath='/user_content/photos/big_thumb/noimage.jpg'
+	  			else	
+        			imageName  = @k.v_image
+        			imageName.slice!(-3..-1)
+        			imgpath=@k.img_url+'/user_content/photos/flex_icon/'+imageName+'jpg'
+      			end %>
+				
+			<tr>
+				<td width="100">
+					<a href="/galleries/gallery_coverflow/<%=@k.sub_chap_id%>"><img src="<%=imgpath%>" border='0' width="192"/></a>
+				</td >
+				<td align="left" valign="top" class="heading-journal">
+					<%= @k.journal_title %>&nbsp;&nbsp;
+					<% ActiveSupport::CoreExtensions::Time::Conversions::DATE_FORMATS.merge!(
+    				:date => "%Y-%m-%d",
+    				:presentable_datetime => "%a %b %d, %Y %H:%M",
+    				:presentable_date => "%a %b %d, %Y") 
+					@created_date=@k.created_on%>  
+
+				<%=@created_date.to_s(:presentable_date)%></span>
+				<br><br>
+				<font color="#ffffff" size="2"><%=@k.subchap_journal%></font>
+				</td>
+			</tr>
+		</table>
+		<table border="0">
+		<%@subchap_journal = SubChapter.find_by_sql("select b.*, a.* from sub_chapters as b, sub_chap_journals as a where a.id=#{@journalid} and a.sub_chap_id=b.id") %>
+		<%for subchap in @subchap_journal%>
+		<tr>
+			<td>
+					<table >
+								<tr>
+									<td valign="top">
+										<div id="profile_j_img<%= subchap.sub_chap_id%><%= subchap.id%>" style="display:none">
+											<table border="0">
+													<tr>
+														<td align="top">
+															<img src="<%=logged_in_hmm_user.img_url %>/hmmuser/photos/thumb/<%=logged_in_hmm_user.v_myimage %>" width="77" height="78" border="0" />
+														</td>
+													</tr>
+											</table>
+										</div>
+									</td>	
+									<td>
+										<form action="/subchap_comment/create_jcmt">
+											<input type="hidden" value="<%= subchap.sub_chap_id%>" name="subchap_id" />
+											<input type="hidden" value="<%= subchap.id%>" name="subchap_j_id" />
+											<input type="hidden" value="<%= params[:redirect]%>" name="redirect" />
+											<table>
+												<tr>
+													<td>
+														<textarea class='textbox-1' onfocus="grow_text_boxes(this.id,'subchap_j_cmt_sub<%= subchap.sub_chap_id%><%= subchap.id%>','profile_j_img<%= subchap.sub_chap_id%><%= subchap.id%>');" onblur="shrink_text_boxes(this.id,'subchap_j_cmt_sub<%= subchap.sub_chap_id%><%= subchap.id%>','profile_j_img<%= subchap.sub_chap_id%><%= subchap.id%>');" cols='40' id='subchap_comment_j_v_comment<%= subchap.sub_chap_id%><%= subchap.id%>' name='subchap_comment[v_comments]' rows='2'>Type your comments here...</textarea>
+														
+													</td>
+												</tr>
+												<tr>
+													<td>
+														<div id="subchap_j_cmt_sub<%= subchap.sub_chap_id%><%= subchap.id%>" style="display:none">
+															<table>
+															<tr>
+																<td>
+																	<input type="submit" value="Create" name="Create" id="Create">
+																</td>
+															</tr>
+															</table>
+														</div>
+													</td>
+												</tr>
+											</table>
+										</form>
+									</td>
+								</tr>
+						</table>
+				<div id="cmt" ></div>
+				<font color="#f5dfa6"><%=flash[:notice_share_jlist]%></font>
+			</td>
+		</tr>
+		<%end%>
+		</table>
+	<%end%>
+
+<%else if @journaltype == 'gallery' %>
+	<%@gal_journal = GalleryJournal.find(:all,:select =>"a.*,b.*", :joins => "as a, galleries as b", :conditions => "a.id=#{@journalid} and a.galerry_id=b.id") %>
+	<% for @l in @gal_journal
+		params[:gid] = @l.galerry_id
+		@galleryUrl = ""
+	if(@l.e_gallery_type == "video")
+		logger.info("Gallery Type Video")
+		@swfName = "CoverFlowVideo"
+		@galleryUrl = "/myvideos/videoCoverflow/#{params[:gid]}"
+	elsif(@l.e_gallery_type == "image")
+		logger.info("Gallery Type Image")
+		@swfName = "PhotoGallery"
+		@galleryUrl = "/galleries/showGallery/#{params[:gid]}"
+	elsif(@l.e_gallery_type == "audio")
+		logger.info("Gallery Type Audio")
+		@swfName = "CoverFlowAudio"
+		@galleryUrl = "/galleries/showAudioGallery/#{params[:gid]}"
+	end
+		@buttonVisibility = "false"
+		@galleryId = @l.galerry_id 
+	%>
+	<table width="898" border="0">
+			<tr>
+				<td colspan="2" align="left" class="text-header" bgcolor="#191919">
+					&nbsp;&nbsp;<%=@name.capitalize%>'s Journal Entry  
+				</td>
+			</tr>
+			
+				
+			<tr>
+				<td width="100">
+					<input type="hidden" id="galleryId" value="<%=@galleryUrl%>">
+						<input type="hidden" id="swfName" value="/<%=@swfName%>">
+						<input type="hidden" id="galleryIdVal" value="<%=@galleryId%>">
+						<input type="hidden" name="buttonVisible" id="buttonVisible" value="<%=@buttonVisibility%>">
+        				<input type="hidden" name="proxyurls" id="proxyurls" value="<%=@proxyurls%>" >
+        				<input type="hidden" name="servername" id="servername" value="<%=@servername%>" />
+        				<input type="hidden" name="serverurl" id="serverurl" value="<%=@serverurl%>" />
+						<script language="JavaScript" type="text/javascript">
+						var visibility = document.getElementById("buttonVisible").value;
+						var proxyurls = document.getElementById("proxyurls").value;
+						var galId = document.getElementById("galleryId").value;
+						var flashName = document.getElementById("swfName").value;
+       			 		var servername = document.getElementById('servername').value;
+        				var serverurl = document.getElementById('serverurl').value;
+						if(flashName == 'Chapter')
+		
+							var galleryIdValue = document.getElementById("galleryIdVal").value;
+							AC_FL_RunContent( 'codebase','http://download.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=7,0,19,0',
+								'width','898',
+								'height','350',
+								'src',flashName,
+								'quality','high',
+								'pluginspage','http://www.macromedia.com/go/getflashplayer',
+								'movie',flashName,
+								'flashvars', 'serverUrl='+galId+'&navigateTo=/myphotos/photo_journal/'+'&backid='+galleryIdValue+'&buttonsVisible='+visibility+'&galleryid='+galleryIdValue+'&proxyurls='+proxyurls+'&proxy='+servername+'&proxyurl='+serverurl+'&proxyurls='+proxyurls,
+								'allowFullscreen', 'true',
+								'bgcolor','#000000'); //end AC code
+						</script><noscript><object classid="clsid:D27CDB6E-AE6D-11cf-96B8-444553540000" codebase="http://download.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=7,0,19,0" width="898" height="350">
+ 
+ 
+</object></noscript>
+				</td >
+			</tr>
+				
+			<tr>
+				
+				<td align="left" valign="top" class="heading-journal">
+					<%= @l.v_title %>&nbsp;&nbsp;
+					<% ActiveSupport::CoreExtensions::Time::Conversions::DATE_FORMATS.merge!(
+    				:date => "%Y-%m-%d",
+    				:presentable_datetime => "%a %b %d, %Y %H:%M",
+    				:presentable_date => "%a %b %d, %Y") 
+					@created_date=@l.d_created_on%>  
+
+				<%=@created_date.to_s(:presentable_date)%></span>
+				<br><br>
+				<font color="#ffffff" size="2"><%=@l.v_journal%></font>
+				</td>
+			</tr>
+		</table>
+		<table border="0">
+		<%@gallery_journal = Galleries.find_by_sql("select b.*, a.* from galleries as b, gallery_journals as a where a.id=#{@journalid} and a.galerry_id=b.id") %>
+		<%for cmt in @gallery_journal %>
+		<tr>
+			<td>
+				
+				<table >
+				<tr>
+					<td valign="top">
+						<div id="profile_img<%=cmt.galerry_id%><%=cmt.id%>" style="display:none">
+							<table border="0">
+									<tr>
+										<td align="top">
+											<img src="<%=logged_in_hmm_user.img_url %>/hmmuser/photos/thumb/<%=logged_in_hmm_user.v_myimage %>" width="77" height="78" border="0" />
+										</td>
+									</tr>
+							</table>
+						</div>
+					</td>	
+					<td>
+						<form name="frm3" action="/gallery_comment/create_jcmt">
+								<input type="hidden" value="<%=cmt.galerry_id %>" name="gallery_id" />
+								<input type="hidden" value="<%= cmt.id%>" name="gallery_j_id" />
+								<input type="hidden" value="<%= params[:redirect]%>" name="redirect" />
+								<table>
+									<tr>
+										<td>
+											<textarea class='textbox-1' onfocus="grow_text_boxes(this.id,'journals_cmt_sub2<%=cmt.galerry_id%><%=cmt.id%>','profile_img<%=cmt.galerry_id%><%=cmt.id%>');" onblur="shrink_text_boxes(this.id,'journals_cmt_sub2<%=cmt.galerry_id%><%=cmt.id%>','profile_img<%=cmt.galerry_id%><%=cmt.id%>');" cols='40' id='journals_comment_v_comment2<%=cmt.galerry_id%><%=cmt.id%>' name='gallery_comment[v_comment]' rows='2'>Type your comments here...</textarea>
+										</td>
+									</tr>
+									<tr>
+										<td>
+											<div id="journals_cmt_sub2<%=cmt.galerry_id%><%=cmt.id%>" style="display:none">
+												<table>
+												<tr>
+													<td>
+														<input type="submit" value="Create" name="Create" id="Create">
+													</td>
+												</tr>
+												</table>
+											</div>
+										</td>
+									</tr>
+									
+								</table>
+							</form>     	
+						</td>
+					</tr>
+				</table>
+		<div id="cmt" ></div>
+		<font color="#f5dfa6"><%=flash[:notice_share_jlist]%></font>
+			</td>
+		</tr>
+		<%end%>
+		</table>
+	<%end%>
+	
+<%else if @journaltype == 'photo' %>
+	<%@photo_journal = JournalsPhoto.find(:all, :joins => "as a, user_contents as b", :conditions => "a.id=#{@journalid} and a.user_content_id=b.id " ) %>
+	<% for @l in @photo_journal%>
+	<table width="898" border="0">
+			<tr>
+				<td colspan="2" align="left" class="text-header" bgcolor="#191919">
+					&nbsp;&nbsp;<%=@name.capitalize%>'s Journal Entry  
+				</td>
+			</tr>
+			
+			<tr>
+				<td width="200">
+				<% if (@l.e_filetype == 'image') %>
+				<%if(@l.v_filename == "folder_img.png")
+					imgpath='/user_content/photos/big_thumb/noimage.jpg'
+	  			else	
+        			imageName  = @l.v_filename
+        			imageName.slice!(-3..-1)
+        			imgpath=@l.img_url+'/user_content/photos/big_thumb/'+imageName+'jpg'
+      			end %>
+				<%for m in @user_contentID %>
+				<a href="/share_journals/shareJournal_momentview/<%=m.user_content_id%>">
+				<img src="<%=imgpath%>" border='0' width="192"/>
+				<font size="2">Click Here to view this Image</font></a>
+				<%end%>
+			
+			<%else%>
+			<% if (@l.e_filetype == 'video' || @l.e_filetype == 'swf' ) %>	
+			<%for m in @user_contentID %>
+			<a href="/share_journals/shareJournal_momentview/<%=m.user_content_id%>">
+				<img src="<%=@l.img_url%>/user_content/videos/thumbnails/<%=@l.v_filename%>.jpg" border='0' width="192"/>
+				<font size="2">Click Here to view this Video</font></a>
+				<%end%>
+			
+			<%else%>
+			<% if (@l.e_filetype == 'audio') %>
+			<%for m in @user_contentID %>
+			<a href="/share_journals/shareJournal_momentview/<%=m.user_content_id%>">
+				<img src="/user_content/audios/speaker.jpg" border='0' width="192"/>
+			<font size="2">Click Here to listen this Audio</font></a>
+			<%end%>	
+			
+			<%end%><%end%>
+			
+			<%end%>	
+			
+					
+				</td >
+				<td align="left" valign="top" class="heading-journal">
+					<%= @l.v_title %>&nbsp;&nbsp;
+					<% ActiveSupport::CoreExtensions::Time::Conversions::DATE_FORMATS.merge!(
+    				:date => "%Y-%m-%d",
+    				:presentable_datetime => "%a %b %d, %Y %H:%M",
+    				:presentable_date => "%a %b %d, %Y") 
+					@created_date=@l.date_added%>  
+
+				<%=@created_date.to_s(:presentable_date)%></span>
+				<br><br>
+				<font color="#ffffff" size="2"><%=@l.v_image_comment%></font>
+				</td>
+			</tr>
+		</table>
+		<table border="0">
+		<%@usercontent_journal = UserContent.find_by_sql("select b.*, a.* from user_contents as b, journals_photos as a where a.id=#{@journalid} and a.user_content_id=b.id ") %>
+		<%for content in @usercontent_journal %>
+		<tr>
+			<td>
+				
+				<table >
+				<tr>
+					<td valign="top">
+						<div id="profile_img<%=content.id%><%=content.user_content_id%>" style="display:none">
+							<table border="0">
+									<tr>
+										<td align="top">
+											<img src="<%=logged_in_hmm_user.img_url %>/hmmuser/photos/thumb/<%=logged_in_hmm_user.v_myimage %>" width="77" height="78" border="0" />
+										</td>
+									</tr>
+							</table>
+						</div>
+					</td>	
+					<td>
+	
+						<form name="frm4" action="/photo_comments/create_jcmt">
+							<input type="hidden" value="<%=content.id %>" name="i_id" />
+							<input type="hidden" value="<%= content.user_content_id%>" name="user_content_id" />
+							<input type="hidden" value="<%= params[:redirect]%>" name="redirect" />
+							<table>
+								<tr>
+									<td>
+										<textarea class='textbox-1' onfocus="grow_text_boxes(this.id,'journals_cmt_sub<%=content.id%><%=content.user_content_id%>','profile_img<%=content.id%><%=content.user_content_id%>');" onblur="shrink_text_boxes(this.id,'journals_cmt_sub<%=content.id%><%=content.user_content_id%>','profile_img<%=content.id%><%=content.user_content_id%>');" cols='40' id='journals_comment_v_comment3<%=content.id%><%=content.user_content_id%>' name='photo_comments[v_comment]' rows='2'>Type your comments here...</textarea>
+										
+									</td>
+								</tr>
+								<tr>
+									<td>
+										<div id="journals_cmt_sub<%=content.id%><%=content.user_content_id%>" style="display:none">
+											<table>
+											<tr>
+												<td>
+													<input type="submit" value="Create" name="Create" id="Create">
+												</td>
+											</tr>
+											</table>
+										</div>
+									</td>
+								</tr>
+								
+							</table>
+						</form>     	
+					</td>
+				</tr>
+			</table>
+				<div id="cmt" ></div>
+				<font color="#f5dfa6"><%=flash[:notice_pc_jadd]%></font>
+			</td>
+		</tr>
+		<%end%>
+		</table>
+		
+	<%end%>
+
+<%end%>
+<%end%>
+<%end%>
+<%end%>

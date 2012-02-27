@@ -1,0 +1,70 @@
+<img src="<%=@img_url%>/hmmuser/familyphotos/thumbs/<%=@family_pic%>" />
+
+<p>Hello <i><%=@v_fname%> <%=@v_lname%>,</i> </p>
+
+<% 
+                if( @account_type=='platinum_user') 
+                 @account_type = "Premium"
+                 @amount="$9.95"
+                else
+                  if(@account_type=='familyws_user')
+                    @account_type = "Family Website" 
+                    @amount="$4.95"                    
+                  end  
+                end  
+%>
+
+ 
+
+<p>We are sorry you wish to cancel your HoldMyMemories.com premium membership.</p>
+
+ <% if(@credits=="" && @studiogroup_name=="") %>
+
+<p>With the cancellation of your <%=@account_type%> membership, you will no longer have access to the portraits you had taken at a HoldMyMemories.com studio.  However, you will still have access to any personal videos or images that you have uploaded to HoldMyMemories.com through your free HMM basic account.</p>
+
+<%else%>
+
+ <p>With the cancellation of your Premium membership, you will no longer have access to the portraits you had taken at a HoldMyMemories.com studio.  You will also lose $<%=@credits%> of studio credit redeemable at <%=@studiogroup_name%> as well as all the <a href="http://www.holdmymemories.com/user_account/studio_benefits" target="_blank">Studio Benefits</a> you enjoy as a HoldMyMemories.com Premium Member.  To reactivate your HoldMyMemories.com Premium Membership, and maintain the Studio Credits and Studio Benefits click here: <a href="#">Reactivate Membership</a>.
+ <br><br>
+ However, if you choose not to, you will still have access to any personal videos or images that you have uploaded to HoldMyMemories.com through your free HMM basic account.
+ </p>
+<%end%>
+
+<p>With your “basic” account you can continue to use HoldMyMemories.com to upload, hold, and share your personal memories. </p>
+
+<% if(@credits=='' && @credits==nil) %> 
+<p><u>When you next visit a HoldMyMemories.com studio, make sure you mention that you are a basic member.  The studio will add your images to your basic account, and you will have free thirty day access to your new session, as well as each of your previous sessions.</u></p>
+<%else%>
+<p><u>When you next visit a HoldMyMemories.com studio, make sure you mention that you are a basic member. The studio will add your images to your basic account, and you will have thirty days of free access to your new session.</u></p>
+<%end%>
+ 
+
+<p>You may also sign up for a “Family Website Account” for $4.95 a month.  This will give you virtually unlimited storage space for your memories, as well as a family website address, and access to view all your previous HoldMyMemories.com studio sessions.</p>
+
+ 
+
+<p>Remember that your premium membership includes HoldMyMemories.com studio benefits.  Benefits vary by location, please see the HoldMyMemories.com studio nearest you for a list of their benefits.</p>
+
+ 
+
+<p>Thank-you for allowing us to hold your memories.</p>
+
+ 
+
+<p>Sincerely,</p>
+
+ 
+
+<p>Your HoldMyMemories.com Team</p>
+
+ <br><br>
+ 
+<p> <b>Your Subscription Details:</b></p>
+
+<p>Invoice Number : <%= @invoicenumber%> </p>  
+<p>Subscription Number : <%= @subscriptionnumber%></p>  
+<p>Account type: <%=@account_type%> Account</p>
+<p>Subscription Amount : <%= @amount%> </p><br>
+<br>
+
+<p>Your account will be cancelled within the next 72 hours.  You will still have access to your studio images for the remainder of your subscription period (<%=@no_of_days%> days).</p>

@@ -1,0 +1,32 @@
+<script type="text/javascript">
+function relations_det(){
+	
+	if (document.getElementById('relation').value == 'select')
+		{
+			alert("please select a relation for your family member")
+			document.getElementById('relation').focus();
+		return false;
+		}
+		if (document.getElementById('chapter').value == 'default') 
+				{
+					alert("please select a chapter");
+					document.getElementById('chapter').focus();
+					return false;
+				}
+		
+		return true;
+}	
+</script>
+<style>
+	.title_text{
+		font-family:"Arial";
+		color:#ffffff;
+		font-size:x-large;
+	}
+</style>	
+<span class="title_text">Edit Family Member Details</span>
+<%=@family_member%>
+<% form_tag ("http://content.holdmymemories.com/familywebsite_setup/update_familymember/#{@family_member.id}",{:multipart => true}) do %>
+  <%= render :partial => 'form_edit' %>
+  <%= submit_tag 'Save', :onclick=>"return relations_det();" %>
+<% end %>

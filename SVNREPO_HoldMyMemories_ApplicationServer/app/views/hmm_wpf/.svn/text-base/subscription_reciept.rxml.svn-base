@@ -1,0 +1,39 @@
+xml.instruct! :xml, :version=>"1.0"
+xml.invoice{
+  if(@hmm_user.invoicenumber!=nil && @hmm_user.invoicenumber!='')
+    xml.invoice_number(@hmm_user.invoicenumber)
+    else
+    xml.invoice_number('NA')
+  end
+  if(@hmm_user.subscriptionnumber!=nil && @hmm_user.subscriptionnumber!='')
+    xml.subscription_number(@hmm_user.subscriptionnumber)
+    else
+    xml.subscription_number('NA')
+  end
+  xml.customer_name(@hmm_user['v_fname'] + ' ' + @hmm_user['v_lname'])
+  xml.account_type(@account_type)
+  xml.payment_method(@payment_method)
+   if(@amount_recieved!=nil && @amount_recieved!='')
+    xml.amount_recieved(@amount_recieved)
+   else
+     xml.amount_recieved('NA')
+   end
+  xml.subscription_interval(@subscription_interval)
+  xml.sold_by(@sold_by)
+  xml.username(@hmm_user.v_user_name)
+  xml.family_name(@hmm_user.family_name)
+  if(@hmm_user.password_required == 'yes')
+    xml.password_required(@hmm_user.password_required)
+    xml.family_password(@familypassword)
+  end
+  if @hmm_user.first_payment_date == nil || @hmm_user.first_payment_date==''
+    xml.account_creation_date(@hmm_user.d_created_date.strftime("%m - %d - %Y"))
+	else
+    xml.account_creation_date(@hmm_user.first_payment_date.strftime("%m - %d - %Y"))
+	end
+  if(@userpassword!=nil && @userpassword!='')
+    xml.password(@userpassword)
+  else
+    xml.password('NA')
+  end
+}

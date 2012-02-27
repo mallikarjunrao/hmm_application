@@ -1,0 +1,100 @@
+<%= stylesheet_link_tag 'SpryAssets/SpryValidationTextField' %>
+<%= javascript_include_tag 'SpryAssets/SpryValidationTextField' %>
+<%= stylesheet_link_tag 'SpryAssets/SpryValidationTextarea' %>
+<%= javascript_include_tag 'SpryAssets/SpryValidationTextarea' %>
+<table border="0" cellpadding="0" cellspacing="0" width="375">
+  <tr>
+    <td width="50">&nbsp;</td>
+    <td width="300"  height="500">
+      <table border="0" cellpadding="0" cellspacing="0">
+        <tr>
+          <td align="center">
+            <h3><font color="black">Shipping Information</font></h3>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <form name="shipping_info" id="shipping_info" action="/carts/add_shipping/<%=params[:id]%>?v=<%=params[:v]%>" method="post" >
+              <table width="100%" border="0" align="center">
+                <tr>
+                  <td>First Name<font color="#FF0000">*</font> :</td>
+                  <td><span id="sprytextfield1"><input type="text" name="fname" id="fname" value=""><br/><span class="textfieldRequiredMsg"> First Name is required.</br></span></span></td>
+                </tr>
+                <tr>
+                  <td>Last Name<font color="#FF0000">*</font> :</td>
+                  <td><span id="sprytextfield12"><input type="text" name="lname" id="lname" value=""><br/><span class="textfieldRequiredMsg"> Last Name is required.</br></span></span></td>
+                </tr>
+                <tr>
+                  <td valign="top">Address<font color="#FF0000">*</font>:</td>
+                  <td>
+                    <!--<span class="textareaRequiredState" id="comments1">
+                    -->  <!--<textarea autocomplete="off" name="address" id="address" cols="16" rows="4"></textarea>-->
+                      <span id="sprytextfield14">
+                      <input type="text" name="address" value="" size="41"><br/>
+                      <span class="textfieldRequiredMsg"> Address is required.</br></span>
+                      <!--<span class="textareaRequiredMsg">Address is required.</span>--> 
+                      </span> 
+                  </td>
+                </tr>
+                <tr>
+                  <td>City<font color="#FF0000">*</font></td>
+                  <td><span id="sprytextfield2"><input type="text" name="city" id="city" value=""><br/><span class="textfieldRequiredMsg">City is required.</br></span></span></td>
+                </tr>
+                <tr>
+                  <td>Zip<font color="#FF0000">*</font>:</td>
+                  <td><span id="sprytextfield3"><input type="text" name="zip" id="zip" value=""><br/><span class="textfieldRequiredMsg">Zip is required.</br></span></span></td>
+                </tr>
+                <tr>
+                  <td>State<font color="#FF0000">*</font></td>
+                  <td><span id="sprytextfield4"><select name="state" id="state">
+                        <% for st in  @states %>
+                          <option value="<%=st.id%>"><%=st.state%></option>
+                        <%end%>
+                      </select><br/><span class="textfieldRequiredMsg">State is required.</br></span></span></td>
+                </tr>
+                <tr>
+                  <td>Country<font color="#FF0000">*</font>:</td>
+                  <td><span id="sprytextfield5"><input type="text" id="country" name="country" readonly value="United States" > <br/><span class="textfieldRequiredMsg">State is required.</br></span></span></td>
+                </tr>
+                <tr>
+                  <td>Phone<font color="#FF0000">*</font>:</td>
+                  <td><span id="sprytextfield6"><input type="text" name="phno" id="phno" value=""><br> <font size="1" color="green">Example: 555-555-5555   or 5555555555</font><br><span class="textfieldRequiredMsg">Phone is required.</br></span></span></td>
+                </tr>
+                <tr>
+                  <td>Email<font color="#FF0000">*</font>:</td>
+                  <td><span id="sprytextfield11"><input type="text" name="email" id="email" value=""><br/><span class="textfieldRequiredMsg">E-mail Required</span><span class="textfieldInvalidFormatMsg">Invalid E-mail</span></span></td>
+                </tr>
+                <tr>
+                  <td>&nbsp;</td>
+                  <td><input type="submit" name="sub_bt" value="Submit"></td>
+                </tr>
+              </table>
+            </form>
+          </td></tr></table>
+    </td>
+    <td width="25">&nbsp;</td>
+  </tr>
+</table>
+<script type="text/javascript">
+
+  var sprytextfield1 = new Spry.Widget.ValidationTextField("sprytextfield1", "none", {validateOn:["blur", "submit"]});
+  var sprytextfield2 = new Spry.Widget.ValidationTextField("sprytextfield2", "none", {validateOn:["blur", "submit"]});
+  var sprytextfield3 = new Spry.Widget.ValidationTextField("sprytextfield3", "none", {validateOn:["blur", "submit"]});
+  var sprytextfield4 = new Spry.Widget.ValidationTextField("sprytextfield4", "none", {validateOn:["blur", "submit"]});
+  var sprytextfield5 = new Spry.Widget.ValidationTextField("sprytextfield5", "none", {validateOn:["blur", "submit"]});
+  var sprytextfield6 = new Spry.Widget.ValidationTextField("sprytextfield6", "none", {validateOn:["blur", "submit"]});
+  var sprytextfield7 = new Spry.Widget.ValidationTextField("sprytextfield7", "none", {validateOn:["blur", "submit"]});
+  var sprytextfield8 = new Spry.Widget.ValidationTextField("sprytextfield8", "none", {validateOn:["blur", "submit"]});
+  var sprytextfield9 = new Spry.Widget.ValidationTextField("sprytextfield9", "none", {validateOn:["blur", "submit"]});
+  var sprytextfield10 = new Spry.Widget.ValidationTextField("sprytextfield10", "none", {validateOn:["blur", "submit"]});
+  var sprytextfield11 = new Spry.Widget.ValidationTextField("sprytextfield11", "email", {validateOn:["blur", "submit"]});
+  var sprytextfield12 = new Spry.Widget.ValidationTextField("sprytextfield12", "none", {validateOn:["blur", "submit"]});
+	 var sprytextfield14 = new Spry.Widget.ValidationTextField("sprytextfield14", "none", {validateOn:["blur", "submit"]});
+
+</script>
+<script type="text/javascript">
+  <!--
+  var comments1 = new Spry.Widget.ValidationTextarea("comments1", {validateOn:["change"]});
+
+  //-->
+</script>

@@ -1,0 +1,43 @@
+<script type="text/javascript">
+  function testform()
+  {
+    if(document.getElementById('title').value=='')
+      {
+        alert("Please Enter the Title");
+        return false;
+      }
+      if(document.getElementById('artist').value=='')
+      {
+        alert("Please Enter the Artist Name");
+        return false;
+      }
+       if(document.getElementById('audio').value=='')
+      {
+        alert("Please select audio");
+        return false;
+      }
+      
+    if(!/(\.mp3|\.MP3)$/i.test(document.getElementById('audio').value)) {
+      alert("Invalid file type.. Please Upload only MP3 file!!");
+      return false;
+    }
+  }
+  </script>
+<h2>Add Songs For Animoto Video</h2>
+<table border="0" cellpadding="0" cellspacing="0" width="400">
+  <form  name="add_comment" id="add_comment" action="<%=request_content_url%>/manage_mobile_studios_content/upload_animoto_song" method="post" enctype="multipart/form-data">
+  <tr><td height="40">Add Title:</td><td><input type="text" name="title" id="title"></td></tr>
+
+  <tr><td height="40">Add Artist Name:</td><td><input type="text" name="artist"  id="artist" /></td></tr>
+    <tr><td height="40">Add Song:</td><td><input type="file" name="audio" id="audio" /></td></tr>
+     <tr><td height="20"  align="center"></td></tr>
+    <tr><td height="40"  align="center"><input type="submit" name="Add" value="Add" onclick="return testform()"/></td></tr>
+  </form>
+</table>
+
+<table border="0" cellpadding="0" cellspacing="0" width="900">
+<tr><th background="/images/body_hor.JPG">Title</th><th background="/images/body_hor.JPG">Artist Name</th><th background="/images/body_hor.JPG">Audio URL</th><th background="/images/body_hor.JPG">Action</th></tr>
+<% for song in @songs %>
+<tr class="<%= cycle('odd', 'even') %>"><td><%=song.title%></td><td><%=song.artist%></td><td><%=song.img_url%>/user_content/animoto_songs/<%=song.audio_filename%></td><td><%= link_to 'Delete', {:action => 'delete_animoto_songs', :id =>song.id}, :confirm => 'Are you sure to delete this audio?' %></td></tr>
+<%end%>
+</table>

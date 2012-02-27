@@ -1,0 +1,75 @@
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+	
+<title>Family Photos, Videos, and Websites</title>
+<% @usercontent = UserContent.find(params[:id]) %>
+<head>
+	
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+		<meta name="title" content="Brought to you by HoldMyMemories.com" />
+		<meta name="description" content="www.HoldMyMemories.com" />
+		<meta name="medium" content="video" />
+		
+		<link rel="video_src" type="application/x-shockwave-flash" href="http://blog.holdmymemories.com/BlogVideoPlayer.swf?videopath=http://content.holdmymemories.com/user_content/videos/1491065_101309gardner.flv"/>
+		<link rel="image_src" type="image/jpeg" href="http://38.114.213.189/user_content/videos/thumbnails/839126_jc.jpg"/>
+		
+<meta name="video_height" content="200" />
+<meta name="video_width" content="300" />
+<meta name="video_type" content="application/x-shockwave-flash" />
+		
+	</head>
+
+
+	<%= stylesheet_link_tag 'main' %>
+<%= stylesheet_link_tag 'hmmout' %> 
+	<%= stylesheet_link_tag 'hmm' %> 
+	
+<!-- Javascript Collection -->
+	
+	
+	
+    <script type="text/javascript">
+<!--
+function MM_preloadImages() { //v3.0
+  var d=document; if(d.images){ if(!d.MM_p) d.MM_p=new Array();
+    var i,j=d.MM_p.length,a=MM_preloadImages.arguments; for(i=0; i<a.length; i++)
+    if (a[i].indexOf("#")!=0){ d.MM_p[j]=new Image; d.MM_p[j++].src=a[i];}}
+}
+function MM_swapImgRestore() { //v3.0
+  var i,x,a=document.MM_sr; for(i=0;a&&i<a.length&&(x=a[i])&&x.oSrc;i++) x.src=x.oSrc;
+}
+function MM_findObj(n, d) { //v4.01
+  var p,i,x;  if(!d) d=document; if((p=n.indexOf("?"))>0&&parent.frames.length) {
+    d=parent.frames[n.substring(p+1)].document; n=n.substring(0,p);}
+  if(!(x=d[n])&&d.all) x=d.all[n]; for (i=0;!x&&i<d.forms.length;i++) x=d.forms[i][n];
+  for(i=0;!x&&d.layers&&i<d.layers.length;i++) x=MM_findObj(n,d.layers[i].document);
+  if(!x && d.getElementById) x=d.getElementById(n); return x;
+}
+
+function MM_swapImage() { //v3.0
+  var i,j=0,x,a=MM_swapImage.arguments; document.MM_sr=new Array; for(i=0;i<(a.length-2);i+=3)
+   if ((x=MM_findObj(a[i]))!=null){document.MM_sr[j++]=x; if(!x.oSrc) x.oSrc=x.src; x.src=a[i+2];}
+}
+//-->
+</script>
+<link rel='SHORTCUT ICON' href='/images/HMM-icon.ico'/>
+</head>
+
+<body oncontextmenu="return false;" class="bodytag" 
+
+onLoad="MM_preloadImages('/images/aboutus_over.jpg','/images/login_over.jpg','/images/creatanaccount_over.jpg','/ima
+
+ges/whyhmm_over.jpg','/images/faq_over.jpg','/images/contactus_over.jpg','/images/learnhowto_over.jpg')">
+<img src="http://38.114.213.189/user_content/videos/thumbnails/839126_jc.jpg" />
+<p style="text-align: center">
+	<object id="flv1" height="266" width="320" codebase="http://fpdownload.macromedia.com/pub/shockwave/cabs/flash/swflash.cab" classid="clsid:d27cdb6e-ae6d-11cf-96b8-444553540000">
+		<param value="http://blog.holdmymemories.com/BlogVideoPlayer.swf" name="movie" /><param value="true" name="allowfullscreen" />
+		<param value="videopath=http://content.holdmymemories.com/user_content/videos/1491065_101309gardner.flv" name="flashvars" />
+		<embed  name="flv1" pluginspage="http://www.adobe.com/go/getflashplayer" type="application/x-shockwave-flash" allowfullscreen="true" 
+		flashvars="videopath=http://content.holdmymemories.com/user_content/videos/1491065_101309gardner.flv" width="300" height="200"  src="http://blog.holdmymemories.com/BlogVideoPlayer.swf"></embed>
+		</object>
+		</p>
+
+</body>
+</html>

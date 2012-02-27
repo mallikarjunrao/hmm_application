@@ -1,0 +1,54 @@
+
+<form name="add_comment" action="/blog/add_comment/<%=params[:id]%>" method="post">
+  <input type="hidden" name="journal_id" value="<%=params[:journal_id]%>" />
+  <input type="hidden" name="journal_type" value="<%=params[:journal_type]%>" />
+  <input type="hidden" name="type_id" value="<%=params[:type_id]%>" />
+  <table width="100%" border="0" cellspacing="0" cellpadding="0" bgcolor="black" >
+    <tr>
+      <td width="30" align="left" valign="top">&nbsp;</td>
+      <td width="912" align="left" valign="top"><table width="100%" border="0" cellspacing="0" cellpadding="0">
+          <tr>
+            <td align="left" valign="top">&nbsp;</td>
+          </tr>
+          <tr>
+            <td height="25" align="left" valign="top" class="content">Name <span class="content-white">*</span></td>
+          </tr>
+          <tr>
+            <td align="left" valign="top"><label>
+                <input name="name" id="name" type="text" class="form-field" id="textfield" />
+              </label></td>
+          </tr>
+          <tr>
+            <td align="left" valign="top">&nbsp;</td>
+          </tr>
+          <tr>
+            <td height="25" align="left" valign="top" class="content">Comment <span class="content-white">*</span></td>
+          </tr>
+          <tr>
+            <td align="left" valign="top"><label>
+                <textarea name="comment" id="comment" cols="45" rows="5" class="cmt-field" id="textarea"></textarea>
+              </label></td>
+          </tr>
+          <tr>
+            <td align="left" valign="top">&nbsp;</td>
+          </tr>
+          <tr>
+            <td height="25" align="left" valign="top" class="content"> <%= recaptcha_tags :ajax=>true %> <br><font color="red"><%=flash[:error]%></font></td>
+          </tr>
+          <tr>
+            <td align="left" valign="top">&nbsp;</td>
+          </tr>
+          <tr>
+            <td align="left" valign="top"><label>
+                <input type="submit" name="add_comment_bt" class="cmd-btn" value="Add Comment" />
+                &nbsp;
+                <input type="button" class="nyroModalClose" value="Cancel" />
+              </label></td>
+          </tr>
+          <tr>
+            <td align="left" valign="top">&nbsp;</td>
+          </tr>
+        </table></td>
+    </tr>
+  </table>
+</form>

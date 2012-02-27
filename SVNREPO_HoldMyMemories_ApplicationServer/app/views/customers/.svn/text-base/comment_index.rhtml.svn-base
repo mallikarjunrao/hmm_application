@@ -1,0 +1,91 @@
+<p align='center'>
+<form name="frm">
+<%= image_tag("/images/circle_load.gif",
+              :align => "absmiddle",
+              :border => 0,
+              :id => "spinner",
+              :style =>"display: none;" ) %>
+			  
+			  
+<%= observe_field 'query',  :frequency => 2,
+         :update => 'table',
+         :before => "Element.show('spinner')",
+         :success => "Element.hide('spinner')",
+         :url => {:action => 'allcmt_list'},
+         :with => 'query' %>
+</form>	
+</p>
+
+<table width="820" cellpadding="0" cellspacing="0" border="0"><tr>
+	<% session[:friend]=''%>
+  <th width="5" align="left" valign="top" scope="col"></th>
+  <th width="817" align="left" valign="top" scope="col"><table width="100%" border="0" cellspacing="0" cellpadding="0">
+    <tr>
+      <th width="140" height="22" align="left" valign="top" scope="col">
+      	
+      	<a href="/customers/edit_profile/<%=logged_in_hmm_user.id%>" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('Image22','','/images/manage-profile_over.jpg',1)">
+      	<img src="/images/manage-profile_def.jpg" name="Image22" width="140" height="22" border="0" id="Image22" /></a>
+	  </th>
+      
+	  <th width="155" align="left" valign="top" scope="col">
+      	<a href="/galleries/manage_moments" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('Image23','','/images/manage-moments_over.jpg',1)">
+      	<img src="/images/manage-moments_def.jpg" name="Image23" width="155" height="22" border="0" id="Image23" /></a>
+	  </th>
+      
+	  <th width="152" align="left" valign="top" scope="col">
+	  	<a href="/customers/manage" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('Image26','','/images/manage-journals_over.jpg',1)">
+	  	<img src="/images/manage-journals_def.jpg" name="Image26" width="152" height="22" border="0" id="Image26" /></a>
+		</th>
+      
+	  <th width="206" align="left" valign="top" scope="col">
+	  	<a href="/customers/FnF_Request" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('Image24','','/images/manage-fndsandfmly_over.jpg',1)">
+	  		<img src="/images/manage-fndsandfmly_def.jpg" name="Image24" width="206" height="22" border="0" id="Image24" /></a>
+		  </th>
+      
+	  <th width="164" align="left" valign="top" scope="col">
+	  
+	  	<img src="/images/manage-comments_over.jpg" name="Image25" width="164" height="22" border="0" id="Image25" /></a>
+	  </th>
+    </tr>
+  </table></th>
+  <th width="5" align="left" valign="top" scope="col"></th>
+</tr>
+</table>
+
+<br>
+<table width="500" cellpadding="0" cellspacing="0" border="0" class="border">
+<% session[:redirect] = request.request_uri %>
+<tr >
+	<td valign="middle" align="center" height="30" bgcolor="#404040">
+		&nbsp;&nbsp;<font size="3">  Comments Categorised</font> 	</td>
+</tr>
+<tr>
+	<td  align="left" height="25">
+		
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+		<a href="/chapter_comment/allcmt_list/" style="text-decoration:none" >Chapter Comments</a>	</td>
+</tr>
+<tr>
+	<td class="border1" align="left" height="25">
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+		<a href="/subchap_comment/allcmt_list/" style="text-decoration:none">Sub-Chapter Comments</a>	</td>
+</tr>
+<tr>
+	<td class="border1" align="left" height="25">
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+		<a href="/gallery_comment/allcmt_list/" style="text-decoration:none">Gallery Comments</a>	</td>
+</tr>
+<tr>
+	<td class="border1" align="left" height="25">
+	    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+		<a href="/photo_comments/allcmt_list/" style="text-decoration:none">Moment Comments</a>	</td>
+</tr>
+<tr>
+	<td class="border1" align="left" height="25">
+	    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+		<a href="/chapter_comment/allcmt_list1/" style="text-decoration:none">Shared Moment Comments</a>	</td>
+</tr>
+
+
+
+</table>

@@ -1,0 +1,46 @@
+
+<h3>My Employees</h3>
+
+<table>
+	
+  <tr>
+  
+    <th background="/images/body_hor.JPG"><font class='txt'>Employee Id</font></th>
+	<th background="/images/body_hor.JPG"><font class='txt'>Employee Name</font></th>
+	<th background="/images/body_hor.JPG"><font class='txt'>Designation</font></th>
+	<th background="/images/body_hor.JPG"><font class='txt'>Address</font></th>
+	<th background="/images/body_hor.JPG"><font class='txt'>E-mail</font></th>
+	<th background="/images/body_hor.JPG"><font class='txt'>Phone No</font></th>
+	<th background="/images/body_hor.JPG"><font class='txt'>Customer Count</font></th>
+	<th background="/images/body_hor.JPG"><font class='txt'>Status</font></th>
+
+ 
+  </tr>
+  
+<% for i in @my_employee%>
+  <tr class="<%= cycle('odd', 'even') -%>">
+  
+    <td><%=i.employe_id %></td>
+	<td><%=i.employe_name %></td>
+	<td><%=i.emp_type %></td>
+	<td><%=i.address.gsub("\n", "<br />\n") %></td>
+	<td><%=i.e_mail %></td>
+	<td><%=i.phone_no %></td>
+	<%hmm_reg_count = HmmUser.count(:all, :conditions => "emp_id = #{i.id}")%>
+	
+	<%if hmm_reg_count == 0%>
+	<td>NIL</td>
+	<%else%>
+	<td><%=hmm_reg_count %></td>
+	<%end%>
+	<%if i.status == 'block'%>
+	<td><font color="red">Blocked</font></td>
+	<%else if i.status == 'unblock'%>
+	<td><font color="#66ff00">Unblocked</font></td>
+	<%end%>
+	<%end%>
+    
+    
+  </tr>
+<% end %>
+</table>

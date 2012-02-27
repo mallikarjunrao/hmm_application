@@ -1,0 +1,133 @@
+<%= javascript_include_tag 'modalbox/prototype' %>
+<script type="text/javascript" src="/javascripts/modalbox/scriptaculous.js?load=effects"></script>
+<script type="text/javascript" src="/javascripts/modalbox/modalbox.js"></script>
+<%= stylesheet_link_tag 'modalbox/modalbox' %>
+
+<table align="center" width="890" border="0">
+	<input type="hidden" name="order" value="<%=@params[:order]%>" />
+	<tr>
+		<td>
+			<font color="#f5dfa6"><%= flash[:notice_vote]%></font>
+			<font color="#f5dfa6" size="3"><%= flash[:notice_invite]%></font>
+		</td>
+	</tr>
+	<tr>
+		<td colspan="5"><img src="/images/cute_kid_contest_heading.jpg" border="0"> </td>
+	</tr>
+	<tr>
+		<td colspan="5">
+			<font color="#e36500" size="3">
+				You may vote for more than one child, but you may only vote once per child.
+			</font>
+		</td>
+		
+	</tr>
+	
+	<tr>
+		<td>
+			<table width="746" border="0" cellspacing="0" cellpadding="0">
+                <tr>
+                  <td height="23" colspan="2" align="right" valign="top" ></td>
+                  </tr>
+				<tr>
+                  <td width="366" align="right" valign="top" style="padding-right:10px;">
+				   
+				  <% form_remote_tag :update => 'table',
+         							:before => "Element.show('spinner1')",
+         							:success => "Element.hide('spinner1')",
+         							:url => {:action => 'logged_moments_vote'},
+									:method => 'post',
+		 							:with => 'query' do %>
+									<input class="textbox-signup" id="query" name="query" size="15" type="text" >
+
+				  
+				  </td>
+                  <td width="380" align="left" valign="middle">
+                  	<input type="image" src="/images/hmm_search_contest.jpg" name=search value=search id="search" />
+					<%end%>
+					</td>
+					<td >
+						<%= sort_header_tag('contest_entry_date', :text => "<img  src='/images/date_sort.gif'   border='0'/>") %>
+						&nbsp;&nbsp;
+						<%= sort_header_tag('first_name', :text => "<img  src='/images/name_sort.gif'   border='0'/>") %>
+						&nbsp;&nbsp;
+						<%= sort_header_tag('votes', :text => "<img  src='/images/vote_sort.gif'   border='0'/>") %>
+					</td>
+                </tr>
+                
+                
+              </table>
+		</td>
+	</tr>
+	
+	
+	<tr>
+		<th>
+			<table><tr><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr>
+			<tr>
+
+<% j =  0 
+for @i in @contest_cutekids
+ 
+if  j==4
+ j=0
+j=j+1
+%>
+</tr><tr><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr>
+<tr><%else
+j=j+1
+end
+%><td>
+		<table width="192" border="0" cellpadding="0" cellspacing="0">
+             <tr>
+                <td height="134" align="center" valign="middle" style="border:solid; border-color:#383838; border-width:1px;">
+					<a href="/contests/momentdetails/<%=@i.moment_id%>"> 
+					<img src="<%= @i.img_url %>/user_content/photos/big_thumb/<%= @i.v_filename %>" border="0" /></a></td>
+             </tr>
+             <tr>
+                <td height="4" align="center" valign="middle"></td>
+             </tr>
+             <tr>
+                <td height="15" align="center" valign="middle" class="contsubm_whitesmalltxt" style="border:solid; border-color:#383838; border-width:1px;"><%=@i.contest_fname%></td>
+             </tr>
+             <tr>
+                <td height="35" align="center" valign="top" class="cont2" style="padding-top:5px;">
+				<%if @i.contest_entry_date.nil?%>
+				<%=Time.now.strftime("Submitted : %m/%d/%Y") %>
+				<%else%>
+				<%=  @i.contest_entry_date.strftime("Submitted : %m/%d/%Y") %></span >
+				<%end%>
+				<%@count = ContestVotes.count(:conditions => "contest_id = '#{@i.contest_id}' and conformed = 'yes'")  %>
+				<br><%=@count%> Votes</span></td>
+             </tr>
+             <tr>
+                <td height="20" align="center" valign="top" class="cont2" style="padding-top:3px;">
+				
+				<a href="/contests/vote/<%=@i.contest_id%>"  onclick="Modalbox.show(this.href, {title: 'My Image', width: 1000, height:1000}); return false;">
+					<img src="/images/vote_btn1.jpg" alt="vote" name="Image4413" width="61" height="20" border="0" id="Image4413" />
+				</a>
+				</td>
+             </tr>
+        </table>
+		</td><td>&nbsp;</td>
+		<%end%>
+		
+		</table>
+		</th>
+		
+		<th>&nbsp;</th>
+		<tr>
+		<th align="center" colspan="5" valign="top" class="signedtxtwhite" id="padding_photos" scope="col">
+          	<span class="nextprevioustxt-act"></span>&nbsp;  <span class="nextprevioustxt">
+          	
+			<% if @contest_cutekids_pages.page_count > 1 %>
+			<font size="3"><%= link_to('Previous', {:params => params.merge('page' => @contest_cutekids_pages.current.previous)}) if @contest_cutekids_pages.current.previous %> &nbsp;&nbsp;&nbsp;</font>
+			<% for page in @contest_cutekids_pages -%>
+			<font size="3"><%= link_to_unless((params[:page].to_i == page.number),
+				 page.number, :page => page) %></font> 
+			<% end -%>
+			<font size="3">&nbsp;&nbsp;&nbsp;&nbsp;<%= link_to('Next', {:params => params.merge('page' => @contest_cutekids_pages.current.next)}) if @contest_cutekids_pages.current.next %></font>
+			<% end %>
+			</th>
+		</tr>	
+</table>

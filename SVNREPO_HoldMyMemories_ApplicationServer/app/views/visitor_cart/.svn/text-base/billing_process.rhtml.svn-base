@@ -1,0 +1,866 @@
+<link href="../../../public/stylesheets/themes/maternity_grey.css" rel="stylesheet" type="text/css" />
+<%#= stylesheet_link_tag 'popup.css' %>
+<%= stylesheet_link_tag 'SpryAssets/SpryValidationRadio' %>
+<%= stylesheet_link_tag 'main' %>
+<%= stylesheet_link_tag 'hmmout' %>
+<%= stylesheet_link_tag 'hmm' %>
+<%= stylesheet_link_tag 'SpryAssets/SpryValidationTextField' %>
+<%= stylesheet_link_tag 'SpryAssets/SpryValidationRadio' %>
+<%= javascript_include_tag 'scriptaculous' %>
+<%#= javascript_include_tag 'popup.js' %>
+<%= javascript_include_tag 'AC_OETags' %>
+<%= javascript_include_tag 'SpryAssets/SpryValidationTextField' %>
+<style type="text/css">
+  .style3 {color: #999999}
+</style>
+<script type="text/javascript">
+  function windowOpener(windowHeight, windowWidth, windowName, windowUri)
+  {
+    var centerWidth = (window.screen.width - windowWidth) / 2;
+    var centerHeight = (window.screen.height - windowHeight) / 2;
+    var features='resizable=0,width='+ windowWidth +
+      ',height='+ windowHeight +
+      ',left='+ centerWidth +
+      ',top='+ centerHeight;
+    newWindow = window.open(windowUri,'',features);
+  }
+</script>
+<table width="970" border="0" cellspacing="0" cellpadding="0" id="tab_bgcolor_repeat">
+  <tr>
+    <td align="left" valign="top"><table width="100%" border="0" cellspacing="0" cellpadding="0">
+        <tr>
+          <td width="13" align="left" valign="top"></td>
+          <td width="944" align="left" valign="top"><table width="100%" border="0" cellspacing="0" cellpadding="0">
+              <tr>
+                <td height="10" align="left" valign="top"></td>
+              </tr>
+              <tr>
+                <td height="35" align="left" valign="bottom" class="header-page">Payment</td>
+              </tr>
+              <tr>
+                <td height="10" align="left" valign="top"></td>
+              </tr>
+              <tr>
+                <td height="1" align="left" valign="top" bgcolor="#454545"></td>
+              </tr>
+              <tr>
+                <td height="10" align="left" valign="top"></td>
+              </tr>
+              <tr>
+                <td align="left" valign="top" class="content-trans-bg"><table width="100%" border="0" cellspacing="0" cellpadding="0">
+                    <tr>
+                      <td width="30" align="left" valign="top">&nbsp;</td>
+                      <td width="882" align="left" valign="top">&nbsp;</td>
+                      <td width="30" align="left" valign="top">&nbsp;</td>
+                    </tr>
+                    <tr>
+                      <td align="left" valign="top">&nbsp;</td>
+                      <td align="left" valign="top" class="content-trans-bg">
+                        <p align="left">
+                          <%
+                            if session[:visitor_id]
+                              @shipping_details=ShippingInformation.find(:all,:conditions=>"user_id='#{session[:visitor_id]}'")
+                            else
+                              @shipping_details=ShippingInformation.find(:all,:conditions=>"user_id='#{session[:hmm_user]}'")
+                            end
+                          %>
+                        </p>
+                        <script type="text/javascript">
+                          function go()
+                          {
+                            document.frm1.submit();
+                          }
+
+                          function verify()
+                          {
+                            if(document.getElementById('bfname').value == "")
+                            {
+                              alert("Billing First Name is a required field")
+                              document.getElementById('bfname').focus();
+                              return false;
+                            }
+
+                            if(document.getElementById('blname').value == "")
+                            {
+                              alert("Billing Last Name is a required field")
+                              document.getElementById('blname').focus();
+                              return false;
+                            }
+                            if(document.getElementById('street_address').value == "")
+                            {
+                              alert("Street Address is a required field")
+                              document.getElementById('street_address').focus();
+                              return false;
+                            }
+                            if(document.getElementById('city').value == "")
+                            {
+                              alert("City is a required field")
+                              document.getElementById('city').focus();
+                              return false;
+                            }
+                            if(document.getElementById('state').value == "")
+                            {
+                              alert("State is a required field")
+                              document.getElementById('state').focus();
+                              return false;
+                            }
+                            if(document.getElementById('postcode').value == "")
+                            {
+                              alert("Zip/Postal code is a required field")
+
+                              document.getElementById('postcode').focus();
+                              return false;
+                            }
+                            if(document.getElementById('telephone').value == "")
+                            {
+                              alert("Phone Number is a required field")
+                              document.getElementById('telephone').focus();
+                              return false;
+                            }
+                            /*if(document.getElementById('telephone').value != "")
+                            {
+                              var res = televerify();
+                              if(res==false)
+                              {
+                                //alert("Invalid Telephone Number");
+                                document.getElementById('telephone').focus();
+                                return false;
+                              }
+                            }*/
+                            if(document.getElementById('email').value == "")
+                            {
+                              alert("Email Address  is a required field")
+                              document.getElementById('email').focus();
+                              return false;
+                            }
+
+                            <%if  @cart_total.round(2)!= 0 %>
+                            if(document.getElementById('card_no').value == "")
+                            {
+                              alert("Credit Card Number is a required field")
+                              document.getElementById('card_no').focus();
+                              return false;
+                            }
+                            if(document.getElementById('cardcvv_no').value == "")
+                            {
+                              alert("CVV number is a required field")
+                              document.getElementById('cardcvv_no').focus();
+                              return false;
+                            }
+                            if(document.getElementById('fname').value == "")
+                            {
+                              alert("First Name is a required field")
+                              document.getElementById('fname').focus();
+                              return false;
+                            }
+
+                            if(document.getElementById('lname').value == "")
+                            {
+                              alert("Last Name is a required field")
+                              document.getElementById('lname').focus();
+                              return false;
+                            }
+                            <%  end %>
+                            return true;
+                          }
+
+
+                        </script>
+
+
+                        <script language = "Javascript">
+                          /**
+                           * DHTML phone number validation script. Courtesy of SmartWebby.com (http://www.smartwebby.com/dhtml/)
+                           */
+
+                          // Declaring required variables
+                          var digits = "0123456789";
+                          // non-digit characters which are allowed in phone numbers
+                          var phoneNumberDelimiters = "()- ";
+                          // characters which are allowed in international phone numbers
+                          // (a leading + is OK)
+                          var validWorldPhoneChars = phoneNumberDelimiters + "+";
+                          // Minimum no of digits in an international phone no.
+                          var minDigitsInIPhoneNumber = 10;
+
+                          function isInteger(s)
+                          {   var i;
+                            for (i = 0; i < s.length; i++)
+                            {
+                              // Check that current character is number.
+                              var c = s.charAt(i);
+                              if (((c < "0") || (c > "9"))) return false;
+                            }
+                            // All characters are numbers.
+                            return true;
+                          }
+                          function trim(s)
+                          {   var i;
+                            var returnString = "";
+                            // Search through string's characters one by one.
+                            // If character is not a whitespace, append to returnString.
+                            for (i = 0; i < s.length; i++)
+                            {
+                              // Check that current character isn't whitespace.
+                              var c = s.charAt(i);
+                              if (c != " ") returnString += c;
+                            }
+                            return returnString;
+                          }
+                          function stripCharsInBag(s, bag)
+                          {   var i;
+                            var returnString = "";
+                            // Search through string's characters one by one.
+                            // If character is not in bag, append to returnString.
+                            for (i = 0; i < s.length; i++)
+                            {
+                              // Check that current character isn't whitespace.
+                              var c = s.charAt(i);
+                              if (bag.indexOf(c) == -1) returnString += c;
+                            }
+                            return returnString;
+                          }
+
+                          function checkInternationalPhone(strPhone){
+                            var bracket=3
+                            strPhone=trim(strPhone)
+                            if(strPhone.indexOf("+")>1) return false
+                            if(strPhone.indexOf("-")!=-1)bracket=bracket+1
+                            if(strPhone.indexOf("(")!=-1 && strPhone.indexOf("(")>bracket)return false
+                            var brchr=strPhone.indexOf("(")
+                            if(strPhone.indexOf("(")!=-1 && strPhone.charAt(brchr+2)!=")")return false
+                            if(strPhone.indexOf("(")==-1 && strPhone.indexOf(")")!=-1)return false
+                            s=stripCharsInBag(strPhone,validWorldPhoneChars);
+                            return (isInteger(s) && s.length >= minDigitsInIPhoneNumber);
+                          }
+
+                          function ValidateForm(){
+                            var Phone=document.frmSample.txtPhone
+
+                            if ((Phone.value==null)||(Phone.value=="")){
+                              alert("Please Enter your Phone Number")
+                              Phone.focus()
+                              return false
+                            }
+                            if (checkInternationalPhone(Phone.value)==false){
+                              alert("Please Enter a Valid Phone Number")
+                              Phone.value=""
+                              Phone.focus()
+                              return false
+                            }
+                            return true
+                          }
+
+                          function selship()
+                          {
+                            if(document.getElementById('sel_ship').checked==true)
+                            {
+
+                              document.getElementById('bfname').value="<%=@shipping_details[0]['name']%>";
+                              document.getElementById('blname').value="<%=@shipping_details[0]['lname']%>";
+                              document.getElementById('street_address').value="<%=@shipping_details[0]['address']%>";
+                              document.getElementById('city').value="<%=@shipping_details[0]['city']%>";
+                              document.getElementById('state').value="<%=@shipping_details[0]['state']%>";
+                              document.getElementById('postcode').value="<%=@shipping_details[0]['zip']%>";
+                              document.getElementById('telephone').value="<%=@shipping_details[0]['phno']%>";
+                              document.getElementById('email').value="<%=@shipping_details[0]['email']%>";
+
+
+                            }else{
+
+                              document.getElementById('bfname').value="";
+                              document.getElementById('blname').value="";
+                              document.getElementById('street_address').value="";
+                              document.getElementById('city').value="";
+                              document.getElementById('state').value="";
+                              document.getElementById('postcode').value="";
+                              document.getElementById('telephone').value="";
+                              document.getElementById('email').value="";
+
+                            }
+
+                          }
+
+                        </script>
+                    <style type = "text/css">
+                      .info_text{
+                        color:#999999;
+                        font-family:Arial;
+                        font-size: 20px;
+                      }
+
+                      .click_text{
+                        color:#999999;
+                        font-family:Arial;
+                        font-size: 24px;
+                        text-decoration:none;
+                      }
+
+                      .main{
+                        color:#ffffff;
+                        font-family:Arial;
+                        font-size: 12px;
+                        text-decoration:none;
+                      }
+                    </style>
+                    <script type="text/javascript">
+                      function disableSubmit()
+                      {
+                        var out = verify();
+                        if(out==true){
+                          document.getElementById('sub').style.display = "none";
+                          document.getElementById('process').style.display = "block";
+                          //document.frm.sub.disabled='true';
+                          return true;
+                        }else{
+                          return false;
+                        }
+                      }
+                    </script>
+                    <form name="frm" action="/visitor_cart/process_payment/<%=params[:id]%>?v=<%= params[:v] %>" method="post" onSubmit="return disableSubmit();"   >
+                      <table width="901" border="0" cellspacing="0" cellpadding="0">
+                        <tr>
+                          <td align="center" valign="top"><font color="#FF0000"><%=flash[:error]%>
+                              <% for j in response %>
+
+                                <%=j%>
+
+                              <%end%>
+                            </font></td>
+                        </tr>
+                        <tr>
+                          <td width="901" align="center" valign="top"><table width="850" border="0" cellspacing="0" cellpadding="0" id="tab_bgcolor_repeat">
+                              <tr>
+                                <td align="right" valign="top">&nbsp;</td>
+                              </tr>
+                              <tr>
+                                <td width="828" align="right" valign="top"><table width="100%" border="0" align="center" cellpadding="0" cellspacing="0">
+                                    <tr>
+                                      <td width="439" align="left" valign="top" class="content-trans-bg"><table width="100%" border="0" cellspacing="0" cellpadding="0">
+                                          <tr>
+                                            <td height="20" colspan="3" align="left" valign="top">&nbsp;</td>
+                                          </tr>
+                                          <tr>
+                                            <td width="20" align="left" valign="top">&nbsp;</td>
+                                            <td align="left" valign="top"><table width="100%" border="0" cellspacing="0" cellpadding="0">
+                                                <tr>
+                                                  <td height="35" align="left" valign="bottom" class="header-page"><span class="cont-orange-hr">Shipping Information</span></td>
+                                                </tr>
+                                                <tr>
+                                                  <td align="left" valign="top">&nbsp;</td>
+                                                </tr>
+                                                <tr>
+                                                  <td height="10" align="left" valign="top" class="content-trans-white-bg"><table width="100%" border="0" cellspacing="0" cellpadding="0">
+                                                      <tr>
+                                                        <td height="20" colspan="3" align="left" valign="top"></td>
+                                                      </tr>
+                                                      <tr>
+                                                        <td width="20" align="left" valign="top"></td>
+                                                        <td align="left" valign="top" class="content"><table width="100%" border="0" cellspacing="0" cellpadding="0">
+                                                            <tr>
+                                                              <td width="49%" align="left" valign="top"><span class="whitecont">First Name *</span></td>
+                                                              <td width="51%" align="left" valign="top"><span id="sprytextfield20"><input type="text" name="sfname" id="sfname" class="carttxtbox" value="<%=@shipinfo.name%>"/><br><span class="textfieldRequiredMsg">First Name is required.</span></span></td>
+                                                            </tr>
+                                                            <tr>
+                                                              <td align="left" valign="top">&nbsp;</td>
+                                                              <td align="left" valign="top">&nbsp;</td>
+                                                            </tr>
+                                                            <tr>
+                                                              <td width="49%" align="left" valign="top"><span class="whitecont">Last Name *</span></td>
+                                                              <td width="51%" align="left" valign="top"><span id="sprytextfield21"><input type="text" name="slname" id="slname" class="carttxtbox" value="<%=@shipinfo.lname%>"/><br><span class="textfieldRequiredMsg">Last Name is required.</span></span></td>
+                                                            </tr>
+                                                            <tr>
+                                                              <td align="left" valign="top">&nbsp;</td>
+                                                              <td align="left" valign="top">&nbsp;</td>
+                                                            </tr>
+                                                            <tr>
+                                                              <td width="49%" align="left" valign="top"><span class="whitecont">Street Address *</span></td>
+                                                              <td width="51%" align="left" valign="top"><span id="sprytextfield22"><input type="text" name="saddress" id="saddress" class="carttxtbox" value="<%=@shipinfo.address%>"/><br><span class="textfieldRequiredMsg">Street Address is required.</span></span></td>
+                                                            </tr>
+                                                            <tr>
+                                                              <td align="left" valign="top" class="whitecont">&nbsp;</td>
+                                                              <td align="left" valign="top" class="whitecont">&nbsp;</td>
+                                                            </tr>
+                                                            <tr>
+                                                              <td align="left" valign="top" class="whitecont">City *</td>
+                                                              <td align="left" valign="top" class="whitecont"><span id="sprytextfield23"><input type="text" name="scity" id="scity" class="carttxtbox" value="<%=@shipinfo.city%>"/><br><span class="textfieldRequiredMsg">City is required.</span></span></td>
+                                                            </tr>
+                                                            <tr>
+                                                              <td align="left" valign="top" class="whitecont">&nbsp;</td>
+                                                              <td align="left" valign="top" class="whitecont">&nbsp;</td>
+                                                            </tr>
+                                                            <tr>
+                                                              <td align="left" valign="top" class="whitecont">State *</td>
+                                                              <td align="left" valign="top" class="whitecont">
+                                                                <span id="sprytextfield24">
+                                                                  <div id="sel" style="display:none;">
+                                                                    <select name="sstate" id="sstate">
+                                                                      <option value="">-Select-</option>
+                                                                      <% for k in @states %>
+                                                                        <option value="<%=k.id%>" <%if(Integer(k.id)==Integer(@shipinfo.state))%> selected="selected" <%end%>><%=k.state%></option>
+                                                                      <%end%>
+                                                                    </select>
+                                                                  </div>
+                                                                  <% @statename=State.find(@shipinfo.state)%>
+                                                                  <input type="text" name="statename" value="<%=@statename.state%>" readonly>
+                                                                  <br><span class="textfieldRequiredMsg">State/Province is required.</span></span></td>
+                                                            </tr>
+                                                            <tr>
+                                                              <td align="left" valign="top">&nbsp;</td>
+                                                              <td align="left" valign="top">&nbsp;</td>
+                                                            </tr>
+                                                            <tr>
+                                                              <td align="left" valign="top" class="whitecont">Zip *</td>
+                                                              <td align="left" valign="top"><span id="sprytextfield25"><input type="text" name="spostcode" id="spostcode" class="carttxtbox" value="<%=@shipinfo.zip%>"/><br><span class="textfieldRequiredMsg">Zipcode is required.</span></span></td>
+                                                            </tr>
+                                                            <tr>
+                                                              <td align="left" valign="top" class="whitecont">&nbsp;</td>
+                                                              <td align="left" valign="top">&nbsp;</td>
+                                                            </tr>
+                                                            <tr>
+                                                              <td align="left" valign="top" class="whitecont">Country *</td>
+                                                              <td align="left" valign="top"><input name="scountry" id="scountry" value="United States" class="carttxtbox" readonly></td>
+                                                            </tr>
+                                                            <tr>
+                                                              <td align="left" valign="top">&nbsp;</td>
+                                                              <td align="left" valign="top">&nbsp;</td>
+                                                            </tr>
+                                                            <tr>
+                                                              <td align="left" valign="top" class="whitecont">Phone  *</td>
+                                                              <td align="left" valign="top"> <span id="sprytextfield26"><input name="stelephone" id="stelephone" type="text" class="carttxtbox" value="<%=@shipinfo.phno%>">&nbsp;<br> <font size="1" color="green">Example: 555-555-5555   or 5555555555</font><br><span class="textfieldRequiredMsg">Phone  is required.</span></span></td>
+                                                            </tr>
+                                                            <tr>
+                                                              <td align="left" valign="top">&nbsp;</td>
+                                                              <td align="left" valign="top">&nbsp;</td>
+                                                            </tr>
+                                                            <tr>
+                                                              <td align="left" valign="top" class="whitecont">Email  *</td>
+                                                              <td align="left" valign="top"><span id="sprytextfield27">
+                                                                  <input name="semail" id="semail" type="text" class="carttxtbox" value="<%=@shipinfo.email%>"><br><span class="textfieldRequiredMsg">Email is Required.</span><span class="textfieldInvalidFormatMsg">Invalid format.</span>
+                                                                </span> </td>
+                                                            </tr>
+                                                            <tr>
+                                                              <td align="left" valign="top">&nbsp;</td>
+                                                              <td height="50" align="left" valign="top">&nbsp;</td>
+                                                            </tr>
+                                                          </table></td>
+                                                        <td width="20" align="left" valign="top"></td>
+                                                      </tr>
+                                                    </table></td>
+                                                </tr>
+                                              </table></td>
+                                            <td width="20" align="left" valign="top">&nbsp;</td>
+                                          </tr>
+                                          <tr>
+                                            <td height="20" colspan="3" align="left" valign="top">&nbsp;</td>
+                                          </tr>
+                                        </table></td>
+                                      <td width="20" align="left" valign="top"></td>
+                                      <td width="439" align="left" valign="top" class="content-trans-bg"><table width="100%" border="0" cellspacing="0" cellpadding="0">
+                                          <tr>
+                                            <td height="20" colspan="3" align="left" valign="top">&nbsp;</td>
+                                          </tr>
+                                          <tr>
+                                            <td width="20" align="left" valign="top">&nbsp;</td>
+                                            <td align="left" valign="top"><table width="100%" border="0" cellspacing="0" cellpadding="0">
+                                                <tr>
+                                                  <td height="35" align="left" valign="bottom" class="header-page"><span class="cont-orange-hr">Billing Information</span></td>
+                                                </tr>
+                                                <tr>
+                                                  <td align="left" valign="top">&nbsp;</td>
+                                                </tr>
+                                                <tr>
+                                                  <td height="10" align="left" valign="top" class="content-trans-white-bg"><table width="100%" border="0" cellspacing="0" cellpadding="0">
+                                                      <tr>
+                                                        <td height="20" colspan="3" align="left" valign="top"></td>
+                                                      </tr>
+                                                      <tr>
+                                                        <td width="20" align="left" valign="top"></td>
+                                                        <td align="left" valign="top" class="content"><table width="100%" border="0" cellspacing="0" cellpadding="0">
+                                                            <tr>
+                                                              <td align="left" valign="top" colspan="2"><span class="whitecont"><input type="checkbox" name="sel_ship" id="sel_ship"  onClick="return selship();" value="ship_sel" <%if(session[:ship_sel]=='ship_sel')%> checked <%end%>> Use Shipping Address</span></td>
+                                                            </tr>
+                                                            <tr>
+                                                              <td align="left" valign="top">&nbsp;</td>
+                                                              <td align="left" valign="top">&nbsp;</td>
+                                                            </tr>
+                                                            <tr>
+                                                              <td width="45%" align="left" valign="top"><span class="whitecont">First Name *</span></td>
+                                                              <td width="55%" align="left" valign="top"><span id="sprytextfield14">
+                                                                  <input type="text" name="bfname" id="bfname" class="carttxtbox" value="<%=session[:fname]%>"/><br><span class="textfieldRequiredMsg">First Name is required.</span></span></td>
+                                                            </tr>
+                                                            <tr>
+                                                              <td align="left" valign="top">&nbsp;</td>
+                                                              <td align="left" valign="top">&nbsp;</td>
+                                                            </tr>
+                                                            <tr>
+                                                              <td width="45%" align="left" valign="top"><span class="whitecont">Last Name *</span></td>
+                                                              <td width="55%" align="left" valign="top"><span id="sprytextfield15">
+                                                                  <input type="text" name="blname" id="blname" class="carttxtbox" value="<%=session[:lname]%>"/><br><span class="textfieldRequiredMsg">Last Name is required.</span></span></td>
+                                                            </tr>
+                                                            <tr>
+                                                              <td align="left" valign="top">&nbsp;</td>
+                                                              <td align="left" valign="top">&nbsp;</td>
+                                                            </tr>
+                                                            <tr>
+                                                              <td width="45%" align="left" valign="top"><span class="whitecont">Street Address *</span></td>
+                                                              <td width="55%" align="left" valign="top"><span id="sprytextfield3">
+                                                                  <input type="text" name="street_address" id="street_address" class="carttxtbox" value="<%=session[:street_address]%>"/><br><span class="textfieldRequiredMsg">Street Address is required.</span></span></td>
+                                                            </tr>
+                                                            <tr>
+                                                              <td align="left" valign="top" class="whitecont">&nbsp;</td>
+                                                              <td align="left" valign="top" class="whitecont">&nbsp;</td>
+                                                            </tr>
+                                                            <tr>
+                                                              <td align="left" valign="top" class="whitecont">City *</td>
+                                                              <td align="left" valign="top" class="whitecont"><span id="sprytextfield6"><input type="text" name="city" id="city"  class="carttxtbox" value="<%=session[:city]%>"/><br><span class="textfieldRequiredMsg">City is required.</span></span></td>
+                                                            </tr>
+                                                            <tr>
+                                                              <td align="left" valign="top" class="whitecont">&nbsp;</td>
+                                                              <td align="left" valign="top" class="whitecont">&nbsp;</td>
+                                                            </tr>
+                                                            <tr>
+                                                              <td align="left" valign="top" class="whitecont">State *</td>
+                                                              <td align="left" valign="top" class="whitecont">
+                                                                <span id="sprytextfield4">
+                                                                  <select name="state" id="state">
+                                                                    <option value="">-Select-</option>
+                                                                    <% for k in @states %>
+                                                                      <option value="<%=k.id%>" <%if(Integer(session[:state])==Integer(k.id))%> selected <%end%>><%=k.state%></option>
+                                                                    <%end%>
+                                                                  </select>
+                                                                  <br><span class="textfieldRequiredMsg">State/Province is required.</span></span></td>
+                                                            </tr>
+                                                            <tr>
+                                                              <td align="left" valign="top">&nbsp;</td>
+                                                              <td align="left" valign="top">&nbsp;</td>
+                                                            </tr>
+                                                            <tr>
+                                                              <td align="left" valign="top" class="whitecont">Zip *</td>
+                                                              <td align="left" valign="top"><span id="sprytextfield13"><input type="text" name="postcode" id="postcode" class="carttxtbox" value="<%=session[:postcode]%>"/><br><span class="textfieldRequiredMsg">Zipcode is required.</span></span></td>
+                                                            </tr>
+                                                            <tr>
+                                                              <td align="left" valign="top" class="whitecont">&nbsp;</td>
+                                                              <td align="left" valign="top">&nbsp;</td>
+                                                            </tr>
+                                                            <tr>
+                                                              <td align="left" valign="top" class="whitecont">Country *</td>
+                                                              <td align="left" valign="top"><input name="country" id="country" value="United States" class="carttxtbox" readonly></td>
+                                                            </tr>
+                                                            <tr>
+                                                              <td align="left" valign="top">&nbsp;</td>
+                                                              <td align="left" valign="top">&nbsp;</td>
+                                                            </tr>
+                                                            <tr>
+                                                              <td align="left" valign="top" class="whitecont">Phone  *</td>
+                                                              <td align="left" valign="top"> <span id="sprytextfield12"><input name="telephone" id="telephone" type="text" class="carttxtbox" value="<%=session[:telephone]%>">&nbsp;<br> <font size="1" color="green">Example: 555-555-5555   or 5555555555</font><br><span class="textfieldRequiredMsg">Phone  is required.</span></span></td>
+                                                            </tr>
+                                                            <tr>
+                                                              <td align="left" valign="top">&nbsp;</td>
+                                                              <td align="left" valign="top">&nbsp;</td>
+                                                            </tr>
+                                                            <tr>
+                                                              <td align="left" valign="top" class="whitecont">Email  *</td>
+                                                              <td align="left" valign="top"><span id="sprytextfield8">
+                                                                  <input name="email" id="email" type="text" class="carttxtbox" value="<%=session[:email]%>"><br><span class="textfieldRequiredMsg">Email is Required.</span><span class="textfieldInvalidFormatMsg">Invalid format.</span>
+                                                                </span> </td>
+                                                            </tr>
+                                                            <tr>
+                                                              <td align="left" valign="top">&nbsp;</td>
+                                                              <td align="left" valign="top">&nbsp;</td>
+                                                            </tr>
+                                                            <tr>
+                                                              <td align="left" valign="top">&nbsp;</td>
+                                                              <td align="left" valign="top">&nbsp;</td>
+                                                            </tr>
+                                                          </table></td>
+                                                        <td width="20" align="left" valign="top"></td>
+                                                      </tr>
+                                                    </table></td>
+                                                </tr>
+                                              </table></td>
+                                            <td width="20" align="left" valign="top">&nbsp;</td>
+                                          </tr>
+                                          <tr>
+                                            <td height="20" colspan="3" align="left" valign="top">&nbsp;</td>
+                                          </tr>
+                                        </table></td>
+                                    </tr>
+                                  </table></td>
+                              </tr>
+
+                            </table></td>
+                        </tr>
+                        <tr>
+                          <td align="center" valign="top"><table width="850" border="0" cellspacing="0" cellpadding="0">
+                              <tr>
+                                <td width="541">&nbsp;</td>
+                                <td width="20" align="left" valign="top">&nbsp;</td>
+                                <td width="289" align="right" valign="top">&nbsp;</td>
+                              </tr>
+                              <tr>
+                                <td align="center">
+                                  <%if  @cart_total.round(2)!= 0 %>
+                                  <table width="100%" border="0" cellspacing="0" cellpadding="0" class="content-trans-bg">
+                                    <tr>
+                                      <td height="20" colspan="3" align="left" valign="top">&nbsp;</td>
+                                    </tr>
+                                    <tr>
+                                      <td width="20" align="left" valign="top">&nbsp;</td>
+                                      <td width="521" align="left" valign="top">
+                                         <table width="93%" border="0" cellspacing="0" cellpadding="0">
+                                          <tr>
+                                            <td colspan="2" align="left" valign="top" class="leftconthr">Payment Information</td>
+                                          </tr>
+                                          <tr>
+                                            <td width="48%" align="left" valign="top">&nbsp;</td>
+                                            <td width="52%" align="left" valign="top">&nbsp;</td>
+                                          </tr>
+                                          <tr>
+                                            <td align="left" valign="top" class="whitecont">Card Number *</td>
+                                            <td align="left" valign="top"><div class="main" style='display:block;'><span id="cc_visafield"><input type="text" maxlength="16" id="card_no" name="card_no" class="carttxtbox"/><br><span class="textfieldInvalidFormatMsg">Invalid format.</span><span class="textfieldRequiredMsg">The value is required.</span></span></div></td>
+                                          </tr>
+                                          <tr>
+                                            <td align="left" valign="top">&nbsp;</td>
+                                            <td align="left" valign="top">&nbsp;</td>
+                                          </tr>
+                                          <tr>
+                                            <td align="left" valign="top" class="whitecont">CVV Number*</td>
+                                            <td align="left" valign="top"><span id="sprytextfield9" ><input type="text" name="cardcvv_no" id="cardcvv_no" size="5" maxlength="4" class="carttxtboxcvv"/> &nbsp;
+                                                <font color="#FFFFFF">What is CVV ?</font><a href="#"  onClick="return windowOpener('200','500','CVV Information','/carts/cvv/<%=params[:id]%>');">Click Here</a><br>
+                                                <span class="textfieldRequiredMsg">Enter your CVV number.</span><span class="textfieldMinCharsMsg">Minimum number not met.</span><span class="textfieldInvalidFormatMsg">Numbers Only.</span></span></span>
+                                              <div id="info" name="info" class="popup" style="display:none;">
+                                                <font class="cont" color="#FFFFFF">CVV is an anti-fraud security feature to help verify that you are in possession of your credit card. For Visa/Mastercard, the three-digit CVV number is printed on the signature panel on the back of the card immediately after the card's account number For American Express, the four-digit CVV number is printed on the front of the card above the card accountnumber. </font>					</div></td>
+                                          </tr>
+                                          <tr>
+                                            <td align="left" valign="top">&nbsp;</td>
+                                            <td align="left" valign="top">&nbsp;</td>
+                                          </tr>
+                                          <tr>
+                                            <td align="left" valign="top" class="whitecont">Expiration Date *</td>
+                                            <td align="left" valign="top"><select name="exp_month" id="exp_month" onChange="calculate_amount_months()">
+                                                <option value="1">1</option>
+                                                <option value="2">2</option>
+                                                <option value="3">3</option>
+                                                <option value="4">4</option>
+                                                <option value="5">5</option>
+                                                <option value="6">6</option>
+                                                <option value="7">7</option>
+                                                <option value="8">8</option>
+                                                <option value="9">9</option>
+                                                <option value="10">10</option>
+                                                <option value="11">11</option>
+                                                <option value="12">12</option>
+                                              </select>&nbsp;&nbsp;
+                                              <select name="exp_year" id="exp_year" onChange="calculate_amount_months()">
+                                                <%
+                                                i=2010
+                                                until i == 2030
+                                                %>
+                                                  <option value="<%=i%>"><%=i%></option>
+                                                  <%
+                                                  i=i+1
+                                                end
+                                              %>
+                                              </select>             </td>
+                                          </tr>
+                                          <tr>
+                                            <td align="left" valign="top">&nbsp;</td>
+                                            <td align="left" valign="top">&nbsp;</td>
+                                          </tr>
+                                          <tr>
+                                            <td align="left" valign="top" class="whitecont">First Name on Card *</td>
+                                            <td align="left" valign="top" class="whitecont">
+                                              <span id="sprytextfield10">
+                                                <input type="text" name="fname" id="fname" class="carttxtbox"/><br><span class="textfieldRequiredMsg">First Name is required.</span></span></td>
+                                          </tr>
+                                          <tr>
+                                            <td align="left" valign="top">&nbsp;</td>
+                                            <td align="left" valign="top">&nbsp;</td>
+                                          </tr>
+                                          <tr>
+                                            <td align="left" valign="top" class="whitecont">Last Name on Card *</td>
+                                            <td align="left" valign="top" class="whitecont"><span id="sprytextfield11"><input type="text" name="lname" id="lname" class="carttxtbox"/><br>
+                                                <span class="textfieldRequiredMsg">Last Name is required.</span></span></td>
+                                          </tr>
+                                          <tr>
+                                            <td align="left" valign="top"><label></label></td>
+                                            <td align="left" valign="top">&nbsp;</td>
+                                          </tr>
+                                          <tr>
+                                            <td colspan="2" align="center" valign="top"><span class="whitecont"><img src="/images/cc.jpg" width="199" height="23" /></span></td>
+                                          </tr>
+                                          <tr>
+                                            <td colspan="2" align="center" valign="top">&nbsp;</td>
+                                          </tr>
+                                        </table>
+                                      
+                                      </td>
+                                      <td width="20" align="left" valign="top">&nbsp;</td>
+                                    </tr>
+                                    <tr>
+                                      <td height="20" colspan="3" align="left" valign="top">&nbsp;</td>
+                                    </tr>
+                                  </table>
+                                  <%end%></td>
+                                <td align="right" valign="top"></td>
+                                <td align="right" valign="top"><table width="100%" border="0" cellspacing="0" cellpadding="0" class="content-trans-bg">
+                                    <tr>
+                                      <td height="10" colspan="3" align="left" valign="top"></td>
+                                    </tr>
+                                    <tr>
+                                      <td height="10" align="left" valign="top"></td>
+                                      <td width="268" align="left" valign="top"><table width="100%" border="0" cellspacing="0" cellpadding="0">
+                                          <tr>
+                                            <td width="10" align="left" valign="top" class="content">&nbsp;</td>
+                                            <td width="120" align="left" valign="top" class="content"><span class="whitecont">Total :</span></td>
+                                            <td align="left" valign="top" class="content">$ <%= @cart_subtotal.round(2) %>
+                                            </td>
+                                          </tr>
+                                          <tr>
+                                            <td align="left" valign="top" class="content"></td>
+                                            <td align="left" valign="top" class="content">&nbsp;</td>
+                                            <td align="left" valign="top" class="content">&nbsp;</td>
+                                          </tr>
+                                          <tr>
+                                            <td align="left" valign="top" class="content"></td>
+                                            <td align="left" valign="top" class="content">Shipping :</td>
+                                            <td align="left" valign="top" class="content">$ <% if @cart_shippingprice.to_i == 0 %>0.00<%else%><%= @cart_shippingprice.round(2)%><%end%>
+                                            </td>
+                                          </tr>
+                                          <% if session[:cart_salestax]!=0 %>
+                                            <tr>
+                                              <td align="left" valign="top" class="content"></td>
+                                              <td align="left" valign="top" class="content">&nbsp;</td>
+                                              <td align="left" valign="top" class="content">&nbsp;</td>
+                                            </tr>
+                                            <tr>
+                                              <td align="left" valign="top" class="content"></td>
+                                              <td align="left" valign="top" class="content">Total Sales Tax :</td>
+                                              <td align="left" valign="top" class="content">$ <%= @cart_salestax.round(2)%>
+                                              </td>
+                                            </tr>
+                                          <%end%>
+                                          <tr>
+                                            <td align="left" valign="top" class="content"></td>
+                                            <td align="left" valign="top" class="content">&nbsp;</td>
+                                            <td align="left" valign="top" class="content">&nbsp;</td>
+                                          </tr>
+                                         
+                                          <tr>
+                                            <td align="left" valign="top" class="content"></td>
+                                            <td align="left" valign="top" class="content">Grand Total :</td>
+                                            <td align="left" valign="top" class="content">$ <%= @cart_total.round(2)%>
+                                            </td>
+                                          </tr>
+                                        </table></td>
+                                      <td height="10" align="left" valign="top"></td>
+                                    </tr>
+                                    <tr>
+                                      <td height="10" colspan="3" align="left" valign="top"></td>
+                                    </tr>
+                                  </table>                    </td>
+                              </tr>
+                            </table></td>
+                        </tr>
+                        <tr>
+                          <td align="center" valign="top">&nbsp;</td>
+                        </tr>
+                        <tr>
+                          <td align="center" valign="top"><div id="process" class="content" style="display:none;font-size:16px">Payment is in Process ...</br><font color ="red"> Please do not refresh the page.</font></div><input class="cmd-btn"  type="submit"  name="sub" id="sub" value="Submit"  />
+                          </td>
+                        </tr>
+                        <tr>
+                          <td align="center" valign="top">&nbsp;</td>
+                        </tr>
+                        <tr>
+                          <td align="center" valign="top">&nbsp;</td>
+                        </tr>
+                      </table>
+                      
+                      <input type="hidden" name="arb_res" id="arb_res" value="1" />
+                      <input type="hidden" name="end_date" id="end_date" value="" />
+                      <input type="hidden" name="start_date"  id="start_date" value='<%=Time.now.strftime("%Y-%m-%d") %>' />
+                    </form>
+
+                    <script type="text/javascript">
+
+                      var sprytextfield1 = new Spry.Widget.ValidationTextField("sprytextfield1", "none", {validateOn:["blur"],hint:'First Name',isRequired:true});
+                      var sprytextfield2 = new Spry.Widget.ValidationTextField("sprytextfield2", "none", {validateOn:["blur"]});
+                      var sprytextfield3 = new Spry.Widget.ValidationTextField("sprytextfield3", "none", {validateOn:["blur"]});
+                      var sprytextfield4 = new Spry.Widget.ValidationTextField("sprytextfield4", "none", {validateOn:["blur"]});
+                      var sprytextfield5 = new Spry.Widget.ValidationTextField("sprytextfield5", "none", {validateOn:["blur"]});
+                      var sprytextfield6 = new Spry.Widget.ValidationTextField("sprytextfield6", "none", {validateOn:["blur"]});
+
+
+                      var sprytextfield10 = new Spry.Widget.ValidationTextField("sprytextfield10", "none", {validateOn:["blur"]});
+                      var sprytextfield11 = new Spry.Widget.ValidationTextField("sprytextfield11", "none", {validateOn:["blur"]});
+                      var sprytextfield12 = new Spry.Widget.ValidationTextField("sprytextfield12", "none", {validateOn:["blur"]});
+                      var sprytextfield13 = new Spry.Widget.ValidationTextField("sprytextfield13", "none", {validateOn:["blur"]});
+                      var sprytextfield14 = new Spry.Widget.ValidationTextField("sprytextfield14", "none", {validateOn:["blur"]});
+                      var sprytextfield15 = new Spry.Widget.ValidationTextField("sprytextfield15", "none", {validateOn:["blur"]});
+
+
+                      var sprytextfield9 = new Spry.Widget.ValidationTextField("sprytextfield9", "integer", {validateOn:["blur"], minChars:2});
+
+                      var sprytextfield8 = new Spry.Widget.ValidationTextField("sprytextfield8", "email", {validateOn:["blur"]});
+
+                      var cc_visafield = new Spry.Widget.ValidationTextField("cc_visafield", "credit_card", {validateOn:["blur", "change"]});
+
+
+                      var sprytextfield20 = new Spry.Widget.ValidationTextField("sprytextfield20", "none", {validateOn:["blur"]});
+                      var sprytextfield21 = new Spry.Widget.ValidationTextField("sprytextfield21", "none", {validateOn:["blur"]});
+                      var sprytextfield22 = new Spry.Widget.ValidationTextField("sprytextfield22", "none", {validateOn:["blur"]});
+                      var sprytextfield23 = new Spry.Widget.ValidationTextField("sprytextfield23", "none", {validateOn:["blur"]});
+                      var sprytextfield24 = new Spry.Widget.ValidationTextField("sprytextfield24", "none", {validateOn:["blur"]});
+                      var sprytextfield25 = new Spry.Widget.ValidationTextField("sprytextfield25", "none", {validateOn:["blur"]});
+                      var sprytextfield26 = new Spry.Widget.ValidationTextField("sprytextfield26", "none", {validateOn:["blur"]});
+                      var sprytextfield27 = new Spry.Widget.ValidationTextField("sprytextfield27", "email", {validateOn:["blur"]});
+
+
+
+
+
+                      function arboption()
+                      {
+                        //alert("dqwdqwdw")
+                        if(document.getElementById('arb').checked==true)
+                        {
+                          document.getElementById('show_arb').style.display='block'
+                          document.getElementById('arb_res').value='1'
+
+                        }
+                        else
+                        {
+                          document.getElementById('show_arb').style.display='none'
+                          document.getElementById('arb_res').value='0'
+                        }
+                      }
+
+
+                    </script>
+                    <script language="javascript" type="text/javascript">
+                      <!--
+                      function popitup(url) {
+                        newwindow=window.open(url,'name','height=400,width=550');
+                        if (window.focus) {newwindow.focus()}
+                        return false;
+                      }
+
+                      // -->
+                    </script>                        </td>
+                <td align="left" valign="top">&nbsp;</td>
+              </tr>
+              <tr>
+                <td align="left" valign="top">&nbsp;</td>
+                <td align="left" valign="top">&nbsp;</td>
+                <td align="left" valign="top">&nbsp;</td>
+              </tr>
+            </table></td>
+        </tr>
+      </table></td>
+    <td width="13" align="left" valign="top"></td>
+  </tr>
+</table></td>
+</tr>
+</table>

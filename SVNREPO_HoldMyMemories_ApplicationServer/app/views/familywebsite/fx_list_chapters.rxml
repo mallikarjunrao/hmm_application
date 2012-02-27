@@ -1,0 +1,101 @@
+
+xml.instruct! :xml, :version=>"1.0"
+xml.images{
+  i=0
+  for photos in @results
+    if(params[:id]=='bob' || params[:id]=='eveleth')
+      @content_server_url = "http://content.holdmymemories.com"
+    else
+      @content_server_url = photos.img_url
+    end
+    unless photos.v_chapimage.include?('36413_q2QAd5eN')
+      xml.image{
+        if(photos.v_chapimage == "folder_img.png" || photos.v_chapimage == "photo_album.png" ||
+              photos.v_chapimage == "speaker.jpg" || photos.v_chapimage == "videogallery.png" || photos.v_chapimage== "nil")
+          #set studio session icon if content is blank
+          if (photos.v_tagname == "STUDIO SESSIONS" || photos.v_tagname == "studio sessions" || photos.v_tagname == "STUDIO SESSION"  || photos.v_tagname == "Studio session"  || photos.v_tagname == "studio session"  || photos.v_tagname == "Studio Sessions"  || photos.v_tagname == "Studio Session")
+            xml.icon(@content_server_url + '/user_content/photos/big_thumb/noimage_studiosessions.jpg')
+            xml.navigate_path("/static/studios")
+          else
+            xml.icon(@content_server_url + '/user_content/photos/flex_icon/noimage.jpg')
+            xml.navigate_path("#{@navigate_path+@family_name}?chapter_id=#{photos.id}&app_type=#{@app_type}")
+          end
+        elsif(photos.v_chapimage == "folder_img_import.png")
+          xml.icon(@content_server_url + '/user_content/photos/flex_icon/imp-moments.jpg')
+          xml.navigate_path("#{@navigate_path+@family_name}?chapter_id=#{photos.id}&app_type=#{@app_type}")
+        else
+          imageName  = photos.v_chapimage
+          if(imageName == nil)
+          else
+            imageName.slice!(-3..-1)
+          end
+          xml.icon(@content_server_url + '/user_content/photos/flex_icon/'+imageName+"jpg" )
+          xml.navigate_path("#{@navigate_path+@family_name}?chapter_id=#{photos.id}&app_type=#{@app_type}")
+        end
+
+        if ((photos.v_tagname == "STUDIO SESSIONS" || photos.v_tagname == "studio sessions" || photos.v_tagname == "STUDIO SESSION"  || photos.v_tagname == "Studio session"  || photos.v_tagname == "studio session"  || photos.v_tagname == "Studio Sessions"  || photos.v_tagname == "Studio Session") and @flag==1)
+          xml.response_type("alert")
+          if @log_status == "yes"
+            xml.messsge("Please Upgrade your account to see the moments in Studio Sessions")
+          else
+            xml.messsge("You dont have permissions to view this chapter")
+          end
+        else
+          xml.response_type(@response_type)
+          xml.messsge("")
+        end
+
+        xml.type("image")
+        xml.id(photos.id)
+        xml.name(photos.v_tagname)
+      
+      }
+    end
+    
+    unless @app_type == "facebook"
+      if (Integer(photos.length) > 0)
+        xml.image{
+          xml.name("Upload Your Image")
+          xml.icon(@content_server_url +"/user_content/photos/flex_icon/addyourimages.jpg")
+          xml.type("image")
+          xml.response_type(@response_type)
+          xml.navigate_path(@pathurl.proxyname+'/manage_website/file_manager/'+ @user.family_name )
+          xml.messsge("")
+          i=i+1
+        }
+        xml.image{
+          xml.name("Import Images")
+          xml.icon(@content_server_url +"/user_content/photos/flex_icon/import_images.png")
+          xml.type("image")
+          xml.response_type(@response_type)
+          xml.navigate_path(@pathurl.proxyname+'/manage_website/image_import/'+ @user.family_name )
+          xml.messsge("")
+          i=i+1
+        }
+      end
+    end
+  end
+  
+  unless @app_type == "facebook"
+    if(i==0)
+      xml.image{
+        xml.name("Upload Your Image")
+        xml.icon(@content_server_url +"/user_content/photos/flex_icon/addyourimages.jpg")
+        xml.type("image")
+        xml.response_type(@response_type)
+        xml.navigate_path(@pathurl.proxyname+'/manage_website/file_manager/'+ @user.family_name )
+        xml.messsge("")
+      }
+      xml.image{
+        xml.name("Import Images")
+        xml.icon(@content_server_url +"/user_content/photos/flex_icon/import_images.png")
+        xml.type("image")
+        xml.response_type(@response_type)
+        xml.navigate_path(@pathurl.proxyname+'/manage_website/image_import/'+ @user.family_name )
+        xml.messsge("")
+        i=i+1
+      }
+    end
+  end
+}
+

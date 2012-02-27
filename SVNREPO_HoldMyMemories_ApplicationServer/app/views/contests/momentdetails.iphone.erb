@@ -1,0 +1,67 @@
+<table width="100%" border="0" cellspacing="0" cellpadding="0" align="center">
+  <tr><th  colspan="2">&nbsp;</th>
+  </tr>
+  <tr>
+    <% contest = ContestDetail.find(params[:contest_id]) %>
+    <td width="284" align="center" valign="top">
+      <img src=<%=  contest.photo_logo %>  border="0" width="284" />
+    </td>
+  </tr>
+  <tr><th  colspan="2">&nbsp;</th>
+  </tr>
+  <tr><th  colspan="2">&nbsp;</th>
+  </tr>
+  <tr><td  align="center"><img src="<%=@moment_details[0].img_url%>/user_content/photos/big_thumb/<%=@moment_details[0].v_filename%>" border="0" /></td></tr>
+  <tr><td  align="center"> <%=@contests_fname[0].first_name %></td></tr>
+  <tr><td  align="center" height="10"> </td></tr>
+
+  <tr>
+    <td align="center" valign="top" class="cont2">
+      <a href="/contests/vote?entry_id=<%=@contests_fname[0].id%>&contest_id=<%= params[:contest_id] %>">  <input type="button" id="Image4413" class="whiteButton" value="Vote by email" style="cursor:pointer;" /> </a> <br/>or<br/>
+      <%= fb_connect_javascript_tag %>
+      <%= init_fb_connect "XFBML", {:js => :jquery ,  :app_settings => " { permsToRequestOnConnect : 'email' }"} %>
+      <%= fb_login_button('window.location =\''+ url_for(:controller => 'user_account', :action => 'facebook_vote', :type => 'momentdetails', :contest_name => "contests", :contest_id=>@contests_fname[0].id, :id =>@moment_details[0].id) + '\'') %>
+    </td>
+  </tr>
+  <tr><td>
+
+      <%for @j in @journal %>
+        <table width="100%"  cellpadding="0" cellspacing="0" >
+          <tr>
+            <th colspan="2" align="left" style="padding-left:10px;">
+              <font size="3" color="#FFFFFF"> Journal</font>
+            </th>
+          </tr>
+          <tr><th  colspan="2">&nbsp;</th>
+          </tr>
+          <tr>
+            <th width="3%" >&nbsp;&nbsp;</th>
+            <th align="left" class="text3" rowspan="1">
+              <span>
+                <b> <%= @j.title %> -
+                  <% ActiveSupport::CoreExtensions::Time::Conversions::DATE_FORMATS.merge!(
+                    :date => "%Y-%m-%d",
+                    :presentable_datetime => "%a %b %d, %Y %H:%M",
+                    :presentable_date => "%a %b %d, %Y")
+                  @created_date=@j.added_date%>
+                  <%= @created_date.to_s(:presentable_date) %></b>
+              </span>
+            </th>
+          </tr>
+          <tr><th  colspan="2">&nbsp;</th>
+          </tr>
+          <tr>
+            <th valign="top">&nbsp;&nbsp;</th>
+            <th align="left" valign="top" class="text3">
+              <%if @moment_details[0].e_filetype=="video"
+                detail_path='videomoment_details'
+              else
+                detail_path='momentdetails'
+              end
+            %>
+              <%=@j.description.gsub("\n", "<br />\n") %>
+            </th>
+          </tr>
+        </table>
+      <%end%></td></tr>
+</table>

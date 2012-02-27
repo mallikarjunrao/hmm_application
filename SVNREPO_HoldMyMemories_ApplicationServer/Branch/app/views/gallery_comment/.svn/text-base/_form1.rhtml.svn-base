@@ -1,0 +1,12 @@
+
+
+
+<%= error_messages_for 'gallery_comment' %>
+
+
+<input type="hidden" value="<%=params[:id]%>" name="gallery_id" />
+<input type="hidden" value="<%=params[:id_journal]%>" name="gallery_j_id" />
+
+
+<p><label for="subchap_comment_v_comments"></label><br/>
+<%= text_area 'gallery_comment', 'v_comment', :rows =>"5", :cols=>"40", :class => "textareabox-signup" %></p>

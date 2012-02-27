@@ -1,0 +1,10 @@
+xml.instruct! :xml, :version=>"1.0"
+xml.images("swf" => @slideshowmoment[0].swf){
+   xml.title("file" => "#{@slideshowmoment[0].img_url}/titleImages/#{@slideshowmoment[0].title}")
+   xml.song("file" => "#{@slideshowmoment[0].img_url}/#{@slideshowmoment[0].song}")
+   @sharemomentids = SlideshowMomentId.find(:all, :conditions => " slideshow_id=#{@slideshowmoment[0].id}")  
+   for @slideshowcontent in @sharemomentids
+       @moment = UserContent.find(@slideshowcontent. moment_id)
+       xml.img("file" => "#{@moment.img_url}/user_content/photos/journal_thumb/#{@moment.v_filename}")
+     end 
+}

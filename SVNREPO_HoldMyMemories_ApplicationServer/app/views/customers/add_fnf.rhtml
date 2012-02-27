@@ -1,0 +1,60 @@
+
+<%= javascript_include_tag 'prototype' %>
+
+
+<form name="frm" method="post" action="/customers/add_fnf1" onsubmit="return group_default()">
+	<table>
+		<tr>
+	 	<th width="88" align="left" valign="top" scope="col">
+	 		 &nbsp;&nbsp;<select name="fnf_category" onchange='change_category(this.value)' >
+			<option value="default" lable='default'>Select Group</option>
+			
+			
+			<% family=false %>
+			<% friend=false %>
+			<% for i in @fnf_groups2 %>
+			<%if i.fnf_category =="Family" %>
+				<option value="<%=i.id %>">Family</option>
+				<% family=true %>
+			<%else%>	
+			<%if i.fnf_category =="Friends" %>
+				<option value="<%=i.id %>">Friends</option>
+				<% friend=true %>
+			<%else%>
+			
+			
+			<option value="<%=i.id %>"><%=i.fnf_category %></option>
+			<%end%>
+			<%end%>
+			<%end%>
+			
+			<% if family==false %>
+				<option value="Family">Family</option>
+			<%end%>
+			<% if friend==false %>
+				<option value="Friends">Friends</option>
+			<%end%>	
+			<option value="Others">Add New Category</option>
+			</select>
+		</th>
+		<tr>
+			
+		<label for="fnf_group_fnf_category">
+			<div id='new_ca' style='display:none;'>New Category 
+			
+			<input type="text" name="fnf_category_other123" class ="textbox-signup"/>
+			
+			</div>
+		</lable>
+		<input type="hidden" name="id" value="<%=params[:id]%>" />
+		</tr>
+		</tr>
+		
+		<tr>
+
+<th><input type="image" src="/images/addtogrup_btn.jpg"  value="Add To Group" />
+</th></tr>
+	</table>
+</form>
+
+

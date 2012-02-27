@@ -1,0 +1,67 @@
+xml.instruct! :xml, :version=>"1.0"
+xml.root {
+  #galleries listing
+  xml.items{
+    for item in @items
+      xml.item{
+        xml.id(item.id)
+        xml.thumbnail(item.img_url + "/user_content/photos/order_prints/thumbnails/#{item.print_image}")
+        xml.quantity(item.quantity)
+        xml.user_content_id(item.user_content_id)
+        xml.price(item.price)
+        xml.size(item.name)
+        xml.size_id(item.size_id)
+        gallerydet=Galleries.find(item.gallery_id)
+        subchapterdet=SubChapter.find(gallerydet.subchapter_id)
+        #logger.info("studio id => #{subchapterdet.store_id}")
+        if(subchapterdet.store_id)
+
+        #if @item.v_tagname!=nil && @item.v_tagname.downcase == 'studio sessions' #if the usercontent belongs to studio sessions apply particular studio size and rate
+          #@contdet=UserContent.find(:first,:select=>"a.*,b.*,b.store_id as studio_id",:joins=>"as a , sub_chapters as b ",:conditions=>"a.id=#{item.user_content_id} and b.id=a.sub_chapid")
+         @findstudiosizes = PrintSizePrice.find(:all, :joins =>"INNER JOIN print_sizes on print_sizes.id = print_size_prices.print_size_id",:conditions=>"studio_id = #{subchapterdet.store_id}",
+        :select =>"print_size_prices.id,print_sizes.id as size_id,print_sizes.label as name,print_size_prices.price,print_sizes.width,print_sizes.height")
+
+          if(@findstudiosizes.length>0)
+          sizes = @findstudiosizes
+          else
+          sizes = @hmm_sizes
+          end
+        else #if the usercontent uploaded by user or user doesn't belong to any employee apply hmm size and price
+          sizes = @hmm_sizes
+        end
+         digital_sizes=Carts.get_digital_downloads()
+        xml.sizes{
+          for size in sizes
+            xml.size{
+              xml.id(size.id)
+              xml.name(size.name)
+              xml.price(size.price)
+              if Integer(size.size_id) == Integer(high_resolution) || Integer(size.size_id) == Integer(low_resolution)  || digital_sizes.include?(size.size_id.to_i)
+                    xml.type("digital")
+              else
+                    xml.type("print")
+              end
+            }
+          end
+        }
+      }
+    end
+  }
+
+#  if(@studios_count>0)
+#   xml.studios{
+#          for studio in @studios
+#            xml.studio{
+#              xml.id(studio.studio_id)
+#              xml.studio_name(studio.studio_name)
+#              xml.studio_groupid(studio.studio_groupid)
+#
+#            }
+#          end
+#   } end
+
+
+
+}
+
+  

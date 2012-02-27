@@ -1,0 +1,85 @@
+<%= javascript_include_tag 'prototype' %>
+<%= javascript_include_tag 'scriptaculous' %>
+<%= javascript_include_tag 'SpryAssets/SpryValidationTextField' %>
+<%= javascript_include_tag 'SpryAssets/SpryValidationRadio' %>
+<%= javascript_include_tag 'SpryAssets/SpryValidationPassword' %>
+<%= javascript_include_tag 'SpryAssets/SpryValidationConfirm' %>
+<%= stylesheet_link_tag 'SpryAssets/SpryValidationRadio' %>
+<%= stylesheet_link_tag 'SpryAssets/SpryValidationPassword' %>
+<%= stylesheet_link_tag 'SpryAssets/SpryValidationConfirm' %>
+<%= stylesheet_link_tag 'SpryAssets/SpryValidationTextField' %>
+<h1>My Profile</h1>
+
+<% form_tag :action => 'update', :id => @hmm_user do %>
+  <center>
+    <%= render :partial => 'form' %>
+    <%= submit_tag 'Update'  %>
+  </center>
+<% end %>
+<br />
+<br />
+<% if @hmm_user.family_name != ''
+  website_reg = "yes"
+else
+  website_reg = "no"
+end%>
+<% if (@hmm_user.studio_id == nil || @hmm_user.studio_id == '' || @hmm_user.studio_id == 0 || @hmm_user.studio_id == '0')
+  studio_id=0
+else
+  studio_id=@hmm_user.studio_id
+end%>
+<form action="<%=@get_content_url.content_path%>/hmm_wpf/send_email" method="post">
+  <input type="hidden" name="first_name" value="<%=@hmm_user.v_fname%>" />
+  <input type="hidden" name="last_name" value="<%=@hmm_user.v_lname%>" />
+  <input type="hidden" name="username" value="<%=@hmm_user.v_user_name%>"/>
+  <input type="hidden" name="email" value="<%=@hmm_user.v_e_mail%>"/>
+  <%pw=HmmUser.find(:all, :select => "v_password as pword,password_required as preq, familywebsite_password as fpword ", :conditions => "id=#{@hmm_user.id}")
+          passwd=pw[0].pword%>
+  <input type="hidden" name="password" value="<%=passwd%>"/>
+  <input type="hidden" name="family_name" value="<%=@get_content_url.proxyname%>/<%=@hmm_user.family_name%>" />
+  <input type="hidden" name="website_reg" value="<%=website_reg%>" />
+  <input type="hidden" name="studio_id" value="<%=studio_id%>" />
+  <input type="hidden" name="user_id" value="<%=@hmm_user.id%>" />
+  <input type="hidden" name="pass_req" value="<%=@hmm_user.password_required%>" />
+  <input type="hidden" name="pass" value="<%=@hmm_user.familywebsite_password%>" />
+  <input type="submit" value="Resend Registration Email" name="resend_email" />
+</form>
+<br />
+<br />
+<form action="/account/send_subscription_email" method="post">
+  <input type="hidden" name="first_name" value="<%=@hmm_user.v_fname%>" />
+  <input type="hidden" name="last_name" value="<%=@hmm_user.v_lname%>" />
+  <input type="hidden" name="email" value="<%=@hmm_user.v_e_mail%>"/>
+  <input type="hidden" name="username" value="<%=@hmm_user.v_user_name%>"/>
+  <input type="hidden" name="account_type" value="<%=@hmm_user.account_type%>"/>
+  <input type="hidden" name="months" value="<%=@hmm_user.months%>"/>
+  <input type="hidden" name="amount" value="<%=@hmm_user.amount%>"/>
+  <input type="hidden" name="street_address" value="<%=@hmm_user.street_address%>"/>
+  <input type="hidden" name="city" value="<%=@hmm_user.city%>"/>
+
+  <input type="hidden" name="state" value="<%=@hmm_user.state%>"/>
+
+  <input type="hidden" name="postcode" value="<%=@hmm_user.postcode%>"/>
+   <input type="hidden" name="account_expdate" value="<%=@hmm_user.account_expdate%>"/>
+
+
+  <input type="hidden" name="country" value="<%=@hmm_user.country%>"/>
+  <input type="hidden" name="telephone" value="<%=@hmm_user.telephone%>"/>
+  <input type="hidden" name="invoicenumber" value="<%=@hmm_user.invoicenumber%>"/>
+
+  <input type="hidden" name="subscriptionnumber" value="<%=@hmm_user.subscriptionnumber%>"/>
+  <input type="hidden" name="v_user_name" value="<%=@hmm_user.v_user_name%>"/>
+  <input type="hidden" name="v_password" value="<%=passwd%>"/>
+  <input type="hidden" name="family_name" value="<%=@get_content_url.proxyname%>/<%=@hmm_user.family_name%>" />
+  <input type="hidden" name="pass_req" value="<%=@hmm_user.password_required%>" />
+  <input type="hidden" name="pass" value="<%=@hmm_user.familywebsite_password%>" />
+  <%  nextsub = HmmUser.find_by_sql("SELECT DATE_FORMAT(DATE_ADD(CURDATE(), INTERVAL +#{@hmm_user.months.to_i} MONTH), '%M %D, %Y') as dat")%>
+  <input type="hidden" name="nextsub" value="<%=nextsub[0]['dat']%>" />
+
+
+  <input type="hidden" name="user_id" value="<%=@hmm_user.id%>" />
+
+  <input type="submit" value="Resend Subscription Email" name="resend_email" />
+</form>
+
+

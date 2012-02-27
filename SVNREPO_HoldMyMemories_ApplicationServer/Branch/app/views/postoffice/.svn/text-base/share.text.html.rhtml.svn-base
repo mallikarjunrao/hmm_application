@@ -1,0 +1,56 @@
+<style type="text/css">
+<!--
+.style1 {font-family: Arial, Helvetica, sans-serif}
+.style2 {font-family: Arial, Helvetica, sans-serif; font-size: 12px; }
+-->
+</style>
+<p>Hello <i><%=@friend_name%>,</i></p>
+<form name="frm" method="post" >
+
+<table width="820" cellpadding="0" cellspacing="0" border="0"><tr>
+  <th width="5" align="left" valign="top" scope="col"></th>
+  <th width="817" align="left" valign="top" scope="col"><table width="100%" border="0" cellspacing="0" cellpadding="0">
+    
+  </table></th>
+  <th width="5" align="left" valign="top" scope="col"></th>
+</tr>
+</table>
+
+
+<table width="100%" border="0" cellspacing="0" cellpadding="0">
+    <tr>
+      <th width="10" height="32" align="left" valign="top" bgcolor="#191919" scope="col">&nbsp;</th>
+      <th colspan="2" align="left" valign="middle" bgcolor="#191919" scope="col"><span class="btmtxt style1"><font color="#CCCCCC">Shared Moments</font></span></th>
+    </tr>
+	
+	
+	
+    <tr>
+      <th height="32" align="left" valign="top" scope="col">&nbsp;</th>
+      <th colspan="2" align="left" valign="middle" scope="col"><span class="heading-journal style1"> <%=@my_name %> Wants To share memories with you!</span></th>
+    </tr>
+		
+    <tr>
+      <th height="65" align="left" valign="top" scope="col">&nbsp;</th>
+      <th width="128" align="left" valign="top" class="text-journal" scope="col"> <img src="http://12.156.60.97/hmmuser/photos/thumb/<%=@my_image%>"/> </th>
+      <th width="837" align="left" valign="top" scope="col"><div class="style2" id="accept_req"><%=@message.gsub("\n", "<br />\n") %></div></th>
+    </tr>
+	 <tr>
+      <th width="10" height="32" align="left" valign="top" bgcolor="#191919" scope="col">&nbsp;</th>
+      <th colspan="2" align="left" valign="middle" bgcolor="#191919" scope="col">
+      	<br><p class="style2"><font color="#CCCCCC">Please login using  the below given link to see the memories shared by your friend...</font></p>
+		<span class="style2"><a href="http://www.holdmymemories.com/user_account/login"><font color="#CCCCCC"><b>http://www.holdmymemories.com/user_account/login</b></font></a>&nbsp;&nbsp;</span>&nbsp;&nbsp;
+	<br>	</th>
+    </tr>
+    
+	
+	
+	
+
+</table>
+
+</form>
+
+<p>&nbsp;</p>
+<p>Thank you!</p>
+<p>HoldMyMemories Team </p>

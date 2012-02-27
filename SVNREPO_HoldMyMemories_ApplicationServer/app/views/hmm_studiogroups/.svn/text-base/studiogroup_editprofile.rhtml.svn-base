@@ -1,0 +1,206 @@
+<%= javascript_include_tag 'SpryAssets/SpryValidationRadio' %>
+<%= javascript_include_tag 'SpryAssets/SpryValidationPassword' %>
+<%= javascript_include_tag 'SpryAssets/SpryValidationConfirm' %>
+<%= stylesheet_link_tag 'SpryAssets/SpryValidationRadio' %>
+<%= stylesheet_link_tag 'SpryAssets/SpryValidationPassword' %>
+<%= stylesheet_link_tag 'SpryAssets/SpryValidationConfirm' %>
+
+ <%= stylesheet_link_tag 'SpryAssets/SpryValidationTextField' %>
+ <%= stylesheet_link_tag 'SpryAssets/SpryValidationRadio' %>
+ <%= stylesheet_link_tag 'SpryAssets/SpryValidationPassword' %>
+ <%= stylesheet_link_tag 'SpryAssets/SpryValidationConfirm' %>
+ <%= javascript_include_tag 'check_flash' %>
+<!-- Javascript Collection -->
+ 
+ <%= javascript_include_tag 'SpryAssets/SpryValidationTextField' %>
+ <%= javascript_include_tag 'SpryAssets/SpryValidationRadio' %>
+ <%= stylesheet_link_tag 'SpryAssets/SpryValidationTextarea' %>
+ <%= javascript_include_tag 'SpryAssets/SpryValidationTextarea' %>
+
+<%= stylesheet_link_tag 'main' %>
+<%= stylesheet_link_tag 'hmmout' %> 
+<script type="text/javascript">
+ function validateFileExtension(fld) {
+	if(!/(\.bmp|\.gif|\.jpg|\.jpeg)$/i.test(fld.value)) {
+		alert("Invalid file type.. Please enter only image files!!");
+		fld.focus();
+		return false;
+	}
+	return true;
+}
+
+
+function check_option()
+{
+	if(document.frm.studio_package.checked==true)
+	{
+		document.getElementById('dis_box').style.display='block';
+	}else{
+		document.getElementById('dis_box').style.display='none';
+	}	
+	if(document.frm.credit_option[0].checked==true)
+	{
+		document.getElementById('show_box').style.display='block';
+	}else{
+		document.getElementById('show_box').style.display='none';
+	}	
+		
+	
+}
+
+function check_terms()
+{
+	if(document.frm.terms.checked==false)
+	{
+		alert("Please agree to the Terms & Conditions");
+		return false;
+	}	
+}
+
+</script>
+<form name="frm" action="/hmm_studiogroups/update_profile/<%=session[:franchise]%>" method="post" enctype="multipart/form-data"  >
+ <fieldset>
+<table width="93%" border="0" cellspacing="0" cellpadding="0">
+                          <tr>
+                            <td colspan="4" align="left" valign="top" class="leftconthr"><h3>Edit Profile :</h3></td>
+                          </tr>
+ <tr>
+                            <td colspan="4" align="center" valign="top" class="leftconthr">
+                            <font color="#FF0000"><%=flash[:notice]%></font>
+                             </td>
+                          </tr>
+                          
+                          <tr>
+                            <td width="1%"  align="left" valign="top">&nbsp;</td>
+                            <td width="30%" align="left" valign="top">&nbsp;</td>
+                            <td width="0%" align="left" valign="top" class="whitecont">&nbsp;</td>
+                            <td width="69%"  align="left" valign="top">&nbsp;</td>
+    </tr>
+
+
+                         <tr>
+                            <td align="left" valign="top" class="whitecont">&nbsp;</td>
+                            <td align="left" valign="top" class="whitecont">&nbsp;</td>
+                            <td align="left" valign="top" class="whitecont">&nbsp;</td>
+                            <td align="left" valign="top" class="whitecont">&nbsp;</td>
+                          </tr>
+    <tr>
+                            <td  align="left" valign="top">&nbsp;</td>
+                            <td align="left" valign="top"><span class="whitecont">Company Name *</span></td>
+                            <td align="left" valign="top" class="whitecont">:</td>
+                            <td  align="left" valign="top"><span id="sprytextfield20">
+            <input type="text" name="company_name" id="company_name" class="textbox-signup" value="<%=@hmm_studio.hmm_franchise_studio%>"/>
+                              <br>
+                            <span class="textfieldRequiredMsg">Company Name is required.</span></span></td>
+    </tr>
+    <tr>
+                            <td align="left" valign="top" class="whitecont">&nbsp;</td>
+                            <td align="left" valign="top" class="whitecont">&nbsp;</td>
+                            <td align="left" valign="top" class="whitecont">&nbsp;</td>
+                            <td align="left" valign="top" class="whitecont">&nbsp;</td>
+                          </tr> 
+                           <tr>
+                            <td  align="left" valign="top">&nbsp;</td>
+                            <td align="left" valign="top"><span class="whitecont">Company Email *</span></td>
+                            <td align="left" valign="top" class="whitecont">:</td>
+                            <td  align="left" valign="top"><span id="sprytextfield27">
+            <input type="text" name="contact_email" id="contact_email" class="textbox-signup" value="<%=@hmm_studio.contact_email%>"/>
+                              
+                            <span class="textfieldRequiredMsg"><br>E-mail Required</span><span class="textfieldInvalidFormatMsg"><br>Invalid E-mail</span></span></span></td>
+    </tr>
+    <tr>
+                            <td align="left" valign="top" class="whitecont">&nbsp;</td>
+                            <td align="left" valign="top" class="whitecont">&nbsp;</td>
+                            <td align="left" valign="top" class="whitecont">&nbsp;</td>
+                            <td align="left" valign="top" class="whitecont">&nbsp;</td>
+                          </tr> 
+                          <tr>
+                            <td align="left" valign="top">&nbsp;</td>
+                            <td align="left" valign="top">&nbsp;</td>
+                            <td align="left" valign="top">&nbsp;</td>
+                            <td align="left" valign="top"><!--<input type="submit" name="sub" value="Submit" onClick="return check_terms();">-->
+                             <input type="submit" id="sub" name="sub" class="cmd-btn" value="Update" style="cursor:pointer;" onClick="return check_terms();">                            </td>
+                          </tr>
+                          <!--<tr>
+                            <td align="left" valign="top" class="whitecont">&nbsp;</td>
+                            <td align="left" valign="top" class="whitecont">Email  *</td>
+                            <td align="left" valign="top">:</td>
+                            <td align="left" valign="top"><span id="sprytextfield27">
+
+
+
+
+                	<input name="semail" id="semail" type="text" class="textbox-signup" value=""><br><span class="textfieldRequiredMsg">Email is Required.</span><span class="textfieldInvalidFormatMsg">Invalid format.</span>
+</span> </td>
+                          </tr>-->
+                          <tr>
+                            <td align="left" valign="top">&nbsp;</td>
+                            <td align="left" valign="top">&nbsp;</td>
+                            <td align="left" valign="top">&nbsp;</td>
+                            <td align="left" valign="top">&nbsp;</td>
+                          </tr>
+                        </table>
+  </fieldset>
+</form>
+	  <script type="text/javascript">
+
+var sprytextfield1 = new Spry.Widget.ValidationTextField("sprytextfield1", "none", {validateOn:["blur"],hint:'First Name',isRequired:true});
+var sprytextfield2 = new Spry.Widget.ValidationTextField("sprytextfield2", "none", {validateOn:["blur"]});
+var sprytextfield3 = new Spry.Widget.ValidationTextField("sprytextfield3", "none", {validateOn:["blur"]});
+var sprytextfield4 = new Spry.Widget.ValidationTextField("sprytextfield4", "none", {validateOn:["blur"]});
+var sprytextfield5 = new Spry.Widget.ValidationTextField("sprytextfield5", "none", {validateOn:["blur"]});
+var sprytextfield6 = new Spry.Widget.ValidationTextField("sprytextfield6", "none", {validateOn:["blur"]});
+
+
+var sprytextfield10 = new Spry.Widget.ValidationTextField("sprytextfield10", "none", {validateOn:["blur"]});
+var sprytextfield11 = new Spry.Widget.ValidationTextField("sprytextfield11", "none", {validateOn:["blur"]});
+var sprytextfield12 = new Spry.Widget.ValidationTextField("sprytextfield12", "none", {validateOn:["blur"]});
+var sprytextfield13 = new Spry.Widget.ValidationTextField("sprytextfield13", "none", {validateOn:["blur"]});
+var sprytextfield14 = new Spry.Widget.ValidationTextField("sprytextfield14", "none", {validateOn:["blur"]});
+var sprytextfield15 = new Spry.Widget.ValidationTextField("sprytextfield15", "none", {validateOn:["blur"]});
+
+
+var sprytextfield9 = new Spry.Widget.ValidationTextField("sprytextfield9", "integer", {validateOn:["blur"], minChars:2});
+
+var sprytextfield8 = new Spry.Widget.ValidationTextField("sprytextfield8", "email", {validateOn:["blur"]});
+
+var cc_visafield = new Spry.Widget.ValidationTextField("cc_visafield", "credit_card", {validateOn:["blur", "change"]});
+var sprytextfield21 = new Spry.Widget.ValidationTextField("sprytextfield21", "none", {validateOn:["blur"]});
+var sprytextfield22 = new Spry.Widget.ValidationTextField("sprytextfield22", "none", {validateOn:["blur"]});
+var sprytextfield23 = new Spry.Widget.ValidationTextField("sprytextfield23", "none", {validateOn:["blur"]});
+
+
+var sprytextfield24 = new Spry.Widget.ValidationTextField("sprytextfield24", "none", {validateOn:["blur"]});
+var sprytextfield25 = new Spry.Widget.ValidationTextField("sprytextfield25", "none", {validateOn:["blur"]});
+var sprytextfield26 = new Spry.Widget.ValidationTextField("sprytextfield26", "none", {validateOn:["blur"]});
+var sprytextfield27 = new Spry.Widget.ValidationTextField("sprytextfield27", "email", {validateOn:["blur"]});
+
+
+
+
+
+function arboption()
+        {
+           //alert("dqwdqwdw")
+           if(document.getElementById('arb').checked==true)
+           {
+             document.getElementById('show_arb').style.display='block'
+             document.getElementById('arb_res').value='1'
+
+           }
+           else
+           {
+             document.getElementById('show_arb').style.display='none'
+             document.getElementById('arb_res').value='0'
+           }
+        }
+
+
+</script>
+<script type="text/javascript">
+	<!--
+		var comments1 = new Spry.Widget.ValidationTextarea("comments1", {validateOn:["blur"]});
+
+	//-->
+	check_option();
+</script>

@@ -1,0 +1,36 @@
+<table border="0">
+	<tr><td colspan="15"><h2>HoldMyMemories Users Info </h2> </td></tr>
+        <tr valign='center' align='center'>
+         <th background="/images/body_hor.JPG"><font class='txt'>First Name</font></th>
+         <th background="/images/body_hor.JPG"><font class='txt'>Last Name</font></th>
+	 <th background="/images/body_hor.JPG"><font class='txt'>sex</font></th>
+	 <th background="/images/body_hor.JPG"><font class='txt'>User Name</font></th>
+	 <th background="/images/body_hor.JPG"><font class='txt'>Email Address</font></th>
+	 <th background="/images/body_hor.JPG"><font class='txt'>Status</font></th>
+         <th background="/images/body_hor.JPG"><font class='txt'>Account Type</font></th>
+         <th background="/images/body_hor.JPG"><font class='txt'>Subscription Months</font></th>
+
+        </tr>
+
+<% 	odd_or_even = 0
+	i = 0
+	for colmn in @hmm_users
+	 i = i + 1
+	odd_or_even = 1 - odd_or_even
+ %>
+
+        <tr class='ListLine<%= odd_or_even %>'>
+  	 <td><%=h colmn.v_fname%></td>
+         <td><%=h colmn.v_lname%></td>
+	 <td><%=h colmn.e_sex%></td>
+	 <td><%=h colmn.v_user_name%></td>
+	 <td><%=h colmn.v_e_mail%></td>
+         <td><%if colmn.e_user_status== "unblocked" %>Active<%else%><%end%></td>
+         <td><% if(colmn.account_type=='platinum_user') %>Premium User<%elsif(colmn.account_type=='familyws_user') %>Family Website User<%else%>Free User<%end%></td>
+         <td><%=h colmn.months%></td>
+        </tr>
+<% end %>
+
+</table>
+
+<p><font color="white" size="2"><%=will_paginate(@hmm_users)%></font></p>

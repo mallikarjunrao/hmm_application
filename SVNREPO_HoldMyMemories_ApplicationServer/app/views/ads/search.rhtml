@@ -1,0 +1,25 @@
+<%= javascript_include_tag "prototype" %>
+<%= start_form_tag({:action=> "live_search"}, { :onSubmit => "Element.show('spinnerr.gif');" }) %>
+<table border=0 width="540" align="top">
+<tr>
+	<td width=150><label for="searchtext"><font size="1"><h3>Live Search By:</h3></font></label></td>
+	<td width=150>&nbsp;</td>
+	<td>&nbsp;</td>	
+</tr>
+<tr>
+	<td valign="top" width=150><h5> Advertisment Title </h5></td>
+	<td valign="bottom" width=150 ><%= text_field_tag :searchtext %>&nbsp;&nbsp;</td></br></br></br>
+	<td  valign="middle"><img alt="spinnerr.gif" id="spinnerr.gif" src="/images/spinnerr.gif" style="display:none;" height="20" width="20" /></td>
+</tr>
+</table>
+<%= end_form_tag%>
+
+<%= observe_field(:searchtext,
+				
+                 :frequency => 0.5,
+                 :update => :search_hits,
+                 :loading => "Element.show('spinnerr.gif')",
+                 :complete => "Element.hide('spinnerr.gif')",
+				 
+                 :url => { :action => :live_search})%>
+<div id="search_hits"></div>

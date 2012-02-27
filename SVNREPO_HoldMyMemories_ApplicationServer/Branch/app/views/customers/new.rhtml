@@ -1,0 +1,343 @@
+
+<%= stylesheet_link_tag 'popup.css' %>
+<%= javascript_include_tag 'SpryAssets/SpryValidationRadio' %>
+<%= javascript_include_tag 'SpryAssets/SpryValidationPassword' %>
+<%= javascript_include_tag 'SpryAssets/SpryValidationConfirm' %>
+<%= stylesheet_link_tag 'SpryAssets/SpryValidationRadio' %>
+<%= stylesheet_link_tag 'SpryAssets/SpryValidationPassword' %>
+<%= stylesheet_link_tag 'SpryAssets/SpryValidationConfirm' %>
+ <%= stylesheet_link_tag 'main' %>
+<%= stylesheet_link_tag 'hmmout' %> 
+ <%= stylesheet_link_tag 'hmm' %> 
+ <%= stylesheet_link_tag 'SpryAssets/SpryValidationTextField' %>
+ <%= stylesheet_link_tag 'SpryAssets/SpryValidationRadio' %>
+ <%= stylesheet_link_tag 'SpryAssets/SpryValidationPassword' %>
+ <%= stylesheet_link_tag 'SpryAssets/SpryValidationConfirm' %>
+ <%= javascript_include_tag 'check_flash' %>
+<!-- Javascript Collection -->
+ 
+ <%= javascript_include_tag 'SpryAssets/SpryValidationTextField' %>
+ <%= javascript_include_tag 'SpryAssets/SpryValidationRadio' %>
+ <!--<%= javascript_include_tag "sorter" %>
+ <%= javascript_include_tag 'effects' %>
+ <%= javascript_include_tag 'dragdrop' %>-->
+ <%= javascript_include_tag 'info_access' %>
+ <%= javascript_include_tag 'prototype' %>
+ <%= javascript_include_tag 'scriptaculous' %>
+
+<%= javascript_include_tag 'effects' %>
+<%= javascript_include_tag 'popup.js' %>
+ <%= javascript_include_tag 'AC_OETags' %>
+ <%= javascript_include_tag 'SpryAssets/SpryValidationPassword' %>
+ <%= javascript_include_tag 'SpryAssets/SpryValidationConfirm' %>
+ <!--<%= javascript_include_tag 'accordian/prototype' %>
+ <%= javascript_include_tag 'accordian/effects' %>
+ <%= javascript_include_tag 'accordian/accordion' %>-->  
+    
+<script language="JavaScript">
+	
+	function isValidURL(url){ 
+    var RegExp = /^(([\w]+:)?\/\/)?(([\d\w]|%[a-fA-f\d]{2,2})+(:([\d\w]|%[a-fA-f\d]{2,2})+)?@)?([\d\w][-\d\w]{0,253}[\d\w]\.)+[\w]{2,4}(:[\d]+)?(\/([-+_~.\d\w]|%[a-fA-f\d]{2,2})*)*(\?(&?([-+_~.\d\w]|%[a-fA-f\d]{2,2})=?)*)?(#([-+_~.\d\w]|%[a-fA-f\d]{2,2})*)?$/; 
+    if(RegExp.test(url)){ 
+        return true; 
+    }else{ 
+        return false; 
+    } 
+} 
+
+function verify(){
+        var flag;
+        if(document.getElementById('hmm_user_v_myimage').value =='')
+        {
+        }
+        else
+        { 
+            
+            if(!/(\.jpg|\.jpeg|\.png|\.gif|\.bmp|\.tif)$/i.test(document.getElementById('hmm_user_v_myimage').value))
+            {
+               alert("Invalid Image format");
+                document.getElementById('hmm_user_v_myimage').focus();
+                document.getElementById('hmm_user_v_myimage').value='';
+                return false;
+            }
+            
+        }
+        if(document.getElementById('hmm_user_family_pic').value =='')
+        {
+        }
+        else
+        { 
+            
+            if(!/(\.jpg|\.jpeg|\.png|\.gif|\.bmp|\.tif)$/i.test(document.getElementById('hmm_user_family_pic').value))
+            {
+               alert("Invalid Image format");
+                document.getElementById('hmm_user_family_pic').focus();
+                document.getElementById('hmm_user_family_pic').value='';
+                return false;
+            }
+            
+        }
+	if (document.getElementById('fname').value == 'First Name') {
+		
+		document.getElementById('fname').focus();
+                alert("Please enter First Name");
+		return false;
+                flag=1;
+	}
+	
+        if (document.getElementById('lname').value == 'Last Name') {
+            
+	    document.getElementById('lname').focus();
+            alert("Please enter Last Name");
+            flag=1;
+	    return false;
+	}
+	
+	if (document.getElementById('fname').value == "") 
+        {
+            
+            document.getElementById('fname').focus();
+            alert("Please select your first name")
+            flag=1;
+            return false;
+	}
+	
+	if (document.getElementById('lname').value == "") 
+        {
+            
+            document.getElementById('lname').focus();
+            alert("Please enter your last name")
+            flag=1;
+            return false;
+	}
+	
+	if (document.getElementById('hmm_user_e_sex').checked == false &&  document.getElementById('hmm_user_e_sex1').checked == false) 
+        {
+            
+           document.getElementById('hmm_user_e_sex').focus();
+           alert("Please select your sex")
+            flag=1;
+            return false;
+	}
+        if (document.getElementById('hmm_user_marital_status').checked == false &&  document.getElementById('hmm_user_marital_status1').checked == false) 
+        {
+          
+           document.getElementById('hmm_user_marital_status').focus();
+            alert("Please select your Marital status")
+            flag=1;
+            return false;
+	}
+	
+	if (document.getElementById('hmm_user_v_zip').value == "") 
+        {
+             
+            document.getElementById('hmm_user_v_zip').focus();
+            alert("Please select your zipcode")
+            flag=1;
+            return false;
+	}
+	
+	if (document.getElementById('v_e_mail').value == "") 
+        {
+            
+            document.getElementById('v_e_mail').focus();
+            alert("Please enter your email address")
+            flag=1;
+            return false;
+	}
+	
+	if (document.getElementById('v_user_name').value == "") 
+        {
+              
+            document.getElementById('v_user_name').focus();
+             alert("Please enter your unique user name")  
+            flag=1;
+            return false;
+	}
+	
+	if (document.getElementById('v_password').value == "") 
+        {
+            
+            document.getElementById('v_password').focus();
+             alert("Please enter your password")
+            flag=1;
+            return false;
+	}
+	
+	if (document.getElementById('v_password_conf').value == "") 
+        {
+                 
+            document.getElementById('v_password_conf').focus();
+            alert("Please enter confirm password")
+            flag=1;
+            return false;
+	}
+	
+	if (document.getElementById('v_password_conf').value != document.getElementById('v_password').value) 
+        {
+            
+            document.getElementById('v_password_conf').focus();
+            alert("Your password did not match with entered confirm password")
+            flag=1;
+            return false;
+	}
+	
+	if (document.getElementById('hmm_user_v_security_q').value == '') 
+        {
+            alert('Please Select Account Security Question');
+            flag=1;
+            return false;
+        }
+	
+	if (document.getElementById('hmm_user_v_security_a').value == '') 
+        {
+            
+            document.getElementById('hmm_user_v_security_a').focus();
+             alert("Please enter your Security Answer")
+            flag=1;
+            return false;
+	}
+	
+	if (document.getElementById('v_password').value == document.getElementById('hmm_user_v_security_a').value) 
+        {
+            document.getElementById('hmm_user_v_security_a').focus();
+            alert('Account Security Answer Cant be a Password!!');
+            
+            flag=1;
+            return false;
+	}
+	
+	if (document.getElementById('hmm_user_v_link1').value != '' && !isValidURL(document.getElementById('hmm_user_v_link1').value))
+	{
+            
+            flag=1;
+            document.getElementById('hmm_user_v_link1').focus();
+            alert("You must supply a valid URL.");
+            return false;
+	}
+	
+	if (document.getElementById('hmm_user_v_link2').value != '' && !isValidURL(document.getElementById('hmm_user_v_link2').value))	
+        {
+           
+            document.getElementById('hmm_user_v_link2').focus();
+             alert("You must supply a valid URL.");
+            flag=1;
+	    return false;
+	}
+	
+	if (document.getElementById('hmm_user_v_link3').value != '' && !isValidURL(document.getElementById('hmm_user_v_link3').value))
+        {
+            
+            document.getElementById('hmm_user_v_link3').focus();
+            alert("You must supply a valid URL.");
+            flag=1;
+            return false;
+	}
+	
+	if (document.getElementById('valid').value == 'false') 
+        {
+            
+            document.getElementById('family_name').focus();
+            flag=1;
+            return false;
+	}
+	
+	if (document.getElementById('valid_email').value == 'false') 
+        {
+            
+            document.getElementById('v_e_mail').focus();
+            alert("Invalid email address")
+            flag=1;
+            return false;
+	}
+	
+	if (document.getElementById('valid_username').value == 'false') 
+        {
+            document.getElementById('v_user_name').focus();
+            flag=1;
+            return false;
+	}
+        
+        if(document.getElementById('familydiv').style.display == 'block')
+        {    
+            if(document.getElementById('hmm_user_familywebsite_password').value == "")
+            {
+                alert("Family Website password is required if checked as 'yes' ");
+                return false;
+            }
+            else
+            {    
+                if(document.getElementById('confirm_familywebsite_password').value == document.getElementById('hmm_user_familywebsite_password').value)
+                {
+                }
+                else
+                {
+                    alert("Family website password and confirm password did not match!!")
+                    return false;
+                }    
+            }    
+        }
+        if(document.getElementById('terms').checked == false)
+		{
+			document.getElementById('terms').focus();
+			alert("You must agree to the terms and conditions to proceed")
+			return false;
+		}
+     document.getElementById('imgmsg').style.display = 'block';
+	return true;
+       
+}      
+
+function escapeSpecialCharacters(field)
+{
+	var name = document.getElementById(field).value;
+	name =  name.replace(/[^a-zA-Z0-9]+/g,'');
+	document.getElementById('family_name').value=name;
+}
+</script>
+<form name="frm" action="http://content.holdmymemories.com/manage_hmm_account/create/" method="post" onsubmit="return verify()" enctype="multipart/form-data"   >
+
+
+
+<table width="905" align="center" border="0" cellspacing="0" cellpadding="0" bgcolor=#000000>
+    <tr>
+      <th height="227" align="left" valign="top" scope="col"><%= render :partial => 'form' %>
+	  
+	  </th>
+	  </tr>
+    <tr>
+      <th height="120" align="left" valign="top" bgcolor="#000000"  scope="col">
+      	
+      	<table width="100%" border="0" cellspacing="0" cellpadding="0">
+        <tr>
+          <th width="322" height="30" align="left" valign="top" scope="col">&nbsp;</th>
+          <th width="131" align="left" valign="top" scope="col">&nbsp;</th>
+          <th width="20" align="left" valign="top" scope="col">&nbsp;</th>
+          <th width="115" align="left" valign="top" scope="col">&nbsp;</th>
+          <th width="257" align="left" valign="top" scope="col">&nbsp;</th>
+        </tr>
+        <tr>
+          <th height="30" align="left" valign="top" scope="col">&nbsp;</th>
+		
+          <th align="left" valign="top" scope="col"><input type='image' id="regsubmit" src="/images/createmy-ac_over-signup.gif" width="131" height="38" value="Create" /></th>
+          <th align="left" valign="top" scope="col">&nbsp;</th>
+		  <th align="left" valign="top" scope="col"><a href="/user_account/login" onmouseout="MM_swapImgRestore()" onmouseover="MM_swapImage('Image42','','/images/cancel_over_signup.gif',1)"><img src="/images/cancel_def_signup.gif" name="Image42" width="115" height="38" border="0" id="Image42" /></a></th>
+          <th align="left" valign="top" scope="col">&nbsp;</th>
+        </tr>
+		 <tr>
+          <th height="30" align="left" valign="top" scope="col">&nbsp;</th>
+		
+          <th align="left" valign="top" scope="col"></th>
+          <th align="left" valign="top" scope="col">&nbsp;</th>
+		  <th align="left" valign="top" scope="col"><div id="imgmsg" style="display:none;">Please wait as your account is being created...<br>This could take a couple of minutes...</div></th>
+          <th align="left" valign="top" scope="col">&nbsp;</th>
+        </tr>
+      </table>
+	 </th>
+    </tr>
+  </table>
+            
+      
+        </form>
+ 
+ 

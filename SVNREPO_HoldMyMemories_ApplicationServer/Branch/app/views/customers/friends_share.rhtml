@@ -1,0 +1,49 @@
+
+
+<table width="500" border="0" cellspacing="4" class="border" cellpadding="4">
+	
+	<tr>
+		<th colspan="2" align="left" valign="middle" >
+			<font size="4" style="Arial, Helvetica, sans-serif"><font color="white" size="5"><%=@hmm_user.v_fname%></font>'s Shared Moments</font>
+		</th>
+	</tr>
+        
+        <tr><td height="30"></td></tr>
+        <%  shares=Share.find(:all, :conditions => "presenter_id=#{@hmm_user.id} and email_list like '%#{logged_in_hmm_user.v_e_mail}%'")
+        
+        for share in shares
+              
+	  
+	 
+          require 'pp'
+          
+          sharedmoments = SharedMomentId.find(:all, :conditions => "share_id=#{share.id}")
+          
+           for sharedmoment in sharedmoments
+             moment=UserContent.find(:all,:conditions => "id= #{sharedmoment.moment_id}")
+             if(moment[0]['e_filetype'] == "image")
+                 image="#{moment[0]['img_url']}/user_content/photos/big_thumb/#{moment[0]['v_filename']}"
+             end
+             if(moment[0]['e_filetype'] == "video" || moment[0]['e_filetype'] == "swf")
+                 image="#{moment[0]['img_url']}/user_content/videos/thumbnails/#{moment[0]['v_filename']}.jpg"
+             end
+             if(moment[0]['e_filetype'] == "audio")
+                 image = "#{moment[0]['img_url']}/user_content/audios/speaker.jpg"
+             end
+          end     
+       %>
+        <tr>
+          <table width="100%" align="left">
+          <tr>
+            <td rowspan="4"><img width="100" src="<%=image%>"/></td></tr>
+            <td colspan="2"><font size="2" color="white" style="Arial, Helvetica, sans-serif" ><%=share.created_date%></font></td>
+          </tr>
+          <tr>
+            <td></td>
+            <td><font size="2" color="white" style="Arial, Helvetica, sans-serif" >Message: <i><%=share.message%></i></font></td>
+          </tr>
+          <tr><td></td><td><a href="/tags/memories/<%=share.id%>"><font color="white" size="2">View</font></a>&nbsp;&nbsp;&nbsp;<a href="/tags/rejectshare/<%=share.id%>"><font color="white" size="2">Remove</font></a></td></tr>
+          <tr><td height="40"></td></tr>  
+<%end%>
+        </table>
+        

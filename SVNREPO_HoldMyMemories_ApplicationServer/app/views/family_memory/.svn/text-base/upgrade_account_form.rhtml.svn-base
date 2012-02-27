@@ -1,0 +1,589 @@
+
+<%= javascript_include_tag 'themes/prototype' %>
+<%= javascript_include_tag 'themes/formcheck/core' %>
+<%= javascript_include_tag 'themes/formcheck/more' %>
+<%= javascript_include_tag 'themes/formcheck/en' %>
+<%= javascript_include_tag 'themes/formcheck/formcheck' %>
+<%= stylesheet_link_tag 'themes/formcheck/formcheck'%>
+
+<% if( params[:acc_type] == 'platinum_account')
+  amount1 = '$9.95'
+  amount6 = '$49.95'
+  save6 = '$9.75'
+  amount12 = '$99.95'
+  save12 = '$19.45'
+  acctype = "platinum_user"
+else
+  if( params[:acc_type] == 'family_website')
+    amount1 = '$4.95'
+    amount6 = '$24.95'
+    save6 = '$4.75'
+    amount12 = '$49.95'
+    save12 = '$9.45'
+    acctype = "familyws_user"
+  end
+end
+%>
+<script type="text/javascript">
+  function disableSubmit()
+  {
+    if(document.getElementById('street_address').value != "" &&
+      document.getElementById('city').value != "" &&
+      document.getElementById('state').value != "" &&
+      document.getElementById('postcode').value != "" &&
+      document.getElementById('country').value != "" &&
+      document.getElementById('telephone').value != "" &&
+      document.getElementById('fname').value != "" &&
+      document.getElementById('lname').value != "" &&
+      document.getElementById('card_no').value != "" &&
+      document.getElementById('cardcvv_no').value != "" ){
+      document.getElementById('sub').style.display = "none";
+      document.getElementById('process').style.display = "block";
+    }
+  }
+</script>
+<table cellspacing="0" cellpadding="0" border="0" width="100%">
+  <%= render :partial => "family_memory/partials/heading"%>
+  <tr>
+    <td height="10" align="left" valign="top"></td>
+  </tr>
+  <tr>
+    <td align="center" valign="middle" class="content"></td>
+  </tr>
+  <tr>
+    <td align="center" valign="middle" class="content"></td>
+  </tr>
+  <tr>
+    <td align="left" valign="top" height="10"></td>
+  </tr>
+  <tr>
+    <td align="left" valign="bottom" height="35" class="header-page">Account Info</td>
+  </tr>
+  <tr>
+    <td align="left" valign="top" height="10"></td>
+  </tr>
+  <tr>
+    <td bgcolor="#454545" align="left" valign="top" height="1"></td>
+  </tr>
+  <tr>
+    <td align="left" valign="top" height="10"></td>
+  </tr>
+  <tr>
+    <td>
+
+      <form name="upgrade_account" id="upgrade_account" action="/family_memory/upgrade_payment_family/<%=params[:id]%>?acc_type=<%=params[:acc_type]%>" method="post" onsubmit="disableSubmit();">
+        <table width="750" border="0" cellspacing="0" cellpadding="0">
+          <tr>
+            <td align="center" valign="top" class="tab-dots"><table width="945" border="0" cellspacing="0" cellpadding="0" id="tab_bgcolor_repeat">
+                <tr>
+                  <td align="left" valign="top"><table width="100%" border="0" cellspacing="0" cellpadding="0">
+                      <tr>
+                        <td width="13" align="left" valign="top"></td>
+                        <td width="750" align="left" valign="top"><table width="100%" border="0" cellspacing="0" cellpadding="0">
+                            <tr>
+                              <td height="10" align="left" valign="top"></td>
+                            </tr>
+
+                            <tr>
+                              <td height="10" align="left" valign="top">&nbsp;</td>
+                            </tr>
+                            <% if flash[:error] || flash[:error_code] %>
+                              <tr>
+                                <td height="10" align="center" valign="top" class="error-message">
+                                  <%=flash[:error]%><br/>
+                                  <%=flash[:error_code]%>
+                                </td>
+                              </tr>
+                            <% end %>
+
+                            <% if params[:option] %>
+                              <tr>
+                                <td align="center" valign="middle" class="content">Sorry, your credit card information needs to be updated as we are not able to successfully charge your credit card. <br/><br/>
+                                  <input type="button" value="No I do not wish to update credit card info!" onclick="window.location='/family_memory/familywebsite_option/<%= params[:id] %>'" />
+                                </td>
+                              </tr>
+
+                            <% end %>
+                            <tr>
+                              <td height="10" align="left" valign="top">&nbsp;</td>
+                            </tr>
+                            <tr>
+                              <td align="left" valign="top" class="content-trans-bg"><table width="100%" border="0" cellspacing="0" cellpadding="0">
+                                  <tr>
+                                    <td width="30" align="left" valign="top">&nbsp;</td>
+                                    <td width="750" align="left" valign="top"></td>
+                                  </tr>
+                                  <tr>
+                                    <td align="left" valign="top">&nbsp;</td>
+                                    <td align="left" valign="top"><table width="100%" border="0" cellspacing="0" cellpadding="0">
+                                        <tr>
+                                          <td width="400" align="left" valign="top" class="content-trans-bg"><table width="100%" border="0" cellspacing="0" cellpadding="0">
+                                              <tr>
+                                                <td height="20" colspan="3" align="left" valign="top" >&nbsp;</td>
+                                              </tr>
+                                              <tr>
+                                                <td width="20" align="left" valign="top" >&nbsp;</td>
+                                                <td align="left" valign="top"><table width="100%" border="0" cellspacing="0" cellpadding="0">
+
+                                                    <tr>
+                                                      <td height="25" align="left" valign="top" class="headers">Billing Address </td>
+                                                    </tr>
+                                                    <tr>
+                                                      <td height="1" align="left" valign="top" bgcolor="#454545"></td>
+                                                    </tr>
+                                                    <tr>
+                                                      <td height="10" align="left" valign="top" class="content"></td>
+                                                    </tr>
+                                                    <tr>
+                                                      <td height="25" align="left" valign="top" class="content">Street Address <span class="content-white">*</span></td>
+                                                    </tr>
+                                                    <tr>
+                                                      <td align="left" valign="top"><label>
+                                                          <input type="text" name="street_address" id="street_address" value="<%=@hmm_user.street_address%>" class="validate['required']" size="35"/>
+                                                        </label></td>
+                                                    </tr>
+                                                    <tr>
+                                                      <td align="left" valign="top">&nbsp;</td>
+                                                    </tr>
+                                                    <tr>
+                                                      <td height="25" align="left" valign="top" class="content">City <span class="content-white">*</span></td>
+                                                    </tr>
+                                                    <tr>
+                                                      <td align="left" valign="top"><input name="city" id="city" value="<%=@hmm_user.city%>" type="text"  class="validate['required']" size="35"/></td>
+                                                    </tr>
+                                                    <tr>
+                                                      <td align="left" valign="top">&nbsp;</td>
+                                                    </tr>
+                                                    <tr>
+                                                      <td height="25" align="left" valign="top" class="content">State <span class="content-white">*</span></td>
+                                                    </tr>
+                                                    <tr>
+                                                      <td align="left" valign="top"><input name="state" value="<%=@hmm_user.state%>" id="state" type="text" class="validate['required']" size="35"/></td>
+                                                    </tr>
+                                                    <tr>
+                                                      <td align="left" valign="top">&nbsp;</td>
+                                                    </tr>
+                                                    <tr>
+                                                      <td height="25" align="left" valign="top" class="content">Zipcode/Postal code <span class="content-white">*</span></td>
+                                                    </tr>
+                                                    <tr>
+                                                      <td align="left" valign="top"><input name="postcode" value="<%=@hmm_user.v_zip%>" id="postcode" type="text" class="validate['required']" size="35"/></td>
+                                                    </tr>
+                                                    <tr>
+                                                      <td align="left" valign="top">&nbsp;</td>
+                                                    </tr>
+                                                    <tr>
+                                                      <td height="25" align="left" valign="top" class="content">Country <span class="content-white">*</span></td>
+                                                    </tr>
+                                                    <tr>
+                                                      <td align="left" valign="top">
+                                                        <select name="country" id='country' >
+                                                          <option value="USA" selected='selected'>USA</option>
+                                                          <option value="Afghanistan ">Afghanistan </option>
+                                                          <option value="Albania  ">Albania  </option>
+                                                          <option value="Algeria ">Algeria </option>
+                                                          <option value="American Samoa ">American Samoa </option>
+                                                          <option value="Argentina ">Argentina </option>
+                                                          <option value="Australia ">Australia </option>
+                                                          <option value="Austria ">Austria </option>
+                                                          <option value="Azerbaijan">Azerbaijan</option>
+                                                          <option value="Bahamas ">Bahamas </option>
+                                                          <option value="Bahrain ">Bahrain </option>
+                                                          <option value="Bangladesh ">Bangladesh </option>
+                                                          <option value="Barbados ">Barbados </option>
+                                                          <option value="Belgium ">Belgium </option>
+                                                          <option value="Benin ">Benin </option>
+                                                          <option value="Bermuda ">Bermuda </option>
+                                                          <option value="Bosnia-Herzegovina ">Bosnia-Herzegovina </option>
+                                                          <option value="Brazil ">Brazil </option>
+                                                          <option value="Burundi ">Burundi </option>
+                                                          <option value="Cambodia ">Cambodia </option>
+                                                          <option value="Cameroon ">Cameroon </option>
+                                                          <option value="Canada ">Canada </option>
+                                                          <option value="Cayman Islands ">Cayman Islands </option>
+                                                          <option value="Central African Republic ">Central African Republic </option>
+                                                          <option value="Chile">Chile</option>
+                                                          <option value="China ">China </option>
+                                                          <option value="Colombia ">Colombia </option>
+                                                          <option value="Comoros ">Comoros </option>
+                                                          <option value="Conch Republic">Conch Republic</option>
+                                                          <option value="Costa Rica ">Costa Rica </option>
+                                                          <option value="Croatia ">Croatia </option>
+                                                          <option value="Cuba ">Cuba </option>
+                                                          <option value="Cyprus ">Cyprus </option>
+                                                          <option value="Czech Republic ">Czech Republic</option>
+                                                          <option value="Denmark">Denmark</option>
+                                                          <option value="Dominica">Dominica</option>
+                                                          <option value="Dominican Republic ">Dominican Republic</option>
+                                                          <option value="Ecuador ">Ecuador</option>
+                                                          <option value="Egypt ">Egypt </option>
+                                                          <option value="Ethiopia ">Ethiopia </option>
+                                                          <option value="Falkland Islands ">Falkland Islands </option>
+                                                          <option value="Fiji ">Fiji </option>
+                                                          <option value="Finland ">Finland </option>
+                                                          <option value="France ">France </option>
+                                                          <option value="French Guiana ">French Guiana </option>
+                                                          <option value="Germany ">Germany </option>
+                                                          <option value="Greece ">Greece </option>
+                                                          <option value="Greenland ">Greenland </option>
+                                                          <option value="Guyana ">Guyana </option>
+                                                          <option value="Hong Kong ">Hong Kong </option>
+                                                          <option value="Hungary">Hungary</option>
+                                                          <option value="Iceland">Iceland</option>
+                                                          <option value="India ">India </option>
+                                                          <option value="Indonesia ">Indonesia </option>
+                                                          <option value="Iran ">Iran </option>
+                                                          <option value="Iraq ">Iraq </option>
+                                                          <option value="Ireland">Ireland</option>
+                                                          <option value="Israel">Israel</option>
+                                                          <option value="Italy">Italy</option>
+                                                          <option value="Jamaica">Jamaica</option>
+                                                          <option value="Japan">Japan</option>
+                                                          <option value="Jordan">Jordan</option>
+                                                          <option value="Kazakhstan">Kazakhstan</option>
+                                                          <option value="Kiribati">Kiribati</option>
+                                                          <option value="Korea (South)">Korea (South)</option>
+                                                          <option value="Korea (Democratic People's Republic)">Korea (Democratic People's Republic)</option>
+                                                          <option value="Kuwait">Kuwait</option>
+                                                          <option value="Kyrgyzstan">Kyrgyzstan</option>
+                                                          <option value="Laos">Laos</option>
+                                                          <option value="Latvia">Latvia</option>
+                                                          <option value="Lebanon">Lebanon</option>
+                                                          <option value="Liberia">Liberia</option>
+                                                          <option value="Libya">Libya</option>
+                                                          <option value="Liechtenstein">Liechtenstein</option>
+                                                          <option value="Lithuania">Lithuania</option>
+                                                          <option value="Luxembourg">Luxembourg</option>
+                                                          <option value="Macao">Macao</option>
+                                                          <option value="Macedonia">Macedonia</option>
+                                                          <option value="Madagascar">Madagascar</option>
+                                                          <option value="Malawi">Malawi</option>
+                                                          <option value="Malaysia">Malaysia</option>
+                                                          <option value="Maldives">Maldives</option>
+                                                          <option value="Marshall Islands">Marshall Islands</option>
+                                                          <option value="Mauritania">Mauritania</option>
+                                                          <option value="Mauritius">Mauritius</option>
+                                                          <option value="Mexico">Mexico</option>
+                                                          <option value="Micronesia">Micronesia</option>
+                                                          <option value="Midway Islands">Midway Islands</option>
+                                                          <option value="Moldova">Moldova</option>
+                                                          <option value="Monaco">Monaco</option>
+                                                          <option value="Mongolia">Mongolia</option>
+                                                          <option value="Montserrat">Montserrat</option>
+                                                          <option value="Morocco">Morocco</option>
+                                                          <option value="Mozambique">Mozambique</option>
+                                                          <option value="Myanmar (Burma)">Myanmar (Burma)</option>
+                                                          <option value="Namibia">Namibia</option>
+                                                          <option value="Nauru">Nauru</option>
+                                                          <option value="Nepal">Nepal</option>
+                                                          <option value="Netherlands">Netherlands</option>
+                                                          <option value="New Zealand">New Zealand</option>
+                                                          <option value="Nicaragua">Nicaragua</option>
+                                                          <option value="Niger">Niger</option>
+                                                          <option value="Nigeria">Nigeria</option>
+                                                          <option value="North Korea">North Korea</option>
+                                                          <option value="Northern Mariana Islands">Northern Mariana Islands</option>
+                                                          <option value="Norway">Norway</option>
+                                                          <option value="Oman">Oman</option>
+                                                          <option value="Pakistan">Pakistan</option>
+                                                          <option value="Panama">Panama</option>
+                                                          <option value="Paraguay">Paraguay</option>
+                                                          <option value="Peru">Peru</option>
+                                                          <option value="Philippines">Philippines</option>
+                                                          <option value="Pitcairn">Pitcairn</option>
+                                                          <option value="Poland">Poland</option>
+                                                          <option value="Portugal">Portugal</option>
+                                                          <option value="Qatar">Qatar</option>
+                                                          <option value="Romania">Romania</option>
+                                                          <option value="Russia">Russia</option>
+                                                          <option value="Rwanda">Rwanda</option>
+                                                          <option value="Saint Lucia">Saint Lucia</option>
+                                                          <option value="Saint Vincent and the Grenadines">Saint Vincent and the Grenadines</option>
+                                                          <option value="Samoa">Samoa</option>
+                                                          <option value="San Marino">San Marino</option>
+                                                          <option value="Saudi Arabia">Saudi Arabia</option>
+                                                          <option value="Senegal">Senegal</option>
+                                                          <option value="Serbia and Montenegro">Serbia and Montenegro</option>
+                                                          <option value="Singapore">Singapore</option>
+                                                          <option value="Slovak Republic">Slovak Republic</option>
+                                                          <option value="Solomon Islands">Solomon Islands</option>
+                                                          <option value="South Africa">South Africa</option>
+                                                          <option value="Spain">Spain</option>
+                                                          <option value="Sri Lanka">Sri Lanka</option>
+                                                          <option value="Sudan">Sudan</option>
+                                                          <option value="Suriname">Suriname</option>
+                                                          <option value="Swaziland">Swaziland</option>
+                                                          <option value="Sweden">Sweden</option>
+                                                          <option value="Switzerland">Switzerland</option>
+                                                          <option value="Syria">Syria</option>
+                                                          <option value="Taiwan">Taiwan</option>
+                                                          <option value="Tajikistan">Tajikistan</option>
+                                                          <option value="Tanzania">Tanzania</option>
+                                                          <option value="Thailand">Thailand</option>
+                                                          <option value="Timor-Leste">Timor-Leste</option>
+                                                          <option value="Togo">Togo</option>
+                                                          <option value="Tonga">Tonga</option>
+                                                          <option value="Trinidad and Tobago">Trinidad and Tobago</option>
+                                                          <option value="Trust Territory of the Pacific Islands">Trust Territory of the Pacific Islands</option>
+                                                          <option value="Tunisia">Tunisia</option>
+                                                          <option value="Turkey">Turkey</option>
+                                                          <option value="Turkmenistan">Turkmenistan</option>
+                                                          <option value="Turks and Caicos Islands">Turks and Caicos Islands</option>
+                                                          <option value="Tuvalu">Tuvalu</option>
+                                                          <option value="Uganda">Uganda</option>
+                                                          <option value="Ukraine">Ukraine</option>
+                                                          <option value="United Arab Emirates">United Arab Emirates</option>
+                                                          <option value="United Kingdom">United Kingdom</option>
+                                                          <option value="Uruguay">Uruguay</option>
+                                                          <option value="Uzbekistan">Uzbekistan</option>
+                                                          <option value="Vanuatu">Vanuatu</option>
+                                                          <option value="Vatican City">Vatican City</option>
+                                                          <option value="Venezuela">Venezuela</option>
+                                                          <option value="Viet Nam">Viet Nam</option>
+                                                          <option value="Western Samoa">Western Samoa</option>
+                                                          <option value="White Russia">White Russia</option>
+                                                          <option value="Yemen">Yemen</option>
+                                                          <option value="Yugoslavia ">Yugoslavia </option>
+                                                          <option value="Zambia">Zambia</option>
+                                                          <option value="Zimbabwe">Zimbabwe</option>
+                                                        </select>
+                                                      </td>
+                                                    </tr>
+                                                    <tr>
+                                                      <td height="40" align="left" valign="top">&nbsp;</td>
+                                                    </tr>
+                                                    <tr>
+                                                      <td height="25" align="left" valign="top" class="headers">Your Contact Information </td>
+                                                    </tr>
+                                                    <tr>
+                                                      <td height="1" align="left" valign="top" bgcolor="#454545"></td>
+                                                    </tr>
+                                                    <tr>
+                                                      <td height="10" align="left" valign="top" class="content"></td>
+                                                    </tr>
+                                                    <tr>
+                                                      <td height="25" align="left" valign="top" class="content">Telephone Number <span class="content-white">*</span></td>
+                                                    </tr>
+                                                    <tr>
+                                                      <td align="left" valign="top"><label>
+                                                          <input name="telephone" id="telephone" type="text" value="<%=@hmm_user.telephone%>" class="validate['required']" size="35"/>
+                                                        </label></td>
+                                                    </tr>
+                                                    <tr>
+                                                      <td align="left" valign="top">&nbsp;</td>
+                                                    </tr>
+                                                    <tr>
+                                                      <td height="25" align="left" valign="top" class="content">Email Address</td>
+                                                    </tr>
+                                                    <tr>
+                                                      <td align="left" valign="top"><input name="email" id="email" value='<%=@hmm_user.v_e_mail%>' type="text" size="35"/></td>
+                                                    </tr>
+                                                    <tr>
+                                                      <td align="left" valign="top">&nbsp;</td>
+                                                    </tr>
+                                                    <tr>
+                                                      <td height="25" align="left" valign="top" class="content">Current HoldMyMemories.com Account is:</td>
+                                                    </tr>
+                                                    <tr>
+                                                      <td align="left" valign="top" class="content-orange"><strong><%=@account_type%></strong></td>
+                                                    </tr>
+                                                    <% unless @hmm_user.account_type=="free_user" %>
+                                                      <tr>
+                                                        <td align="left" valign="top">&nbsp;</td>
+                                                      </tr>
+                                                      <tr>
+                                                        <td height="25" align="left" valign="top" class="content">Current Payment Method:</td>
+                                                      </tr>
+                                                      <tr>
+                                                        <td align="left" valign="top" class="content-white">After first <%=@hmm_user.months%> month(s) of your membership,  your membership will renew at <% if (@account_type == "familyws_user") %> $4.95 <%else%> $9.95 <%end%> per month.</td>
+                                                      </tr>
+                                                    <%end%>
+                                                  </table></td>
+                                                <td width="20" align="left" valign="top" >&nbsp;</td>
+                                              </tr>
+                                              <tr>
+                                                <td height="20" colspan="3" align="left" valign="top" >&nbsp;</td>
+                                              </tr>
+                                            </table>                        </td>
+                                          <td width="20" align="left" valign="top">&nbsp;</td>
+                                          <td width="400" align="left" valign="top" class="content-trans-bg"><table width="100%" border="0" cellspacing="0" cellpadding="0">
+                                              <tr>
+                                                <td height="20" colspan="3" align="left" valign="top" >&nbsp;</td>
+                                              </tr>
+                                              <tr>
+                                                <td width="20" align="left" valign="top" >&nbsp;</td>
+                                                <td align="left" valign="top"><table width="100%" border="0" cellspacing="0" cellpadding="0">
+                                                    <tr>
+                                                      <td height="25" align="left" valign="top" class="headers">Payment Information </td>
+                                                    </tr>
+
+                                                    <tr>
+                                                      <td height="1" align="left" valign="top" bgcolor="#454545"></td>
+                                                    </tr>
+                                                    <tr>
+                                                      <td height="10" align="left" valign="top" class="content"></td>
+                                                    </tr>
+                                                    <tr>
+                                                      <td height="25" align="left" valign="top" class="content">Your Name as on credit card <span class="content-white">*</span></td>
+                                                    </tr>
+                                                    <tr>
+                                                      <td align="left" valign="top"><table width="100%" border="0" cellspacing="0" cellpadding="0">
+                                                          <tr>
+                                                            <td width="135" height="25" align="left" valign="top" class="content-white">First Name</td>
+                                                            <td width="10" align="left" valign="top" class="content-white">&nbsp;</td>
+                                                            <td align="left" valign="top" class="content-white">Last Name</td>
+                                                          </tr>
+                                                          <tr>
+                                                            <td align="left" valign="top"><label>
+                                                                <input type="text" name="fname" id="fname" value="<%=@hmm_user.v_fname%>" class="validate['required']" size="16"/>
+                                                              </label></td>
+                                                            <td align="left" valign="top">&nbsp;</td>
+                                                            <td align="left" valign="top"><input type="text" name="lname" id="lname" value="<%=@hmm_user.v_lname%>" class="validate['required']" size="16"/></td>
+                                                          </tr>
+                                                        </table>
+                                                        <label></label></td>
+                                                    </tr>
+                                                    <tr>
+                                                      <td align="left" valign="top">&nbsp;</td>
+                                                    </tr>
+                                                    <tr>
+                                                      <td height="25" align="left" valign="middle" class="content-white"><label>
+                                                          <input type="radio" name="months" id="months" value="1" checked />
+                                                          monthly <%=amount1%>&nbsp; </label></td>
+                                                    </tr>
+                                                    <tr>
+                                                      <td height="25" align="left" valign="middle" class="content-white"><label>
+                                                          <input type="radio" name="months" id="months" value="6" />
+                                                          6 months <%=amount6%> save <%=save6%>&nbsp;</label></td>
+                                                    </tr>
+                                                    <tr>
+                                                      <td height="25" align="left" valign="middle" class="content-white"><label>
+                                                          <input type="radio" name="months" id="months" value="12" />
+                                                          1 year <%=amount12%> save <%=save12%>  </label></td>
+                                                    </tr>
+                                                    <tr>
+                                                      <td align="left" valign="top">&nbsp;</td>
+                                                    </tr>
+                                                    <tr>
+                                                      <td align="left" valign="top"><span class="main"><img src="/images/common/credit_card.gif" width="199" height="23" border="0" align="center" /></span></td>
+                                                    </tr>
+                                                    <tr>
+                                                      <td align="left" valign="top">&nbsp;</td>
+                                                    </tr>
+                                                    <tr>
+                                                      <td height="25" align="left" valign="top" class="content"> Card Number <span class="content-white">*</span></td>
+                                                    </tr>
+                                                    <tr>
+                                                      <td align="left" valign="top"><input type="text" maxlength="16" id="card_no" name="card_no" class="validate['required']" size="35"/></td>
+                                                    </tr>
+                                                    <tr>
+                                                      <td align="left" valign="top">&nbsp;</td>
+                                                    </tr>
+                                                    <tr>
+                                                      <td height="25" align="left" valign="top" class="content"> Card CVV Number <span class="content-white">*</span></td>
+                                                    </tr>
+                                                    <tr>
+                                                      <td align="left" valign="top"><input type="text" name="cardcvv_no" id="cardcvv_no" size="5" maxlength="4" class="validate['required']" size="35"/></td>
+                                                    </tr>
+                                                    <tr>
+                                                      <td align="left" valign="top">&nbsp;</td>
+                                                    </tr>
+                                                    <tr>
+                                                      <td height="25" align="left" valign="top" class="content"> Expiration Date&nbsp; <span class="content-white">*</span></td>
+                                                    </tr>
+                                                    <tr>
+                                                      <td align="left" valign="top">
+                                                        <select name="exp_month" id="exp_month" >
+                                                          <option value="1">1</option>
+                                                          <option value="2">2</option>
+                                                          <option value="3">3</option>
+                                                          <option value="4">4</option>
+                                                          <option value="5">5</option>
+                                                          <option value="6">6</option>
+                                                          <option value="7">7</option>
+                                                          <option value="8">8</option>
+                                                          <option value="9">9</option>
+                                                          <option value="10">10</option>
+                                                          <option value="11">11</option>
+                                                          <option value="12">12</option>
+                                                        </select>
+                                                        &nbsp;
+                                                        <select name="exp_year" id="exp_year" >
+                                                          <%  i=2010
+                                                          until i == 2030 %>
+                                                            <option value="<%=i%>"><%=i%></option>
+                                                            <%  i=i+1
+                                                          end%>
+                                                        </select>
+                                                      </td>
+                                                    </tr>
+                                                    <tr>
+                                                      <td align="left" valign="top">&nbsp;</td>
+                                                    </tr>
+                                                    <tr>
+                                                      <td height="25" align="left" valign="top" class="content"> Membership sold by: </td>
+                                                    </tr>
+                                                    <tr>
+                                                      <td align="left" valign="top"><input name="sold_by" id="sold_by" type="text" size="35"  /></td>
+                                                    </tr>
+                                                    <tr>
+                                                      <td align="left" valign="top">&nbsp;</td>
+                                                    </tr>
+
+                                                    <tr>
+                                                      <td align="left" valign="top">&nbsp;</td>
+                                                    </tr>
+                                                    <tr>
+                                                      <td align="left" valign="top"><label>
+                                                          <div id="process" class="content" style="display:none;font-size:16px">Processing ...</div>
+                                                          <input type="submit" name="sub" id="sub" class="cmd-btn" value="Submit" />
+                                                        </label></td>
+                                                    </tr>
+                                                    <tr>
+                                                      <td align="left" valign="top">&nbsp;</td>
+                                                    </tr>
+                                                  </table></td>
+                                                <td width="20" align="left" valign="top" >&nbsp;</td>
+                                              </tr>
+                                              <tr>
+                                                <td height="20" colspan="3" align="left" valign="top" >&nbsp;</td>
+                                              </tr>
+                                            </table></td>
+                                          <td align="left" valign="top">&nbsp;</td>
+                                        </tr>
+
+                                      </table></td>
+                                  </tr>
+                                  <tr>
+                                    <td align="left" valign="top">&nbsp;</td>
+                                    <td align="left" valign="top">&nbsp;</td>
+                                  </tr>
+                                </table></td>
+                            </tr>
+                            <tr>
+                              <td align="left" valign="top">&nbsp;</td>
+                            </tr>
+                          </table></td>
+                        <td width="13" align="left" valign="top"></td>
+                      </tr>
+                    </table></td>
+                </tr>
+              </table></td>
+          </tr>
+        </table>
+        <input type="hidden" name="account_type" id="account_type" value="<%=acctype%>" />
+        <input type="hidden" name="subnumber" id="subnumber" value="<%=@hmm_user.subscriptionnumber%>" />
+        <input type='hidden' name='hmm_id' id='hmm_id' value="<%=@hmm_user.id%>" />
+        <input type="hidden" name="arb_res" id="arb_res" value="1" />
+        <input type="hidden" name="end_date" id="end_date" value="" />
+        <input type="hidden" name="start_date"  id="start_date" value='<%=Time.now.strftime("%Y-%m-%d") %>' />
+      </form>
+    </td>
+  </tr>
+</table>
+
+<script type="text/javascript">
+  window.addEvent('domready', function(){
+    new FormCheck('upgrade_account');
+  });
+</script>

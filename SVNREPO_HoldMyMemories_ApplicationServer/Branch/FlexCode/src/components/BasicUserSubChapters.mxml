@@ -1,0 +1,180 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:VBox xmlns:mx="http://www.adobe.com/2006/mxml" width="100%" height="100%" show="handleShow()" 
+	horizontalAlign="center" verticalAlign="top" verticalGap="0" paddingTop="0" creationComplete="handleCreation()">
+	<mx:Text text="Choose a Folder/Subchapter to hold your memories" color="0xf79646"/>
+	<mx:TileList id="subchapterTileList" height="230" width="100%" verticalAlign="top" borderStyle="none" borderThickness="0" 
+		columnWidth="130" rowHeight="130" backgroundColor="#111111" rollOverColor="#9C9C9C" offscreenExtraRowsOrColumns="0" backgroundAlpha="0">
+		<mx:itemRenderer>renderers.BasicUserFolderRenderer</mx:itemRenderer>
+	</mx:TileList>
+	<!--mx:Text paddingTop="0" id="nameText" text="Name this subchapter" color="0xf79646" visible="false" fontSize="15"/-->
+	<mx:HBox  width="100%" height="30" horizontalGap="0" verticalAlign="top" paddingTop="0" horizontalAlign="center">
+		<mx:LinkButton label="CLICK HERE" click="createSubchapter();" styleName="linkbutton" textDecoration="underline"/>
+		<mx:Label text="to create a new SubChapter/Folder" fontSize="16" color="white" fontFamily="Arial"/>
+	</mx:HBox>
+	
+	<mx:Script>
+		<![CDATA[
+			import mx.controls.Alert;
+			import mx.core.Application;
+			import vo.AudioGalleryVO;
+			import vo.VideoGalleryVO;
+			import vo.PhotoGalleryVO;
+			import mx.rpc.events.FaultEvent;
+			import vo.GalleryVO;
+			import mx.rpc.events.ResultEvent;
+			import model.HmmChaptersModel;
+			import mx.rpc.http.HTTPService;
+			import vo.SubChapterVO;
+			import mx.collections.ArrayCollection;
+			import model.WebFileSystemModel;
+			
+			[Bindable]
+			private var _dataprovider : ArrayCollection;
+			
+			private var newSubChapter : SubChapterVO;
+			private var chapterid : int;
+			[Bindable]
+			private var _renamed : Boolean = true;
+			private var proxyName : String;
+			private var proxyUrl : String;
+			
+			private function handleCreation() : void
+			{
+				proxyName = this.parentApplication.proxyName;
+				proxyUrl = this.parentApplication.proxyUrl;
+			}
+			public function get renamed() : Boolean
+			{
+				if(Application.application.folderCreated)
+				 return false;
+				else
+					return _renamed;
+			}
+			
+			public function set renamed(value : Boolean) : void
+			{
+				if(Application.application.folderCreated)
+				{
+				var shareChapter : SharedObject;
+				if(value)
+				{
+				   	Application.application.folderCreated = false;
+				   	_renamed = value;
+				  // 	nameText.visible = false;
+				}
+				else
+				{
+					
+					_renamed = value;
+				}
+				}
+				 
+			}
+			
+			override public function set data(value:Object):void
+			{
+				_dataprovider = value as ArrayCollection;
+			}
+			
+			public function set dataprovider(value : ArrayCollection) : void
+			{
+				_dataprovider = value;	
+			}
+			
+			public function get dataprovider() : ArrayCollection
+			{
+			  return _dataprovider; 	
+			}
+			
+			private function handleShow() : void
+			{
+				subchapterTileList.dataProvider = _dataprovider;
+				if(!_dataprovider.length)
+				 createSubchapter();
+			/* 	if(!dataprovider.length)
+				 	createSubchapter(); */
+			}
+			
+			public function set chapterID(id : int) : void
+			{
+			  chapterid = id;	
+			}
+			
+			public function createSubchapter() : void
+			{
+					if(!renamed)
+				   	{
+				   		Alert.show("Please enter the name for Subchapter in the box");
+				   		return;
+				   	}
+				   	
+				   //	nameText.visible = true;
+					newSubChapter = new SubChapterVO();
+					newSubChapter.icon = proxyUrl+"/user_content/photos/icon_thumbnails/folder_img.png"; 
+					//newSubChapter.name = "";
+					var createSubChapterService : HTTPService = new HTTPService();
+					var obj : Object = new Object();
+					obj.tagid = Application.application.currentChapterId;
+					obj.userId = HmmChaptersModel.getInstance().userId;
+					obj.name = newSubChapter.name;
+					obj.image = newSubChapter.icon;
+					createSubChapterService.url = "/sub_chapter/createsubchapter";//"/sub_chapter/create";
+					createSubChapterService.addEventListener(ResultEvent.RESULT, handleCreateResult);
+					createSubChapterService.addEventListener(FaultEvent.FAULT, handleFault);
+					createSubChapterService.contentType = HTTPService.RESULT_FORMAT_OBJECT;
+					createSubChapterService.send(obj);
+					FadingNotifier.setBusyState();
+			}
+			
+			private function handleFault(event : FaultEvent) : void
+			{
+				Alert.show(event.message.toString());
+				FadingNotifier.removeBusyState();
+			}
+			
+			private function handleCreateResult(event : ResultEvent) : void
+			{
+				trace(event.toString());
+				newSubChapter.id = int(event.result.subchapterid);
+				newSubChapter.name = "";
+				newSubChapter.flag = true;
+				/* var gallery : GalleryVO = new PhotoGalleryVO();
+				gallery.id = event.result.photoid;
+				newSubChapter.gallery.push(gallery);
+				gallery.access = "semiprivate";
+				newSubChapter.access = "semiprivate";
+				gallery.writable = true;
+				gallery.renamed = false;
+				gallery = new VideoGalleryVO();
+				gallery.id = event.result.videoid;
+				newSubChapter.gallery.push(gallery);
+				gallery.access = "semiprivate";
+				gallery.writable = true;
+				gallery.renamed = false;
+				gallery = new AudioGalleryVO();
+				gallery.id = event.result.audioid;
+				gallery.access = "semiprivate";
+				gallery.writable = true;
+				gallery.renamed = false;
+				newSubChapter.gallery.push(gallery); */
+				var datap : ArrayCollection = subchapterTileList.dataProvider as ArrayCollection;
+				if(datap)
+				{
+					datap.addItem(newSubChapter);
+				} 
+				else
+				{
+					datap = new ArrayCollection();
+					datap.addItem(newSubChapter);
+					subchapterTileList.dataProvider = datap;
+				}
+				Application.application.folderCreated = true;
+				renamed = false;
+				//this.parentApplication.addSubChapter(newSubChapter,chapterid);	 
+				FadingNotifier.removeBusyState();
+		
+			}
+			
+		]]>
+	</mx:Script>
+</mx:VBox>

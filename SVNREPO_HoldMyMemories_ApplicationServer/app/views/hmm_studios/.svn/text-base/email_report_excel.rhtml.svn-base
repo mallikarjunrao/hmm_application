@@ -1,0 +1,58 @@
+  <table border="1">
+        <tr><td colspan="15"><h2>Customers Email Report</h2> </td></tr>
+
+        <tr><td>
+          </td></tr>
+        <tr valign='center' align='center'>
+          <th>Cutomer Name</th>
+
+          <th>User Name</th>
+          <th>Email Address</th>
+          <th>Created date</th>
+          <th>Account Type</th>
+          <th>Studio Name</th>
+          <th>Studio Group</th>
+          <th>Status</th>
+        </tr>
+
+        <% 	
+        for colmn in @hmm_users
+        %>
+
+          <tr class='ListLine'>
+            <td align="center"><%=h colmn.v_fname%> <%=h colmn.v_lname%></td>
+            <td align="center"><%=h colmn.v_user_name%></td>
+            <td align="center"><%=h colmn.v_e_mail%></td>
+            <td align="center">
+              <% if colmn.d_created_date == nil || colmn.d_created_date == '' %>
+                    -
+              <%else%>
+                <%=h colmn.d_created_date.strftime("%m - %d - %Y")%>
+              <%end%>            </td>
+            <td align="center"><%=h colmn.account_type%></td>
+            <td align="center">
+              <%if (colmn.studio_name == nil || colmn.studio_name == '' )  %>
+                            Direct Customer
+              <%else%>
+               <%=colmn.studio_name %>
+              <%end%>            </td>
+              <td align="center">
+              <%if (colmn.hmm_franchise_studio == nil || colmn.hmm_franchise_studio == '' )  %>
+                    -
+              <%else%>
+                <%=colmn.hmm_franchise_studio%>
+              <%end%>            </td>
+
+            <td align="center">
+              <% if colmn.account_expdate!=nil %>
+                <%  t = Time.now
+                    dat=t.strftime("%Y-%m-%d")%>
+                    <% if  colmn.account_expdate > dat.to_date %>
+                  Active
+                <%else%>Inactive
+                <%end%>
+              <%else%>Inactive
+            <%end%></td>
+          </tr>
+        <% end %>
+      </table>

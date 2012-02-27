@@ -1,0 +1,62 @@
+<%= javascript_include_tag "themes/swfobject" %>
+<table width="100%" border="0" cellspacing="0" cellpadding="0" >
+  <%= render :partial => "family_memory/partials/heading"%>
+
+  <tr>
+    <td align="center"><table width="100%" border="0" cellspacing="0" cellpadding="0" align="center">
+        <tr>
+          <td align="center"><table border="0" cellpadding="0" cellspacing="0" width="100%" align="center"><tr><td align="center">
+                  <div id="flash_content">
+                    <h1>Get Flash Player</h1>
+                    <p><a href="http://www.adobe.com/go/getflashplayer"><img src="http://www.adobe.com/images/shared/download_buttons/get_flash_player.gif" alt="Get Adobe Flash player" /></a></p>
+                  </div>
+
+                  <% if session[:visitor_id]
+                    is_visitor = "true"
+                  else
+                    is_visitor = "false"
+                  end
+                %>
+                  <script type="text/javascript">
+                    var flashvars = {};
+                    flashvars.content_url = "<%= @paths.content_path %>";
+                    flashvars.hmmtype = "<%= @first_img.e_filetype %>";
+                    flashvars.gallery = "<%= @first_img.gallery_id %>";
+                    flashvars.image_url= "<%= @first_img.img_url%>/user_content/photos/<%= @first_img.v_filename%>";
+                    flashvars.gallery_id = "<%= @first_img.gallery_id %>";
+                    flashvars.user_id = "<%= @first_img.uid %>";
+                    flashvars.moment_id = "<%= @first_img.id %>";
+                    flashvars.proxyurl = "<%=  @path %>,http://content1.holdmymemories.com,http://content.holdmymemories.com";
+                    flashvars.familyname = "<%= params[:id] %>"
+                    flashvars.website_type = "familywebsite_v4";
+                    if ('<%= is_visitor %>' == 'true')
+                    {
+                      flashvars.visitor_id = "<%= session[:visitor_id] %>";
+                      flashvars.cart_url = "/visitor_cart/cart_list/<%=params[:id]%>?v=v4";
+                    }else{
+                      flashvars.cart_url = "/carts/cart_list/<%=params[:id]%>?v=v4";
+                    }
+
+                    flashvars.back_url = "/family_memory/order_prints/<%=params[:id]%>?moment_id=<%= @first_img.id %>";
+                    flashvars.text_value = "text=<%=params[:text]%>";
+                    var params = {};
+                    params.wmode = "transparent";
+                    params.allowFullScreen = true
+                    swfobject.embedSWF("/flash/debug/EditImageComponentV4.swf", "flash_content", "100%", "900", "9.0.0", "/expressInstall.swf",flashvars,params);
+                  </script>
+                </td></tr>
+            </table>
+          </td>
+
+        </tr>
+      </table></td>
+  </tr>
+  <tr>
+    <td height="10">&nbsp;</td>
+  </tr>
+
+  <tr>
+    <td align="left">&nbsp;</td>
+  </tr>
+</table>
+

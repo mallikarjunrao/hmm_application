@@ -1,0 +1,78 @@
+<table width="100%" border="0" cellspacing="0"  cellpadding="0">
+	 
+     <input type="hidden" id="cnt" name="cnt" value="<%=@fnfcount%>"/>
+ 		
+		<% if @fnfcount <= 0 %>
+		
+        	<tr>
+		  
+      <th colspan="2" align="left" valign="middle" bgcolor="#191919" scope="col">
+      	<span class="btmtxt">No friends added to this group!</span>
+	  </th>
+    
+	</tr>
+	 <%else%>
+	<%if @fnf_reqa.size==0%>
+	
+      
+	   	<tr>
+		  
+      <th colspan="2" align="left" valign="middle" bgcolor="#191919" scope="col">
+      	<span class="btmtxt">No Records found!</span>
+	  </th>
+     <%else%>
+	</tr>
+	 
+        <tr>
+	        <td>&nbsp;&nbsp;&nbsp;&nbsp;</td>
+			<td>&nbsp;&nbsp;&nbsp;&nbsp;</td>
+			<td>&nbsp;&nbsp;&nbsp;&nbsp;</td>
+			<td>&nbsp;&nbsp;&nbsp;&nbsp;</td>
+			<td>&nbsp;&nbsp;&nbsp;&nbsp;</td>
+			<td>&nbsp;&nbsp;&nbsp;&nbsp;</td>
+			<td>&nbsp;&nbsp;&nbsp;&nbsp;</td>
+			<td>&nbsp;&nbsp;&nbsp;&nbsp;</td>
+			<td>&nbsp;&nbsp;&nbsp;&nbsp;</td>
+			<td>&nbsp;&nbsp;&nbsp;&nbsp;</td>
+		</tr>
+        
+		<tr>
+        <% 
+			j=0
+k=0
+for i in @fnf_reqa 
+j=j+1
+
+if(j>=5)
+j=1
+%>
+</tr><tr height="25"><td></td></tr><tr>
+<%end%>
+	
+		  
+		 
+	<td align="left">
+	 <table >
+	<tr>
+	 	<th colspan="2"   align="left" valign="bottom">
+	 		<a href="/customers/profile/<%=i.fid%>"> <img src="<%=i.img_url%>/hmmuser/photos/thumb/<%=i.v_myimage%>" border="0"/></a>
+		</th>
+       
+	  
+	</tr>
+	<tr><td align="left" valign="top" ><input id="chk[<%=k%>]" type="checkbox" name="chk[<%=k%>]" value="<%=i.id%>"/></td><td align="left" valign="bottom"><font color="white" size="2"><b><%= i.v_fname %></b></font></td></tr>
+	</table></td><td>&nbsp;&nbsp;&nbsp;</td>
+	<% k=k+1 %>	
+		
+
+ <%end%> 
+ <%end%>
+ <%end%>
+</table>
+	<table border="0"  align="center">
+	<tr>
+		
+			<%=will_paginate @fnf_reqa%>						
+		</th>
+	</tr>
+</table>

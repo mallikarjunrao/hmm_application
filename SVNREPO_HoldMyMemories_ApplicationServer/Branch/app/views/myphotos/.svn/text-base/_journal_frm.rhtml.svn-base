@@ -1,0 +1,32 @@
+<%= stylesheet_link_tag 'SpryAssets/SpryValidationTextField' %>
+<%= javascript_include_tag 'SpryAssets/SpryValidationTextField' %>
+
+<table width="80%" border="0" cellspacing="0" cellpadding="0" align='center'>
+<input type="hidden" value="<%=params[:id]%>" name="j_id" />
+</div>
+    <tr>
+      <th width="101" align="left" valign="top" scope="col">Title</th>
+      <th width="14" align="left" valign="top" scope="col">:</th>
+      <th width="91" align="left" valign="top" scope="col"><span id="sprytextfield1"><span id="sprytextfield1"><%= text_field 'journals_photos', 'v_title'  %><span class="textfieldRequiredMsg"><br>Title is required.</br></span></span></span></th>
+        </tr>
+		  <tr>
+      <th width="101" align="left" valign="top" scope="col">Description</th>
+      <th width="14" align="left" valign="top" scope="col">:</th>
+      <th width="91" align="left" valign="top" scope="col"><span id="sprytextfield2"><span id="sprytextfield2"><%=text_area 'journals_photos', 'v_image_comment', "cols" => 40, "rows" => 5 %><span class="textfieldRequiredMsg"><br>Description is required.</br></span></span></span></th>
+        </tr>
+		<tr>
+      <th height="12" colspan="9" align="center" valign="top" scope="col" class="signedtxtwhite">&nbsp;</th>
+      </tr>
+    <tr>
+      <th height="12" colspan="9" align="center" valign="top" scope="col" class="signedtxtwhite">
+      	<input type='image' src="/images/submit_btn.jpg" width="87" height="24" border="0" />
+	</th>
+      </tr>
+</table>
+					  
+<script type="text/javascript">
+<!--
+var sprytextfield1 = new Spry.Widget.ValidationTextField("sprytextfield1", "none", {validateOn:["blur"]});
+var sprytextfield2 = new Spry.Widget.ValidationTextField("sprytextfield2", "none", {validateOn:["blur"]});
+//-->
+</script>

@@ -1,0 +1,9 @@
+<h1>Editing shared_moment_id</h1>
+
+<% form_tag :action => 'update', :id => @shared_moment_id do %>
+  <%= render :partial => 'form' %>
+  <%= submit_tag 'Edit' %>
+<% end %>
+
+<%= link_to 'Show', :action => 'show', :id => @shared_moment_id %> |
+<%= link_to 'Back', :action => 'list' %>

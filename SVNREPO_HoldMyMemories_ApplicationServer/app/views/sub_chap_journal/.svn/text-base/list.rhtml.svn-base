@@ -1,0 +1,27 @@
+<h1>Listing sub_chap_journals</h1>
+
+<table>
+  <tr>
+  <% for column in SubChapJournal.content_columns %>
+    <th><%= column.human_name %></th>
+  <% end %>
+  </tr>
+  
+<% for sub_chap_journal in @sub_chap_journals %>
+  <tr>
+  <% for column in SubChapJournal.content_columns %>
+    <td><%=h sub_chap_journal.send(column.name) %></td>
+  <% end %>
+    <td><%= link_to 'Show', :action => 'show', :id => sub_chap_journal %></td>
+    <td><%= link_to 'Edit', :action => 'edit', :id => sub_chap_journal %></td>
+    <td><%= link_to 'Destroy', { :action => 'destroy', :id => sub_chap_journal }, :confirm => 'Are you sure?', :method => :post %></td>
+  </tr>
+<% end %>
+</table>
+
+<%= link_to 'Previous page', { :page => @sub_chap_journal_pages.current.previous } if @sub_chap_journal_pages.current.previous %>
+<%= link_to 'Next page', { :page => @sub_chap_journal_pages.current.next } if @sub_chap_journal_pages.current.next %> 
+
+<br />
+
+<%= link_to 'New sub_chap_journal', :action => 'new' %>

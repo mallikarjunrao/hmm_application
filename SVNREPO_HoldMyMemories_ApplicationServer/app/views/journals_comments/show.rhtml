@@ -1,0 +1,8 @@
+<% for column in JournalsComment.content_columns %>
+<p>
+  <b><%= column.human_name %>:</b> <%=h @journals_comment.send(column.name) %>
+</p>
+<% end %>
+
+<%= link_to 'Edit', :action => 'edit', :id => @journals_comment %> |
+<%= link_to 'Back', :action => 'list' %>

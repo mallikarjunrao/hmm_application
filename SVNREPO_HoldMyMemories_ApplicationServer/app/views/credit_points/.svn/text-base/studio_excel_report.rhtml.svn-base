@@ -1,0 +1,66 @@
+<table border="1" cellpadding="0" cellspacing="0">
+  <tr>
+    <th>First name</th>
+    <th>Last name</th>
+    <th>Sex</th>
+    <th>User name </th>
+    <th>Payment type</th>
+    <th>Email Address</th>
+    <th>Telephone</th>
+    <th>Studio</th>
+    <th>Available credits</th>
+    <th>Used credits</th>
+    <th>Status</th>
+    <th>Notes</th>
+  </tr>
+  <%
+  i = 0
+  for colmn in @hmm_users
+    i = i + 1
+  %>
+    <tr>
+      <td align="center"><%=h colmn.v_fname%></td>
+      <td align="center"><%=h colmn.v_lname%></td>
+      <td align="center"><%=h colmn.e_sex%></td>
+      <td align="center"><%=h colmn.v_user_name%></td>
+      <td align="center"><%=h colmn.account_type%></td>
+      <td align="center"><%=h colmn.v_e_mail%></td>
+      <td align="center"><%=h colmn.telephone%></td>
+      <td align="center">
+        <%if (colmn.emp_id == nil || colmn.emp_id == '' )  %>
+          Direct Customer
+        <%else%>
+          <%@branch = EmployeAccount.find(:all, :conditions => "id = '#{colmn.emp_id}'")%>
+          <%for k in @branch%>
+            <%@branch_name = HmmStudio.find(:all, :conditions => "id = '#{k.store_id}'")%>
+            <%for c in @branch_name%>
+              <%if (c.studio_name == '' || c.studio_name == nil)%>
+              <%else%>
+                <%=c.studio_name.gsub(/_/, ' ')%>
+              <%end%>
+            <%end%>
+          <%end%>
+        <%end%>
+      </td>
+      <%  if colmn.credit_system=="Dollars"
+        @credit_pnt="$#{colmn.available_credits}"
+      else
+        @credit_pnt=(colmn.available_credits).round
+      end
+    %>
+      <td align="center"><%=@credit_pnt%></td>
+      <td align="center"><%=h colmn.used_credits%></td>
+      <td align="center">
+        <% if colmn.account_expdate!=nil %>
+              <%  t = Time.now %>
+              <% if  colmn.account_expdate >
+                  t.strftime("%Y-%m-%d")%>Active
+              <%else%>Inactive
+              <%end%>
+        <%else%>Inactive
+        <%end%>
+      </td>
+      <td align="center"><%=h colmn.notes%></td>
+    </tr>
+  <%end%>
+</table>

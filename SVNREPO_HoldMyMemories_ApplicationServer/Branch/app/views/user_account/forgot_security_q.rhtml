@@ -1,0 +1,13 @@
+<%= javascript_include_tag "prototype" %>
+
+<% if @results1.empty? %>
+  <font color="#f5dfa6"><center>In-Valid Account Security Answer</center></font>
+<% else
+ for @i in @results1
+       name=@i['v_fname']
+	   email=@i['v_e_mail']	
+     end  %>
+  <font color="#f5dfa6"><center>Valid Account Security Answer</center>
+  <h3 align="center"> Your Password Has Been Sent To Your E-Mail ID "<%=email%>" </h3></font>
+<% end %>
+

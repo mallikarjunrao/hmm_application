@@ -1,0 +1,45 @@
+<table width="289" border="0" cellspacing="0" cellpadding="0" align="left" class="content-trans-bg">
+  <tr>
+    <td height="10" colspan="3" align="left" valign="top"></td>
+  </tr>
+  <tr>
+    <td width="10" align="left" valign="top"></td>
+    <td align="left" valign="top">
+      <table width="100%" border="0" cellspacing="0" cellpadding="0">
+        <tr>
+          <td colspan="3" align="left" valign="top" class="cont-white-title">Shipping Address&nbsp;(<a a href="/carts/edit_shipping/<%= params[:id]  %>?v=<%= params[:v] %>" class="nyroModal" rev="modal">Change Address</a>)</td>
+        </tr>
+        <tr>
+          <td height="10" colspan="3" align="left" valign="top"></td>
+        </tr>
+        <tr>
+          <td width="100" align="left" valign="top" class="content-orange">Name</td>
+          <td width="10" align="left" valign="top" class="content-orange">:</td>
+          <td width="159" align="left" valign="top" class="content"><%=h @shipping_address['lname'] %> <%=h @shipping_address['name'] %></td>
+        </tr>
+        <tr>
+          <td align="left" valign="top" class="content-orange">Address</td>
+          <td align="left" valign="top" class="content-orange">:</td>
+          <td align="left" valign="top" class="content"><%=h @shipping_address['address'] %>,<br/>
+            <%=h @shipping_address['city'] %>,
+            <%=h @shipping_address['state_name'] %>, <%=h @shipping_address['zip'] %>.<br/>
+            <%=h @shipping_address['country'] %>.</td>
+        </tr>
+        <tr>
+          <td align="left" valign="top" class="content-orange">Phone Number</td>
+          <td align="left" valign="top" class="content-orange">:</td>
+          <td align="left" valign="top" class="content"><%=h @shipping_address['phno'] %></td>
+        </tr>
+        <tr>
+          <td align="left" valign="top" class="content-orange">Email</td>
+          <td align="left" valign="top" class="content-orange">:</td>
+          <td align="left" valign="top" class="content"><%=h @shipping_address['email'] %></td>
+        </tr>
+      </table>
+    </td>
+    <td width="10" align="left" valign="top"></td>
+  </tr>
+  <tr>
+    <td height="10" colspan="3" align="left" valign="top"></td>
+  </tr>
+</table>

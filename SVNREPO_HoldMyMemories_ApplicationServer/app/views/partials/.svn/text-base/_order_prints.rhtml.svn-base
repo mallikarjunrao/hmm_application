@@ -1,0 +1,115 @@
+<style type="text/css">
+
+  .loginBig{
+    background:transparent;
+    background:url(/images/family_memory/input-big.png);
+    border:none;
+    height:35px;
+    width:140px;
+    font-size:12px;
+    color:#87a3b5;
+  }
+  .loginBig:hover{
+    background:url(/images/family_memory/input-big-ovr.png);
+  }
+</style>
+
+<table width="100%" border="0" cellspacing="0" cellpadding="0" valign="top">
+  <tr>
+    <td height="60"></td>
+  </tr>
+  <tr>
+    <td align="center"><table width="360" border="0" cellspacing="0" cellpadding="0">
+        <tr>
+          <td><img src="/images/family_memory/msg-top.png"/></td>
+        </tr>
+
+        <tr>
+          <td valign="top" style="background:url(/images/family_memory/msg-bg.png) repeat-y center center; padding:0 15px;"><table width="100%" border="0" cellspacing="0" cellpadding="0" align="center">
+              <tr>
+                <td height="35" align="center" valign="top" class="msgHead" width="100%" colspan="2" style="background:url(/images/family_memory/msg-bg.png) repeat-y center center; padding:0 15px;">Choose Any size</td>
+              </tr>
+              <tr>
+
+                <% j =  0
+                for all_data in @all_datas
+
+                  if  j==2
+                    j=0
+                    j=j+1
+                  %>
+                  </tr>
+                  <tr>
+                    <td height="25"></td>
+                  </tr>
+                  <tr>
+                  <%else
+                    j=j+1
+                  end
+                %>
+                  <td align="center"><table border="0" cellpadding="0" cellspacing="0">
+                      <%contents=Hash.new
+                      img_id=Array.new
+                      img_id.push(@first_img.id)
+                      contents['source']=img_id
+                      logger.info('contents.inspect')
+                      logger.info(contents.inspect)
+                      content=contents.to_json
+                      content.gsub("",'')%>
+                      <tr><td>
+                          <form  method="post" action="<%=@paths.content_path%>/order_prints/add_to_order_print_service?version=4">
+                            <input type="hidden" name="family_name" value="<%=params[:id]%>" />
+                            <input type="hidden" name="sizes" value="<%=@img_datas.id%>" />
+                            <input type="hidden" name="contents" value="<%=content%>" />
+                            <input type="hidden" name="user_contentid" value="<%= @first_img.id %>" />
+                            <input type="hidden" name="version" value="4" />
+                            <input type="hidden" name="size_id" value="<%=all_data['size_id']%>" />
+                            <input type="hidden" name="visitor_id" value="<%= session[:visitor_id] %>" />
+                            <input type="hidden" name="user_id" value="<%=@family_website_owner.id%>" />
+                            <input type="submit" class="loginBig" value="(<%=all_data['quantity']%>)<%if all_data['size_label'].length>17%><%=all_data['size_label'].slice(0,17)%>...<%else%><%=all_data['size_label']%><%end%>"  title="(<%=all_data['quantity']%>)<%=all_data['size_label']%>"/>
+                          </form> </td></tr>
+                      <tr><td  class="msgSmall">$<%=all_data['price']%></td></tr>
+
+                    </table>
+                  </td>
+                <%end%></tr>
+              <tr>
+                <td height="50"></td></tr>
+              <tr>
+                <td height="50" colspan="2" align="center">
+                  <div class="pop"><a href="/family_memory/edit_image/<%=params[:id]%>?moment_id=<%=params[:moment_id]%>&&text=<%=params[:text]%>" title="Edit Image"><img src="/images/family_memory/transaprent.png" class="popUp editImage" border="0"/></a>
+                  </div>
+                </td>
+              </tr>
+              <tr>
+                <td  height="50" colspan="2" align="center">
+                  <div class="pop">
+                    <% if session[:hmm_user] %>
+                    <a href="/carts/cart_list/<%=params[:id]%>?v=v4" title="View Cart"><img src="/images/family_memory/transaprent.png" class="popUp viewCart" border="0"/>
+                    </a>
+                    <% elsif session[:visitor_id]%>
+                    <a href="/visitor_cart/cart_list/<%=params[:id]%>?v=v4" title="View Cart"><img src="/images/family_memory/transaprent.png" class="popUp viewCart" border="0"/>
+                    </a>
+                    <% end %>
+                  </div>
+                </td>
+              </tr>
+              <tr>
+                <td  height="50" colspan="2" align="center">
+                  <div class="pop"><a href="/family_memory/select_gallery/<%=params[:id]%>" title="Select Different Gallery" class="nyroModal" style="text-decoration: none"><img src="/images/family_memory/transaprent.png" class="popUp diffrentGallery" border="0"/></a>
+                  </div>
+                </td>
+              </tr>
+
+            </table></td>
+        </tr>
+
+        <tr>
+          <td><img src="/images/family_memory/msg-btm.png"/></td>
+        </tr>
+      </table></td>
+  </tr>
+  <tr>
+    <td height="20" align="center" valign="top">&nbsp;</td>
+  </tr>
+</table>

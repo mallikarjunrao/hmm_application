@@ -1,0 +1,96 @@
+<form name="cuponform" action="/customers/newcupon_account" method="post">
+<table width="810" border="0">
+	<%=flash[:unid_succes]%>
+	<input type="hidden" name="certificate_id" id="certificate_id" value="<%=@certificates.id%>">
+	<input type="hidden" name="cupon_validperiod" id="cupon_validperiod" value="<%=@certificates.months%>">
+	<input type="hidden" name="acc_type" id="acc_type" value="premium">
+
+	<tr>
+		<th>
+
+				<table width="800" border="0">
+
+	<tr>
+		<td width="200">&nbsp;</td>
+		<td width="200">&nbsp;</td>
+		<td>&nbsp;</td>
+		<td width="400">&nbsp;</td>
+	</tr>
+
+	<tr>
+		<td colspan="4" align="center"><font size="3">HoldMyMemories Certificate Info</font></td>
+
+	</tr>
+	<tr>
+		<td width="200">&nbsp;</td>
+		<td>&nbsp;</td>
+		<td>&nbsp;</td>
+		<td>&nbsp;</td>
+	</tr>
+	
+	<tr>
+		<td width="200">&nbsp;</td>
+		<td>Certificate No :</td>
+		<td>&nbsp;</td>
+		<td><%=@certificates.certificate_id%></td>
+	</tr>
+        <tr>
+		<td width="200">&nbsp;</td>
+		<td>&nbsp;</td>
+		<td>&nbsp;</td>
+		<td>&nbsp;</td>
+	</tr>
+	<tr>
+		<td width="200">&nbsp;</td>
+		<td align="left">Membership Charge</td>
+		<td>&nbsp;</td>
+		<td align="left"><%=@certificates.charge%></td>
+	</tr>
+        <tr>
+		<td width="200">&nbsp;</td>
+		<td align="left">Certificate Price</td>
+		<td>&nbsp;</td>
+		<td align="left"><%=@certificates.certificate_price%></td>
+	</tr>
+         <tr>
+		<td width="200">&nbsp;</td>
+		<td align="left">Total Price</td>
+		<td>&nbsp;</td>
+		<td align="left"><%=@certificates.total_price%></td>
+	</tr>
+	<tr>
+		<td width="200">&nbsp;</td>
+		<td>&nbsp;</td>
+		<td>&nbsp;</td>
+		<td>&nbsp;</td>
+	</tr>
+	<tr>
+		<td width="200">&nbsp;</td>
+		<td align="left">Coupon Validity period</td>
+		<td>&nbsp;</td>
+		<td align="left"><%=@certificates.months%> Months</td>
+	</tr>
+	<tr>
+		<td width="200">&nbsp;</td>
+		<td>&nbsp;</td>
+		<td>&nbsp;</td>
+		<td>&nbsp;</td>
+	</tr>
+	
+	
+	</table>
+
+			</th>
+				</tr>
+	<tr>
+		<td height="5" colspan="4" align="center">
+			<% if  @certificates %>
+				<input type="submit" name="create_acc" id="create_acc" value="Create Customer Account" />
+			<%else%>
+				<font color="ff3300" size="3">The cupon has expired!! The cupon is no longer valid.</font>
+			<%end%>
+		</td>
+	</tr>
+	
+</table>
+</form>

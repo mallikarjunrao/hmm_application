@@ -1,0 +1,194 @@
+<style type = "text/css">
+  .text3{
+    font-family:Arial, Helvetica, sans-serif;
+    font-size:12px;
+    font-weight:normal;
+    color:#ffffff;
+  }
+</style>
+<script src="video.js" type="text/javascript" charset="utf-8"></script>
+
+<script type="text/javascript">
+  // Must come after the video.js library
+
+  // Add VideoJS to all video tags on the page when the DOM is ready
+  VideoJS.setupAllWhenReady();
+
+  /* ============= OR ============ */
+
+  // Setup and store a reference to the player(s).
+  // Must happen after the DOM is loaded
+  // You can use any library's DOM Ready method instead of VideoJS.DOMReady
+
+  /*
+  VideoJS.DOMReady(function(){
+
+    // Using the video's ID or element
+    var myPlayer = VideoJS.setup("example_video_1");
+
+    // OR using an array of video elements/IDs
+    // Note: It returns an array of players
+    var myManyPlayers = VideoJS.setup(["example_video_1", "example_video_2", video3Element]);
+
+    // OR all videos on the page
+    var myManyPlayers = VideoJS.setup("All");
+
+    // After you have references to your players you can...(example)
+    myPlayer.play(); // Starts playing the video for this player.
+  });
+   */
+
+  /* ========= SETTING OPTIONS ========= */
+
+  // Set options when setting up the videos. The defaults are shown here.
+
+  /*
+  VideoJS.setupAllWhenReady({
+    controlsBelow: false, // Display control bar below video instead of in front of
+    controlsHiding: true, // Hide controls when mouse is not over the video
+    defaultVolume: 0.85, // Will be overridden by user's last volume if available
+    flashVersion: 9, // Required flash version for fallback
+    linksHiding: true // Hide download links when video is supported
+  });
+   */
+
+  // Or as the second option of VideoJS.setup
+
+  /*
+  VideoJS.DOMReady(function(){
+    var myPlayer = VideoJS.setup("example_video_1", {
+      // Same options
+    });
+  });
+   */
+
+</script>
+
+<!-- Include the VideoJS Stylesheet -->
+<link rel="stylesheet" href="video-js.css" type="text/css" media="screen" title="Video JS"/>
+
+<table width="100%" height="100%"border="0" cellspacing="0" cellpadding="0" >
+  <tr><td>&nbsp;</td>
+  </tr>
+  <% @get_content_url = ContentPath.find(:first, :conditions => "status='active'") %>
+  <%if @moment_details[0].e_filetype=="video" %>
+    <% url= "#{@get_content_url.proxyname}/contests/videomoment_details?contest_id=#{params[:contest_id]}&moment_id=#{@moment_details[0].id}" %>
+    <% logo = "thats_my_baby_logo_video_new.jpg"%>
+  <%else%>
+    <% url= "#{@get_content_url.proxyname}/contests/momentdetails?contest_id=#{params[:contest_id]}&moment_id=#{@moment_details[0].id}"
+  %>
+    <% logo = "dad_photocontest.gif"%>
+    <% session[:vote_url] = url %>
+  <%end%>
+  <% myspacecnt="Vote to the contest entry in the below given link: <br> #{url}" %>
+  <tr>
+    <td align="center" valign="top">
+      <form id="myspacepostto" method="post" action="http://www.myspace.com/index.cfm?fuseaction=postto" target="_blank">
+        <input type="hidden" name="t" value="Hi friends!!" />
+        <input type="hidden" name="c" value="Please vote for this contest entry by clicking on the above given link: Thank you." />
+        <input type="hidden" name="u" value="<%=url%>" />
+        <input type="hidden" name="l" value="2" />
+        <% require "cgi" %>
+        <% logger.info(@contests_fname[0].id) %>
+        <font color="white" face="arial">Invite friends from <a href="javascript:void(0);" title="Invite your facebok friends." onClick="window.open('http://www.facebook.com/sharer.php?u=<%= CGI.escape("#{url}") %>&t=<%= CGI.escape("Brought to you by HoldMyMemories.com") %>','sharer','toolbar=0,status=0,width=626,height=436');fbs_click(<%=@contests_fname[0].id %>);"><img src="/images/common/facebookhmmlogo.jpg"  height="15" border="0"/>&nbsp;<a href="#" onClick="fbs_click_myspace(<%=@contests_fname[0].id %>);document.getElementById('myspacepostto').submit();return false;">
+              <img src="/images/myspace_icon.jpg" border="0" alt="Post to MySpace!" />
+            </a> to vote
+        </font>
+      </form>
+    </td>
+  </tr>
+  <tr><td height="25"></td>
+  </tr>
+  <tr>
+    <td align="center" valign="top">
+      <form name="myfrm" action="/contests/create_vote?entry_id=<%= params[:entry_id] %>&contest_id=<%= params[:contest_id] %>" method="post" onSubmit="if(document.getElementById('email').value == ''){alert('please enter your email id to vote!'); return false;}{var reg = /^([A-Za-z0-9_\-\.])+\@([A-Za-z0-9_\-\.])+\.([A-Za-z]{2,4})$/; var address = document.getElementById('email').value;if(reg.test(address) == false) {alert('Invalid Email Address');return false;}}">
+        <table width="100%" border="0" cellspacing="0" cellpadding="0">
+          <tr>
+            <td width="100%">
+              <table width="100%" border="0" cellspacing="0" cellpadding="0">
+                <tr>
+                  <td align="center" valign="top" class="border">
+                    <%if @moment_details[0].e_filetype=="video" %>
+                      <div class="video-js-box">
+                        <!-- Using the Video for Everybody Embed Code http://camendesign.com/code/video_for_everybody -->
+                        <video id="example_video_1" class="video-js" width="300" height="264" controls="controls" preload="auto" poster="<%= @moment_details[0].img_url %>/user_content/videos/thumbnails/<%= @moment_details[0].v_filename+'.jpg' %>">
+                          <source src="<%=@moment_details[0].img_url%>/user_content/videos/iphone/<%=@moment_details[0].v_filename%>.mp4" type='video/mp4; codecs="avc1.42E01E, mp4a.40.2"' />
+                        </video>
+                      </div>
+                    <%else%>
+                      <img  src="<%=@moment_details[0].img_url%>/user_content/photos/coverflow/<%=@moment_details[0].v_filename%>" onMouseDown="callme(this.id);" onContextMenu="return false;"/>
+                    <%end%>
+                  </td>
+                </tr>
+                <tr>
+                  <td align="center" valign="top"><font color="white" size="2" ><b><%=@contests_fname[0].first_name %></b></font></td>
+                </tr>
+              </table>
+            </td>
+          </tr>
+          <tr>
+            <td width="100%" align="center" valign="top">
+              <%for @j in @journal %>
+                <table width="100%"  cellpadding="0" cellspacing="0" >
+                  <tr>
+                    <th  colspan="2" align="left" style="padding-left:10px;">
+                      <font size="3" color="#FFFFFF"> Journal</font>
+                    </th>
+                  </tr>
+                  <tr><th  colspan="2">&nbsp;</th>
+                  </tr>
+                  <tr>
+                    <th width="3%" >&nbsp;&nbsp;</th>
+                    <th align="left" class="text3" rowspan="1">
+                      <span>
+                        <b> <%= @j.title %> -
+                          <% ActiveSupport::CoreExtensions::Time::Conversions::DATE_FORMATS.merge!(
+                            :date => "%Y-%m-%d",
+                            :presentable_datetime => "%a %b %d, %Y %H:%M",
+                            :presentable_date => "%a %b %d, %Y")
+                          @created_date=@j.added_date%>
+                          <%= @created_date.to_s(:presentable_date) %></b>
+                      </span>
+                    </th>
+                  </tr>
+                  <tr><th  colspan="2">&nbsp;</th>
+                  </tr>
+                  <tr>
+                    <th valign="top">&nbsp;&nbsp;</th>
+                    <th align="left" valign="top" class="text3">
+                      <%=@j.description.gsub("\n", "<br />\n") %>
+                    </th>
+                  </tr>
+                </table>
+              <%end%>
+            </td>
+          </tr>
+          <tr>
+            <td width="10">&nbsp;</td>
+          </tr>
+          <tr>
+            <td  align="center" valign="middle">
+              <font color="#ffffff" size="3">Please enter Email address to vote</font></td>
+          </tr><tr>
+            <td align="center">
+              <input type="text" name="email" id="email" />
+              <input type="hidden" name="mom_id" id="mom_id" value="<%= @mom_id %>"/>
+            </td>
+          </tr>
+          <tr>
+          <table align="center">
+            <tbody><tr>
+                <td height="12" align="center" valign="top" scope="col" class="signedtxtwhite" colspan="3" style="color:#ffffff">
+                  <input type="submit" id="regsubmit" class="whiteButton" value="Vote" style="cursor:pointer;"/>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+          </tr>
+        </table>
+      </form>
+    </td>
+  </tr>
+  <tr>
+  </tr>
+</table>

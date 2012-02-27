@@ -1,0 +1,227 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>HoldMyMemories</title>
+    <script language="javascript" type="text/javascript" src="/javascripts/themes/nyromodal/jquery-1.3.2.min.js"></script>
+    <link href="/webpage/css/style.css" rel="stylesheet" type="text/css" />
+    <meta name="title" content="Brought to you by HoldMyMemories.com" />
+    <meta name="description" content="HoldMyMemories.com: A world class photo studio located in Houston, Texas offering contemporary portrait photography and Videography services for Family, Children, Maternity, Newborn, Wedding, Matrimonial, Glamour, Fashion, Model and Outdoor Events." />
+    <meta name="keywords" content="photography studio, commercial photography studio, digital photography studio, family portrait studio, photographer Houston, Texas, professional photographer, photo studio Houston Texas, family photography, baby photography, glamour photography, maternity photography, wedding photography Houston Texas, special events photography" />
+    <link rel="SHORTCUT ICON" href="/images/common/favicon.ico" type="image/x-icon" />
+    <link href="/webpage/css/style.css" rel="stylesheet" type="text/css" />
+    <link href="/stylesheets/main.css" media="screen" rel="Stylesheet" type="text/css" />
+    <link href="/stylesheets/hmm.css" media="screen" rel="Stylesheet" type="text/css" />
+<%#= stylesheet_link_tag 'hmmout' %>
+    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.5.0/jquery.min.js"></script>
+    <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.3.2/jquery.min.js"></script>
+  </head>
+
+  <script type="text/javascript">
+    fullurl=document.URL;
+    url=fullurl.split("/");
+    for(i=0;i<=url.length;i++)
+    {
+      if(url[i])
+      {
+        url[i]=url[i].toUpperCase();
+        if((url[i].indexOf("%3CSCRIPT%3E") >= 0) || (url[i].indexOf("%3C/SCRIPT%3E") >= 0) || (url[i].indexOf("%3C/SCRIP%3E") >= 0) || (url[i].indexOf("%3CSCRIP") >= 0) ||(url[i].indexOf("JAVASCRIPT:ALERT") >= 0))
+        {
+          window.location="/contests/error_page"
+        }
+      }
+    }
+  </script>
+  <script type="text/javascript">
+    function fbs_click(id) {
+
+      new Ajax.Request("/contests/create_sharecount/"+id+"?from=facebook");
+
+      return false;
+    }
+    function fbs_click_myspace(id)
+    {
+
+      new Ajax.Request("/contests/create_sharecount/"+id+"?from=myspace");
+      return false;
+    }
+  </script>
+  <script type="text/javascript">
+    <!--
+    function MM_preloadImages() { //v3.0
+      var d=document; if(d.images){ if(!d.MM_p) d.MM_p=new Array();
+        var i,j=d.MM_p.length,a=MM_preloadImages.arguments; for(i=0; i<a.length; i++)
+          if (a[i].indexOf("#")!=0){ d.MM_p[j]=new Image; d.MM_p[j++].src=a[i];}}
+      }
+      //-->
+      function check_side_bar()
+      {
+        if(<%= params[:controller] == "pages" %>)
+        {
+          document.getElementById("side_msg").style.display = "block";
+        }
+        else document.getElementById("side_msg").style.display = "none";
+      }
+
+      window.onload = check_side_bar();
+  </script>
+
+  <style type="text/css">
+    .cmd-btn {
+      font-family:Verdana, Arial, Helvetica, sans-serif;
+      font-size:12px;
+      font-weight:bold;
+      color:#c3c3c3;
+      background-image:url(/new_images/cmd-btn.gif);
+      background-repeat:repeat-x;
+      height:21px;
+      padding:0px 15px 0px 15px;
+      border: 1px solid #635e59;
+    }
+    .current{
+      font-family:Arial, Helvetica, sans-serif;
+      font-size:12px;
+      color:#ff6100;
+      font-weight:bold;
+      text-decoration:none;
+    }
+    .content-trans-bg {
+      background-image: url("/images/themes/love_maroon/cont-trans-bg.png");
+      background-repeat: repeat;
+      border: 0px solid #202020;
+      behavior: url(/PIE.htc);
+      border-radius: 25px;
+      -moz-border-radius: 25px; -ms-border-radius:25px; -o-border-radius: 25px; -khtml-border-radius: 25px;
+    }
+
+    .content-trans-box {
+      background-image: url("/images/themes/love_maroon/cont-trans-bg.png");
+      background-repeat: repeat;
+      border: 0px solid #202020;
+      behavior: url(/PIE.htc);
+      border-radius: 10px;
+      -moz-border-radius: 10px; -ms-border-radius:10px; -o-border-radius: 10px; -khtml-border-radius: 10px;
+    }
+
+    th {
+      color: #000000;
+      font-family: Arial;
+      font-size: 12px;
+    }
+  </style>
+
+  <%if @contest_image %>
+    <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+    <meta name="title" content="<%=@contest_title%>" />
+    <meta name="description" content="<%=@contest_description%>" />
+    <link rel="image_src" href="<%= @contest_image %>" />
+  <%end%>
+  <% bckgrd_for = ["app_features", "search_studio", "social_media_features", "find_studio", "index", "search_your_memories", "joinus_iphone","press","login", "forgot_password_new"]%>
+  <body>
+    <div id="slideshow">
+      <img src="/webpage/imgs_new/body-img.jpg" />
+    </div>
+    <div id="maincontent">
+      <table width="1000" border="0" align="center" cellpadding="0" cellspacing="0" >
+        <tr>
+          <td width="1000">
+            <table border="0" cellspacing="0" cellpadding="0" width="1000">
+              <tr>
+                <td valign="center" width="215" align="left" style="padding-left: 10px;">
+                  <a href="/pages/index">
+                    <img src="/webpage/imgs_new/home-icon-new.png" border="0"/></a>
+                </td>
+                <td align="center">
+                  <a href="/"><img src="/webpage/imgs_new/hmm-logo.png" height="67" width="250" border="0"/></a>
+                </td>
+                <td class="TopMenu" align="right" width="215">
+                  <a href="/pages/authorise">Register</a>
+                  <span><a href="/user_account/login">Log In</a></span>
+                </td>
+              </tr>
+            </table>
+          </td>
+        </tr>
+        <tr>
+          <td <% if bckgrd_for.include?(params[:action]) %> height="200"<% else %> height="30" <% end %> colspan="3">
+          </td>
+        </tr>
+      </table>
+      <table width="1000" border="0" align="center" cellpadding="0" cellspacing="0">
+        <tr>
+          <td width="100%" valign="top">
+            <table width="100%" border="0" cellspacing="0" cellpadding="0">
+              <tr>
+<<<<<<< .mine
+                <% bckgrd_for = ["app_features", "search_studio", "social_media_features", "find_studio", "index", "search_your_memories", "joinus_iphone","press","login", "forgot_password_new"]%>
+                <td <% if bckgrd_for.include?(params[:action]) %> <% else %>class="content-trans-bg" style="padding: 40px;"<% end %> width="500" align="center">
+=======
+                <td <% if bckgrd_for.include?(params[:action]) %> align="right" <% else %>class="content-trans-bg" style="padding: 40px;" align="center"<% end %> width="100%">
+>>>>>>> .r36910
+                  <!-- Slideshow HTML -->
+                  <%= yield %>
+                  <!-- Slideshow HTML -->
+                </td>
+              </tr>
+            </table>
+          </td>
+          <td id="side_msg" width="200px" align="right" valign="top" <% if bckgrd_for.include?(params[:action]) %> style="padding-top: 30px; padding-left: 40px;" <% else %> style="padding-top: 200px; padding-left: 20px;" <% end %> >
+            <table width="200" border="0" cellspacing="0" cellpadding="0">
+              <tr>
+                <td align="left" class="cont">...because some memories I want to hold for my family, not post for my friends.</td>
+              </tr>
+              <tr>
+                <td height="60" align="left" valign="middle" class="reg">Register Today!</td>
+              </tr>
+              <tr>
+                <td height="4" class="brd"></td>
+              </tr>
+              <tr>
+                <td align="left" class="disC">
+                  <a href="/pages/index">Why HoldMyMemories?</a>
+                  <a href="/pages/find_studio">Find a Studio</a><br/>
+                  <a href="/pages/search_your_memories">Search Your Memories</a>
+                  <a href="/pages/social_media_features" >Social Media Features</a>
+                  <a href="/pages/app_features" >iPhone App Features</a>
+                  <a href="/contests/select_contest">Contests</a><br />
+                  <a href="/pages/search_studio">Find a HMM Studio</a></td>
+              </tr>
+              <tr>
+                <td height="255" class="disC">&nbsp;</td>
+              </tr>
+            </table>
+          </td>
+        </tr>
+        <tr>
+          <td height="30" colspan="3">
+          </td>
+        </tr>
+      </table>
+      <table width="1125" border="0" align="center" cellpadding="0" cellspacing="0" >
+        <tr>
+          <%= render :partial => "partials/new_footer"%>
+        </tr>
+      </table>
+    </div>
+    <script type="text/javascript">
+        var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+        document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+    </script>
+    <script type="text/javascript">
+        var pageTracker = _gat._getTracker("UA-5209348-1");
+        pageTracker._trackPageview();
+
+    </script>
+    <script type="text/javascript">
+        function check_side_bar()
+        {
+          if(<%= params[:controller] == "pages" %>)
+          {
+            document.getElementById("side_msg").style.display = "block";
+          }
+          else document.getElementById("side_msg").style.display = "none";
+        }
+        window.onload = check_side_bar();
+    </script>
+  </body>
+</html>

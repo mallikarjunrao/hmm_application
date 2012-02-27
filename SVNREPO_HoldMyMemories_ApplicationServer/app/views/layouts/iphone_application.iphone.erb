@@ -1,0 +1,156 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
+  <head>
+    <meta name="viewport" content="width=device-width; initial-scale=1.0; maximum-scale=1.0; user-scalable=0;"/>
+    <link rel="icon" type="image/png" href="/iui/iui-favicon.png" />
+    <link rel="apple-touch-icon" href="/iui/iui-logo-touch-icon.png" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <link rel="stylesheet" href="/iui/iui.css" type="text/css" />
+    <link rel="stylesheet" href="/iui/t/default/default-theme.css" type="text/css" />
+    <%= javascript_include_tag :defaults%>
+    <title>Hold My Memories</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+    <meta name="title" content="Brought to you by HoldMyMemories.com" />
+    <link rel="SHORTCUT ICON" href="/images/common/favicon.ico" type="image/x-icon" />
+<%#*<link href="/stylesheets/main.css" media="screen" rel="Stylesheet" type="text/css" />%>
+<%#*<link href="/stylesheets/hmm.css" media="screen" rel="Stylesheet" type="text/css" />%>
+    <%= stylesheet_link_tag 'hmmout' %>
+    <link href="/hmm.css" rel="stylesheet" type="text/css" />
+
+
+    <script type="text/javascript"  src="">
+      currentWidth = 0;
+      window.setInterval( 'checkMyOrientation()', 200 );
+
+      function checkMyOrientation() {
+        if (window.innerWidth != currentWidth) {
+          currentWidth = window.innerWidth;
+          var myOrientation = (currentWidth == 320) ? "upright" : "landscape";
+          document.body.setAttribute("orientation", myOrientation);
+        }
+      };
+
+
+      fullurl=document.URL;
+      url=fullurl.split("/");
+
+      for(i=0;i<=url.length;i++)
+      {
+        if(url[i])
+        {
+          url[i]=url[i].toUpperCase();
+          if((url[i].indexOf("%3CSCRIPT%3E") >= 0) || (url[i].indexOf("%3C/SCRIPT%3E") >= 0) || (url[i].indexOf("%3C/SCRIP%3E") >= 0) || (url[i].indexOf("%3CSCRIP") >= 0) ||(url[i].indexOf("JAVASCRIPT:ALERT") >= 0))
+          {
+            window.location="/contests/error_page"
+          }
+        }
+      }
+      function fbs_click(id) {
+
+        new Ajax.Request("/contests/create_sharecount/"+id+"?from=facebook");
+
+        return false;
+      }
+      function fbs_click_myspace(id)
+      {
+
+        new Ajax.Request("/contests/create_sharecount/"+id+"?from=myspace");
+        return false;
+      }
+
+      <!--
+      function MM_preloadImages() { //v3.0
+        var d=document; if(d.images){ if(!d.MM_p) d.MM_p=new Array();
+          var i,j=d.MM_p.length,a=MM_preloadImages.arguments; for(i=0; i<a.length; i++)
+            if (a[i].indexOf("#")!=0){ d.MM_p[j]=new Image; d.MM_p[j++].src=a[i];}}
+        }
+        //-->
+    </script>
+    <script type="text/javascript" src="/js/swfobject.js"></script>
+    <style type="text/css">
+      body[orientation="upright"]
+      body { background: url("/iui/Background_v2.jpg") repeat scroll 0 0 #C8C8C8;}
+      .cmd-btn {
+        font-family:Verdana, Arial, Helvetica, sans-serif;
+        font-size:12px;
+        font-weight:bold;
+        color:#c3c3c3;
+        background-image:url(/new_images/cmd-btn.gif);
+        background-repeat:repeat-x;
+        height:21px;
+        padding:0px 15px 0px 15px;
+        border: 1px solid #635e59;
+      }
+      .current{
+        font-family:Arial, Helvetica, sans-serif;
+        font-size:12px;
+        color:#ff6100;
+        font-weight:bold;
+        text-decoration:none;
+      }
+      body > .toolbar {
+        background: url("toolbar.png") repeat-x scroll 1 0 #6D84A2;
+      }
+      body > .toolbar {
+        -moz-box-sizing: border-box;
+        border-bottom: 0px solid #2D3642;
+        border-top: 0px solid #6D84A2;
+        height: 45px;
+        padding: 0 10px 10px;
+
+      }
+      .sub-btn {
+        background: url("/iui/def.png") no-repeat;
+        border: thin none;
+        color: #FFFFFF;
+        cursor: pointer;
+        font-size: 25px;
+        font-weight: lighter;
+        height: 345%;
+        width: 118%;
+      }
+      .sub-btn:hover{
+        background-image: url(/iui/ovr.png);
+      }
+      .whiteButton{
+        border-width: 0 12px;
+        color: #FFFFFF;
+        display: block;
+        font-size: 20px;
+        font-weight: bold;
+        padding: 10px;
+        text-align: center;
+        text-decoration: inherit;
+      }
+    </style>
+
+    <%if @contest_image %>
+      <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+      <meta name="title" content="<%=@contest_title%>" />
+      <meta name="description" content="<%=@contest_description%>" />
+      <link rel="image_src" href="<%= @contest_image %>" />
+    <%end%>
+
+  </head>
+  <body style="background:url(/iui/backround-img-ff.png) #071926 no-repeat top left;">
+    <div class="toolbar">
+      <table align="center" width="80%">
+        <tr>
+          <td height="12" align="center" valign="top" class="signedtxtwhite">
+            <a href="/contests/select_contest"><img src="/images/themes/red_swirls/banner-brought-you-by-logo-white.png" border="0" style="cursor:pointer;"/></a>
+          </td>
+        </tr>
+      </table>
+    </div>
+    <ul id="home" selected="true">
+      <div class="toolbar" align="center">
+        <table><tr>
+            <td height="40">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
+          </tr>
+        </table>
+      </div>
+      <%= yield %>
+    </ul>
+
+  </body>
+</html>

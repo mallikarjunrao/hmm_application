@@ -1,0 +1,16 @@
+<table width="102%" height="555" border="0" align="center" cellpadding="2" cellspacing="2" bgcolor="#666666">
+          <tbody><tr bgcolor="#000000">
+            <td width="944"  align="center" valign="middle" class="cont"><br />
+              <% if(params[:m]=='size')
+				 @val='Size'
+                 else
+                 @val='Item'
+                 end	
+            	%>		          
+              <p align="center"><strong><br><font color="#FF0000">
+              <%=@val%> Deleted Successfully
+              </font></strong></p>
+			  <p align="center"><a href="<%=session[:size_link]%>">Go Back</a></p>
+  </td>
+          </tr>
+  </tbody></table>

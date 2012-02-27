@@ -1,0 +1,281 @@
+<div id="nonfnf_del">
+<table width="100%" border="0"  align="center">
+	<tr>
+		<td width="" valign="top">&nbsp;</td>
+		<td width="" valign="top">&nbsp;</td>
+		<td width="" valign="top">&nbsp;</td>
+		<td width="" valign="top">&nbsp;</td>
+		<td width="" valign="top">&nbsp;</td>
+		<td width="" valign="top">&nbsp;</td>
+		<td width="" valign="top">&nbsp;</td>
+		<td width="" valign="top">&nbsp;</td>
+		<td width="" valign="top">&nbsp;</td>
+		<td width="" valign="top" rowspan="10">
+    	 
+	</td>
+</tr>
+<tr>
+	<% j=0	
+	   if @total == 0 
+    %>
+		<td colspan="10" valign="top"><p>No Records Found...</p></td></tr>
+	 
+	 <%else%>
+	 <tr>
+	 	
+		
+		
+			</tr><tr><tr>
+	<td width="" valign="top">&nbsp;</td>
+	<td width="" valign="top">&nbsp;</td>
+	<td width="" valign="top">&nbsp;</td>
+	<td width="" valign="top">&nbsp;</td>
+	<td width="" valign="top">&nbsp;</td>
+	<td width="" valign="top">&nbsp;</td>
+	<td width="" valign="top">&nbsp;</td>
+	<td width="" valign="top">&nbsp;</td>
+	<td width="" valign="top">&nbsp;</td>
+	</tr><tr>
+		
+		
+		<td valign="top">
+			
+				<table  border="1" cellpadding="0" cellspacing="0" align="left"  >
+					<tr bgcolor="#990000">
+	<td width="" valign="top">User Id</td>
+	<td width="" valign="top">&nbsp;</td>
+	<td width="" valign="top">username</td>
+	<td width="" valign="top">&nbsp;</td>
+	<td width="" valign="top">Email Id</td>
+	<td width="" valign="top">&nbsp;</td>
+	<td width="" valign="top">Setup Date</td>
+	<td width="" valign="top">&nbsp;</td>
+	<td width="" valign="top">Last Login</td>
+	<td width="" valign="top">&nbsp;</td>
+	<td width="" valign="top">Number Of Friends</td>
+	<td width="" valign="top">&nbsp;</td>
+	<td width="" valign="top">Number Of Logins</td>
+	<td width="" valign="top">&nbsp;</td>
+	<td width="" valign="top">Number Of Ip Addresses</td>
+	<td width="" valign="top">&nbsp;</td>
+	<td width="" valign="top">Number Of image Views</td>
+	<td width="" valign="top">&nbsp;</td>
+	<td width="" valign="top">Number Of video Views</td>
+	<td width="" valign="top">&nbsp;</td>
+	<td width="" valign="top">Number Of audio listenes</td>
+	<td width="" valign="top">&nbsp;</td>
+	<td width="" valign="top">Number Of chapters</td>
+	<td width="" valign="top">&nbsp;</td>
+	<td width="" valign="top">Number Of subchapters</td>
+	<td width="" valign="top">&nbsp;</td>
+	<td width="" valign="top">Number Of galleries</td>
+	<td width="" valign="top">&nbsp;</td>
+	<td width="" valign="top">Number Of images</td>
+	<td width="" valign="top">&nbsp;</td>
+	<td width="" valign="top">Number Of movies</td>
+	<td width="" valign="top">&nbsp;</td>
+	<td width="" valign="top">Number Of audios</td>
+	<td width="" valign="top">&nbsp;</td>
+	<td width="" valign="top">Number Of shares</td>
+	<td width="" valign="top">&nbsp;</td>
+	<td width="" valign="top">Number Of journal entires</td>
+	<td width="" valign="top">&nbsp;</td>
+	<td width="" valign="top">Number Of exported moments</td>
+	<td width="" valign="top">&nbsp;</td>
+	<td width="" valign="top">Origin</td>
+	<td width="" valign="top">&nbsp;</td>
+	<td width="" valign="top">Referrals</td>
+	<td width="" valign="top">&nbsp;</td>
+	
+	
+	
+	
+	</tr>
+
+						
+						<% @hmm_users.each do |i|%>	
+						
+						<% 
+						   #get last ip address
+							@user_sessions_last_login = UserSessions.find(:all,:conditions=>"uid=#{i.id}", :limit =>"0,1", :order => "id desc" )
+							#get number of friends
+							 @fnf_friend_count = FamilyFriend.count(:all, :conditions =>"uid=#{i.id}")
+   							#get number of logins
+							 @login_count = UserSessions.count(:all, :conditions =>"uid=#{i.id}")
+   							#get number of IP-addresses 
+							@login_distinct_ip = UserSessions.count(:all, :select => "distinct(i_ip_add)", :conditions =>"uid=#{i.id}")
+						   	#get number of images count
+							@image_view_count=UserContent.find(:all,:select =>"sum(views) as v", :conditions => "uid=#{i.id} and e_filetype='image' " )
+							#get number of images count
+							@video_view_count=UserContent.find(:all,:select =>"sum(views) as v", :conditions => "uid=#{i.id} and e_filetype='video' and e_filetype='swf'  " )
+							#get number of images count
+							@audio_view_count=UserContent.find(:all,:select =>"sum(views) as v", :conditions => "uid=#{i.id} and e_filetype='audio' " )
+							#get number of chapters
+							@tags_count = Tag.count(:all,  :conditions =>"uid=#{i.id} ")
+							#get number of subchapters
+							@sub_count = SubChapter.count(:all, :conditions =>"uid=#{i.id}")
+							#get number of galleries
+							@gal_count = Galleries.count(:all, :joins => "as a, sub_chapters as b", :conditions =>"b.uid=#{i.id} and a.subchapter_id=b.id")
+							#get number of images
+							@image_count = UserContent.count(:all, :conditions =>"uid=#{i.id} and e_filetype='image'")
+							#get number of videos
+							@video_count = UserContent.count(:all, :conditions =>"uid=#{i.id} and e_filetype='video' and e_filetype='swf' ")
+							#get number of audios
+							@audio_count = UserContent.count(:all, :conditions =>"uid=#{i.id}  and e_filetype='audio' ")
+							#get number of shares
+							@share1_count = Share.count(:all, :conditions =>"presenter_id=#{i.id}  ")
+							#get number of shares journals
+							@share2_count = ShareJournal.count(:all, :conditions =>"presenter_id=#{i.id}  ")
+							#get number of shares moments
+							@share3_count = ShareMoment.count(:all, :conditions =>"presenter_id=#{i.id}  ")
+							
+							@total_share_count=Integer(@share1_count)+Integer(@share2_count)+Integer(@share3_count)	
+							
+							#get number of chapter journals
+							@chapjournal_count = ChapterJournal.count(:all, :joins => "as a, tags as b", :conditions =>"b.uid=#{i.id} and a.tag_id=b.id  ")
+							#get number of subchapter journals
+							@subchapjournal_count = SubChapJournal.count(:all, :joins => "as a, sub_chapters as b", :conditions =>"b.uid=#{i.id} and a.sub_chap_id=b.id  ")
+							#get number of subchapter journals
+							@galleryjournal_count = GalleryJournal.count(:all, :joins => "as a, galleries as b, sub_chapters as c", :conditions =>"c.uid=#{i.id} and b.subchapter_id=c.id and a.galerry_id=b.id  ")
+							#get number of subchapter journals
+							@momentjournal_count = JournalsPhoto.count(:all, :joins => "as a, user_contents as b", :conditions =>"b.uid=#{i.id} and a.user_content_id=b.id  ")
+							@total_journal_count=Integer(@chapjournal_count)+Integer(@subchapjournal_count)+Integer(@galleryjournal_count)+Integer(@momentjournal_count)
+   							
+							#get number of exports
+							@export_count = Export.count(:all, :conditions =>"exported_from=#{i.id}")
+							
+							pass=HmmUser.find(:all,:conditions => "id=#{i.id}")
+						%>
+						
+			       			<tr>
+			       				<th align="center" valign="       				<a href='/customers/profile/<%= i.id %>' class="name-friendsandfamily" >
+			          					<%= i.id %>
+									</a>
+								</th>
+								<th align="center" valign="top"  scope="col">
+			          		&nbsp;&nbsp;&nbsp;	</th>
+								<th align="center" valign="top"  scope="col">
+			          			<a  href="/user_account/authenticate/?id=1&hmm_user[v_user_name]=<%=i.v_user_name%>&hmm_user[v_password]=<%=pass[0]['v_password']%>" target="_blank">
+			          						<%= i.v_fname %>&nbsp;<%= i.v_lname %>
+									</a>
+								</th>
+								<th align="center" valign="top"  scope="col">
+			          		&nbsp;&nbsp;&nbsp;	</th>
+								<th align="center" valign="top"  scope="col">
+			          					<%= i.v_e_mail %>
+								</th>
+								<th align="center" valign="top"  scope="col">
+			          		&nbsp;&nbsp;&nbsp;	</th>
+			          			<th align="center" valign="top"  scope="col">
+			          					<%= i.d_created_date %>
+								</th>
+								<th align="center" valign="top"  scope="col">
+			          			&nbsp;&nbsp;&nbsp;	</th>
+			        			
+			          			<th align="center" valign="top"  scope="col">
+			          					<%@user_sessions_last_login.each do |session_last|	%>
+										<%= session_last.d_date_time%>
+										<%end%>
+								</th>
+							
+								<th align="center" valign="top"  scope="col">
+			          		&nbsp;&nbsp;&nbsp;	</th>	
+			          			<th align="center" valign="top"  scope="col">
+			          					<%= @fnf_friend_count %>
+								</th>
+								<th align="center" valign="top"  scope="col">
+			          		&nbsp;&nbsp;&nbsp;	</th>	<th align="center" valign="top"  scope="col">
+			          					<%= @login_count %>
+								</th>
+								<th align="center" valign="top"  scope="col">
+			          		&nbsp;&nbsp;&nbsp;	</th>
+								<th align="center" valign="top"  scope="col">
+			          					<%= @login_distinct_ip %>
+								</th>
+								<th align="center" valign="top"  scope="col">
+			          		&nbsp;&nbsp;&nbsp;	</th>		<th align="center" valign="top"  scope="col">
+			          					<%=@image_view_count[0]['v']%>
+								</th>
+								<th align="center" valign="top"  scope="col">
+			          		&nbsp;&nbsp;&nbsp;	</th>		<th align="center" valign="top"  scope="col">
+			          					<%if @video_view_count[0]['v']==0 %><%else%>0<%=@video_view_count[0]['v']%><%end%>
+								</th>
+								<th align="center" valign="top"  scope="col">
+			          		&nbsp;&nbsp;&nbsp;	</th>		<th align="center" valign="top"  scope="col">
+			          					0<%=@audio_view_count[0]['v']%>
+								</th>
+								<th align="center" valign="top"  scope="col">
+			          		&nbsp;&nbsp;&nbsp;	</th>	<th align="center" valign="top"  scope="col">
+			          					<%=@tags_count%>
+								</th>
+								<th align="center" valign="top"  scope="col">
+			          	&nbsp;&nbsp;&nbsp;	</th>		<th align="center" valign="top"  scope="col">
+			          					<%=@sub_count%>
+								</th>
+								<th align="center" valign="top"  scope="col">
+			          	&nbsp;&nbsp;&nbsp;	</th>		<th align="center" valign="top"  scope="col">
+			          					<%=@gal_count%>
+								</th>
+								<th align="center" valign="top"  scope="col">
+			          		&nbsp;&nbsp;&nbsp;	</th>	<th align="center" valign="top"  scope="col">
+			          					<%=@image_count%>
+								</th>
+								<th align="center" valign="top"  scope="col">
+			          		&nbsp;&nbsp;&nbsp;	</th>	<th align="center" valign="top"  scope="col">
+			          					<%=@video_count%>
+								</th>
+								<th align="center" valign="top"  scope="col">
+			          		&nbsp;&nbsp;&nbsp;	</th>	<th align="center" valign="top"  scope="col">
+			          					<%=@audio_count%>
+								</th>
+								<th align="center" valign="top"  scope="col">
+			          		&nbsp;&nbsp;&nbsp;	</th>		<th align="center" valign="top"  scope="col">
+			          		
+					 					<%=@total_share_count%> 
+								</th>
+								
+								<th align="center" valign="top"  scope="col">
+			          		&nbsp;&nbsp;&nbsp;	</th>			<th align="center" valign="top"  scope="col">
+			          		
+					 					<%=@total_journal_count%> 
+								</th>
+								<th align="center" valign="top"  scope="col">
+			          		&nbsp;&nbsp;&nbsp;	</th>			<th align="center" valign="top"  scope="col">
+			          		
+					 					<%=@export_count%> 
+								</th>
+								<th align="center" valign="top"  scope="col">
+			          		&nbsp;&nbsp;&nbsp;	</th>				<th align="center" valign="top"  scope="col">
+			          		
+					 					<%=i.v_country%> 
+								</th>
+								<th align="center" valign="top"  scope="col">
+			          		&nbsp;&nbsp;&nbsp;	</th>				<th align="center" valign="top"  scope="col">
+			          		
+										NIL
+								</th>
+								<th align="center" valign="top"  scope="col">
+			          		&nbsp;&nbsp;&nbsp;	</th>
+							</tr>
+							<%end%>
+			
+				</table>   	
+			
+		</td>
+		<td></td>
+		
+				
+		
+	    <%end%>	
+</tr>
+</table>
+<table>
+	<tr>
+		<th align="left">
+			<% if @hmm_users_pages.page_count > 1 %>
+			Page&nbsp;: <%= pagination_links_remote_statistic @hmm_users_pages %>&nbsp;
+											<% end %>							
+		</th>
+	</tr>
+</table>
+</div>

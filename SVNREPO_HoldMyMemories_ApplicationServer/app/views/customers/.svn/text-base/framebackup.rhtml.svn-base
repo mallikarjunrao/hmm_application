@@ -1,0 +1,61 @@
+<form name="frm" action="../frame1" method="post">
+
+<table>
+<h1><font color=#000000>Add Your Comments</font></h1>
+<tr>
+	<td>
+		<tr>
+		<font color=#000000 size='2'><b>Add Comment </b></font>
+		</tr>
+		<tr>
+		<%= text_area 'commentss', 'v_comment', :rows =>"5", :cols=>"40"%>
+		</tr>
+	</td>
+</tr>
+<tr>
+	<td>
+		<tr>
+			<font color=#000000 size='2'><b>Name</b></font>
+		</tr>
+		<%= text_field  "comments", "v_name" %>
+	</td>
+</tr>
+
+<tr>
+	<td>
+		<tr>
+			<font color=#000000 size='2'><b>E-mail</b></font>
+		</tr>
+		<%= text_field  "commentss", "v_email" %>
+	</td>
+</tr>
+
+<tr>
+	<tr>
+		<font color=#000000 size='2'><b>Do You Have An Hold My Memories Account</b></font>
+	</tr>
+	<%= radio_button 'commentss', 'e_acc_verify', 'Yes', :onclick => 'chg123(this.value)'  %>Yes
+	<%= radio_button 'commentss', 'e_acc_verify', 'No', :checked => 'checked', :onclick => 'chg123(this.value)' %>No
+	
+	
+</tr>		 
+	
+
+
+<tr  align="left">
+	
+	<td>
+		<div id='userid' style='display:none;'><font color=#000000 size='2'><b>User Name</b></font><br>
+		<%= text_field  "commentss", "v_user_name" %></div></label>
+	</td>
+</tr>
+
+	<tr>
+		&nbsp;&nbsp;&nbsp;&nbsp;
+	</tr>
+	<tr>
+		<center> <%= submit_tag "Submit" %></center>
+	</tr>
+</table>
+</form>
+

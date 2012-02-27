@@ -1,0 +1,262 @@
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+<title>Hold My Memories</title>
+<%= stylesheet_link_tag 'hmmout' %>
+<%= javascript_include_tag 'prototype' %>
+<%= javascript_include_tag 'SpryAssets/SpryValidationTextField' %>
+<%= stylesheet_link_tag 'SpryAssets/SpryValidationTextField' %>
+
+
+<script type="text/javascript">
+  fullurl=document.URL;
+  url=fullurl.split("/");
+  for(i=0;i<=url.length;i++)
+  {
+
+    if(url[i])
+    {
+      url[i]=url[i].toUpperCase();
+      if((url[i].indexOf("%3CSCRIPT%3E") >= 0) || (url[i].indexOf("%3C/SCRIPT%3E") >= 0) || (url[i].indexOf("%3C/SCRIP%3E") >= 0) || (url[i].indexOf("%3CSCRIP") >= 0) ||(url[i].indexOf("JAVASCRIPT:ALERT") >= 0))
+      {
+        window.location="/contests/error_page"
+      }
+    }
+  }
+</script>
+<script type="text/javascript">
+<!--
+function MM_findObj(n, d) { //v4.01
+  var p,i,x;  if(!d) d=document; if((p=n.indexOf("?"))>0&&parent.frames.length) {
+    d=parent.frames[n.substring(p+1)].document; n=n.substring(0,p);}
+  if(!(x=d[n])&&d.all) x=d.all[n]; for (i=0;!x&&i<d.forms.length;i++) x=d.forms[i][n];
+  for(i=0;!x&&d.layers&&i<d.layers.length;i++) x=MM_findObj(n,d.layers[i].document);
+  if(!x && d.getElementById) x=d.getElementById(n); return x;
+}
+function MM_swapImgRestore() { //v3.0
+  var i,x,a=document.MM_sr; for(i=0;a&&i<a.length&&(x=a[i])&&x.oSrc;i++) x.src=x.oSrc;
+}
+function MM_preloadImages() { //v3.0
+  var d=document; if(d.images){ if(!d.MM_p) d.MM_p=new Array();
+    var i,j=d.MM_p.length,a=MM_preloadImages.arguments; for(i=0; i<a.length; i++)
+    if (a[i].indexOf("#")!=0){ d.MM_p[j]=new Image; d.MM_p[j++].src=a[i];}}
+}
+
+function MM_swapImage() { //v3.0
+  var i,j=0,x,a=MM_swapImage.arguments; document.MM_sr=new Array; for(i=0;i<(a.length-2);i+=3)
+   if ((x=MM_findObj(a[i]))!=null){document.MM_sr[j++]=x; if(!x.oSrc) x.oSrc=x.src; x.src=a[i+2];}
+}
+//-->
+</script>
+<link rel='SHORTCUT ICON' href='/images/HMM-icon.ico'/>
+</head>
+<%
+	puts request.request_uri
+
+				@m=request.request_uri.split('/')
+
+				@path=@m[2];
+
+
+
+%>
+<body class="bodytag" onload="MM_preloadImages('/images/home_btn_ovr.jpg','/images/biographi_btn_ovr.jpg','/images/news_jour_btn_ovr.jpg','/images/message_board_btn_ovr.jpg','/images/calender_btn_ovr.jpg','/images/contact_btn_ovr.jpg')">
+
+<table width="100%" border="0" cellspacing="0" cellpadding="0">
+  <tr>
+    <td height="7" align="center" valign="top"></td>
+  </tr>
+  <tr>
+    <td height="37" align="left" valign="top" class="menu_top_bg"></td>
+  </tr>
+  <tr>
+    <td height="5" align="left" valign="top"></td>
+  </tr>
+  <tr>
+    <td align="center" valign="top"><table width="100%" border="0" cellspacing="0" cellpadding="0">
+      <tr>
+        <td align="left" valign="top" id="body_left_bg"><img src="/images/transe.jpg" width="1" height="1" /></td>
+        <td width="901" align="left" valign="top"><table width="901" border="0" cellspacing="0" cellpadding="0">
+          <tr>
+            <td align="left" valign="top"><table width="100%" border="0" cellspacing="0" cellpadding="0">
+              <tr>
+                <td height="175" align="left" valign="top" class="banner_main_bg"><table width="100%" border="0" cellspacing="0" cellpadding="0">
+                <tr>
+                  <td width="232" height="175" align="left" valign="top"><img src="/images/banner_img.jpg" width="232" height="175" /></td>
+                  <td align="left" valign="top"><table width="100%" border="0" cellspacing="0" cellpadding="0">
+                      <tr>
+                        <td height="28" align="left" valign="top"></td>
+                        <td align="left" valign="top"></td>
+                      </tr>
+                      <tr>
+                        <td width="386" height="117" align="left" valign="top"><img src="/images/banner_img_txt.jpg" width="386" height="147" /></td>
+                        <td align="right" valign="bottom" >
+                        	<a href="/" > <img src="/images/logofamily.jpg" width="220" height="53" border="0"/></a></td>
+                      </tr>
+                  </table></td>
+                </tr>
+            </table></td>
+              </tr>
+              <tr>
+                <td height="38" align="left" valign="middle" id="menu_main_bg"><table width="100%" height="28" border="0" cellpadding="0" cellspacing="0">
+                <tr>
+                  <td width="232" align="left" valign="top"></td>
+                  <td width="1" align="left" valign="top"><img src="/images/menu_sup_img.jpg" width="1" height="28" /></td>
+
+				  <td width="75" align="left" valign="top">
+                  	<a href="/evelethfamily" onmouseout="MM_swapImgRestore()" onmouseover="MM_swapImage('Image22','','/images/home_btn_ovr.jpg',1)">
+                  		<% if(request.request_uri == "/evelethfamily" ) %>
+						<img src="/images/home_btn_ovr.jpg" name="Image22" alt="Home" width="75" height="28" border="0" id="Image22"  /></a>
+						<%else%>
+						<img src="/images/home_btn_def.jpg" name="Image22" alt="Home" width="75" height="28" border="0" id="Image22"  /></a>
+						<%end%>
+                  </td>
+                  <td width="1" align="left" valign="top">
+                  	<img src="/images/menu_sup_img.jpg" width="1" height="28" /></td>
+                  <td width="101" align="left" valign="top">
+                  	<a href="/evelethsfamily/biographies" onmouseout="MM_swapImgRestore()" onmouseover="MM_swapImage('Image23','','/images/biographi_btn_ovr.jpg',1)">
+                  		<% if(request.request_uri == "/evelethsfamily/biographies" ) %>
+						<img src="/images/biographi_btn_ovr.jpg" name="Image23" alt="Biographies"width="101" height="28" border="0" id="Image23" /></a></td>
+						<%else%>
+						<img src="/images/biographi_btn_def.jpg" name="Image23" alt="Biographies"width="101" height="28" border="0" id="Image23" /></a></td>
+						<%end%>
+					</td>
+
+				  <td width="1" align="left" valign="top">
+				  	<img src="/images/menu_sup_img.jpg" width="1" height="28" /></td>
+                  <td width="138" align="left" valign="top">
+                  	<a href="/evelethsfamily/journals" onmouseout="MM_swapImgRestore()" onmouseover="MM_swapImage('Image24','','/images/news_jour_btn_ovr.jpg',1)">
+                  		<% if(request.request_uri == "/evelethsfamily/journals" ) %>
+						<img src="/images/news_jour_btn_ovr.jpg" name="Image24" alt="News/Journals" width="138" height="28" border="0" id="Image24" /></a></td>
+                  		<%else%>
+						<img src="/images/news_jour_btn_def.jpg" name="Image24" alt="News/Journals" width="138" height="28" border="0" id="Image24" /></a></td>
+						<%end%>
+
+				  <td width="1" align="left" valign="top">
+				  	<img src="/images/menu_sup_img.jpg" width="1" height="28" /></td>
+                  <td width="136" align="left" valign="top">
+                  	<a href="/evelethsfamily/messageboard" onmouseout="MM_swapImgRestore()" onmouseover="MM_swapImage('Image25','','/images/message_board_btn_ovr.jpg',1)">
+                  		<% if(request.request_uri == "/evelethsfamily/messageboard" ) %>
+						<img src="/images/message_board_btn_ovr.jpg" name="Image25" alt="Message Board"  width="136" height="28" border="0" id="Image25" /></a></td>
+						<%else%>
+						<img src="/images/message_board_btn_def.jpg" name="Image25" alt="Message Board"  width="136" height="28" border="0" id="Image25" /></a></td>
+						<%end%>
+
+				  <td width="1" align="left" valign="top">
+				  	<img src="/images/menu_sup_img.jpg" width="1" height="28" /></td>
+                  <td width="95" align="left" valign="top">
+                  	<a href="/evelethsfamily/calender" onmouseout="MM_swapImgRestore()" onmouseover="MM_swapImage('Image26','','/images/calender_btn_ovr.jpg',1)">
+                  		<% if(request.request_uri == "/evelethsfamily/calender" ) %>
+						<img src="/images/calender_btn_ovr.jpg" name="Image26" width="95" alt="Calendar" height="28" border="0" id="Image26" /></a></td>
+						<%else%>
+						<img src="/images/calender_btn_def.jpg" name="Image26" width="95" alt="Calendar" height="28" border="0" id="Image26" /></a></td>
+						<%end%>
+
+				  <td width="1" align="left" valign="top">
+				  	<img src="/images/menu_sup_img.jpg" width="1" height="28" /></td>
+                  <td width="118" align="left" valign="top">
+                  	<a href="/evelethsfamily/contactus" onmouseout="MM_swapImgRestore()" onmouseover="MM_swapImage('Image27','','/images/contact_btn_ovr.jpg',1)">
+                  		<% if(request.request_uri == "/evelethsfamily/contactus" ) %>
+						<img src="/images/contact_btn_ovr.jpg" name="Image27" alt="Contact Us" width="118" height="28" border="0" id="Image27" /></a></td>
+						<%else%>
+						<img src="/images/contact_btn_def.jpg" name="Image27" alt="Contact Us" width="118" height="28" border="0" id="Image27" /></a></td>
+						<%end%>
+                </tr>
+            </table></td>
+              </tr>
+              <tr>
+            <td height="21" align="left" valign="top" class="breadcrumb">
+
+
+					<%  if(request.request_uri == "/evelethfamily" )%>
+
+					<% else if(request.request_uri == "/evelethsfamily/subchapters/#{params[:id]}" )%>
+								<%
+									tags=Tag.find(params[:id]);
+								%>
+								&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                               <a href="/evelethfamily" style="text-decoration:none"> <font color="#ffffff" size="2" face="Arial" >Home</font></a>
+                                <font color="#7C7A7B" size="2" face="Arial" > &gt;&gt;
+                                 <font color="#7C7A7B" size="2" face="Arial" ><%=tags.v_tagname%> &gt;&gt;
+                                 </font> <font color="#ffffff" size="2" face="Arial" >(Subchapters)</font>
+
+					<% else if(request.request_uri == "/evelethsfamily/gallery/#{params[:id]}" )%>
+								&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                 <%
+									subchapters=SubChapter.find(params[:id])
+									tags=Tag.find(subchapters.tagid)
+								%>
+                           <a href="/evelethfamily" style="text-decoration:none">  <font color="#ffffff" size="2" face="Arial" >Home</font></a>
+
+							    <font color="#7C7A7B" size="2" face="Arial" >&gt;&gt; </font>
+                                 <a href="/evelethsfamily/subchapters/<%=tags.id%>" style="text-decoration:none" ><font color="#ffffff" size="2" face="Arial" ><%=tags.v_tagname%></font> </a>
+								 <font color="#7C7A7B" size="2" face="Arial" > &gt;&gt;
+                                 <%=subchapters.sub_chapname%> &gt;&gt;</font> <font color="#ffffff" size="2" face="Arial" >(Galleries)</font>
+
+					<% else if(request.request_uri == "/evelethsfamily/gallery_fisheye/#{params[:id]}" )%>
+								 <%
+								 	galleries=Galleries.find(params[:id])
+									subchapters=SubChapter.find(galleries.subchapter_id)
+									tags=Tag.find(subchapters.tagid)
+
+								%>
+								<font color="#7C7A7B" size="2" face="Arial" >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                             <a href="/evelethfamily" style="text-decoration:none">  <font color="#ffffff" size="2" face="Arial" >Home</font></a>
+
+							    <font color="#7C7A7B" size="2" face="Arial" >&gt;&gt; </font>
+                                 <a href="/evelethsfamily/subchapters/<%=tags.id  %>" style="text-decoration:none" ><font color="#ffffff" size="2" face="Arial" ><%=tags.v_tagname%></font> </a>
+								 <font color="#7C7A7B" size="2" face="Arial" > &gt;&gt; </font>
+                                 <a href="/evelethsfamily/gallery/<%=subchapters.id  %>" style="text-decoration:none" ><font color="#ffffff" size="2" face="Arial" ><%=subchapters.sub_chapname%> </font></a>
+								 <font color="#7C7A7B" size="2" face="Arial" > &gt;&gt; </font>
+                                <font color="#7C7A7B" size="2" face="Arial" ><%=galleries.v_gallery_name%> &gt;&gt; </font>
+								<font color="#ffffff" size="2" face="Arial" >(Moments)</font>
+
+						<% else if(@path=="moment_page" )%>
+								  <%
+								  	user_contents=UserContent.find(params[:id])
+								 	galleries=Galleries.find(user_contents.gallery_id)
+									subchapters=SubChapter.find(galleries.subchapter_id)
+									tags=Tag.find(subchapters.tagid)
+
+								%>
+								<font color="#7C7A7B" size="2" face="Arial" >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                             <a href="/evelethfamily" style="text-decoration:none">  <font color="#ffffff" size="2" face="Arial" >Home</font></a>
+
+							    <font color="#7C7A7B" size="2" face="Arial" >&gt;&gt; </font>
+                                 <a href="/evelethsfamily/subchapters/<%=tags.id  %>" style="text-decoration:none" ><font color="#ffffff" size="2" face="Arial" ><%=tags.v_tagname%></font> </a>
+								 <font color="#7C7A7B" size="2" face="Arial" > &gt;&gt; </font>
+                                 <a href="/evelethsfamily/gallery/<%=subchapters.id  %>" style="text-decoration:none" ><font color="#ffffff" size="2" face="Arial" ><%=subchapters.sub_chapname%> </font></a>
+								 <font color="#7C7A7B" size="2" face="Arial" > &gt;&gt; </font>
+                                 <a href="/evelethsfamily/gallery_fisheye/<%=galleries.id%>" style="text-decoration:none">  <font color="#ffffff" size="2" face="Arial" ><%=galleries.v_gallery_name%> &gt;&gt; </font>
+								 <font color="#7C7A7B" size="2" face="Arial" >moment	<%end%><%end%>
+					<%end%>	<%end%><%end%>
+			</td>
+         	 </tr>
+            </table></td>
+          </tr>
+
+          <tr>
+            <td align="left" valign="top">
+            	<div id="content" align="center" width="100%">
+					<%= yield %>
+				</div>
+            </td>
+          </tr>
+        </table></td>
+        <td align="right" valign="top" id="body_right_bg"><img src="/images/transe.jpg" width="1" height="1" /></td>
+      </tr>
+    </table></td>
+  </tr>
+  <tr>
+    <td height="5" align="center" valign="top"></td>
+  </tr>
+  <tr>
+    <td height="32" align="center" valign="top" class="bottom_line"></td>
+  </tr>
+  <tr>
+    <td height="60" align="center" valign="top" class="copyrighttxt">Copyright &copy; 2011 HoldMyMemories.com All rights   reserved. Website Designed and Developed by <a href="http://www.softwaysolutions.com" target="_blank" class="copyrighttxt">Softway Solutions,   Inc.</a>&nbsp;</td>
+  </tr>
+</table>
+</body>
+</html>

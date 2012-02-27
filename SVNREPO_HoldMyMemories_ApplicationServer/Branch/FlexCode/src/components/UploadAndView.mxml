@@ -1,0 +1,354 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:HBox xmlns:mx="http://www.adobe.com/2006/mxml" width="100%" height="100%" verticalGap="2" horizontalGap="2"  creationPolicy="all"
+	xmlns:components="components.*" creationComplete="handleCreationComplete()" horizontalAlign="center" verticalAlign="middle">
+	<mx:VBox id="helpPanel" width="25%" height="90%" cornerRadius="5" verticalGap="7" horizontalGap="10" 
+		showEffect="{fadeIn}" hideEffect="{fadeOut}" horizontalAlign="center"  
+		backgroundAlpha="0" paddingLeft="10" paddingRight="15">
+		<mx:TextArea width="100%" height="20%" id="helpTitle" backgroundAlpha="0" fontSize="18" text="Learn How To Upload Your Moments" color="0xffffff" verticalScrollPolicy="off" horizontalScrollPolicy="off"
+			fontFamily="Arial" editable="false" selectable="false" cornerRadius="5" borderThickness="0"/>
+		<mx:TextArea height="90%" width="100%" id="helpText" color="white" backgroundAlpha="0" fontFamily="Arial" wordWrap="true" editable="false" selectable="false" themeColor="0x0"
+		 fontSize="12" verticalScrollPolicy="off" horizontalScrollPolicy="off" htmlText="{helpString}" borderThickness="0"/>
+		<mx:Button id="more" label="Down" styleName="lastButtonStyle" click="handleDownButtonClicked()"/>	
+	</mx:VBox>
+	
+		
+
+	<mx:Button id="resize" click="handleResizeClick()" width="20" height="20" icon="{arrowCls}"
+		 toolTip="Click to hide the Help text area." themeColor="0x0"/>
+	 
+	<mx:ViewStack id="stageView" width="95%" height="100%" creationPolicy="all">
+		<mx:VBox width="100%" height="100%" id="uploadBox" creationPolicy="all">
+			<components:IPUploadViewControl id="uploadControl"  width="100%" height="20%" showIcon="true" enableIcon="true"  creationComplete="handleUploadViewControlCreationComplete()"/>
+			<mx:HBox width="100%" id="buttonBarBox">
+					<mx:ButtonBar label="Back" id="backButton" itemClick="handleBackButton()" selectedIndex="-1" 
+						dataProvider="{buttonBarData}" width="50%" firstButtonStyleName="breadCrumb" buttonStyleName="breadCrumb" 
+						 labelFunction="handleButtonNavName"/>
+					<mx:ToggleButtonBar label="Back" id="operations" itemClick="handleOperation(event)"  firstButtonStyleName="firstButtonStyle" 
+						selectedButtonTextStyleName="selectedButton" buttonStyleName="lastButtonStyle"  
+						selectedIndex="0" dataProvider="{operationsData}" width="50%" />	
+			</mx:HBox>	
+			<mx:HBox width="100%" height="80%" verticalScrollPolicy="off" horizontalScrollPolicy="off" horizontalAlign="center" verticalAlign="middle" 
+				verticalGap="0" horizontalGap="0" borderThickness="0" paddingRight="8" id="chapterViewContainer">
+				<mx:Canvas width="100%" height="100%" id="folderViewContainer" borderThickness="0">
+					<mx:Label  text="Right click to view more operations" fontFamily="Arial" fontWeight="bold" color="#aaaaaa"
+					 id="rightClickLabel"	fontSize="20" x="{(folderViewContainer.width - rightClickLabel.width)/2}" y="{(folderViewContainer.height - rightClickLabel.height)/2}"/>
+					<components:ChaptersView width="100%" height="100%" id="folderView" updateComplete="handleUpdate()" borderThickness="0"/>
+						
+				</mx:Canvas>
+				
+				<mx:VSlider id="scroller" height="90%" showDataTip="false" liveDragging="true" change="handleChange()" trackMargin="2"
+					 fillColors="{[0xffffff, 0xacacac]}" fillAlphas="{[1.0, 1.0]}"/>	
+			</mx:HBox>	
+		</mx:VBox>
+		<mx:VBox width="100%" height="100%" id="editBox" creationPolicy="all">
+			<components:BatchEditTags width="100%" id="editTags" height="100%" showEffect="{fadeIn}" hideEffect="{fadeOut}" creationPolicy="all"/>	
+		</mx:VBox>		
+		<mx:VBox width="100%" height="100%" id="trashBox" creationPolicy="all">
+			<components:ThrashBinView width="100%" id="thrashView" height="100%" showEffect="{fadeIn}" hideEffect="{fadeOut}" creationPolicy="all" creationComplete="handleTrashViewCreationComplete()"/>	
+		</mx:VBox>
+		
+							
+	</mx:ViewStack>
+	
+	<mx:AnimateProperty duration="600" fromValue="20" toValue="0" property="percentWidth" id="sizeOut" effectEnd="handleSizeOutEffectEnd()" easingFunction="{Quadratic.easeIn}"/>
+	<mx:AnimateProperty duration="600" fromValue="0" toValue="20" property="percentWidth" id="sizeIn" effectStart="handleSizeInStart()" effectEnd="handleSizeInEffectEnd()" easingFunction="{Quadratic.easeOut}"/>
+	<mx:Fade duration="600" id="fadeOut" alphaFrom="1" alphaTo="0"/>
+	<mx:Fade duration="600" id="fadeIn" alphaFrom="0" alphaTo="1"/>
+	
+	<mx:Script>
+		<![CDATA[
+			import mx.rpc.http.HTTPService;
+			import mx.controls.Alert;
+			import mx.rpc.events.ResultEvent;
+			import mx.rpc.events.FaultEvent;
+			import mx.controls.Text;
+			import mx.containers.Tile;
+			import vo.WebFileVO;
+			import mx.effects.easing.Quadratic;
+			import model.HmmThrashModel;
+			import mx.core.Application;
+			import events.FolderEvent;
+			import mx.collections.ArrayCollection;
+			import mx.events.ItemClickEvent;
+			import mx.controls.Button;
+			 [Embed(source="assets/help.jpg")]
+            [Bindable]
+            public var helpCls:Class;
+            [Embed(source='assets/arrow.jpg')]
+            [Bindable]
+            public var arrowCls:Class;
+			private var helpString : String = "<p><font color='#666666' size='18'>Step 1:</font></p><p> Click on “Choose Files” and choose images, videos, or audio." + 
+												"</p><p><font color='#666666' size='18'>Step 2:</font></p><p> Choose files on your computer.  For  multiple files, hold " + 
+												"down the “Ctrl” or “Shift” key.</p> \n <font color='#666666' size='18'>Step 3:</font> \n <p> Click the “Upload” button." + 
+												"This could take several minutes (depending on file sizes).</p><p><font color='#666666' size='18'>Step 4:</font></p>" + 
+												"<p>Click on and open the Chapter, Sub-chapter, and Gallery where you are wanting to place your files.  You can right click to create new locations.</p>" + 
+												"<p><font color='#666666' size='18'>Step 5:</font></p><p>You may drag your files in one at a time, or click the “add all” button.</p>" + 
+												"<p><font color='#666666' size='18'>Step 6:</font></p><p>Right click on an image to use it as the icon for your Chapter, Sub-chapter, or Gallery.</p>";
+			[Bindable]
+			private var operationsData : ArrayCollection = new ArrayCollection([{label:"Folder View", data:0}, {label:"Edit Tags", data:1},{label:"Trash", data:2}]);
+			[Bindable]
+			private var buttonBarData : ArrayCollection;
+			private var isTrashModelLoaded : Boolean = false;
+			private var hideHelpTimer : Timer;
+			
+			private function handleUploadViewControlCreationComplete() : void
+			{
+				uploadControl.proxyUrl = this.parentApplication.proxyUrl;
+			}
+			
+			private function handleTrashViewCreationComplete() : void
+			{
+				thrashView.proxyUrl = this.parentApplication.proxyUrl;
+			}
+			
+			private function handleUploadAndViewComplete() : void
+			{
+				//uploadControl.getUserContentsOnComplete();
+			}
+			
+			private function handleSizeInStart() : void
+			{
+				helpPanel.visible = true;
+			}
+			
+			private function handleDownButtonClicked() : void
+			{
+				if(more.label == "Down")
+				{
+					helpText.verticalScrollPosition = helpText.maxVerticalScrollPosition;
+					more.label = "Up";
+				}else
+				{
+					helpText.verticalScrollPosition = 0;
+					more.label = "Down";	
+				}
+			}
+			
+			private function handleButtonNavName(item : Object) : String
+			{
+				var name : String = item.label.toString();
+				if(name.length > 15)
+				{
+					name = name.slice(0, 14);
+					name += "...";
+				}
+				return name;
+			}
+			
+			private function handleSizeOutEffectEnd(): void
+			{
+				resize.setStyle("icon", helpCls);
+				helpPanel.width = 0;
+				helpPanel.visible = false;
+			}
+			
+			private function handleSizeInEffectEnd() : void
+			{
+				resize.setStyle("icon", arrowCls);
+				helpPanel.percentWidth = 25;
+			}
+			private function handleResizeClick() : void
+			{
+				if(helpPanel.width == 0)
+				{
+					sizeIn.target = helpPanel;
+					sizeIn.play();
+				}else
+				{
+					sizeOut.target = helpPanel;
+					sizeOut.play();	
+				}
+				
+			}
+			
+			override protected function updateDisplayList(unscaledWidth:Number, unscaledHeight:Number):void
+			{
+				super.updateDisplayList(unscaledWidth, unscaledHeight);
+				if(helpPanel.visible)
+				{
+					var g : Graphics = helpPanel.graphics;
+					g.clear();
+					g.lineStyle(1, 0x666666);
+					g.beginFill(0x010101);
+					g.drawRoundRect(0,0,helpPanel.width, helpPanel.height, 15,15);
+					g.beginFill(0x515151);
+					g.drawRoundRect(0,0, helpPanel.width, helpTitle.height,15,15);
+					g.lineStyle(0);
+					g.beginFill(0x010101);
+					g.drawRect(1,helpTitle.height-4, helpPanel.width-2, 5); 
+					g.endFill();
+					g.endFill();
+					g.endFill();	
+				}
+				
+				// draw the chapterview border
+				g = chapterViewContainer.graphics;
+				g.clear();
+				g.lineStyle(1,0x666666);
+				g.beginFill(0x010101);
+				g.drawRoundRect(0,0, this.width-helpPanel.width, chapterViewContainer.height,15,15);
+				
+			}
+			
+			private function handleCreationComplete() : void
+			{
+				var thumb : Button = scroller.getThumbAt(0);
+				thumb.setStyle("upIcon", IconClasses.scrollThumb);
+				thumb.setStyle("overIcon", IconClasses.scrollThumbOver);
+				thumb.setStyle("downIcon", IconClasses.scrollThumb);
+				thumb.width = 2;
+				thumb.height = 2;
+				var trans : Transform = scroller.transform;
+				trans.matrix.rotate(Math.PI);
+				scroller.transform = trans;
+				
+				folderView.addEventListener(FolderEvent.FOLDER_CHANGED, handleFolderChange);
+				buttonBarData = new ArrayCollection();
+				buttonBarData.addItem({label:"Chapters",data:"1"});
+				
+				uploadControl.uploadImageSelection.addEventListener("addData", handleAddData);
+				hideHelpTimer = new Timer(15000, 1);
+				hideHelpTimer.addEventListener(TimerEvent.TIMER, handleHideHelp);
+				hideHelpTimer.start();
+				uploadControl.addEventListener("help",handleShowHelp);
+				
+			}
+			
+			private function handleShowHelp(event : Event) : void
+			{
+				if(helpPanel.width == 0)
+				{
+					handleResizeClick();
+					hideHelpTimer = new Timer(15000, 1);
+					hideHelpTimer.addEventListener(TimerEvent.TIMER, handleHideHelp);
+					hideHelpTimer.start();	
+				}
+				
+			}
+			
+			private function handleHideHelp(event : TimerEvent) : void
+			{
+				handleResizeClick();
+			}
+			
+			private function handleAddData(event : FolderEvent) : void
+			{
+				var ac : Array = event.data as Array;
+				folderView.addAllInHoldingBin(ac);
+			}
+			
+			private function handleChange() : void
+			{
+				var pos : int = Math.abs(Math.floor(scroller.value));
+				folderView.verticalScrollPosition = pos;
+			}
+			
+			private function handleUpdate() : void
+			{
+				scroller.maximum = 0;
+				scroller.minimum = -folderView.maxVerticalScrollPosition;
+			}
+			
+			private function handleOperation(event : ItemClickEvent) : void
+			{
+				switch(event.item.data)
+				{
+					case 0:
+					        //editTags.handleSaveData();
+							stageView.selectedIndex = 0;
+							folderView.dataProvider = new ArrayCollection((folderView.dataProvider as ArrayCollection).source);
+							backButton.enabled = true;
+							uploadBox.addChildAt(buttonBarBox, 1);
+							//ImageComponent(Application.application).verticalButtonBar.visible = true;
+							break;
+					case 1: 
+							stageView.selectedIndex = 1;
+							//ImageComponent(Application.application).verticalButtonBar.visible = false;
+							editTags.dataProvider = folderView.dataProvider as ArrayCollection;
+							editBox.addChildAt(buttonBarBox, 0);
+							backButton.enabled = false;
+							break;
+					case 2:
+							//editTags.handleSaveData();
+							backButton.enabled = false;
+							stageView.selectedIndex = 2;
+							//ImageComponent(Application.application).verticalButtonBar.visible = false;
+							trashBox.addChildAt(buttonBarBox, 0);
+							if(isTrashModelLoaded)
+				 				thrashView.data = HmmThrashModel.getInstance().folderList;
+				 			else
+				 			{
+				 				var trashService : HTTPService = new HTTPService();
+				 				trashService.url = "/thrash/getThrashContents/";
+				 				trashService.addEventListener(ResultEvent.RESULT,handleTrashListResult);
+				 				trashService.addEventListener(FaultEvent.FAULT,handleTrashListFault);
+				 				trashService.send();
+				 				FadingNotifier.setBusyState();	
+				 			}
+							break;
+				}
+			}
+			
+			
+			private function handleTrashListResult(event : ResultEvent) : void
+			{
+				var thrashModel : HmmThrashModel = new HmmThrashModel();
+				thrashModel.data = event.result.root;
+				HmmThrashModel.setInstance(thrashModel);
+				thrashView.data = HmmThrashModel.getInstance().folderList;
+				isTrashModelLoaded = true;
+				FadingNotifier.removeBusyState();
+			}
+			
+			private function handleTrashListFault(event : FaultEvent) : void
+			{
+				FadingNotifier.removeBusyState();
+				Alert.show("Unable to load your trash data!");
+			}
+			
+			private function handleBackButton() : void
+			{
+				var count : int = buttonBarData.length - backButton.selectedIndex -1;
+				for(var i : int =0; i < count; i++)
+				{
+					buttonBarData.removeItemAt(buttonBarData.length-1);
+					folderView.oneLevelUp();
+				}
+				//ImageComponent(Application.application).verticalButtonBar.dataProvider = HmmContextMenuManager.getInstance().getContextButtons(buttonBarData.length-1);
+					
+				//path.text = folderView.currentPath;
+				
+			}
+			
+			
+			
+			private function handleFolderChange(event : FolderEvent) : void
+			{
+				if(event.folderLevel == 0)
+				{
+					backButton.enabled = false;
+					
+				}else
+				{
+					backButton.enabled = true;
+					var but : Object = new Object();
+				
+				}
+				//path.text = event.folder;
+				but.label = event.folder;
+				//ImageComponent(Application.application).verticalButtonBar.dataProvider = event.data;
+				//update the edit tags
+				editTags.dataProvider =folderView.dataProvider as ArrayCollection;
+				buttonBarData.addItem(but);
+			}
+			
+			public function hideControls() : void
+			{
+				helpPanel.width = 0;
+				helpPanel.visible = false;
+				resize.visible = false;
+				resize.width = 0;
+			}
+		]]>
+	</mx:Script>	
+</mx:HBox>

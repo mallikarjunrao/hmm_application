@@ -1,0 +1,164 @@
+<style type = "text/css">
+.text3{
+	font-family:Arial, Helvetica, sans-serif;
+	font-size:12px;
+	font-weight:normal;
+	color:#ffffff;
+}
+.signedtxtwhite {
+
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 10px;
+	font-style: normal;
+	line-height: normal;
+	font-weight: normal;
+	font-variant: normal;
+	text-transform: none;
+	color: #FFFFFF;
+	text-decoration: none;
+}
+a
+{
+
+color: #dddddd;
+
+}
+</style>
+<%  session[:video_vote]=nil %>
+<%  session[:image_vote]="1" %>
+<%= javascript_include_tag 'modalbox/prototype' %>
+<script type="text/javascript" src="/javascripts/modalbox/scriptaculous.js?load=effects"></script>
+<script type="text/javascript" src="/javascripts/modalbox/modalbox.js"></script>
+<%= stylesheet_link_tag 'modalbox/modalbox' %>
+
+<table align="center" width="930" border="0">
+	<input type="hidden" name="order" value="<%=params[:order]%>" />
+	<tr>
+                            <td align="left" valign="top">&nbsp;</td>
+                            <td align="right" valign="top"><a href="javascript:history.back();"> << Back</a></td>
+                            <td align="left" valign="top">&nbsp;</td>
+                          </tr>
+	<tr>
+		<th align="left">
+			 <%if(params[:p]=='4')%>
+                            <img src="/images/cutekids2010.png" />
+                            <%end%>
+                            <%if(params[:p]=='3')%>
+                            <img src="/images/common/family_photo_contest_logo.jpg" />
+                            <%end%>
+                            <%if(params[:p]=='2')%>
+                            <img src="/images/common/thats-my-baby-logo.png" width="300" height="74" />
+                            <%end%>
+                            <%if(params[:p]=='1')%>
+                            <img src="/images/common/cute-kids-2009-logo.png" width="219" height="44" />
+                            <%end%></th>
+            <th>&nbsp;</th>
+	</tr>
+	<tr align= "center">
+		<th >&nbsp;</th>
+	</tr>
+
+	<!--<tr>
+		<th>
+			<table width="100%" border="0" cellspacing="0" cellpadding="0">
+  <tr>
+    <th width="284" align="right" valign="top" style="padding-right:20px;"><img src="/images/dad_photocontest.gif" border="0"  width="250" ></th>
+    <th width="456" colspan="2" align="right" valign="top"><table width="400" border="0" cellspacing="0" cellpadding="0">
+  <tr>
+    <th  height="35" colspan="2" align="right" valign="top"><a href="/contests/videomoment_vote"><img src="/images/switch1.gif" width="150" height="23" border="0"/></a></th>
+    </tr>
+  <tr>
+    <th align="left" valign="top"><% form_remote_tag :update => 'table',
+         							:before => "Element.show('spinner1')",
+         							:success => "Element.hide('spinner1')",
+         							:url => {:action => 'moments_vote'},
+									:method => 'post',
+		 							:with => 'query' do %>
+		  <input class="textbox-signup" id="query" name="query" size="15" type="text" ></th>
+    <th align="left" valign="top"><input type="image" src="/images/hmm_search_contest.jpg" name=search value=search id="search" style="margin-bottom:10px;"/>
+		  <%end%>   </th>
+  </tr>
+  <tr>
+    <th height="10" colspan="2"></th>
+    </tr>
+  <tr>
+    <th colspan="2" align="right" valign="top"><table width="34" border="0" cellspacing="0" cellpadding="0">
+  <tr>
+    <td  align="right" ><a href="/contests/moments_vote/<%=params[:id]%>?sort_key=contest_entry_date&amp;sort_order=<%=@sort1%>"><img src="/images/date1_sort.gif" border="0"></a></td>
+	<td  align="right" ><%= sort_header_tag('first_name', :text => "<img  src='/images/name1_sort .gif'   border='0'/>") %></td>
+	<td  align="right" ><a href="/contests/moments_vote/<%=params[:id]%>?sort_key=new_votes&amp;sort_order=<%=@sort2%>"><img src="/images/vote1_sort%20.gif" border="0"></a></td>
+  </tr>
+</table></th>
+  </tr>
+</table>          </th>
+    </tr>
+</table>		</th>
+	</tr>-->
+
+
+	<tr>
+	  <th height="10" colspan="3">	  </th>
+  <tr>
+    <th colspan="3" align="center" valign="top"><font color="#e36500" size="3">
+				<!--You may vote for more than one child, but you may only vote once per child.-->			</font>    </th>
+  <tr>
+	  <th>
+		  <table><tr><th>&nbsp;</th><th>&nbsp;</th><th>&nbsp;</th><th>&nbsp;</th><th>&nbsp;</th><th>&nbsp;</th><th>&nbsp;</th></tr>
+			<tr>
+
+		<% j =  0
+for i in @contest_cutekid
+
+if  j==4
+ j=0
+j=j+1
+%>
+</tr><tr><th>&nbsp;</th><th>&nbsp;</th><th>&nbsp;</th><th>&nbsp;</th><th>&nbsp;</th><th>&nbsp;</th><th>&nbsp;</th></tr>
+<tr><%else
+j=j+1
+end
+%><th>
+		<table width="192" border="0" cellpadding="0" cellspacing="0">
+             <tr>
+                <th height="134" align="center" valign="middle" style="border:solid; border-color:#383838; border-width:1px;">
+					<a href="/american_family/momentdetails_old_contest/<%=i.moment_id%>">
+					<img src="<%= i.img_url %>/user_content/photos/big_thumb/<%= i.v_filename %>"  border="0" onMouseDown="callme(this.id);" onContextMenu="return false;" /></a></th>
+             </tr>
+             <tr>
+                <th height="4" align="center" valign="middle"></th>
+             </tr>
+             <tr>
+                <th height="15" align="center" valign="middle" class="text3" style="border:solid; border-color:#383838; border-width:1px;"><%=i.contest_fname%></th>
+             </tr>
+             <tr>
+                <th height="35" align="center" valign="top" class="text3" style="padding-top:5px;">
+
+			 	<span class="text3" >
+			 		<%if i.contest_entry_date.nil?%>
+				<%=Time.now.strftime("Submitted : %m/%d/%Y") %>
+				<%else%>
+				<%=  i.contest_entry_date.strftime("Submitted : %m/%d/%Y") %></span >
+				<%end%>
+
+				<%@count = ContestVotes.count_by_sql("select COUNT(distinct CONCAT(IFNULL(email_id,''),IFNULL(hmm_voter_id,''))) AS COUNT from contest_votes where contest_id='#{i.contest_id}' and conformed='yes'")  %>
+				<br><%=@count%> Votes</span></th>
+             </tr>
+             <tr>
+                <th height="20" align="center" valign="top" class="cont2" style="padding-top:3px;">
+				<!--<a href="/contests/vote/<%=i.contest_id%>" onClick="Modalbox.show(this.href, {title: 'My Image', width: 1000, height:1000}); return false;">
+						<input type="button" id="Image4413" class="cmd-btn" value="Vote" style="cursor:pointer;"></a>-->	</th>
+             </tr>
+        </table>
+		</th><th>&nbsp;</th>
+
+		<%end%>
+		</table>	  </th>
+
+       </th>
+	  <th>&nbsp;</th>
+  <tr>
+
+             <th valign="bottom" scope="col" class="signedtxtwhite" id="padding_photos" align="center" colspan="5">
+        	<%=@contest_count%><%=will_paginate @contest_cutekid%></th>
+  </tr>
+</table>

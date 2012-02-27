@@ -1,0 +1,39 @@
+<table border="1" cellpadding="0" cellspacing="0" align="center" width="900" style="margin-top: 30px">
+  <tr>
+    <td  background="/images/body_hor.JPG"  height="30"><font class='txt'><table> <tr><th><%= sort_header_tag('b.certificate_id', :text => "Certificate Number") %></th></tr></table></font></td>
+    <td  background="/images/body_hor.JPG"  height="30"><font class='txt'><table> <tr><th><%= sort_header_tag('b.certificate_id', :text => "Order Number") %></th></tr></table></font></td>
+    <td  background="/images/body_hor.JPG"><font class='txt'><table> <tr><th><%= sort_header_tag('first_name', :text => "First Name") %></th></tr></table></font></td>
+    <td  background="/images/body_hor.JPG"><font class='txt'><table> <tr><th><%= sort_header_tag('last_name', :text => "Last Name") %></th></tr></table></font></td>
+    <td  background="/images/body_hor.JPG"><font class='txt'><table> <tr><th><%= sort_header_tag('telephone', :text => "Phone") %></th></tr></table></font></td>
+    <td  background="/images/body_hor.JPG"><font class='txt'><table> <tr><th><%= sort_header_tag('studio_name', :text => "Studio Name") %></th></tr></table></font></td>
+    <td  background="/images/body_hor.JPG"><font class='txt'><table> <tr><th><%= sort_header_tag('email', :text => "Email") %></th></tr></table></font></td>
+     <td  background="/images/body_hor.JPG"><font class='txt'><table> <tr><th><%= sort_header_tag('membership_fee', :text => "Membership Price") %></th></tr></table></font></td>
+    <td  background="/images/body_hor.JPG"><font class='txt'><table> <tr><th><%= sort_header_tag('certificate_price', :text => "Certificate Fees") %></th></tr></table></font></td>
+    <td  background="/images/body_hor.JPG"><font class='txt'><table> <tr><th><%= sort_header_tag('amount', :text => "Total Amount") %></th></tr></table></font></td>
+    <td  background="/images/body_hor.JPG"><font class='txt'><table> <tr><th><%= sort_header_tag('status', :text => "Status") %></th></tr></table></font></td>
+    <td  background="/images/body_hor.JPG"><font class='txt'><table> <tr><th><%= sort_header_tag('purchased_date', :text => "Purchased Date") %></th></tr></table></font></td>
+    <td  background="/images/body_hor.JPG"><font class='txt'><table> <tr><th><%= sort_header_tag('redeemed_date', :text => "Redeemed Date") %></th></tr></table></font></td>
+    <td  background="/images/body_hor.JPG"><font class='txt'><table> <tr><th><%= sort_header_tag('redeemed_studio', :text => "Redeemed At") %></th></tr></table></font></td>
+    <td  background="/images/body_hor.JPG"><font class='txt'><table> <tr><th><%= sort_header_tag('employee_name', :text => "Employee Name") %></th></tr></table></font></td>
+  </tr>
+  <%for customer in @customers%>
+    <tr class="<%= cycle('odd', 'even')%>">
+      <td height="20" align="center"><%=customer.cid%></td><td align="center"><%=customer.order_no%></td><td align="center"><%=customer.first_name%></td><td align="center"><%=customer.last_name%></td>
+      <td align="center"><%=customer.telephone%></td><td align="center"><%=customer.studio_name%></td><td align="center"><%=customer.email%></td>
+      <td align="center">$<%=number_with_precision(Float(customer.membership_fee).round(2), :precision => 2)%></td>
+      <td align="center">$<%=number_with_precision(Float(customer.certificate_price).round(2), :precision => 2)%></td>
+      <td align="center"><%=customer.amount%></td><td align="center"><%=customer.status%></td>
+      <td align="center"><%if customer.purchased_date%><%=customer.purchased_date.strftime("%m - %d - %Y")%><%end%></td>
+      <td align="center"><%if customer.redeemed_date%><%=customer.redeemed_date.strftime("%m - %d - %Y")%><%end%></td>
+      <%if customer.redeemed_studio.blank? || customer.redeemed_studio.nil? %>
+        <td align="center"></td>
+      <% elsif customer.redeemed_studio.to_i!= 0
+        studio=HmmStudio.find_by_id(customer.redeemed_studio)%>
+        <td align="center"><%=studio.studio_name%></td>
+      <%else%>
+        <td align="center">Admin</td>
+      <%end%>
+      <td align="center"><%=customer.employee_name%></td>
+    </tr>
+  <%end%>
+</table>

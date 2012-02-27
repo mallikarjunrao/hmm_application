@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:Image  complete="handleRemove()"  xmlns:mx="http://www.adobe.com/2006/mxml">
+
+	<mx:Script>
+		<![CDATA[
+				import mx.core.UIComponent;
+		  		private var imageSource : String;
+		  		private var preloaderSprite : Sprite;
+				
+				[Embed(source="assets/ajax-loader.swf")]
+			    private var preLoaderSwf : Class;
+			    private var preloader :UIComponent; 
+			          
+			
+			
+			override protected function commitProperties():void
+				{  
+					
+					if(!preloader)
+					{
+						preloaderSprite = new preLoaderSwf(); 
+						preloader = new UIComponent();
+				}
+					preloader.addChild(preloaderSprite); 
+					this.addChild(preloader);
+					preloader.x = (this.width - preloaderSprite.width)/2;
+				preloader.y = (this.height - preloaderSprite.height)/2; 
+			      
+			}
+			private function handleRemove() : void
+			{
+				this.removeChild(preloader); 
+				this.visible = true;
+			}
+	]]>
+</mx:Script>
+</mx:Image>

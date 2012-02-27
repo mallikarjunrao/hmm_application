@@ -1,0 +1,21 @@
+xml.instruct! :xml, :version=>"1.0" 
+xml.contents("message" => @shares.message){
+  for sharemoment in @shared_moments
+    
+           moment = UserContent.find(sharemoment.moment_id)
+            if(moment.e_filetype == "image")
+              icon="http://content.holdmymemories.com//user_content/photos/coverflow/#{moment.v_filename}"
+              xml.content( "icon" => icon, "name" => moment.v_tagphoto, "id" => moment.id, "hmmtype" => moment.e_filetype)
+            end
+            if(moment.e_filetype == "video" || moment.e_filetype == "swf")
+              icon="#{moment.img_url}/user_content/videos/thumbnails/#{moment.v_filename}.jpg"
+              xml.content( "icon" => icon, "name" => moment.v_tagphoto, "id" => moment.id, "hmmtype" => moment.e_filetype )
+            end
+            if(moment.e_filetype == "audio")
+              path = " #{moment.img_url}/user_content/audios/#{moment.v_filename}" 
+              icon = "#{moment.img_url}/user_content/audios/speaker.jpg"
+              xml.content( "icon" => icon, "name" => moment.v_tagphoto, "id" => moment.id, "hmmtype" => moment.e_filetype ,"path" => path)
+            end
+            
+  end
+}

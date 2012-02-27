@@ -1,0 +1,25 @@
+<table width="100%" cellpadding="0" cellspacing="0" border="0" style="padding-top: 10px;"  >
+  <tr><td align="left"><h2>Edit Studio Benefit</h2></td></tr>
+  <tr><td align="right"><a href="/studio_benefits/list">Back</a></td></tr>
+  
+  <tr><td>
+      <form name="frm" method="post">
+        <table width="100%" cellpadding="5" cellspacing="5" border="0">
+         <tr><td>Studio </td><td>:</td><td>
+              <select name="studio_id" >
+              <option value="0" <%if(@benefit.studio_id=='0')%> selected <%end%>>-All-</option>
+              <% for k in @studios %>
+              <option value="<%=k.id%>" <%if(k.id==@benefit.studio_id)%> selected <%end%>><%=k.studio_name%></option>
+              <%end%>
+               </select>
+         </td></tr>
+         <tr><td>Content </td><td>:</td><td>
+              <textarea name="content" rows="10" cols="70"><%=@benefit.content%></textarea>
+            </td></tr>
+          
+          <tr><td colspan="3" align="center"><%= submit_tag 'Update' %></td></tr>
+        </table>
+      </form>
+    </td></tr>
+</table>
+</table>

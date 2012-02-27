@@ -1,0 +1,10 @@
+<%= error_messages_for 'book_session' %>
+
+<!--[form:book_session]-->
+<p><label for="book_session_website_name">Website name</label><br/>
+<%= text_field 'book_session', 'website_name'  %></p>
+
+<p><label for="book_session_click_date">Click date</label><br/>
+<%= datetime_select 'book_session', 'click_date'  %></p>
+<!--[eoform:book_session]-->
+

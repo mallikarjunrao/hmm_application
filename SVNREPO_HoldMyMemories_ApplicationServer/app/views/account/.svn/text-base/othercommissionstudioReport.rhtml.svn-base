@@ -1,0 +1,211 @@
+<script type="text/javascript">
+	function showdiv()
+	{
+		//alert('i am in');
+	
+		if(document.getElementById('choose').value == 'studio_commission')
+		{
+			document.getElementById('studio').style.display='block';
+			document.getElementById('managers').style.display='none';
+			document.getElementById('market_managers').style.display='none';
+		}
+		else if(document.getElementById('choose').value == 'studio_manager_commission')
+		{
+			document.getElementById('managers').style.display='block';
+			document.getElementById('studio').style.display='none';
+			document.getElementById('market_managers').style.display='none';
+		}
+		else if(document.getElementById('choose').value == 'market_manager_commission')
+		{
+			document.getElementById('market_managers').style.display='block';
+			document.getElementById('studio').style.display='none';
+			document.getElementById('managers').style.display='none';
+		}
+		
+	}
+	
+	function check()
+	{
+			if(document.getElementById('choose').value == 'select')
+		{
+			alert('Please Select the Commission Type')
+			return false
+		}
+		
+	}
+	
+
+  
+  
+function printIt(target) { 
+//document.getElementById('prn').style.display="none";
+  winId=window.open('','printwin','width=810,height=800'); 
+  winId.document.write(target); 
+  winId.document.close(); 
+  winId.focus(); 
+  if (window.print) winId.print(); 
+} 
+
+</script>
+ 
+<form action="/account/othercommissionstudioReport" method="post" onsubmit="showdiv();">
+
+<table width="900" border="0">
+
+	<tr>
+		<td colspan="8">
+			<font size="3" color="#ffffff"> Commission Report</font>
+		</td>
+	</tr>
+	<tr>
+		<td colspan="8">
+			&nbsp;
+		</td>
+	</tr>
+	
+	<tr>
+		<td align="right">Select Commission Type</td>
+		<td>&nbsp;</td>
+		<td width="100">
+		<select id="choose" name="choose" onchange="return check();" >
+			<option value="studio_commission" <%if params[:choose] == 'studio_commission'%> selected="selected" <%end%>>Studio Commission</option>
+			</select>
+		</td>
+		<td>&nbsp;</td>
+		<td align="right">For Month</td>
+		<td>&nbsp;</td>
+		<td><select name="choose_month" id="choose_month" >
+			
+			<option value="01" <%if params[:choose_month] == '01' %>selected="selected" <%end%>>January</option>
+			<option value="02" <%if params[:choose_month] == '02' %>selected="selected" <%end%>>February</option>
+			<option value="03" <%if params[:choose_month] == '03' %>selected="selected" <%end%>>March</option>
+			<option value="04" <%if params[:choose_month] == '04' %>selected="selected" <%end%>>April</option>
+			<option value="05" <%if params[:choose_month] == '05' %>selected="selected" <%end%>>May</option>
+		    <option value="06" <%if params[:choose_month] == '06' %>selected="selected" <%end%>>June</option>
+			<option value="07" <%if params[:choose_month] == '07' %>selected="selected" <%end%>>July</option>
+			<option value="08" <%if params[:choose_month] == '08' %>selected="selected" <%end%>>August</option>
+			<option value="09" <%if params[:choose_month] == '09' %>selected="selected" <%end%>>September</option>
+			<option value="10" <%if params[:choose_month] == '10' %>selected="selected" <%end%>>October</option>
+		    <option value="11" <%if params[:choose_month] == '11' %>selected="selected" <%end%>>November</option>
+		    <option value="12" <%if params[:choose_month] == '12' %>selected="selected" <%end%>>December</option>
+		    
+		</select></td>
+		<td><select name="choose_year" id="choose_year" >
+			<%i = 2009%>
+				<%yer = Time.now.year%>
+			
+			<%until i == yer%>
+			<option value="<%=i%>"><%=i%></option>
+			<%i= i + 1%>
+			<%end%>
+			<option value="<%=yer%>"><%=yer%></option>
+		</select></td>
+	</tr>
+	<tr>
+		<td colspan="8" height="20">&nbsp;</td>
+	</tr>
+	<tr>
+		<td colspan="8" align="center"> <input type="submit" name="sub" id="sub" value="Submit" > </td>
+	</tr>
+	<tr>
+		<td colspan="8" height="40">&nbsp;</td>
+	</tr>
+</table>
+
+<%@month = params[:choose_month]%>
+<%@year = params[:choose_year]%>
+<%if params[:choose_month] %>
+<%dat = @year + "-" +@month    %>
+<%end%>
+<%if params[:choose_month] == '01'
+	@mon = 'January'
+    @paycond=" and  a.payments_recieved >= 4 "
+ @paycond2=" and  a.payments_recieved >= 1 "
+elsif params[:choose_month] == '02'
+@mon = 'February'
+@paycond="  and  a.payments_recieved >= 3 "
+@paycond2="  and  a.payments_recieved >= 1 "
+elsif params[:choose_month] == '03'
+@mon = 'March'
+@paycond="  and  a.payments_recieved >= 2 "
+@paycond2="  and  a.payments_recieved >= 1 "
+elsif params[:choose_month] == '04'
+@paycond="  and  a.payments_recieved >= 1 "
+@paycond2="  and  a.payments_recieved >= 1 "
+@mon = 'April'
+elsif params[:choose_month] == '05'
+@mon = 'May'
+elsif params[:choose_month] == '06'
+@mon = 'June'
+elsif params[:choose_month] == '07'
+@mon = 'July'
+elsif params[:choose_month] == '08'
+@mon = 'August'
+elsif params[:choose_month] == '09'
+@mon = 'September'
+elsif params[:choose_month] == '10'
+@mon = 'October'
+elsif params[:choose_month] == '11'
+@mon = 'November'
+elsif params[:choose_month] == '12'
+@mon = 'December'
+end%>
+<div id="studio" style="display:none">
+	
+	<table>
+		<tr>
+		<td colspan="8">
+			<font size="3" color="#ffffff">Studio Commission Report - <%=@mon%> <%=@year%></font>
+		</td>
+		</tr>
+		<tr>
+		<td colspan="8">
+			
+		</td>
+		</tr>
+		<tr>
+			<td  background="/images/body_hor.JPG">
+				List of studios
+			</td>
+			<td  background="/images/body_hor.JPG">Commissions</td>
+		</tr>
+		<%for i in @hmm_studios%>
+		<tr class="<%= cycle('odd', 'even') -%>">
+			<td>
+				<a href="/account/other_studio_customers/<%=i.id%>?date=<%=dat%>"><%=i.studio_branch%></a>
+			</td>
+			
+			
+		  
+			
+			<td align="center">
+				<% 
+                                    empdet=EmployeAccount.find(session[:employe])
+                                    otherstudiocommission = StudioCommission.find_by_sql("select sum(amount) as commission from studio_commissions where store_id=#{empdet.store_id} and payment_recieved_on between '#{dat}-01' and '#{dat}-31'") %>
+                                $<%=otherstudiocommission[0].commission%>.00
+                        </td>
+		</tr>
+		<%end%>
+		<tr>
+			<td>
+				&nbsp;
+			</td>
+		</tr>
+		<tr>
+			<th>
+				<input type="button" value="Print Commission Report" name="print" onclick="printIt(document.getElementById('studio').innerHTML);return false" />
+			</th>
+		</tr>
+	</table>
+</div>
+
+
+
+
+</form>
+<script type="text/javascript">
+	showdiv();
+</script>
+
+
+

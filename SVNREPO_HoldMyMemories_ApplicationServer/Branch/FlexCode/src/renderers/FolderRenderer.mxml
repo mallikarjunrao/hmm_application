@@ -1,0 +1,233 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:VBox xmlns:mx="http://www.adobe.com/2006/mxml" width="100%" height="100%" creationPolicy="all"
+	 horizontalAlign="center" verticalAlign="middle" xmlns:ipeControls="qs.ipeControls.*" xmlns:controls="qs.controls.*" xmlns:components="components.*">
+<mx:Canvas creationPolicy="all">
+	<!--<mx:Image id="backImg" source="@Embed(source='assets/orange_border.png')" visible="{backImageVisibility}"/>-->
+<!--	<controls:SuperImage cacheName="{null}" cachePolicy="off" id="iconImage" borderThickness="0" borderStyle="none"
+		 x="4" y="9" source="{iconUrl}" width="72" height="72" filters="{glow}" toolTip="{itemToolTip}"/>-->
+		 <components:SmoothImage cachePolicy="off" id="iconImage" x="4" y="9" source="{iconUrl}" width="72" 
+		 	height="72"	filters="{glow}" toolTip="{itemToolTip}" />
+</mx:Canvas>
+	
+	<ipeControls:IPETextInput id="folderName"  editOnClick="{editFolderName}" updateComplete="handleIPECC()"
+		enter="handleTextEntered(event)" text="{folderNameString}" focusOut="handleTextEntered(event)" commitOnBlur="true" 
+		 commitOnEnter="true" width="72"  />
+	<mx:Script>
+		<![CDATA[
+			import mx.utils.StringUtil;
+			import mx.managers.IFocusManagerContainer;
+			import mx.events.CloseEvent;
+			import vo.GalleryTypes;
+			import mx.controls.TextInput;
+			import mx.managers.FocusManager;
+			import mx.controls.Alert;
+			import components.FadingNotifier;
+			import vo.ChapterVO;
+			import mx.core.IContainer;
+			import mx.effects.Glow;
+			import mx.core.Application;
+			import mx.formatters.SwitchSymbolFormatter;
+			import mx.rpc.events.FaultEvent;
+			import mx.rpc.events.ResultEvent;
+			import mx.rpc.http.HTTPService;
+			import vo.WebFolderVO;
+			import model.HmmChaptersModel;
+			import vo.WebFileVO; 
+			[Bindable]
+			private var folderNameString : String;
+			[Bindable]
+			private var iconUrl : String;
+			[Bindable]
+			private var backImageVisibility : Boolean = false;
+			[Bindable]
+			private var editFolderName : Boolean;
+			[Bindable]
+			private var itemToolTip : String;
+			[Bindable]
+			private var glow : Array;
+			private var editing : Boolean;
+			private static var alertShown : Boolean = false;
+			private var nameValue : String;
+			private var addedToStage : Boolean = true;
+			
+			
+			private function handleIPECC() : void
+			{
+				if(data.flag == true)
+				{
+					folderName.editable = true;
+					var textinput : TextInput = folderName.textInput;
+					textinput.setSelection(0, textinput.text.length);
+					folderName.addEventListener(Event.ENTER_FRAME,handleAddToStage);
+					//textinput.setFocus();
+					//textinput.getFocus();
+					//handleAddToStage();
+					
+				}
+			}
+			
+		
+			private function handleAddToStage(event : Event) : void
+			{
+				 //  Alert.show("Got Focus");
+				 	folderName.removeEventListener(Event.ENTER_FRAME,handleAddToStage);
+				 	//var focusManager : FocusManager = new FocusManager(this);
+				 	//focusManager.setFocus(folderName);
+				 	//focusManager.getFocus();
+					//folderName.textInput.setFocus();
+					//folderName.textInput.getFocus();
+					focusManager.setFocus(folderName.textInput);
+					focusManager.showFocus();
+					//addedToStage = false;
+			}
+			
+			private function handleAlertShown(event : CloseEvent) : void
+			{
+				alertShown = false;
+			}
+			
+			private function handleTextEntered(event :Event) : void
+			{
+					if(!Application.application.ready)
+						return; 
+					folderName.text = StringUtil.trim(folderName.text);	
+					if(folderName.text == "" ||  folderName.text == null )
+					{
+						folderName.text = nameValue;
+						return;
+					}	
+					data.name = folderName.text;
+					nameValue = folderName.text;
+					var renameService : HTTPService = new HTTPService();
+					switch(data.classType)
+					{
+						case "chapterVO" : 
+						 	renameService.url = "/tags/renameTag";
+							break;
+						case "VideoGalleryVO":
+						case GalleryTypes.PHOTO:
+						case "AudioGalleryVO":	
+						case "galleryVO":
+							renameService.url = "/galleries/renameGallery";
+							break;
+						case "webFileVO" :
+							renameService.url = "/sub_chapter/renameGalleryItem";		
+							break;
+						case "subChapterVO":
+							renameService.url = "/sub_chapter/renameSubChapter";
+							break
+					}
+					
+					renameService.addEventListener(ResultEvent.RESULT, handleNameChangeResult);
+					renameService.addEventListener(ResultEvent.RESULT, handleNameChangeResult);
+					var obj : Object = new Object();
+					obj.id = data.id;
+					obj.name = folderName.text;
+					renameService.send(obj);
+					editing = false;
+					data.flag = false;
+				
+			}
+			
+			private function handleNameChangeResult(event : ResultEvent) : void
+			{
+				trace(event.result.toString());
+				FadingNotifier.showMessage("Item Successfully Renamed!!!");
+				if(this.parentDocument.hasOwnProperty("renamed"))
+				{
+					 if(Application.application.hasOwnProperty("folderCreated"))
+					{
+						if(Application.application.folderCreated)
+						{
+							if(this.parentDocument.hasOwnProperty("folderCreated"))
+							{
+								if(!this.parentDocument.folderCreated)
+									this.parentDocument.renamed = true;
+							}
+							else
+								this.parentDocument.renamed = true;
+						}
+					}
+					
+				}
+				
+			}
+			
+			private function handleNameChangeFault(event : FaultEvent) : void
+			{
+				trace(event.fault.toString());	
+			}
+			
+			override public function set data(value:Object):void
+			{
+				glow = null;
+				super.data = value;
+				/*   if(folderName )
+				 {
+				 	handleIPECC();
+				 	data.flag = false;
+				 	//handleAddToStage();
+				 }   */
+				editFolderName = true;
+				if(value.access == "private")
+				{
+					glow = [new GlowFilter(0xFF0000)];
+					itemToolTip= "This item is private";
+				}else if(value.access == "public")
+				{
+					glow = [new GlowFilter(0x00FF00)];
+					itemToolTip= "This item is public";
+				}else if(value.access == "semiprivate")
+				{
+					glow = [new GlowFilter(0xFFFF00)];
+					itemToolTip= "This item is visible to friends and family only";
+				}
+				if(iconImage)
+						iconImage.filters = glow;
+				
+				trace("Name: "+data.name+" Type: "+data);
+				
+				
+				 if(!(value.hasOwnProperty("subchapters")||value.hasOwnProperty("files")))
+				{
+					iconUrl = value.icon;
+					folderNameString = value.name;
+					backImageVisibility = false;
+					if(data is WebFileVO)
+					{
+						if(data.type == "audio")
+							iconUrl = "/speaker.png";
+					}
+					return;
+				}else
+				{
+					backImageVisibility = true;
+				}
+				if(value.name ==null)
+				{
+					folderNameString = "null";	
+				}
+				else if(value.name == "")
+					folderNameString = "";
+				else
+					folderNameString = value.name.toString();	  
+				//editFolderName = value.writable;
+				
+				iconUrl = value.icon;
+				
+				//this.addEventListener(Event.ENTER_FRAME,handleEnterFrame);
+				
+			}
+			
+			private function handleEnterFrame(event : Event) : void
+			{
+			  if(data.flag)
+			  {
+			  	folderName.textInput.setFocus();
+			  	folderName.textInput.getFocus();
+			  	this.removeEventListener(Event.ENTER_FRAME,handleEnterFrame);
+			  }	
+			}
+		]]>
+	</mx:Script>
+</mx:VBox>

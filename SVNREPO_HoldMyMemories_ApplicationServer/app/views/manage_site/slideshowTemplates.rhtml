@@ -1,0 +1,28 @@
+<table valign="top" align="left" width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr>
+    <td width="170" align="left" valign="top" >
+      <%= render :partial => "leftnav", :locals => { :current => "create"} %>
+    </td>
+    <td width="713" align="top"  valign="top">
+      <% @content=ContentPath.find(:first)
+         @proxyurls=@content.content_path
+      %>
+      <div id="templates"></div>
+      <input type="hidden" name="familyname" value="<%=params[:id]%>" id="familyname" />
+      <script src="/swfobject.js" language="JavaScript"></script>
+      <script type="text/javascript">
+        var fname = document.getElementById('familyname').value;
+        var flashvars = {link:'/manage_site/template1/'+fname+'?template=',change:'?familyname='+fname,proxyurls:'<%=@proxyurls%>'};
+        var params = {allowfullscreen:true,bgcolor:'#000000'};
+        var attributes = {};
+        swfobject.embedSWF("/SlideShowCreator.swf", "templates", "750", "336", "9.0.0","expressInstall.swf", flashvars, params, attributes);
+      </script>
+    </td></tr>
+  <tr>
+    <td>
+      &nbsp;
+    </td>
+  </tr>
+</table>
+
+

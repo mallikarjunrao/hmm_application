@@ -1,0 +1,18 @@
+<html>
+   <head>
+      <title>Hello Web Service</title>
+   </head>
+   <body>
+      <h1>Hello Web Service</h1>
+      <p>
+      This Rails application tests a Web service.
+      </p>
+      <% form_tag('getMsg') do %>
+      <p><label>Name</label><br/>
+      <%= text_field 'name', '' %></p>
+      <%= text_field 'phone', '' %></p>
+
+      <%= submit_tag "Get Message" %>
+      <% end %>
+   </body>
+</html>

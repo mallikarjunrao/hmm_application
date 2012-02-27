@@ -1,0 +1,87 @@
+
+<table width="100%" border="0" cellspacing="0" cellpadding="0">
+     
+        <tr>
+          <th height="276" colspan="3" align="left" valign="top" scope="col" >                                         
+			<table width="100%" border="0" cellspacing="0" cellpadding="0">
+				<tr>
+              		<th height="12" colspan="9" align="center" valign="top" class="btmtxt" scope="col"></th>
+              	</tr>
+            	<tr>
+              		
+              		<th   align="center" colspan="4" valign="top" scope="col" >
+              	
+						<table width="100%" border="0" align="center" cellspacing="0" cellpadding="0">
+							<tr  background="/images/bg_chapter1_photo1.jpg">
+								<th colspan="7" align="center" valign="middle" scope="col" >
+           					   
+                                 <%if @usercontent.e_filetype=='video'%>
+							   
+<input type="hidden" id="galleryId" value="/myvideos/videoCoverflow/<%=session[:gal]%>">
+<input type="hidden" id="swfName" value="/CoverFlowVideo">
+
+<script language="JavaScript" type="text/javascript">
+	
+var galId = document.getElementById("galleryId").value;
+var flashName = document.getElementById("swfName").value;
+AC_FL_RunContent( 'codebase','http://download.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=7,0,19,0','width','810','height','450','src',flashName,'quality','high','pluginspage','http://www.macromedia.com/go/getflashplayer','movie',flashName,'flashvars', 'serverUrl='+galId,"allowFullscreen", "true" ); //end AC code
+</script><noscript><object classid="clsid:D27CDB6E-AE6D-11cf-96B8-444553540000" codebase="http://download.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=7,0,19,0" width="810" height="450">
+ 
+ 
+</object></noscript>
+ <%else%>
+							    <img src="/user_content/photos/journal_thumb/<%=@usercontent.v_filename%>" />
+								<%end%>
+								
+								
+								</th>
+		  					</tr>
+            		   </table>		  			</th>
+				</tr>
+			 <tr> <th width="82%" height="0" align="center" valign="bottom"  scope="col" ><h3><br><% if @usercontent.v_tagphoto %>&nbsp;&nbsp;&nbsp;&nbsp;<%=@usercontent.v_tagphoto%> <%else%> No name <%end%></h3></th>
+          
+        
+       
+  </tr>
+              <tr>
+              		<th height="12" colspan="9" align="left" valign="top" scope="col"></th>
+              </tr>
+              <tr>
+              	<% session[:usercontent_id1]=@usercontent.id%>
+                <th height="12" colspan="9" align="center" valign="top" scope="col">                       	
+<%if session[:share]=="check"%>
+<%= link_to_remote("Add Comments for " + "#{@usercontent.v_tagphoto}" + " Moment" , :update =>'me', 
+:url => {:controller => :photo_comments , :action => :new1, :id=> @usercontent.id , :id_journal => 0 }  ) %>
+
+&nbsp;&nbsp;&nbsp;
+<% comnt_photo=PhotoComment.find_by_sql("select count(*) as cnt from photo_comments where e_approved='pending'")           
+  				for cmt_photo in comnt_photo
+   				count_photo=cmt_photo['cnt']
+  				end
+		%> 
+<%= link_to_remote("View Comments " + "#{@usercontent.v_tagphoto}" + " Moment ",:update =>'me', 
+:url => {:controller => :photo_comments, :action => :photo_comnt, :id=> @usercontent.id , :id_journal => 0 }  ) %>
+<%else%>
+<%= link_to_remote("Add Comments for " + "#{@usercontent.v_tagphoto}" + " Moment" , :update =>'me', 
+:url => {:controller => :photo_comments , :action => :new, :id=> @usercontent.id , :id_journal => 0 }  ) %>
+
+&nbsp;&nbsp;&nbsp;
+<% comnt_photo=PhotoComment.find_by_sql("select count(*) as cnt from photo_comments where e_approved='pending'")           
+  				for cmt_photo in comnt_photo
+   				count_photo=cmt_photo['cnt']
+  				end
+		%> 
+<%= link_to_remote("View Comments " + "#{@usercontent.v_tagphoto}" + " Moment ",:update =>'me', 
+:url => {:controller => :photo_comments, :action => :photo_comnt, :id=> @usercontent.id , :id_journal => 0 }  ) %>
+<%end%>
+</th>
+              </tr>
+			  <tr><th align="center"><br><div id ='me'></div><br></th></tr>
+          </table>
+		  </th>
+          </tr>
+		  
+        	  <table><tr><td><div id=writej></div></td></tr></table>
+			  </th>
+        </tr>
+</table>

@@ -1,0 +1,10 @@
+<%= error_messages_for 'familywebsite_visit' %>
+
+<!--[form:familywebsite_visit]-->
+<p><label for="familywebsite_visit_family_website_name">Family website name</label><br/>
+<%= text_field 'familywebsite_visit', 'family_website_name'  %></p>
+
+<p><label for="familywebsite_visit_visit_date">Visit date</label><br/>
+<%= datetime_select 'familywebsite_visit', 'visit_date'  %></p>
+<!--[eoform:familywebsite_visit]-->
+

@@ -1,0 +1,36 @@
+<form name="slideshowTemp" id="slideshowTemp" action="/myvideos/createSlideShow/" method="post">
+<table width="830" align="center" cellpadding="0" cellspacing="0" border="0">
+	<tr>
+		<td width="170" valign="top" >
+			<%= render :partial => "leftnav", :locals => { :current => "create"} %>
+		</td>
+		<td width="10">&nbsp;</td>
+	<td>
+<table width="100%" align="center" cellpadding="0" cellspacing="0" border="0">
+	<tr>
+		<td colspan="3"  align="center"><font color="#ffffff" size="5">Preview SlideShow Template</font></td>
+	</tr>
+	<tr>
+		<td width="75"  align="center" valign="middle"><a href="/manage_site/slideshowTemplates/<%=params[:id]%>">Back</a></td>
+		<td align="center" valign="middle">
+			<div id="templates"></div>
+			<script src="/swfobject.js" language="JavaScript"></script>
+			<script type="text/javascript">
+
+var flashvars = {xmlfile:'/slideshow.xml'};
+var params = {allowfullscreen:true,bgcolor:'#000000'};
+var attributes = {};
+swfobject.embedSWF("/<%=params[:template]%>.swf", "templates", "550", "450", "9.0.0","expressInstall.swf", flashvars, params, attributes);
+
+</script>
+
+			
+		</td>
+		<td width="75" align="center" valign="middle"><a href="/my_familywebsite/createSlideShow/<%=params[:id]%>"> Next</a></td>
+	</tr>
+	
+</table>
+</td>
+</tr>
+</table>
+</form>

@@ -1,0 +1,173 @@
+<script type="text/javascript">
+function check_chapter(i,k)
+	{
+		//alert(chap);
+		//alert(select);
+		var x = document.getElementById('count').value;
+		for (l = 1; l <= 2; l++) {
+			//var chap1 = document.getElementById('chapter' +i).options.value;
+			//var select1 = document.getElementById('chapter' + k).options.value;
+			//alert(chap1);
+			//alert(select1);
+			if (l == k) {
+			
+			}
+			else {
+			
+			
+				if (document.getElementById('chapter' + k).value == document.getElementById('chapter' + l).value) {
+					
+					document.getElementById('chapter' + k).value="default"
+					alert("this chapter is already selected");
+					return false;
+				}
+			}
+		}
+	}
+ 
+ function validate()
+ {
+ 	if (document.getElementById('chapter').value == 'default') 
+				{
+					alert("please select a chapter");
+					document.getElementById('chapter').focus();
+					return false;
+				}
+ } 
+</script>
+<style>
+
+.textcolor {
+font-family:Arial, Helvetica, sans-serif;
+font-size: 16px;
+color: #ffffff;
+
+}
+</style>
+
+<%= error_messages_for 'family_member' %>
+<table width="890" border="0">
+ <tr>
+  <td class="textcolor" align="right" valign="top">
+   <label for="family_member_familymember_name">Name</label>
+  </td>
+  <td>&nbsp;</td>
+  <td align="left" valign="top">
+   <%= text_field 'family_member', 'familymember_name'  %>
+  </td>
+  
+ </tr>
+ <tr>
+  <td class="textcolor" align="right" valign="top">
+   <label for="family_member_relation">Relation</label>
+  </td>
+  <td>&nbsp;</td>
+  <td align="left" valign="top">
+   <% relation_check = FamilyMember.find(:all, :conditions => "uid='#{logged_in_hmm_user.id}'")%>
+   <% for i in relation_check
+    if i.relation == "mother"
+        m=1 
+     end
+    if i.relation == "father"
+        fa=1 
+     end
+    if i.relation == "husband"
+        ha=1 
+     end
+    if i.relation == "wife"
+        w=1 
+     end
+      end%>
+    <%present_record = FamilyMember.find(:all, :conditions => "id=#{params[:id]}")
+     for j in present_record%> 
+   <select name="relation" style="display:block" id="relation"  >
+          
+    <%if m!=1%>
+    <option value="mother">Mother</option>
+    <%else if (j.relation=='mother')%>
+     <option value="mother" selected="selected" >Mother</option>
+    <%end%><%end%>
+    
+    <%if fa!=1%>
+    <option value="father">Father</option>
+     <%else if (j.relation=='father')%>
+     <option value="father" selected="selected" >Father</option>
+    <%end%><%end%>
+    
+    <option value="brother" <% if (j.relation=='brother')%> selected="selected"  <%end%>>Brother</option>
+   
+    <option value="sister" <%if (j.relation=='sister')%> selected="selected" <%end%>>Sister</option>
+    
+    <%if ha!=1%>
+          <option value="husband">Husband</option>
+    <%else if (j.relation=='husband')%>
+    <option value="husband" selected="selected">Husband</option>
+    <%end%><%end%>
+    
+    <%if w!=1%>
+    <option value="wife">Wife</option>
+   <%else if (j.relation=='wife')%>
+   <option value="wife" selected="selected">Wife</option>
+    <%end%><%end%>
+    
+    <option value="son" <%if (j.relation=='son')%> selected="selected" <%end%>>Son</option>
+    
+    <option value="daughter" <%if (j.relation=='daughter')%> selected="selected"  <%end%>>Daughter</option>
+   
+ 	 <option value="pet" <%if (j.relation=='pet')%> selected="selected"  <%end%>>Pets</option>  
+        </select>
+  <%end%>
+   
+  </td>
+ </tr>
+ <tr>
+  <td class="textcolor" align="right" valign="top">
+   <label for="family_member_member_bdate">Birth Date</label>
+  </td>
+  <td>&nbsp;</td>
+  <td align="left" valign="top">
+   <%= date_select "family_member", "bdate", :order => [:month, :day, :year], :start_year => Time.now.year - 100, :end_year => Time.now.year %>
+  </td>
+ </tr>
+ <tr>
+ 	<td colspan="3" align="left">
+  	<font color="#ffffff" size="2">Have You already created a chapter for this family member</font>
+		 &nbsp;&nbsp;
+		 <font color="#ffffff">Yes</font> <input type="radio" name="chapterselect" id="chapterselect" value="yes"  onclick="new Ajax.Updater('choose_chapter','/family_members/choosechapter_edit', 
+					{asynchronous:true, evalScripts:true, onLoading:function(request) {Effect.Appear('fnf');}});return true;">
+		<font color="#ffffff">No</font> <input type="radio" name="chapterselect" id="chapterselect" value="no" checked="checked" onclick="new Ajax.Updater('choose_chapter','/family_members/chooseimage_edit',
+					{asynchronous:true, evalScripts:true, onLoading:function(request) {Effect.Appear('fnf');}}); return true;">
+	</td>
+ </tr>
+ <tr>
+ 	<th colspan="3" align="left">
+ <div id="choose_chapter">
+ <table>
+ 	<input type="hidden" value="<%=params[:id]%>" name="count" />
+				<%k=params[:id]%>
+ <tr>
+ 	
+  <td class="textcolor" align="right" valign="top">
+   &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+   <label for="family_member_member_image">Photo</label>
+  </td>
+  <td>&nbsp;&nbsp;&nbsp;</td>
+  <td align="left" valign="top">
+   <%=  file_field  'family_member', 'member_image'  %>
+  </td>
+ </tr>
+</table>
+ </div>
+ </th></tr>
+ 
+ <tr>
+  <td class="textcolor" align="right" valign="top">
+   <label for="family_member_biographie">Biography</label>
+  </td>
+  <td>&nbsp;</td>
+  <td align="left" valign="top">
+   <%= text_area 'family_member', 'biographie', :rows => 10, :cols => 35 %>
+  </td>
+ </tr>
+ 
+</table>

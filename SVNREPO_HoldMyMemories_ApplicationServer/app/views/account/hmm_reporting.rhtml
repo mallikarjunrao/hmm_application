@@ -1,0 +1,159 @@
+
+<script type="text/javascript">
+	function chg(val)
+	{
+		
+		if (document.getElementById('pcode').style.display == 'none' && document.getElementById('cty').style.display == 'block' && val=='USA') {
+			document.getElementById('pcode').style.display = 'block';
+			document.getElementById('cty').style.display = 'none';
+		}else{
+			document.getElementById('pcode').style.display = 'none';
+			document.getElementById('cty').style.display = 'block';
+		}
+		
+	}
+	
+	function checkbox_validation(selected)
+	{
+		values = new Array('company','studios','managers');
+		
+		for(var i=0;i<values.length;i++)
+		{
+		    //alert(values[i]);
+			if (values[i] == selected) {
+				document.getElementById(values[i]).checked = true;
+				document.getElementById(values[i]+'_sec').style.display = 'block';
+			}else{
+				document.getElementById(values[i]).checked = false;
+				document.getElementById(values[i]+'_sec').style.display = 'none';
+			}
+		} 
+	}
+	
+	
+	function verify()
+	{
+		{
+			if (document.getElementById('managers').checked == false && document.getElementById('studios').checked == false && document.getElementById('company').checked == false)
+			{
+				alert('Please enter the search option!');
+				return false;
+			}
+			else
+			return  true;
+		}
+	}
+	
+	
+</script>
+<style>
+
+</style>
+
+<form name="frm" action="/account/hmm_reporting_search" method="post" onsubmit="return verify();" >
+<table width="909" border="0" cellpadding="0" cellspacing="0"><tr><td>
+<table cellpadding="0" cellspacing="0" width="909" border="0" bordercolor="#e5b467" align="center">
+	<tr>
+		<td colspan="2" align="center" valign="middle">
+			<h3>HMM Reporting</h3>		</td>
+	</tr>
+	<tr>
+		<td colspan="2">
+			<center>
+			No of Inactive Users&nbsp;&nbsp; :&nbsp; <%=@hmmuser_blockcnt%> <br></br>
+			&nbsp;&nbsp;No of Active Users &nbsp;&nbsp;&nbsp;:&nbsp; <%=@hmmuser_unblockcnt%></center>
+			<br></br>		</td>
+	</tr>
+	</table>
+	
+	<table cellpadding="4" cellspacing="4" border="1" bordercolor="#e5b467" align="center" align="center">
+	<tr>
+		<td align="center" colspan="6" height="48">
+			<font size="4">Search Users </font>		</td>
+	</tr>
+	
+	<tr>
+	  <td colspan="6" align="center"><table width="498" border="0" cellspacing="0" cellpadding="0">
+        <tr>
+          <td width="83">By Company</td>
+          <td width="39"><input type="checkbox" name="company" id="company" value="1" class="textbox-signup" onClick="checkbox_validation('company')" style="width:20px;"/></td>
+          <td width="143">By Individual Studios</td>
+          <td width="42"><input type="checkbox" name="studios" id="studios" value="1" class="textbox-signup" onClick="checkbox_validation('studios')" style="width:20px;"/>	</td>
+          <td width="158">By Individual managers</td>
+          <td width="33"><input type="checkbox" name="managers" id="managers" value="1"  class="textbox-signup" onClick="checkbox_validation('managers')" style="width:20px;"/></td>
+        </tr>
+      </table></td>
+    </tr>
+	
+	
+	<tr>
+		<td width="100" colspan="2" style="border:none">
+			<div id="company_sec" style="display:none">
+				<table>
+					<tr>
+						<td>
+							Select Company						
+						</td>
+						<td>
+							<select name="company_value" id="company_value" >
+								<%@hmm_studios_grp = HmmStudiogroup.find(:all)
+									for i in @hmm_studios_grp%>
+									<option value="<%=i.id%>" ><%=i.hmm_franchise_studio%></option>
+									<%end%>
+							</select>
+						</td>
+					</tr>
+				</table>
+			</div>
+			</td>
+			<td width="100" colspan="2" style="border:none">
+			<div id="studios_sec" style="display:none">
+				<table>
+					<tr>
+						<td>
+							Select Studio						</td>
+						<td>
+							<select name="studio_value" id="studio_value" >
+								<%@hmm_studios = HmmStudio.find(:all)
+									for i in @hmm_studios%>
+									<option value="<%=i.id%>"><%=i.studio_name%></option>
+									<%end%>
+							</select>						
+						</td>
+					</tr>
+				</table>
+			</div>
+			</td>
+			<td width="100" colspan="2" style="border:none">
+			<div id="managers_sec" style="display:none">
+				<table>
+					<tr>
+						<td>
+							Select Managers						</td>
+						<td>
+							<select name="manager_value">
+								<%@hmm_managers = EmployeAccount.find(:all, :conditions => "emp_type = 'store_manager'")
+									for i in @hmm_managers%>
+									<option value="<%=i.id%>"><%=i.employe_name%></option>
+								<%end%>
+							</select>
+											</td>
+					</tr>
+				</table>
+			</div>
+			</td>
+	</tr>
+	
+	<tr>
+		<td colspan="6" align="center">
+		<input type="image" name="sub" id="search" src="/images/search_over.jpg"  border="0" />
+		</td>
+	</tr>
+</table>
+
+
+</form>
+
+
+
+<br />

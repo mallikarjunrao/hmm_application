@@ -1,0 +1,843 @@
+<%session[:friend]=''
+
+
+%>
+<%
+@get_content_url=ContentPath.find(:all, :conditions => "status='active'")
+$content_path=@get_content_url[0]['content_path']
+$servername=@get_content_url[0]['proxyname']
+
+@m=request.request_uri.split('/')
+@path=@m[2];
+@path=@path.split('?')
+@path=@path[0]
+%>
+
+
+<%
+
+
+
+m1=request.request_uri.split('/')
+path1=m1[2];
+path1=path1.split('?')
+path1=path1[0]
+if session[:share]=="check" && path1 == "photo_journal"
+%>
+
+
+  <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+  <html xmlns="http://www.w3.org/1999/xhtml">
+    <head>
+      <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+      <title>Hold My Memories</title>
+      <link rel="SHORTCUT ICON" href="/images/common/favicon.ico" type="image/x-icon" />
+
+      <link href="/hmm.css" rel="stylesheet" type="text/css" />
+      <style type="text/css">
+        .cmd-btn {
+          font-family:Verdana, Arial, Helvetica, sans-serif;
+          font-size:12px;
+          font-weight:bold;
+          color:#c3c3c3;
+          background-image:url(/new_images/cmd-btn.gif);
+          background-repeat:repeat-x;
+          height:21px;
+          padding:0px 15px 0px 15px;
+          border: 1px solid #635e59;
+        }
+        .current{
+          font-family:Arial, Helvetica, sans-serif;
+          font-size:12px;
+          color:#ff6100;
+          font-weight:bold;
+          text-decoration:none;
+        }
+      </style>
+
+      <script type="text/javascript">
+        fullurl=document.URL;
+        url=fullurl.split("/");
+        for(i=0;i<=url.length;i++)
+        {
+          url[i]=url[i].toUpperCase();
+          if(url[i])
+          {
+            if((url[i].indexOf("%3CSCRIPT%3E") >= 0) || (url[i].indexOf("%3C/SCRIPT%3E") >= 0) || (url[i].indexOf("%3C/SCRIP%3E") >= 0) || (url[i].indexOf("%3CSCRIP") >= 0) ||(url[i].indexOf("JAVASCRIPT:ALERT") >= 0))
+            {
+              window.location="/contests/error_page"
+            }
+          }
+        }
+      </script>
+      <script type="text/javascript">
+        <!--
+        function MM_preloadImages() { //v3.0
+          var d=document; if(d.images){ if(!d.MM_p) d.MM_p=new Array();
+            var i,j=d.MM_p.length,a=MM_preloadImages.arguments; for(i=0; i<a.length; i++)
+              if (a[i].indexOf("#")!=0){ d.MM_p[j]=new Image; d.MM_p[j++].src=a[i];}}
+          }
+          //-->
+      </script>
+      <script type="text/javascript" src="js/swfobject.js"></script>
+      <style type="text/css">
+        .cmd-btn {
+          font-family:Verdana, Arial, Helvetica, sans-serif;
+          font-size:12px;
+          font-weight:bold;
+          color:#c3c3c3;
+          background-image:url(/new_images/cmd-btn.gif);
+          background-repeat:repeat-x;
+          height:21px;
+          padding:0px 15px 0px 15px;
+          border: 1px solid #635e59;
+        }
+      </style>
+    </head>
+
+    <body>
+
+      <table width="100%" border="0" cellspacing="0" cellpadding="0" >
+        <tr>
+          <td align="center" valign="top"><table width="947" border="0" align="center" cellpadding="0" cellspacing="0">
+              <tr>
+                <td width="479" height="68" align="left" valign="middle"><a href="/"><img src="/new_images/logo.jpg" width="225" height="46" border="0" style="margin-left:25px;"/></a></td>
+                <td width="468" align="right" valign="top" style="padding-top:7px;"><!--<a href="/hmm_studios/hmmstudio_signup" class="topmenu">Hmm Studio Signup</a>--> <a href="/customers/authorise_verify" class="topmenu">Not Registered?</a> <a href="/user_account/login" class="topmenu">Log In</a></td>
+              </tr>
+              <tr>
+                <td colspan="2"><table width="947" border="0" cellspacing="0" cellpadding="0" align="center">
+                    <tr>
+                      <td width="16" align="left" valign="top"><img src="/new_images/topleft_curve1.jpg" width="16" height="28" /></td>
+                      <td width="223" align="center" valign="middle" background="/new_images/topmid_curve1.jpg">&nbsp;</td>
+                      <td width="72" align="center" valign="middle" background="/new_images/topmid_curve1.jpg"><a href="/" class="mainmenu_text">Home</a></td>
+                      <td width="1" align="center" valign="middle" background="/new_images/topmid_curve1.jpg"><img src="/new_images/menu_div.jpg" width="1" height="27" /></td>
+                      <td width="104" align="center" valign="middle" background="/new_images/topmid_curve1.jpg"><a href="/static/studios" class="mainmenu_text">HMM Studios</a></td>
+                      <td width="1" align="center" valign="middle" background="/new_images/topmid_curve1.jpg"><img src="/new_images/menu_div.jpg" width="1" height="27" /></td>
+                      <td width="123" align="center" valign="middle" background="/new_images/topmid_curve1.jpg"><a href="/static/photos_videos" class="mainmenu_text">Photos & Videos</a></td>
+                      <td width="1" align="center" valign="middle" background="/new_images/topmid_curve1.jpg"><img src="/new_images/menu_div.jpg" width="1" height="27" /></td>
+                      <td width="123" align="center" valign="middle" background="/new_images/topmid_curve1.jpg"><a href="/static/familysites" class="mainmenu_text">Family Websites</a></td>
+                      <td width="1" align="center" valign="middle" background="/new_images/topmid_curve1.jpg"><img src="/new_images/menu_div.jpg" width="1" height="27" /></td>
+                      <td width="88" align="center" valign="middle" background="/new_images/topmid_curve1.jpg"><a href="http://blog.holdmymemories.com" class="mainmenu_text">Bob's Blog</a></td>
+                      <td width="1" align="center" valign="middle" background="/new_images/topmid_curve1.jpg"><img src="/new_images/menu_div.jpg" width="1" height="27" /></td>
+                      <td width="76" align="center" valign="middle" background="/new_images/topmid_curve1.jpg"><a href="/contests/select_contest" class="mainmenu_text">Contests</a></td>
+                      <td width="1" align="center" valign="middle" background="/new_images/topmid_curve.jpg"><img src="/new_images/menu_div.jpg" width="1" height="27" /></td>
+                      <td width="100" align="center" valign="middle" background="/new_images/topmid_curve1.jpg" ><a href="/static/abouthmm" class="mainmenu_text">About HMM</a></td>
+                      <td width="16" align="left" valign="top"><img src="/new_images/topright_curve1.jpg" width="16" height="28" /></td>
+                    </tr>
+                  </table></td>
+              </tr>
+              <tr>
+                <td colspan="2" align="center" valign="top"bgcolor="#000000" height="1"></td>
+              </tr>
+              <tr>
+                <td colspan="2" align="center" valign="top" class="gradlines" bgcolor="#000000"><div id="content" align="center" width="100%">
+                    <%= yield %>
+                  </div></td>
+              </tr>
+
+
+              <tr>
+                <td colspan="2"><table width="947" border="0" cellspacing="0" cellpadding="0">
+                    <tr>
+                      <td width="16" align="left" valign="top"><img src="/new_images/bottom_black_curve1.png" width="16" height="14" /></td>
+                      <td width="206" align="right" valign="top" bgcolor="#000000"><table width="196" border="0" cellspacing="0" cellpadding="0">
+                          <tr>
+                            <td align="center" valign="top" height="10"></td>
+                            <td id="v_line" width="1"></td>
+                          </tr>
+                        </table></td>
+                      <td width="448" align="left" valign="top" bgcolor="#000000" ></td>
+                      <td width="261" align="right" valign="top" bgcolor="#000000"></td>
+                      <td width="16" align="right" valign="top"><img src="/new_images/bottom_black_curve_right1.png" width="16" height="14" /></td>
+                    </tr>
+                    <tr>
+                      <td align="left" valign="top">&nbsp;</td>
+                      <td align="left" valign="top"></td>
+                      <td align="left" valign="top" ></td>
+                      <td align="right" valign="top"></td>
+                      <td align="right" valign="top">&nbsp;</td>
+                    </tr>
+
+                  </table></td>
+              </tr>
+            </table></td>
+        </tr>
+        <tr>
+          <td height="24" align="center" valign="middle" bgcolor="#000000"><table width="915" border="0" cellspacing="0" cellpadding="0">
+              <tr>
+                <td width="315" align="left" valign="middle" class="copyright">&copy; 2010 HoldMyMemories.com, LLC. All rights reserved. </td>
+                <td width="600" align="left" valign="middle" class="grayfont"><a href="/contact_us/new" class="footermenu">Contact Us</a> | <a href="http://blog.holdmymemories.com" class="footermenu">Bob's Blog</a> | <a href="/static/about_us" class="footermenu">About HMM</a> | <a href="/user_account/faq" class="footermenu">FAQ</a> | <a href="/user_account/privacy_policy" class="footermenu">Privacy Policy</a> | <a href="/user_account/termsof_use" class="footermenu">End Users License Agreement</a></td>
+              </tr>
+            </table></td>
+        </tr>
+      </table>
+
+      <script type="text/javascript">
+          var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+          document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+      </script>
+      <script type="text/javascript">
+          var pageTracker = _gat._getTracker("UA-5209348-1");
+          pageTracker._trackPageview();
+      </script>
+
+
+    </body>
+  </html>
+
+
+
+
+
+
+<%else%>
+  <% if logged_in_hmm_user %>
+    <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+    <html xmlns="http://www.w3.org/1999/xhtml">
+      <head>
+
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <meta name="title" content="Brought to you by HoldMyMemories.com" />
+        <meta name="description" content="www.MeriYaadein.com" />
+
+        <link rel="image_src" href="<%=request_content_url%>/user_content/photos/journal_thumb/5275_91110023.jpg" />
+        <meta name="medium" content="image" />
+
+
+        <title>Family Photos, Videos, and Websites</title>
+        <link rel="SHORTCUT ICON" href="/images/common/favicon.ico" type="image/x-icon" />
+
+        <link href="/stylesheets/main.css" media="screen" rel="Stylesheet" type="text/css" />
+        <link href="/stylesheets/hmm.css" media="screen" rel="Stylesheet" type="text/css" />
+        <%= stylesheet_link_tag 'hmmout' %>
+
+
+        <%= javascript_include_tag 'prototype' %>
+
+        <%= javascript_include_tag 'info_access' %>
+
+
+        <script type="text/javascript">
+
+            function MM_preloadImages() { //v3.0
+              var d=document; if(d.images){ if(!d.MM_p) d.MM_p=new Array();
+                var i,j=d.MM_p.length,a=MM_preloadImages.arguments; for(i=0; i<a.length; i++)
+                  if (a[i].indexOf("#")!=0){ d.MM_p[j]=new Image; d.MM_p[j++].src=a[i];}}
+
+              }
+              function MM_swapImgRestore() { //v3.0
+                var i,x,a=document.MM_sr; for(i=0;a&&i<a.length&&(x=a[i])&&x.oSrc;i++) x.src=x.oSrc;
+              }
+              function MM_findObj(n, d) { //v4.01
+                var p,i,x;  if(!d) d=document; if((p=n.indexOf("?"))>0&&parent.frames.length) {
+                  d=parent.frames[n.substring(p+1)].document; n=n.substring(0,p);}
+                if(!(x=d[n])&&d.all) x=d.all[n]; for (i=0;!x&&i<d.forms.length;i++) x=d.forms[i][n];
+                for(i=0;!x&&d.layers&&i<d.layers.length;i++) x=MM_findObj(n,d.layers[i].document);
+                if(!x && d.getElementById) x=d.getElementById(n); return x;
+              }
+
+              function MM_swapImage() { //v3.0
+                var i,j=0,x,a=MM_swapImage.arguments; document.MM_sr=new Array; for(i=0;i<(a.length-2);i+=3)
+                  if ((x=MM_findObj(a[i]))!=null){document.MM_sr[j++]=x; if(!x.oSrc) x.oSrc=x.src; x.src=a[i+2];}
+              }
+
+
+
+
+        </script>
+
+      </head>
+
+
+      <body   class="bodytag1" onmouseover=""   >
+
+        <% if session[:user]==nil || session[:user]==''%>
+        <%else%>
+          <p align="center"><font color="white" face="arial" size="3">You are currently logged in as HoldMyMemories.com Administrator. Please <u><a href="<%=request_server_url%>/account/index1">click here</a></u> to go back to the Admin Home page.</font> </p>
+        <%end%>
+        <table width="100%" border="0" cellspacing="0" cellpadding="0" >
+          <tr>
+            <td height="164" align="left" valign="top" background="/images/bg_top.jpg" >&nbsp;</td>
+            <td width="905" align="left" valign="top"><table width="905" border="0" cellspacing="0" cellpadding="0">
+                <tr>
+                  <td align="left" valign="top"><table width="100%" border="0" cellspacing="0" cellpadding="0">
+
+                      <tr>
+                        <td width="905" colspan="3" align="left" valign="top" ><table width="905" border="0" cellspacing="0" cellpadding="0">
+                            <tr>
+                              <th colspan="2" align="left" valign="top" ><table width="100%" border="0" cellspacing="0" cellpadding="0">
+                                  <tr>
+                                    <th width="38%" align="left" valign="top" scope="col"><span class="welcometext"><a href="<%=request_server_url%>"><img src="/images/logonew.jpg" width="347" height="134" border="0" /></a></span></th>
+                                    <th  align="center" valign="top" scope="col" >
+
+                                      <table>
+                                        <tr>
+                                          <th>
+                                            <% if(request.request_uri == "/tags/coverflow" ) %>
+                                              <a href="/tags/fnfAlert"  onclick="Modalbox.show(this.href, {title: '...', width: 630, heigh: 5}); return false;">
+                                                <img src="/images/my_alerts.gif" border="0" height="20" width="94"/> </a><%end%>
+                                          </th>
+                                          <th>
+                                            <% if session[:flag]==1 %>
+                                            <%else%>
+                                              <% if(request.request_uri == "/contests/contest_chapter/" || request.request_uri == "/contests/contest_sub_chapter/#{params[:id]}" || request.request_uri == "/contests/contest_gallery/#{params[:id]}" || request.request_uri == "/contests/contest_moments/#{params[:id]}" || request.request_uri == "/contests/contest_upload" || request.request_uri == "/contests/mycontest_moments" || request.request_uri == "/contests/mymemorable_moments" || request.request_uri == "/contests/contests_select" || request.request_uri == "/contests/logged_terms_conditions/#{params[:id]}" || request.request_uri == "/contests/cutekid_contest") %>
+                                                <img src="/images/my_contest_ovr.gif" name="Image44" width="94" height="20" border="0" id="Image55" />
+                                              <%else%>
+                                                <a href="<%=request_server_url%>/contests/login_check" onmouseout="MM_swapImgRestore();" onmouseover="MM_swapImage('Image55','','/images/my_contest_ovr.gif',1)">
+                                                  <img src="/images/my_contest.gif" name="Image55" width="94" height="20" border="0" id="Image55" /></a>
+                                              <%end%>
+                                            <%end%>
+                                          </th>
+                                        </tr>
+                                      </table>
+
+                                    </th>
+                                    <th scope="col" align="right">
+
+
+                                      <table width="100%" align="right" border="0" cellspacing="0" cellpadding="0">
+                                        <tr >
+                                          <th height="40" width="65%" align="right" valign="middle" class="logintxt" >Welcome <span class="logintxt-orange">
+
+
+                                              <%if logged_in_hmm_user %>
+                                                <a class="logintxt-orange" style="text-decoration:none"  href="<%=request_server_url%>/customers/edit_profile/<%=logged_in_hmm_user.id%>"> <%=logged_in_hmm_user.v_fname %> </a>
+                                              <%end%>
+
+                                            </span></th>
+                                          <th height="32" width="35%" rowspan="2"  align="right" valign="middle" scope="col"  onmousedown="callme()" > <a href="<%=request_server_url%>/customers/edit_profile/<%=logged_in_hmm_user.id%>" style="padding-right:10px;"> <img  src="<%=logged_in_hmm_user.img_url%>/hmmuser/photos/thumb/<%=logged_in_hmm_user.v_myimage%>" border='0' title="Edit profile image!!" id="img1" onmousedown="callme(this.id)" oncontextmenu="return false;"  /></a></th>
+                                        </tr>
+
+                                        <tr >
+                                          <th height="42" align="right" valign="middle" scope="col"><%= link_to 'Sign Out', {:controller => 'user_account', :action => 'logout'},
+                                              :method => :post %></th>
+
+                                        </tr>
+
+                                        <tr >
+                                          <th height="26" colspan="2" align="right" valign="middle" scope="col">
+
+
+                                            <% if logged_in_hmm_user.family_name == '' %>
+                                              <a href="<%=request_server_url%>/family_members/familypage_step1/<%=logged_in_hmm_user.id%>" onmouseout="MM_swapImgRestore()" onmouseover="MM_swapImage('Image99','','/images/creat_ur_fam_web_btn_ovr.jpg',1)">
+                                                <img src="/images/creat_ur_fam_web_btn_def.jpg" name="Image99" width="194" height="20" border="0" id="Image99" /></a>
+                                            <%else%>
+                                              <a href="<%=request_server_url%>/<%=logged_in_hmm_user.family_name%>" target="_blank" onmouseout="MM_swapImgRestore()" onmouseover="MM_swapImage('Image99','','/images/pre_fam_web_ovr.jpg',1)">
+
+                                                <img src="/images/pre_fam_web_def.jpg" name="Image99" width="217" height="20" border="0" id="Image99" /></a>
+
+                                            <%end%>
+
+
+                                          </th>
+                                        </tr>
+                                      </table></th>
+                                  </tr>
+                                </table></th>
+                            </tr>
+                            <tr>
+                              <%if session[:friend]==''%>
+                                <th width="289" align="left" valign="top" background="/images/bg_leftmenu.jpg" >&nbsp;</th>
+                              <%else%>
+                                <th width="" align="left" valign="top" background="/images/bg_leftmenu.jpg" >&nbsp;</th>
+
+                              <%end%>
+                              <th align="left">
+                                <table width="100%" border="0" cellspacing="0" cellpadding="0">
+                                  <% if session[:friend]!=''
+                                  %>
+
+                                    <tr align="left">
+
+                                      <th width="74" align="left" valign="top">
+                                        <% if(request.request_uri == "/tags/coverflow" ) %>
+                                          <% if session[:friend]=="" || session[:friend]==nil %>
+                                            <img src="/images/myhome_over.jpg" name="Image2" width="74" height="30" border="0" id="Image2"></th>
+                                        <%else%>
+                                          <a href="/tags/gohome" onmouseout="MM_swapImgRestore();" onmouseover="MM_swapImage('Image8','','/images/myhome_over.jpg',1)">
+                                            <img src="/images/myhome_def.jpg" name="Image9" width="96" height="30" border="0" id="Image8" /></a>
+                                        <%end%>
+                                      <%else%>
+                                        <a href="/tags/gohome" onmouseout="MM_swapImgRestore();" onmouseover="MM_swapImage('Image8','','/images/myhome_over.jpg',1)">
+                                          <img src="/images/myhome_def.jpg" name="Image9" width="96" height="30" border="0" id="Image8" /></a>
+                                      <%end%></th>
+
+                                      <th width="108" align="left" valign="top">
+                                        <% if @path=='coverflow' %>
+                                          <img src="/images/theirhome_over.jpg" name="Image3" width="108" height="30" border="0" id="Image3"></th>
+                                      <%else%>
+                                        <a href="/tags/coverflow" onmouseout="MM_swapImgRestore();" onmouseover="MM_swapImage('Image3','','/images/theirhome_over.jpg',1)">
+                                          <img src="/images/theirhome_def.jpg" name="Image9" width="108" height="30" border="0" id="Image3" /></a>
+                                      <%end%></th>
+
+                                      <th width="80" align="left" valign="top" >
+                                        <% if(request.request_uri == "/chapter_journal/journals" ) %>
+                                          <img src="/images/journal_over.jpg" name="Image11" width="80" height="30" border="0" id="Image11" /></th>
+                                      <%else%>
+                                        <a href="/chapter_journal/journals" onmouseout="MM_swapImgRestore();" onmouseover="MM_swapImage('Image11','','/images/journal_over.jpg',1)">
+                                          <img src="/images/journal_def.jpg" name="Image11" width="80" height="30" border="0" id="Image11" /></a>
+                                      <%end%></th>
+
+                                      <th width="141" align="left" valign="top">
+                                        <% if(request.request_uri == "/customers/fnf_index" || request.request_uri == "c") %>
+                                          <img src="/images/frndsandfamily_over.jpg" name="Image9" width="141" height="30" border="0" id="Image9"/></th>
+                                      <%else%>
+                                        <a href="/customers/fnf_index" onmouseout="MM_swapImgRestore();" onmouseover="MM_swapImage('Image9','','/images/frndsandfamily_over.jpg',1)">
+                                          <img src="/images/frndsandfamily_def.jpg" name="Image9" width="141" height="30" border="0" id="Image9" /></a>
+                                      <%end%></th>
+
+                                      <%if @path=='profile' %>
+                                        <th align="left" background="/images/bg_leftmenu.jpg"><span class="logintxt-orange"></span>&nbsp;&nbsp;&nbsp;&nbsp;</th>
+                                      <%else%>
+                                        <th align="left" background="/images/bg_leftmenu.jpg"><span class="logintxt-orange"><a class="logintxt-orange" href="/customers/profile/< %=@friend.id% >"><!--You are currently viewing at < %=@friend.v_fname% >'s moments. Click here to view < %=@friend.v_fname% >'s profile page.--></a></spam>&nbsp;&nbsp;&nbsp;&nbsp;</th>
+                                      <%end%>
+
+
+                                    </tr>
+                                  <%else%>
+
+                                    <tr>
+                                      <th width="74" align="left" valign="top">
+                                        <% if(request.request_uri == "/tags/coverflow" ) %>
+                                          <img src="/images/home_over.jpg" name="Image8" width="74" height="30" border="0" id="Image8"></th>
+                                      <%else%>
+                                        <a href="/tags/coverflow" onmouseout="MM_swapImgRestore();" onmouseover="MM_swapImage('Image8','','/images/home_over.jpg',1)">
+                                          <img src="/images/home_def.jpg" name="Image9" width="74" height="30" border="0" id="Image8" /></a>
+                                      <%end%></th>
+
+                                      <th width="80" align="left" valign="top" >
+                                        <% if(request.request_uri == "/chapter_journal/journals" ) %>
+                                          <img src="/images/journal_over.jpg" name="Image11" width="80" height="30" border="0" id="Image11" /></th>
+                                      <%else%>
+                                        <a href="/chapter_journal/journals" onmouseout="MM_swapImgRestore();" onmouseover="MM_swapImage('Image11','','/images/journal_over.jpg',1)">
+                                          <img src="/images/journal_def.jpg" name="Image11" width="80" height="30" border="0" id="Image11" /></a>
+                                      <%end%></th>
+                                      <th width="141" align="left" valign="top">
+                                        <% if(request.request_uri == "/customers/fnf_index" || request.request_uri == "/customers/fnf_index/") %>
+                                          <img src="/images/frndsandfamily_over.jpg" name="Image9" width="141" height="30" border="0" id="Image9"/></th>
+                                      <%else%>
+                                        <a href="/customers/fnf_index" onmouseout="MM_swapImgRestore();" onmouseover="MM_swapImage('Image19','','/images/frndsandfamily_over.jpg',1)">
+                                          <img src="/images/frndsandfamily_def.jpg" name="Image19" width="141" height="30" border="0" id="Image19" /></a>
+                                      <%end%></th>
+
+
+
+
+
+                                      <th width="150" align="left" valign="top">
+                                        <% if(request.request_uri == "/myphotos/new" || request.request_uri == "/myphotos/basic_upload/" || request.request_uri == "/myphotos/basic_upload" || request.request_uri == "/myphotos/choose_upload/" || request.request_uri == "/myphotos/new/" ) %>
+                                          <img src="/images/upldmoments_ove.jpg" name="Image10" width="150" height="30" border="0" id="Image10"  /></th>
+                                      <%else%>
+                                        <a href="/myphotos/choose_upload/" onmouseout="MM_swapImgRestore();" onmouseover="MM_swapImage('Image10','','/images/upldmoments_ove.jpg',1)">
+                                          <img src="/images/upldmoments_def.jpg" name="Image10" width="150" height="30" border="0" id="Image10" /></a>
+                                      <%end%></th>
+
+                                      <th width="92" align="left" valign="top">
+                                        <% if(@path=="manage" || @path=="edit_profile" || @path=="manage_moments" || @path=="FnF_Request" || @path=="comment_index" || @path=="allcmt_list" || @path=="allcmt_list1" || @path=="fnf_show" || @path=="list_share" || @path=="list_export" ) %>
+                                          <img src="/images/manage_over.jpg"  name="Image12" width="92" height="30" border="0" id="Image12" /></th>
+                                      <%else%>
+                                        <a href="/customers/FnF_Request" onmouseout="MM_swapImgRestore();" onmouseover="MM_swapImage('Image12','','/images/manage_over.jpg',1)">
+                                          <img src="/images/manage_def.jpg" name="Image12" width="92" height="30" border="0" id="Image12" /></a>
+                                      <%end%></th>
+
+
+                                      <th width="61" align="left" valign="top">
+                                        <% if(request.request_uri == "/invite_friends/tips_view/" ) %>
+                                          <img src="/images/tips_over.jpg" name="Image13" width="61" height="30" border="0" id="Image13" /></th>
+                                      <%else%>
+                                        <a href="/invite_friends/tips_view/" onmouseout="MM_swapImgRestore();" onmouseover="MM_swapImage('Image13','','/images/tips_over.jpg',1)">
+                                          <img src="/images/tips_def.jpg" name="Image13" width="61" height="30" border="0" id="Image13" /></a>
+                                      <%end%></th>
+
+
+                                      <th width="68" align="left" valign="top">
+                                        <% if(request.request_uri == "/myvideos/slideshowTemplates" ) %>
+                                          <img src="/images/createnew_over.jpg" name="Image14" width="68" height="30" border="0" id="Image14"  /></th>
+                                      <%else%>
+                                        <a href="/myvideos/slideshowTemplates" onmouseout="MM_swapImgRestore();" onmouseover="MM_swapImage('Image14','','/images/createnew_over.jpg',1)">
+                                          <img src="/images/createnew_def.jpg" name="Image14" width="68" height="30" border="0" id="Image14" /></a>
+                                      <%end%></th>
+                                    </tr>
+                                  <%end%>
+                                </table>
+                              </th>
+                            </tr>
+                          </table></td>
+                      </tr>
+                    </table></td>
+                </tr>
+              </table></td>
+            <td align="left" valign="top" background="/images/bg_top.jpg">&nbsp;</td>
+          </tr>
+          <tr>
+            <td colspan="3" align="left" valign="top" height="36" bgcolor="#EFEFEF">
+              <table width="100%" border="0" cellspacing="0" cellpadding="0" bgcolor="#FFFFFF">
+                <tr>
+                  <td align="left" valign="top" background="/images/bg_undermenu.jpg" >&nbsp;</td>
+                  <td width="905" height="36" align="left" valign="middle" background="/images/bg_undermenu.jpg">
+                    <% if(session[:friend]!='')
+                      chapters=""
+                    else
+                      if @path=='chapter_next' || @path=='sub_chapter_gallery' || @path=='chapter_gallery'
+                        chapters="<font color='#e36500' size='2' face='Arial' ><a href='/customers/chapterindex/' style='text-decoration:none' > Chapters</a>"
+                      else
+                        chapters="<font color='#e36500' size='2' face='Arial' ><a href='/tags/coverflow' style='text-decoration:none' > Home</a>"
+                      end
+                    end
+                  %>
+                    <%  if(request.request_uri == "/tags/coverflow" )%>
+                      <font color="#e36500" size="2" face="Arial" >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                        <%if session[:friend]==nil || session[:friend]==""%> Home <%else%><%end%>  &gt;&gt;</font> <font color="#ffffff" size="2" face="Arial" >(Chapters --Click to enter)</font>
+                    <% else if(request.request_uri == "/tags/subchap_coverflow/#{params[:id]}" )%>
+
+                        <font color="#e36500" size="2" face="Arial" >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                          <%=chapters%>
+                          &gt;&gt;
+                          <%=session[:chap_name]%> &gt;&gt;
+                        </font> <font color="#ffffff" size="2" face="Arial" >(Subchapters --Click to enter)</font>
+                      <% else if(request.request_uri == "/galleries/gallery_coverflow/#{params[:id]}" )%>
+                          <font color="#e36500" size="2" face="Arial" >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+                            <%=chapters%>
+
+                            &gt;&gt;
+                            <a href="/tags/subchap_coverflow/<%= session[:chap_id] %>" style="text-decoration:none" > <%=session[:chap_name]%> </a>
+                            &gt;&gt;
+                            <%=session[:sub_chapname]%> &gt;&gt;
+                          </font> <font color="#ffffff" size="2" face="Arial" >(Galleries --Click to enter)</font>
+                        <% else if(request.request_uri == "/galleries/gallery_fisheye/#{params[:id]}" )%>
+                            <font color="#e36500" size="2" face="Arial" >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+                              <%=chapters%>
+                              &gt;&gt;
+                              <a href="/tags/subchap_coverflow/<%= session[:chap_id] %>" style="text-decoration:none" > <%=session[:chap_name]%> </a>
+                              &gt;&gt; <a href="/galleries/gallery_coverflow/<%= session[:subchap_id] %>" style="text-decoration:none" ><%=session[:sub_chapname]%></a>
+                              &gt;&gt;
+
+                              <%=session[:gallery_name]%> &gt;&gt;
+
+                            </font> <font color="#ffffff" size="2" face="Arial" >(Moments --Click to enter)</font>
+                          <%end%>
+                        <%end%>
+                      <%end%>
+                    <%end%>
+
+                    <% if(request.request_uri == "/customers/home" || request.request_uri == "/customers/home/") %>
+                      <font color="#e36500" size="2" face="Arial" >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Home</font>
+
+                    <%else if(request.request_uri == "/customers/chapterindex/" || @path=="chapterindex" )%>
+                        <font color="#e36500" size="2" face="Arial" >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                          chapters &gt;&gt; </font> <font color="#ffffff" size="2" face="Arial" >(Chapters)</font>
+
+                      <% else if(request.request_uri == "/customers/chapter_next/#{params[:id]}" || @path=='chapter_next' )%>
+                          <font color="#e36500" size="2" face="Arial" ><%=chapters%>
+                            &gt;&gt;
+                            <%=session[:chap_name]%> &gt;&gt;
+                          </font> <font color="#ffffff" size="2" face="Arial" >(Subchapters)</font>
+
+                        <% else if(request.request_uri == "/customers/sub_chapter_gallery/#{params[:id]}" || @path=='sub_chapter_gallery' )%>
+                            <font color="#e36500" size="2" face="Arial" ><%=chapters%>
+                              &gt;&gt;
+                              <a href="/customers/chapter_next/<%= session[:chap_id] %>" style="text-decoration:none" > <%=session[:chap_name]%> </a>
+                              &gt;&gt;
+                              <%=session[:sub_chapname]%> &gt;&gt;
+                            </font> <font color="#ffffff" size="2" face="Arial" >(Galleries)</font>
+
+                          <% else if(request.request_uri == "/customers/chapter_gallery/#{params[:id]}" || @path=='chapter_gallery' )%>
+                              <font color="#e36500" size="2" face="Arial" ><%=chapters%>     &gt;&gt; </font>
+                              <font color="#ffffff" size="2" face="Arial" ><a href="/customers/chapter_next/<%= session[:chap_id] %>" style="text-decoration:none" > <%=session[:chap_name]%> </a>
+                                <font color="#e36500" size="2" face="Arial" >&gt;&gt; </font> <a href="/customers/sub_chapter_gallery/<%= session[:subchap_id] %>" style="text-decoration:none" ><%=session[:sub_chapname]%></a>
+                                <font color="#e36500" size="2" face="Arial" > &gt;&gt;
+                                  <%=session[:gallery_name]%> &gt;&gt; </font>
+                              </font> <font color="#ffffff" size="2" face="Arial" >(Moments)</font>
+
+                            <%else if session[:share_with_hmm]=="check" && @path=="memories"%>
+                                <font color="#e36500" size="2" face="Arial">
+                                  <a href="/tags/coverflow" style="text-decoration:none">My Home</a> &gt;&gt; Shared Memories</font>
+
+                              <% else if (session[:galleryid]!='' && @path=="photo_journal" )%>
+                                  <%if session[:share_with_hmm]=="check"%>
+                                    <font color="#e36500" size="2" face="Arial">
+                                      <a href="/tags/coverflow" style="text-decoration:none">My Home</a> &gt;&gt; <a href="/tags/memories/<%= session[:shid] %>" style="text-decoration:none" > Shared Memories </a>  &gt;&gt; Moments</font>
+
+                                  <%else%>
+                                    <font color="#e36500" size="2" face="Arial">
+                                      &nbsp;&nbsp;&nbsp;&nbsp;<%=chapters%> &gt;&gt; <a href="/tags/subchap_coverflow/<%= session[:chap_id] %>" style="text-decoration:none" > <%=session[:chap_name]%> </a> &gt;&gt; <a href="/galleries/gallery_coverflow/<%= session[:subchap_id] %>" style="text-decoration:none" > <%=session[:sub_chapname]%> </a> &gt;&gt; <a href="/galleries/gallery_fisheye/<%= session[:gal] %>" style="text-decoration:none"><%=session[:gallery_name]%></a> &gt;&gt; Moments</font>
+                                  <%end%>
+
+                                <% else if (request.request_uri == "/myphotos/photo_journal/#{params[:id]}" || @path=="photo_journal" )%>
+                                    &nbsp;&nbsp;&nbsp;&nbsp;<font color="#e36500" size="2" face="Arial">
+                                      <%=chapters%> &gt;&gt; <a href="/customers/sub_chapter_gallery/<%= session[:subchap_id] %>" style="text-decoration:none" > <%=session[:sub_chapname]%> </a> &gt;&gt; <a href="/customers/chapter_gallery/<%= session[:gal] %>" style="text-decoration:none"><%=session[:gallery_name]%></a> &gt;&gt; Moments</font>
+
+                                  <%else if (request.request_uri == "/myphotos/write_journal/#{params[:id]}" )%>
+                                      <font color="#e36500" size="2" face="Arial"><a href="/customers/chapterindex/" style="text-decoration:none"> Chapters</a> &gt;&gt; <a href="/customers/chapter_gallery/<%= session[:gal] %>" style="text-decoration:none"><%=session[:gallery_name]%></a> &gt;&gt; <a href="/myphotos/photo_journal/<%=session[:usercontent_id]%>" style="text-decoration:none">Journals</a> &gt;&gt; Write Journal</font>
+
+                                    <%else if (request.request_uri == "/journals_photos/edit/#{@ucontent_id}" )%>
+                                        <font color="#e36500" size="2" face="Arial"><a href="/customers/chapterindex/" style="text-decoration:none"> Chapters</a> &gt;&gt; <a href="/customers/chapter_gallery/<%= session[:gal] %>" style="text-decoration:none"><%=session[:gallery_name]%></a> &gt;&gt; <a href="/myphotos/photo_journal/<%=session[:usercontent_id]%>" style="text-decoration:none">Journals</a> &gt;&gt; Edit Journal</font>
+
+                                      <%else if (request.request_uri == "/customers/fnf_index" )%>
+                                          <font color="#e36500" size="2" face="Arial"><% if(session[:friend]!='')%> <%=chapters%> &gt;&gt; <%end%>  Friends & Family</font>
+
+                                        <%else if (request.request_uri == "/customers/profile/#{params[:id]}")%>
+
+
+                                          <%else if (request.request_uri == "/myphotos/new/")%>
+                                              <font color="#e36500" size="2" face="Arial">Upload Moments
+
+                                              <%else if (request.request_uri == "/customers/manage/")%>
+                                                  <font color="#e36500" size="2" face="Arial">Manage</font>
+
+                                                <%else if (request.request_uri == "/customers/help/")%>
+                                                    <font color="#e36500" size="2" face="Arial">Help</font>
+
+                                                  <%else if (request.request_uri == "/customers/FnF_Request/#{params[:id]}")%>
+                                                      <font color="#e36500" size="2" face="Arial">&nbsp;&nbsp;&nbsp;&nbsp;<a href="/customers/manage/" style="text-decoration:none">Manage</a> &gt;&gt; <font color="#e36500" size="2" face="Arial"> Friends & Family Request</font>
+
+                                                      <%else if (@path=="fnf_show")%>
+                                                          <font color="#e36500" size="2" face="Arial">&nbsp;&nbsp;&nbsp;&nbsp;<a href="/customers/manage/" style="text-decoration:none">Manage</a> &gt;&gt;<font color="#e36500" size="2" face="Arial">&nbsp;<a href="/customers/FnF_Request/" style="text-decoration:none"> New Friend Requests </a> &gt;&gt; <font color="#e36500" size="2" face="Arial"> Manage Group</font>
+
+                                                            <%else if (@path=="list_share")%>
+                                                                <font color="#e36500" size="2" face="Arial">&nbsp;&nbsp;&nbsp;&nbsp;<a href="/customers/manage/" style="text-decoration:none">Manage</a> &gt;&gt;<font color="#e36500" size="2" face="Arial">&nbsp;<a href="/customers/FnF_Request/" style="text-decoration:none"> New Friend Requests </a> &gt;&gt; <font color="#e36500" size="2" face="Arial"> Shared Moments</font>
+
+                                                                  <%else if (@path=="list_export")%>
+                                                                      <font color="#e36500" size="2" face="Arial">&nbsp;&nbsp;&nbsp;&nbsp;<a href="/customers/manage/" style="text-decoration:none">Manage</a> &gt;&gt;<font color="#e36500" size="2" face="Arial">&nbsp;<a href="/customers/FnF_Request/" style="text-decoration:none"> New Friend Requests </a> &gt;&gt; <font color="#e36500" size="2" face="Arial"> Exported Moments</font>
+
+                                                                        <%else if (request.request_uri == "/customers/homenew/")%>
+                                                                            <font color="#e36500" size="2" face="Arial">Upload Memories</font>
+
+                                                                          <%else if (request.request_uri == "/customers/comment_index/")%>
+                                                                              <font color="#e36500" size="2" face="Arial">&nbsp;&nbsp;&nbsp;&nbsp;<a href="/customers/manage/" style="text-decoration:none">Manage</a> &gt;&gt; <font color="#e36500" size="2" face="Arial">Guest Comments</font>
+
+                                                                              <%else if (request.request_uri == "/customers/guest_comment/")%>
+                                                                                  <font color="#e36500" size="2" face="Arial"><a href="/customers/comment_index/" style="text-decoration:none">Guest Comments</a> &gt;&gt; Journal Comments</font>
+
+                                                                                <%else if (request.request_uri == "/photo_comments/allcmt_list/")%>
+                                                                                    <font color="#e36500" size="2" face="Arial">&nbsp;&nbsp;&nbsp;&nbsp;<a href="/customers/manage/" style="text-decoration:none">Manage</a> &gt;&gt; Moment Comments</font>
+
+                                                                                  <%else if (request.request_uri == "/chapter_comment/allcmt_list1/" || @path=='allcmt_list1')%>
+                                                                                      <font color="#e36500" size="2" face="Arial">&nbsp;&nbsp;&nbsp;&nbsp;<a href="/customers/manage/" style="text-decoration:none">Manage</a> &gt;&gt; <a href="/chapter_comment/allcmt_list/" style="text-decoration:none">Manage Comments</a> &gt;&gt; Shared Moment Comments</font>
+
+                                                                                    <%else if (request.request_uri == "/chapter_comment/allcmt_list/"  || @path=='allcmt_list')%>
+                                                                                        <font color="#e36500" size="2" face="Arial">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="/customers/manage/" style="text-decoration:none">Manage</a> &gt;&gt; Manage Comments</font>
+
+                                                                                      <%else if (request.request_uri == "/subchap_comment/allcmt_list/")%>
+                                                                                          <font color="#e36500" size="2" face="Arial">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="/customers/manage/" style="text-decoration:none">Manage</a> &gt;&gt; <a href="/customers/comment_index/" style="text-decoration:none">Guest Comments</a> &gt;&gt; Sub-Chapter Comments</font>
+
+                                                                                        <%else if (request.request_uri == "/gallery_comment/allcmt_list/")%>
+                                                                                            <font color="#e36500" size="2" face="Arial">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="/customers/manage/" style="text-decoration:none">Manage</a> &gt;&gt; <a href="/customers/comment_index/" style="text-decoration:none">Guest Comments</a> &gt;&gt; Gallery Comments</font>
+
+
+                                                                                          <%else if (request.request_uri == "/invite_friends/tips_view/")%>
+                                                                                              <font color="#e36500" size="2" face="Arial">Tips</font>
+
+                                                                                            <%else if (request.request_uri == "/chapter_journal/journals")%>
+                                                                                                <font color="#e36500" size="2" face="Arial"><% if(session[:friend]!='')%> <%=chapters%> &gt;&gt; <%end%>  Journal</font>
+
+                                                                                              <%else if (request.request_uri == "/customers/create_underdevelop/")%>
+                                                                                                  <font color="#e36500" size="2" face="Arial">Create</font>
+
+                                                                                                <%else if (request.request_uri == "/contests/contests_select")%>
+                                                                                                    <font color="#e36500" size="2" face="Arial">Contest</font>
+
+
+                                                                                                    <!-- Bread crumbs for Contest-->
+                                                                                                  <%else if (request.request_uri == "/contests/logged_terms_conditions")%>
+                                                                                                      <font color="#e36500" size="2" face="Arial"><a style="text-decoration:none" href="/contests/contests_select"> Contest</a></font><font color="#e36500" size="2" face="Arial"> &gt;&gt; Terms and Conditions </font>
+
+                                                                                                    <%else if (request.request_uri == "/contests/logged_terms_conditions/#{params[:id]}")%>
+                                                                                                        <font color="#e36500" size="2" face="Arial"><a style="text-decoration:none" href="/contests/contests_select"> Contest</a></font><font color="#e36500" size="2" face="Arial"> &gt;&gt; Terms and Conditions </font>
+
+                                                                                                      <%else if (request.request_uri == "/contests/contest_chapter/")%>
+                                                                                                          <font color="#e36500" size="2" face="Arial"><a style="text-decoration:none" href="/contests/contests_select"> Contest</a> &gt;&gt; </font><font color="#e36500" size="2" face="Arial"><a style="text-decoration:none" href="/contests/logged_terms_conditions"> Terms and Conditions</a></font><font color="#e36500" size="2" face="Arial"> &gt;&gt; Chapters </font>
+
+                                                                                                        <%else if (request.request_uri == "/contests/contest_sub_chapter/#{params[:id]}")%>
+                                                                                                            <font color="#e36500" size="2" face="Arial"><a style="text-decoration:none" href="/contests/contests_select"> Contest</a> &gt;&gt; </font><font color="#e36500" size="2" face="Arial"><a style="text-decoration:none" href="/contests/logged_terms_conditions"> Terms and Conditions</a> &gt;&gt; </font><font color="#e36500" size="2" face="Arial"><a style="text-decoration:none" href="/contests/contest_chapter/"> Chapters </a></font><font color="#e36500" size="2" face="Arial"> &gt;&gt; (Sub-Chapters) </font>
+
+                                                                                                          <%else if (request.request_uri == "/contests/contest_gallery/#{params[:id]}")%>
+                                                                                                              <font color="#e36500" size="2" face="Arial"><a style="text-decoration:none" href="/contests/contests_select"> Contest</a> &gt;&gt; </font><font color="#e36500" size="2" face="Arial"><a style="text-decoration:none" href="/contests/logged_terms_conditions"> Terms and Conditions</a> &gt;&gt; </font><font color="#e36500" size="2" face="Arial"><a style="text-decoration:none" href="/contests/contest_chapter/"> Chapters </a> &gt;&gt; </font><font color="#e36500" size="2" face="Arial"><a href="/contests/contest_sub_chapter/<%=session[:chap_id]%>"  style="text-decoration:none"><%=session[:chap_name]%></a><font color="#e36500" size="2" face="Arial"> &gt;&gt; (Galleries) </font></font>
+                                                                                                            <%else if (request.request_uri == "/contests/contest_moments/#{params[:id]}")%>
+                                                                                                                <font color="#e36500" size="2" face="Arial"><a style="text-decoration:none" href="/contests/contests_select"> Contest</a> &gt;&gt; </font><font color="#e36500" size="2" face="Arial"><a style="text-decoration:none" href="/contests/logged_terms_conditions"> Terms and Conditions</a> &gt;&gt; </font><font color="#e36500" size="2" face="Arial"><a style="text-decoration:none" href="/contests/contest_chapter/"> Chapters </a>  &gt;&gt; </font><font color="#e36500" size="2" face="Arial"><a href="/contests/contest_sub_chapter/<%=session[:chap_id]%>"  style="text-decoration:none"><%=session[:chap_name]%></a> &gt;&gt; </font><font color="#e36500" size="2" face="Arial"><a  style="text-decoration:none" href="/contests/contest_gallery/<%=session[:subchap_id]%>"><%=session[:sub_chapname]%></a><font color="#e36500" size="2" face="Arial"> &gt;&gt; (Moments) </font></font>
+
+
+
+                                                                                                              <%else if (@path == "edit_profile" || @path == "update_profile")%>
+                                                                                                                  <font color="#e36500" size="2" face="Arial"><a style="text-decoration:none" href="/customers/manage/"> Manage</a></font><font color="#e36500" size="2" face="Arial"> &gt;&gt; Manage Profile</font>
+
+                                                                                                                <%else if (@path == "manage_moments")%>
+                                                                                                                    <font color="#e36500" size="2" face="Arial"><a style="text-decoration:none" href="/customers/manage/"> Manage</a></font><font color="#e36500" size="2" face="Arial"> &gt;&gt; Manage Moments</font>
+
+                                                                                                                  <%else if (@path == "manage")%>
+                                                                                                                      <font color="#e36500" size="2" face="Arial"><a style="text-decoration:none" href="/customers/manage/"> Manage</a></font><font color="#e36500" size="2" face="Arial"> &gt;&gt; Manage Journals</font>
+
+                                                                                                                    <%else if (@path == "FnF_Request")%>
+                                                                                                                        <font color="#e36500" size="2" face="Arial"><a style="text-decoration:none" href="/customers/manage/"> Manage</a></font><font color="#e36500" size="2" face="Arial"> &gt;&gt; Manage Friends & Family</font>
+
+                                                                                                                      <%else if (@path == "comment_index")%>
+                                                                                                                          <font color="#e36500" size="2" face="Arial"><a style="text-decoration:none" href="/customers/manage/"> Manage</a></font><font color="#e36500" size="2" face="Arial"> &gt;&gt; Manage Comments</font>
+
+                                                                                                                        <%else if (@path == "chg_password_execute" || @path == "chg_password" )%>
+                                                                                                                            <font color="#e36500" size="2" face="Arial"><a style="text-decoration:none" href="/customers/edit_profile/<%=logged_in_hmm_user.id%>"> Manage Profile </a></font><font color="#e36500" size="2" face="Arial"> &gt;&gt; Account Settings</font>
+
+                                                                                                                          <%else if (request.request_uri == "/galleries/timeLine")%>
+                                                                                                                              <a style="text-decoration:none" href="/tags/coverflow"> Home</a><font color="#e36500" size="2" face="Arial"> &gt;&gt; Time Line</font>
+
+                                                                                                                            <%end%><%end%><%end%><%end%><%end%><%end%><%end%><%end%><%end%><%end%><%end%><%end%><%end%><%end%><%end%><%end%><%end%>
+                                                                                          <%end%><%end%><%end%><%end%><%end%><%end%><%end%><%end%><%end%><%end%><%end%><%end%><%end%>
+                                                                <%end%><%end%><%end%><%end%><%end%><%end%><%end%><%end%><%end%><%end%><%end%><%end%><%end%><%end%>
+                                      </td>
+                                      <td align="left" valign="top" background="/images/bg_undermenu.jpg">&nbsp;</td>
+                                      </tr>
+                                      </table></td>
+                                      </tr>
+                                      <tr>
+                                        <td align="left" valign="top" bgcolor="#000000">&nbsp;</td>
+                                        <td  align="center" valign="top" bgcolor="#000000" width="905">
+
+                                          <div id="content" align="center" width="100%">
+                                            <%= yield %>
+                                          </div>
+
+
+                                        </td>
+                                        <td align="left" valign="top" bgcolor="#000000">&nbsp;</td>
+                                      </tr>
+                                      <tr>
+                                        <td align="left" valign="top" class="bgbottom" >&nbsp;</td>
+                                        <td align="left" valign="top" ><table width="100%" border="0" cellspacing="0" cellpadding="0">
+                                            <tr>
+                                              <td height="32" align="left" valign="top" background="/images/bg_bottom_gra.jpg">&nbsp;</td>
+                                            </tr>
+                                            <tr>
+                                              <td height="38" align="center" valign="middle" bgcolor="#000000"><span class="copyright-text">&copy 2010 HoldMyMemories.com, LLC. All rights reserved. Website Designed and Developed by <a href="http://www.softwaysolutions.com" target="_blank" class="copyrightstxt"> Softway Solutions, Inc.</a></span></td>
+                                            </tr>
+                                          </table></td>
+                                        <td align="left" valign="top" class="bgbottom" >&nbsp;</td>
+
+                                      </tr>
+                                      </table>
+                                      <script type="text/javascript">
+                                            var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+                                            document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+                                      </script>
+                                      <script type="text/javascript">
+                                            var pageTracker = _gat._getTracker("UA-5209348-1");
+                                            pageTracker._trackPageview();
+                                      </script>
+                                      </body>
+                                      </html>
+
+                                    <%else %>
+                                      <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+                                      <html xmlns="http://www.w3.org/1999/xhtml">
+                                        <head>
+                                          <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+                                          <title>Hold My Memories</title>
+                                          <link rel="SHORTCUT ICON" href="/images/common/favicon.ico" type="image/x-icon" />
+
+                                          <link href="/hmm.css" rel="stylesheet" type="text/css" />
+
+                                          <script type="text/javascript">
+                                                <!--
+                                                function MM_preloadImages() { //v3.0
+                                                  var d=document; if(d.images){ if(!d.MM_p) d.MM_p=new Array();
+                                                    var i,j=d.MM_p.length,a=MM_preloadImages.arguments; for(i=0; i<a.length; i++)
+                                                      if (a[i].indexOf("#")!=0){ d.MM_p[j]=new Image; d.MM_p[j++].src=a[i];}}
+                                                  }
+                                                  //-->
+                                          </script>
+                                          <script type="text/javascript" src="js/swfobject.js"></script>
+                                        </head>
+
+                                        <body>
+
+                                          <table width="100%" border="0" cellspacing="0" cellpadding="0">
+                                            <tr>
+                                              <td align="center" valign="top"><table width="947" border="0" align="center" cellpadding="0" cellspacing="0">
+                                                  <tr>
+                                                    <td width="479" height="68" align="left" valign="middle"><a href="/"><img src="/new_images/logo.jpg" width="225" height="46" border="0" style="margin-left:25px;"/></a></td>
+                                                    <td width="468" align="right" valign="top" style="padding-top:7px;"> <a href="/customers/authorise_verify" class="topmenu">Not Registered?</a> <a href="/user_account/login" class="topmenu">Log In</a></td>
+                                                  </tr>
+                                                  <tr>
+                                                    <td colspan="2"><table width="947" border="0" cellspacing="0" cellpadding="0">
+                                                        <tr>
+                                                          <td width="16" align="left" valign="top"><img src="/new_images/topleft_curve1.jpg" width="16" height="28" /></td>
+                                                          <td width="223" align="center" valign="middle" background="/new_images/topmid_curve1.jpg">&nbsp;</td>
+                                                          <td width="72" align="center" valign="middle" background="/new_images/topmid_curve1.jpg"><a href="/" class="mainmenu_text">Home</a></td>
+                                                          <td width="1" align="center" valign="middle" background="/new_images/topmid_curve1.jpg"><img src="/new_images/menu_div.jpg" width="1" height="27" /></td>
+                                                          <td width="104" align="center" valign="middle" background="/new_images/topmid_curve1.jpg"><a href="/static/studios" class="mainmenu_text">HMM Studios</a></td>
+                                                          <td width="1" align="center" valign="middle" background="/new_images/topmid_curve1.jpg"><img src="/new_images/menu_div.jpg" width="1" height="27" /></td>
+                                                          <td width="123" align="center" valign="middle" background="/new_images/topmid_curve1.jpg"><a href="/static/photos_videos" class="mainmenu_text">Photos & Videos</a></td>
+                                                          <td width="1" align="center" valign="middle" background="/new_images/topmid_curve1.jpg"><img src="/new_images/menu_div.jpg" width="1" height="27" /></td>
+                                                          <td width="123" align="center" valign="middle" background="/new_images/topmid_curve1.jpg"><a href="/static/familysites" class="mainmenu_text">Family Websites</a></td>
+                                                          <td width="1" align="center" valign="middle" background="/new_images/topmid_curve1.jpg"><img src="/new_images/menu_div.jpg" width="1" height="27" /></td>
+                                                          <td width="88" align="center" valign="middle" background="/new_images/topmid_curve1.jpg"><a href="http://blog.holdmymemories.com" class="mainmenu_text">Bob's Blog</a></td>
+                                                          <td width="1" align="center" valign="middle" background="/new_images/topmid_curve1.jpg"><img src="/new_images/menu_div.jpg" width="1" height="27" /></td>
+                                                          <td width="76" align="center" valign="middle" background="/new_images/topmid_curve1.jpg"><a href="/contests/select_contest" class="mainmenu_text">Contests</a></td>
+                                                          <td width="1" align="center" valign="middle" background="/new_images/topmid_curve.jpg"><img src="/new_images/menu_div.jpg" width="1" height="27" /></td>
+                                                          <td width="100" align="center" valign="middle" background="/new_images/topmid_curve1.jpg" ><a href="/static/abouthmm" class="mainmenu_text">About HMM</a></td>
+                                                          <td width="16" align="left" valign="top"><img src="/new_images/topright_curve1.jpg" width="16" height="28" /></td>
+                                                        </tr>
+                                                      </table></td>
+                                                  </tr>
+                                                  <tr>
+                                                    <td colspan="2" align="center" valign="top"bgcolor="#000000" height="1"></td>
+                                                  </tr>
+                                                  <tr>
+                                                    <td colspan="2" align="center" valign="top" class="gradlines" bgcolor="#000000"><div id="content" align="center" width="100%">
+                                                        <%= yield %>
+                                                      </div></td>
+                                                  </tr>
+
+
+                                                  <tr>
+                                                    <td colspan="2"><table width="947" border="0" cellspacing="0" cellpadding="0">
+                                                        <tr>
+                                                          <td width="16" align="left" valign="top"><img src="/new_images/bottom_black_curve1.png" width="16" height="14" /></td>
+                                                          <td width="206" align="right" valign="top" bgcolor="#000000"></td>
+                                                          <td width="448" align="left" valign="top" bgcolor="#000000" ></td>
+                                                          <td width="261" align="right" valign="top" bgcolor="#000000"></td>
+                                                          <td width="16" align="right" valign="top"><img src="/new_images/bottom_black_curve_right1.png" width="16" height="14" /></td>
+                                                        </tr>
+                                                        <tr>
+                                                          <td align="left" valign="top">&nbsp;</td>
+                                                          <td align="left" valign="top"></td>
+                                                          <td align="left" valign="top" ></td>
+                                                          <td align="right" valign="top"></td>
+                                                          <td align="right" valign="top">&nbsp;</td>
+                                                        </tr>
+
+                                                      </table></td>
+                                                  </tr>
+                                                </table></td>
+                                            </tr>
+                                            <tr>
+                                              <td height="24" align="center" valign="middle" bgcolor="#000000"><table width="915" border="0" cellspacing="0" cellpadding="0">
+                                                  <tr>
+                                                    <td width="315" align="left" valign="middle" class="copyright">&copy; 2011 HoldMyMemories.com, LLC. All rights reserved. </td>
+                                                    <td width="600" align="left" valign="middle" class="grayfont"><a href="/contact_us/new" class="footermenu">Contact Us</a> | <a href="http://blog.holdmymemories.com" class="footermenu">Bob's Blog</a> | <a href="/static/abouthmm" class="footermenu">About HMM</a> | <a href="/user_account/faq" class="footermenu">FAQ</a> | <a href="/user_account/privacy_policy" class="footermenu">Privacy Policy</a> | <a href="/user_account/termsof_use" class="footermenu">End Users License Agreement</a></td>
+                                                  </tr>
+                                                </table></td>
+                                            </tr>
+                                          </table>
+
+
+                                          <script type="text/javascript">
+                                                  var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+                                                  document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+                                          </script>
+                                          <script type="text/javascript">
+                                                  var pageTracker = _gat._getTracker("UA-5209348-1");
+                                                  pageTracker._trackPageview();
+                                          </script>
+
+                                        </body>
+                                      </html>
+
+                                    <% end %>
+
+                                  <%end%>
+
+
+
+
+

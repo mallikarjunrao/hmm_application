@@ -1,0 +1,104 @@
+<style type = "text/css">
+  .text3{
+    font-family:Arial, Helvetica, sans-serif;
+    font-size:12px;
+    font-weight:normal;
+    color:#ffffff;
+  }
+</style>
+
+
+
+<script src="http://www.google.com/jsapi" type="text/javascript"></script>
+    <script type="text/javascript">
+      google.load("jquery", "1.4.2");
+    </script>
+
+
+<%#= fb_connect_javascript_tag %>
+  <%#= init_fb_connect "XFBML", {:js => :jquery ,  :app_settings => " { permsToRequestOnConnect : 'email' }"} %>
+  <%#= fb_login_button('window.location =\''+ url_for(:action => 'momentdetails', :id =>@moment_details[0].id) + '\'') %>
+<%# logger.info(facebook_session.inspect) %>
+<%#  facebook_session ||= returning Facebooker::Session.create do |session|
+  session.secure_with!('facebook_session.user.session_key',facebook_session.user.uid,1.day.from_now) end %>
+
+<%= javascript_include_tag 'modalbox/prototype' %>
+<script type="text/javascript" src="/javascripts/modalbox/scriptaculous.js?load=effects"></script>
+<script type="text/javascript" src="/javascripts/modalbox/modalbox.js"></script>
+<%= stylesheet_link_tag 'modalbox/modalbox' %>
+
+<table width="100%" align="center">
+  <tr><td>&nbsp;</td></tr>
+  <tr>
+    <th>
+      <font color="#f5dfa6" size="2"><%= flash[:notice_vote]%>  <% if  flash[:notice_vote] %> <br><br><a href="http://www.holdmymemories.com/customers/authorise_verify"><u><font color="#FFFFFF">Click here</font></u></a> to sign up for your FREE HoldMyMemories.com account.<%end%><br></font>
+      <!--font color="#f5dfa6" size="3">< % if  flash[:notice_invite1] % > You have successfully Invited your friends to vote!! < %end% ></font-->		</th>
+    <th>&nbsp;</th>
+  </tr>
+  <tr>
+    <td  align="left" ><img src=<%=photo_contest_image%> border="0"   ></td>
+  </tr>
+  <tr><td>&nbsp;</td></tr>
+  <tr>
+    <th align="center">
+      <img src="<%=@moment_details[0].img_url%>/user_content/photos/journal_thumb/<%=@moment_details[0].v_filename%>" border="0">
+    </th>
+  </tr>
+   <tr>
+    <td align="center" class="text3" >
+      <%=@contests_fname[0].first_name %>
+    </td>
+  </tr>
+
+  <tr><th>&nbsp;</th></tr>
+  <tr><th>&nbsp;</th></tr>
+ <!-- <tr>
+    <td  align="center" valign="middle" colspan="3" class="text3" >
+      <a href="/kidscontests/vote/<%=@contests_fname[0].id%>"  onclick="Modalbox.show(this.href, {title: 'My Image', width: 1000, height:900}); return false;"><img src="/images/votebyemail.jpg" border="0" width="106" height="24" /> </a> <br/>or<br/>
+       <%= fb_connect_javascript_tag %>
+       <%= init_fb_connect "XFBML", {:js => :jquery ,  :app_settings => " { permsToRequestOnConnect : 'email' }"} %>
+       <%= fb_login_button('window.location =\''+ url_for(:controller => 'user_account', :action => 'kids_facebook_vote',:vote=>'daily', :type => 'momentdetails', :id =>@moment_details[0].id) + '\'') %>
+    </td>
+  </tr> -->
+  <tr><th>&nbsp;</th></tr>
+  <%for @j in @journal %>
+    <tr>
+      <th align="center" valign="middle" scope="col"><span class="heading-journal">
+          <table width="600" class="border">
+            <tr>
+              <th align="left" bgcolor="#191919" colspan="2">
+                <font size="3" color="#FFFFFF"> Journal</font>
+              </th>
+            </tr>
+            <tr><th colspan="2">&nbsp;</th></tr>
+            <tr>
+              <th>&nbsp;&nbsp;</th>
+              <th align="left" class="text3">
+
+                <%= @j.title %> -
+                <% ActiveSupport::CoreExtensions::Time::Conversions::DATE_FORMATS.merge!(
+                  :date => "%Y-%m-%d",
+                  :presentable_datetime => "%a %b %d, %Y %H:%M",
+                  :presentable_date => "%a %b %d, %Y")
+                @created_date=@j.added_date%>
+                <%= @created_date.to_s(:presentable_date) %></span>
+              </th>
+            </tr>
+            <tr><th colspan="2">&nbsp;</th></tr>
+            <tr class="text3">
+              <th>&nbsp;&nbsp;</th>
+              <th align="left">
+                <%=@j.description.gsub("\n", "<br />\n") %>
+              </th>
+            </tr>
+            <tr><th>&nbsp;</th></tr>
+            <tr><th>&nbsp;</th></tr>
+          </table>
+      </th>
+    </tr>
+    <tr>
+      <th>&nbsp;
+      </th>
+    </tr>
+  <%end%>
+</table>

@@ -1,0 +1,81 @@
+<% count1=params[:count].to_i/10000
+count=count1.ceil%>
+<%if @hmm_users.nil?%>
+<table  cellpadding="0" cellspacing="0" align="center" width="600">
+   <tr><td height="50"></td><td></td></tr>
+   <tr><td></td><td align="right"><a href="/hmm_studios/email_report">&lt;&lt;Back</a></td></tr>
+  <tr><td height="50"></td><td></td></tr>
+    <form action="/hmm_studios/choose_report" name="frm" method="post">
+    <tr><td align="right">Select Range:</td><td>
+        <select name="val">
+          <%for i in 0..count1%>
+            <option value="<%=i%>"><%=i*10000%>-<%=(i+1)*10000%></option>
+            <%end%>
+          </select>
+        </td></tr>
+     <tr><td height="20"></td><td></td></tr>
+     <input type="hidden" name="count" value="<%=params[:count]%>" />
+     <tr><td></td><td><input type="submit" name="Submit" value="Submit" /></td></tr>
+     </form>
+    </table>
+<%else%>
+ <table border="1">
+        <tr><td colspan="15"><h2>Customers Email Report</h2> </td></tr>
+
+        <tr><td>
+          </td></tr>
+        <tr valign='center' align='center'>
+          <th>Cutomer Name</th>
+
+          <th>User Name</th>
+          <th>Email Address</th>
+          <th>Created date</th>
+          <th>Account Type</th>
+          <th>Studio Name</th>
+          <th>Studio Group</th>
+          <th>Status</th>
+        </tr>
+
+        <%
+        for colmn in @hmm_users
+        %>
+
+          <tr class='ListLine'>
+            <td align="center"><%=h colmn.v_fname%> <%=h colmn.v_lname%></td>
+            <td align="center"><%=h colmn.v_user_name%></td>
+            <td align="center"><%=h colmn.v_e_mail%></td>
+            <td align="center">
+              <% if colmn.d_created_date == nil || colmn.d_created_date == '' %>
+                    -
+              <%else%>
+                <%=h colmn.d_created_date.strftime("%m - %d - %Y")%>
+              <%end%>            </td>
+            <td align="center"><%=h colmn.account_type%></td>
+            <td align="center">
+              <%if (colmn.studio_name == nil || colmn.studio_name == '' )  %>
+                            Direct Customer
+              <%else%>
+               <%=colmn.studio_name %>
+              <%end%>            </td>
+              <td align="center">
+              <%if (colmn.hmm_franchise_studio == nil || colmn.hmm_franchise_studio == '' )  %>
+                    -
+              <%else%>
+                <%=colmn.hmm_franchise_studio%>
+              <%end%>            </td>
+
+            <td align="center">
+              <% if colmn.account_expdate!=nil %>
+                <%  t = Time.now
+                    dat=t.strftime("%Y-%m-%d")%>
+                    <% if  colmn.account_expdate > dat.to_date %>
+                  Active
+                <%else%>Inactive
+                <%end%>
+              <%else%>Inactive
+            <%end%></td>
+          </tr>
+        <% end %>
+      </table>
+<%end%>
+ 

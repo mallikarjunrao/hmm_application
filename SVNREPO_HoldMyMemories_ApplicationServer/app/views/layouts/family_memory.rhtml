@@ -1,0 +1,456 @@
+
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <link rel="stylesheet" href="/stylesheets/family_memories.css" type="text/css" media="screen" />
+    <script language="javascript" type="text/javascript" src="/javascripts/themes/nyromodal/jquery-1.3.2.min.js"></script>
+    <script language="javascript" type="text/javascript" src="/javascripts/themes/nyromodal/jquery.nyroModal-1.5.2.pack.js"></script>
+
+    <%
+    @share_image = "#{@family_website_owner.img_url}/hmmuser/familyphotos/thumbs/#{@family_website_owner.family_pic}" if @share_image.blank?
+    @share_type = 'image' if @share_type.blank?
+    @share_video = '' if @share_video.blank?
+    if(@title.nil? || @title.blank?)
+      if(@detail)
+        if(@store=="" || @store==nil)
+          @title="Brought to you by HoldMyMemories.com"
+        else
+          @title="Brought to you by #{@store} Studios"
+        end
+      else
+        @title="Brought to you by HoldMyMemories.com"
+      end
+    else
+      @title=@title
+    end
+
+    @studio_header_img="default_top_logo_white.png" #default logo depending upon the header logo color specified in the themes table
+    @studio_website = "/" #default studio link
+
+    unless @family_website_owner.studio_id==0
+      @studio_header = HmmStudio.find(@family_website_owner.studio_id)
+      if  @studio_header.booking_link.nil? ||  @studio_header.booking_link.blank?
+        link="/my_familywebsite/book_session/?studio_id=#{@studio_header.id}"
+      else
+        link="#{@studio_header.booking_link}"
+      end
+      if @studio_header
+        @studio_header_img_url = @studio_header.img_url
+        @studio_header_img = "#{@studio_header.studio_top_logo}_white.png" if @studio_header.studio_top_logo != nil
+        @studio_website = @studio_header.studio_website if @studio_header.studio_website != nil
+      end
+    end
+  %>
+
+    <script type="text/javascript">
+      fullurl=document.URL;
+      url=fullurl.split("/");
+      for(i=0;i<=url.length;i++)
+      {
+        if(url[i])
+        {
+          url[i]=url[i].toUpperCase();
+          if((url[i].indexOf("%3CSCRIPT%3E") >= 0) || (url[i].indexOf("%3C/SCRIPT%3E") >= 0) || (url[i].indexOf("%3C/SCRIP%3E") >= 0) || (url[i].indexOf("%3CSCRIP") >= 0) ||(url[i].indexOf("JAVASCRIPT:ALERT") >= 0))
+          {
+            window.location="/contests/error_page"
+          }
+        }
+      }
+    </script>
+
+    <script type="text/javascript">
+      function facebook_share_image(url)
+      {
+
+        document.getElementById('share_image').value=url;
+
+      }
+
+      function fbs_click_facebook(id) {
+
+        new Ajax.Request("/contests/create_sharecount/"+id+"?from=facebook");
+
+        return false;
+      }
+      function fbs_click_myspace(id)
+      {
+
+        new Ajax.Request("/contests/create_sharecount/"+id+"?from=myspace");
+        return false;
+      }
+
+      var Up = jQuery.noConflict();
+      Up(document).ready(function(){
+        function preloadImg(image) {
+          var img = new Image();
+          img.src = image;
+        }
+        preloadImg('/images/ajaxLoader.gif');
+
+        Up.nyroModalSettings({
+          minWidth: 350,
+          minHeight: 410,
+          autoSizable: true,
+          css: {
+            content: {
+              background: '#002841',
+              overflow: 'auto'
+            },
+            wrapper: {
+              background: '#002841',
+              width: '344px'
+            },
+            contentWrapper:{
+              background: '#002841',
+              width: '344px'
+            }
+          }
+        });
+      });
+
+    </script>
+    <!-- For ease i'm just using a JQuery version hosted by JQuery- you can download any version and link to it locally -->
+
+
+    <script src="/javascripts/image_slider/jquery-latest.js"></script>
+    <script type="text/javascript">
+      function password_check()
+      {
+<% if @family_website_owner.password_required == 'yes' %>
+  <% if logged_in_hmm_user && logged_in_hmm_user.id == @family_website_owner.id %>
+        if(confirm('Your website is password protected.  Please note that once shared, you are giving the ability to others to navigate through your site without a password.'))
+          return true;
+        else
+          return false;
+  <%  else  %>
+        if(confirm("Your website is password protected. You must be logged in as the administrator to share with your social networking friends."))
+        {
+          document.redirectloginform.submit();
+          return false;
+        }
+        else
+          return false;
+  <% end %>
+<% end %>
+    return true;
+  }
+
+  function GetThisTwitter(targetUrl)
+  {
+    if(password_check()){
+      share_counter('twitter');
+      window.open(targetUrl);
+    }
+    else return false;
+  }
+
+  function GetThis()
+  {
+    if(password_check()){
+      share_counter('myspace');
+      T = 'Brought to you by HoldMyMemories';
+      C = '<img src="<%= @share_image %>"><br/>www.HoldMyMemories.com'
+      U = '<%= request.url %>'
+      L = '2'
+      var targetUrl = 'http://www.myspace.com/Modules/PostTo/Pages/?' + 't=' + encodeURIComponent(T)+ '&c=' + encodeURIComponent(C) + '&u=' + encodeURIComponent(U) + '&l=' + L;
+      window.open(targetUrl);
+    }
+  }
+
+  function fbs_click() {
+    if(password_check()){
+      share_counter('facebook');
+<%
+count = request.url.scan("?").length
+if count>0
+  current_url = request.url+"&facebook=true"
+else
+  current_url = request.url+"?facebook=true"
+end
+%>
+      u='<%= current_url %>';
+      t='Brought to you by HoldMyMemories'
+      window.open('http://www.facebook.com/sharer.php?u='+encodeURIComponent(u)+'&t='+encodeURIComponent(t),'sharer','toolbar=0,status=0,width=626,height=436');
+
+
+
+      return false;
+    }
+  }
+  function others(){
+    result= password_check();
+    if(result){
+      share_counter('other');
+      return addthis_sendto();
+    }else return false;
+  }
+
+  function share_counter(type){
+    new Ajax.Request('/social_networkings/create/<%= @family_website_owner.id %>?type='+type);
+
+    new Ajax.Request('/social_networkings/create_sharecount/<%= @family_website_owner.id %>?type='+type);
+
+  }
+
+    </script>
+    <script type="text/javascript">
+      var Jq = jQuery.noConflict();
+
+    </script>
+    <script type="text/javascript">
+      /* var refreshId = setInterval(function()
+      {
+        Jq('#responsecontainer').fadeOut("slow").load('/family_memory/get_offers').fadeIn("slow");
+      }, 100000);
+      Jq.ajaxSetup({ cache: false }); */
+    </script>
+    <meta charset="utf-8"/>
+    <meta content="IE=EDGE" http-equiv="X-UA-Compatible" />
+    <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+    <meta name="title" content="<%= @title %>" />
+    <meta name="description" content="<%= @description %>" />
+    <meta property="fb:app_id" content="322824824425061" />
+    <meta property="og:url" content="http://staging.holdmymemories.com/family_memory/home/<%= params[:id] %>" />
+    <meta property="og:title" content="<%= @title %>" />
+    <meta property="og:description" content="<%= @description %>" />
+    <meta property="og:type" content="<%= @share_type %>" />
+    <meta property="og:image" content="http://i1.ytimg.com/vi/TOH-TBxC8DU/hqdefault.jpg"/>
+    <meta property="og:video" content="<%= @share_video %>" />
+    <meta property="og:video:type" content="application/x-shockwave-flash"/>
+    <meta property="og:video:width" content="840" />
+      <meta property="og:video:height" content="478"/>
+    <meta property="og:site_name" content="YouTube"/>
+    <title>HoldMyMemories</title>
+
+    <link rel="SHORTCUT ICON" href="/images/common/favicon.ico" type="image/x-icon" />
+
+  </head>
+
+  <body>
+    <table width="100%" border="0" cellspacing="0" cellpadding="0" height="100%">
+      <tr>
+        <td height="126" valign="top" id="leftNav">
+          <table width="217" border="0" align="left" cellpadding="0" cellspacing="0">
+            <tr>
+              <td height="15">&nbsp;</td>
+            </tr>
+            <%= render :partial => "family_memory/partials/login"%>
+            <tr>
+              <td align="center" valign="top">&nbsp;<a href="/family_memory/home/<%=params[:id]%>" style="text-decoration: none"><img src="<%=@family_website_owner.img_url%>/hmmuser/familyphotos/thumbs/<%=@family_website_owner.family_pic%>" width="192" style="text-decoration: none" border="0" align="center"/></a> </td>
+            </tr>
+            <tr>
+              <td height="35" align="center" class="profileName"><%=@family_website_owner.v_lname.capitalize%> Family</td>
+            </tr>
+            <tr>
+              <td height="15" align="left"></td>
+            </tr>
+            <%if session[:hmm_user]%>
+              <%if logged_in_hmm_user.id==@family_website_owner.id
+                @studio_groups=HmmUser.find(:first,:select => "a.*,b.*,c.*,d.* ", :joins =>"as a ,employe_accounts as b,hmm_studios as c,hmm_studiogroups  as d ",:conditions => "a.id=#{@family_website_owner.id} and b.id=a.emp_id and b.store_id=c.id and c.studio_groupid=d.id ")
+                @creditpt=CreditPoint.find(:first,:conditions=>"user_id=#{@family_website_owner.id}")
+                @cp=CreditPoint.count(:all,:conditions=>"user_id=#{@family_website_owner.id}")%>
+                <%if @cp==1%>
+                  <tr>
+                    <td height="30" align="center" class="contmar studioTxt"><strong>Studio Credit:</strong>
+
+                      <% if @studio_groups.credit_system =="Dollars" %>
+                        $<%=number_with_precision(@creditpt.available_credits, :precision => 2)%>
+                      <%else%>
+                        <%=@creditpt.available_credits.round%>
+                      <%end%>
+                    </td>
+                  </tr>
+                <%end%>
+              <%end%>
+            <%end%>
+            <tr>
+              <td align="center" class="img"><img src="/images/family_memory/images/transaprent.png" class="sprite divid"/></td>
+            </tr>
+
+            <tr>
+              <td height="45" class="img contmar">
+                <%if  params[:action]!="home" %>
+                  <a href="/family_memory/home/<%=params[:id]%>"><img src="/images/family_memory/images/transaprent.png" border="0" class="sprite iconhome"/></a>
+                <%end%>
+                <%if session[:hmm_user]%>
+                  <%if logged_in_hmm_user.id==@family_website_owner.id%>
+                    <a href="/family_memory/edit_profile/<%=params[:id]%>"><img src="/images/family_memory/images/transaprent.png" border="0" class="sprite iconsetting"/></a>
+                  <%end%>
+                <%end%>
+
+              </td>
+            </tr>
+
+            <tr>
+              <td align="center" class="img"><img src="/images/family_memory/images/transaprent.png" class="sprite divid"/></td>
+            </tr>
+            <tr>
+              <td>&nbsp;</td>
+            </tr>
+            <%if session[:hmm_user]%>
+              <%if logged_in_hmm_user.id==@family_website_owner.id%>
+                <style type="text/css">
+
+                  #nyroModalContent
+                  {
+                    background:  #002841;
+                    width: 344px;
+                    height: 420px;
+                    overflow: auto;
+                  }
+                  #nyroModalWrapper
+                  {
+                    height: 221px;
+                    position: absolute;
+                    top: 50%;
+                    left: 50%;
+                    display: block;
+                    width: 346px;
+                    margin-top: -164.5px;
+                    margin-left: -177px;
+                  }
+                  #nyroModalBg
+                  {
+                    background-color: rgb(0, 0, 0);
+                    position: absolute;
+                    overflow: hidden;
+                    top: 0px;
+                    left: 0px;
+                    height: 100%;
+                    width: 100%;
+                    opacity: 0.75;
+                  }
+                </style>
+                <tr>
+                  <td class="img"><a href="/family_memory/upload_select/<%=params[:id]%>" title="Upload Photos/Videos" class="nyroModal"><div class="btnmar sprite btnOp">Add Photos/Videos</div></a></td>
+                </tr>
+              <%end%>
+            <%end%>
+            <tr>
+              <td height="7"></td>
+            </tr>
+            <tr>
+              <td class="img"><a href="/family_memory/blog/<%=params[:id]%>" title="Blog"><div class="btnmar sprite btnOp">Blog</div></a></td>
+            </tr>
+            <tr>
+              <td height="7"></td>
+            </tr>
+            <tr>
+              <td class="img"><a href="/family_memory/contest/<%=params[:id]%>" title="Contests" ><div class="btnmar sprite btnOp">Contests</div></a></td>
+            </tr>
+            <tr>
+              <td height="7"></td>
+            </tr>
+            <tr>
+              <td class="img">
+                <% if ((@family_website_owner.studio_id).to_i == 0 )%>
+                  <a href="/family_memory/search_studio/<%=params[:id]%>" title="Book Sessions"  class="nyroModal">
+                    <div class="btnmar sprite btnOp">
+                      Book Session</div></a>
+                <%else%>
+                  <a href="<%=link%>" title="Book Sessions" target="_blank"><div class="btnmar sprite btnOp">Book a Session</div></a>
+                <%end%></td>
+            </tr>
+
+            <tr>
+              <td height="7"></td>
+            </tr>
+            <tr>
+              <%if session[:hmm_user]%>
+                <%if logged_in_hmm_user.id==@family_website_owner.id%>
+                  <%if  params[:action]=="gallery_details" || params[:action]=="order_prints"%>
+                    <% if  @first_img%>
+                      <% if  @first_img.e_filetype=='image' %>
+                        <td class="img">
+                          <% if @family_website_owner.id == session[:hmm_user] or session[:hmm_user]  %>
+                            <a id="order_prints_home" href="<%=@paths.content_path%>/studio_session_orders/get_image_sizes_service?family_name=<%=params[:id]%>&&image_id=<%= @first_img.id %>&&version=v4" title="Order">
+                              <div class="btnmar sprite btnOp">Order Prints</div>
+                            </a>
+                          </td>
+                        <%end%>
+                      <%end%>
+                    <%end%>
+                  <%end%>
+                <%end%>
+              <%else%>
+                <td class="img">
+                  <a href="/family_memory/order_prints_login/<%=params[:id]%>" class="nyroModal" rev="modal">
+                    <div class="btnmar sprite btnOp">Order Prints</div>
+                  </a>
+                </td>
+              <% end %>
+            </tr>
+            <tr>
+              <td height="7"></td>
+            </tr>
+            <%if session[:hmm_user]%>
+              <%if logged_in_hmm_user.id==@family_website_owner.id%>
+                <%if  params[:action]=="gallery_details" || params[:action]=="order_prints"%>
+                  <% if  @first_img%>
+                    <tr>
+                      <td class="img">
+                        <% if @family_website_owner.id == session[:hmm_user] or session[:hmm_user]  %>
+                          <a id="enter_contest_home" href="/familymemory_contests/submit_entry/<%=params[:id]%>?moment_id=<%= @first_img.id %>" title="Enter Contest">
+                            <div class="btnmar sprite btnOp">Enter Contest</div>
+                          </a>
+                        </td>
+                      </tr>
+                    <%end%>
+                  <%end%>
+                <%end%>
+              <%end%>
+            <%end%>
+            <tr>
+              <td height="7"></td>
+            </tr>
+            <tr>
+              <td height="10" align="center" valign="top" class="img"><img src="/images/family_memory/images/transaprent.png" class="sprite divid"/></td>
+            </tr>
+            <tr>
+              <td height="90" align="center" valign="middle" class="img"><a href="http://itunes.apple.com/us/app/holdmymemories.com/id477073119?ls=1&mt=8"  target="_blank"><img src="/images/family_memory/images/transaprent.png" border="0" class="sprite appsIcon"/></a></td>
+            </tr>
+            <% #  cur_date=Date.today %>
+<%#  offers=PackageOffer.find(:first,:conditions=>"start_date<'#{cur_date}' and end_date>'#{cur_date}' and status='active'")%>
+            <!--   <tr>
+                 <td align="center" class="img addmar"><div class="sprite add" id="responsecontainer">
+
+                     <span><%#=offers.title%></span>
+<%#=offers.description%>!</div></td>
+               </tr> -->
+            <tr>
+              <td>&nbsp;</td>
+            </tr>
+            <tr>
+              <td align="center" class="img"><img src="/images/family_memory/images/transaprent.png" class="sprite divid"/></td>
+            </tr>
+            <tr>
+              <td height="10"></td>
+            </tr>
+            <tr>
+              <td align="center" class="poweTxt">Powered by</td>
+            </tr>
+            <tr>
+              <td align="center" class="img"><img src="/images/family_memory/images/transaprent.png" class="sprite logoSmall"/></td>
+            </tr>
+            <tr>
+              <td height="18" align="center" class="img"></td>
+            </tr>
+          </table></td>
+        <td valign="top" id="rightNav" width="100%"  align="center">
+          <table border="0" cellpadding="0" cellspacing="0" width="100%" align="center">
+            <tr><td colspan="3"><%= yield %></td></tr>
+            <tr><td align="center" width="3%"></td><td><table align="center"><tr><td align="center" width="920"><%= render :partial => "partials/footermenu", :locals => {} %></td></tr></table></td><td align="center" width="3%"></td></tr>
+          </table>
+        </td>
+      </tr>
+    </table>
+    <script type="text/javascript">
+      var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+      document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+    </script>
+    <script type="text/javascript">
+      var pageTracker = _gat._getTracker("UA-5209348-1");
+      pageTracker._trackPageview();
+    </script>
+  </body>
+</html>

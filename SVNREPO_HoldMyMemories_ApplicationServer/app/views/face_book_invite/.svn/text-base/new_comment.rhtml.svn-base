@@ -1,0 +1,237 @@
+
+<script type="text/javascript">
+
+  function display_comments(type){
+
+      var ajax = new Ajax();
+      ajax.responseType =type;
+      ajax.ondone = function(data) {
+        document.getElementById('main_content').setInnerFBML(data);
+      }
+      ajax.onerror = function() {
+        new Dialog().showMessage('Error!','Ajax failed for some reason. Please try again.');
+      }
+      ajax.post('<%=@path.proxyname%>/face_book_invite/display_comments/?facebook_profile_id='+<%=@family_website_owner.facebook_profile_id%>);
+
+  }
+
+
+
+    function guestbook_new(type){
+        var name = document.getElementById('name').getValue()
+        var email = document.getElementById('email').getValue()
+        var subject = document.getElementById('subject').getValue()
+        var message = document.getElementById('message').getValue()
+
+        new Dialog().showMessage('name = '+name+'email = '+email+'message = '+message+'subject = '+subject);
+
+        if (name == '' ){
+              new Dialog().showMessage('Error!','Enter Your Name');
+             return false;
+        }else if( email == ''){
+            new Dialog().showMessage('Error!','Enter Your Email-Id');
+            return false;
+       }else if( subject == ''){
+            new Dialog().showMessage('Error!','Enter  the Subject');
+            return false;
+       }else if( message == ''){
+            new Dialog().showMessage('Error!','Enter Your Message');
+            return false;
+        }else{
+
+            var ajax = new Ajax();
+            ajax.responseType =type;
+
+            ajax.ondone = function(data) {
+              document.getElementById('main_content').setInnerFBML(data);
+
+            }
+            ajax.onerror = function() {
+              new Dialog().showMessage('Error!','Ajax failed for some reason. Please try again.');
+            }
+
+
+            ajax.post('<%=@path.proxyname%>/face_book_invite/guestbook_new/?facebook_profile_id='+<%=@family_website_owner.facebook_profile_id%>+'&name='+name+'&email='+email+'&subject='+subject+'&message='+message);
+         }
+      }
+  </script>
+
+<div id="main_content">
+<table width="<%=@app_main_width%>" border="0" cellspacing="0" cellpadding="0">
+  <tr>
+    <td height="100%" align="right" valign="top" class="leftshad"></td>
+    <td width="<%=@app_width%>" height="500" align="center" valign="top"><table width="<%=@app_main_width%>" border="0" cellspacing="0" cellpadding="0">
+        <tr>
+          <td align="center" valign="top"><table width="520" border="0" cellspacing="0" cellpadding="0">
+              <tr>
+                <td align="center" valign="top" class="tab-dots"><table width="<%=@app_main_width%>" border="0" cellspacing="0" cellpadding="0" id="tab_bgcolor_repeat">
+                    <tr>
+                      <td align="left" valign="top"><table width="100%" border="0" cellspacing="0" cellpadding="0">
+                          <tr>
+                            <td width="13" align="left" valign="top"></td>
+                            <td width="<%=@app_width%>" align="left" valign="top"><table width="100%" border="0" cellspacing="0" cellpadding="0">
+                                <tr>
+                                  <td height="10" align="left" valign="top"></td>
+                                </tr>
+                                <tr>
+                                  <td height="35" align="left" valign="bottom" class="header-page">Guest Book</td>
+                                </tr>
+                                <tr>
+                                  <td height="10" align="left" valign="top"></td>
+                                </tr>
+                                <tr>
+                                  <td height="1" align="left" valign="top" bgcolor="#454545"></td>
+                                </tr>
+                                <tr>
+                                  <td height="10" align="left" valign="top"></td>
+                                </tr>
+                                <tr>
+                                  <td align="left" valign="top"><table width="100%" border="0" cellspacing="0" cellpadding="0">
+                                      <tr>
+                                        <td width="<%=@app_main_width%>" height="300" align="left" valign="top">
+                                            <table width="<%=@app_main_width%>" border="0" cellspacing="0" cellpadding="0" align ="center">
+                                              <tr>
+                                                <td align="right" valign="top" class="side-heading">( <a align ="right" href="#" onclick="display_comments(Ajax.FBML); return false;">BACK</a> )</td>
+                                              </tr>
+                                              <!--<tr>
+                                                <td align="right" valign="top" class="side-heading">(  <a style="cursor:pointer;"  onClick="history.back();">BACK</a> )</td>
+                                              </tr>-->
+                                              <tr>
+                                                <td align="center" valign="top" class="error-message"><%=flash[:message]%></td>
+                                              </tr>
+                                              <tr>
+                                                <td align="left" valign="top" class="header-paragraph">Add New Comment:</td>
+                                              </tr>
+                                              <tr>
+                                                <td align="left" valign="top">&nbsp;</td>
+                                              </tr>
+                                              <tr>
+                                                <!--<td align="left" valign="top">
+                                                  <table width="520" border="0" cellspacing="0" cellpadding="0">
+                                                    <tr>
+                                                      <td width="30" align="left" valign="top">&nbsp;</td>
+                                                      <td width="500" align="left" valign="top"><table width="520" border="0" cellspacing="0" cellpadding="0">-->
+                                                          <tr>
+                                                            <td align="left" valign="top">&nbsp;</td>
+                                                          </tr>
+                                                          <tr>
+                                                            <td height="25" align="left" valign="top" class="content">Name <span class="content-white">*</span></td>
+                                                          </tr>
+                                                          <tr>
+                                                            <td align="left" valign="top"><input name="name" type="text"  id="name" /></td>
+                                                          </tr>
+                                                          <tr>
+                                                            <td align="left" valign="top">&nbsp;</td>
+                                                          </tr>
+                                                          <tr>
+                                                            <td height="25" align="left" valign="top" class="content">Email <span class="content-white">*</span></td>
+                                                          </tr>
+                                                          <tr>
+                                                            <td align="left" valign="top"><input name="email" type="text"  id="email" /></td>
+                                                          </tr>
+                                                          <tr>
+                                                            <td align="left" valign="top">&nbsp;</td>
+                                                          </tr>
+                                                          <tr>
+                                                            <td height="25" align="left" valign="top" class="content">Subject<span class="content-white">*</span></td>
+                                                          </tr>
+                                                          <tr>
+                                                            <td align="left" valign="top"><label>
+                                                                <input name="subject" type="text" id="subject" />
+                                                              </label></td>
+                                                          </tr>
+                                                          <tr>
+                                                            <td align="left" valign="top">&nbsp;</td>
+                                                          </tr>
+                                                          <tr>
+                                                            <td height="25" align="left" valign="top" class="content">Message </td>
+                                                          </tr>
+                                                          <tr>
+                                                            <td align="left" valign="top"><label>
+                                                                <textarea name="message" cols="45" rows="5" id="message" ></textarea>
+                                                              </label></td>
+                                                          </tr>
+                                                          <tr>
+                                                            <td align="left" valign="top">&nbsp;</td>
+                                                          </tr>
+                                                          <tr>
+                                                            <td height="25" align="left" valign="top" class="content">Upload your Image</td>
+                                                          </tr>
+                                                          <tr>
+                                                            <td align="left" valign="top">
+                                                              <input name="guest_image" type="file" >
+                                                            </td>
+                                                          </tr>
+                                                          <tr>
+                                                            <td align="left" valign="top">&nbsp;</td>
+                                                          </tr>
+                                                          <!--<tr>
+                                                            <td height="25" align="left" valign="top" class="content">Please enter the code</td>
+                                                          </tr>
+                                                          <tr>
+                                                            <td align="left" valign="top"><%#= show_simple_captcha(:label => "", :image_style => 'distorted_black', :distortion => "medium")%></td>
+                                                          </tr>-->
+
+                                                          <tr>
+                                                            <td align="left" valign="top">&nbsp;</td>
+                                                          </tr>
+                                                          <tr>
+                                                            <td align="left" valign="top">&nbsp;</td>
+                                                          </tr>
+
+
+
+                                                          
+                                                            <!--<li><a href="#"><input name="cancel" type="button" class="cmd-btn" id="button" value="Cancel" onClick=""/></a></li>-->
+                                                              
+                                                                <!--<li><a href="#"> <input name="button" type="submit" class="cmd-btn" id="button" value="Add" onclick="guestbook_new(Ajax.FBML); return false;" />  </a> </li>-->
+                                                              <tr>
+                                                                <td align="left" valign="top"> <label><a href="#" > <input name="button" type="submit" class="cmd-btn" id="button" value="Add "  onclick="guestbook_new(Ajax.FBML); return false;" /></a></label></td>
+                                                                                                                         
+                                                              
+                                                                <td> <label><a href="#" > <input name="button" type="submit" class="cmd-btn" id="button" value="Cancel"  onclick="display_comments(Ajax.FBML); return false;" /></a></label></td>
+                                                             
+                                                             </tr>
+                                                          
+                                                          
+                                                          
+                                                          <tr>
+                                                           <td align="left" valign="top">&nbsp;</td>
+                                                          </tr>
+                                                        <!--</table></td>-->
+                                                    </tr>
+                                                  </table>
+                                                </td>
+                                              </tr>
+                                              <tr>
+                                                <td align="left" valign="top">&nbsp;</td>
+                                              </tr>
+                                              <tr>
+                                                <td align="center" valign="top"></td>
+                                              </tr>
+                                              <tr>
+                                                <td align="left" valign="top">&nbsp;</td>
+                                              </tr>
+                                              <tr>
+                                                <td align="left" valign="top">&nbsp;</td>
+                                              </tr>
+                                            </table>
+                                        </td>
+                                      </tr>
+                                    </table></td>
+                                </tr>
+                              </table></td>
+                            <!--<td width="13" align="left" valign="top"></td>-->
+                          </tr>
+                        </table></td>
+                    </tr>
+                  </table></td>
+              </tr>
+            </table></td>
+        </tr>
+        <tr>
+          <td height="19"></td>
+        </tr>
+      </table>
+
+</div>

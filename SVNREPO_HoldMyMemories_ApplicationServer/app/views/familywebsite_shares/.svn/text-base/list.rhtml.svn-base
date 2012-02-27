@@ -1,0 +1,62 @@
+<h2>Family Website Shares</h2>
+<table cellpadding="0" cellspacing="0" width="80%" border="1" bordercolor="#e5b467" align="center">
+	<tr>
+		<td colspan="2" align="center" valign="middle">
+			<h3>Website Share Count</h3>
+		</td>
+	</tr>
+	<tr>
+		<td colspan="2" valign="middle">
+			<br>
+			<center>
+			Total family Website Shares&nbsp;&nbsp; :&nbsp; <%=@fw_share_count%> <br>
+			
+			<br></br>
+		</td>
+	</tr>
+	</table>
+<table width="900">
+  <tr>
+  	  <th background="/images/body_hor.JPG">Website Shared</th>
+      <th background="/images/body_hor.JPG">Sender Name</th>
+	  <th background="/images/body_hor.JPG">Sender Email</th>
+	  <th background="/images/body_hor.JPG">Reciepent Email</th>
+	  <th background="/images/body_hor.JPG" >Share Message</th>
+	  <th background="/images/body_hor.JPG">Share Date</th>
+  	  <th background="/images/body_hor.JPG" colspan="2">Action</th>
+  </tr>
+  
+<% for column in @familywebsite_shares %>
+  <tr class="<%= cycle('odd', 'even') -%>">
+  	
+  	<td><%= column.family_website %></td>
+    <td><%= column.senders_name %></td>
+	<td><%= column.senders_email %></td>
+	<td>
+		<% if (column.share_message == '')
+			
+			else%>
+		<%
+			$share_emails=FamilywebsiteShare.find(:all,:conditions => ["share_message = ?", column.share_message])
+
+			for e in $share_emails %>
+
+			<%=e.reciepent_emails %><br>
+		
+		<%end%>
+		<%end%>
+		</td>
+	<td><%= column.share_message %></td>
+	<td><%= column.share_date.strftime("%a %b #{column.share_date.day.ordinalize} %Y") %></td>
+
+    <td><%= link_to 'Show', :action => 'show', :id => column.id %></td>
+    
+    <td><%= link_to 'Destroy', { :action => 'destroy', :id => column.id }, :confirm => 'Are you sure?', :method => :post %></td>
+
+  </tr>
+   <% end %>
+</table>
+<%=will_paginate @familywebsite_shares%>
+<br />
+
+

@@ -1,0 +1,24 @@
+xml.instruct! :xml, :version=>"1.0"
+xml.images{
+  if @userimages
+    if  @userimages.length > 0
+      for  userimage in  @userimages
+        xml.image{
+          if(params[:id]==4|| params[:id]=='4')
+            @content_server_url = "http://content.holdmymemories.com"
+          else
+            @content_server_url = userimage.img_url
+          end
+          xml.navigate_path("#{@content_path.proxyname}/familywebsite_studio/moments/#{@family_website_owner.family_name}?moment_id=#{userimage.id}?familyname=#{@family_website_owner.family_name}")
+          xml.facebook_Share_URL("#{@content_path.proxyname}/familywebsite_studio/moments/#{@family_website_owner.family_name}?moment_id=#{userimage.id}?t=#{Time.now}")
+          xml.icon(@content_server_url +"/user_content/photos/coverflow/#{userimage.v_filename}")
+          xml.id(userimage.id)
+          xml.name(userimage.v_filename)
+          xml.type("image")
+          xml.response_type("navigate")
+        }
+      end
+    end
+  end
+
+}

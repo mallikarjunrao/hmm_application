@@ -1,0 +1,243 @@
+<% if !flash[:result_entry].blank? || !flash[:result_entry].nil?  %>
+  <script type="text/javascript">
+    window.onload = alert('<%=flash[:result_entry]%>');
+  </script>
+<%end%>
+
+
+<script type="text/javascript">
+
+  function verify()
+  {
+    if (document.getElementById('contest_first_name').value == "")
+    {
+      alert('Please enter Contestant Name!!');
+      return false;
+    }
+    if (document.getElementById('contest_phase').value == "")
+    {
+      alert('Please select the contest!!');
+      return false;
+    }
+    if (document.getElementById('journal_v_title').value == "")
+    {
+      alert('Please enter the title!!');
+      return false;
+    }
+    if (document.getElementById('journal_v_image_comment').value == "")
+    {
+      alert('Please enter the description!!');
+      return false;
+    }
+
+    if(document.getElementById('terms').checked == false)
+    {
+      document.getElementById('terms').focus();
+      alert("You must agree to the rules to proceed")
+      return false;
+    }
+    var contest_phase = document.getElementById("contest_phase").value;
+    if(contest_phase == "phase15" && "<%= @user_data.e_filetype %>" == 'image')
+    {
+      if (document.getElementById("age_groups").value == "")
+      {
+        alert("Select the age group");
+        return false;
+      }
+    }
+
+
+  }
+
+  function check_age_grp()
+  {
+    var contest_phase = document.getElementById("contest_phase").value;
+    if(contest_phase == "phase15" && "<%= @user_data.e_filetype %>" == "image")
+    {
+      document.getElementById("age_grp").style.display = "block";
+      //document.getElementById("age_grp2").visiblity = "block";
+    }
+    else
+    {
+      document.getElementById("age_grp").style.display = "none";
+      // document.getElementById("age_grp2").visiblity = "none";
+    }
+
+  }
+
+
+</script>
+<table width="100%" border="0" cellspacing="0" cellpadding="0" >
+  <tr><td colspan="2" align="center" width="100%" ><table border="0" width="100%"><%= render :partial => "family_memory/partials/heading"%></table></td></tr>
+  <%if flash[:result_entry]=="Your Entry has been submitted. After Your entry has been approved you will receive an email notification so that you may vote your contestant, and inivite your friends to vote for your family"%>
+    <tr><td width="100%" align="center" class="content-trans-bg" height="500" valign="middle"> <font color="#ffffff" size="3">Thank You</font></td></tr>
+  <%else%>
+    <tr>
+      <td width="100%" align="center" valign="top" class="content-trans-bg">
+        <form action="/familymemory_contests/select_contestmoment/<%=params[:id]%>" method="post">
+          <table border="0" align="center" cellpadding="0" cellspacing="0" width="100%" >
+
+
+
+            <tr><td height="25" align="center" colspan="3"></td></tr>
+            <%if @user_data.e_filetype=="video"%>
+              <tr>
+                <td align="center" colspan="3">
+                  <div class="video-js-box">
+                    <!-- Using the Video for Everybody Embed Code http://camendesign.com/code/video_for_everybody -->
+                    <video id="example_video_1" class="video-js" width="300" height="264" controls="controls" preload="auto" poster="<%=@user_data.img_url%>/user_content/videos/thumbnails/<%=@user_data.v_filename%>.jpg">
+                      <source src="<%=@user_data.img_url%>/user_content/videos/iphone/<%=@user_data.v_filename%>.mp4" type='video/mp4; codecs="avc1.42E01E, mp4a.40.2"' />
+                    </video>
+                  </div>
+                </td>
+              </tr>
+
+            <%else%>
+              <tr><td align="center" colspan="3"><img src="<%=@user_data.img_url%>/user_content/photos/coverflow/<%=@user_data.v_filename%>" /></td></tr>
+            <%end%>
+            <tr><td height="20"></td></tr>
+            <input type="hidden" name="momentid" value="<%=@moment_id%>" />
+            <input type="hidden" name="type" value="<%=@user_data.e_filetype%>" />
+            <input type="hidden" name="user_id" value="<%=@user_id%>" />
+
+            <% if @journal %>
+              <%
+              title = @journal.title ? @journal.title : ""
+              desc = @journal.description ? @journal.description : ""
+            %>
+              <input type="hidden" name="journal" value="edited" />
+            <% else %>
+              <input type="hidden" name="journal" value="no" />
+            <% end %>
+          </table>
+          <table cellpadding="0" cellspacing="0" align="center" class="content-trans-bg">
+            <tr>
+              <td align="left" valign="center" scope="col">
+                <font color="#ffffff" size="3" >Contestant Name: </font></td>
+              <td align="left" scope="col"><input size="25" type="text" name="fname" id="contest_first_name" class ="textbox-journals" />
+                <!--<%= observe_field :'first_name',
+                  :with       => "firstname",
+                  :frequency  => 0.25,
+                  :url        => {:action => :validate_babyname, :id=>@moment_type },
+                  :update     => :message_baby
+              %>
+                                                     <span id="message_baby"></span >-->
+              </td>
+            </tr>
+            <tr>
+              <th colspan="2">
+                &nbsp;
+              </th>
+            </tr>
+            <tr>
+              <td align="center" colspan="2">
+                <font color="#ffffff" size="3">Tell us a little bit about this entry (this information will be included with your entry):</font>
+              </td>
+
+            </tr>
+            <tr>
+              <th colspan="2">
+                &nbsp;
+              </th>
+            </tr>
+            <tr>
+
+            <tr>
+              <td align="left" valign="top" scope="col"><font color="#ffffff" size="3" >Title: </font></td>
+              <td align="left"  scope="col"><span id="sprytextfield1"><span id="sprytextfield1"><input size="25" type="text" name="title" id="journal_v_title" value="<%= title %>" class ="textbox-journals" /><span style="color:grey"><br>Title is required.</br></span></span></span></td>
+            </tr>
+
+            </tr>
+            <tr>
+              <th>&nbsp;</th>
+            </tr>
+            <tr>
+              <th><input type="hidden" name="date" value="<%=Date.today%>" /></th>
+            </tr>
+            <tr>
+              <td align="left" valign="center" scope="col"><font color="#ffffff" size="3" >Contest: </font></td>
+              <td align="left" scope="col">
+                <select name="phase" id="contest_phase" onchange="check_age_grp();">
+                  <option value="">--Select--</option>
+                  <%for contest in @contest_details%>
+                    <%if @user_data.e_filetype=="image"%>
+                      <%if  contest.photo_logo!=''%>
+                        <option value="phase<%=contest.id%>"><%=contest.name%></option>
+                      <%end%>
+                    <%end%>
+                    <%if @user_data.e_filetype=="video"%>
+                      <%if  contest.video_logo!=''%>
+                        <option value="phase<%=contest.id%>"><%=contest.name%></option>
+                      <%end%>
+                    <%end%>
+                  <%end%>
+                </select></td>
+            </tr>
+            <tr>
+              <td align="left" valign="center" scope="col" colspan="2">
+                <div id="age_grp">
+                  <table width="100%">
+                    <tr>
+                      <td>&nbsp;</td>
+                      <td>&nbsp;</td>
+                    </tr>
+                    <tr>
+                      <td align="left" valign="center" scope="col" style="width: 190px;"><font color="#ffffff" size="3" >Age Group: </font>
+                      </td>
+                      <td align="left" scope="col" >
+                        <select name="age_groups" id="age_groups">
+                          <option value="" selected>---</option>
+                          <option value="0-2">0-2</option>
+                          <option value="3-5">3-5</option>
+                          <option value="6-9">6-9</option>
+                          <option value="10-17">10-17</option>
+                        </select>
+                      </td>
+                    </tr>
+                  </table>
+                </div>
+              </td>
+            </tr>
+
+
+
+            <tr>
+              <th>&nbsp;</th>
+            </tr>
+
+            <tr>
+              <td align="left" valign="top" scope="col"><font color="#ffffff" size="3" >Description: </font></td>
+              <td align="left" scope="col"><span id="sprytextfield2"><span id="sprytextfield2"><textarea name="journal_desc" cols="28" rows="5" id="journal_v_image_comment" class="textbox-journal"><%= desc %></textarea><span style="color:grey"><br>Description is required.</br></span></span></span></td>
+            </tr>
+
+
+            <tr>
+              <td height="12" colspan="2" valign="top" scope="col" align="center" >
+                <br /> <input type="checkbox" name="terms" id="terms" value="1"  />
+                <font color="#ffffff" size="2">I agree to the <a href="/static/rules" target="_blank"><u>
+                      <font color="#FFFFFF">Rules</font></u></a> of the Contest</font>
+              </td>
+            </tr>
+
+
+            <tr>
+              <td height="12" colspan="9" align="center" valign="top" scope="col" class="signedtxtwhite" colspan="3" >
+                <!--<input type='image' src="/images/submit_btn.jpg" width="87" height="24" border="0" onclick="return verify();" />-->
+                <input type="submit" id="regsubmit" class="whiteButton" value="Submit" style="cursor:pointer;" onclick="return verify();"/>
+              </td>
+            </tr>
+          </table>
+        </form>
+
+
+
+
+
+      </td>
+
+    </tr>
+  <%end%>
+</table>
+<script type="text/javascript">
+  window.onload = check_age_grp();
+</script>

@@ -1,0 +1,109 @@
+<%= error_messages_for 'family_member' %>
+<style>
+
+.textfamilycolor {
+font-size: 16px;
+color: #ffffff;
+}
+
+</style>
+
+	
+	
+	<%= javascript_include_tag 'SpryAssets/SpryValidationTextField' %>
+	<%= stylesheet_link_tag 'SpryAssets/SpryValidationTextField' %>
+
+<table>
+	<tr>
+		<td align="right" valign="top" class="textfamilycolor">
+			<label for="family_member_familymember_name">Familymember name</label>
+		</td>
+		<td>&nbsp;</td>
+		<td align="left">
+			<span id="sprytextfield1">
+			<%= text_field 'family_member', 'familymember_name' , :class => "textbox-signup" %>
+			<span class="textfieldRequiredMsg"><br>Family Member Name is required.</br></span></span></span>
+		</td>
+	</tr>
+	<tr>
+		<td align="right" valign="top" class="textfamilycolor">
+			<label for="family_member_relation">Relation</label>
+		</td>
+		<td>&nbsp;</td>
+		<td align="left">
+			<% user=HmmUser.find(:all, :conditions => "id=#{logged_in_hmm_user.id}")
+				params[:id]=user.id
+			relation_check = FamilyMember.find(:all, :conditions => "uid='#{logged_in_hmm_user.id}'")
+				%>
+				
+				
+			<select name="relation" style="display:block" id="relation"  >
+          <option value="select">select</option>
+		  
+		  <%
+		  for i in relation_check
+			if i.relation == "mother"
+		    	m=1 
+ 			end
+			if i.relation == "father"
+		    	fa=1 
+ 			end
+			if i.relation == "husband"
+		    	ha=1 
+ 			end
+			if i.relation == "wife"
+		    	w=1 
+ 			end
+		  end
+		%>
+		  
+		  
+		  <%if m==1%>
+		  <%else%>
+          <option value="mother">Mother</option>
+		  <%end%>
+		  <%if fa==1%>
+		  <%else%>
+		  <option value="father">Father</option>
+		  <%end%>
+          <option value="brother">Brother</option>
+          <option value="sister">Sister</option>
+		  <%if ha==1%>
+          <%else%>
+		  <option value="husband">Husband</option>
+		  <%end%>
+		  <%if w==1%>
+		  <%else%>
+          <option value="wife">Wife</option>
+		  <%end%>
+          <option value="son">Son</option>
+          <option value="daughter">Daughter</option>
+        </select>
+		
+			
+		</td>
+	</tr>
+	<tr>
+		<td align="right" valign="top" class="textfamilycolor">
+			<label for="family_member_member_image">Member image</label>
+		</td>
+		<td>&nbsp;</td>
+		<td align="left">
+			<%= file_field 'family_member', 'member_image'  %>
+		</td>
+	</tr>
+	<tr>
+		<td align="right" valign="top" class="textfamilycolor">
+			<label for="family_member_biographie">Biographie</label>
+		</td>
+		<td>&nbsp;</td>
+		<td align="left">
+			<%= text_area 'family_member', 'biographie'  %>
+		</td>
+	</tr>
+</table>
+
+<script type="text/javascript">
+
+var sprytextfield1 = new Spry.Widget.ValidationTextField("sprytextfield1", "none", {validateOn:["blur"]});
+	</script>

@@ -1,0 +1,234 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:HBox xmlns:mx="http://www.adobe.com/2006/mxml" xmlns:fabulousFlex="fabulousFlex.*" backgroundColor="0" color="0xFfffff" backgroundAlpha="0" verticalGap="1" horizontalGap="1" xmlns:components="components.*">
+	<mx:Script>
+		<![CDATA[
+			import fabulousFlex.SquaresSpinnerPreloadingWindow;
+		]]>
+	</mx:Script>
+	<mx:VBox id="tagBox" width="60%" height="100%" backgroundColor="0" >
+		<mx:HBox width="100%" >
+			<mx:Label id="title" text="Title :" width="20%" color="0xFfffff"/>
+			<mx:TextInput id="titleInput" width="80%" text="{data.name}" focusOut="handleTitleUpdated()" color="0"/>
+		</mx:HBox>
+		<mx:Label color="0xffffff" text="Description"/>
+		<mx:TextArea id="descriptionText" width="100%" text="{data.description}" color="0" focusOut="handleDescriptionUpdated()"/>
+		<mx:HBox width="100%" >
+			<mx:Label id="tags" text="Tags" width="20%" color="0xFfffff"/>
+			<mx:TextInput id="tagInput" text="{data.tags}" focusOut="handleTagsUpdated()" 
+				width="80%" color="0"/>
+		</mx:HBox>
+		<mx:HBox width="100%" visible="{data.hasOwnProperty('creationDate')||data.hasOwnProperty('creationdate')}">
+			<mx:Label id="creationDate" text="Moment Date" width="20%" color="0xFfffff"/>
+			<!--<mx:DateField id="dateInput" selectedDate="{data.creationDate}" focusOut="handleTagsUpdated()" yearNavigationEnabled="true" 
+				width="80%" color="0" change="handleDateChanged(event)" close="handleDateChooserClose()"  formatString="MM/DD/YYYY" editable="true"
+				minYear="1900" selectableRange="{{rangeStart : new Date(1900,1,1),rangeEnd : new Date()}}"/>-->
+			<components:CustomDateField id="dateInput" selectedDate="{momemtDate}" focusOut="handleTagsUpdated()" yearNavigationEnabled="true" 
+				width="100" color="0" minYear="1900"  change="handleDateChanged(event)" close="handleDateChooserClose()"
+				 />  	
+		</mx:HBox>
+	</mx:VBox>
+	<mx:VBox width="40%" height="100%" horizontalAlign="center" verticalGap="1"  horizontalGap="1" borderThickness="1" borderStyle="solid">
+		<mx:Image id="img" source="{iconPath}" width="80%" height="80%"/>
+		<mx:Button label="Save" click="saveData()" styleName="lastButtonStyle"/>		
+	</mx:VBox>
+	<mx:Style>
+		.lastButtonStyle
+		{
+			fillColors: #000000, #000000, #000000, #cccccc;
+			corner-radius : 0;
+			selection-color : #ff6633;
+			color : #Ffffff;
+			theme-color : #ff6633;
+		}
+	</mx:Style>
+<mx:Script>
+	<![CDATA[
+
+		import mx.events.CalendarLayoutChangeEvent;
+		import components.FadingNotifier;
+		import mx.containers.Canvas;
+		import mx.managers.PopUpManager;
+		import mx.core.IFlexDisplayObject;
+		import mx.managers.CursorManager;
+		import com.adobe.utils.DateUtil;
+		import mx.events.ValidationResultEvent;
+		
+		import mx.controls.Alert;
+		import mx.validators.ValidationResult;
+		import mx.validators.DateValidator;
+		import mx.formatters.DateFormatter;
+		import vo.WebFileVO;
+		import mx.rpc.http.HTTPService;
+		import mx.rpc.events.FaultEvent;
+		import mx.rpc.events.ResultEvent;
+		[Bindable]
+		private var iconPath : String;
+		private var popup : IFlexDisplayObject;
+		[Bindable]
+		private var momemtDate : Date;
+		/* private function formatDate(currentDate:Date):String 
+		{
+			var format : String = "MM/DD/YYYY";
+			var dateFormatter : DateFormatter = new DateFormatter();
+			dateFormatter.formatString = format;
+			if(data is WebFileVO)
+			{
+				var dateStr : String = dateFormatter.format(data.creationDate); 
+			}else
+			{
+				dateStr = "";
+			}
+			return dateStr;
+		} */
+		
+	
+		
+		/* public function parseDate(valueString:String, inputFormat:String):Date 
+		{
+			
+			var newDate : Date = new Date();
+			newDate.time =  Date.parse(valueString);
+			if(newDate == null)
+			{
+				Alert.show("Invalid Date Entered");
+				newDate = new Date();
+			}	
+			 
+    		return newDate;
+		} */
+		
+		override public function set data(value:Object):void
+		{
+			super.data = value;
+			
+			if(data is WebFileVO && data.type == 'audio')
+			 iconPath = '/speaker.png';
+			  else 
+			 iconPath =  data.icon;
+			 if(data.hasOwnProperty('creationDate'))
+			 {
+			 	
+				momemtDate = data.creationDate;
+			 }
+			  
+			   
+		}
+		
+		/* private function handleDateFieldComplete() : void
+		{
+			if(data.hasOwnProperty('creationDate'))
+			 {
+			 	//var date : Date = this.selectedDate;
+				var format : String = "MM/DD/YYYY";
+				var dateFormatter : DateFormatter = new DateFormatter();
+				dateFormatter.formatString = format;
+				dateInput.dateInputBox.text = dateFormatter.format(data.creationDate);	
+			 }
+			 	
+		} */
+		
+		private function handleTagsUpdated() : void
+		{
+			data.tags = tagInput.text;
+			
+		}
+		
+		private function handleDescriptionUpdated() : void
+		{
+			
+			data.description = descriptionText.text;
+			
+		}
+		
+		private function handleTitleUpdated() : void
+		{
+			data.name = titleInput.text;
+			
+		}
+		
+		private function handleDateChanged(event : CalendarLayoutChangeEvent) : void
+		{
+			if (event.newDate != null) 
+			{
+				var dateNew : Date = new Date(event.newDate.getFullYear(), event.newDate.month, event.newDate.date);
+				data.creationDate = event.newDate;
+			}
+			else
+			{
+			 	Alert.show("Invalid Date Entered\n Format :- MM/DD/YYYY");
+			 	var date : Date = new Date();
+			 	data.creationDate =  date; 
+			 	//dateInput.selectedDate = new Date();
+			 	dateInput.text = date.month.toString() + "/" + date.date.toString() + "/" + date.fullYear.toString(); 
+			}
+		}
+		
+		private function handleDateChooserClose() : void
+		{
+			//data.creationDate = dateInput.selectedDate;
+			//momemtDate = dateInput.selectedDate;
+			
+		}
+		
+		private function saveData() : void
+		{
+			
+			var params : Object = new Object();
+			var renameService : HTTPService = new HTTPService();
+			params.id = data.id;
+			params.name = data.name
+			params.description = data.description;
+			params.tags = data.tags;
+			switch(data.classType)
+			{
+				case "chapterVO" : 
+					
+				 	renameService.url = "/tags/updateTag";
+					break;
+				case "galleryVO":
+					renameService.url = "/galleries/updateGallery";
+					break;
+				case "webFileVO" :
+					renameService.url = "/user_content/updateUserContent";
+					params.creationDate = dateInput.selectedDate;//data.creationDate;
+					if(!dateInput.isDateValid)
+					{
+					 	Alert.show("Enter a valid date. \n Format :- MM/DD/YYYY");
+					 	return;
+					}		
+					break;
+				case "subChapterVO":
+					
+					renameService.url = "/sub_chapter/updateSubChapter";
+					break
+			}
+			
+			
+			renameService.addEventListener(ResultEvent.RESULT, handleNameChangeResult);
+			renameService.addEventListener(FaultEvent.FAULT, handleNameChangeFault);
+			renameService.send(params);
+			FadingNotifier.setBusyState();
+			CursorManager.setBusyCursor();
+			
+			
+		}
+		
+		private function handleNameChangeResult(event : ResultEvent) : void
+		{
+			trace(event.result.toString());
+			FadingNotifier.removeBusyState();
+			CursorManager.removeBusyCursor();
+		}
+		
+		private function handleNameChangeFault(event : FaultEvent ) : void
+		{
+			trace(event.fault.toString());
+			Alert.show(event.fault.toString(), "Error");	
+			PopUpManager.removePopUp(popup);
+			CursorManager.removeBusyCursor();
+			
+		}
+	]]>
+</mx:Script>
+
+</mx:HBox>

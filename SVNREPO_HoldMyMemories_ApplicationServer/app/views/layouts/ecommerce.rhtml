@@ -1,0 +1,122 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+    <meta name="title" content="Brought to you by HoldMyMemories.com" />
+    <meta name="description" content="www.HoldMyMemories.com" />
+    <link rel="image_src" href="<%= @share_image %>" />
+    <meta name="medium" content="<%=  @share_type %>" />
+    <title>HoldMyMemories</title>
+    <link rel="SHORTCUT ICON" href="/images/common/favicon.ico" type="image/x-icon" />
+    <%= stylesheet_link_tag "themes/classic.css"%>
+	<link href="/stylesheets/main.css" media="screen" rel="Stylesheet" type="text/css" />
+	<link href="/stylesheets/hmm.css" media="screen" rel="Stylesheet" type="text/css" />
+	<link href="/stylesheets/mystyle_black_left.css" rel="stylesheet" type="text/css" />
+	<%= javascript_include_tag 'prototype' %>
+	<%= javascript_include_tag 'SpryAssets/SpryValidationTextField' %>
+	<%= stylesheet_link_tag 'SpryAssets/SpryValidationTextField' %>
+
+<%= stylesheet_link_tag 'modalbox/modalbox' %>
+
+	<%= stylesheet_link_tag 'hmmout' %>
+  </head>
+  <body class="body_bg">
+    <form id="redirectloginform" name="redirectloginform" action='/familywebsite/login/<%= params[:id]  %>' style='display:none' method="post"  >
+      <input name='redirect_url' value="<%= request.url %>"/>
+    </form>
+    <table width="100%" border="0" cellspacing="0" cellpadding="0">
+      <tr>
+        <td height="100%" align="right" valign="top" class="leftshad"></td>
+        <td width="990" align="center" valign="top"><table width="990" border="0" cellspacing="0" cellpadding="0">
+            <tr>
+              <td height="80" align="left" valign="top"><table width="990" border="0" cellspacing="0" cellpadding="0">
+                  <tr>
+                    <td width="335" height="80" align="left" valign="middle"><img src="/images/common/logo_trans.png" width="272" height="62" style="margin-left:15px;"/></td>
+                    <td width="655" align="left" valign="bottom">
+                      <%= render :partial => "partials/headermenu", :locals => { :current_page => "#{@current_page}"} %>
+
+                    </td>
+                  </tr>
+                </table></td>
+            </tr>
+            <tr>
+              <td height="170" align="center" valign="middle"><table width="970" border="0" cellspacing="0" cellpadding="0">
+                  <tr>
+                    <td height="151" align="center" valign="middle" class="content-texture"><table width="924" border="0" cellspacing="0" cellpadding="0">
+                        <tr>
+                          <td width="203" align="left" valign="middle">
+                            <% if @family_website_owner.family_pic!=nil %>
+                              <img src="<%=  @family_website_owner.img_url %>/hmmuser/familyphotos/thumbs/<%=  @family_website_owner.family_pic %>" height="131" />
+                            <% end %>
+                          </td>
+                          <td align="left" valign="top"><table width="100%" border="0" cellspacing="0" cellpadding="0">
+                              <tr>
+                                <td height="37" align="left" valign="middle">
+                                  <% if @family_website_owner.familyheader_image!=nil %>
+                                    <img src="<%=@family_website_owner.img_url%>/familytitleImages/<%=@family_website_owner.familyheader_image %>" />
+                                  <% end %>
+                                </td>
+                              </tr>
+                              <tr>
+                                <td height="60" align="center" valign="top">
+                                  <% if @family_website_owner.familypage_image != nil %>
+                                    <img src="<%=@family_website_owner.img_url%>/familytitleImages/<%=@family_website_owner.familypage_image %>" />
+                                  <% end %>
+                                </td>
+                              </tr>
+                              <tr>
+                                <td align="right" valign="top">
+                                  <% if @family_website_owner.familyfooter_image != nil %>
+                                    <img src="<%=@family_website_owner.img_url%>/familytitleImages/<%=@family_website_owner.familyfooter_image %>" />
+                                  <% end %>
+                                </td>
+                              </tr>
+                            </table></td>
+                        </tr>
+                      </table></td>
+                  </tr>
+                </table></td>
+            </tr>
+
+            <tr>
+              <td align="center">
+              <table width="970" border="0" cellspacing="0" cellpadding="0">
+  <tr>
+    <td align="center" valign="top" class="tab-dots"><table width="970" border="0" cellspacing="0" cellpadding="0" id="tab_bgcolor_repeat">
+        
+        <tr>
+          <td align="left" valign="top">&nbsp;</td>
+        </tr>
+        <tr>
+          <td align="left" valign="top">  <%=  yield %></td>
+        </tr>
+      </table></td>
+  </tr>
+  <tr>
+    <td align="center" valign="top">&nbsp;</td>
+  </tr>
+</table>
+              </td>
+            </tr>
+            <tr>
+              <td align="center" valign="middle" >&nbsp; </td>
+            </tr>
+
+            <tr>
+              <td height="61" align="center" valign="middle" id="tab_bgcolor" class="content-white">
+                <%= render :partial => "partials/footermenu", :locals => {} %>
+              </td>
+            </tr>
+            <tr>
+              <td align="center" valign="top" height="25">&nbsp;</td>
+            </tr>
+            <tr>
+              <td align="center" valign="bottom">&nbsp;
+                             </td>
+            </tr>
+          </table></td>
+        <td align="left" valign="top" class="rightshad"></td>
+      </tr>
+    </table>
+  </body>
+</html>

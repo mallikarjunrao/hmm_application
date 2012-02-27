@@ -1,0 +1,28 @@
+<%= error_messages_for 'tip_idea' %>
+
+<!--[form:tip_idea]-->
+
+
+
+<!--[eoform:tip_idea]-->
+
+<table>
+	<tr>
+		<td>
+			Tip Title
+		</td>
+		<td>
+			<%= text_field 'tip_idea', 'tip_title', :size => 20, :class => "textbox-journals"    %>
+			
+		</td>
+	</tr>
+	<tr>
+		<td valign="top">
+			Tip Description
+		</td>
+		<td>
+			<%= text_area 'tip_idea', 'tip_desc', :rows =>"15", :cols=>"40",  :class => "textbox-journal"   %>
+			
+		</td>
+	</tr>
+</table>

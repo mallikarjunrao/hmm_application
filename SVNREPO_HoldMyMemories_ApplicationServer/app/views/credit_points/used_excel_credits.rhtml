@@ -1,0 +1,70 @@
+<table border="1" cellpadding="0" cellspacing="0">
+  <tr valign='center' align='center'>
+    <td>First Name</td>
+    <td>Last Name</td>
+    <td>sex</td>
+    <td>User Name</td>
+    <td>payment type</td>
+    <td>Email Address</td>
+    <td>Telephone</td>
+    <td>Studio</td>
+    <td>Available Credits</td>
+    <td>Used Credits</td>
+    <td>Status</td>
+    <td>Notes</td>
+  </tr>
+
+  <%
+
+  for colmn in @hmm_users
+
+  %>
+
+    <tr class='ListLine'>
+      <td align="center"><%=h colmn.v_fname%></td>
+      <td align="center"><%=h colmn.v_lname%></td>
+      <td align="center"><%=h colmn.e_sex%></td>
+      <td align="center"><%=h colmn.v_user_name%></td>
+      <td align="center"><%=h colmn.account_type%></td>
+      <td align="center"><%=h colmn.v_e_mail%></td>
+      <td align="center"><%=h colmn.telephone%></td>
+      <td align="center">
+        <%if (colmn.studio_id == 0) || (colmn.studio_id == '0')   %>
+          Direct Customer
+        <%else%>
+          <%@branch_name = HmmStudio.find(:first, :conditions => "id = '#{colmn.studio_id}'")%>
+          <%=@branch_name.studio_name%>
+
+        <%end%>
+      </td>
+      <%  if colmn.credit_system=="Dollars"
+        @credit_pnt="$#{number_with_precision(colmn.available_credits, :precision => 2)}"
+      else
+        @credit_pnt=(colmn.available_credits).round
+      end
+    %>
+      <td align="center"><%=@credit_pnt%></td>
+      <% if  session[:store_id]
+        cond="and hmm_studio_id =#{session[:store_id]}"
+      else
+        cond=''
+      end%>
+      <%if !@starts_date.nil? && !@ends_date.nil?%>
+        <% credit_sum=CreditLog.find(:first,:select=>"sum(used_credit) as credits_used",:conditions=>"credit_point_id=#{colmn.creditid} #{cond} and created_at >'#{@start_date1} 00:00:00' and created_at < '#{@end_date1} 23:59:59'") %>
+      <%else%>
+        <% credit_sum=CreditLog.find(:first,:select=>"sum(used_credit) as credits_used",:conditions=>"credit_point_id=#{colmn.creditid} #{cond}") %>
+      <%end%>
+      <td align="center"><%=h credit_sum.credits_used%></td>
+      <td align="center">
+        <% if colmn.account_expdate!=nil %>
+          <%  t = Time.now %>
+          <% if  colmn.account_expdate >
+              t.strftime("%Y-%m-%d")%>Active
+          <%else%>Inactive
+          <%end%>
+        <%else%>Inactive
+        <%end%></td>
+      <td align="center"><%=h colmn.notes%></td>
+    </tr>
+  <% end %>
+</table>

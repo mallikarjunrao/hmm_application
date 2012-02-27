@@ -1,0 +1,16 @@
+<h1>New galleries</h1>
+
+<%= error_messages_for :galleries %>
+
+<% form_for(:galleries, :url => galleries_path) do |f| %>
+  <p>
+    <b>V gallery name</b><br />
+    <%= f.text_field :v_gallery_name %>
+  </p>
+
+  <p>
+    <%= submit_tag "Create" %>
+  </p>
+<% end %>
+
+<%= link_to 'Back', galleries_path %>

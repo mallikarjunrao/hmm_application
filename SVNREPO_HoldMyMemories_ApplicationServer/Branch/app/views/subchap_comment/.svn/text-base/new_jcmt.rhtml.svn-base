@@ -1,0 +1,6 @@
+<h4>Add Comments for  <%=session[:subchap_name]%> Sub chapter</h4>
+
+<% form_tag :action => 'create_jcmt' do %>
+  <%= render :partial => 'form' %>
+  <%= submit_tag "Create" %>
+<% end %>

@@ -1,0 +1,308 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:VBox xmlns:mx="http://www.adobe.com/2006/mxml" horizontalAlign="center" verticalAlign="middle" creationComplete="handleCreationComplete()">
+	<mx:TileList width="100%" height="100%" id="thrashList" dataProvider="{this.data}" columnWidth="130" rowHeight="130" 
+			 backgroundColor="#111111" rollOverColor="#9C9C9C" offscreenExtraRowsOrColumns="2" 
+			 itemRenderer="renderers.FolderRenderer" selectable="true" itemRollOut="handleRollOut()" itemRollOver="handleRollOver(event)"/>
+	<mx:Button id="restore" label="Restore" click="handleRestoreClick(null)" styleName="lastButtonStyle"/>
+	<mx:Script>
+		<![CDATA[
+			import mx.events.CloseEvent;
+			import mx.formatters.SwitchSymbolFormatter;
+			import mx.containers.Canvas;
+			import mx.managers.PopUpManager;
+			import mx.core.IFlexDisplayObject;
+			import mx.events.ListEvent;
+			import model.HmmThrashModel;
+			import mx.collections.ArrayCollection;
+			import model.HmmChaptersModel;
+			import mx.managers.CursorManager;
+			import mx.rpc.events.FaultEvent;
+			import mx.rpc.events.ResultEvent;
+			import mx.rpc.http.HTTPService;
+			import mx.controls.Alert;
+			import vo.BaseVO;
+			
+			private var rollOverIndex : int;
+			private var isContextEvent : Boolean;
+			private var popup : IFlexDisplayObject;
+			[Bindable]
+			public var popupResult : String;
+			public var proxyUrl : String;
+			private function handleRollOver(event : ListEvent) : void
+			{
+				var item : Object = event.itemRenderer.data;
+				var ac : ArrayCollection = thrashList.dataProvider as ArrayCollection;
+				var idx : int = ac.getItemIndex(item);
+				rollOverIndex = idx; 
+				trace("row: "+event.rowIndex.toString()+ "      col: "+event.columnIndex.toString()+" rollidx: "+rollOverIndex.toString() );
+			}
+			
+			private function handleRollOut() : void
+			{
+				rollOverIndex = -1;
+			}
+			
+			private function handleCreationComplete() : void
+			{
+				var ctxMenu : ContextMenu = new ContextMenu();
+				var item : ContextMenuItem ;
+				item  = new ContextMenuItem("Restore Item");
+				item.addEventListener(ContextMenuEvent.MENU_ITEM_SELECT, handleRestoreClick);
+				ctxMenu.hideBuiltInItems();
+				ctxMenu.customItems.push(item);
+				var deleteItem = new ContextMenuItem("Delete Item from trash");
+				deleteItem.addEventListener(ContextMenuEvent.MENU_ITEM_SELECT, handleDeleteItemClick);
+				ctxMenu.customItems.push(deleteItem);
+				 var deleteAllItems = new ContextMenuItem("Delete All Items from trash");
+				deleteAllItems.addEventListener(ContextMenuEvent.MENU_ITEM_SELECT, handleDeleteAllItemsClick);
+				ctxMenu.customItems.push(deleteAllItems); 
+				contextMenu = ctxMenu;
+				ctxMenu.addEventListener(ContextMenuEvent.MENU_SELECT, handleContextMenuActivated);
+				//addEventListener("popUpEvent",handlepopUPEvent);
+			}
+			
+			private function handleDeleteAllItemsClick(event : ContextMenuEvent) : void
+			{
+				 if(event == null)
+				{
+					isContextEvent = false;
+				}else
+				{
+					isContextEvent = true;
+					
+				}
+				var popup : TrashDelete = PopUpManager.createPopUp(this,TrashDelete,true) as TrashDelete;
+				popupResult = popup.popupResult;
+				popup.deleteMessage = "This operation will delete all items permanently from your account!!!";
+				popup.addEventListener("deletepopup",handlePopupEventDeleteAll);
+				PopUpManager.centerPopUp(popup);
+				
+			}
+			
+			private function handlePopupEventDeleteAll(event : Event) : void
+			{
+			   var idArray : Array  = new Array();
+			   var typeArray : Array = new Array();
+			   var thrashListArrayColl : ArrayCollection = thrashList.dataProvider as ArrayCollection;
+			   for(var i : int = 0; i < thrashListArrayColl.length; i++)
+			   {
+			   		var selection : BaseVO = thrashListArrayColl[i] as BaseVO;
+			   		idArray.push(selection.id);
+			   		typeArray.push(selection.classType);
+			   }
+			   if(idArray.length && typeArray.length)
+			   {
+			   	  var idString : String = idArray.join(",");
+			   	  var typeString : String = typeArray.join(",");
+			   	  var obj : Object = new Object();
+			   	  obj.idstring = idString;
+			   	  obj.typestring = typeString;
+			   	  var service : HTTPService = new HTTPService();
+			   	  service.url = proxyUrl+"/trash_delete/deleteallcontents";
+			   	  service.addEventListener(ResultEvent.RESULT, handleDeleteAllResult);
+				  service.addEventListener(FaultEvent.FAULT, handleFault);
+				  service.send(obj);
+				  popup = PopUpManager.createPopUp(this, Canvas);
+				  popup.width = 0;
+				  popup.height = 0;
+				  CursorManager.setBusyCursor();
+			   }	
+			}
+			
+			private function handleDeleteAllResult(result : ResultEvent) : void
+			{
+				 CursorManager.removeBusyCursor();
+			  Alert.show("Items successfully deleted from your account",null,Alert.OK,this,handleDeleteAllComplete);
+			}
+			
+			private function handleDeleteAllComplete(event : CloseEvent) : void
+			{
+			
+				HmmThrashModel.getInstance().clear();
+				thrashList.dataProvider = HmmThrashModel.getInstance().folderList;
+				//HmmChaptersModel.getInstance().restoreDeletedItem(delObj);
+				PopUpManager.removePopUp(popup);
+				CursorManager.removeBusyCursor();	
+			}
+			
+			private function handleDeleteItemClick(event : ContextMenuEvent) : void
+			{
+				
+				if(thrashList.selectedItem == null)
+				{
+					Alert.show("Please select an item to restore.");
+					return;
+				}
+				else
+				{
+					var popup : TrashDelete = PopUpManager.createPopUp(this,TrashDelete,true) as TrashDelete;
+					popupResult = popup.popupResult;
+					popup.deleteMessage = "This operation will delete selected item permanently from your account!!!";
+					popup.addEventListener("deletepopup",handlepopUpEvent);
+					PopUpManager.centerPopUp(popup);
+				}
+					//Alert.show("Are you sure do u want to delete item from trash permanently ?",null,Alert.YES|Alert.NO,this,handleDeleteAlert);
+				
+			}
+			
+			private function handlepopUpEvent(event : Event) : void
+			{
+				//if(popupResult == "delete")
+				 handleDeleteAlert()
+				/* else
+				 return; */ 
+			}
+			
+			private function handleDeleteAlert() : void
+			{
+				/* if(event.detail = Alert.YES)
+				{ */
+					isContextEvent = true;
+					var params : Object = new Object();
+					var selection : BaseVO = thrashList.selectedItem as BaseVO;	
+					params.id = selection.id;
+					//params.type = selection.classType;
+					var service : HTTPService = new HTTPService();
+					switch(selection.classType)
+					{
+						case "chapterVO":
+										service.url = proxyUrl+"/trash_delete/deletechapter/";
+										break;	
+						case "subChapterVO":
+										service.url = proxyUrl+"/trash_delete/deletesubchapter/";
+										break;
+						case "galleryVO":
+										service.url = proxyUrl+"/trash_delete/deletegallery/";
+										break;
+						default :
+						               service.url = proxyUrl+"/trash_delete/deletecontent/";
+						               break;
+						
+					}
+					
+					service.addEventListener(ResultEvent.RESULT, handleDeleteResult);
+					service.addEventListener(FaultEvent.FAULT, handleFault);
+					service.send(params);
+					popup = PopUpManager.createPopUp(this, Canvas);
+					popup.width = 0;
+					popup.height = 0;
+					CursorManager.setBusyCursor();
+				//}
+			}
+			
+			private function handleDeleteResult(event : ResultEvent) : void
+			{
+				/* var listData : ArrayCollection = thrashList.dataProvider as ArrayCollection;
+				for(var i : int = 0; i < listData.length; i++)
+					if(listData[i].id = thrashList.selectedItem.id)
+					  listData.removeItemAt(i);
+				thrashList.dataProvider = listData;	  
+				 *///CursorManager.removeBusyCursor();
+				 CursorManager.removeBusyCursor();
+			  Alert.show("Item successfully deleted from your account",null,Alert.OK,this,handleDeleteComplete);
+				
+			}
+			
+			private function handleDeleteComplete(event : CloseEvent) : void
+			{
+				var item : Object;
+				if(isContextEvent && rollOverIndex != -1)
+				{
+					
+						var ac : ArrayCollection = thrashList.dataProvider as ArrayCollection;
+						item = ac[rollOverIndex];	
+					
+					
+				}else
+				{
+					item = thrashList.selectedItem; 	
+				}
+				HmmThrashModel.getInstance().deleteItem(item);
+				thrashList.dataProvider = HmmThrashModel.getInstance().folderList;
+				//HmmChaptersModel.getInstance().restoreDeletedItem(delObj);
+				PopUpManager.removePopUp(popup);
+				CursorManager.removeBusyCursor();
+			}
+			
+			private function handleContextMenuActivated(event : Event) : void
+			{
+				if(rollOverIndex == -1)
+				{
+					return;
+				}
+				var ac : ArrayCollection = thrashList.dataProvider as ArrayCollection;
+				if(ac.length)
+				{
+					var selection : BaseVO = ac.getItemAt(rollOverIndex) as BaseVO;
+					thrashList.selectedItem = selection;
+				}
+					
+					
+			}
+			
+			private function handleRestoreClick(event : ContextMenuEvent) : void
+			{
+				
+				if(event == null)
+				{
+					isContextEvent = false;
+				}else
+				{
+					isContextEvent = true;
+					
+				}
+				
+				if(thrashList.selectedItem == null)
+				{
+					Alert.show("Please select an item to restore.");
+					return;
+				}
+				var params : Object = new Object();
+				
+				var selection : BaseVO = thrashList.selectedItem as BaseVO;	
+				
+				
+				params.id = selection.id;
+				params.type = selection.classType;
+				
+				var service : HTTPService = new HTTPService();
+				service.url = "/thrash/restoreItem/";
+				service.addEventListener(ResultEvent.RESULT, handleRestoreResult);
+				service.addEventListener(FaultEvent.FAULT, handleFault);
+				service.send(params);
+				popup = PopUpManager.createPopUp(this, Canvas);
+				popup.width = 0;
+				popup.height = 0;
+				CursorManager.setBusyCursor();
+			}
+			
+			private function handleRestoreResult(event : ResultEvent) : void
+			{
+				var item : Object;
+				if(isContextEvent && rollOverIndex != -1)
+				{
+					
+						var ac : ArrayCollection = thrashList.dataProvider as ArrayCollection;
+						item = ac[rollOverIndex];	
+					
+					
+				}else
+				{
+					item = thrashList.selectedItem; 	
+				}
+				var delObj : Object = HmmThrashModel.getInstance().restoreItem(item);
+				HmmChaptersModel.getInstance().restoreDeletedItem(delObj);
+				thrashList.dataProvider = HmmThrashModel.getInstance().folderList;
+				PopUpManager.removePopUp(popup);
+				CursorManager.removeBusyCursor();
+			}
+			
+			private function handleFault(event : FaultEvent) : void
+			{
+				trace(event.fault.toString());
+				Alert.show("Unable to Restore...");
+				CursorManager.removeBusyCursor();
+			}
+		]]>
+	</mx:Script>
+</mx:VBox>

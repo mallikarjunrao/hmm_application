@@ -1,0 +1,11 @@
+<% if @individual_update_cpn > 0 %>
+
+<tr><td class="cont-white-title">&nbsp;&nbsp;Discount Title   </td><td class="cont-white-title">&nbsp;&nbsp;Minumum Purchase Amount</td><td class="cont-white-title">&nbsp;&nbsp;Discount Amount</td></tr>
+        <tr><td class="cont-white-title">&nbsp;&nbsp;<%= @coupon_update_details.coupon_title %></td><td class="cont-white-title">&nbsp;&nbsp;$<%= @coupon_update_details.min_amount %></td><td class="cont-white-title">&nbsp;&nbsp;
+            <% if @coupon_update_details.discount == "free" || @coupon_update_details.discount == "FREE" %>
+            <%= @coupon_update_details.discount %>
+            <%else%>
+            $<%= Float(@coupon_update_details.discount) %>
+          <%end%>
+          </td></tr>
+<%end%>

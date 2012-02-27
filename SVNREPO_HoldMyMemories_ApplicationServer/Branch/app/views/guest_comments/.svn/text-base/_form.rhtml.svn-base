@@ -1,0 +1,32 @@
+<%= error_messages_for 'guest_comment' %>
+<input type="hidden" value="<%=params[:id]%>" name="typeid" />
+<input type="hidden" value="<%=params[:id_journal]%>" name="journalid" />
+<input type="hidden" value="<%=params[:jtype]%>" name="journaltype" />
+<input type="hidden" name="familyname" value="<%=params[:familyname]%>" /></p>
+	
+
+<table border="0" cellpadding="0" cellspacing="0">
+	<tr>
+		<td align="right" valign="top">
+			<label for="guest_comment_name"><font color="#ffffff">Name</font></label>
+		</td>
+		<td>&nbsp;</td>
+		<td align="left">
+			<%= text_field 'guest_comment', 'name', :class => "textbox-journals"  %></p>
+		</td>
+	</tr>
+	<tr><td>&nbsp;</td><td>&nbsp;</td></tr>
+	<tr>
+		<td align="left" valign="top">
+			<label for="guest_comment_comment"><font color="#ffffff">Comment</font></label><br/>
+		</td>
+		<td>&nbsp;</td>
+		<td>
+			<%= text_area 'guest_comment', 'comment' , :cols => "40", :rows => "10", :class => "textbox-1"  %></p>
+		</td>
+	</tr>
+		
+	
+</table>
+
+

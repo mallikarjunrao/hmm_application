@@ -1,0 +1,98 @@
+<h1>Manage Admin Sales Tax</h1>
+
+
+<script type="text/javascript">
+function validate()
+{
+	if(document.getElementById('tax_rate').value=='')
+	{
+		alert("Tax Rate is required");
+		document.getElementById('tax_rate').focus();
+		return false;
+	}
+	
+}
+
+function check()
+{
+if(document.getElementById('tax_applicable').checked==false)
+	{
+		alert("Apply the Tax Applicable as Yes");
+		document.getElementById('tax_applicable').focus();
+		return false;
+	}
+}
+function toggleMe1(a,b){
+  var e=document.getElementById(a);
+  var e1=document.getElementById(b);
+    e.style.display="inline"
+    e1.style.display="inline"
+  return true;
+}
+function toggleMe2(a,b){
+  var e=document.getElementById(a);
+  var e1=document.getElementById(b);
+    e.style.display="none"
+  
+ return true;
+}
+</script>
+
+
+<!--
+<form name="frm" action="/products/update_adminsalestax/<%=@hmm_sales_tax.id%>" method="post" onsubmit="return validate();">
+
+<!--[form:product]-->
+
+<!--<p><font color="red"><%=flash[:adminnotice]%></font>
+
+<p>
+  <fieldset>
+    <legend>Sales Tax For HMM Orders</legend>
+<table>
+
+<tr><td>Tax Rate</td><td>:</td><td><input type="text" name="tax_rate" id="tax_rate" value="<%=@hmm_sales_tax.configuration_value%>" /> %</td></tr>
+<tr><td></td><td></td><td><input type="submit" name="sub" value="Update" /></td></tr>
+</table>
+  </fieldset></form>
+</p>
+-->
+<p>
+  <table>
+    <tr><td>Tax rate according to the states:</td></tr>
+<tr>
+    <th background="/images/body_hor.JPG">State Name</th>
+    <th background="/images/body_hor.JPG">Tax Applicable</th>
+</tr>
+
+<% for state_name in @states%>
+<form name="form1"  action="/products/update_salestax/<%=state_name.id%>" method="post">
+<tr class="<%= cycle('odd', 'even') -%>">
+  <td><%=  state_name.state %></td>
+  <td><input type="hidden" name="StateSalestax[id]" value="StateSalestax[id]" />
+    <table> <tr><td>
+            <% if state_name.tax_applicable=="Yes"  %>
+          <% @a="display:inline;" %>
+        <input type="radio" name="tax_applicable" value="Yes" checked style=<%= @a %>  onclick="return toggleMe1('para1<%=state_name.id%>','para2<%=state_name.id%>')"/>Yes
+          <% else %> <% @a="display:none;" %>
+          <input type="radio" name="tax_applicable" value="Yes" id="tax_applicable" onclick="return toggleMe1('para1<%=state_name.id%>','para2<%=state_name.id%>')" />Yes
+          <%end%></td><td>
+          <% if state_name.tax_applicable=="No"  %><% @a="display:none;" %>
+          <input type="radio"  name="tax_applicable" checked value="No" onclick="return toggleMe2('para1<%=state_name.id%>','para2<%=state_name.id%>')" />No
+           <% else %> <% @a="display:inline;" %>
+        <input type="radio"  name="tax_applicable" value="No" onclick="return toggleMe2('para1<%=state_name.id%>','para2<%=state_name.id%>')"/>No
+<%end%></td>
+        <td id="para1<%=state_name.id%>" style=<%= @a %> ><input type="text" name="tax_rate" size="4" value="<%=  state_name.tax_rate %>" /> %</td>
+        
+        <td id="para2<%=state_name.id%>" style=<%= @a %>><input type="submit" name="Update" value="Update" onclick="return check1();"/></td>
+  </tr></table></td>
+</tr>
+</form>
+<% end %>
+
+</table>
+<%=will_paginate @states%>
+  </p>
+
+<br>
+

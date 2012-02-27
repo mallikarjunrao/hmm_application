@@ -1,0 +1,57 @@
+<form name="emailusform" id="blogform" action="/blog/create_moment_blog_entry/<%= params[:id]%>?moment_id=<%= params[:moment_id] %>" method="post">
+  <input type="hidden" name="journals_photo[user_content_id]" value="<%= params[:moment_id] %>">
+  <table width="970" border="0" cellspacing="0" cellpadding="0">
+    <tr>
+      <td align="center" valign="top" class="tab-dots"><table width="970" border="0" cellspacing="0" cellpadding="0" id="tab_bgcolor_repeat">         
+          <tr>
+            <td align="left" valign="top">   
+                <table width="100%" border="0" cellspacing="0" cellpadding="0">
+                  <tr>
+                    <td width="13" align="left" valign="top"></td>
+                    <td width="944" align="left" valign="top"><table width="100%" border="0" cellspacing="0" cellpadding="0">
+                        <tr>
+                          <td height="10" align="left" valign="top"></td>
+                        </tr>
+                        <tr>
+                          <td height="35" align="left" valign="bottom" class="headers"><img src="<%= @image %>" width="100"/>&nbsp;<%= @title %></td>
+                        </tr>
+                        <tr>
+                          <td height="10" align="left" valign="top"></td>
+                        </tr>
+                        <tr>
+                          <td height="1" align="left" valign="top" bgcolor="#454545"></td>
+                        </tr>
+                        <tr>
+                          <td height="10" align="left" valign="top"></td>
+                        </tr>
+                        <tr>
+                          <td align="left" valign="top" class="content-trans-bg"><table width="100%" border="0" cellspacing="0" cellpadding="0">
+                              <tr>
+                                <td width="30" align="left" valign="top">&nbsp;</td>
+                                <td width="912" align="left" valign="top">                                  
+                                  <%= render :partial => "partials/blogform", :locals => { :model => "journals_photo",:field1 => "v_title", :field2 => "date_added", :field3 => "v_image_comment", :label => "Save"} %>
+                                </td>
+                              </tr>
+                            </table></td>
+                        </tr>
+                        <tr>
+                          <td align="left" valign="top">&nbsp;</td>
+                        </tr>
+
+                      </table></td>
+                    <td width="13" align="left" valign="top"></td>
+                  </tr>
+                </table>
+            </td>
+          </tr>
+        </table></td>
+    </tr>
+   
+    <tr>
+      <td height="19"></td>
+    </tr>
+  </table>
+  <% unless params[:redirect_url].blank? %>
+  <input type="hidden" name="redirect_url" value="<%= params[:redirect_url] %>">
+  <% end %>
+</form>

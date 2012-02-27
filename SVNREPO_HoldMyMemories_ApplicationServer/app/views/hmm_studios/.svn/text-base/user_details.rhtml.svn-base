@@ -1,0 +1,80 @@
+
+<script type="text/javascript">
+  function chg(val)
+  {
+
+    if (document.getElementById('pcode').style.display == 'none' && document.getElementById('cty').style.display == 'block' && val=='USA') {
+      document.getElementById('pcode').style.display = 'block';
+      document.getElementById('cty').style.display = 'none';
+    }else{
+      document.getElementById('pcode').style.display = 'none';
+      document.getElementById('cty').style.display = 'block';
+    }
+
+  }
+</script>
+
+      <table border="0">
+        <tr><td colspan="15"><h2>
+        <%if(params[:id]=="0") %>
+        Account Details
+        <%elsif(params[:id]=="1")%>
+        Active Account Details
+        <%elsif(params[:id]=="2")%>
+        InActive Account Details
+        <%end%>
+        </h2> </td></tr>
+        <tr>
+        <tr><td colspan="15"><p>(<a href="/hmm_studios/user_details_excel/<%=params[:id]%>/?fdt=<%=params[:fdt]%>&tdt=<%=params[:tdt]%>&edt=<%=params[:edt]%>&account_type=<%=params[:account_type]%>&studio_group=<%=params[:studio_group]%>&studios=<%=params[:studios]%>">Click here to generate report in Excel sheet</a>)
+</p></td></tr>
+         <tr><td colspan="15" align="right"><a href="javascript:history.back();"><< Back</a></td></tr>
+        <tr>
+        <tr valign='center' align='center'>
+          <th background="/images/body_hor.JPG"><font class='txt'><table> <tr><th><%= sort_header_tag('v_fname', :text => "Cutomer Name") %></th></tr></table></font></th>
+
+          <th background="/images/body_hor.JPG"><font class='txt'><table> <tr><th><%= sort_header_tag('v_user_name', :text => "User Name") %></th></tr></table></font></th>
+          <th background="/images/body_hor.JPG"><font class='txt'><table> <tr><th><%= sort_header_tag('v_e_mail', :text => "Email Address") %></th></tr></table></font></th>
+          <th background="/images/body_hor.JPG"><font class='txt'><table> <tr><th><%= sort_header_tag('d_created_date', :text => "Created date") %></th></tr></table></font></th>
+          <th background="/images/body_hor.JPG"><font class='txt'><table> <tr><th><%= sort_header_tag('account_type', :text => "Account Type") %></th></tr></table></font></th>
+          <th background="/images/body_hor.JPG"><font class='txt'><table> <tr><th><%= sort_header_tag('studio_name', :text => "Studio Name") %></th></tr></table></font></th>
+          <th background="/images/body_hor.JPG"><font class='txt'><table> <tr><th><%= sort_header_tag('hmm_franchise_studio', :text => "Studio Group") %></th></tr></table></font></th>
+           </tr>
+
+        <% 	odd_or_even = 0
+        i = 0
+        for colmn in @hmm_users
+          i = i + 1
+          odd_or_even = 1 - odd_or_even
+        %>
+
+          <tr class='ListLine<%= odd_or_even %>'>
+            <td align="center"><%=h colmn.v_fname%> <%=h colmn.v_lname%></td>
+            <td align="center"><%=h colmn.v_user_name%></td>
+            <td align="center"><%=h colmn.v_e_mail%></td>
+            <td align="center">
+              <% if colmn.d_created_date == nil || colmn.d_created_date == '' %>
+                    -
+              <%else%>
+                <%=h colmn.d_created_date.strftime("%m - %d - %Y")%>
+              <%end%>            </td>
+            <td align="center"><%=h colmn.account_type%></td>
+            <td align="center">
+              <%if (colmn.studio_name == nil || colmn.studio_name == '' )  %>
+                            Direct Customer
+              <%else%>
+               <%=colmn.studio_name %>
+              <%end%>            </td>
+              <td align="center">
+              <%if (colmn.hmm_franchise_studio == nil || colmn.hmm_franchise_studio == '' )  %>
+                    -
+              <%else%>
+                <%=colmn.hmm_franchise_studio%>
+              <%end%>            </td>
+
+
+        <% end %>
+        <input type="hidden" name="len" id="len" value="<%= i %>"/>
+        
+      </table>
+    </td></tr></table>
+<br />

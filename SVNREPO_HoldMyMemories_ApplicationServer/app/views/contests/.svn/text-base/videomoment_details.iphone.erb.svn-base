@@ -1,0 +1,196 @@
+<style type = "text/css">
+  .text3{
+    font-family:Arial, Helvetica, sans-serif;
+    font-size:12px;
+    font-weight:normal;
+    color:#ffffff;
+  }
+</style>
+
+<script type="text/javascript">
+  function val_email()
+  {
+    if(document.getElementById('email').value == '')
+    {
+      alert('please enter your email id to vote!');
+      return false;
+    }
+    {
+      var reg = /^([A-Za-z0-9_\-\.])+\@([A-Za-z0-9_\-\.])+\.([A-Za-z]{2,4})$/;
+      var address = document.getElementById('email').value;
+      if(reg.test(address) == false)
+      {
+        alert('Invalid Email Address')
+        ;return false;
+      }
+    }
+  }
+
+</script>
+<%  session[:video_vote]='1'%>
+<%  session[:image_vote]=nil %>
+<% url="http://www.holdmymemories.com/contests/videomoment_details?contest_id=#{params[:contest_id]}&moment_id=#{params[:moment_id]}" %>
+<% session[:vote_url] = url %>
+
+<script src="/javascripts/video_player/video.js" type="text/javascript" charset="utf-8"></script>
+
+<script type="text/javascript">
+  // Must come after the video.js library
+
+  // Add VideoJS to all video tags on the page when the DOM is ready
+  VideoJS.setupAllWhenReady();
+
+  /* ============= OR ============ */
+
+  // Setup and store a reference to the player(s).
+  // Must happen after the DOM is loaded
+  // You can use any library's DOM Ready method instead of VideoJS.DOMReady
+
+  /*
+  VideoJS.DOMReady(function(){
+
+    // Using the video's ID or element
+    var myPlayer = VideoJS.setup("example_video_1");
+
+    // OR using an array of video elements/IDs
+    // Note: It returns an array of players
+    var myManyPlayers = VideoJS.setup(["example_video_1", "example_video_2", video3Element]);
+
+    // OR all videos on the page
+    var myManyPlayers = VideoJS.setup("All");
+
+    // After you have references to your players you can...(example)
+    myPlayer.play(); // Starts playing the video for this player.
+  });
+   */
+
+  /* ========= SETTING OPTIONS ========= */
+
+  // Set options when setting up the videos. The defaults are shown here.
+
+  /*
+  VideoJS.setupAllWhenReady({
+    controlsBelow: false, // Display control bar below video instead of in front of
+    controlsHiding: true, // Hide controls when mouse is not over the video
+    defaultVolume: 0.85, // Will be overridden by user's last volume if available
+    flashVersion: 9, // Required flash version for fallback
+    linksHiding: true // Hide download links when video is supported
+  });
+   */
+
+  // Or as the second option of VideoJS.setup
+
+  /*
+  VideoJS.DOMReady(function(){
+    var myPlayer = VideoJS.setup("example_video_1", {
+      // Same options
+    });
+  });
+   */
+
+</script>
+
+<!-- Include the VideoJS Stylesheet -->
+<link rel="stylesheet" href="/javascripts/video_player/video-js.css" type="text/css" media="screen" title="Video JS" >
+
+<% session[:vote_url] = url %>
+<%if params[:from]%>
+  <font color="white" face="arial">Share it with  <a href="javascript:void(0);" title="Invite your facebok friends." onClick="window.open('http://www.facebook.com/sharer.php?u=<%= CGI.escape("#{url}") %>&t=<%= CGI.escape("Brought to you by HoldMyMemories.com") %>','sharer','toolbar=0,status=0,width=626,height=436');fbs_click();"><img src="/images/common/facebookhmmlogo.jpg"  height="15" border="0"/>&nbsp;<a href="#" onClick="fbs_click_myspace();document.getElementById('myspacepostto').submit();return false;">
+        <iframe  src="http://www.facebook.com/plugins/like.php?href=http%3A%2F%2Fwww.facebook.com%2FHoldMyMemories&amp;layout=box_count&amp;show_faces=true&amp;action=like&amp;colorscheme=light&amp;" scrolling="no" frameborder="0" style="border:none; overflow:hidden; width:80px; height:65px;" allowTransparency="true" onclick="redirrect()"></iframe>
+      <%end%>
+      <table width="100%" border="0" align="center">
+        <tr>
+          <td>
+            <% if  flash[:notice_invite1] %>
+              <p>
+              </p>
+            <%end%>
+            <font color="#f5dfa6" size="2"><%= flash[:notice_vote]%>  <br></font></td></tr>
+      </table>
+      <table border="0" width="65%" align="center">
+        <tr>
+          <td align="left" valign="top"></td>
+        </tr>
+        <tr>
+          <% contest = ContestDetail.find(params[:contest_id]) %>
+          <td width="284" align="center" valign="top"  style="padding-right:20px;" >
+            <img src=<%=  contest.video_logo %>  border="0" width="284" />
+          </td>
+        </tr>
+        <tr><td>&nbsp;</td></tr>
+        <tr>
+          <td align="center">
+
+            <div class="video-js-box">
+              <!-- Using the Video for Everybody Embed Code http://camendesign.com/code/video_for_everybody -->
+              <video id="example_video_1" class="video-js" width="300" height="264" controls="controls" preload="auto" poster="<%= @moment_details[0].img_url %>/user_content/videos/thumbnails/<%= @moment_details[0].v_filename+'.jpg' %>">
+                <source src="<%=@moment_details[0].img_url%>/user_content/videos/iphone/<%=@moment_details[0].v_filename%>.mp4" type='video/mp4; codecs="avc1.42E01E, mp4a.40.2"' />
+              </video>
+            </div>
+          </td>
+        </tr>
+        <tr><th>&nbsp;</th></tr>
+
+        <tr>
+          <th align="center" class="text3" colspan="3">
+            <%=@contests_fname[0].first_name %>
+          </th>
+        </tr>
+        <tr>
+          <td  align="center" valign="middle" >
+          </td>
+        </tr>
+        <tr>
+        <table align="center">
+          <tbody><tr>
+              <td height="12" align="center" valign="top" scope="col" class="signedtxtwhite" colspan="3" style="color:#ffffff">
+                <a href="/contests/vote?entry_id=<%= @contests_fname[0].id %>&contest_id=<%= params[:contest_id] %>"> <input type="submit" id="regsubmit" class="whiteButton" value="Vote by Email" style="cursor:pointer;"/>  </a> <br/>or<br/>
+                <%= fb_connect_javascript_tag %>
+                <%= init_fb_connect "XFBML", {:js => :jquery ,  :app_settings => " { permsToRequestOnConnect : 'email' }"} %>
+                <%= fb_login_button('window.location =\''+ url_for(:controller => 'user_account', :action => 'facebook_vote', :type => 'videomoment_details', :contest_name => "contests",:id =>@moment_details[0].id) + '\'') %>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+        </tr>
+        <tr><th>&nbsp;</th></tr>
+        <%for @j in @journal %>
+          <tr>
+            <th width="100%" align="center" valign="top">
+              <table width="100%" class="border">
+                <tr>
+                  <th  colspan="2" align="left" style="padding-left:10px;">
+                    <font size="3" color="#FFFFFF"> Journal</font>
+                  </th>
+                </tr>
+                <tr><th colspan="2">&nbsp;</th></tr>
+                <tr>
+                  <th>&nbsp;&nbsp;</th>
+                  <th align="left" class="text3">
+                    <%= @j.title %> -
+                    <% ActiveSupport::CoreExtensions::Time::Conversions::DATE_FORMATS.merge!(
+                      :date => "%Y-%m-%d",
+                      :presentable_datetime => "%a %b %d, %Y %H:%M",
+                      :presentable_date => "%a %b %d, %Y")
+                    @created_date=@j.added_date%>
+                    <%= @created_date.to_s(:presentable_date) %>
+                  </th>
+                </tr>
+                <tr><th colspan="2">&nbsp;</th></tr>
+                <tr>
+                  <th>&nbsp;&nbsp;</th>
+                  <th align="left" class="text3">
+                    <%=@j.description.gsub("\n", "<br />\n") %>
+                  </th>
+                </tr>
+                <tr><th>&nbsp;</th></tr>
+                <tr><th>&nbsp;</th></tr>
+              </table>
+            </th>
+          </tr>
+          <tr>
+            <th>&nbsp;
+            </th>
+          </tr>
+        <%end%>
+      </table>

@@ -1,0 +1,18 @@
+
+<!-- Load the Google AJAX API Loader -->
+<script type="text/javascript" src="http://www.google.com/jsapi"></script>
+
+<!-- Load the Google Friend Connect javascript library. -->
+<script type="text/javascript">
+google.load('friendconnect', '0.8');
+</script>
+
+<!-- Initialize the Google Friend Connect OpenSocial API. -->
+<script type="text/javascript">
+google.friendconnect.container.setParentUrl('/' /* location of rpc_relay.html and canvas.html */);
+google.friendconnect.container.initOpenSocialApi({
+  site: '13024220601308093429',
+  onload: function(securityToken) { /* your callback, which is passed a security token */ }
+});
+google.friendconnect.renderSignInButton({id:"google-login",style:'long'})
+</script>

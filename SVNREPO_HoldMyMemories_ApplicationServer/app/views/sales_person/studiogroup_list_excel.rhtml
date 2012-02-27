@@ -1,0 +1,63 @@
+<h1>Listing Studio Groups</h1>
+
+<table>
+  <tr>
+    <th >Studio Group/Company Name</th>
+    <th >Studio Address</th>
+    <th >City</th>
+    <th >State</th>
+    <th >Country</th>
+    <th >Zip Code</th>
+    <th >Studio Phone</th>
+    <th >Contact Name</th>
+    <th >Contact Phone</th>
+	<th >Contact Email</th>
+	<th >Studio Group Username</th>
+	<th >Studio Group Password</th>
+        <th >Created Date</th>
+        
+  </tr>
+  
+<% for hmm_studiogroup in @hmm_studiogroups %>
+  <tr class="<%= cycle('odd', 'even') -%>">
+ 
+    <td><%=h hmm_studiogroup.hmm_franchise_studio %></td>
+    <td><%=h hmm_studiogroup.studio_address %></td>
+    <td><%=h hmm_studiogroup.city %></td>
+    <td>
+    <% if(hmm_studiogroup.state_id!=nil && hmm_studiogroup.state_id!=0)
+    @statname=State.find(hmm_studiogroup.state_id) %>
+    <%=@statname.state %>
+    <%end%>    
+    </td>
+    <td><%=h hmm_studiogroup.country %></td>
+    <td><%=h hmm_studiogroup.zip_code %></td>
+    <td><%=h hmm_studiogroup.studio_phone %></td>
+    <td><%=h hmm_studiogroup.contact_name %></td>
+    <td><%=h hmm_studiogroup.contact_phone %></td>
+    <td><%=h hmm_studiogroup.contact_email %></td>
+	<td><%=h hmm_studiogroup.studiogroup_username%></td>
+	<td><%=h hmm_studiogroup.password %></td>
+       
+        <% if (hmm_studiogroup.date_joined==nil or hmm_studiogroup.date_joined=='' ) %>
+          <%if (hmm_studiogroup.created_at==nil or hmm_studiogroup.created_at=='' ) %>
+            <td>Thu Jan 14 00:00:00 -0500 2010</td>
+          <%else%>
+            <td><%=h hmm_studiogroup.created_at %></td>
+          <%end%>
+        <%else%>
+            <td><%=h hmm_studiogroup.date_joined %></td>
+        <%end%>
+  <!--  <td><%= link_to 'Show', :action => 'show', :id => hmm_studiogroup %></td>
+    <td><%= link_to 'Edit', :action => 'edit', :id => hmm_studiogroup %></td>
+    <td><%= link_to 'Destroy', { :action => 'destroy', :id => hmm_studiogroup }, :confirm => 'Are you sure?', :method => :post %></td>
+  --></tr>
+<% end %>
+</table>
+<br />
+<%=will_paginate @hmm_studiogroups%>
+
+
+<br />
+
+

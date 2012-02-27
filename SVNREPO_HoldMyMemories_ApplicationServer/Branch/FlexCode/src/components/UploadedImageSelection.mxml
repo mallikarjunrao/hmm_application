@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:Canvas xmlns:mx="http://www.adobe.com/2006/mxml" creationComplete="handleCreationComplete()" creationPolicy="all">
+	<mx:HorizontalList columnCount="8" id="imageView" selectable="true" width="100%" columnWidth="100" rowHeight="100" toolTip="HOLDING BIN" dataProvider="{_dataProvider}"
+			  doubleClickEnabled="true" itemRenderer="renderers.HoldingBinRenderer" dropEnabled="true" horizontalScrollPolicy="off" updateComplete="handleUpdateComplete()"
+			 dragEnabled="true" dragDrop="handleDrop(event)" dragStart="handleDragStart(event)" offscreenExtraRowsOrColumns="3" allowMultipleSelection="true" backgroundColor="0" />
+	<mx:HBox verticalGap="1" horizontalGap="1" id="buttonBox" x="{imageView.width-buttonBox.width}">
+		<mx:Button  y="0" id="addAll" label="Add All" cornerRadius="0" styleName="lastButtonStyle" toolTip="Add All items to the current Gallery"
+		 click="handleAddAll()"/>
+		<mx:Button  y="0" id="clear" label="Clear" cornerRadius="0" styleName="lastButtonStyle" toolTip="Clear the HOLDING BIN"
+		 click="handleClear()"/>	
+	</mx:HBox>
+	
+	<mx:Label text="Holding Bin" id="holdingBinLabel" x="{(imageView.width - holdingBinLabel.width)/2}" y="{(imageView.height - holdingBinLabel.height)/2}" fontFamily="Arial"
+		fontSize="33" color="0x0" filters="{[new GlowFilter(0xffffffff)]}" visible="{!(_dataProvider.length > 0)}"/>	 
+	<mx:HSlider id="scroller" width="95%" liveDragging="true" change="handleChange()" x="{(this.width-scroller.width)/2}" 
+		showDataTip="false"  fillColors="{[0xffffff, 0xacacac]}" fillAlphas="{[1.0, 1.0]}"/>	 		 
+	<mx:Script>
+		<![CDATA[
+			import events.FolderEvent;
+			import mx.events.DragEvent;
+			import mx.controls.TileList;
+			import mx.events.DropdownEvent;
+			import mx.collections.IList;
+			import vo.WebFileVO;
+			import mx.controls.Alert;
+			import mx.events.CloseEvent;
+			import mx.states.SetStyle;
+			import mx.collections.ArrayCollection;
+			[Bindable]
+			private var _dataProvider : ArrayCollection = new ArrayCollection();
+			private function handleCreationComplete() : void
+			{
+				var but : Button = scroller.getThumbAt(0);
+				but.setStyle("upIcon", IconClasses.scrollThumb);
+				but.setStyle("downIcon", IconClasses.scrollThumb);
+				but.setStyle("overIcon", IconClasses.scrollThumbOver);
+				but.height = 2;
+				scroller.minimum = 0;
+				
+				scroller.y = imageView.height + 4;
+			}
+			
+			private function handleAddAll() : void
+			{
+				var evt : FolderEvent = new FolderEvent("addData");
+				var items : Array = (imageView.dataProvider as ArrayCollection).source;
+				if(items.length == 0)
+				{
+					Alert.show("The list is empty. Please first upload images.", "Message");
+					return;
+				}
+				evt.data = items;
+				this.dispatchEvent(evt);
+			}
+			
+			private function handleDrop(event : DragEvent) : void
+			{
+				if (event.dragSource.hasFormat("items"))
+	              {
+	              	
+	                // Explicitly handle the dragDrop event.            
+	                event.preventDefault();
+	
+	                // Since you are explicitly handling the dragDrop event,
+	                // call hideDropFeedback(event) to have the drop target
+	                // hide the drop indicator. 
+	                // The drop indicator is created
+	                // automatically for the list controls by the built-in 
+	                // event handler for the dragOver event.
+	                event.currentTarget.hideDropFeedback(event);
+	
+	                // Get drop target.
+	                var dropTarget:HorizontalList=HorizontalList(event.currentTarget);
+	                
+	                // Get the dragged item from the drag initiator.
+	                // The List control always writes an Array 
+	                // to the dragSource object,
+	                // even if there is only one item being dragged.
+	                var itemsArray:Array = 
+	                    event.dragSource.dataForFormat("items") as Array;
+	                    for(var i : int = 0; i < itemsArray.length; i++)
+	    				{
+	    				
+		    				var dropLoc:int = dropTarget.calculateDropIndex(event);
+		
+			                // Add the new object to the drop target.
+			                var val : WebFileVO = itemsArray[i] as WebFileVO; 
+			                var vo : WebFileVO = val.clone();
+			                var dropLoc:int = dropTarget.calculateDropIndex(event);
+			                IList(imageView.dataProvider).addItemAt(vo, dropLoc);
+			               
+			                
+		    			}
+		              	 // Add the new object to the drop target.
+	                
+		                  
+	    			}
+	    			 
+	    
+				holdingBinLabel.visible = false;
+			}
+			
+			public function set dataProvider(value : Object) : void
+			{
+				imageView.dataProvider = value;
+				_dataProvider = value as ArrayCollection;
+			}
+			
+			public function get dataProvider() : Object
+			{
+				return imageView.dataProvider;
+			}
+			
+			public function handleUpdateComplete() : void
+			{
+				scroller.maximum = imageView.maxHorizontalScrollPosition;
+			}
+			
+			private function handleChange() : void
+			{
+				imageView.horizontalScrollPosition = Math.floor(scroller.value);
+			}
+			
+			private function handleDragStart(event :Event) : void
+			{
+				trace(event.toString());
+			}
+			
+			private function handleClear()  : void
+			{
+				Alert.show("Are you sure you want to clear the holding bin?", "Confirmation", Alert.YES | Alert.CANCEL, null, clearBin);
+			}
+			private function clearBin(event :CloseEvent) : void
+			{
+				if(event.detail == Alert.YES)
+				{
+					
+					_dataProvider = new ArrayCollection();
+					imageView.dataProvider = _dataProvider;
+					
+				}
+			}
+		]]>
+	</mx:Script>
+</mx:Canvas>

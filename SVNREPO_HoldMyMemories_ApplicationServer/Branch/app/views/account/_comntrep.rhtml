@@ -1,0 +1,54 @@
+<table width="750" border="1" bordercolor="#e5b467"  cellpadding="4" cellspacing="4">
+	<tr>
+		<td colspan="12" align="center">
+			Comment's Count According to Search  
+		</td>
+	</tr>
+	<tr>
+		<td colspan="3" align="center"> Chapter Comments</td>
+		<td colspan="3" align="center"> Sub-chapters Comments</td>
+		<td colspan="3" align="center"> Gallery Comments</td>
+		<td colspan="3" align="center"> Moment Comments</td>
+	
+	</tr>
+	<tr>
+		<td colspan="3" align="center"><%=@cond_chap%> </td>
+		<td colspan="3" align="center"><%=@cond_sub%></td>
+		<td colspan="3" align="center"><%=@cond_gal%> </td>
+		<td colspan="3" align="center"><%=@cond_moment%> </td>
+		
+	</tr>
+	<tr>
+		<td>Approve</td>
+		<td>Reject</td>
+		<td>Pending</td>
+		<td>Approve</td>
+		<td>Reject</td>
+		<td>Pending</td>
+		<td>Approve</td>
+		<td>Reject</td>
+		<td>Pending</td>
+		<td>Approve</td>
+		<td>Reject</td>
+		<td>Pending</td>
+		
+	</tr>
+	<tr>
+		<td align="center"><%= @cond_chap_app%></td>
+		<td align="center"><%= @cond_chap_rej%></td>
+		<td align="center"><%= @cond_chap_pen%></td>
+		
+		<td align="center"><%= @cond_sub_app%></td>
+		<td align="center"><%= @cond_sub_rej%></td>
+		<td align="center"><%=@cond_sub_pen%></td>
+		
+		<td align="center"><%= @cond_gal_app%></td>
+		<td align="center"><%= @cond_gal_rej%></td>
+		<td align="center"><%= @cond_gal_pen%></td>
+		
+		<td align="center"><%= @cond_mom_app%></td>
+		<td align="center"><%= @cond_mom_rej%></td>
+		<td align="center"><%= @cond_mom_pen%></td>
+		
+	</tr>
+</table>

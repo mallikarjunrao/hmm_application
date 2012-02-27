@@ -1,0 +1,8 @@
+<% for column in HmmStudio.content_columns %>
+<p>
+  <b><%= column.human_name %>&nbsp;:</b> <%=h @hmm_studio.send(column.name) %>
+</p>
+<% end %>
+
+<%= link_to 'Edit', :action => 'edit', :id => @hmm_studio %> |
+<%= link_to 'Back', :action => 'list' %>

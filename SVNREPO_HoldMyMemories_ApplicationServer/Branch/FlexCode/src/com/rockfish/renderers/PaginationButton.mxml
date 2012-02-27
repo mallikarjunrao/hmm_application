@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:Canvas xmlns:mx="http://www.adobe.com/2006/mxml" width="100%" height="24"  backgroundColor="0" backgroundAlpha="1" buttonMode="true" useHandCursor="true" enabled="true">
+	<mx:Script>
+		<![CDATA[
+			import com.rockfish.events.PaginationEvent;
+					
+			[Bindable]private var backAlpha:Number = 0;
+		
+		
+			[Bindable]private var _label:String;
+			override public function set label(value:String):void
+			{
+				_label = value;
+			}
+			
+			
+			//[Bindable]private var _enabled:Boolean = true;
+			override public function set enabled(value:Boolean):void
+			{
+				super.enabled = value;								
+			}
+			
+			
+			[Bindable]private var _selected:Boolean = false;
+			public function set selected(value:Boolean):void
+			{
+				_selected = value;
+				
+				if (value)
+					this.setStyle("backgroundColor","#a2a2a2");
+				else
+					this.setStyle("backgroundColor","#000000");				
+			}
+			
+			private var _page:int;
+			public function set page(value:int):void
+			{
+				_page = value;
+			}
+			public function get page():int
+			{
+				return _page;
+			}
+			
+			private var _start:int;
+			public function set start(value:int):void
+			{
+				_start = value;
+			}
+			public function get start():int
+			{
+				return _start;
+			}
+			private var _count:int;
+			public function set count(value:int):void
+			{
+				_count = value;
+			}
+			public function get count():int
+			{
+				return _count;
+			}
+			
+			private function onClick(event:MouseEvent):void
+			{
+				var e:PaginationEvent = new PaginationEvent(PaginationEvent.PAGE_NAV, this);
+				dispatchEvent(e);
+			}
+		]]>
+	</mx:Script>
+	<mx:Metadata>
+		[Event(name="pageNav",type="com.rockfish.events.PaginationEvent")]
+	</mx:Metadata>
+	<mx:Label text="{_label}" color="0xFFFFFF"  fontSize="12" verticalCenter="0" horizontalCenter="0" textAlign="center" selectable="false" buttonMode="true" useHandCursor="true"/>
+	<mx:Canvas width="100%" height="80%" buttonMode="true" useHandCursor="true" backgroundAlpha="{backAlpha}" click="onClick(event)" />
+</mx:Canvas>

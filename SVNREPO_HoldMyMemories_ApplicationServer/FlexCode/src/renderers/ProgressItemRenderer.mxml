@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:HBox xmlns:mx="http://www.adobe.com/2006/mxml" width="80%" backgroundAlpha="0">
+	<mx:Label id="itemName" width="100" text="{fileName}" color="{0xffffff}" truncateToFit="true"/>
+	<mx:ProgressBar id="uploadProgress" color="0xFfffff" width="45%" trackColors="{[0x666666, 0xe6eeee]}" barColor="#ec6610" 
+		mode="manual" label="{'Upload Progress : '+int(uploadProgress.percentComplete)+'%'}" maximum="{max}"/>
+	<mx:GlowFilter id="orangeGlow" color="{0xfb6200}"/>
+	<mx:Script>
+		<![CDATA[
+			import mx.rpc.events.ResultEvent;
+			import components.UploadProgress;
+			import mx.collections.ArrayCollection;
+			[Bindable]
+			private var fileName : String;
+			[Bindable]
+			private var max : Number;
+			[Bindable]
+			private var min : Number;
+			override public function set data(value:Object):void
+			{
+				super.data = value;
+				var file : FileReference = data as FileReference;
+				fileName = file.name;
+				file.removeEventListener(Event.COMPLETE, handleCompleteHandler);
+				
+		        file.removeEventListener(IOErrorEvent.IO_ERROR, handleIoErrorHandler);
+		        file.removeEventListener(ProgressEvent.PROGRESS, handleProgressHandler);
+		        file.removeEventListener(SecurityErrorEvent.SECURITY_ERROR, handleSecurityErrorHandler);
+				
+				file.addEventListener(Event.COMPLETE, handleCompleteHandler);
+				
+		        file.addEventListener(IOErrorEvent.IO_ERROR, handleIoErrorHandler);
+		        file.addEventListener(ProgressEvent.PROGRESS, handleProgressHandler);
+		        file.addEventListener(SecurityErrorEvent.SECURITY_ERROR, handleSecurityErrorHandler);
+		        //file.size
+		        max = file.size;
+		        min = 0;
+			}
+			
+			private function handleProgressHandler(event:ProgressEvent):void {
+	        var file:FileReference = FileReference(event.target);
+	       		//uploadProgress.maximum = 
+	       		uploadProgress.setProgress(event.bytesLoaded, event.bytesTotal);
+		    }
+		 
+		    private function handleCompleteHandler(event:Event):void {
+		        var file:FileReference = FileReference(event.target);
+		       
+		        trace("completeHandler: name=" + file.name);
+		      if(parentDocument)
+		        {
+		        	var ac : ArrayCollection = parentDocument.dataProvider as ArrayCollection;
+		        	var index : int = ac.source.indexOf(data);
+		        	if(index >= 0) 
+		        	{
+		        		if(ac != null)
+		        		{
+		        			ac.removeItemAt(index);
+		        		}
+		        		else
+		        		{
+		        			trace("Error while removing from dataprovider");
+		        		}
+		        		
+		        	}	
+		        }
+		        
+		    }
+		 
+		    private function handleHttpErrorHandler(event:Event):void {
+		        var file:FileReference = FileReference(event.target);
+		        trace("httpErrorHandler: name=" + file.name);
+		    }
+		 
+		    private function handleIoErrorHandler(event:Event):void {
+		        var file:FileReference = FileReference(event.target);
+		        trace("ioErrorHandler: name=" + file.name);
+		        setStyle("backgroundColor", 0xAA0000);
+		        setStyle("backgroundAlpha", 1);
+		        uploadProgress.label = "Error. File has a problem";
+		        if(this.parentDocument is UploadProgress)
+		        	(this.parentDocument as UploadProgress).showCloseButton = true;
+		        this.toolTip = "The following file has a problem or is corrupted.";
+		    }
+		 
+		    private function handleSecurityErrorHandler(event:Event):void {
+		        var file:FileReference = FileReference(event.target);
+		        trace("securityErrorHandler: name=" + file.name + " event=" + event.toString());
+		    }
+			
+			
+			
+			
+		]]>
+	</mx:Script>
+</mx:HBox>

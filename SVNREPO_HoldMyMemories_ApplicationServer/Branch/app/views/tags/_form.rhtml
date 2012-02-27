@@ -1,0 +1,21 @@
+<%= error_messages_for 'tag' %>
+
+<!--[form:tag]-->
+<br><p><label for="tag_v_tagname">Tag Name</label>
+<span id="sprytextfield1"><span id="sprytextfield1"><%= text_field 'tag', 'v_tagname'  %>&nbsp;&nbsp;<span class="textfieldRequiredMsg">Tag Name is required.</span></span></span></p><br/>
+
+<% radio_button "post", "category", "rails" %>
+<p><label for="tag_e_tagtype">Tag Type<br/>
+<span id="RadioWidget">
+Family<%= radio_button 'tag', 'e_tagtype','family'  %>
+Event<%= radio_button 'tag', 'e_tagtype','event'  %>
+Paper Work<%= radio_button 'tag', 'e_tagtype','paperwork'  %>&nbsp;&nbsp;<span class="radioRequiredMsg">Please make a selection.</span></span></p></label>
+
+<script type="text/javascript">
+<!--
+var sprytextfield1 = new Spry.Widget.ValidationTextField("sprytextfield1", "none", {validateOn:["blur"]});
+var RadioWidget  = new Spry.Widget.ValidationRadio("RadioWidget");
+//-->
+</script>
+<!--[eoform:tag]-->
+

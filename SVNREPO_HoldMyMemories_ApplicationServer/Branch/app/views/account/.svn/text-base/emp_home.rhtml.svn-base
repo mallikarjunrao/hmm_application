@@ -1,0 +1,11 @@
+
+<br></br>
+<b><font size=1 face='arial' color=#dddddd ><center><h2>Welcome To HoldMyMemories.com</h2></center></font></b>
+<font color="#f5dfa6"><%=flash[:update_profile]%></font>
+<font color="#f5dfa6"><%=flash[:emp_add]%></font>
+<font color="#f5dfa6"><%=flash[:update_profile]%></font>
+<br><br>
+<p>You have  <%=@hmm_user_requests%>  pending subscription cancellation requests from your customers. <a href="/account/pending_requests">Click here </a> to process these requests.</p>
+
+<br><br>
+<p>You have  <%=@hmm_user_requests1%>  Failed ARB subscriptions of your customers. <a href="/account/cancelled_list_failed">Click here </a> to contact your customers to reactivate their HoldMyMemories.com account Subscription.</p>

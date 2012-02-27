@@ -1,0 +1,29 @@
+
+xml.instruct! :xml, :version=>"1.0" 
+xml.contents{
+  for photos in @results
+      xml.content{
+    #  user_content = UserContent.find(:all, :conditions => "tagid=#{photos.id} and status='active' " , :order => "id ASC")
+      
+    #elsif (photos.v_chapimage == "image")
+    if(photos.v_chapimage == "folder_img.png")
+    xml.icon(photos.img_url+'/user_content/photos/big_thumb/noimage.jpg')
+    else  
+        imageName  = photos.v_chapimage
+        imageName.slice!(-3..-1)
+        xml.icon(photos.img_url+'/user_content/photos/flex_icon/'+imageName+"jpg" )
+      end
+    # xml.icon('/user_content/photos/flex_icon/noimage.jpg')
+    #elsif (photos.v_chapimage == "video")
+    #xml.icon('/user_content/videos/thumbnails/'+photos.v_chapimage+'.jpg' )  
+    #elsif (photos.v_chapimage == "audio")
+    # xml.icon('/user_content/audios/speaker.jpg' ) 
+    # end
+    
+    xml.id(photos.id)
+      xml.name(photos.v_tagname)
+      
+      }
+ end
+}
+

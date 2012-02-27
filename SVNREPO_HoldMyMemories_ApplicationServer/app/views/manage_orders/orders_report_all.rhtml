@@ -1,0 +1,100 @@
+
+
+<style>
+
+</style>
+<table border="0" cellpadding="0" cellspacing="0" ><tr>
+	<td>
+<form name="form2"  action="/manage_orders/orders_report_all/" method="post" onsubmit="return Check_Date(this.name);" >
+	<table bordercolor="#e5b467"  align="center" width="60%" border="10" cellpadding="4" cellspacing="4">
+		<tr  ><th background="/images/body_hor.JPG" colspan="4" align="center" style="backgrund:repeat;" >Search by Ordered Date</th></tr>
+		<tr><td>From Date</td><td><%= date_select  'from_bdate', :order => [:month, :day, :year], :start_year => Time.now.year - 100  %> </td></tr>
+		<td>To Date</td><td><%= date_select  'to_bdate', :order => [:month, :day, :year], :start_year => Time.now.year - 100  %></td ></tr>
+			<td align="center" colspan="4"><input type="submit" name="sub1" value="Search"/></td></tr>
+
+	</table>
+</form>
+
+
+<table width="90%">
+	<h3><center>Orders Report</center></h3>
+
+        <%if(@ordcnt>0)%>
+        <tr>
+  <tr valign='center' align='center'>
+
+
+   <th background="/images/body_hor.JPG"><font class='txt'><table> <tr><%= sort_header_tag('order_number', :text => "Order Number") %></tr></table></font></th>
+	<th background="/images/body_hor.JPG">
+
+	<font class='txt'><table> <tr><%= sort_header_tag('user_id', :text => "Name") %></tr></table></font></th>
+    <th background="/images/body_hor.JPG">Telephone</th>
+        <th background="/images/body_hor.JPG">Email</th>
+	<th background="/images/body_hor.JPG"><font class='txt'>
+		<table><tr><%= sort_header_tag('process_studio_id', :text => "Order Processed By") %></tr></table></font></th>
+    <th background="/images/body_hor.JPG"><font class='txt'>
+		<table><tr><%= sort_header_tag('total_price', :text => "Total Amount") %></tr></table></font></th>
+    <th background="/images/body_hor.JPG"><font class='txt'>
+		<table><tr><%= sort_header_tag('orders_status', :text => "Status") %></tr></table></font></th>
+	<th background="/images/body_hor.JPG"><font class='txt'><table><tr><%= sort_header_tag('created_at', :text => "Ordered Date") %></tr></table></font></th>
+  <th background="/images/body_hor.JPG">Actions</th>
+  
+  </tr>
+
+<% 	odd_or_even = 0
+	i = 0
+	for colmn in @order_details
+	 i = i + 1
+	odd_or_even = 1 - odd_or_even
+ %>
+
+ <tr class='ListLine<%= odd_or_even %>'>
+
+
+
+	<td align="center">
+    <% ordnum=colmn.order_number 
+       	
+        ordnum.gsub!("_1","")
+        ordnum.gsub!("_2","")
+    
+    %>
+    <%=ordnum %></td>
+
+	<td align="center"><% @user=HmmUser.find(colmn.user_id)%>
+
+   <%=@user.v_fname %> <%=@user.v_lname %></td>
+       <td>
+
+      <%=@user.telephone %></td>
+       <td>
+
+      <%=@user.v_e_mail %></td>
+	<td align="center"><%
+        if(colmn.process_studio_id==0)
+          studio_name='HMM'
+        else
+          @sname=HmmStudio.find(:first,:conditions=>"id=#{colmn.process_studio_id}")
+          studio_name=@sname.studio_branch
+      end
+
+    %>
+      <%=studio_name%></td>
+	<td align="center">$<%=h colmn.total_price%></td>
+	<td align="center"><%=h colmn.orders_status%></td>
+  	<td align="center"><%=colmn.created_at.strftime("%m / %d / %Y %H:%M:%S") %></td>
+ <td class="cont"><%= link_to '<font color=#000000>View</font>', :action => 'view_order', :id => colmn.id ,:gid=>colmn.order_group_id  %></td>
+
+    </tr>
+
+<% end %>
+<%else%>
+    <tr valign='center' align='center'>
+      <th><font class='txt'colspan="6">No Records Found</th>
+  </tr>
+<%end%>
+<input type="hidden" name="len" id="len" value="<%= i %>"/>
+ <tr><td colspan=4> </td></tr>
+</table>
+<%=will_paginate @order_details%>
+<br /></td></tr></table>

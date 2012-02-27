@@ -1,0 +1,876 @@
+<%#
+# To change this template, choose Tools | Templates
+# and open the template in the editor.
+%>
+
+
+<%= javascript_include_tag 'scriptaculous' %>
+<%= javascript_include_tag 'effects' %>
+<%= javascript_include_tag 'popup.js' %>
+<%= stylesheet_link_tag 'popup.css' %>
+<%= stylesheet_link_tag 'SpryAssets/SpryValidationTextField' %>
+<%= stylesheet_link_tag 'SpryAssets/SpryValidationRadio' %>
+<%= stylesheet_link_tag 'SpryAssets/SpryValidationPassword' %>
+<%= stylesheet_link_tag 'SpryAssets/SpryValidationConfirm' %>
+<%= javascript_include_tag 'SpryAssets/SpryValidationTextField' %>
+<%= javascript_include_tag 'SpryAssets/SpryValidationRadio' %>
+<%= javascript_include_tag 'SpryAssets/SpryValidationPassword' %>
+<%= javascript_include_tag 'SpryAssets/SpryValidationConfirm' %>
+
+<%= stylesheet_link_tag 'main' %>
+<%= stylesheet_link_tag 'hmmout' %> 
+<%= stylesheet_link_tag 'hmm' %> 
+<%= stylesheet_link_tag 'hmmcontest_styles' %>
+<style type="text/css">
+<!--
+.style3 {color: #999999}
+-->
+
+.style1 {
+  color: FFFFFF;
+}
+</style>
+
+
+
+<script type="text/javascript">
+        
+    
+	
+        function go()
+        {
+            document.frm1.submit();
+            
+        }
+        
+        function verify()
+        {
+            if(document.getElementById('street_address').value == "")
+                {
+                    alert("street Address is a required feild")
+                    document.getElementById('street_address').focus();
+                    return false;
+                }
+            if(document.getElementById('city').value == "")
+                {
+                    alert("City is a required feild")
+                    document.getElementById('city').focus();
+                    return false;
+                }
+           if(document.getElementById('state').value == "")
+                {
+                    alert("State is a required feild")
+                    document.getElementById('state').focus();
+                    return false;
+                }
+
+           if(document.getElementById('postcode').value == "")
+                {
+                    alert("Zip/Postal code is a required feild")
+                    document.getElementById('postcode').focus();
+                    return false;
+                }
+          if(document.getElementById('telephone').value == "")
+                {
+                    alert("Phone Number is a required feild")
+                    document.getElementById('telephone').focus();
+                    return false;
+                }
+                if(document.getElementById('telephone').value != "")
+                {
+                    var res = televerify();
+                    if(res==false)
+                    {
+                        //alert("Invalid Telephone Number");
+                        document.getElementById('telephone').focus();
+                        return false;
+                    }
+                }
+            
+           if(document.getElementById('email').value == "")
+                {
+                    alert("Email Address  is a required feild")
+                    document.getElementById('email').focus();
+                    return false;
+                }  
+           if(document.getElementById('fname').value == "")
+                {
+                    alert("First Name is a required feild")
+                    document.getElementById('fname').focus();
+                    return false;
+                } 
+
+           if(document.getElementById('lname').value == "")
+                {
+                    alert("Last Name is a required feild")
+                    document.getElementById('lname').focus();
+                    return false;
+                }      
+           if(document.getElementById('card_no').value == "")
+                {
+                    alert("Credit Card Number is a required feild")
+                    document.getElementById('card_no').focus();
+                    return false;
+                }      
+           if(document.getElementById('cardcvv_no').value == "")
+                {
+                    alert("Card CVV number is a required feild")
+                    document.getElementById('cardcvv_no').focus();
+                    return false;
+                }  
+            return true;                
+
+                
+        }
+	
+        
+        function televerify()
+        {
+                   
+                    var Phone=document.getElementById('telephone')
+	
+                    if ((Phone.value==null)||(Phone.value=="")){
+                            alert("Please Enter your Phone Number")
+                            Phone.focus()
+                            return false
+                    }
+                    if (checkInternationalPhone(Phone.value)==false){
+                            alert("Please Enter a Valid Phone Number")
+                            Phone.value=""
+                            Phone.focus()
+                            return false
+                    }
+                    return true
+                   
+                   
+                }
+	</script>
+        
+        <script language = "Javascript">
+/**
+ * DHTML phone number validation script. Courtesy of SmartWebby.com (http://www.smartwebby.com/dhtml/)
+ */
+
+// Declaring required variables
+var digits = "0123456789";
+// non-digit characters which are allowed in phone numbers
+var phoneNumberDelimiters = "()- ";
+// characters which are allowed in international phone numbers
+// (a leading + is OK)
+var validWorldPhoneChars = phoneNumberDelimiters + "+";
+// Minimum no of digits in an international phone no.
+var minDigitsInIPhoneNumber = 10;
+
+function isInteger(s)
+{   var i;
+    for (i = 0; i < s.length; i++)
+    {   
+        // Check that current character is number.
+        var c = s.charAt(i);
+        if (((c < "0") || (c > "9"))) return false;
+    }
+    // All characters are numbers.
+    return true;
+}
+function trim(s)
+{   var i;
+    var returnString = "";
+    // Search through string's characters one by one.
+    // If character is not a whitespace, append to returnString.
+    for (i = 0; i < s.length; i++)
+    {   
+        // Check that current character isn't whitespace.
+        var c = s.charAt(i);
+        if (c != " ") returnString += c;
+    }
+    return returnString;
+}
+function stripCharsInBag(s, bag)
+{   var i;
+    var returnString = "";
+    // Search through string's characters one by one.
+    // If character is not in bag, append to returnString.
+    for (i = 0; i < s.length; i++)
+    {   
+        // Check that current character isn't whitespace.
+        var c = s.charAt(i);
+        if (bag.indexOf(c) == -1) returnString += c;
+    }
+    return returnString;
+}
+
+function checkInternationalPhone(strPhone){
+var bracket=3
+strPhone=trim(strPhone)
+if(strPhone.indexOf("+")>1) return false
+if(strPhone.indexOf("-")!=-1)bracket=bracket+1
+if(strPhone.indexOf("(")!=-1 && strPhone.indexOf("(")>bracket)return false
+var brchr=strPhone.indexOf("(")
+if(strPhone.indexOf("(")!=-1 && strPhone.charAt(brchr+2)!=")")return false
+if(strPhone.indexOf("(")==-1 && strPhone.indexOf(")")!=-1)return false
+s=stripCharsInBag(strPhone,validWorldPhoneChars);
+return (isInteger(s) && s.length >= minDigitsInIPhoneNumber);
+}
+
+function ValidateForm(){
+	var Phone=document.frmSample.txtPhone
+	
+	if ((Phone.value==null)||(Phone.value=="")){
+		alert("Please Enter your Phone Number")
+		Phone.focus()
+		return false
+	}
+	if (checkInternationalPhone(Phone.value)==false){
+		alert("Please Enter a Valid Phone Number")
+		Phone.value=""
+		Phone.focus()
+		return false
+	}
+	return true
+ }
+</script> 
+
+<style type = "text/css">
+.info_text{
+	color:#999999;
+	font-family:Arial;
+	font-size: 20px;
+}
+
+.click_text{
+	color:#999999;
+	font-family:Arial;
+	font-size: 24px;
+	text-decoration:none;
+}
+
+td{
+  color: #FFFFFF;
+}
+</style>
+</td></tr><tR><td colspan="3">
+	<%if params[:msg]=='payment_req' %>
+<p align="center"><br><br><font face="arial" size="3" color="white">Sorry, your credit card information needs to be updated as we are not able to successfully charge your credit card.</font>
+<br><a href="/manage_site/familywebsite_option/<%=params[:id]%>?atype=<%=params[:atype]%>"><input type="button" name="but" value="No I do not wish to update credit card info!" onclick="window.location='/manage_site/familywebsite_option/<%=params[:id]%>?atype=<%=params[:atype]%>'" /></a><br>
+</p> 
+<%end%>
+  <%if flash[:error] %>
+<%end%>
+<%if flash[:error_code] %>
+<%end%>
+<%if flash[:sucess]%>
+<p align="center"><a href="/contact_us/new" target="_blank"><font face="arial" size="3" color="white"><%=flash[:sucess]%> </font></a></p> 
+<%end%>
+<% if  flash[:sucess_id]%>
+<p align="center"><a href="/contact_us/new" target="_blank"><font face="arial" size="3" color="white"> <%=flash[:sucess_id]%></font></a></p> <br>
+ <br> <p align="center" ><a href="http://www.holdmymemories.com/customers/generate_receipt/<%=logged_in_hmm_user.unid%>" target="_blank"><font size="2" color="white" face="arial"><u>Click here to download your Subscription Receipt.</u></font></a><br></p>
+<%end%>
+  <%if logged_in_hmm_user.unid.nil?%>
+<%else%>
+  
+<%end%>
+
+<form name="frm" action="/manage_site/upgrade_payment_family/<%=params[:id]%>?atype=<%=params[:atype]%>" onsubmit="return verify()" method="post">
+<table>
+  <tr>
+    <td width="170" valign="top" ><%= render :partial => "manage_site/leftnav", :locals => { :current => "account_setting"} %></td>
+    <td width="680"><table width="100%" border="0" align="center"><tr>
+
+	<td>
+  <table width="100%" border="0" align="center">
+    <tbody>
+      <tr>
+        <td class="main"><b><center><font color="red" size="2"><%=flash[:error]%> </font><br><font color="red" size="2"><%=flash[:error_code]%> </font></center></b></td>
+
+      </tr>
+   <tr><td>&nbsp;</td></tr>
+    <tr>
+      <td class="main"><b><center><font color="white">Billing Address</font></center></b></td>
+
+      </tr>
+      <tr>
+        <td><table class="infoBox" border="0" cellpadding="2" cellspacing="1" width="100%">
+          <tbody><tr class="infoBoxContents">
+            <td><table border="0" cellpadding="2" cellspacing="2" width="100%">
+              <tbody><tr>
+                  <td class="main" align="right" width="40%"><font color="white">Street Address *</font></td>
+                <td class="main" align="left">
+                	<span id="sprytextfield3">
+					<input name="street_address" id="street_address" value="<%=@hmm_user.street_address%>" type="text">&nbsp;
+					<span class="textfieldRequiredMsg">Street Address is required.</span></span></td>
+
+              </tr>
+              
+             
+              <tr>
+                <td class="main" align="right"><font color="white">City * </font></td>
+                <td class="main" align="left">
+                	<span id="sprytextfield6">
+					<input name="city" id="city" value="<%=@hmm_user.city%>" type="text">&nbsp;<span class="textfieldRequiredMsg">City is required.</span></span></td>
+              </tr>
+              <tr>
+                <td class="main" align="right"><font color="white">State *</font></td>
+
+                <td class="main" align="left">
+                	<span id="sprytextfield4">
+				<input name="state" value="<%=@hmm_user.state%>" id="state" type="text">&nbsp;<span class="textfieldRequiredMsg">State/Province is required.</span></span></td>
+              </tr>
+               <tr>
+                 <td class="main" align="right"><font color="white">Zipcode/Postal code *</font></td>
+                <td class="main" align="left">
+                	<span id="sprytextfield5">
+					<input name="postcode" value="<%=@hmm_user.v_zip%>" id="postcode" type="text">&nbsp;<span class="textfieldRequiredMsg">Post Code is required.</span></span></td>
+
+              </tr>
+              <tr>
+                <td class="main" align="right"><font color="white">Country * </font></td>
+                <td class="main" align="left">
+                  <select name="country" id='country' onchange='return chg(this.value)' class => "combobox1">
+							<option value="USA" selected='selected'>USA</option>
+							<option value="Afghanistan ">Afghanistan </option>
+							<option value="Albania  ">Albania  </option>
+							<option value="Algeria ">Algeria </option>
+							<option value="American Samoa ">American Samoa </option>
+							<option value="Argentina ">Argentina </option>
+							<option value="Australia ">Australia </option>
+							<option value="Austria ">Austria </option>
+							<option value="Azerbaijan">Azerbaijan</option>
+							<option value="Bahamas ">Bahamas </option>
+							<option value="Bahrain ">Bahrain </option>
+							<option value="Bangladesh ">Bangladesh </option>
+							<option value="Barbados ">Barbados </option>
+							<option value="Belgium ">Belgium </option>
+							<option value="Benin ">Benin </option>
+							<option value="Bermuda ">Bermuda </option>
+							<option value="Bosnia-Herzegovina ">Bosnia-Herzegovina </option>
+							<option value="Brazil ">Brazil </option>
+							<option value="Burundi ">Burundi </option>
+							<option value="Cambodia ">Cambodia </option>
+							<option value="Cameroon ">Cameroon </option>
+							<option value="Canada ">Canada </option>
+							<option value="Cayman Islands ">Cayman Islands </option>
+							<option value="Central African Republic ">Central African Republic </option>
+							<option value="Chile">Chile</option>
+							<option value="China ">China </option>
+							<option value="Colombia ">Colombia </option>
+							<option value="Comoros ">Comoros </option>
+							<option value="Conch Republic">Conch Republic</option>
+							<option value="Costa Rica ">Costa Rica </option>
+							<option value="Croatia ">Croatia </option>
+							<option value="Cuba ">Cuba </option>
+							<option value="Cyprus ">Cyprus </option>
+							<option value="Czech Republic ">Czech Republic/option>
+							<option value="Denmark">Denmark</option>
+							<option value="Dominica">Dominica</option>
+							<option value="Dominican Republic ">Dominican Republic/option>
+							<option value="Ecuador ">Ecuador/option>
+							<option value="Egypt ">Egypt </option>
+							<option value="Ethiopia ">Ethiopia </option>
+							<option value="Falkland Islands ">Falkland Islands </option>
+							<option value="Fiji ">Fiji </option>
+							<option value="Finland ">Finland </option>
+							<option value="France ">France </option>
+							<option value="French Guiana ">French Guiana </option>
+							<option value="Germany ">Germany </option>
+							<option value="Greece ">Greece </option>
+							<option value="Greenland ">Greenland </option>
+							<option value="Guyana ">Guyana </option>
+							<option value="Hong Kong ">Hong Kong </option>
+							<option value="Hungary">Hungary</option>
+							<option value="Iceland">Iceland</option>
+							<option value="India ">India </option>
+							<option value="Indonesia ">Indonesia </option>
+							<option value="Iran ">Iran </option>
+							<option value="Iraq ">Iraq </option>
+							<option value="Ireland">Ireland</option>
+							<option value="Israel">Israel</option>
+							<option value="Italy">Italy</option>
+							<option value="Jamaica">Jamaica</option>
+							<option value="Japan">Japan</option>
+							<option value="Jordan">Jordan</option>
+							<option value="Kazakhstan">Kazakhstan</option>
+							<option value="Kiribati">Kiribati</option>
+							<option value="Korea (South)">Korea (South)</option>
+							<option value="Korea (Democratic People's Republic)">Korea (Democratic People's Republic)</option>
+							<option value="Kuwait">Kuwait</option>
+							<option value="Kyrgyzstan">Kyrgyzstan</option>
+							<option value="Laos">Laos</option>
+							<option value="Latvia">Latvia</option>
+							<option value="Lebanon">Lebanon</option>
+							<option value="Liberia">Liberia</option>
+							<option value="Libya">Libya</option>
+							<option value="Liechtenstein">Liechtenstein</option>
+							<option value="Lithuania">Lithuania</option>
+							<option value="Luxembourg">Luxembourg</option>
+							<option value="Macao">Macao</option>
+							<option value="Macedonia">Macedonia</option>
+							<option value="Madagascar">Madagascar</option>
+							<option value="Malawi">Malawi</option>
+							<option value="Malaysia">Malaysia</option>
+							<option value="Maldives">Maldives</option>
+							<option value="Marshall Islands">Marshall Islands</option>
+							<option value="Mauritania">Mauritania</option>
+							<option value="Mauritius">Mauritius</option>
+							<option value="Mexico">Mexico</option>
+							<option value="Micronesia">Micronesia</option>
+							<option value="Midway Islands">Midway Islands</option>
+							<option value="Moldova">Moldova</option>
+							<option value="Monaco">Monaco</option>
+							<option value="Mongolia">Mongolia</option>
+							<option value="Montserrat">Montserrat</option>
+							<option value="Morocco">Morocco</option>
+							<option value="Mozambique">Mozambique</option>
+							<option value="Myanmar (Burma)">Myanmar (Burma)</option>
+							<option value="Namibia">Namibia</option>
+							<option value="Nauru">Nauru</option>
+							<option value="Nepal">Nepal</option>
+							<option value="Netherlands">Netherlands</option>
+							<option value="New Zealand">New Zealand</option>
+							<option value="Nicaragua">Nicaragua</option>
+							<option value="Niger">Niger</option>
+							<option value="Nigeria">Nigeria</option>
+							<option value="North Korea">North Korea</option>
+							<option value="Northern Mariana Islands">Northern Mariana Islands</option>
+							<option value="Norway">Norway</option>
+							<option value="Oman">Oman</option>
+							<option value="Pakistan">Pakistan</option>
+							<option value="Panama">Panama</option>
+							<option value="Paraguay">Paraguay</option>
+							<option value="Peru">Peru</option>
+							<option value="Philippines">Philippines</option>
+							<option value="Pitcairn">Pitcairn</option>
+							<option value="Poland">Poland</option>
+							<option value="Portugal">Portugal</option>
+							<option value="Qatar">Qatar</option>
+							<option value="Romania">Romania</option>
+							<option value="Russia">Russia</option>
+							<option value="Rwanda">Rwanda</option>
+							<option value="Saint Lucia">Saint Lucia</option>
+							<option value="Saint Vincent and the Grenadines">Saint Vincent and the Grenadines</option>
+							<option value="Samoa">Samoa</option>
+							<option value="San Marino">San Marino</option>
+							<option value="Saudi Arabia">Saudi Arabia</option>
+							<option value="Senegal">Senegal</option>
+							<option value="Serbia and Montenegro">Serbia and Montenegro</option>
+							<option value="Singapore">Singapore</option>
+							<option value="Slovak Republic">Slovak Republic</option>
+							<option value="Solomon Islands">Solomon Islands</option>
+							<option value="South Africa">South Africa</option>
+							<option value="Spain">Spain</option>
+							<option value="Sri Lanka">Sri Lanka</option>
+							<option value="Sudan">Sudan</option>
+							<option value="Suriname">Suriname</option>
+							<option value="Swaziland">Swaziland</option>
+							<option value="Sweden">Sweden</option>
+							<option value="Switzerland">Switzerland</option>
+							<option value="Syria">Syria</option>
+							<option value="Taiwan">Taiwan</option>
+							<option value="Tajikistan">Tajikistan</option>
+							<option value="Tanzania">Tanzania</option>
+							<option value="Thailand">Thailand</option>
+							<option value="Timor-Leste">Timor-Leste</option>
+							<option value="Togo">Togo</option>
+							<option value="Tonga">Tonga</option>
+							<option value="Trinidad and Tobago">Trinidad and Tobago</option>
+							<option value="Trust Territory of the Pacific Islands">Trust Territory of the Pacific Islands</option>
+							<option value="Tunisia">Tunisia</option>
+							<option value="Turkey">Turkey</option>
+							<option value="Turkmenistan">Turkmenistan</option>
+							<option value="Turks and Caicos Islands">Turks and Caicos Islands</option>
+							<option value="Tuvalu">Tuvalu</option>
+							<option value="Uganda">Uganda</option>
+							<option value="Ukraine">Ukraine</option>
+							<option value="United Arab Emirates">United Arab Emirates</option>
+							<option value="United Kingdom">United Kingdom</option>
+							<option value="Uruguay">Uruguay</option>
+							<option value="Uzbekistan">Uzbekistan</option>
+							<option value="Vanuatu">Vanuatu</option>
+							<option value="Vatican City">Vatican City</option>
+							<option value="Venezuela">Venezuela</option>
+							<option value="Viet Nam">Viet Nam</option>
+							<option value="Western Samoa">Western Samoa</option>
+							<option value="White Russia">White Russia</option>
+							<option value="Yemen">Yemen</option>
+							<option value="Yugoslavia ">Yugoslavia </option>
+							<option value="Zambia">Zambia</option>
+							<option value="Zimbabwe">Zimbabwe</option>
+                                                      </select>
+                  &nbsp;<span class="inputRequirement"></span></td>
+
+              </tr>
+            </tbody></table></td>
+          </tr>
+        </tbody></table></td>
+      </tr>
+      <tr>
+      	<td>&nbsp;</td>
+      </tr>
+
+      <tr>
+        <td class="main"><b><center><font color="white">Your Contact Information</font></center></b></td>
+      </tr>
+      <tr>
+        <td><table class="infoBox" border="0" cellpadding="2" cellspacing="1" width="100%">
+          <tbody><tr class="infoBoxContents">
+            <td><table border="0" cellpadding="2" cellspacing="2" width="100%">
+              <tbody><tr>
+
+<td class="main" align="right" width="40%"><font color="white">Telephone Number *</font></td>
+                <td class="main" align="left">
+                	
+                		<input name="telephone" id="telephone" type="text" value="<%=@hmm_user.telephone%>">&nbsp;<br> <font size="1" color="green">Example: 555-555-5555   or 5555555555</font>
+						 </td>
+              </tr>
+              <tr>
+                <td class="main" align="right"><font color="white">Email Address&nbsp;&nbsp;</font></td>
+                <td class="main" align="left">
+                	<span id="sprytextfield8">
+                	<input name="email" id="email" value='<%=@hmm_user.v_e_mail%>' type="text">&nbsp;
+					<span class="textfieldMinCharsMsg">Invalid Email Address.</span><span class="textfieldInvalidFormatMsg">Invalid Email Address.</span></span></span> </td>
+              </tr>
+              <tr>
+                <td class="main" align="right"><font color="white">Current HoldMyMemories.com Account is: </font> </td>
+                <td class="main" align="left"> <font color="white"><%  account_type = @hmm_user.account_type
+                if (account_type=="platinum_user") %>Premium Account <%else%> <% if (account_type == "familyws_user") %> Family Website <%else%> Free Account <%end%> <%end%>  </font> </td>
+              </tr>
+              <%  if (account_type=="free_user") %>
+              <%else%>
+              <tr>
+                <td class="main" align="right"><font color="white">Current Payment Method: </font> </td>
+                <td class="main" align="left"> <font color="white"> After first <%=@hmm_user.months%> month(s) of your membership,  your membership will renew at <% if (account_type == "familyws_user") %> $4.95 <%else%> $9.95 <%end%> per month. </font> </td>
+              </tr>
+              <%end%>
+            </tbody></table></td>
+          </tr>
+        </tbody></table></td>
+      </tr>
+       <tr>
+        <td class="main">&nbsp;</td>
+      </tr>
+      <tr>
+        <td class="main"><b><center><font color="white">Payment Information</font></center></b></td>
+      </tr>
+      <tr>
+        <td><table class="infoBox" border="0" cellpadding="2" cellspacing="1" width="100%">
+          <tbody><tr class="infoBoxContents">
+            <td><table border="0" cellpadding="2" cellspacing="2" width="100%">
+              <tbody>
+                
+                <tr>
+                  
+                  <td class="main" valign="bottom" align="right" width="40%"><font color="white">Your Name as on credit card *</font></td>
+                <td align="left" width="50%" valign="top">
+                  <table>
+                    <tr><td> <font color="white">First Name
+                  </font></td>  <td> <font color="white">Last Name
+                       </font></td></tr>
+                    
+                    <tr><td><span id="sprytextfield1">
+					 <input type="text" name="fname" id="fname" value="<%=@hmm_user.v_fname%>" />
+					<span class="textfieldRequiredMsg"><br>First Name is required.</br></span></span></span></td>
+                	
+                    <td> <span id="sprytextfield2"  valign="top">
+				<input type="text" name="lname" id="lname" value="<%=@hmm_user.v_lname%>" />
+				<span class="textfieldRequiredMsg"><br>Last Name is required.</br></span></span></span></td>
+                	
+                    </tr></table>
+                  </td>
+               
+				
+              </tr>
+              
+              <tr>
+                <% if( params[:atype] == 'platinum_account') 
+                  amount1 = '$9.95'
+                  amount6 = '$49.95'
+                  save6 = '$9.75'
+                  amount12 = '$99.95'
+                  save12 = '$19.45'
+                  
+                  acctype = "platinum_user"
+                else
+                  if( params[:atype] == 'family_website')
+                    amount1 = '$4.95'
+                    amount6 = '$24.95'
+                    save6 = '$4.75'
+                    amount12 = '$49.95'
+                    save12 = '$9.45'
+                    
+                    acctype = "familyws_user"
+                 end
+                end  
+                %>  
+                <td> <input type="hidden" name="account_type" id="account_type" value="<%=acctype%>" />
+                <td class="main" align="right" width="40%" valign="top"></td>
+                <td align="left" width="20%" valign="top">
+                			
+                                        </td>
+					<td align="left">
+               
+				</td>
+              </tr>
+              
+              <tr>
+                <% if( @hmm_user.account_type=='platinum_user') 
+                  
+                  subnumber = @hmm_user.subscriptionnumber
+                else
+                  if( @hmm_user.account_type=='familyws_user')
+                    
+                    subnumber = @hmm_user.subscriptionnumber
+                 end
+                end  
+                %>  
+                <input type="hidden" name="subnumber" id="subnumber" value="<%=@hmm_user.subscriptionnumber%>" />
+                <td class="main" align="right" width="40%" valign="top">&nbsp;</td>
+                <td align="left" width="20%" valign="top">
+                			
+                                        <input type="radio" name="months" id="months" value="1" checked/><font color="white">  monthly <%=amount1%></font> <br>
+                                        <input type="radio" name="months" id="months" value="6"   /><font color="white"> 6 months <%=amount6%> save <%=save6%> </font><br>
+                                      <input type="radio" name="months" id="months" value="12"   /><font color="white"> 1 year <%=amount12%> save <%=save12%> </font>
+		</td>
+					<td align="left">
+               
+				</td>
+              </tr>
+                <tr>
+<td class="main" align="right" width="40%" valign="top">&nbsp;</td>
+                <td class="main" align="left" colspan="2">
+                  
+                  <img src="/images/credit_card.gif" align="center" border="0" />
+                  
+                </td>
+              </tr>
+              <tr>
+                <div id="card_block" style='display:none;'>
+
+<table border="0" cellpadding="2" cellspacing="2"  width="100%">
+              <tbody><tr>
+
+               <td  align="right" width="40%">
+		<div id='cc_visa_1'  style='display:block;'><font color="#ffffff"><font color="white">Card Number</font></div>
+		
+                
+		</td>
+	
+	<td align="left">
+		<div id='cc_visa' style='display:block;'><input type="text" maxlength="16" id="card_no" name="card_no" ><span class="textfieldInvalidFormatMsg">Invalid format.</span><span class="textfieldRequiredMsg">The value is required.</span></div>
+                 
+        </td>
+              </tr>
+              <tr>
+                <td align="right" ><font color="white">Card CVV Number * </font></td>
+                <td align="left">
+		<span id="sprytextfield9">
+		<input type="text" name="cardcvv_no" id="cardcvv_no" size="5" maxlength="4" > &nbsp; <span class="popup_link" id="infolink" ><img src="/images/question.gif" border="0" align="bottom" ></span>
+                
+                                        <div id="info" class="popup" style="display:none;">
+					
+					<table>
+						<tr>
+							<td class="TTtext">
+							What is CVV number?							</td>
+						</tr>
+						<tr>
+							<td class="TTtext">
+							&nbsp;				</td>
+						</tr>
+						
+						<tr>
+							<td class="TTtext">
+								
+                                                                CVV is an anti-fraud security feature to help verify that you are in possession of your credit card. For Visa/Mastercard, the three-digit CVV number is printed on the signature panel on the back of the card immediately after the card's account number For American Express, the four-digit CVV number is printed on the front of the card above the card accountnumber. 
+                                                                </td>
+						</tr>
+						<tr>
+							<td>&nbsp;</td>
+						</tr>
+					</table>
+					</div> 
+                                        
+                                        
+		<span class="textfieldRequiredMsg">Enter your CVV number.</span><span class="textfieldMinCharsMsg">Minimum number not met.</span><span class="textfieldInvalidFormatMsg">Numbers Only.</span></span></span> </td>
+              </tr>
+              <tr>
+                <td align="right" ><font color="white">Expiration Date *</font></td>
+	
+	<td align="left">
+          <select name="exp_month" id="exp_month" onchange="calculate_amount_months()">
+            <option value="1">1</option>
+            <option value="2">2</option>
+            <option value="3">3</option>
+            <option value="4">4</option>
+            <option value="5">5</option>
+            <option value="6">6</option>
+            <option value="7">7</option>
+            <option value="8">8</option>
+            <option value="9">9</option>
+            <option value="10">10</option>
+            <option value="11">11</option>
+            <option value="12">12</option>
+            
+           
+           </select>&nbsp;&nbsp;
+           <select name="exp_year" id="exp_year" onchange="calculate_amount_months()">
+             
+             <% 
+                i=2009
+                until i == 2030
+ 
+                
+             %>
+            <option value="<%=i%>"><%=i%></option>
+            
+              
+              <%
+                    i=i+1
+                end
+            %>
+           
+           </select>
+             <input type='hidden' name='hmm_id' id='hmm_id' value="<%=@hmm_user.id%>" />
+
+
+     </td></tr>
+     
+     <%#*<tR><td colspan="2" align="center" >Would you like to subscribe for more than one month? &nbsp;&nbsp;&nbsp;&nbsp;%>
+     <%#*<input type="checkbox" name="arb" id="arb" value="0"  onclick="arboption()" /></td></tr>%>
+             
+             <tr><td colspan="2" align="center" >
+       <div id="show_arb"  style="display:none;">
+       <table class="border" cellpadding="4" cellspacing="4" align="center">
+     
+     
+     <%#*<tr>%>
+       <%#*<td align="right" >Choose number of Months</td>%>
+	
+	<%#*<td align="left">%>
+            <%#*<input type="hidden" name="months_interval" id="months_interval" value="1" onblur="calculate_amount(this.value)" onfocus="calculate_amount(this.value)" onkeypress="calculate_amount(this.value)" />%>
+        <%#*</td>%>
+    <%#*</tr>%>
+
+
+ 
+   
+   <tr>
+                <td align="right" ></td>
+	
+	<td align="left">
+          
+<%  #  if(type=='family_website')
+        #@amount=495
+        #@amt1=4.95
+        %>
+     
+<!--   <input type="hidden" name="account_type" id="account_type" value="familyws_user"/>-->
+<%
+    #else
+        #@amount=995
+        #@amt1=9.95
+        %>
+        <!--<input type="hidden" name="account_type" id="account_type" value="platinum_user"/>-->
+<%
+   # end
+%>
+
+
+
+
+<%
+
+%>
+
+
+
+
+		</td>
+</tr>
+</table> </div></td></tr>
+
+<tr><td>&nbsp;</td></tr>
+
+	<tr>
+          <td align="right"><font color="white">Membership sold by:</font></td><td align="left">
+          	<input type="text" name="sold_by" id="sold_by" value="" /></td></tr>
+
+<tr><td>&nbsp;</td></tr>
+
+	<tr>
+          <td></td><td align="left">
+          	<input type="submit" name="sub" id="sub" value="submit" /></td>
+	</tr>
+            </tbody>
+          </table>
+        </div>
+
+              </tr>
+              <tr>
+                </tr>
+
+            </tbody></table></td>
+          </tr>
+        </tbody></table></td>
+      </tr>
+      
+      
+      
+     
+     
+    </tbody>
+
+
+
+
+
+  </table>
+       </td>
+       </tr></table>
+       <input type="hidden" name="arb_res" id="arb_res" value="1" />
+       <input type="hidden" name="end_date" id="end_date" value="" />
+       <input type="hidden" name="start_date"  id="start_date" value='<%=Time.now.strftime("%Y-%m-%d") %>' />
+       
+        
+</form>
+<script type="text/javascript">
+    new Popup('info','infolink');
+	
+  </script>
+<script type="text/javascript">
+<!--
+
+var sprytextfield1 = new Spry.Widget.ValidationTextField("sprytextfield1", "none", {validateOn:["blur"],hint:'First Name',isRequired:true});
+var sprytextfield2 = new Spry.Widget.ValidationTextField("sprytextfield2", "none", {validateOn:["blur"]});
+var sprytextfield3 = new Spry.Widget.ValidationTextField("sprytextfield3", "none", {validateOn:["blur"]});
+var sprytextfield4 = new Spry.Widget.ValidationTextField("sprytextfield4", "none", {validateOn:["blur"]});
+var sprytextfield5 = new Spry.Widget.ValidationTextField("sprytextfield5", "none", {validateOn:["blur"]});
+var sprytextfield6 = new Spry.Widget.ValidationTextField("sprytextfield6", "none", {validateOn:["blur"]});
+
+
+
+var sprytextfield9 = new Spry.Widget.ValidationTextField("sprytextfield9", "integer", {validateOn:["blur"], minChars:2});
+//var sprytextfield7 = new Spry.Widget.ValidationTextField("sprytextfield7", "integer", {validateOn:["blur"], minChars:7});
+var sprytextfield8 = new Spry.Widget.ValidationTextField("sprytextfield8", "email", {validateOn:["blur"], minChars:7,isRequired:false});
+
+var cc_visa = new Spry.Widget.ValidationTextField("cc_visa", "credit_card", {validateOn:["blur", "change"]});
+
+
+-->
+
+function arboption()
+        {
+           //alert("dqwdqwdw")
+           if(document.getElementById('arb').checked==true)
+           {
+             document.getElementById('show_arb').style.display='block'
+             document.getElementById('arb_res').value='1'
+
+           }
+           else
+           {
+             document.getElementById('show_arb').style.display='none'
+             document.getElementById('arb_res').value='0'
+           }      
+        }
+        
+ 
+</script>

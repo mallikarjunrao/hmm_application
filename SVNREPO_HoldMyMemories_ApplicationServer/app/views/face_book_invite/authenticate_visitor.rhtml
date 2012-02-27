@@ -1,0 +1,92 @@
+<% if @message == "success" %>
+<div align="center">
+<a href="http://www.facebook.com/strangeudai?v=app_104789226241181&ses=<%=session[:visitor]%>" ><font size="3px" color="#ffffff">Click Here to view the family website</font></a>
+</div>
+<%else%>
+<table width="750" border="0" cellspacing="0" cellpadding="0">
+    <tr>
+      <td align="center" valign="top" class="tab-dots"><table width="750" border="0" cellspacing="0" cellpadding="0" id="tab_bgcolor_repeat">
+         
+          <tr>
+            <td align="left" valign="top"><table width="100%" border="0" cellspacing="0" cellpadding="0">
+                <tr>
+                  <td width="13" align="left" valign="top"></td>
+                  <td width="724" align="left" valign="top"><table width="100%" border="0" cellspacing="0" cellpadding="0">                    <tr>
+                        <td height="13" align="left" valign="top"></td>
+                      </tr>
+                      <tr>
+                        <td align="left" valign="top" class="content-trans-bg"><table width="100%" border="0" cellspacing="0" cellpadding="0">
+
+                            <tr>
+                              <td align="center" valign="top">&nbsp;</td>
+                            </tr>
+                            <tr>
+                              <td align="center" valign="top" class="content-white"><div align="center">Welcome to <strong>HoldMy<span class="side-heading">Memories</span>.com </strong></div></td>
+                            </tr>
+                            <tr>
+                              <td height="30" align="center" valign="top">&nbsp;</td>
+                            </tr>
+                            <tr>
+                              <td height="40" align="center" valign="top" class="headers"><div align="center">Family Website Login </div></td>
+                            </tr>
+							<tr>
+                              <td height="30" align="center" valign="top"><div align="center"><font color="#FF0000"><%=@message%></font></div></td>
+                            </tr>
+                            <tr>
+                              <td align="center" valign="top"><div align="center"><table width="369" border="0" cellspacing="0" cellpadding="0" class="login-box">
+                                  <tr>
+                                    <td height="35" colspan="4" align="left" valign="top"></td>
+                                  </tr>
+
+                                  <tr>
+                                    <td width="30" align="left" valign="top"></td>
+                                    <td width="93" align="left" valign="middle" class="content-white">Password:</td>
+                                    <td align="left" valign="middle">
+                                      <label>
+                                        <input name="password" type="text" id="password" />
+                                      </label>
+                                    </td>
+                                    <td align="left" valign="top" width="43">&nbsp;</td>
+                                  </tr>
+                                  <tr>
+                                    <td height="20" colspan="4" align="left" valign="top"></td>
+                                  </tr>
+                                  <tr>
+                                    <td align="left" valign="top"></td>
+                                    <td align="left" valign="middle" class="content-white">&nbsp;</td>
+                                    <td align="right" valign="middle">
+                                      <label>
+                                        <input name="button" type="submit" class="cmd-btn" id="button" value="Submit"  onclick="authenticate_visitor(Ajax.FBML); return false;"/>
+                                      </label>
+                                    </td>
+                                    <td align="left" valign="top">&nbsp;</td>
+                                  </tr>
+                                  <tr>
+                                    <td align="left" valign="top"></td>
+                                    <td height="25" colspan="2" align="center" valign="middle" class="content-white">&nbsp;</td>
+                                    <td align="left" valign="top">&nbsp;</td>
+                                  </tr>
+
+                                </table></div></td>
+                            </tr>
+                            <tr>
+                              <td height="200" align="right" valign="top" class="side-heading">&nbsp;</td>
+                            </tr>
+                          </table></td>
+                      </tr>
+                      <tr>
+                        <td align="left" valign="top">&nbsp;</td>
+                      </tr>
+
+                    </table></td>
+                  <td width="13" align="left" valign="top"></td>
+                </tr>
+              </table></td>
+          </tr>
+        </table></td>
+    </tr>
+    <tr>
+      <td height="19"></td>
+    </tr>
+  </table>
+  <%end%>

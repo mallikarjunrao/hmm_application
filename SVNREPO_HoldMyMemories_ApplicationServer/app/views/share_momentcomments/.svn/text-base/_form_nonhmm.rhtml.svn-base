@@ -1,0 +1,10 @@
+<%= error_messages_for 'share_momentcomment' %>
+<input type="hidden" value="<%=params[:id]%>" name="unid" />
+
+
+<p><label for="share_momentcomment_name">Name</label><br/>
+<%= text_field 'share_momentcomment', 'name', :class => "textbox-journals"  %></p>
+
+<p><label for="share_momentcomment_comment">Enter your comment here</label><br/>
+<%= text_area 'share_momentcomment', 'comment', :cols => "40", :rows => "10", :class => "textbox-1"  %></p>
+

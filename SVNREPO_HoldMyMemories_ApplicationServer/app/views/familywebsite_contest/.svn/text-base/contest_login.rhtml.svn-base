@@ -1,0 +1,152 @@
+<%= javascript_include_tag 'themes/formcheck/core' %>
+<%= javascript_include_tag 'themes/formcheck/more' %>
+<%= javascript_include_tag 'themes/formcheck/en' %>
+<%= javascript_include_tag 'themes/formcheck/formcheck' %>
+<%= stylesheet_link_tag 'themes/formcheck/formcheck'%>
+
+  <table width="100%" border="0" cellspacing="0" cellpadding="0">
+
+  
+    <tr>
+      <td align="center" valign="top" class="tab-dots"><table width="970" border="0" cellspacing="0" cellpadding="0" id="tab_bgcolor_repeat">
+         
+          <tr>
+            <td align="left" valign="top"><table width="100%" border="0" cellspacing="0" cellpadding="0">
+                <tr>
+                  <td width="13" align="left" valign="top"></td>
+                  <td width="944" align="left" valign="top"><table width="100%" border="0" cellspacing="0" cellpadding="0">                    <tr>
+                        <td height="13" align="left" valign="top"></td>
+                      </tr>
+                      <tr>
+                        <td align="left" valign="top" class="content-trans-bg"><table width="100%" border="0" cellspacing="0" cellpadding="0">
+
+                            <tr>
+                              <td align="center" valign="top">&nbsp;</td>
+                            </tr>
+                            <tr>
+                              <td align="center" valign="top" class="content-white">Welcome to <strong>HoldMy<span class="side-heading">Memories</span>.com </strong></td>
+                            </tr>
+                            <tr>
+                              <td height="30" align="center" valign="top">&nbsp;</td>
+                            </tr>
+                           <tr>
+                                          <td align="center" valign="top" class="content" scope="col"><%if params[:contest_type] == 'photo'%>
+                                              <img src="<%=@contest_details.photo_logo%>"  border="0" >
+                                            <%else%>
+                                              <img src="<%=@contest_details.video_logo%>"  border="0">
+                                            <%end%></td>
+                                        </tr>
+                            <tr>
+                              <td height="40" align="center" valign="top" class="headers"> Member Login </td>
+                            </tr>
+                            
+                            <% if flash[:error] %>
+                              <tr>
+                                <td height="40" align="center" valign="top" class="error-message"><%= flash[:error] %> </td>
+                              </tr>
+                            <% end %>
+                           
+                            <tr>
+                              <td align="center" valign="top">
+                                <form id="loginform" name="loginform" action="/familywebsite_contest/authenticate_contestlogin/<%= params[:id] %>" method="post">
+                                  <table width="369" border="0" cellspacing="0" cellpadding="0" class="login-box">
+                                  <tr>
+                                    <td height="35" colspan="4" align="left" valign="top"></td>
+                                  <input type="hidden" name="contest_id" value="<%= params[:p] %>"/>
+                                  <input type="hidden" name="contest_type" value="<%= params[:contest_type] %>"/>
+                                  </tr>
+                                  <tr>
+                                    <td width="30" align="left" valign="top"></td>
+                                    <td width="93" align="left" valign="middle" class="content-white">User Name:</td>
+                                    <td width="203" align="left" valign="middle">
+                                      <label>
+                                        <input name="username" type="text" id="textfield" class="validate['required']" />
+                                      </label>
+                                    </td>
+                                    <td width="43" align="left" valign="top">&nbsp;</td>
+                                  </tr>
+                                  <tr>
+                                    <td height="10" colspan="4" align="left" valign="top"></td>
+                                  </tr>
+                                  <tr>
+                                    <td align="left" valign="top"></td>
+                                    <td align="left" valign="middle" class="content-white">Password:</td>
+                                    <td align="left" valign="middle">
+                                      <label>
+                                        <input name="password" type="password" class="validate['required']" id="textfield" />
+                                      </label>
+                                    </td>
+                                    <td align="left" valign="top">&nbsp;</td>
+                                  </tr>
+                                  <tr>
+                                    <td height="20" colspan="4" align="left" valign="top"></td>
+                                  </tr>
+                                  <tr>
+                                    <td align="left" valign="top"></td>
+                                    <td align="left" valign="middle" class="content-white">&nbsp;</td>
+                                    <td align="right" valign="middle">
+                                      <label>
+                                        <input name="button" type="submit" class="cmd-btn" id="button" value="Submit" />
+                                      </label>
+                                    </td>
+                                    <td align="left" valign="top">&nbsp;</td>
+                                  </tr>
+                                  <tr>
+                                    <td align="left" valign="top"></td>
+                                    <td height="25" colspan="2" align="center" valign="middle" class="content-white">&nbsp;</td>
+                                    <td align="left" valign="top">&nbsp;</td>
+                                  </tr>
+                                  <tr>
+                                    <td align="left" valign="top"></td>
+                                    <td height="25" colspan="2" align="center" valign="middle" class="content-white">
+                                   
+                                    <a href="/familywebsite/forgot_password/<%= params[:id] %>">I cannot access my account</a></td>
+                                    <td align="left" valign="top">&nbsp;</td>
+                                  </tr>
+                                  <tr>
+                                    <td align="left" valign="top"></td>
+                                    <td height="25" colspan="2" align="center" valign="middle" class="content-white">
+                                     <%if(params[:contest]=='photo')
+        
+         id='cutekid'
+        else
+       id='memorable'
+        end        
+        %>
+                                    <a href="/contests/rapid_registration?contest_id=<%= @contest_phase %>&contest_type=<%= params[:contest_type] %>"> Create an account </a> </td>
+                                    <td align="left" valign="top">&nbsp;</td>
+                                  </tr>
+                                  <tr>
+                                    <td align="left" valign="top"></td>
+                                    <td align="left" valign="middle" class="content-white">&nbsp;</td>
+                                    <td align="left" valign="middle">&nbsp;</td>
+                                    <td align="left" valign="top">&nbsp;</td>
+                                  </tr>
+                                </table></form></td>
+                            </tr>
+                            <tr>
+                              <td height="200" align="right" valign="top" class="side-heading">&nbsp;</td>
+                            </tr>
+                          </table></td>
+                      </tr>
+                      <tr>
+                        <td align="left" valign="top">&nbsp;</td>
+                      </tr>
+
+                    </table></td>
+                  <td width="13" align="left" valign="top"></td>
+                </tr>
+              </table></td>
+          </tr>
+        </table></td>
+    </tr>
+    <tr>
+      <td height="19"></td>
+    </tr>
+  </table>
+
+<script type="text/javascript">
+  window.addEvent('domready', function(){
+    new FormCheck('loginform');
+  });
+</script>

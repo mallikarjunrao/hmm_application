@@ -1,0 +1,42 @@
+<table width="865" border="0">
+        <tr><td colspan="15"><h2>Account Status Report</h2> </td></tr>
+
+        <tr>
+          </td></tr>
+        <tr valign='center' align='center'>
+          <th background="/images/body_hor.JPG"><font class='txt'>Total Accounts Created</font></th>
+
+            <th background="/images/body_hor.JPG"><font class='txt'>No of Active Accounts</font></th>
+
+           <th background="/images/body_hor.JPG"><font class='txt'>No of Inactive Accounts</font></th>
+
+
+        </tr>
+
+          <tr class='ListLine1'>
+            <td align="center"><%=@hmmuser_totalcnt%> &nbsp;&nbsp;&nbsp;   <% if (params[:from_bdate]!='' && params[:to_bdate]!='' && params[:to_bdate]!='' && params[:from_bdate]!=nil && params[:to_bdate]!=nil && params[:to_bdate]!=nil) %>
+            <a href="/hmm_studios/user_details/0/?fdt=<%=params[:from_bdate]['ordermonthdayyear(1i)']%>-<%=params[:from_bdate]['ordermonthdayyear(2i)']%>-<%=params[:from_bdate]['ordermonthdayyear(3i)']%>&tdt=<%=params[:to_bdate]['ordermonthdayyear(1i)']%>-<%=params[:to_bdate]['ordermonthdayyear(2i)']%>-<%=params[:to_bdate]['ordermonthdayyear(3i)']%>&edt=<%=params[:end_date]['ordermonthdayyear(1i)']%>-<%=params[:end_date]['ordermonthdayyear(2i)']%>-<%=params[:end_date]['ordermonthdayyear(3i)']%>&c=1&account_type=<%=params[:account_type]%>&studio_group=<%=params[:studio_group]%>&studios=<%=params[:studios]%>"> <font color="#000000">View Details</font> </a>
+            <%else%>
+             <a href="/hmm_studios/user_details/0/?account_type=<%=params[:account_type]%>&studio_group=<%=params[:studio_group]%>&studios=<%=params[:studios]%>&c=1"> <font color="#000000">View Details</font> </a>
+            <%end%></td>
+
+            <td align="center"><%=@hmmuser_unblockcnt%> &nbsp;&nbsp;&nbsp;
+            <% if (params[:from_bdate]!='' && params[:to_bdate]!='' && params[:to_bdate]!='' && params[:from_bdate]!=nil && params[:to_bdate]!=nil && params[:to_bdate]!=nil) %>
+            <a href="/hmm_studios/user_details/1/?fdt=<%=params[:from_bdate]['ordermonthdayyear(1i)']%>-<%=params[:from_bdate]['ordermonthdayyear(2i)']%>-<%=params[:from_bdate]['ordermonthdayyear(3i)']%>&tdt=<%=params[:to_bdate]['ordermonthdayyear(1i)']%>-<%=params[:to_bdate]['ordermonthdayyear(2i)']%>-<%=params[:to_bdate]['ordermonthdayyear(3i)']%>&edt=<%=params[:end_date]['ordermonthdayyear(1i)']%>-<%=params[:end_date]['ordermonthdayyear(2i)']%>-<%=params[:end_date]['ordermonthdayyear(3i)']%>&c=2&account_type=<%=params[:account_type]%>&studio_group=<%=params[:studio_group]%>&studios=<%=params[:studios]%>"> <font color="#000000">View Details </font></a>
+            <%else%>
+             <a href="/hmm_studios/user_details/1/?account_type=<%=params[:account_type]%>&studio_group=<%=params[:studio_group]%>&studios=<%=params[:studios]%>&c=2"> <font color="#000000">View Details</font> </a>
+            <%end%>
+
+            </td>
+            <td align="center"><%=@hmmuser_blockcnt%>&nbsp;&nbsp;&nbsp;
+             <% if (params[:from_bdate]!='' && params[:to_bdate]!='' && params[:to_bdate]!='' && params[:from_bdate]!=nil && params[:to_bdate]!=nil && params[:to_bdate]!=nil) %>
+            <a href="/hmm_studios/user_details/2/?fdt=<%=params[:from_bdate]['ordermonthdayyear(1i)']%>-<%=params[:from_bdate]['ordermonthdayyear(2i)']%>-<%=params[:from_bdate]['ordermonthdayyear(3i)']%>&tdt=<%=params[:to_bdate]['ordermonthdayyear(1i)']%>-<%=params[:to_bdate]['ordermonthdayyear(2i)']%>-<%=params[:to_bdate]['ordermonthdayyear(3i)']%>&edt=<%=params[:end_date]['ordermonthdayyear(1i)']%>-<%=params[:end_date]['ordermonthdayyear(2i)']%>-<%=params[:end_date]['ordermonthdayyear(3i)']%>&c=3&account_type=<%=params[:account_type]%>&studio_group=<%=params[:studio_group]%>&studios=<%=params[:studios]%>"> <font color="#000000">View Details</font> </a>
+            <%else%>
+             <a href="/hmm_studios/user_details/2/?account_type=<%=params[:account_type]%>&studio_group=<%=params[:studio_group]%>&studios=<%=params[:studios]%>&c=3"> <font color="#000000">View Details</font> </a>
+            <%end%>
+            </td>
+            </tr>
+     	<tr><td colspan="4">&nbsp;
+          </td>
+        </tr>
+      </table>

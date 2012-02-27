@@ -1,0 +1,18 @@
+xml.instruct! :xml, :version=>"1.0"
+xml.Galleries{
+   
+     for gallery123 in @results
+       xml.Gallery{
+          xml.id(gallery123.id)
+                xml.access(gallery123.e_gallery_acess)
+                xml.galleryid(gallery123.subchapter_id)
+                xml.name(gallery123.v_gallery_name)
+                xml.icon(gallery123.img_url + "/user_content/photos/icon_thumbnails/#{gallery123.v_gallery_image}")
+                xml.type(gallery123.e_gallery_type)
+                xml.tags(gallery123.v_gallery_tags)
+                xml.subchapterid(gallery123.subchapter_id)
+                xml.description(gallery123.v_desc)
+       }
+    
+   end 
+}

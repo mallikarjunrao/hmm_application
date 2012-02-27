@@ -1,0 +1,150 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+  <head>
+    <script type="text/javascript" src="http://code.jquery.com/jquery-1.4.2.min.js"></script>
+    <script type="text/javascript" src="/javascripts/fancybox/fancybox/jquery.mousewheel-3.0.2.pack.js"></script>
+    <script type="text/javascript" src="/javascripts/fancybox/fancybox/jquery.fancybox-1.3.1.js"></script>
+    <link rel="stylesheet" type="text/css" href="/javascripts/fancybox/fancybox/jquery.fancybox-1.3.1.css" media="screen" />
+    <script type="text/javascript">
+      $(document).ready(function() {
+        total=document.getElementById('count').value;
+        for(i=0;i<total;i++)
+        {
+          $("#various"+i).fancybox({
+            'titlePosition'		: 'inside',
+            'transitionIn'		: 'none',
+            'transitionOut'		: 'none'
+          });
+        }
+      });
+    </script>
+    <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+
+    <title>Untitled Document</title>
+    <style type="text/css">
+      <!--
+      .orange-headlink {
+        font-family: Arial,Helvetica,sans-serif;
+        font-size: 16px;
+        color: #fe6809;
+        font-weight: bold;
+        text-decoration: none;
+      }
+      .orange-headlink:hover {
+        font-family: Arial,Helvetica,sans-serif;
+        font-size: 16px;
+        color: #fe6809;
+        font-weight: bold;
+        text-decoration: underline;
+      }
+      -->
+    </style>
+    <script type="text/javascript">
+      function windowOpener(windowHeight, windowWidth, windowName, windowUri)
+      {
+        //alert();
+        var centerWidth = (window.screen.width - windowWidth) / 2;
+        var centerHeight = (window.screen.height - windowHeight) / 2;
+
+        var features='resizable=0,width='+ windowWidth +
+          ',height='+ windowHeight +
+          ',left='+ centerWidth +
+          ',top='+ centerHeight;
+        newWindow = window.open(windowUri,'',features);
+
+        //newWindow.focus();
+        //return newWindow.name;
+      }
+    </script>
+  </head>
+  <body>
+    <%if @result%>
+    <input type="hidden" name="count" id="count" value="<%=@result.length%>" />
+  <%end%>
+  <% flag=0
+  if @result!=nil
+    if @result.size > 0 %>
+      <table cellpadding="5" cellspacing="5" width="100%" align="center" border="1" bordercolor="#CCCCCC">
+        <%i =0
+        k=0%>
+        <% hmm_studio = HmmStudio.find(:all,:conditions=>"status='active'")%>
+        <% for res in @result
+          if params[:app_type]
+            val="and studio_groupid=195"
+          else
+            val=""
+          end
+          hmm_studio = HmmStudio.count(:all, :conditions => "zip_code='#{res.zip_code}' and status='active' and studio_public='yes' #{val}")
+          if(hmm_studio > 0)
+
+            hmm_studios = HmmStudio.find(:all, :conditions => "zip_code='#{res.zip_code}' and status='active' and studio_public='yes' #{val}")
+            for hmmstudio  in hmm_studios
+              flag=1
+            %>
+              <tr align="left">
+
+                <td align="center">
+                  <!--<%
+                  i=i+1
+                  if(i==3)
+                    i=1
+                  %></tr><tr><td>
+                  <%end%>-->
+                  <br>
+                      <%
+                    srch="#{hmmstudio.studio_address} #{hmmstudio.city} #{hmmstudio.zip_code} "
+                  %>
+                  <div align="center"><% if (hmmstudio.studio_logo==nil || hmmstudio.studio_logo=='')%><%else%> <img src="<%=hmmstudio.img_url%>/user_content/studio_logos/<%=hmmstudio.studio_logo%>" width="189" height="60"><%end%></span><br><br>
+                    <span class="orangetexthead"><%=hmmstudio.studio_branch%></span><br>
+                    <span class="whitext"><a href="/user_account/map/?s=<%=srch%>" class="orange-headlink"><%=hmmstudio.studio_address%></a></span><br>
+                    <a  ><span class="contactlink"><%=hmmstudio.zip_code%></span></a><br>
+                    <span class="whitext">
+                      <%if(hmmstudio.studio_phone!='' && hmmstudio.studio_phone!=nil)%>
+                        <%
+                        phn=hmmstudio.studio_phone
+                        num1=phn.slice(0, 3)
+                        num2=phn.slice(-3, 3)
+                        num3=phn.slice(-6,4)
+
+                        dispphn="(#{num1}) #{num2}-#{num3}"
+
+                      %>
+                        Phone Number : <%=phn%>
+                      <%end%>
+                    </span><br>
+                    <span class="whitext">Distance (in miles): <%=res.distance.to_f.round(2)%></span>
+                    &nbsp;&nbsp;&nbsp;</span>&nbsp;<br>
+                   <%if hmmstudio.booking_link.nil? ||  hmmstudio.booking_link.blank?
+                    link="/manage_iphone_studio/booking_info/?studio_id=#{hmmstudio.id}"
+                  else
+                     link="#{hmmstudio.booking_link}"
+                  end%>
+                    <span class="orangetexthead"><a href="<%=link%>" class="orange-headlink" target="_blank">Appointment Request</a></span>
+                  <%end%>
+                <%end%>
+              <%end%>
+
+            </div>
+          </td>
+        </tr>
+
+      </table>
+
+    <%end%>
+  <%else%>
+
+  <%end%>
+  <% if params[:radius] && params[:zipcode] %>
+    <%if flag==0 %>
+      <% @zip_entry=ZipcodeSearch.new()
+      @zip_entry['zip_code']=params[:zipcode]
+      @zip_entry['miles']=@radius[0]
+      @zip_entry['ip_address']=request.remote_ip
+      @zip_entry.save
+    %>
+
+      <p center> <span class="orangetexthead">Sorry, No Studios found. </span></p>
+    <%end%>
+  <%end%>
+</body>
+</html>

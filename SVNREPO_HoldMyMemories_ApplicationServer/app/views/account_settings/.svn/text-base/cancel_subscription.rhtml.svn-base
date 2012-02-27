@@ -1,0 +1,272 @@
+<script type="text/javascript">
+
+
+
+        function go()
+        {
+            document.frm1.submit();
+
+        }
+
+        function verify()
+        {
+            if(document.getElementById('reason').value == "")
+                {
+                    
+                    document.getElementById('reason').value="No reason Provided";
+                    return true;
+                }
+
+            return true;
+
+
+        }
+
+        function televerify()
+        {
+
+                    var Phone=document.getElementById('telephone')
+
+                    if ((Phone.value==null)||(Phone.value=="")){
+                            alert("Please Enter your Phone Number")
+                            Phone.focus()
+                            return false
+                    }
+                    if (checkInternationalPhone(Phone.value)==false){
+                            alert("Please Enter a Valid Phone Number")
+                            Phone.value=""
+                            Phone.focus()
+                            return false
+                    }
+                    return true
+
+
+                }
+
+	</script>
+
+
+      <script language = "Javascript">
+/**
+ * DHTML phone number validation script. Courtesy of SmartWebby.com (http://www.smartwebby.com/dhtml/)
+ */
+
+// Declaring required variables
+var digits = "0123456789";
+// non-digit characters which are allowed in phone numbers
+var phoneNumberDelimiters = "()- ";
+// characters which are allowed in international phone numbers
+// (a leading + is OK)
+var validWorldPhoneChars = phoneNumberDelimiters + "+";
+// Minimum no of digits in an international phone no.
+var minDigitsInIPhoneNumber = 10;
+
+function isInteger(s)
+{   var i;
+    for (i = 0; i < s.length; i++)
+    {
+        // Check that current character is number.
+        var c = s.charAt(i);
+        if (((c < "0") || (c > "9"))) return false;
+    }
+    // All characters are numbers.
+    return true;
+}
+function trim(s)
+{   var i;
+    var returnString = "";
+    // Search through string's characters one by one.
+    // If character is not a whitespace, append to returnString.
+    for (i = 0; i < s.length; i++)
+    {
+        // Check that current character isn't whitespace.
+        var c = s.charAt(i);
+        if (c != " ") returnString += c;
+    }
+    return returnString;
+}
+function stripCharsInBag(s, bag)
+{   var i;
+    var returnString = "";
+    // Search through string's characters one by one.
+    // If character is not in bag, append to returnString.
+    for (i = 0; i < s.length; i++)
+    {
+        // Check that current character isn't whitespace.
+        var c = s.charAt(i);
+        if (bag.indexOf(c) == -1) returnString += c;
+    }
+    return returnString;
+}
+
+function checkInternationalPhone(strPhone){
+var bracket=3
+strPhone=trim(strPhone)
+if(strPhone.indexOf("+")>1) return false
+if(strPhone.indexOf("-")!=-1)bracket=bracket+1
+if(strPhone.indexOf("(")!=-1 && strPhone.indexOf("(")>bracket)return false
+var brchr=strPhone.indexOf("(")
+if(strPhone.indexOf("(")!=-1 && strPhone.charAt(brchr+2)!=")")return false
+if(strPhone.indexOf("(")==-1 && strPhone.indexOf(")")!=-1)return false
+s=stripCharsInBag(strPhone,validWorldPhoneChars);
+return (isInteger(s) && s.length >= minDigitsInIPhoneNumber);
+}
+
+function ValidateForm(){
+	var Phone=document.frmSample.txtPhone
+
+	if ((Phone.value==null)||(Phone.value=="")){
+		alert("Please Enter your Phone Number")
+		Phone.focus()
+		return false
+	}
+	if (checkInternationalPhone(Phone.value)==false){
+		alert("Please Enter a Valid Phone Number")
+		Phone.value=""
+		Phone.focus()
+		return false
+	}
+	return true
+ }
+</script>
+<table width="970" border="0" cellspacing="0" cellpadding="0">
+  <tr>
+    <td align="center" valign="top" class="tab-dots"><table width="970" border="0" cellspacing="0" cellpadding="0" id="tab_bgcolor_repeat">
+
+        <tr>
+          <td align="left" valign="top"><table width="970" border="0" cellspacing="0" cellpadding="0">
+              <tr>
+                <td width="13" align="left" valign="top"></td>
+                <td width="944" align="left" valign="top"><table width="100%" border="0" cellspacing="0" cellpadding="0">
+                    <tr>
+                      <td height="10" align="left" valign="top"></td>
+                    </tr>
+                    <tr>
+                      <td height="35" align="left" valign="bottom" class="header-page">Manage My Site</td>
+                    </tr>
+                    <tr>
+                      <td height="10" align="left" valign="top"></td>
+                    </tr>
+                    <tr>
+                      <td height="1" align="left" valign="top" bgcolor="#454545"></td>
+                    </tr>
+                    <tr>
+                      <td height="10" align="left" valign="top"></td>
+                    </tr>
+                    <tr>
+                      <td align="left" valign="top"><table width="100%" border="0" cellspacing="0" cellpadding="0">
+                          <tr>
+                            <td width="183" align="left" valign="top" class="content-trans-bg">
+                              <%= render :partial => "partials/manage_website_menu", :locals => { :current_item => "#{@current_item}"} %>
+                            </td>
+                            <td width="17" align="left" valign="top"></td>
+                            <td width="744" align="left" valign="top"><table width="100%" border="0" cellspacing="0" cellpadding="0">
+                                <tr>
+                                  <td class="content-trans-bg"><table width="100%" border="0" cellspacing="0" cellpadding="0">
+                                      <tr>
+                                        <td height="10" colspan="3" align="left" valign="top"></td>
+                                      </tr>
+                                      <tr>
+                                        <td width="20" align="left" valign="top"></td>
+                                        <td >
+    <form name="frm" action="/account_settings/cancel_sub/<%=params[:id]%>" method="post" onSubmit="return verify()">
+      
+  <table  border="0" align="left">
+    
+    <tbody>
+
+
+    <tr>
+                                              <td align="left" valign="top" class="header-paragraph">Account Cancellation</td>
+                                            </tr>
+                                            <tr>
+                                              <td align="left" valign="top">&nbsp;</td>
+                                            </tr>
+
+<tr align="center">
+  <td class="main"><font color="white" size="2">Please let us know the reason for the cancellation of your Subscription.</font><b>
+         <center>
+       </center>
+
+
+       </b></td>
+      </tr>
+
+      <tr align="center" >
+        <td><table  border="0" cellpadding="2" cellspacing="1" width="100%" class="content-trans-bg">
+          <tbody><tr >
+            <td><table border="0" cellpadding="2" cellspacing="2" width="100%">
+              <tbody><tr>
+                  <td  align="right" valign="top"  class="manage-theme-bg">Reason for cancellation*</td>
+                <td  align="left" class="main">
+
+					<textarea name="reason" cols="50" rows="3" id="reason" type="text"></textarea>				</td>
+
+              </tr>
+                <tr>
+                  <td align="right" valign="top" class="main">&nbsp;</td>
+                  <td align="left" class="main"><input type="submit" name="sub1"  value="Submit"/></td>
+                </tr>
+              </tbody>
+            </table></td>
+          </tr>
+        </tbody></table></td>
+      </tr>
+      <tr>
+      	<td>&nbsp;</td>
+      </tr>
+
+    </tbody>
+  </table></form></td>
+                                        <td width="20" align="left" valign="top"></td>
+                                      </tr>
+
+
+                                    </table></td>
+                                </tr>
+                                <tr>
+                                  <td>&nbsp;</td>
+                                </tr>
+
+
+
+                              </table></td>
+                          </tr>
+                        </table></td>
+                    </tr>
+
+                  </table></td>
+                <td width="13" align="left" valign="top"></td>
+              </tr>
+            </table></td>
+        </tr>
+      </table></td>
+  </tr>
+
+</table>
+
+<script type="text/javascript">
+<!--
+var sprytextfield3 = new Spry.Widget.ValidationTextField("sprytextfield3", "none", {validateOn:["blur"]});
+
+
+-->
+
+function arboption()
+        {
+           //alert("dqwdqwdw")
+           if(document.getElementById('arb').checked==true)
+           {
+             document.getElementById('show_arb').style.display='block'
+             document.getElementById('arb_res').value='1'
+
+           }
+           else
+           {
+             document.getElementById('show_arb').style.display='none'
+             document.getElementById('arb_res').value='0'
+           }
+        }
+
+
+</script>

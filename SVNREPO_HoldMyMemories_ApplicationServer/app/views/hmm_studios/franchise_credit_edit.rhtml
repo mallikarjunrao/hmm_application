@@ -1,0 +1,84 @@
+
+<script language="JavaScript">
+  function check(){
+    if (document.getElementById('credit_option').value == 'yes')
+    {
+           if (document.getElementById('credit_percentage').value == '')
+          {
+            alert("Enter the percentage value")
+            document.getElementById('credit_percentage').focus();
+            return false;
+          }
+    }
+
+  }
+
+
+</script>
+
+<script type="text/javascript">
+  function hide(status)
+  {
+    if(status == "yes")
+      document.getElementById('credit_percentage').style.display="block";
+    else
+      document.getElementById('credit_percentage').style.display="none";
+
+  }
+</script>
+
+
+<h1>Edit Studio Credits</h1>
+<form action="/hmm_studios/franchise_credit_update/<%= params[:id] %>" method="post"  onsubmit="return check();">
+  <%= error_messages_for 'hmm_studio' %>
+
+  <table border="0">
+    <tr>
+      <td colspan="3">&nbsp;</td>
+    </tr>
+    <tr>
+      <td align="right" >
+        <label for="hmm_studio_studio_branch">Studio branch</label>
+      </td>
+      <td>&nbsp;</td>
+      <td align="left">
+        <%= text_field 'hmm_studio', 'studio_branch', :class => "textbox-signup",:readonly=>"readonly" %>
+        <%= %>
+        <%= observe_field :'hmm_studio_studio_branch',
+          :with       => "studio_branch",
+          :frequency  => 0.25,
+          :url        => {:action => :validate_edit, :id => @sid },
+          :update     => :message
+      %>
+        <span id="message"></span>
+      </td>
+    </tr>
+    <tr>
+      <td colspan="3">&nbsp;</td>
+    </tr>
+    <tr>
+      <td align="right" valign="top">Credit Option</td>
+      <td>&nbsp;</td>
+      <td align="left"><select name="hmm_studio[credit_option]" id="credit_option" class ="combobox1" >
+          <option value="yes" <%=@status_yes%> >Yes</option>
+          <option value="no" <%=@status_no%> >No</option>
+        </select></td>
+    </tr>
+    <tr>
+      <td colspan="3">&nbsp;</td>
+    </tr>
+    <tr>
+      <td align="right" valign="top">Credit %</td>
+      <td>&nbsp;</td>
+      <td><input type="text" name="hmm_studio[credit_percentage]" id="credit_percentage" value="<%=@hmm_studio_cp%>" ></td>
+    </tr>
+    <tr>
+      <td colspan="3">&nbsp;</td>
+    </tr>
+    <tr>
+      <td colspan="2" align="right"><%= link_to 'Back', :action => 'franchise_credit_list' %> </td>
+      <td><%= submit_tag 'Update' %></td>
+    </tr>
+  </table>
+</form>
+

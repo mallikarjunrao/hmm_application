@@ -1,0 +1,247 @@
+<script type="text/javascript">
+
+  function emailus(type){
+
+      var ajax = new Ajax();
+      ajax.responseType =type;
+      ajax.ondone = function(data) {
+        document.getElementById('main_content').setInnerFBML(data);
+      }
+      ajax.onerror = function() {
+        new Dialog().showMessage('Error!','Ajax failed for some reason. Please try again.');
+      }
+     ajax.post('<%=@path.proxyname%>/face_book_invite/emailus/?facebook_profile_id='+<%=@family_website_owner.facebook_profile_id%>);
+  }
+
+
+  function emailuser(type){
+
+      var ajax = new Ajax();
+      ajax.responseType =type;
+      ajax.ondone = function(data) {
+        document.getElementById('main_content').setInnerFBML(data);
+      }
+      ajax.onerror = function() {
+        new Dialog().showMessage('Error!','Ajax failed for some reason. Please try again.');
+      }
+     ajax.post('<%=@path.proxyname%>/face_book_invite/emailuser/?facebook_profile_id='+<%=@family_website_owner.facebook_profile_id%>);
+  }
+
+  function emailHmm(type){
+
+      var ajax = new Ajax();
+      ajax.responseType =type;
+      ajax.ondone = function(data) {
+        document.getElementById('main_content').setInnerFBML(data);
+      }
+      ajax.onerror = function() {
+        new Dialog().showMessage('Error!','Ajax failed for some reason. Please try again.');
+      }
+     ajax.post('<%=@path.proxyname%>/face_book_invite/emailHmm/?facebook_profile_id='+<%=@family_website_owner.facebook_profile_id%>);
+  }
+
+  function emailCS(type){
+
+      var ajax = new Ajax();
+      ajax.responseType =type;
+      ajax.ondone = function(data) {
+        document.getElementById('main_content').setInnerFBML(data);
+      }
+      ajax.onerror = function() {
+        new Dialog().showMessage('Error!','Ajax failed for some reason. Please try again.');
+      }
+     ajax.post('<%=@path.proxyname%>/face_book_invite/emailCS/?facebook_profile_id='+<%=@family_website_owner.facebook_profile_id%>);
+  }
+
+</script>
+
+
+<table width="@app_main_width" border="0" cellspacing="0" cellpadding="0">
+  <tr>
+    <td align="center" valign="top" class="tab-dots"><table width="@app_main_width" border="0" cellspacing="0" cellpadding="0" id="tab_bgcolor_repeat">
+        <tr>
+          <td align="left" valign="top"><% if flash.now[:message] || flash.now[:notice_contact]%>
+              <table width="100%" border="0" cellspacing="0" cellpadding="0">
+                <tr>
+                  <td width="13" align="left" valign="top"></td>
+                  <td width="944" align="left" valign="top" ><table width="100%" border="0" cellspacing="0" cellpadding="0">
+                      <tr>
+                        <td height="10" align="left" valign="top"></td>
+                      </tr>
+                      <tr>
+                        <td height="35" align="left" valign="bottom" class="header-page">Email</td>
+                      </tr>
+                      <tr>
+                        <td height="10" align="left" valign="top"></td>
+                      </tr>
+                      <tr>
+                        <td height="1" align="left" valign="top" bgcolor="#454545"></td>
+                      </tr>
+                      <tr>
+                        <td height="10" align="left" valign="top"></td>
+                      </tr>
+                      <tr>
+                        <td align="left" valign="top" class="content-trans-bg"><table width="100%" border="0" cellspacing="0" cellpadding="0">
+                            <tr>
+                              <!--<td valign="middle" height="150"></td>-->
+                              </tr>
+                            <tr>
+
+                              <td width="912" align="center"  class="content"  height="40"><%if flash[:message]!='' %><%= flash[:message] %><% flash.discard %></p><%end%><%if flash[:notice_contact]!='' %><%= flash[:notice_contact] %><% flash.discard %><%end%></td>
+                            </tr>
+
+                            <tr><td width="912" align="center"  class="content" height="20">  ( <a  href="#" onclick="emailus(Ajax.FBML); return false;">Back to email</a> ) </td></tr>
+
+
+                            <tr>
+                              <td valign="middle" height="30">
+                              </td></tr>
+                          </table></td>
+                      </tr>
+                      <tr>
+                        <td align="left" valign="top">&nbsp;</td>
+                      </tr>
+                    </table></td>
+                  <td width="13" align="left" valign="top"></td>
+                </tr>
+              </table>
+
+
+        <% else %>
+              <table width="100%" border="0" cellspacing="0" cellpadding="0"  >
+                <tr>
+                  <td width="13" align="left" valign="top"></td>
+                  <td width="944" align="left" valign="top"><table width="100%" border="0" cellspacing="0" cellpadding="0">
+                      <% if flash[:msg]!=""%>
+                        <tr>
+                          <td align="center" class="content" valign="middle"><%=flash[:msg]%></td>
+                        </tr>
+                      <% end %>
+                      <% if flash[:error]!=""%>
+                        <tr>
+                          <td align="center" class="content" valign="middle"><%=flash[:error]%></td>
+                        </tr>
+                      <% end %>
+
+                      <tr>
+                        <td height="10" align="left" valign="top"></td>
+                      </tr>
+                      <tr>
+                        <td height="35" align="left" valign="bottom" class="header-page">Email</td>
+                      </tr>
+                      <tr>
+                        <td height="10" align="left" valign="top"></td>
+                      </tr>
+                      <tr>
+                        <td height="1" align="left" valign="top" bgcolor="#454545"></td>
+                      </tr>
+                      <tr>
+                        <td height="10" align="left" valign="top"></td>
+                      </tr>
+                      <tr>
+                        <td align="left" valign="top" class="content-trans-bg"><table width="100%" border="0" cellspacing="0" cellpadding="0">
+                            <tr>
+                              <td width="30" align="left" valign="top">&nbsp;</td>
+                              <td width="@app_width" align="left" valign="top"><table width="100%" border="0" cellspacing="0" cellpadding="0">
+                                  <tr>
+                                    <td align="left" valign="top">&nbsp;</td>
+                                  </tr>
+                                </table>
+                               <!-- <div onclick="emailuser(Ajax.FBML); return false;">
+                                    <div onselectstart="return false;">
+                                        <div class="headers_email"align="left" style="cursor:pointer">Email < %=@result.v_fname%>&nbsp;< %=@result.v_lname%></div>
+                                    </div>
+                               </div>-->
+                               <ul><li><a href="#" onclick="emailuser(Ajax.FBML); return false;">Email <%=@result.v_fname%>&nbsp;<%=@result.v_lname%></a></li></ul>
+
+                                    <br/>
+
+                                <%  if @result.studio_id != 0 %>
+                                     <div id="navcontainer" align="left" style="width:<%=@app_width%>px;" class="headers_email">
+                      <ul><li><a href="#" onclick="emailHmm(Ajax.FBML); return false;">Email <%=@result.studio_name %> </a></li></ul>
+                    </div>
+                                <% end %>
+                                  <br />
+                                 <!--<div onclick="emailCS(Ajax.FBML); return false;">
+                                   <div onselectstart="return false;">
+                                        <div id="navcontainer" align="left" style="width:< %=@app_width%>px;" class="headers_email"align="left" style="cursor:pointer"><ul><li>Email Customer Service </ul></li></div>
+                                   </div>
+                                </div>-->
+
+
+                                   <div id="navcontainer" align="left"  class="headers_email" >
+                    <ul><li><a href="#" onclick="emailCS(Ajax.FBML); return false;">Email Customer Service  </div>
+
+                                  <br/>
+
+                                  
+                                 <%end%>
+                          </table></td>
+                      </tr>
+                      <tr>
+                        <td align="left" valign="top">&nbsp;</td>
+                      </tr>
+                    </table></td>
+                  <td width="13" align="left" valign="top"></td>
+                </tr>
+              </table>
+
+          </td>
+        </tr>
+      </table>
+      </td>
+  </tr>
+  <tr>
+    <td height="19"></td>
+  </tr>
+  <tr>
+        <td align="center" valign="top"><div align="center">
+            <table width="96%" border="0" cellspacing="0" cellpadding="0">
+              <tr>
+                <!--< %=@about_us_width%>< %=  @home_page_link %><td width="50%" align="left" valign="top" class="tab-dots">< %= render :partial => "partials/aboutme_facebook", :locals => { :content => "#{@family_website_owner.about_family}"} %></td>-->
+                <td width="50%" align="left" valign="top" class="tab-dots">
+                <table width="95%" border="0" cellspacing="0" cellpadding="0" id="tab_bgcolor">
+
+                    <tr>
+                      <td width="25" align="left" valign="middle" background="<%=@path.proxyname%>/images/common/tab_trans.png"  ></td>
+                      <td height="36" align="left" valign="middle" background="<%=@path.proxyname%>/images/common/tab_trans.png" class="headers">About Us</td>
+                    </tr>
+                    <tr>
+                      <td align="left" valign="middle"></td>
+                      <td height="155" align="left" valign="top" class="content" ><br><% content = @family_website_owner.about_family %><%= content %><br/></td>
+                    </tr>
+
+              </table></td>
+             
+              <div align="right">
+                <!--<td width="50%" align="right" valign="top" class="tab-dots">< %= render :partial => "partials/homepagelinks_facebook", :locals => { :link1 => "#{@family_website_owner.v_link1}",:link2 => "#{@family_website_owner.v_link2}",:link3 => "#{@family_website_owner.v_link3}"} %></td>-->
+                <td width="50%" align="right" valign="top" class="tab-dots"><table width="95%" border="0" cellspacing="0" cellpadding="0" id="tab_bgcolor">
+                    <tr>
+                      <td width="25" align="left" valign="middle" background="<%=@path.proxyname%>/images/common/tab_trans.png" ></td>
+                      <td height="36" align="left" valign="middle" background="<%=@path.proxyname%>/images/common/tab_trans.png" class="headers">Links</td>
+                    </tr>
+                    <tr>
+                      <td  align="left" valign="middle" ></td>
+                      <td height="155" align="left" valign="top" class="content"><br />
+                        <% link1= @family_website_owner.v_link1%>  <% link2= @family_website_owner.v_link2 %>   <% link3= @family_website_owner.v_link3 %>
+                        <% if link1!='' %><a href="http://<%= link1 %>" target="_blank"><%= link1 %></a><% end %><br />
+                        <% if link2!='' %><a href="http://<%= link2 %>" target="_blank"><%= link2 %></a><% end %><br />
+                        <% if link3!='' %><a href="http://<%= link3 %>" target="_blank"><%= link3 %></a><% end %><br />
+                      </td>
+                    </tr>
+                  </table></td>
+              </div>
+              
+              </tr>
+            </table>
+          </div></td>
+      </tr>
+
+
+  <tr>
+    <td height="19"></td>
+  </tr>
+  <tr>
+    <td height="19"></td>
+  </tr>
+</table>

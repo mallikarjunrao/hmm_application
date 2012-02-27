@@ -1,0 +1,277 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<script type="text/javascript" src="/jquery.selectbox-0.1.3/js/jquery-1.5.1.min.js"></script>
+<script type="text/javascript" src="/javascripts/jquery.selectbox-0.6.1/js/jquery.selectbox-0.6.1.js"></script>
+<link href="/javascripts/jquery.selectbox-0.6.1/css/jquery.selectbox.css" type="text/css" rel="stylesheet" />
+<%  @studio_header = HmmStudio.find(@family_website_owner.studio_id)
+if @studio_header.studio_groupid==pp_studio_group
+  textarea = "glrTxtArea"
+  textbox = "glrTxtfld"
+  postbtn = "cmnBtnS cmnBtnMar"
+  postbtnBig = "cmnBtnB cmnBtnMar"
+  commentHead = "commentTxthead"
+  commentSmall = "commentTxtsmall"
+  normaltext = "normaltxthead"
+  bgcolor = "#9FC4DE"
+else
+  textarea = "comTxtArea"
+  textbox = "textfield"
+  postbtn = "contactBtn"
+  commentHead = "msgHead"
+  commentSmall = "msgSmall"
+  postbtnBig = "postBtn"
+  normaltext = ""
+  bgcolor = "#002841"
+end %>
+
+<script type="text/javascript">
+  function like_a_radio(oBox) {
+    var el, i = 0, f = oBox.form;
+    while (el = f[i++]) if (el.type == 'checkbox') el.checked = (el == oBox && el.checked);
+  }
+
+  function check_album1(selct_album)
+  {
+    if (document.getElementById(selct_album).value == "new_album")
+    {
+      document.getElementById('new_album').style.display = "inline";
+    }
+    else
+    {
+      document.getElementById('new_album').style.display = "none";
+    }
+  }
+  function validate_album(){
+    var ret_val = false;
+    var regex = /\S/;
+    if(<%= @sub_chap_selected %> == document.getElementById('select_3').value)
+    {
+      alert("Select different album");
+      ret_val = false;
+    }
+    else
+    {
+      ret_val = true;
+    }
+    if (document.getElementById('new_album').style.display == "inline")
+    {
+      if(document.getElementById('photo_album1').value != "" && regex.test(document.getElementById('photo_album1').value))
+      {
+        ret_val = true;
+      }
+      else {
+        alert("Enter album name");
+        ret_val = false;}
+    }
+    return ret_val;
+  }
+
+  function change_privacy(access)
+  {
+    var apply_to = document.getElementById("privacy").value
+    var xmlhttp;
+    if (window.XMLHttpRequest)
+    {
+      xmlhttp=new XMLHttpRequest();
+    }
+    xmlhttp.onreadystatechange=function()
+    {
+      if (xmlhttp.readyState==4 && xmlhttp.status==200 || xmlhttp.status==304)
+      {
+        document.getElementById("cover_msg1").style.display = "block";
+        document.getElementById("cover_msg1").innerHTML = xmlhttp.responseText;
+        window.setTimeout(ttl_msg, 5000);
+      }
+    }
+    xmlhttp.open("GET","/family_memory/change_privacy/<%= params[:id] %>?moment_id=<%= params[:moment_id] %>&gallery_id=<%= @user_content.gallery_id %>&apply_to="+apply_to+"&access="+access,true);
+    document.getElementById("cover_msg1").innerHTML = "<img src='/images/family_memory/images/ajax-loader.gif' ";
+    xmlhttp.send();
+    //document.getElementById("cover_msg").style.display = "inline";
+  }
+
+  function make_album_cover()
+  {
+<% @get_content_url=ContentPath.find(:first, :conditions => "status='active'") %>
+    window.location.href = "<%= @get_content_url['content_path'] %>/manage_icon/set_subchapter_icon?id=<%= @user_content.sub_chapid %>&itemId=<%= @user_content.id %>&set_icon=instant&gallery_id=<%= @user_content.gallery_id %>&family_name=<%= params[:id] %>&alert_msg=Successfully set as album cover!";
+  }
+  
+  function ttl_msg(){
+    document.getElementById("cover_msg1").style.display = "none";
+  }
+</script>
+<style type="text/css">
+
+  #nyroModalContent
+  {
+    background:  #002841;
+    width: 342px;
+    height: 200px;
+    overflow: auto;
+  }
+  #nyroModalWrapper
+  {
+    height: 221px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    display: block;
+    width: 346px;
+    margin-top: -164.5px;
+    margin-left: -177px;
+  }
+  #nyroModalBg
+  {
+    background-color: rgb(0, 0, 0);
+    position: absolute;
+    overflow: hidden;
+    top: 0px;
+    left: 0px;
+    height: 100%;
+    width: 100%;
+    opacity: 0.75;
+  }
+  .sbHolder {
+    background: url("/images/tab_trans.png") repeat scroll 0 0 transparent;
+    border: 1px solid #517286;
+    font-family: Arial,sans-serif;
+    font-size: 14px;
+    font-weight: bold;
+    height: 30px;
+    position: relative;
+    width: 170px;
+  }
+
+  .textfield {
+    font-family:Arial, Helvetica, sans-serif;
+    font-size:12px;
+    color:#000000;
+    width:180px;
+    height:20px;
+    padding-top:3px;
+    padding-left:5px;
+    border-top-style: none;
+    border-right-style: none;
+    border-bottom-style: none;
+    border-left-style: none;
+    background-image: url(http://staging.holdmymemories.com/images/themes/classic/login-field.png);
+    background-repeat: repeat-x;
+    background-position: left top;
+    margin: 0px;
+    border-top-width: 0px;
+    border-right-width: 0px;
+    border-bottom-width: 0px;
+    border-left-width: 0px;
+  }
+</style>
+<table style="background: <%= bgcolor %>;" height="410" align="center" ><tr>
+    <td class="<%= normaltext %>">
+      <div id="cover_msg1" align="center" style="display:none" class="loglink">
+      </div>
+      <form method="post" name="change_album" id="blogform" action="/family_memory/edit_album/<%=params[:id]%>?moment_id=<%= params[:moment_id] %>&redirect_url=<%= params[:redirect_url] %>" >
+        <table style="background: <%= bgcolor %>; border:1px solid #517286" align="center" height="250" >
+          <tr><td height="25" align="center" valign="top"><font color="#FFFFFF" class="<%= normaltext %>">Change Album </font></td></tr>
+          <tr>
+            <td align="center">
+              <font color="white" class="<%= normaltext %>">
+                <% if @user_content.e_filetype == 'video'  %>
+                  <input type="radio" id="apply_to" name="apply_to" value="image" checked onclick="like_a_radio(this);" />Apply to video
+                <% else %>
+                  <input type="radio" id="apply_to" name="apply_to" value="image" checked onclick="like_a_radio(this);" />Apply to image
+                <% end %>
+                <input type="radio" id="apply_to" name="apply_to" value="album" onclick="like_a_radio(this);" />Apply to all
+              </font>
+            </td>
+          </tr>
+          <tr><td height="25" align="center" valign="top"><font color="#FFFFFF" class="<%= normaltext %>">Album Name </font></td></tr>
+          <tr>
+            <td height="15" align="center" valign="top" style="color:#FFFFFF">
+              <div id="display_album" style="display:block">
+                <% if @mobile_events.nil? %>
+                  <select name="sub_chapter[id]">
+                    <option value="new_album" selected>Create New Album&nbsp;</option>
+                  </select>
+                <% else %>
+                  <select id="select_3" name="sub_chapter[id]" onchange="check_album1(this.id);">
+                    <% for mobile_event in @mobile_events %>
+                      <option value="<%= mobile_event.id %>" <% if @sub_chap_selected == mobile_event.id %> selected <% else %><% end %> ><%= mobile_event.sub_chapname %></option>
+                    <% end %>
+                    <option value="new_album">Create New Album</option>
+                  </select>
+                <% end %>
+              </div>
+              <script type="text/javascript">
+                //<![CDATA[
+                var jq = jQuery.noConflict();
+                jq(function () {
+                  jq("#select_3").selectbox();
+                  jq("html").live('mousedown', function(e) {
+                    e.stopPropagation();
+                    jq("select").selectbox('close');
+                  });
+                  jq('.sbHolder, .sbSelector').mousedown(function(event){
+                    event.stopPropagation();
+                  });
+              
+                });
+                //]]>
+              </script>
+            </td>
+          </tr>
+          <tr>
+            <td height="25" align="left" valign="top" style="color:#FFFFFF">
+              <div id="new_album" style="display:none">
+                <table align="left" style="width: 315px;">
+                  <tr>
+                    <td style="color:#FFFFFF">
+                      Album Name:
+                    </td>
+                    <td>
+                      <input id="photo_album1" type="text" class="textfield" name="new_album" />
+                    </td>
+                  </tr>
+                  <tr>
+                    <td valign="top" style="color:#FFFFFF">
+                      Comment:
+                    </td>
+                    <td>
+                      <textarea id="photo_album2" class="textfield" style="width:200px; height:60px;background-image:none" name="desc" cols="23" rows="4"/>
+                    </td>
+                  </tr>
+                </table>
+              </div>
+            </td>
+          </tr>
+          <tr>
+            <td align="center" valign="top" colspan="2" class="content">
+              <input type="submit" class="<%= postbtn %>" name="submit" value="Post" onclick="return validate_album();"/></td>
+          </tr>
+        </table>
+        <table style="background: <%= bgcolor %>;border-color: #777777" align="center">
+          <tr>
+            <td align="center" valign="top" colspan="2" class="content">
+              <input type="button" class="<%= postbtnBig %>" value="Set as album cover" onclick="return make_album_cover();"/>
+            </td>
+          </tr>
+          <tr>
+            <td align="left" valign="top" colspan="2" class="msgHead">Set Privacy for:&nbsp;&nbsp;&nbsp;&nbsp;
+              <select id="privacy" name="privacy_for" onchange="check_album(this.id);">
+                <option value="image" selected >Image</option>
+                <option value="album">Album</option>
+              </select>
+            </td>
+          </tr>
+          <tr>
+            <td colspan="2" class="msgHead" align="left">Set Privacy:&nbsp;&nbsp;
+              <input type="radio" id="access" name="access" value="public" checked="checked" onclick="like_a_radio(this); change_privacy(this.value);" />Public&nbsp;&nbsp;&nbsp;&nbsp;
+              <input type="radio" id="access" name="access" value="private" onclick="like_a_radio(this); change_privacy(this.value);" />Private
+            </td>
+          </tr>
+          <tr>
+            <td  valign="bottom" colspan="2" align="center" >
+              <a href="#" class="nyroModalClose"><input type="button" class="<%= postbtn %>" value="Close" /></a>
+            </td>
+          </tr>
+        </table>
+      </form>
+    </td></tr>
+</table>

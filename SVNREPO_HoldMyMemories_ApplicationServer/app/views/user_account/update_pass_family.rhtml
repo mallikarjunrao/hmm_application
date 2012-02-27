@@ -1,0 +1,70 @@
+<%= stylesheet_link_tag 'SpryAssets/SpryValidationTextField' %>
+<%= stylesheet_link_tag 'SpryAssets/SpryValidationTextarea' %>
+<%= stylesheet_link_tag 'SpryAssets/SpryValidationPassword' %>
+<%= stylesheet_link_tag 'SpryAssets/SpryValidationConfirm' %>
+<%= javascript_include_tag 'SpryAssets/SpryValidationTextField' %>
+<%= javascript_include_tag 'SpryAssets/SpryValidationTextarea' %>
+<%= javascript_include_tag 'SpryAssets/SpryValidationPassword' %>
+<%= javascript_include_tag 'SpryAssets/SpryValidationConfirm' %>
+
+
+<script type="text/javascript">
+  function validate_pass(){
+    if(document.getElementById('passwords').value != "")
+    {
+      if(document.getElementById('v_password_conf').value != "")
+      {
+        if(document.getElementById('v_password_conf').value == document.getElementById('passwords').value)
+        {
+          return true;
+        }
+        else
+        {
+          alert("Passwords Dont Match!");
+          return false;
+        }
+      }
+      else{
+        alert("Retype the password");
+        return false;
+      }
+    }
+    else
+    {
+      alert("Enter the password");
+      return false;
+    }
+  };
+</script>
+<form name="upgrade" action="/user_account/update_family_pass" method="post" >
+  <table  align="center">
+    <tr><td><%=flash[:error_family]%></td></tr>
+    <tr><td><%=flash[:error_pass]%></td></tr>
+    <tr>
+      <td align="center" height="50">Change Your Family Name</font></td><td><span id="sprytextfield1"><input type="text" name="family_name" id="family_name" value="<%=@hmmuser_family.family_name%>" />
+          <br/><span class="textfieldRequiredMsg"> Family Name is required.<br /></span></span></td>
+    </tr>
+    <tr>
+      <td align="center" height="50"> Change Your Password</font></td><td><span id="sprytextfield2"><input type="password" name="password" id="passwords" />
+          <br/><span class="textfieldRequiredMsg"> Password is required.<br /></span></span></td>
+    </tr>
+    <tr>
+      <td align="center" height="50"> Retype Password</font></td><td><span id="spryconfirm2"><input type="password" name="v_password" id="v_password_conf"  />
+          <br/><span class="confirmRequiredMsg">A value is required.</span> <span class="confirmInvalidMsg">The values don't match</span> </span></td>
+    </tr>
+    <tr>
+      <td align="center" height="55"  align="center"><input type="submit" name="sub" value="Change" onclick="return validate_pass();"/></td>
+      <td align="center" height="55"  align="center"><input type="submit" name="sub" value="No Thanks" />
+      </td>
+    </tr>
+  </table>
+</form>
+
+
+<script type="text/javascript">
+
+var sprytextfield1 = new Spry.Widget.ValidationTextField("sprytextfield1", "none", {validateOn:["blur", "submit"]});
+<%#*var sprytextfield2 = new Spry.Widget.ValidationTextField("sprytextfield", "none", {validateOn:["blur", "submit"]});%>
+<%#*var sprypassword12 = new Spry.Widget.ValidationPassword("sprypassword2",{validateOn:["blur", "submit"]});%>
+<%#*var spryconfirm2 = new Spry.Widget.ValidationConfirm("spryconfirm2", "sprypassword12", {validateOn: ['blur', "submit"]});%>
+</script>

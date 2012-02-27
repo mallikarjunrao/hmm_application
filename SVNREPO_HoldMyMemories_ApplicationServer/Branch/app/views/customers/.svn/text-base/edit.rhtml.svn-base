@@ -1,0 +1,8 @@
+<h1>My Profile</h1>
+
+<% form_tag :action => 'update', :id => @hmm_user do %>
+<center>
+  <%= render :partial => 'form' %>
+  <%= submit_tag 'Update'  %> 
+</center>
+<% end %>

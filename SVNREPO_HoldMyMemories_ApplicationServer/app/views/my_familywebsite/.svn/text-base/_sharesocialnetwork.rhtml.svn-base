@@ -1,0 +1,42 @@
+
+
+  <%  flag="0"
+  if(session[:hmm_user])
+    if ( (@userid[0].password_required=='yes') && (@userid[0].family_name==session[:hmm_user][:family_name]))
+      flag="1"
+    else
+      flag="#{session[:hmm_user][:family_name]}"
+    end
+  end %>
+
+  <% if (@userid[0].password_required=='no' || flag=="1") %>
+    <table border="0" width="303"><tr><td align="right" valign="middle">
+          <table width="150" border="0" cellspacing="0" cellpadding="0">
+            <tr>
+              <td align="center" valign="middle"><a href="#" title="Share this page with your Facebook friends" tabindex="Share this moment with your FaceBook friends" onclick="facebook_counter('<%=@uid%>','facebook');return fbs_click('http://holdmymemories.com<%=request.request_uri%><%=@symb%>facebook=true');" target="_blank" class="fb_share_link"><img src="/images/facebook.png" border="0" width="22" height="23" /></a></td>
+              <td align="center" valign="middle"><a title="Share this page with your Myspace friends" href="javascript:GetThis('HoldMyMemories', 'http://www.holdmymemories.com<%=request.request_uri%>','2')" onclick="facebook_counter('<%=@uid%>','myspace');"><img src="/images/myspace.png" border="0" width="22" height="23" /></a></td>
+              <td align="center" valign="middle"><a title="Post a link to this page on your Twitter account" href="javascript:GetThisTwitter('http://www.twitter.com/home?status=http://www.holdmymemories.com<%=request.request_uri%>')" onclick="facebook_counter('<%=@uid%>','twitter');"><img src="/images/twitter.png" border="0" width="22" height="23" /></a></td>
+              <td align="center" valign="middle"><a title="Share with other social networking sites" href="http://www.addthis.com/bookmark.php?v=250"  ><img src="/images/more.png"  alt="Bookmark and Share" style="border:0" onclick="return otherMessage();" width="60" height="23" /></a><script type="text/javascript" src="http://s7.addthis.com/js/250/addthis_widget.js?pub=farooqkuntoji"></script></td>
+            </tr>
+          </table></td></tr></table>
+  <% else %>
+    <%  if(@userid[0].password_required=="yes") %>
+      <table width="303"><tr><td align="right">
+            <table width="150" align="center"   cellpadding="0" cellspacing="0" border="0" style="vertical-align:middle;">
+              <tr>
+                <td  align="center" valign="bottom" ><a href="#" onclick="javascript:return message();" title="Share this page with your Facebook friends" tabindex="Share this moment with your FaceBook friends"  class="fb_share_link"><img src="/images/facebook.png" border="0" /></a></td>
+                <td><a href="#" onclick="javascript:return message();" title="Share this page with your Myspace friends"><img src="/images/myspace.png" border="0" /></a></td>
+                <td><a href="#" onclick="javascript:return message();" title="Post a link to this page on your Twitter account"><img src="/images/twitter.png" border="0" /></a></td>
+                <td><a href="#" onclick="javascript:return message();" title="Share with other social networking sites" ><img src="/images/more.png"  alt="Bookmark and Share" style="border:0" width="60" height="23"/></a><script type="text/javascript" src="http://s7.addthis.com/js/250/addthis_widget.js?pub=farooqkuntoji"></script></td>
+              </tr></table></td></tr></table>
+    <%else%>
+      <table width="303"><tr><td align="right">
+            <table width="150" align="center"   cellpadding="0" cellspacing="0" border="0" >
+              <tr>
+                <td align="center" valign="bottom" style="padding-left: 12px"><a href="#" onclick="javascript:document.loginform.submit();" title="Share this page with your Facebook friends" tabindex="Share this moment with your FaceBook friends"  class="fb_share_link"><img src="/images/facebook_icon.png" border="0" /></a></td>
+                <td><a href="#" onclick="javascript:document.loginform.submit();" title="Share this page with your Myspace friends"><img src="/images/myspace1.png" border="0" /></a></td>
+                <td><a href="#" onclick="javascript:document.loginform.submit();" title="Post a link to this page on your Twitter account"><img src="/images/twitter.png" border="0" /></a></td>
+                <td><a href="#" onclick="javascript:document.loginform.submit();" title="Share with other social networking sites" ><img src="/images/more.png"  alt="Bookmark and Share" style="border:0" width="60" height="23"/></a><script type="text/javascript" src="http://s7.addthis.com/js/250/addthis_widget.js?pub=farooqkuntoji"></script></td>
+              </tr></table></td></tr></table>
+    <%end%>
+  <%end%>

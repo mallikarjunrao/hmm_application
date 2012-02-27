@@ -1,0 +1,55 @@
+<style type="text/stylesheets">
+  .img .btnOp {
+    background-position: -36px -78px;
+    border: none;
+    color: #D0D0D0;
+    cursor: pointer;
+    height: 37px;
+    line-height: 36px;
+    text-align: center;
+    width: 161px;
+  }
+  #nyroModalContent
+  {
+    background:  #002841;
+    width: 344px;
+    overflow: auto;
+  }
+  #nyroModalWrapper
+  {
+    height: 221px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    display: block;
+    width: 344px;
+    background: #002841;
+    margin: 0px;
+    padding: 0px;
+  }
+  #nyroModalBg
+  {
+    background-color: rgb(0, 0, 0);
+    position: absolute;
+    overflow: hidden;
+    top: 0px;
+    left: 0px;
+    height: 100%;
+    width: 100%;
+    opacity: 0.75;
+  }
+</style>
+<table align="center" style="width: 344px; height: 210px;" cellpadding="0" cellspacing="0" >
+  <tr>
+    <td class="img" align="center" valign="middle" height="100" style="padding-right:28px">
+      <a title="Upload Photos" href="/family_memory/upload/<%= params[:id] %>?media_type=image">
+        <div class="btnmar sprite btnOp">Add Photos</div></a>
+    </td>
+  </tr>
+  <tr>
+    <td class="img" align="center"height="100" valign="middle" style="padding-right:28px">
+      <a title="Upload Videos" href="/family_memory/upload/<%= params[:id] %>?media_type=video">
+        <div class="btnmar sprite btnOp">Add Videos</div></a>
+    </td>
+  </tr>
+</table>

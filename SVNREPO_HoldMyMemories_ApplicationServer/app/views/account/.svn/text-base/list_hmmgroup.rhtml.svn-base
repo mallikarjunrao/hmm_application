@@ -1,0 +1,102 @@
+<h1>Listing Studio Owner Details</h1>
+<SCRIPT language="JavaScript">
+  <!--
+  function go_there()
+  {
+    var where_to= confirm("This Studio Group Contains Users under their Studios\n In order To Delete this Studio Group Assign the respective studios of this Studio Group to different Studio Group\n Click Ok to continue");
+    if (where_to== true)
+    {
+      return true;
+   
+    }
+    else
+    {
+      return false;
+    }
+  }
+
+  function go_there1()
+  {
+    var where_to= confirm("Are you sure to delete this Studio Group ?");
+    if (where_to== true)
+    {
+      return true;
+   
+    }
+    else
+    {
+      return false;
+    }
+  }
+
+
+  //-->
+</SCRIPT>
+<form action="/account/list_hmmgroup" method="post">
+  <table border="1" cellpadding="0" cellspacing="0" align="center" width="550">
+    <tr><td align="center" colspan="4" height="30"><h3>Search Studio owner details</h3></td></tr>
+    <tr><td align="center" height="40">Studio Owner Name:</td><td><input type="text" name="studiogroup_username" value="<%= params[:studiogroup_username] %>"/><br></br>Search by keyword (Eg: "bob")</td>
+      <td align="center" height="40">Studio/Company name:</td><td><input type="text" name="hmm_franchise_studio" value="<%= params[:hmm_franchise_studio] %>"/><br></br>Search by keyword (Eg: "Studio one to one")</td></tr>
+    <tr><td align="center" height="40">E-mail :</td><td><input type="text" name="contact_email" value="<%= params[:contact_email] %>"/>
+        <br></br>Search by keyword (Eg: "john@example.com")</td>
+      <td align="center" colspan="4" height="40">Status: <select name="status">
+          <option value="">All</option>
+          <option value="active" <%= @active %>>Active</option>
+          <option value="inactive" <%= @inactive %>>Inactive</option>
+        </select></td></tr>
+    <tr><td align="center" colspan="4" height="40"><input type="submit" name="Search" value="Search" class="sub-btn"/></td></tr>
+  </table>
+</form>
+<br></br>
+<p align="center"><font color="#FF0000"><%=flash[:msg]%></font></p>
+<table>
+  <tr>
+
+    <th background="/images/body_hor.JPG"><table><tr><th><%= sort_header_tag('studiogroup_username', :text => "Studio Owner Username") %></th></tr></table></th>
+    <th background="/images/body_hor.JPG"><table><tr><th><%= sort_header_tag('password', :text => "Studio Owner Password") %></th></tr></table></th>
+    <th background="/images/body_hor.JPG"><table><tr><th><%= sort_header_tag('hmm_franchise_studio', :text => "Studio Owner/Company Name") %></th></tr></table></th>
+    <th background="/images/body_hor.JPG"><table><tr><th><%= sort_header_tag('contact_email', :text => "Studio Owner/Company Email") %></th></tr></table></th>
+    <th background="/images/body_hor.JPG"><table><tr><th><%= sort_header_tag('status', :text => "Status") %></th></tr></table></th>
+    <th background="/images/body_hor.JPG"><table><tr><th><%= sort_header_tag('date_joined', :text => "Created Date") %></th></tr></table></th>
+
+    <th colspan="4" background="/images/body_hor.JPG" align="center">Actions</th>
+  </tr>
+
+  <% for hmm_studiogroup in @hmm_studiogroups %>
+    <tr class="<%= cycle('odd', 'even') -%>">
+      <% @cnt=HmmUser.count(:all,:joins=>"as a , hmm_studios as b",:conditions=>"b.studio_groupid=#{hmm_studiogroup.id} and a.studio_id=b.id")
+    %>
+      <td><%=h hmm_studiogroup.studiogroup_username %></td>
+      <td><%=h hmm_studiogroup.password %></td>
+      <td><%=h hmm_studiogroup.hmm_franchise_studio %></td>
+      <td><%=h hmm_studiogroup.contact_email %></td>
+      <td><%=h hmm_studiogroup.status %></td>
+      <% if (hmm_studiogroup.date_joined == nil || hmm_studiogroup.date_joined=='' ) %>
+        <%  if (hmm_studiogroup.created_at==nil || hmm_studiogroup.created_at=='' ) %>
+          <td>Thu Jan 14 00:00:00 -0500 2010</td>
+        <%else%>
+          <td><%=h hmm_studiogroup.created_at %></td>
+        <%end%>
+      <%else%>
+        <td><%=h hmm_studiogroup.date_joined %></td>
+      <%end%>
+
+      <td><%= link_to 'Edit', :action => 'edit_hmmgroup', :id => hmm_studiogroup %></td>
+      <%if(@cnt==0)%>
+        <td><a href="/hmm_studiogroups/studiogroup_delete/<%=hmm_studiogroup.id%>" onClick="return go_there1();">Delete</a>
+        </td>
+      <%else%>
+        <td><a href="/hmm_studiogroups/studiogroup_assign_form/<%=hmm_studiogroup.id%>" onClick="return go_there();">Delete</a></td>
+      <%end%>
+    </tr>
+  <% end %>
+</table>
+
+
+
+<br />
+<br />
+<%=will_paginate @hmm_studiogroups, :params => params %>
+<br>
+
+<%= link_to 'New Studio Owner', :action => 'new_hmmgroup' %>

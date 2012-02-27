@@ -1,0 +1,8 @@
+<% for column in ContentPath.content_columns %>
+<p>
+  <b><%= column.human_name %>:</b> <%=h @content_path.send(column.name) %>
+</p>
+<% end %>
+
+<%= link_to 'Edit', :action => 'edit', :id => @content_path %> |
+<%= link_to 'Back', :action => 'list' %>

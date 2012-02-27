@@ -1,0 +1,144 @@
+<%= javascript_include_tag '/javascripts/lightwindow/prototype.js' %>
+<script type="text/javascript" src="/javascripts/lightwindow/scriptaculous.js?load=effects"></script>
+<script type="text/javascript" src="/javascripts/lightwindow/lightwindow.js"></script>
+<%= stylesheet_link_tag '/stylesheets/lightwindow/lightwindow.css' %>
+<script type="text/javascript">
+  function select(a) {
+    var theForm = document.frm;
+    for (i=0; i<theForm.elements.length; i++) {
+      if (theForm.elements[i].name=='studios[]')
+        theForm.elements[i].checked = a;
+    }
+  }
+  function formcheck()
+  {
+    var x1= document.getElementById('discount_coupon_start_date_2i').value;
+    var x2= document.getElementById('discount_coupon_start_date_3i').value;
+    var x3= document.getElementById('discount_coupon_start_date_1i').value;
+    var y1= document.getElementById('discount_coupon_end_date_2i').value;
+    var y2= document.getElementById('discount_coupon_end_date_3i').value;
+    var y3= document.getElementById('discount_coupon_end_date_1i').value;
+    var date1 = new Date(x3,x1,x2);
+    var date2 = new Date(y3,y1,y2);
+    
+     if(date1 > date2)
+     {
+       alert("Start date is greater than End date");
+       return false;
+     }
+
+
+    var field=document.getElementsByName('studios[]');
+    var haschecked=false;
+    //alert(document.getElementsByName('studios[]').length);
+    if(document.getElementById('coupon_id').value=='')
+    {
+      alert("Please Enter the coupon Id");
+      return false;
+    }
+    if(document.getElementById('coupon_title').value=='')
+    {
+      alert("Please Enter the coupon Title");
+      return false;
+    }
+  
+    if((document.getElementById('discount_amount').value=='') && (document.getElementById('discount_amount1').checked==false))
+    {
+      alert("Please Enter the Discount Amount");
+      return false;
+    }
+     if((document.getElementById('min_discount').value=='') && document.getElementById('purchase_required').checked == true)
+    {
+      alert("Please Enter the Minimum Purchase Amount");
+      return false;
+    }
+    for (i = 0; i < field.length; i++)
+    {
+     
+      if(field[i].checked==true)
+      {
+        haschecked=true;
+        break;
+      }
+    }
+    if(haschecked==false)
+    {
+      alert("Select the studios");
+      return false;
+    }
+    return true;
+  }
+
+</script>
+<script type="text/javascript">
+  function toggleMe(makeminimum)
+  {
+    var e=document.getElementById(makeminimum);
+    e.style.display="block"
+  }
+  function toggleMe1(makeminimum)
+  {
+    var e=document.getElementById(makeminimum);
+    e.style.display="none"
+  }
+  function makenone(a){
+  var e=document.getElementById(a);
+   if(!e)return true;
+  if(e.style.display=="none"){
+    e.style.display="inline"
+  } else {
+    e.style.display="none"
+  }
+  return true;
+}
+var r={'special':/[\W]/g}
+  function valid(o,w)
+  {
+    o.value = o.value.replace(r[w],'');
+  }
+</script>
+<%if flash[:noticealert]%>
+  <script type="text/javascript">
+    alert(' <%=flash[:noticealert]%>');
+  </script>
+<%end%>
+<%if flash[:notice_al]%>
+  <script type="text/javascript">
+    alert("<%=flash[:notice_al]%>");
+  </script>
+<%end%>
+
+<% form_tag ( {:action => 'create_discount_coupons', }, { :name=>"frm" })  do %>
+  <table width="800" align="center" >
+
+    <tr><td><h2  id="important">Add Discount codes for <%=  @price.label %></h2></td></tr>
+    <script type="text/javascript">
+     <%= visual_effect(:grow, "important", :duration => 1.5) %>
+</script>
+  </table>
+  <table width="600" align="center" >
+    <%if flash[:notice]!='' %>
+      <tr height="20"><td> <font color="red"><%=  flash[:notice] %></font></td></tr>
+    <%end%>
+    <%= render :partial => 'discount_coupons' %>
+  </table>
+<%end%>
+
+<h2>Discount Codes:</h2>
+<table width="950" align="center">
+  <tr><td background="/images/body_hor.JPG">Coupon Id </td><td background="/images/body_hor.JPG">Coupon Title</td><td background="/images/body_hor.JPG">Size Label</td><td background="/images/body_hor.JPG">Discount Amount</td><td background="/images/body_hor.JPG"> Minimum Purchase Required</td><td background="/images/body_hor.JPG">Miniumum Amount of Purchase</td><td background="/images/body_hor.JPG">Start Date</td><td background="/images/body_hor.JPG">End Date</td><td  colspan="2" background="/images/body_hor.JPG"> Action</td></tr>
+  <% for allcoupon in @allcoupons %>
+    <tr class="<%= cycle('odd', 'even') %>">
+      <td><%=allcoupon.coupon_id %></td>
+      <td><%=allcoupon.coupon_title %></td>
+      <td><%=allcoupon.size_label %></td>
+      <td><%=allcoupon.discount%>$</td>
+      <td><%=allcoupon.min_purchase %></td>
+      <td><%=allcoupon.min_amount %>$</td>
+      <td><%=allcoupon.start_date  %></td>
+      <td><%=allcoupon.end_date  %></td>
+      <td><%= link_to 'Edit |', :action => 'edit_coupon', :id => allcoupon.id %>&nbsp;&nbsp;<%= link_to 'Delete |', {:action => 'delete_coupon', :id => allcoupon.id}, :confirm => 'Are you sure to delete this coupon?' %>&nbsp;&nbsp;<a href="/print_size_prices/email/<%=allcoupon.id%>/" params="lightwindow_width=650,lightwindow_height=360, lightwindow_type=external" style="text-decoration: none" class="lightwindow page-options">Email to Customer</a></td>
+    </tr>
+  <%end%>
+
+</table>

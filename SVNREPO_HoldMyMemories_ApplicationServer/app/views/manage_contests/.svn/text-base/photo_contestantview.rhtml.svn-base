@@ -1,0 +1,83 @@
+<table width="100%" align="center">
+	<%if(params[:w]=='1')%>
+	<tr><td><h1><%=@hmmcontest.title %> <%=@hmmcontest.contest_type %> contest winner</h1></td></tr>
+	<%end%>
+</td></tr>
+	<tr>
+		<td  align="right" ><a href="javascript:history.back();"><< Back</a></td>
+	</tr>
+	<tr><td>&nbsp;</td></tr>
+	
+
+	<tr>
+		<th align="center">
+			<img src="<%=@moment_details.img_url%>/user_content/photos/journal_thumb/<%=@moment_details.v_filename%>" border="0">
+		</th>
+	</tr>
+	<tr><th>&nbsp;</th></tr>
+	
+	<tr>
+		<td align="center">
+			<%=@contest.name %>
+		</td>
+	</tr>
+        
+        <tr>
+         <td  align="center" valign="middle" >
+			<%if(params[:w]!='1')%>
+            <%if @contest.status == 'pending' || @contest.status == 'rejected' %>
+				<a href="/manage_contests/contest_approve/<%=@contest.id%>?cid=<%=params[:cid] %>" >
+				<img src="/images/approve.jpg" alt="approve" name="Image4413" width="78" height="30" border="0" id="Image4413" /></a>
+			<%else%>
+			<a href="/manage_contests/reject_email/<%= @contest.id %>?cid=<%=params[:cid] %>"  >
+				<img src="/images/reject.jpg" alt="reject" name="Image4413" width="78" height="30" border="0" id="Image4413" /></a>
+			<%end%>   
+            <%end%>
+          </td>
+        </tr> 
+							  
+							                          
+       <tr><th>&nbsp;</th></tr>
+  <tr>
+		<th align="center" valign="middle" scope="col"><span class="heading-journal">
+			
+			<table width="600" class="border">
+				
+				<tr>
+					<th align="left" bgcolor="#191919" colspan="2">
+						<font size="3"> Blog</font>
+					</th>
+				</tr>
+				<tr><th colspan="2">&nbsp;</th></tr>	
+				<tr>
+					<th>&nbsp;&nbsp;</th>
+					<th align="left" class="heading-journal">
+							 
+							 <%= @blog.title %> -
+					  				<% ActiveSupport::CoreExtensions::Time::Conversions::DATE_FORMATS.merge!(
+    									:date => "%Y-%m-%d",
+    									:presentable_datetime => "%a %b %d, %Y %H:%M",
+    									:presentable_date => "%a %b %d, %Y") 
+										@created_date=@blog.created_at%>  
+					   				<%= @created_date.to_s(:presentable_date) %></span>
+					</th>
+				</tr>
+				<tr><th colspan="2">&nbsp;</th></tr>		
+				<tr>
+					<th>&nbsp;&nbsp;</th>
+					<th align="left">
+						<%=@blog.description.gsub("\n", "<br />\n") %>
+					</th>
+				</tr>
+				<tr><th>&nbsp;</th></tr>
+				<tr><th>&nbsp;</th></tr>
+			</table>
+		</th>
+	</tr>
+	<tr>
+		<th>
+			&nbsp;
+		</th>
+	</tr>
+	
+</table>

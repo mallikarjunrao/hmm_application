@@ -1,0 +1,9 @@
+<h1>Editing chapter_comment</h1>
+
+<% form_tag :action => 'update', :id => @chapter_comment do %>
+  <%= render :partial => 'form' %>
+  <%= submit_tag 'Edit' %>
+<% end %>
+
+<%= link_to 'Show', :action => 'show', :id => @chapter_comment %> |
+<%= link_to 'Back', :action => 'list' %>

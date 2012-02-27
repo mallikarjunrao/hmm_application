@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:TitleWindow xmlns="components.*" xmlns:mx="http://www.adobe.com/2006/mxml" title="Uploading Please Wait " showCloseButton="true" 
+	close="handleCloseClick()" creationComplete="handleCreationComplete()" color="0xffffff" fontFamily="Arial"
+	 backgroundAlpha="0.4" clipContent="true" backgroundColor="0" width="300" height="{uploadList.rowHeight*5}" horizontalScrollPolicy="off" verticalScrollPolicy="off" >
+	<mx:TileList direction="vertical" id="uploadList" width="90%" height="{uploadList.rowHeight*5}" backgroundAlpha="0" selectionColor="0xec6610" rollOverColor="0xff6600"
+		horizontalScrollPolicy="off" verticalScrollPolicy="off" 
+		itemRenderer="renderers.ProgressItemRenderer" columnCount="1" 
+		offscreenExtraRowsOrColumns="5" itemsChangeEffect="{dataChangeEffect1}"/>
+	<mx:DefaultTileListEffect id="myDTLE" 
+        moveDuration="500" fadeInDuration="400" fadeOutDuration="500"/>
+    <mx:Sequence id="dataChangeEffect1">
+        <mx:Blur id="blur"
+            blurYTo="12" blurXTo="12" 
+            duration="300" 
+            perElementOffset="150"
+            filter="removeItem"/> 
+        <mx:SetPropertyAction 
+            name="visible" value="false" 
+            filter="removeItem"/>    
+        <mx:UnconstrainItemAction/>
+        <mx:Parallel> 
+            <mx:Move 
+                duration="750" 
+                easingFunction="{Elastic.easeOut}" 
+                perElementOffset="20"/>
+            <mx:RemoveItemAction 
+                startDelay="400" 
+                filter="removeItem"/>
+            <mx:AddItemAction  
+                startDelay="400" 
+                filter="addItem"/>
+            <mx:Blur 
+                startDelay="410" 
+                blurXFrom="18" blurYFrom="18" blurXTo="0" blurYTo="0" 
+                duration="300" 
+                filter="addItem"/>
+        </mx:Parallel>
+    </mx:Sequence> 
+	<mx:Script>
+		<![CDATA[
+			import mx.events.CloseEvent;
+			import mx.controls.Alert;
+			import mx.managers.PopUpManager;
+			import mx.effects.easing.Elastic;
+			import mx.collections.ArrayCollection;
+			
+			private var titleString : String = "Uploading Content. Please wait";
+			private var timer : Timer;
+			private var count : int;
+			public var _fileUploadController : CustomFileReferenceList;
+			
+			public function set fileUploadController( val : CustomFileReferenceList) : void
+			{
+				_fileUploadController = val; 
+				
+			}
+			public function get dataProvider() : ArrayCollection
+			{
+				return uploadList.dataProvider as ArrayCollection;
+			}
+			
+			private function handleCloseClick() : void
+			{
+				if(!_fileUploadController.uploadDoneFlag)
+				{
+					_fileUploadController.uploadCancelFlag = true;
+					Alert.show("Are you sure you want to cancel?", "Confirmation", Alert.YES | Alert.NO, null, cancelAllUploads);
+				}
+					
+			}
+			
+			private function cancelAllUploads(event : CloseEvent) : void
+			{
+				if(event.detail == Alert.YES)
+				{
+					for(var i : int = 0; i < _fileUploadController.fileList.length; i++)
+					{
+						var file : FileReference = _fileUploadController.fileList[i] as FileReference;
+						file.cancel();
+					}
+					// add code to cancel the latest uploads
+					
+					//_fileUploadController.doOnComplete();
+					_fileUploadController.doOnCancel();
+					PopUpManager.removePopUp(this);	
+				}
+				else
+				{
+					if(_fileUploadController.doOnCompleteFlag)
+					{
+						_fileUploadController.uploadCancelFlag = false;
+						_fileUploadController.doOnComplete();
+					}
+					_fileUploadController.uploadCancelFlag = false;
+				 	//	_fileUploadController.uploadCancelFlag = false;
+				}
+				
+				
+			}
+			
+			
+			private function handleCreationComplete() : void
+			{
+				timer = new Timer(1000);
+				timer.addEventListener(TimerEvent.TIMER, handleTimerEvent);
+				timer.start();
+			}
+			
+			private function handleTimerEvent(event : TimerEvent) : void
+			{
+				var dotdot : String = new String();
+				for(var i : int = 0; i < count; i++)
+				{
+					dotdot += ".";
+				}
+				
+				if(count == 3)
+				{
+					count = 0;
+				}else
+				{
+					count++;
+				}
+				title = titleString +" "+ dotdot;
+			}
+		]]>
+	</mx:Script>
+</mx:TitleWindow>

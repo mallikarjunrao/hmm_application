@@ -1,0 +1,9 @@
+<tr class="<%= cycle('odd', 'even') -%>">
+<td><%= user.username -%></td>
+<td><%= user.email -%></td>
+<td><%= user.enabled -%>
+</td>
+<td><a href="/users/edit/<%=user.id%>">Edit</a></td>
+<td><% if  user.enabled=='yes' -%><a href="/users/destroy/<%=user.id%>">Disable</a><%else%><a href="/users/enable/<%=user.id%>">Enable</a><%end%></td>
+
+</tr>

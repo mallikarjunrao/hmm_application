@@ -1,0 +1,55 @@
+<link href="/stylesheets/main.css" media="screen" rel="Stylesheet" type="text/css" />
+<link href="/stylesheets/hmm.css" media="screen" rel="Stylesheet" type="text/css" />
+<link href="/stylesheets/mystyle_black_left.css" rel="stylesheet" type="text/css" />
+<%= stylesheet_link_tag 'hmmout' %>
+<table width="970" border="0" cellspacing="0" cellpadding="0" id="tab_bgcolor_repeat">
+  <tr>
+    <td align="left" valign="top"><table width="100%" border="0" cellspacing="0" cellpadding="0">
+        <tr>
+          <td width="13" align="left" valign="top"></td>
+          <td width="944" align="left" valign="top"><table width="100%" border="0" cellspacing="0" cellpadding="0">
+              <tr>
+                <td height="10" align="left" valign="top"></td>
+              </tr>
+              <tr>
+                <td height="35" align="left" valign="bottom" class="header-page">Manage My Site</td>
+              </tr>
+              <tr>
+                <td height="10" align="left" valign="top"></td>
+              </tr>
+              <tr>
+                <td height="1" align="left" valign="top" bgcolor="#454545"></td>
+              </tr>
+              <tr>
+                <td height="10" align="left" valign="top"></td>
+              </tr>
+              <tr>
+                <td align="left" valign="top"><table width="100%" border="0" cellspacing="0" cellpadding="0">
+                    <tr>
+                      <td width="173" align="left" valign="top" id="tab_bgcolor_repeat">
+                        <%= render :partial => "partials/manage_website_menu", :locals => { :current_item => "#{@current_item}"} %>
+                      </td>
+                      <td width="17" align="left" valign="top"></td>
+                      <td width="754" align="center" valign="middle">
+                        <b><font color="#ffffff" size="2">No items Found ..</b></font>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td align="right" colspan="2">&nbsp;</td>
+                    </tr>
+                  </table>
+                </td>
+              </tr>
+              <tr>
+                <td>&nbsp;</td>
+              </tr>
+            </table></td>
+        </tr>
+        <tr>
+          <td align="left" valign="top">&nbsp;</td>
+          <td align="left" valign="top"></td>
+          <td align="left" valign="top">&nbsp;</td>
+        </tr>
+      </table></td>
+  </tr>
+</table>

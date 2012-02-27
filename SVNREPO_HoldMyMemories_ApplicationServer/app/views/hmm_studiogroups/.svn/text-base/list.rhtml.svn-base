@@ -1,0 +1,29 @@
+<h1>Listing hmm_studiogroups</h1>
+
+<table>
+  <tr>
+  <% for column in HmmStudiogroup.content_columns %>
+    <th background="/images/body_hor.JPG"><%= column.human_name %></th>
+  <% end %>
+   <th colspan="3" background="/images/body_hor.JPG">Actions</th>
+  </tr>
+  
+<% for hmm_studiogroup in @hmm_studiogroups %>
+  <tr class="<%= cycle('odd', 'even') -%>">
+ 
+    <td><%=h hmm_studiogroup.hmm_franchise_studio %></td>
+	<td><%=h hmm_studiogroup.date_joined.strftime("%m - %d - %Y") %></td>
+	<td><%=h hmm_studiogroup.status %></td>
+	
+    <td><%= link_to 'Show', :action => 'show', :id => hmm_studiogroup %></td>
+    <td><%= link_to 'Edit', :action => 'edit', :id => hmm_studiogroup %></td>
+    <td><%= link_to 'Destroy', { :action => 'destroy', :id => hmm_studiogroup }, :confirm => 'Are you sure?', :method => :post %></td>
+  </tr>
+<% end %>
+</table>
+
+
+
+<br />
+
+<%= link_to 'New hmm_studiogroup', :action => 'new' %>

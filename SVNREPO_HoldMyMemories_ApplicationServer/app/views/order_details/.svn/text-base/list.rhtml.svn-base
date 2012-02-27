@@ -1,0 +1,50 @@
+<h1>Listing Order Details</h1>
+
+<table>
+	<tr><th align="center"><font color="red"><%=flash[:notice]%></font></th></tr>
+  <tr>
+  <th background="/images/body_hor.JPG"><font class='txt'>Order Number</font></th>
+	<th background="/images/body_hor.JPG"><font class='txt'>Moment Type</font></th>
+	<th background="/images/body_hor.JPG"><font class='txt'>Size & Price Details</font></th>
+	<th background="/images/body_hor.JPG"><font class='txt'>Payment Status</font></th>
+	<th background="/images/body_hor.JPG"><font class='txt'>Order Status</font></th>
+	<th background="/images/body_hor.JPG"><font class='txt'>Shipment Status</font></th>
+	<th background="/images/body_hor.JPG"><font class='txt'>Comments</font></th>
+	<th background="/images/body_hor.JPG"><font class='txt'>Ordered Date</font></th>
+	<th background="/images/body_hor.JPG"><font class='txt'>User Details</font></th>
+	<th background="/images/body_hor.JPG" colspan="2"><font class='txt'>Actions</font></th>
+  </tr>
+  
+<% 
+	odd_or_even = 0 
+	i = 0
+for order_detail in @order_details 
+ i = i + 1
+	odd_or_even = 1 - odd_or_even
+
+%>
+  <tr class='ListLine<%= odd_or_even %>'>
+    <td><%=order_detail.order_unid %></td>
+	<td><%=order_detail.moment_type %></td>
+	<td><a href="/order_details/sizes_list/<%=order_detail.id %>/?mid=<%=order_detail.moment_id %>" class="cont">Click Here</a></td>
+	<td><%=order_detail.payment_status %></td>
+	<td><%=order_detail.order_status %></td>
+	<td><%=order_detail.shippment_status %></td>
+	<td><%=order_detail.comments %></td>
+	<td><%=order_detail.order_date %></td>
+	<td><a href="/order_details/pay_details/<%=order_detail.order_unid %>/?mid=<%=order_detail.moment_id %>">Click Here</a></td>
+	<td class="cont"><%= link_to 'Edit', :action => 'edit', :id => order_detail ,:class =>'cont'%></td>
+    <td class="cont"><%= link_to 'Delete', { :action => 'destroy', :id => order_detail ,:class =>'cont'}, :confirm => 'Are you sure?', :method => :post %></td>
+  </tr>
+<% end %>
+</table>
+
+<table>
+	<tr>
+		<th align="left">
+			<%=will_paginate @order_details%>				
+		</th>
+	</tr>
+</table>
+<br />
+

@@ -1,0 +1,29 @@
+<table width="900"  border="0" cellspacing="0" cellpadding="0">
+  <tr><td valign="top">
+      <%= render :partial => 'links1' %>
+    </td><td>
+
+<table width="600">
+  
+  <tr>
+    <th width="154" background="/images/body_hor.JPG" ><font class='txt'>Special</th>
+    <th width="412" background="/images/body_hor.JPG" ><font class='txt'>Description </th>
+   
+  </tr>
+  <% if @studio_specials!=nil && @studio_specials.length>0 %>
+    <% for studio in @studio_specials %>
+      <tr class="<%= cycle('odd', 'even') %>">
+        <td><%= studio.title %></td>
+        <td><%= studio.description %></td>
+       </tr>
+    <% end %>
+  <% else %>
+    <tr><td align="center" colspan="4">Studio specials not found.</td></tr>
+  <% end %>
+</table>
+
+<br />
+
+<p><%=will_paginate @studio_specials%></p>
+ </td>
+</tr></table>

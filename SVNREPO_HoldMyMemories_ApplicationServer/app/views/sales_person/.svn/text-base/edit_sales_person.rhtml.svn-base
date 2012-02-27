@@ -1,0 +1,148 @@
+<%= javascript_include_tag '/javascripts/lightwindow/prototype.js' %>
+<script type="text/javascript">
+ function checkform()
+  {
+      if (document.getElementById('emp_name').value=='')
+    {
+      alert("Enter the Sales Person Name");
+      return false;
+    }
+     if (document.getElementById('emp_user_name').value=='')
+    {
+      alert("Enter the Username");
+      return false;
+    }
+      if (document.getElementById('password').value=='')
+    {
+      alert("Enter the Password");
+      return false;
+    }
+    if ((document.getElementById('password').value).length < 8)
+    {
+      alert("Password must be of 8 character");
+      return false;
+    }
+    var checkOK = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
+    var  checkOK1=   "0123456789";
+    var  checkOK2=   "`!@#$%^&*()_-+=|}{':;.><,?/\"\\";
+    var checkStr = document.getElementById('password').value;
+    var allValidchar = false;
+    var allValid = false;
+    var allValidspecial = false;
+    for (i = 0;  i < checkStr.length;  i++)
+    {
+      ch = checkStr.charAt(i);
+      for (j = 0;  j < checkOK.length;  j++)
+      {
+        if (ch == checkOK.charAt(j))
+        {
+          allValid = true;
+          break;
+        }
+        if (ch == checkOK1.charAt(j))
+        {
+          allValidchar = true;
+          break;
+        }
+        if (ch == checkOK2.charAt(j))
+        {
+          allValidspecial = true;
+          break;
+        }
+      }
+    }
+      if (j == checkOK.length)
+      {
+        allValid = false;
+        allValidchar = false;
+        allValidspecial = false;
+
+      }
+      if (allValid== false || allValidchar== false || allValidspecial== false )
+      {
+        alert("Please enter password which contains atleast one character,one number,one special character.");
+        return (false);
+      }
+    str= document.getElementById('email').value;
+    if ((str==null)||(str=="")){
+      alert("Please Enter  Email ID")
+
+      return false
+    }
+
+    var at="@"
+    var dot="."
+    var lat=str.indexOf(at)
+    var lstr=str.length
+    var ldot=str.indexOf(dot)
+    if (str.indexOf(at)==-1){
+      alert("Invalid E-mail ID")
+      return false
+    }
+
+    if (str.indexOf(at)==-1 || str.indexOf(at)==0 || str.indexOf(at)==lstr){
+      alert("Invalid E-mail ID")
+      return false
+    }
+
+    if (str.indexOf(dot)==-1 || str.indexOf(dot)==0 || str.indexOf(dot)==lstr){
+      alert("Invalid E-mail ID")
+      return false
+    }
+
+    if (str.indexOf(at,(lat+1))!=-1){
+      alert("Invalid E-mail ID")
+      return false
+    }
+
+    if (str.substring(lat-1,lat)==dot || str.substring(lat+1,lat+2)==dot){
+      alert("Invalid E-mail ID")
+      return false
+    }
+
+    if (str.indexOf(dot,(lat+2))==-1){
+      alert("Invalid E-mail ID")
+      return false
+    }
+
+    if (str.indexOf(" ")!=-1){
+      alert("Invalid E-mail ID")
+      return false
+    }
+
+    return true
+  }
+</script>
+<table  border="0" width="500" align="center">
+  <tr><td><h2>Edit Sales Person</h2></td></tr>
+  <% if flash[:message] %>
+    <tr><td><h4><font color="red"><%=flash[:message]%></font></h4></td></tr>
+<%end%>
+  <tr><td>&nbsp;</td></tr>
+</table>
+<table border="0" width="500" align="center">
+  <form name="employee" action="/sales_person/edit_sales_person"  method="post">
+    <tr> <td>Sales Person Name </td><td><input type="text" name="emp_name" id="emp_name"  value="<%=@empusers.name%>" />
+      </td></tr>
+
+    <tr><td>&nbsp;</td></tr>
+
+    <tr> <td>Sales Person Username</td><td><input type="text" name="emp_user_name" id="emp_user_name"  value="<%=@empusers.username%>" />
+      <br />
+      <%= observe_field   :'emp_user_name',
+        :with       => "emp_user_name",
+        :frequency  => 0.25,
+        :url        => {:action => :check_name  },
+        :update     => :message
+    %>
+      <span id="message"></span></td></tr>
+    <tr><td>&nbsp;</td></tr>
+ <tr> <td>Sales Person Password</td><td><input type="text" name="password" id="password"   value="<%=@empusers.password%>"/></td></tr>
+    <tr><td>&nbsp;</td></tr>
+
+    <tr> <td> Sales Person Email ID </td><td><input type="text" name="email" id="email" value="<%=@empusers.email%>"/></td></tr>
+    <tr><td>&nbsp;</td></tr>
+    <input type="hidden" name="id" value="<%=@empusers.id%>" />
+    <tr><td></td><td> <input type="submit" name="sub" value="submit" onclick="return  checkform()"/></td></tr>
+  </form>
+</table>

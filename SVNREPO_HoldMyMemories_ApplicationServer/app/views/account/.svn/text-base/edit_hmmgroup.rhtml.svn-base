@@ -1,0 +1,36 @@
+<script language="JavaScript">
+	function check(){
+		
+		if (document.getElementById('hmm_studiogroup_hmm_franchise_studio').value == '')
+		{
+			document.getElementById('hmm_studiogroup_hmm_franchise_studio').focus();
+            alert("Please enter Hmm Franchise Name");
+            return false;
+		}
+		
+		
+	}
+	
+</script>
+
+<h2>Editing Studio Owner/Company Details</h2>
+<form action="/account/update_hmmgroup/<%= params[:id] %>" method="post"  onsubmit="return check();">
+
+<table>
+	<tr>
+		<td>
+			<%= render :partial => 'formhmmgroup' %>		
+		</td>
+	</tr>
+	<tr>
+		<td align="center">
+			<%= submit_tag 'Edit' %>		
+		</td>
+	</tr>
+</table>
+  
+  
+</form>
+
+<!-- < % = link_t o   'Show', :actio n => 'show', : id => @hmm_studiogroup % > |-->
+<%= link_to 'Back', :action => 'list_hmmgroup' %>

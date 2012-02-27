@@ -1,0 +1,278 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:TitleWindow xmlns:mx="http://www.adobe.com/2006/mxml" showCloseButton="true" close="{PopUpManager.removePopUp(this)}" backgroundAlpha="0"
+	creationComplete="handleCreationComplete()" backgroundColor="0">
+	
+	<mx:HBox width="100%" height="100%" backgroundAlpha="0" color="#ffffff" backgroundColor="0" cornerRadius="0" fontFamily="Arial">
+		<mx:Tree  id="tree" width="50%" height="100%" labelFunction="treeLabel" itemRenderer="renderers.GallerySelectionRenderer" 
+			backgroundAlpha="0.8" color="#ffffff" backgroundColor="0x0" fontFamily="Arial"/>
+		<mx:VBox width="50%" height="100%" backgroundColor="0" backgroundAlpha="0.5">
+			<mx:Label text="Select an icon for this movie"/>
+			<mx:TileList columnCount="4" id="selectedImagelist" width="100%" height="70%" rowHeight="64" iconField="icon" 
+				itemRenderer="renderers.SimpleImageRenderer" backgroundColor="0" backgroundAlpha="0"/>
+			<mx:Grid width="100%" height="100%">
+				<mx:GridRow width="100%" >
+					<mx:GridItem width="50%">
+						<mx:Label color="#ffffff" text="Movie Name :"/>
+					</mx:GridItem>
+					<mx:GridItem width="50%">
+						<mx:TextInput color="0x0" id="movieName"/>
+					</mx:GridItem>
+				</mx:GridRow>
+				<mx:GridRow width="100%">
+					<mx:GridItem width="50%">
+						<mx:Label color="#ffffff" text="Movie Template :"/>
+					</mx:GridItem>
+					<mx:GridItem width="50%">
+						<!--<mx:ComboBox id="swfSelection" dataProvider="{_comboData}" styleName="comboBox"/>-->
+						<mx:Label text="{templateName}"/>
+					</mx:GridItem>
+				</mx:GridRow>
+				<mx:GridRow width="100%" verticalAlign="middle" horizontalAlign="center" cornerRadius="0" color="0">
+					<mx:GridItem width="50%">
+						<mx:Button label="Save" id="save" click="handleOk()"/>
+					</mx:GridItem>
+					<mx:GridItem width="50%">
+						<mx:Button label="Cancel" click="{PopUpManager.removePopUp(this)}" id="cancel"/>
+					</mx:GridItem>
+				</mx:GridRow>
+			</mx:Grid>
+		</mx:VBox>	
+	</mx:HBox>
+		<mx:Style>
+			
+			.comboBox {
+					   dropDownStyleName: "myComboBoxDropDowns";
+					   color : #000000;
+					}
+					
+					.myComboBoxDropDowns {
+					   color: #000000;
+					}
+		</mx:Style>
+	
+			
+			<mx:Script>
+				<![CDATA[
+					import flash.net.navigateToURL;
+					import mx.events.CloseEvent;
+					import mx.core.Application;
+					import mx.managers.CursorManager;
+					import vo.WebFileVO;
+					import model.HmmChaptersModel;
+					import mx.managers.PopUpManager;
+					import mx.collections.XMLListCollection;
+					import mx.rpc.events.ResultEvent;
+					import mx.rpc.events.FaultEvent;
+					import mx.controls.Alert;
+					import mx.rpc.http.HTTPService;
+					import vo.GalleryVO;
+					import vo.SubChapterVO;
+					import vo.ChapterVO;
+					import mx.collections.ArrayCollection;
+			public var _selectedImages : ArrayCollection;
+			[Bindable]
+			public var _comboData : ArrayCollection = new ArrayCollection();
+			private var templates : HTTPService = new HTTPService();
+			private var videoID : int;
+			[Bindable]
+			private var templateName : String;
+			//[Bindable]
+			//private var swfName : String = Application.application.flashName;
+			
+			private function handleCreationComplete() : void
+			{
+				templateName = this.parentApplication.templateName;
+				if(!templateName)
+				 templateName = Application.application.parameters.flashName;
+			}
+			public function set selectedImages(val : ArrayCollection) : void
+			{
+				_selectedImages = val;
+				selectedImagelist.dataProvider = val;
+				treeData = HmmChaptersModel.getInstance().folderList;
+				if(_comboData.length == 0)
+				{
+					templates.url = "/templates.xml";
+					templates.addEventListener(ResultEvent.RESULT, handleTemplateResult);
+					templates.addEventListener(FaultEvent.FAULT, handleFault);
+					templates.send();
+				}
+			}
+			
+			private function handleTemplateResult(event : ResultEvent) : void
+			{
+				if(event.result.templates && event.result.templates.template is ArrayCollection)
+				{
+					var t : ArrayCollection = event.result.templates.template as ArrayCollection;
+					for(var i : int = 0; i < t.length; i++)
+					{
+						_comboData.addItem(t[i]);
+					}
+				}
+			}
+			
+			private function handleFault(event : FaultEvent) : void
+			{
+				trace(event.fault.toString());
+			}
+			
+			public function get selectedImages() : ArrayCollection
+			{
+				return _selectedImages;
+			}	
+			private var dataSet : XML =  <list></list>;;		
+			private var type : String;
+			public function set treeData (value : ArrayCollection) : void
+			{
+				
+                //var rootList:XMLList =dataSet.children();
+                /* if( dept.length() > 0 ) {
+                    dept[0].appendChild(newNode);
+                    empName.text = ""; */
+				for(var i : int = 0; i < value.length; i++)
+				{
+					
+						var chapter : ChapterVO = value[i] as ChapterVO;
+						var subchapters : Array = chapter.subchapters;
+						var newNode:XML = <node></node>;
+                		newNode.@label = chapter.name;
+						newNode.@icon = chapter.icon;
+						newNode.@id = chapter.id;
+						newNode.@type = "tags";
+						newNode.@select = false;
+						for(var j : int = 0; j < subchapters.length; j++)
+						{
+							var subchapter : SubChapterVO = subchapters[j] as SubChapterVO;
+							var subNode : XML = <node></node>;
+							subNode.@label = subchapter.name;
+							subNode.@icon = subchapter.icon;
+							subNode.@id = subchapter.id;
+							subNode.@type = "subchapter";
+							subNode.@select = false;
+							var galleries : Array = subchapter.gallery;
+							for(var k : int = 0; k < galleries.length; k++)
+							{
+								var gal : GalleryVO = galleries[k] as GalleryVO;
+								if(gal.type == "video")
+								{
+									var galNode : XML = <node></node>;
+									galNode.@label = gal.name;
+									galNode.@icon = gal.icon;
+									galNode.@id = gal.id;
+									galNode.@type = "gallery";
+									galNode.@hmmtype = gal.type;
+									galNode.@select = false;
+									subNode.appendChild(galNode);	
+								}
+								
+							}
+							newNode.appendChild(subNode);
+						}
+						dataSet.appendChild(newNode);
+						type = "tags";	
+				}
+				//randomWalk.dataProvider = dataSet;
+				tree.dataProvider = new XMLListCollection(dataSet.node);
+				trace(dataSet);
+			}
+			
+			private function treeLabel(item:Object):String {
+                var node:XML = XML(item);
+               
+                    return item.@label;
+            }
+            
+            
+            
+            private function handleOk() : void
+            {
+            	if(tree.selectedItem ==null || tree.selectedItem.@type != "gallery")
+            	{
+            		Alert.show("Please select a gallery first!!!");
+            		return;
+            	}
+            	var item : XML = tree.selectedItem as XML;
+            	var subid : String;
+            	var tagid : String;
+            	if( item)
+            	{
+            		var chapterItem : XML = item.parent();
+            		var subchapterItem : XML = chapterItem.parent();
+            		if(chapterItem)
+            		{
+            			 tagid = chapterItem.@id;
+            		}
+            		if(subchapterItem)
+            		{
+            			subid = subchapterItem.@id;
+            		}
+            	}
+            	var idList : String = "";
+				if(selectedImages)
+				{
+					for(var i : int =0; i <selectedImages.length; i++) 
+					{
+						var obj : Object = selectedImages[i];
+						idList += obj.id.toString()+":";
+					}	
+				}
+				
+				var saveService : HTTPService = new HTTPService();
+				saveService.addEventListener(FaultEvent.FAULT, handleFault);
+				saveService.addEventListener(ResultEvent.RESULT, handleSaveResult);
+				saveService.url = "/myvideos/writeSlideShowXml/";
+				obj = new Object();
+				obj.idList = idList;
+				obj.subChapterId = subid;
+				obj.chapterId = tagid;
+				obj.galleryId = item.@id;
+				if(selectedImagelist.selectedItem)
+					var imagePath : String = selectedImagelist.selectedItem.icon
+				else
+				{
+				   Alert.show("Please select a image for video icon !!!");
+				   return;
+				}  	
+				var explodedPath : Array = imagePath.split("/");
+				if(movieName.text == "")
+				{
+					obj.name = "New Movie"
+				}else
+				{
+					obj.name = movieName.text;	
+				}
+				obj.icon = explodedPath[explodedPath.length-1]
+				obj.swf = templateName;//Application.application.parameters.flashName;//swfSelection.selectedItem.data;
+				saveService.send(obj);
+				FadingNotifier.setBusyState();
+				CursorManager.setBusyCursor();
+				trace(idList);
+            }
+            
+            private function handleSaveResult(event : ResultEvent) : void
+			{
+				//Alert.show("Your movie was saved successfully...");
+				videoID = event.result.toString();				
+				FadingNotifier.removeBusyState();
+				CursorManager.removeBusyCursor();
+				this.visible = false;
+				Alert.show("Your movie was saved successfully...\n Do you want to preview the created video?","Movie Created",Alert.YES|Alert.NO,this,handleAlertClose);
+				//PopUpManager.removePopUp(this);
+			}
+			
+			private function handleAlertClose(event : CloseEvent) : void
+			{
+				if(event.detail == Alert.YES) 
+				{
+					
+				 	navigateToURL(new URLRequest("/myphotos/photo_journal/"+videoID),"_self");
+				 	
+				 	
+				}
+				else
+				   PopUpManager.removePopUp(this);
+			}
+				]]>
+			</mx:Script>
+			
+</mx:TitleWindow>

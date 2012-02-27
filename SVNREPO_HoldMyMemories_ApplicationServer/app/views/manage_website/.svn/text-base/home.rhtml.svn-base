@@ -1,0 +1,116 @@
+<%= javascript_include_tag "themes/nyromodal/jquery-1.3.2.min" %>
+<%= javascript_include_tag "themes/nyromodal/jquery.nyroModal-1.5.2.pack.js" %>
+<%= stylesheet_link_tag '/stylesheets/themes/nyromodal/nyroModal'%>
+<table width="970" border="0" cellspacing="0" cellpadding="0" id="tab_bgcolor_repeat">
+  <tr>
+    <td align="left" valign="top"><table width="100%" border="0" cellspacing="0" cellpadding="0">
+        <tr>
+          <td width="13" align="left" valign="top"></td>
+          <td width="944" align="left" valign="top"><table width="100%" border="0" cellspacing="0" cellpadding="0">
+              <tr>
+                <td height="10" align="left" valign="top"></td>
+              </tr>
+              <tr>
+                <td height="35" align="left" valign="bottom" class="header-page">Manage My Site</td>
+              </tr>
+              <tr>
+                <td height="10" align="left" valign="top"></td>
+              </tr>
+              <tr>
+                <td height="1" align="left" valign="top" bgcolor="#454545"></td>
+              </tr>
+              <tr>
+                <td height="10" align="left" valign="top"></td>
+              </tr>
+              <tr>
+                <td align="left" valign="top"><table width="100%" border="0" cellspacing="0" cellpadding="0">
+                    <tr>
+                      <td width="173" align="left" valign="top" class="content-trans-bg">
+                        <%= render :partial => "partials/manage_website_menu", :locals => { :current_item => "#{@current_item}"} %>
+                      </td>
+                      <td width="17" align="left" valign="top"></td>
+                      <td width="754" align="left" valign="top"><table width="100%" border="0" cellspacing="0" cellpadding="0">
+                          <tr>
+                            <td class="content-trans-bg"><table width="100%" border="0" cellspacing="0" cellpadding="0">
+                                <tr>
+                                  <td height="10" colspan="3" align="left" valign="top"></td>
+                                </tr>
+                                <tr>
+                                  <td width="20" align="left" valign="top"></td>
+                                  <td align="left" valign="top"><table width="100%" border="0" cellspacing="0" cellpadding="0">
+                                      <tr>
+                                        <td align="center" valign="top">&nbsp;</td>
+                                      </tr>
+                                      <tr>
+                                        <td align="center" valign="top"><img src="/images/common/logo_trans_big.png" width="370" height="93" /></td>
+                                      </tr>
+                                      <tr>
+                                        <td height="40" align="center" valign="top">&nbsp;</td>
+                                      </tr>
+                                      <tr>
+                                        <td align="center" valign="top" class="content-white">Welcome to <strong>HoldMy<span class="manage-theme-orange">Memories</span>.com </strong><br />
+                                          <% if @total_alertcount != 0%>
+                                            <%if @total_comments != 0%>
+                                              You have <%=@total_comments%> New Comments for today.. to view <a href="/familywebsite_comments/view/<%=params[:id]%>">Click Here</a><br />
+                                            <% end %>
+                                            <%if @guestcmt != 0%>
+                                              You have <%=@guestcmt%> New Guest comments... to view <a href="/familywebsite_comments/view/<%=params[:id]%>">Click Here</a><br />
+                                            <% end %>
+                                            <%if @chapcmt != 0%>
+                                              You have <%=@chapcmt%> New Chapter comments... to view <a href="/familywebsite_comments/view/<%=params[:id]%>">Click Here</a><br />
+                                            <% end %>
+                                            <%if @subcmt != 0%>
+                                              You have <%=@subcmt%> New Sub Chapter comments... to view <a href="/familywebsite_comments/view/<%=params[:id]%>">Click Here</a><br />
+                                            <% end %>
+                                            <%if @sharejournalcomment != 0%>
+                                              You have <%=@sharejournalcomment%> New Share Journal comments... to view <a href="/familywebsite_comments/view/<%=params[:id]%>">Click Here</a><br />
+                                            <% end %>
+                                            <%if @blogcmt != 0%>
+                                              You have <%=@blogcmt%> New Blog comments... to view <a href="/familywebsite_comments/view/<%=params[:id]%>">Click Here</a><br />
+                                            <% end %>
+                                          <% end %>
+                                          <%if @creditpt_count==1%>
+                                              <% if @studio_groups.credit_system =="Dollars" %>
+                                                  Currently you have <span class="manage-theme-orange">$<%=number_with_precision(@creditpt.available_credits, :precision => 2)%>&nbsp;</span> credit which may be used towards a purchase at <%=@studio_groups.hmm_franchise_studio%>. <a href="/manage_website/credit_more/<%=params[:id]%>" class="nyroModal" rev="modal">&nbsp;Click here</a> for more information.<br />
+                                                <%else%>
+                                                  Currently you have earned <span class="manage-theme-orange"><%=@creditpt.available_credits.round%></span> Membership Points that may be used at <%=@studio_groups.hmm_franchise_studio%>. <a href="/manage_website/credit_more/<%=params[:id]%>" class="nyroModal" rev="modal">&nbsp;Click here</a> for more information.<br />
+                                              <%end%>
+                                            <% end %>
+                                        </td>
+                                      </tr>
+                                      <tr>
+                                        <td align="center" valign="top" class="content-white">
+                                        </td>
+                                      </tr>
+                                      <tr>
+                                        <td height="40" align="center" valign="top" class="content-white">&nbsp;</td>
+                                      </tr>
+                                    </table></td>
+                                  <td width="20" align="left" valign="top"></td>
+                                </tr>
+                                <tr>
+                                  <td height="10" colspan="3" align="left" valign="top"></td>
+                                </tr>
+
+                              </table></td>
+                          </tr>
+                          <tr>
+                            <td>&nbsp;</td>
+                          </tr>
+                        </table></td>
+                    </tr>
+                    <tr>
+                      <td align="left" valign="top">&nbsp;</td>
+                      <td align="left" valign="top"></td>
+                      <td align="left" valign="top">&nbsp;</td>
+                    </tr>
+                  </table></td>
+              </tr>
+
+            </table></td>
+          <td width="13" align="left" valign="top"></td>
+        </tr>
+      </table></td>
+  </tr>
+
+</table>

@@ -1,0 +1,135 @@
+<style type="text/css">
+  .sub-btn{
+    background:transparent;
+    background-image: url(/images/sub-btn.png);
+    height:24px;
+    width:94px;
+    border:none;
+    font-size:13px;
+    font-weight:bold;
+    color:#FFF;
+    cursor:pointer;
+  }
+  .sub-btn:hover{
+    background-image: url(/images/sub-btn-ovr.png);
+  }
+</style>
+<table border="0" cellpadding="0" cellspacing="0" align="center" width="900" style="margin-top: 20px">
+  <tr><td><font color="red"><%=flash[:errors]%></font></td></tr>
+  <tr><td class="whitext" height="60" colspan="3" align="center"><b>Gift Certificates to your HoldMyMemories.com affiliated Studio!</b></td></tr>
+  <tr><td class="whitext" height="30" colspan="3" align="center"><b>Deliver Gift Certificate to</b></td></tr>
+
+</table>
+<form action="/customer_gift_certificates/submit_certificate" method="post">
+  <table border="0" cellpadding="0" cellspacing="0" align="center" width="550">
+    <tr><td width="50"></td><td>
+        <table border="0" cellpadding="0" cellspacing="0" align="center" width="550" style="margin-top: 20px">
+          <tr><td>&nbsp;</td><td class="whitext" height="30"  align="center" >First Name</td><td class="whitext" align="center"> Last Name</td></tr>
+          <tr><td class="whitext" width="200"  height="50">Your Name as on Credit Card:*</td><td class="whitext" height="30" align="left" width="200"><input type="text" name="first_name"  id="first_name"  width="200"/></td> <td class="whitext" height="30"  align="center" width="200"><input type="text" name="last_name"  id="last_name"  width="200"/></td></tr>
+          <tr><td class="whitext" colspan="3" align="center" height="30" ><img src="/images/cc.jpg" /></td></tr>
+          <tr><td class="whitext" width="200">Card Number:*</td><td class="whitext" height="30"  align="left" colspan="2"><input type="text" name="card_number" maxlength="16"  id="card_number" size="47" /></td></tr>
+          <tr><td class="whitext" width="200">Card CVV Number:*</td><td class="whitext" height="30" align="left" colspan="2"><input type="text" name="card_cvv"  id="card_cvv" maxlength="4"/></td></tr>
+          <tr><td class="whitext" width="200">Expiration Date:*</td><td class="whitext" height="30"  align="left" colspan="2"><select name="exp_month" id="exp_month">
+                <option value="1">1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+                <option value="4">4</option>
+                <option value="5">5</option>
+                <option value="6">6</option>
+                <option value="7">7</option>
+                <option value="8">8</option>
+                <option value="9">9</option>
+                <option value="10">10</option>
+                <option value="11">11</option>
+                <option value="12">12</option>
+              </select>&nbsp;&nbsp;<select name="exp_year" id="exp_year">
+                <%
+                i=2011
+                until i == 2030
+                %>
+                  <option value="<%=i%>"><%=i%></option>
+                  <%
+                  i=i+1
+                end
+              %>
+              </select></td></tr>
+          <tr><td>&nbsp;</td><td class="whitext" height="60"  align="left" colspan="2"><input type="submit" name="Submit" value="Submit" class="sub-btn"/></td></tr>
+        </table></td></tr></table>
+  <%
+  session[:membership_term_id]=params[:membership_term_id] unless params[:membership_term_id].nil?
+  session[:street_address]=params[:street_address] unless params[:street_address].nil?
+  session[:city]=params[:city] unless params[:city].nil?
+  session[:state]=params[:state] unless params[:state].nil?
+  session[:zip]=params[:zip] unless params[:zip].nil?
+  session[:telephone]=params[:telephone] unless params[:telephone].nil?
+  session[:email]=params[:email] unless params[:email].nil?
+  session[:deliver_email]=params[:deliver_email] unless params[:deliver_email].nil?
+  session[:studio_id]=params[:studio_id] unless params[:studio_id].nil?
+  session[:acc]=params[:acc] unless params[:acc].nil?
+%>
+
+  <input type="hidden" name="certificate_id" value="<%=session[:membership_term_id]%>" />
+  <input type="hidden" name="street_address" value="<%=session[:street_address]%>"/>
+  <input type="hidden" name="city" value="<%=session[:city]%>"/>
+  <input type="hidden" name="state" value="<%=session[:state]%>"/>
+  <input type="hidden" name="zip" value="<%=session[:zip]%>"/>
+  <input type="hidden" name="telephone" value="<%=session[:telephone]%>"/>
+  <input type="hidden" name="email" value="<%=session[:email]%>"/>
+  <input type="hidden" name="deliver_email" value="<%=session[:deliver_email]%>"/>
+  <input type="hidden" name="studio_id" value="<%=session[:studio_id]%>"/>
+  <input type="hidden" name="acc" value="<%=session[:acc]%>"/>
+</form>
+
+<%= javascript_include_tag 'livevalidation_prototype','livevalidation'%>
+<script type="text/javascript">
+  var f2 = new LiveValidation('first_name');
+  var f4 = new LiveValidation('last_name');
+  var f5 = new LiveValidation('card_number');
+  var f3 = new LiveValidation('card_cvv');
+  var f6 = new LiveValidation('exp_month');
+  var f7 = new LiveValidation('exp_year');
+ 
+  f2.add( Validate.Presence );
+  f4.add( Validate.Presence );
+  f3.add( Validate.Presence );
+  f5.add( Validate.Presence );
+  f6.add( Validate.Presence );
+  f7.add( Validate.Presence );
+  f5.add( Validate.Numericality);
+  f3.add( Validate.Numericality);
+  f2.add( Validate.Format,{ pattern: /^[A-Za-z0-9]/, failureMessage: "No Special Characters!" } );
+  f4.add( Validate.Format,{ pattern: /^[A-Za-z0-9]/, failureMessage: "No Special Characters!" } );
+  f3.add( Validate.Format,{ pattern: /^[0-9]/, failureMessage: "No Special Characters!" } );
+  f5.add( Validate.Format,{ pattern: /^[0-9]/, failureMessage: "No Special Characters!" } );
+ 
+</script>
+<style type="text/css">
+  .LV_validation_message{
+    font-weight:bold;
+    margin:0 0 0 5px;
+  }
+
+  .LV_valid {
+    color:#00CC00;
+  }
+
+  .LV_invalid {
+    color:#CC0000;
+  }
+
+  .LV_valid_field,
+  input.LV_valid_field:hover,
+  input.LV_valid_field:active,
+  textarea.LV_valid_field:hover,
+  textarea.LV_valid_field:active {
+    border: 1px solid #00CC00;
+  }
+
+  .LV_invalid_field,
+  input.LV_invalid_field:hover,
+  input.LV_invalid_field:active,
+  textarea.LV_invalid_field:hover,
+  textarea.LV_invalid_field:active {
+    border: 1px solid #CC0000;
+  }
+</style>

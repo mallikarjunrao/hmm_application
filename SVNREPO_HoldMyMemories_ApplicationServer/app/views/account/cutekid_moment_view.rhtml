@@ -1,0 +1,97 @@
+<table width="100%" border="0" align="center">
+  <tr>
+    <td>&nbsp;</td>
+  </tr>
+  <tr>
+    <th align="center"><%=will_paginate @contests, :page_links => false %></th>
+  </tr>
+  <tr>
+    <td align="center">&nbsp;</td>
+  </tr>
+  <tr>
+    <td>&nbsp;</td>
+  </tr>
+  <%
+  for contest in @contests
+  %>
+    <tr>
+      <td align="center" width="1000" >
+        <table align="center" border="0"  width="1000">
+          <tr>
+            <td align="center" width="1000">
+              <table align="center" width="200">
+                <tr>
+                  <td align="center" width="100"><a href="<%=request_content_url%>/moment_rotation/contest_rotateleft/<%=@contests[0].moment_id%>?page=<%=params[:page]%>&&phase=phase8" ><img src="/images/rotateleft.png" border="0"></a></td>
+                  <td align="center" width="100"><a href="<%=request_content_url%>/moment_rotation/contest_rotateright/<%=@contests[0].moment_id%>?page=<%=params[:page]%>&&phase=phase8"><img src="/images/rotateright.png" border="0"></a></td>
+                </tr>
+              </table>
+            </td>
+          </tr>
+          <tr>
+            <td align="center" width="1000"> <img src="<%=contest.img_url%>/user_content/photos/journal_thumb/<%=contest.v_filename%>" border="0" id="cimage">
+              <input type="hidden" name="current_position" id="current_position" value="0" />
+          <canvas id="canvas"></canvas></td>
+    </tr>
+  </table>
+  </td>
+  </tr>
+  <tr>
+    <th>&nbsp;</th>
+  </tr>
+  <tr>
+    <td align="center"><%=contest.first_name %> </td>
+  </tr>
+  <tr>
+    <td  align="center" valign="middle" ><%if contest.contest_status == 'pending' || contest.contest_status == 'inactive' %>
+        <a href="/account/contest_approve/<%=contest.contestid%>" > <img src="/images/approve.jpg" alt="approve" name="Image4413" width="78" height="30" border="0" id="Image4413" /></a>
+      <%else%>
+        <a href="/account/reject_email/<%= contest.contestid %>"  > <img src="/images/reject.jpg" alt="reject" name="Image4413" width="78" height="30" border="0" id="Image4413" /></a>
+      <%end%>
+    </td>
+  </tr>
+<% 
+end
+%>
+<%for @j in @journal %>
+  <tr>
+    <th align="center" valign="middle" scope="col"><span class="heading-journal">
+        <table width="600" class="border">
+          <tr>
+
+            <th align="left" bgcolor="#191919" colspan="2"> <font size="3"> Journal</font> </th>
+          </tr>
+          <tr>
+            <th colspan="2">&nbsp;</th>
+          </tr>
+          <tr>
+            <th>&nbsp;&nbsp;</th>
+            <th align="left" class="heading-journal"> <%= @j.title %> -
+              <% ActiveSupport::CoreExtensions::Time::Conversions::DATE_FORMATS.merge!(
+                :date => "%Y-%m-%d",
+                :presentable_datetime => "%a %b %d, %Y %H:%M",
+                :presentable_date => "%a %b %d, %Y")
+              @created_date=@j.added_date%>
+              <% if @created_date!=nil %>
+              <%= @created_date.to_s(:presentable_date) %>
+              <%end%></span> </th>
+          </tr>
+          <tr>
+            <th colspan="2">&nbsp;</th>
+          </tr>
+          <tr>
+            <th>&nbsp;&nbsp;</th>
+            <th align="left"> <%=@j.description.gsub("\n", "<br />\n") %> </th>
+          </tr>
+          <tr>
+            <th>&nbsp;</th>
+          </tr>
+          <tr>
+            <th>&nbsp;</th>
+          </tr>
+        </table></th>
+  </tr>
+  <tr>
+    <th>&nbsp; </th>
+  </tr>
+<%end%>
+</table>

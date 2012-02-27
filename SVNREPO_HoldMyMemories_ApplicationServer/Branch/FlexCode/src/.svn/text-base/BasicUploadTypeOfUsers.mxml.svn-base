@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:Canvas xmlns:mx="http://www.adobe.com/2006/mxml" width="100%" height="100%" backgroundAlpha="0">
+			<mx:Text id="line1text" htmlText="{line1}" truncateToFit="false" width="100%" height="100%"/>
+				
+		
+		<!--mx:Text htmlText="{line2}"/>
+		<mx:Text htmlText="{line3}"/>
+		<mx:Text htmlText="{line4}"/-->
+	     
+
+<mx:Script>
+	<![CDATA[
+		[Bindable]
+		private var line1 : String = "<p><font color='#FFFFFF' size='18' face='Verdana'>To view an example of a HoldMyMemories.com site, and get ideas on how to set up your site,</font><a href='#'><font size='18' style='text-decoration:underline;' color='#f79646' face='Verdana'>click here</font></a></p>";
+		
+		[Bindable]
+		private var line2 : String = '<p>If this is your first time to upload files to your site, you may want to use the Chapter Creation Wizard (<a href="">click here to use the wizard</a>)</p>';
+		
+		[Bindable]
+		private var line3 : String = '<p>New to HoldMyMemories.com?  <a href="">Click here</a> to be walked through your first upload.</p>';
+		
+		[Bindable]
+		private var line4 : String = '<p>Advanced user? <a href=""> Click here</a> to go to the advanced upload.</p>';
+		
+		[Bindable]
+		private var line5 : String = '<a href="">Don’t show this screen again.</a>';
+	]]>
+</mx:Script>
+</mx:Canvas>

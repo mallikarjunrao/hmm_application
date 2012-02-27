@@ -1,0 +1,38 @@
+<h1>Auto Email Management </h1>
+<%if params[:id] == "sucess"%><font color="#f5dfa6">Email is successfully saved!</font><%end%>
+<table>
+  <tr>
+ 	<th background="/images/body_hor.JPG"><font class='txt'>Account Type</font></th>
+    <th background="/images/body_hor.JPG"><font class='txt'>Subject</font></th>
+	<th background="/images/body_hor.JPG"><font class='txt'>Message Type</font></th>
+	<th background="/images/body_hor.JPG"><font class='txt'>Signature Message</font></th>
+	<th background="/images/body_hor.JPG"><font class='txt'>Email Internval</font></th>
+	<th background="/images/body_hor.JPG" colspan="3"><font class='txt'>Actions</font></th>
+ 
+  </tr>
+  
+<% for email_management in @email_managements %>
+ <tr class="<%= cycle('odd', 'even') -%>">
+  
+    <td><%= email_management.to_email %></td>
+	<td><%= email_management.subject %></td>
+	<%if email_management.email_type == 'newsletter'%>
+	<td>News Letter Image</td>
+	<%else%>
+	<td>Text message</td>
+	<%end%>
+	<td><%= email_management.footer_message %></td>
+	<td><%= email_management.email_interval %></td>
+	
+  
+    <td><%= link_to 'Show', :action => 'show', :id => email_management %></td>
+    <!--td>< % = link_to 'Edit', : action => 'edit', : id = > email_management % ></td -->
+    <td><%= link_to 'Destroy', { :action => 'destroy', :id => email_management }, :confirm => 'Are you sure?', :method => :post %></td>
+  </tr>
+<% end %>
+</table>
+
+<%=will_paginate @email_managements%>
+<br />
+
+<%= link_to 'Create New Email', :action => 'new' %>

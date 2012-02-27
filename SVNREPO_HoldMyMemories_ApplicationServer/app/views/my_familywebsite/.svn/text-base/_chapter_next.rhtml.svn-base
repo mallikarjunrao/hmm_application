@@ -1,0 +1,149 @@
+<script type="text/javascript">
+		function grow_text_boxes(textareaid,divid,profileimg)
+	{
+		document.getElementById(divid).style.display='block';
+		document.getElementById(textareaid).style.width='300px';
+		document.getElementById(textareaid).style.height='100px';
+		document.getElementById(profileimg).style.display='block';
+		if (document.getElementById(textareaid).value == 'Type your comments here...') {
+			document.getElementById(textareaid).value = '';
+		}
+		
+	}
+	function shrink_text_boxes(textareaid,divid,profileimg)
+	{
+		
+		if (document.getElementById(textareaid).value == '') {
+			document.getElementById(textareaid).style.width = '300px';
+			document.getElementById(textareaid).style.height = '50px';
+			document.getElementById(textareaid).value='Type your comments here...';
+			document.getElementById(divid).style.display='none';
+			document.getElementById(profileimg).style.display='none';
+		}
+		
+
+	}
+	
+</script>
+
+<table align="center" width="899" border="0" cellspacing="0" cellpadding="0">
+<input type="hidden" name="order" value="<%=params[:order]%>" />
+<tr><td><font color="#f5dfa6"><%=flash[:notice_mycart]%>
+<%=flash[:order_invalid]%></font></td></tr>
+
+<tr>
+		<td valign="middle" colspan="2"> 
+			<table align="left"><tr>
+		
+		
+</tr></table>
+		</td>
+		<td align="right" valign="top"><a href="/tags/coverflow" >	<% if session[:friend]!='' 
+%><%
+				else
+%>
+		 <%if (@chap_cnt < 1 || @chap_cnt == "") %>
+			  	
+				<%else if @chap_cnt >= 1 %>
+				
+				<% for @i in @chapter_journal %>
+					<%end%><%end%><%end%><%end%>
+					
+		<a href="/my_familywebsite/subchapters/<%=params[:id]%>/?familyname=<%=params[:familyname]%>"><img src="/images/photoflowicon.jpg" border="0"></a></td>	
+		
+	</tr>
+
+    
+	<tr>
+		<% @tag = Tag.find(:all, :conditions => "id=#{params[:id]}")
+		for @i in @tag 
+			@chapname=@i.v_tagname
+		%><th height="10" valign="top" colspan="2" align="left"><font size="3"><!--&nbsp;&nbsp;&nbsp;Sub Chapters for &nbsp;<%= @i.v_tagname %>  Chapter --></font></th>
+		
+		<%end%></tr>
+<tr>
+ 
+  <th height="128" align="left" valign="top" scope="col" colspan="4">
+	 <table width="99%" border="0"  cellspacing="0" align="left" cellpadding="0">
+        <tr>
+           <th height="4" colspan="10" align="left" valign="top" scope="col" ></th>
+        </tr>   <tr>
+                     <th height="9"  align="left" valign="top" scope="col">&nbsp;&nbsp;&nbsp;&nbsp;</th><th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th><th></th><th></th><th></th>
+                    </tr>
+      		<% 
+				j=0	
+				if @countcheck == 0 %>
+				<p>No items found...</p>
+			<% else %>
+ 			   <% @sub_chapters.each do |@sub_chapter|
+			   
+			   
+			%>
+			<% if j == 0 %>
+			<tr>
+				
+			<% else if j >= 3 
+			j=0
+				
+			%>
+			</tr>
+				<tr>
+					<th height="20"  align="center" valign="top" scope="col" ></th><th></th><th></th>
+	   <th></th>
+	   <th></th>
+	   <th></th>
+	   <th></th>
+	   <th></th>
+	   <th></th>
+	   <th></th>
+	   <th></th>
+	   <th></th>
+                </tr>
+			<tr>
+			<% end %>	
+			<% end %>
+			
+            <th width="2%" align="left" valign="top" scope="col"><% j=j+1%></th>
+            <th width="73" align="left" valign="top" scope="col" ><a href='/my_familywebsite/sub_chapter_gallery/<%=@sub_chapter.id %>/?familyname=<%=params[:familyname]%>' >
+            	<img src="<%=@sub_chapter.img_url%>/user_content/photos/icon_thumbnails/<%=@sub_chapter.v_image %>" border="5" style="border-color:#000000;"  /></a>
+				<% @find_tagincart = MyCart.count(:all, :conditions => "added_item = 'subchapter' and moment_id='#{@sub_chapter.id}'") %>
+					<% if @find_tagincart > 0 %>
+						</th>
+					<%else%>
+						
+						</th>
+					<%end%>
+            <th width="10" align="left" valign="top" scope="col">&nbsp;</th>
+            <th width="139" align="left" valign="top" scope="col">
+            	<table width="100%" border="0" cellspacing="0" cellpadding="0">
+                	<tr>
+                		<th height="13" align="left" valign="top" scope="col"></th>
+                	</tr>
+                	<tr>
+               		  <th height="21" align="left" valign="top" class="chapindex-text" scope="col"><span class="cont"><%=@sub_chapter.sub_chapname %></span></th>
+                 	</tr>
+					
+                    <tr>
+                 	  <th align="left" valign="top" class="chapindex-text2" scope="col" colspan="2"><span class="topicscont">last updated <br>
+					  <%=@sub_chapter.d_updated_on.strftime("%a %b #{@sub_chapter.d_updated_on.day.ordinalize} %Y,   %I:%M %p") %>
+					  </span></th>
+                    </tr>
+              </table>			 </th>
+   <% end %></tr>	  
+    </table></th>
+  </tr>
+  <tr>
+  
+    	<th valign="bottom" scope="col" align="center" colspan="10">
+		<%=will_paginate @sub_chapters%>
+		</th>
+  </tr>
+ </table>
+      <% end %> 
+ 	
+

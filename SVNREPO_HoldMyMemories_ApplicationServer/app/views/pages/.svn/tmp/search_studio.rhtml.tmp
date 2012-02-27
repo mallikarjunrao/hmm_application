@@ -1,0 +1,129 @@
+<head>
+  <script type="text/javascript">
+                var comboopenflag;
+                function init() {
+                    var combo = document.getElementById('radius').value = "";
+                    comboopenflag = "off";
+                }
+                function showOptions() {
+                    if (comboopenflag != "on") {
+                        document.getElementById('combodiv').style.display = "block";
+                        comboopenflag = "on";
+                    } else if (comboopenflag == "on") {
+                        document.getElementById('combodiv').style.display = "none";
+                        comboopenflag = "off";
+                    }
+                }
+
+                function setOption(selection) {
+
+                    var combo = document.getElementById('radius').value = selection;
+                    document.getElementById('combodiv').style.display = "none";
+                    comboopenflag = "off";
+                }
+
+
+                function handleLostFocus(){
+                    comboopenflag = "off";
+                    showOptions();
+                }
+
+                //drop down options
+                function showOptions3() {
+                    if (comboopenflag != "on") {
+                        document.getElementById('combodiv').style.display = "block";
+                        comboopenflag = "on";
+                    } else if (comboopenflag == "on") {
+                        document.getElementById('combodiv').style.display = "none";
+                        comboopenflag = "off";
+                    }
+                }
+
+                function setOption3(selection) {
+
+                    var combo = document.getElementById('gift').value = selection;
+                    document.getElementById('combodiv').style.display = "none";
+                    comboopenflag = "off";
+                }
+
+                function handleLostFocus3(){
+                    comboopenflag = "off";
+                    showOptions3();
+                }
+        </script>
+</head>
+
+            <div class="IphoneImg">
+            <div class="Find">
+
+  <table width="400" border="0" align="center" cellpadding="0" cellspacing="0">
+
+
+               <tr>
+    <td height="70" align="left" valign="top" ></td>
+  </tr>
+  <tr>
+    <td height="40" align="left" valign="top" style="border-bottom:1px  dotted #666666;">Find a Studio Near You</td>
+  </tr>
+  <tr>
+    <td height="10" align="left" valign="top"></td>
+  </tr>
+  <tr>
+    <td align="left" valign="top"><span>Enter your zip code and select a distance to search for a Studio near you.</span></td>
+  </tr>
+  <tr>
+    <td height="20" align="center" valign="top"></td>
+  </tr>
+  </table>
+<form name="form" action="/user_account/studios_list" method="post" enctype="multipart/form-data" >
+
+              <table width="252" border="0" align="center" cellpadding="0" cellspacing="0">
+ 
+ <tr>
+    <td height="10" align="left" valign="top"></td>
+  </tr>
+  <tr>
+<<<<<<< .mine
+    <td height="30" align="center" valign="top">
+
+      <input type="text" name="textfield" value="zipcode" class="TextFieldGrey" id="textfield" size="34" onfocus="if(this.value=='zipcode'){ this.value=''; this.style.color='#fff'; this.style.background='#666666';}" onblur="if(this.value=='') {this.value='zipcode'; this.style.color='#fff'; this.style.background='#666666';}"/>
+
+ 
+=======
+    <td height="30" align="left" valign="top"><input type="text" name="zipcode" class="TextFieldGrey" id="textfield" size="40" value="Zipcode" onclick="this.value=''" /></td>
+>>>>>>> .r36650
+  </tr>
+  <tr>
+    <td height="10" align="left" valign="top"></td>
+  </tr>
+  <tr>
+<<<<<<< .mine
+   <td align="center" valign="top" height="30"><div class="divcombobox">
+  <input type="text" style="width: 199px; height: 12px; background:#666666; color:#fff; padding-top:4px; padding-bottom:4px; border:1px solid #494949;" value="Distance" readonly="readonly" id="radius" name="radius" onblur="handleLostFocus()" class="combo"
+         <img src="/webpage/imgs_new/dropdownimg.jpg" alt="Click to open combo box" class="arrow" onclick="showOptions()" height="22" border="0" width="25" />
+      <div id="combodiv">
+=======
+    <td align="left" valign="top" height="30"><div class="divcombobox">
+                                                                                        <input type="text" style="width: 206px; height: 18px; background:#666666; color:#fff; padding-top:4px; padding-bottom:4px; border:1px solid #494949;" value="Distance" readonly="readonly" id="radius" name="radius" onblur="handleLostFocus()" class="combo"><img src="/webpage/imgs_new/dropdownimg.jpg" alt="Click to open combo box" class="arrow" onclick="showOptions()" height="28" border="0" width="25" />
+                                                                                                <div id="combodiv">
+>>>>>>> .r36650
+
+                                                                                                    <a onclick="setOption('25 Miles')" href="javascript:void(0);" class="option">25 Miles</a>
+                                                                                                    <a onclick="setOption('50 Miles')" href="javascript:void(0);" class="option">50 Miles</a>
+                                                                                                    <a onclick="setOption('75 Miles')" href="javascript:void(0);" class="option">75 Miles</a>
+                                                                                                    <a onclick="setOption('100 Miles')" href="javascript:void(0);" class="option">100 Miles</a>
+                                                                                                    <a onclick="setOption('200 Miles')" href="javascript:void(0);" class="option">200 Miles</a> </div></div></td>
+  </tr>
+  <tr>
+    <td height="20" align="center" valign="top"></td>
+  </tr>
+  <tr>
+    <td align="center" valign="top">
+    <input type="submit" name="button" id="button" value="" class="SubmitBtn" /></td>
+  </tr>
+  </center>
+</table>
+</form>
+</div>
+            </div> 
+     

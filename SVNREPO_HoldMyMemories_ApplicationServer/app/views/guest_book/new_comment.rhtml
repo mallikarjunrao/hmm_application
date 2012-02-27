@@ -1,0 +1,226 @@
+<%= javascript_include_tag 'themes/formcheck/core' %>
+<%= javascript_include_tag 'themes/formcheck/more' %>
+<%= javascript_include_tag 'themes/formcheck/en' %>
+<%= javascript_include_tag 'themes/formcheck/formcheck' %>
+<%= stylesheet_link_tag 'themes/formcheck/formcheck'%>
+<script type="text/javascript">
+  function verify()
+  {
+    if(document.getElementById('name').value=='')
+    {
+      alert("Enter your name");
+      document.getElementById('name').focus();
+      return false;
+
+    }
+
+    if(document.getElementById('email').value=='')
+    {
+      alert("Please enter Email Address");
+      document.getElementById('email').focus();
+      return false;
+    }
+
+    var email = document.getElementById('email').value;
+    var regexpr=/^([\w-]+(?:\.[\w-]+)*)@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$/i; //email check
+    if (!regexpr.test(email))
+    {
+      alert("Please input a valid Email Address");
+      document.getElementById('email').value="";
+      document.getElementById('email').focus();
+      return false;
+    }
+
+    if(document.getElementById('subject').value=='')
+    {
+      alert("Enter subject ");
+      document.getElementById('subject').focus();
+      return false;
+
+    }
+    if(document.getElementById('captcha').value=='')
+    {
+      alert("Enter the security code ");
+      document.getElementById('captcha').focus();
+      return false;
+
+    }
+
+  }
+
+</script>
+<table width="100%" border="0" cellspacing="0" cellpadding="0">
+  <tr>
+    <td height="100%" align="right" valign="top" class="leftshad"></td>
+    <td width="990" height="500" align="center" valign="top"><table width="990" border="0" cellspacing="0" cellpadding="0">
+        <tr>
+          <td align="center" valign="top"><table width="970" border="0" cellspacing="0" cellpadding="0">
+              <tr>
+                <td align="center" valign="top" class="tab-dots"><table width="970" border="0" cellspacing="0" cellpadding="0" id="tab_bgcolor_repeat">
+                    <tr>
+                      <td align="left" valign="top"><table width="100%" border="0" cellspacing="0" cellpadding="0">
+                          <tr>
+                            <td width="13" align="left" valign="top"></td>
+                            <td width="944" align="left" valign="top"><table width="100%" border="0" cellspacing="0" cellpadding="0">
+                                <tr>
+                                  <td height="10" align="left" valign="top"><%if params[:fail]%>Enter the correct code<%end%></td>
+                                </tr>
+                                <tr>
+                                  <td height="35" align="left" valign="bottom" class="header-page">Guest Book</td>
+                                </tr>
+                                <tr>
+                                  <td height="10" align="left" valign="top"></td>
+                                </tr>
+                                <tr>
+                                  <td height="1" align="left" valign="top" bgcolor="#454545"></td>
+                                </tr>
+                                <tr>
+                                  <td height="10" align="left" valign="top"></td>
+                                </tr>
+                                <tr>
+                                  <td align="left" valign="top"><table width="100%" border="0" cellspacing="0" cellpadding="0">
+                                      <tr>
+                                        <td width="685" height="300" align="left" valign="top">
+                                          <form name="add_comment" id="add_comment" action="<%=request_content_url%>/manage_website/guestbook_new/<%=params[:id]%>" method="post" enctype="multipart/form-data" onsubmit="return verify();" >
+                                            <table width="100%" border="0" cellspacing="0" cellpadding="0">
+                                              <tr>
+                                                <td align="right" valign="top" class="side-heading">(  <a style="cursor:pointer;"  onClick="history.back();">BACK</a> )</td>
+                                              </tr>
+                                              <tr>
+                                                <td align="center" valign="top" class="error-message"><%=flash[:message]%></td>
+                                              </tr>
+                                              <tr>
+                                                <td align="left" valign="top" class="header-paragraph">Add New Comment:</td>
+                                              </tr>
+                                              <tr>
+                                                <td align="left" valign="top">&nbsp;</td>
+                                              </tr>
+                                              <tr>
+                                                <td align="left" valign="top">
+                                                  <table width="100%" border="0" cellspacing="0" cellpadding="0">
+                                                    <tr>
+                                                      <td width="30" align="left" valign="top">&nbsp;</td>
+                                                      <td width="912" align="left" valign="top"><table width="100%" border="0" cellspacing="0" cellpadding="0">
+                                                          <tr>
+                                                            <td align="left" valign="top">&nbsp;</td>
+                                                          </tr>
+                                                          <tr>
+                                                            <td height="25" align="left" valign="top" class="content">Name <span class="content-white">*</span></td>
+                                                          </tr>
+                                                          <tr>
+                                                            <td align="left" valign="top"><input name="name" type="text" class="validate['required']" id="name" value="<%=@name%>"/></td>
+                                                          </tr>
+                                                          <tr>
+                                                            <td align="left" valign="top">&nbsp;</td>
+                                                          </tr>
+                                                          <tr>
+                                                            <td height="25" align="left" valign="top" class="content">Email <span class="content-white">*</span></td>
+                                                          </tr>
+                                                          <tr>
+                                                            <td align="left" valign="top"><input name="email" type="text" class="validate['required','email']" id="email" value="<%=@email%>"/></td>
+                                                          </tr>
+                                                          <tr>
+                                                            <td align="left" valign="top">&nbsp;</td>
+                                                          </tr>
+                                                          <tr>
+                                                            <td height="25" align="left" valign="top" class="content">Subject<span class="content-white">*</span></td>
+                                                          </tr>
+                                                          <tr>
+                                                            <td align="left" valign="top"><label>
+                                                                <input name="subject" type="text" class="validate['required']" id="subject" value="<%=@subject%>"/>
+                                                              </label></td>
+                                                          </tr>
+                                                          <tr>
+                                                            <td align="left" valign="top">&nbsp;</td>
+                                                          </tr>
+                                                          <tr>
+                                                            <td height="25" align="left" valign="top" class="content">Message </td>
+                                                          </tr>
+                                                          <tr>
+                                                            <td align="left" valign="top"><label>
+                                                                <textarea name="message" cols="45" rows="5"  class=""><%=@message%></textarea>
+                                                              </label></td>
+                                                          </tr>
+                                                          <tr>
+                                                            <td align="left" valign="top">&nbsp;</td>
+                                                          </tr>
+                                                          <tr>
+                                                            <td height="25" align="left" valign="top" class="content">Upload your Image</td>
+                                                          </tr>
+                                                          <tr>
+                                                            <td align="left" valign="top">
+                                                              <input name="guest_image" type="file" >
+                                                            </td>
+                                                          </tr>
+                                                          <tr>
+                                                            <td align="left" valign="top">&nbsp;</td>
+                                                          </tr>
+                                                          <tr>
+                                                            <td height="25" align="left" valign="top" class="content">Please enter the code</td>
+                                                          </tr>
+                                                          <tr>
+                                                            <td align="left" valign="top"><%= show_simple_captcha(:label => "", :image_style => 'distorted_black', :distortion => "medium")%></td>
+                                                          </tr>
+                                                          <tr>
+                                                            <td align="left" valign="top">&nbsp;</td>
+                                                          </tr>
+                                                          <tr>
+                                                            <td align="left" valign="top">&nbsp;</td>
+                                                          </tr>
+                                                          <tr><input type="hidden" name="captcha_key" value="<%=simple_captcha_key%>" />
+                                                            <td align="left" valign="top"><label>
+                                                                <input name="button" type="submit" class="cmd-btn" id="button" value="Add" />
+                                                                &nbsp;
+                                                              </label>
+                                                              <label>
+                                                                <input name="cancel" type="button" class="cmd-btn" id="button" value="Cancel" onClick="window.location='/guest_book/display_comments/<%=params[:id]%>'"/>
+                                                              </label>
+                                                            </td>
+                                                          </tr>
+                                                          <tr>
+                                                            <td align="left" valign="top">&nbsp;</td>
+                                                          </tr>
+                                                        </table></td>
+                                                    </tr>
+                                                  </table>
+                                                </td>
+                                              </tr>
+                                              <tr>
+                                                <td align="left" valign="top">&nbsp;</td>
+                                              </tr>
+                                              <tr>
+                                                <td align="center" valign="top"></td>
+                                              </tr>
+                                              <tr>
+                                                <td align="left" valign="top">&nbsp;</td>
+                                              </tr>
+                                              <tr>
+                                                <td align="left" valign="top">&nbsp;</td>
+                                              </tr>
+                                            </table>
+                                          </form>
+                                        </td>
+                                      </tr>
+                                    </table></td>
+                                </tr>
+                              </table></td>
+                            <td width="13" align="left" valign="top"></td>
+                          </tr>
+                        </table></td>
+                    </tr>
+                  </table></td>
+              </tr>
+            </table></td>
+        </tr>
+        <tr>
+          <td height="19"></td>
+        </tr>
+      </table></td>
+    <td align="left" valign="top" class="rightshad"></td>
+  </tr>
+</table>
+<script type="text/javascript">
+  window.addEvent('domready', function(){
+    new FormCheck('add_comment');
+  });
+</script>

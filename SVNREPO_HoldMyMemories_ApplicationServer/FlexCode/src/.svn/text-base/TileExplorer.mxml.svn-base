@@ -1,0 +1,261 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Application xmlns="http://www.adobe.com/2006/mxml" horizontalGap="0" xmlns:qs="qs.controls.*"  paddingLeft="0" paddingTop="0" paddingBottom="0" paddingRight="0" 
+	layout="absolute" backgroundColor="#000000"  initialize="createData();updateControl();"
+	 xmlns:f="flash.filters.*" >	
+	
+	<Script>
+		<![CDATA[
+			import mx.rpc.events.ResultEvent;
+			import mx.rpc.events.FaultEvent;
+			import mx.collections.ArrayCollection;
+			[Bindable] public var textItems:Array;
+			[Bindable] public var images:Array;
+			[Bindable] public var currentDP:Array;
+			[Bindable] public var mar: Boolean = true;
+			public var navigateToUrl : String;
+			private function createData():void
+			{
+				init();
+			}
+			 
+			private function init():void
+			{
+				var serverUrl:String = Application.application.parameters.serverUrl;
+				
+				service.url = serverUrl;
+				service.send();
+				
+				//focusApp.bitmapAssets = bitmaps;
+				
+			}
+			
+			private function handleResult(event : ResultEvent) : void
+			{
+				trace(event.toString());
+				var bitmaps : Array = new Array;
+				//currentDP = bitmaps;
+				
+				if(event.result.contents && event.result.contents.content is ArrayCollection)
+				{
+					var result : ArrayCollection = event.result.contents.content as ArrayCollection;
+					for(var i : int =0; i<result.length; i++)
+					{
+						var obj : Object = new Object();
+						obj.icon = result[i].icon as String;
+						obj.name = result[i].name as String;
+						obj.id = result[i].id.toString();
+						obj.hmmtype = result[i].hmmtype.toString();
+						if(obj.hmmtype == "audio")
+						{
+							obj.icon = "/user_content/audios/speaker.jpg";
+						}
+						bitmaps.push(obj);
+					}	
+				}else if(event.result.contents )
+				{
+					
+					obj = new Object();
+					obj.icon = event.result.contents.content.icon as String;
+					obj.name = event.result.contents.content.name as String;
+					obj.id = event.result.contents.content.id.toString();
+					obj.hmmtype = event.result.contents.content.hmmtype.toString();
+					if(obj.hmmtype == "audio")
+						{
+							obj.icon = "/user_content/audios/speaker.jpg";
+						}
+					bitmaps.push(obj);
+					
+				}else
+				{
+					return;
+				}
+				var numRows : int = Math.round(Math.sqrt(bitmaps.length));
+				//Here our logic resides.
+				currentDP = bitmaps;
+				fisheye.rowCount = numRows;
+				updateControl();
+			}
+			
+			private function updateControl():void
+			{
+				fisheye.setStyle("horizontalAlign",hAlign.selectedValue);
+				fisheye.setStyle("verticalAlign",vAlign.selectedValue);
+				fisheye.setStyle("defaultSpacing",spacing.value);
+				fisheye.setStyle("defaultScale",dscale.value);
+				fisheye.setStyle("hilightSpacing",hspacing.value);
+				fisheye.setStyle("hilightMinScale",mscale.value);
+				fisheye.setStyle("hilightMaxScale",maxscale.value);
+				fisheye.setStyle("hilightScaleRadius",srad.value);
+				fisheye.setStyle("hilightScaleSlope",sslope.value);
+				fisheye.setStyle("animationSpeed",aspeed.value);
+				fisheye.setStyle("zoomMode",zoomMode.selectedValue);
+			}
+
+			private function updateData():void
+			{
+				if(content.selectedItem == "images")
+				{
+					currentDP = images;
+					fisheye.itemRenderer = imageRenderer;					
+				}
+				else
+				{
+					currentDP = textItems;
+					fisheye.itemRenderer = testSquare;					
+				}
+			}
+			
+			private function handleFault(event : FaultEvent) : void
+			{
+				
+				 trace(event.toString());
+			}
+			
+			private function handleToggleFullscreen() : void
+			{
+				if(stage["displayState"]=="normal"){
+				    stage["displayState"]="fullScreen";
+				    stage.scaleMode = StageScaleMode.NO_SCALE;
+				  }else{
+				    stage["displayState"]="normal";
+				  }
+			}
+		]]>
+	</Script>
+	
+	<Style>
+		FisheyeTile {
+			fontSize: 38;	
+		}
+		RadioButton, CheckBox {
+			text-roll-over-color: #000000;
+			text-selected-color: #000000;
+			color: #000000;	
+		}
+		
+		.insetBox {
+			paddingBottom: 0;
+			paddingLeft: 0;
+			paddingRight: 0;
+			paddingTop: 0;	
+		}
+		
+		FormItemLabel {
+			color: #000000;	
+		}
+		
+		HRule, VRule {
+			strokeWidth: 0;
+			strokeColor: #000000;	
+		}
+		
+		.lastButtonStyle
+		{
+			fillColors: #000000, #000000, #000000, #cccccc;
+			corner-radius : 0;
+			selection-color : #ff6633;
+			color : #Ffffff;
+			theme-color : #ff6633;
+		}
+	</Style>
+
+	<Component id="testSquare">						
+		<HBox width="100" height="100" backgroundColor="#0000000">
+			<states>
+				<State name="selected" />
+				<State name="hilighted" />
+			</states> 
+		</HBox>							
+	</Component>
+	<HTTPService id="service" result="handleResult(event)" fault="handleFault(event)"/>
+		<Binding source="sel.value" destination="fisheye.selectedIndex" />
+		<Binding destination="sel.value" source="fisheye.selectedIndex" />
+		
+		<RadioButtonGroup id="hAlign" selectedValue="center" change="updateControl();"/>
+		<RadioButtonGroup id="vAlign" selectedValue="center" change="updateControl();"/>
+		<RadioButtonGroup id="zoomMode" selectedValue="scale" change="updateControl();"/>
+		
+		<Form height="0" width="0" visible="false" backgroundColor="#565656">
+			<HRule width="100%"/>
+			<FormItem label="horizontal-align">
+				<RadioButton groupName="hAlign" label="left" value="left"/>
+				<RadioButton groupName="hAlign" label="center" value="center"/>
+				<RadioButton groupName="hAlign" label="right" value="right"/>
+			</FormItem>
+			<HRule width="100%"/>
+			<FormItem label="vertical-align">
+				<RadioButton groupName="vAlign" label="top" value="top"/>
+				<RadioButton groupName="vAlign" label="center" value="center"/>
+				<RadioButton groupName="vAlign" label="bottom" value="bottom"/>
+			</FormItem>
+			<HRule width="100%"/>
+			<FormItem label="spacing">
+				<NumericStepper id="spacing" stepSize="1" value="20" maximum="150" change="updateControl();" />
+			</FormItem>
+			<FormItem label="defaultScale">
+				<NumericStepper id="dscale" stepSize=".1" value=".3" change="updateControl();" />
+			</FormItem>
+			<HRule width="100%" />
+			<FormItem label="hilight spacing">
+				<NumericStepper id="hspacing" stepSize="1" value="30" maximum="150" change="updateControl();" />
+			</FormItem>
+			<FormItem label="hilight minScale">
+				<NumericStepper id="mscale" stepSize=".05" value=".1" change="updateControl();" />
+			</FormItem>
+			<FormItem label="max scale">
+				<NumericStepper id="maxscale" stepSize=".05" value="1" change="updateControl();" />
+			</FormItem>
+			<FormItem label="scale radius">
+				<NumericStepper id="srad"  stepSize="1" minimum="0" value="4" change="updateControl();" />
+			</FormItem>
+			<FormItem label="scale slope">
+				<NumericStepper id="sslope"  stepSize=".1" minimum="0" value=".3" change="updateControl();" />
+			</FormItem>
+			<FormItem label="animation speed">
+				<NumericStepper id="aspeed" minimum=".05"  stepSize=".05" value=".10" change="updateControl();" />
+			</FormItem>
+			<HRule width="100%"/>
+			<FormItem label="content">
+				<ComboBox id="content" dataProvider="{['images','test squares']}" change="updateData();" />
+			</FormItem>
+			<FormItem label="zoom mode">
+				<RadioButton selected="true" groupName="zoomMode" label="Scale" value="scale" />
+				<RadioButton groupName="zoomMode" label="Resize" value="resize" />
+			</FormItem>
+			<FormItem label="selection">
+				<HSlider id="sel" liveDragging="true" width="100" minimum="-1" maximum="{currentDP.length}" snapInterval="1" />
+				
+			</FormItem>
+		</Form>
+		<HBox width="100%" horizontalGap="0" x="0" y="0" height="100%" verticalGap="0" clipContent="true" backgroundColor="0x000000">
+			
+		<Button id="fscreen" click="handleToggleFullscreen()" label="Fullscreen" styleName="lastButtonStyle" x="{fisheye.width- fscreen.width}" y="{fisheye.height - fscreen.height}"/>		<qs:FisheyeTile id="fisheye" width="100%" height="100%" dataProvider="{currentDP}" rowCount="6" dataField="icon"
+				stateProperty="currentState" rolloverValue="hilighted" defaultValue="" selectedValue="selected"
+				>			
+				<qs:itemRenderer>
+					<Component id="imageRenderer">
+						<qs:HmmBitmapTile borderColor="0x000000">
+							<qs:states>
+								<State name="selected">
+									<SetStyle name="borderColor" value="#E27C0E" />
+									<SetStyle name="borderAlpha" value="1" />
+									<SetStyle name="borderWidth" value="3" />
+									<SetProperty name="filters" />
+								</State>
+								<State name="hilighted">
+									<!--<SetProperty name="filters">
+										<value>
+											<Array>
+												<f:GlowFilter color="#FFFFFF" blurX="8" blurY="8" />
+											</Array>
+										</value>
+									</SetProperty>-->
+								</State>
+							</qs:states>						
+						</qs:HmmBitmapTile>
+					</Component>
+				</qs:itemRenderer>
+				
+			</qs:FisheyeTile>
+		</HBox>
+</Application>

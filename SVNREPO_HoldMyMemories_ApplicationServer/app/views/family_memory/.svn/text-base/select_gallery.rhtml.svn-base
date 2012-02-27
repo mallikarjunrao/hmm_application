@@ -1,0 +1,29 @@
+<table border="0" cellpadding="0" cellspacing="0" align="center">
+    <tr>
+
+      <% j =  0
+      for gal in @gals
+
+        if  j==5
+          j=0
+          j=j+1
+        %>
+        </tr>
+        <tr>
+          <td height="25"></td>
+        </tr>
+        <tr>
+        <%else
+          j=j+1
+        end
+      %>
+        <td align="center">
+          <table border="0" cellpadding="0" cellspacing="0" width="100"><tr><td>
+                <a href="<%=@path.content_path%>/studio_session_orders/get_image_sizes_service?family_name=<%=params[:id]%>&&image_id=<%=gal.img_id%>&&version=v4" style="text-decoration: none"> <img src="<%=gal.img_url%>/user_content/photos/icon_thumbnails/<%=gal.v_gallery_image%>" /></a></td></tr>
+          <tr><td class="msgSmall" align="center">
+          <%=gal.v_gallery_name%></td></tr></table>
+        </td>
+      <%end%></tr>
+
+        <tr><td align="center" colspan="5" height="70"><input type="button" class="nyroModalClose loginBig" id="cmd-btn" value="Cancel" /></td></tr>
+  </table>

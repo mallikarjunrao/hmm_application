@@ -1,0 +1,34 @@
+<br><h2>Journal</h2>
+</br>
+<table>
+	<tr>
+		<td><th>Journal Title</th></td><td><font color=#ffffff><%=h @journal.v_title%></font></td>
+	</tr>
+	<tr>
+		<td><th>Journal Comment</th></td><td><font color=#ffffff><%=h @journal.v_small_description%></font></td>
+	</tr>
+	<tr>
+		<td><th>Journal Description</th></td><td><font color=#ffffff><%=h @journal.v_large_description%></font></td>
+	</tr>
+	<tr>
+		<td><th>Created Date</th></td><td><font color=#ffffff><%=h @journal.d_create_date%></font></td>
+	</tr>
+	<tr>
+		<td><th>UpDated Date</th></td><td><font color=#ffffff><%=h @journal.d_updated_date%></font></td>
+	</tr>
+	<tr>
+		<td><th>Journal Access</th></td><td><font color=#ffffff><%=h @journal.e_journal_access%></font></td>
+	</tr>
+	<tr>
+		<td><th>Journal Reminder</th></td><td><font color=#ffffff><%=h @journal.d_reminder_date%></font></td>
+	</tr>
+	<tr>
+		<td><th>Journal Status</th></td><td><font color=#ffffff><%=h @journal.e_journal_status%></font></td>
+	</tr>
+	
+	<%=h @journal.id = @journals_photo['v_image_filename'] %>
+</table>
+
+
+<%= link_to 'Edit', :action => 'edit', :id => @journal %> |
+<%= link_to 'Back', :action => 'list' %>

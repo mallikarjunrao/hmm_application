@@ -1,0 +1,38 @@
+<%= javascript_include_tag 'check_flash' %>
+<%= stylesheet_link_tag 'main' %>
+<%= stylesheet_link_tag 'hmmout' %>
+<table width="900"  border="0" cellspacing="0" cellpadding="0">
+  <tr><td valign="top">
+      <%= render :partial => 'links1' %>
+    </td><td>
+
+  <table width="600" border="0" cellspacing="0" cellpadding="0">
+    <tr>
+      <td colspan="4" align="left" valign="top" class="leftconthr" ><h3><font color="#ff6400">Create your iPhone App in 5 Easy Steps</font></h3></td></tr>
+    <tr> <td colspan="4" align="left" valign="top" class="leftconthr" ><h3><u>Step1: Upload Your Studio Logo</u></h3></td>
+    </tr>
+    <tr>
+      <td colspan="4" align="left" valign="top" class="leftconthr" >&nbsp;</td>
+    </tr>
+        <tr>
+          <td width="1%" align="left" valign="top" class="whitecont">&nbsp;</td>
+          <td width="34%" align="left" valign="top" class="whitecont"> 
+         <%if @studio%>
+        <%if(@studio.mobile_studio_logo!=nil && @studio.mobile_studio_logo!='')%>
+          <img src="<%=@studio.logo_img_url%>/user_content/mobile_studio_logos/<%=@studio.mobile_studio_logo%>" border="0" width="100" height="100"><br />
+         <!-- <a href="/hmm_studios/delete_logo/<%=params[:id]%>">(Remove)</a>-->
+         <%end%>
+       <%else%>
+          No Image
+        <%end%>
+      </td>
+      <td width="3%" align="left" valign="top" class="whitecont"></td>
+      <td width="62%" align="left" valign="top"></td>
+    </tr>
+   
+   
+
+  </table>
+
+</td>
+</tr></table>

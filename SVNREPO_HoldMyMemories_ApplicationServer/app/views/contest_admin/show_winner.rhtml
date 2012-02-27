@@ -1,0 +1,125 @@
+<h1>Show Contest Winner</h1>
+<style type="text/css">
+  .sub-btn{
+    background:transparent;
+    background-image: url(/images/sub-btn.png);
+    height:24px;
+    width:94px;
+    border:none;
+    font-size:13px;
+    font-weight:bold;
+    color:#FFF;
+    cursor:pointer;
+  }
+  .sub-btn:hover{
+    background-image: url(/images/sub-btn-ovr.png);
+  }
+</style>
+<script type="text/javascript">
+
+  function resize_image( img )
+  {
+    //var img = document.getElementById( id );
+
+    var normal_width = "125";
+    var normal_height = "135";
+
+    // img.removeAttribute( "width" );
+    //img.removeAttribute( "height" );
+
+    var real_width = img.width;
+    var real_height = img.height;
+
+    var ratio = real_height / real_width;
+    if(real_width >= normal_width && ratio <= 1)
+    {
+      real_width = normal_width;
+      real_height = real_width * ratio;
+      img.height = real_height;
+      img.width = real_width;
+    }
+    else if(real_height >= normal_height)
+    {
+      real_height = normal_height;
+      real_width = real_height / ratio;
+      img.height = real_height;
+      img.width = real_width;
+    }
+  }
+
+</script>
+<table width="601" border="0" cellspacing="0" cellpadding="0" align="center">
+  <tr>
+    <td height="30" align="center" valign="middle" class="cont_13">
+      <% if flash[:msg1] %>
+        <font color="Green"><%= flash[:msg1] %></font>
+      <% else %>
+        <font color="Red"><%= flash[:msg2] %></font>
+      <% end %>
+    </td>
+  </tr>
+  <tr>
+    <td align="center" colspan="6" height="40">
+      <a href="/contest_admin/contest_winners"><input type="submit" value="Back" class="sub-btn"/></a>
+      <% if @winner.photo_winner_name.length == 0 && @winner.video_winner_name.length == 0 %>
+      <% else %>
+      <a href="/contest_admin/edit_winners?contest_phase=<%= params[:contest_phase] %>"><input type="submit" value="Edit" class="sub-btn"/></a>
+      <% end %>
+    </td>
+  </tr>
+  <tr>
+    <td align="center" valign="top">
+      <form action="/contest_admin/update_winners?contest_phase=<%= params[:contest_phase] %>" method="post">
+        <table width="950" border="1" align="center" cellpadding="0" cellspacing="0">
+          <tr>
+            <td align="center" height="40" colspan="4" width="100%">
+              <img src="<%= @contest_name.heading_logo %>" />
+            </td>
+          </tr>
+          <% if @winner && @winner.photo_winner_name.length > 0 %>
+            <% i = 0 %>
+            <tr>
+              <td align="center" height="40" colspan="4"><h2>Photo Winners</h2></td>
+            </tr>
+            <tr>
+              <th align="center" height="40" colspan="2">Winner's name:</th>
+              <th align="center" height="40" colspan="2">Winner's image:</th>
+            </tr>
+            <% @winner.photo_winner_name.each do |winner| %>
+              <tr>
+                <td width="50" align="center" colspan="2"><%= winner["name"] %></td>
+                <td width="50" align="center" colspan="2"><a href="<%= winner["link"] %>"><img src="<%= winner["url"] %>" onload="resize_image(this);"/></a></td>
+              </tr>
+              <% i += 1 %>
+            <% end %>
+          <% else %>
+            <td align="center" height="40" colspan="3"><h2> No Image Entries for this Contest</h2></td>
+
+          <% end %>
+          <% if @winner && @winner.video_winner_name.length > 0 %>
+            <% i = 0 %>
+            <tr>
+              <td align="center" height="40" colspan="4"><h2>Video Winners</h2></td>
+            </tr>
+            <tr>
+              <th align="center" height="40" colspan="2">Winner's name:</th>
+              <th align="center" height="40" colspan="2">Winner's Video:</th>
+            </tr>
+            <% @winner.video_winner_name.each do |winner| %>
+              <tr>
+                <td width="50" align="center" colspan="2"><%= winner["name"] %></td>
+                <td width="50" align="center" colspan="2"><a href="<%= winner["link"] %>"><img src="<%= winner["url"] %>"  onload="resize_image(this);"/></a></td>
+              </tr>
+              <% i += 1 %>
+            <% end %>
+          <% else %>
+            <tr>
+              <td align="center" height="40" colspan="3"><h2> No Video Entries for this Contest</h2></td>
+            </tr>
+          <% end %>
+
+        </table>
+      </form>
+    </td>
+  </tr>
+</table>

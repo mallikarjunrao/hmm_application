@@ -1,0 +1,58 @@
+<style type="text/css">
+  .img-txt {
+    font-family:"Comic Sans MS", Arial;
+    font-size:8px;
+    color: #d2dce6;
+    text-decoration:none;
+    font-weight:bold;
+  }
+
+</style>
+
+<table width="100%" border="0" align="center" cellpadding="0" cellspacing="0">
+  <tr>
+  <tr>
+    <td align="left" valign="top">&nbsp;</td>
+  </tr>
+  <tr>
+    <% a = ContestDetail.find(params[:contest_id]) %>
+    <td align="center" width="284" valign="top"><img src="<% if params[:type] == "video" %> <%= a.video_logo %> <% else %> <%= a.photo_logo  %><% end %>" width="284" /></td>
+  </tr>
+  <tr>
+    <td height="23" align="left" valign="top"></td>
+  </tr>
+
+  <tr>
+  <table align="center" width="100%">
+    <tbody>
+      <tr>
+        <td  align="center">
+          <% if params[:type] == "photo" %>
+          <a href="/contests/moments_vote?contest_id=<%= params[:contest_id] %>">
+            <% else %>
+              <a href="/contests/videomoment_vote?contest_id=<%= params[:contest_id] %>">
+              <% end %>
+              <input type="submit" id="regsubmit" class="whiteButton" value="View and Vote" style="cursor:pointer;"/></a>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</tr>
+<tr>
+  <td height="23" align="left" valign="top"></td>
+</tr>
+<tr>
+<table align="center" width="100%">
+  <tbody>
+    <tr>
+      <td  align="center">
+        <a href="/contests/ruleslist?contest_id=<%= params[:contest_id] %>">
+          <input type="submit" id="regsubmit" class="whiteButton" value="Rules and Regulations" style="cursor:pointer;"/>
+        </a>
+      </td>
+    </tr>
+  </tbody>
+</table>
+</tr>
+</tr>
+</table>

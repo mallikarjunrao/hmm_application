@@ -1,0 +1,64 @@
+<%if params[:contest]=="Holiday"%>
+  <table  border="0" align="left">
+    <tr>
+      <th align="center" class="content-white"><font size="4"> Contest Rules and Regulations</font></th>
+    </tr>
+    <tr><th>&nbsp;</th></tr>
+    <tr>
+
+      <th  class="content-white" align="left">
+        <font size="2">
+          <li>One entry per family</li>
+          <br />
+          <li>Semi-finalists chosen by online voting</li>
+          <br />
+          <li>Grand prize winner chosen by a panel of judges</li>
+          <br />
+          <li>Online voting requires a valid email address.  Only one vote per contest (from each validated email address) will be accepted during the entry period ending on December 31, 2010. During the open voting period (January 1, 2011 to January 14, 2011) voting is limited to one vote per contest per day (from each validated email address).</li>
+          <br />
+          <li>Videos that include copyrighted material (sound tracks, songs, etc.) are ineligible for entry</li>
+          <br />
+
+          <li>Entries must be submitted before December 31, 2010</li>
+          <br />
+          <li>Online voting concludes January 14, 2011</li><br/>
+      </th>
+      </font>
+    </tr>
+  </table>
+<%else%>
+  <table border="0" align="left">
+    <tr>
+      <th align="center" class="content-white"><font size="4"> Contest Rules and Regulations</font></th>
+    </tr>
+    <tr><th>&nbsp;</th></tr>
+    <tr>
+
+      <th  class="content-white" align="left">
+        <font size="2">
+          <li>One entry per child.</li>
+          <br />
+          <li>There will be one grand prize winner for the video contest.</li>
+          <br />
+          <li>There will be one grand prize winner for the photo contest in each of the following age categories:  0-2 years, 3-5 years, 6-9 years, and 10-17 years.</li>
+          <br />
+          <li>Semi-finalists chosen by online voting.</li>
+          <br />
+          <li>Grand prize winner chosen by a panel of judges.</li>
+          <br />
+          <li>Online voting requires a valid email address. Only one vote per contest (from each validated email address) will be accepted during the entry period ending on March 30, 2011.</li>
+          <br />
+          <li>During the open voting period (April 1, 2011 to April 14, 2011) voting is limited to one vote per contest per day (from each validated email address).</li>
+          <br />
+          <li>Videos that include copyrighted material (sound tracks, songs, etc.) are ineligible for entry.</li>
+          <br />
+          <li>Entries must be submitted before March 30, 2011.</li>
+          <br />
+          <li>Online voting concludes April 14, 2011.</li>
+          <br />
+          <li>Winner will be announced April 20, 2011.</li>
+      </th>
+      </font>
+    </tr>
+  </table>
+<%end%>

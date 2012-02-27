@@ -1,0 +1,399 @@
+<style type="text/css">
+
+  .cmd-btn{
+    background:transparent;
+    background:url(/images/family_memory/input-btn.png);
+    border:none;
+    height:26px;
+    width:76px;
+    font-size:14px;
+    color:#87a3b5;
+    cursor: pointer;
+  }
+  .cmd-btn:hover{
+    background:url(/images/family_memory/input-btn-ovr.png);
+
+  }
+</style>
+<script type="text/javascript">
+  $(document).ready(function(){
+    $(".blog").click(function(){
+      if ($(".panel").is(":hidden")) {
+        $(".panel").slideDown("slow");
+      } else {
+        $(".panel").slideUp("slow");
+      }
+    });
+
+    $(".guest_comm").click(function(){
+      if ($(".guest_panel").is(":hidden")) {
+        $(".guest_panel").slideDown("slow");
+        $(".studioCredit").hide();
+
+      } else {
+        $(".guest_panel").slideUp("slow");
+      }
+    });
+
+    $(".login").click(function(){
+      if ($(".login_panel").is(":hidden")) {
+        $(".login_panel").slideDown("slow");
+      } else {
+        $(".login_panel").slideUp("slow");
+      }
+    });
+
+    $(".close").click(function(){
+      $(".panel").slideUp("slow");
+    });
+
+    $(".close1").click(function(){
+      $(".guest_panel").slideUp("slow");
+      $(".studioCredit").show();
+    });
+    $(".close2").click(function(){
+      $(".login_panel").slideUp("slow");
+    });
+
+  });
+</script>
+<table width="100%" border="0" cellspacing="0" cellpadding="0">
+  <tr>
+    <td><font color="red" size="2"><%=flash[:error]%></font></td>
+  </tr>
+  <% if session[:hmm_user].nil? %>
+    <tr>
+      <td height="20" align="center" valign="bottom"><div class="btn"><a href="#" title="Login" class="login"><img src="/images/family_memory/transaprent.png" class="menus loginHome" border="0"/></a></div></td>
+    </tr>
+  <%else%>
+    <tr>
+      <td height="20" align="center" valign="bottom"><div class="btn"><a href="/family_memory/logout/<%=params[:id]%>" title="Logout" class="logout"><img src="/images/family_memory/transaprent.png" class="menus logoutHome" border="0"/></a></div></td>
+    </tr>
+  <%end%>
+  <tr class="login_panel" style="display: none">
+    <td height="20" align="center" valign="top" >
+      <form name="emailusform" id="blogform" action="/family_memory/login/<%=params[:id]%>" method="post">
+        <table width="150" border="0" cellspacing="0" cellpadding="0" class="LoginHomeTxt add">
+          <tr>
+            <td height="41">&nbsp;</td>
+          </tr>
+          <tr>
+            <td align="center">Member login</td>
+          </tr>
+          <tr>
+            <td height="25"></td>
+          </tr>
+          <tr>
+            <td align="center" width="140" height="15"><input type="text" id="hmm_user_v_user_name" name="username" class="7b9baf" size="15" value="Username" onclick="this.value=''"/></td>
+          </tr>
+          <tr>
+            <td height="15"></td>
+          </tr>
+          <tr>
+            <td align="center" width="140" height="15"><input type="password" id="hmm_user_v_password" name="password" class="7b9baf" size="15" value="Password" onclick="this.value=''"/></td>
+          </tr>
+          <tr>
+            <td height="15"></td>
+          </tr>
+          <tr>
+            <td align="center"><input type="submit" class="cmd-btn" value="Submit" /></td>
+          </tr>
+          <tr>
+            <td height="15"></td>
+          </tr>
+          <tr>
+            <td align="center"> <input type="button" class="cmd-btn close1" value="Close"  /></td>
+          </tr>
+
+          <tr>
+            <td>&nbsp;</td>
+          </tr>
+        </table>
+      </form>
+
+    </td>
+  </tr>
+  <tr>
+    <td height="60"></td>
+  </tr>
+  <tr>
+    <td align="center"><table width="360" border="0" cellspacing="0" cellpadding="0">
+        <tr>
+          <td><img src="/images/family_memory/msg-top.png"/></td>
+        </tr>
+        <tr>
+          <td valign="top" style="background:url(/images/family_memory/msg-bg.png) repeat-y center center; padding:0 45px;"><table width="100%" border="0" cellspacing="0" cellpadding="0">
+              <%if params[:success]%>
+                <tr><td align="center">
+                    <%if params[:success]=='1'%>
+                      <font color="red" size="2"> Your Comment has been successfully Submitted</font>
+                    <%elsif params[:success]=='2'%>
+                      <font color="red" size="2">  Enter Correct Code</font>
+                    <%elsif params[:success]=='3'%>
+                      <font color="red" size="2">  Your Blog entry has been saved</font>
+                    <%end%>
+                    <%=flash[:notice1]%>
+                  </td></tr>
+              <%end%>
+              <tr>
+                <td height="25" align="center" valign="top" class="msgHead"><%= @first_img.v_tagname%></td>
+              </tr>
+              <%if !@blog.nil?%>
+                <tr>
+                  <td valign="top" align="center" class="msgHead" height="20">Blog <hr style="color: blue"/></td></tr>
+
+                <tr><td align="center" class="msgHead"><%=@blog.blog_title %></td></tr>
+
+                <% desc=@blog.blog_content %>
+                <tr><td align="center" class="msgSmall">  <%=desc.gsub("\n", "<br />\n") %></td></tr>
+                <tr><td align="right" class="msgSmall"><%= @blog.added_date.strftime("%b %d %Y") %></td></tr>
+                <tr><td align="right" class="msgSmall" height="30"></td></tr>
+                <%    if(session[:hmm_user])%>
+                  <%if logged_in_hmm_user.id==@family_website_owner.id%>
+                    <tr><td align="center" class="msgSmall"><table border="0" cellpadding="0" cellspacing="0" width="60%"><tr>
+                            <td align="left" width="30%" ><a href="/family_memory/edit_blog/<%=params[:id]%>?blog_id=<%=@blog.id%>&&redirect_url=<%=request.request_uri%>" class="nyroModal" title ="Edit"><img src="/images/family_memory/btn-edit.png" /></a></td>
+                            <td  align="right" width="30%" ><a href="/family_memory/delete_blog/<%=params[:id]%>?blog_id=<%=@blog.id%>&&redirect_url=<%=request.request_uri%>" title ="Delete"><img src="/images/family_memory/btn-delete.1.png" /></a></td></tr></table>
+                      </td></tr>
+                  <%end%>
+                <%end%>
+              <%end%>
+              <tr><td valign="top">
+                  <table border="0" cellpadding="0" cellspacing="0" valign="top" align="center">
+                    <tr><td align="right" class="msgSmall" height="30"></td></tr>
+                    <% if (!@blogcomments.nil? || @comments.length>0)%>
+                      <tr><td align="center" class="msgHead" height="30">Comments  <hr style=" width:260 ;color: blue"/></td></tr>
+                    <%end%>
+                    <% if !@blogcomments.nil?
+                      for blogcomment in @blogcomments%>
+                        <tr><td align="center" class="msgHead"> <%=blogcomment.comment%></td></tr>
+                        <tr><td align="right" class="msgSmall">By <%=blogcomment.name%></td></tr>
+                        <tr><td align="right" class="msgSmall"><%=blogcomment.created_at.strftime("%b %d %Y")%></td></tr>
+                        <tr><td align="right" class="msgSmall" height="30"><hr style=" width:260 ;color: blue"/></td></tr>
+                      <%end%>
+                    <%end%>
+                    <% if !@comments.nil?
+                      for comment in @comments%>
+                        <tr><td align="center" class="msgHead"> <%=comment.comment%></td></tr>
+                        <tr><td align="right" class="msgSmall">By <%=comment.commenter%></td></tr>
+                        <tr><td align="right" class="msgSmall"><%=comment.commented_date.to_date.strftime("%b %d %Y")%></td></tr>
+                        <tr><td align="right" class="msgSmall" height="30"><hr style=" width:260 ;color: blue"/></td></tr>
+                      <%end%>
+                    <%end%>
+                  </table>
+                </td></tr>
+
+              <%    if(session[:hmm_user].nil? || @family_website_owner.family_name != params[:id])%>
+                <tr>
+                  <td align="center"><div class="btn"><a href="#" title="Guest Comment" class="guest_comm"><img src="/images/family_memory/transaprent.png" class="menus guest" border="0"/></a></div></td>
+                </tr>
+
+                <tr>
+                  <td height="24" >&nbsp;</td>
+                </tr>
+                <tr>
+                  <td class="studioCredit">Leave a comment for this photo or this  gallery.</td>
+                </tr>
+
+                <tr><td>
+                    <div class="guest_panel" style="display: none">
+                      <form method="post" name="commentform" id="commentform" action="/familywebsite_comments/create_moment_comment/<%=params[:id]%>?moment_id=<%=  @first_img.id %>">
+                        <table border="0" cellpadding="0" cellspacing="0">
+                          <tr><td > <input type="hidden" name="moment_comment[user_content_id]" value="<%=  @first_img.id %>" /><input type="hidden" name="redirect_url" value="<%=request.url%>" /></td></tr>
+                          <tr><td  colspan="2" align="center" class="msgHead">Add Comment</td></tr>
+                          <tr>
+                            <td height="50" align="left" valign="top" class="msgSmall">Your Name:</td><td valign="top"> <input type="text" id="comment_name"  name="moment_comment[v_name]" size="18"   /></td>
+                          </tr>
+                          <tr>
+                            <td height="50" align="left" valign="top" class="msgSmall">Your Comment:</td><td valign="top"> <textarea id="comment_content"  name="moment_comment[v_comment]"  rows="10" cols="20"></textarea></td>
+                          </tr>
+                          <tr align="left">
+                            <td align="left" valign="top" colspan="2" class="content"><%= show_simple_captcha(:label => "(Please enter the code)", :image_style => 'distorted_black', :distortion => "medium")%><br><font color="red"><%=flash[:error]%></font></td>
+                          </tr>
+                          <tr>
+                            <td align="left" valign="top">
+                              <input type="submit" class="cmd-btn" value="Submit" />
+                            </td><td valign="top">
+                              <input type="button" class="cmd-btn close1" value="Close"  />
+                            </td>
+                          </tr>
+                        </table>
+                      </form>
+                    </div>
+                  </td></tr>
+              <%else%>
+                <%if @blog.nil?%>
+                  <tr>
+                    <td align="center"><div class="btn"><a href="#" title="Blog" class="blog"><img src="/images/family_memory/transaprent.png" class="menus blogThis" border="0"/></a></div></td>
+                  </tr>
+                  <tr><td>
+                      <div class="panel" style="display: none">
+                        <form name="emailusform" id="blogform" action="/blog/create_moment_newblog_entry/<%= params[:id]%>?moment_id=<%= @first_img.id %>" method="post">
+                          <table border="0" cellpadding="0" cellspacing="0">
+                            <tr><td height="50"><input type="hidden" name="redirect_url" value="<%=request.url%>" /></td></tr>
+                            <tr>
+                              <td height="50" align="left" valign="top" class="msgSmall">Title:</td><td valign="top"> <input type="text" name="title"  id="title" /></td>
+                            </tr>
+                            <tr><td height="50" class="msgSmall" valign="top">Blog Entry Date:</td>  <td align="left" valign="top"><%= date_select "blog", "added_date", :order => [:month, :day, :year], :start_year => Time.now.year - 100, :end_year => Time.now.year   %></td> </tr>
+                            <tr>
+                              <td height="50" align="left" valign="top" class="msgSmall">Description</td><td valign="top"> <textarea name="desc" id="desc" rows="10" cols="20"></textarea></td>
+                            </tr>
+                            <tr>
+                              <td height="20" align="left" valign="top" class="msgSmall"></td><td valign="top"> </td>
+                            </tr>
+                            <tr>
+                              <td height="50" align="left" valign="top">
+                                <input type="submit" class="cmd-btn" value="Submit" />
+                              </td><td valign="top">
+                                <input type="button" class="cmd-btn close" value="Close"  />
+                              </td>
+                            </tr>
+                          </table>
+                        </form>
+                      </div>
+                    </td></tr>
+                <%end%>
+              <%end%>
+            </table></td>
+        </tr>
+        <tr>
+          <td><img src="/images/family_memory/msg-btm.png"/></td>
+        </tr>
+      </table></td>
+  </tr>
+  <tr>
+    <td height="20" align="center" valign="top">&nbsp;</td>
+  </tr>
+  <%if session[:hmm_user]%>
+    <%if logged_in_hmm_user.id==@family_website_owner.id%>
+      <tr>
+        <td align="center" class="studioCredit">Studio Credit:<br />
+          <% if @family_website_owner.id == session[:hmm_user] or session[:hmm_user]  %>
+            <%if @cp==1%>
+              <% if @studio_groups.credit_system =="Dollars" %>
+                $<%=number_with_precision(@creditpt.available_credits, :precision => 2)%>
+              <%else%>
+                <%=@creditpt.available_credits.round%>
+              <%end%>
+            <%end%>
+          <% end  %></td>
+      </tr>
+    <%end%>
+  <%end%>
+  <tr>
+    <td height="26" align="center" class="studioCredit">&nbsp;</td>
+  </tr>
+  <tr>
+    <td align="right"><table width="330" border="0" align="center" cellpadding="0" cellspacing="0">
+        <tr>
+          <td width="55%"><div class="pop"><a href="/family_memory/email/<%=params[:id]%>" title="Share"><img src="/images/family_memory/transaprent.png" class="popUp email" border="0"/></a></div></td>
+          <% if ((@family_website_owner.studio_id).to_i == 0 )%>
+            <td><div class="btn"><a href="/family_memory/search_studio/<%=params[:id]%>" title="Book Sessions"  class="nyroModal"><img src="/images/family_memory/transaprent.png" class="menus bkSession" border="0"/></a></div></td>
+          <%else
+            link="/my_familywebsite/book_session/#{@family_website_owner.family_name}/?studio_id=#{@family_website_owner.studio_id}"%>
+            <td><div class="btn"><a href="<%=link%>" title="Book Session" target="_blank"><img src="/images/family_memory/transaprent.png" class="menus bkSession" border="0"/></a></div></td>
+          <%end %>
+        </tr>
+        <tr>
+          <td height="10" colspan="2"></td>
+        </tr>
+        <tr>
+          <%if session[:hmm_user]%>
+            <%if logged_in_hmm_user.id==@family_website_owner.id%>
+              <td width="55%"><div class="btn"><a href="/familymemory_contests/submit_entry/<%=params[:id]%>?moment_id=<%= @first_img.id %>" title="Contests"><img src="/images/family_memory/transaprent.png" class="menus contest" border="0"/></a></div></td>
+            <%end%>
+          <%end%>
+          <%if session[:hmm_user]%>
+            <%if logged_in_hmm_user.id==@family_website_owner.id%>
+              <% if  @first_img.e_filetype=='image' %>
+                <td><div class="btn"><a href="<%=@path.content_path%>/studio_session_orders/get_image_sizes_service?family_name=<%=params[:id]%>&&image_id=<%= @first_img.id %>&&version=v4" title="Order"><img src="/images/family_memory/transaprent.png" class="menus order" border="0"/></a></div></td>
+              <%end%>
+            <%end%>
+          <%end%>
+
+        </tr>
+      </table>
+    </td>
+  </tr>
+  <tr>
+    <td height="30" align="center" valign="middle"></td>
+  </tr>
+  <tr>
+    <td height="15" align="center" valign="middle" class="powered">Powered by</td>
+  </tr>
+  <tr>
+    <td align="center" valign="top"><img src="/images/family_memory/hmm-small-logo.png" /></td>
+  </tr>
+  <tr>
+    <td align="center" valign="top">&nbsp;</td>
+  </tr>
+</table>
+<%= javascript_include_tag 'livevalidation_prototype','livevalidation'%>
+<script type="text/javascript">
+  if(document.getElementById('comment_name')!=null)
+  {
+    var f2 = new LiveValidation('comment_name');
+
+    f2.add( Validate.Presence );
+  }
+  if(document.getElementById('captcha')!=null)
+  {
+    var f3 = new LiveValidation('captcha');
+    f3.add( Validate.Presence );
+  }
+  if(document.getElementById('comment_content')!=null)
+  {
+    var f4 = new LiveValidation('comment_content');
+    f4.add( Validate.Presence );
+  }
+  if(document.getElementById('title')!=null)
+  {
+    var f5 = new LiveValidation('title');
+    f5.add( Validate.Presence );
+  }
+  if(document.getElementById('desc')!=null)
+  {
+    var f6 = new LiveValidation('desc');
+    f6.add( Validate.Presence );
+
+  }
+  if(document.getElementById('hmm_user_v_user_name')!=null)
+  {
+    var f7 = new LiveValidation('hmm_user_v_user_name');
+    f7.add( Validate.Presence );
+  }
+  if(document.getElementById('hmm_user_v_password')!=null)
+  {
+    var f8 = new LiveValidation('hmm_user_v_password');
+    f8.add( Validate.Presence );
+  }
+
+</script>
+<style type="text/css">
+  .LV_validation_message{
+    margin:0 0 0 5px;
+  }
+
+  .LV_valid {
+    color:#00CC00;
+  }
+
+  .LV_invalid {
+    color:#CC0000;
+  }
+
+  .LV_valid_field,
+  input.LV_valid_field:hover,
+  input.LV_valid_field:active,
+  textarea.LV_valid_field:hover,
+  textarea.LV_valid_field:active {
+    border: 1px solid #00CC00;
+  }
+
+  .LV_invalid_field,
+  input.LV_invalid_field:hover,
+  input.LV_invalid_field:active,
+  textarea.LV_invalid_field:hover,
+  textarea.LV_invalid_field:active {
+    border: 1px solid #CC0000;
+  }
+</style>

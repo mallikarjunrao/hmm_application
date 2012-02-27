@@ -1,0 +1,75 @@
+
+<table width="900">
+	<tr>
+		<td align="right" width="100">
+			<b>From email</b>
+		</td>
+		<td>&nbsp;</td>
+		<td align="left">
+			 <%= @email_management.from_email %>
+		</td>
+	</tr>
+	<tr>
+		<td align="right">
+			<b>Account Type</b> 
+		</td>
+		<td>&nbsp;</td>
+		<td align="left">
+			<%= @email_management.to_email %>
+		</td>
+	</tr>
+	<tr>
+		<td align="right">
+			<b>Subject</b>
+		</td>
+		<td>&nbsp;</td>
+		<td align="left">
+			<%= @email_management.subject %>
+		</td>
+	</tr>
+	<tr><td>&nbsp;</td></tr>
+	
+	<%if @email_management.email_type == 'newsletter'%>
+	<tr>
+		
+		<td colspan="3" align="center">
+			<img  src="http://content.holdmymemories.com/admin/emailphotos/thumbs/<%= @email_management.file_name %>" border='0' />
+		</td>
+	</tr>
+	<tr><td>&nbsp;</td></tr>
+	<%else%>
+	<tr>
+		<td align="right">
+			<b>Message</b>
+		</td>
+		<td>&nbsp;</td>
+		<td align="left">
+			<%= @email_management.message %>
+		</td>
+	</tr>
+	 <%end%>
+	<tr>
+		<td align="right">
+			<b>Footer message:</b>
+		</td>
+		<td>&nbsp;</td>
+		<td align="left">
+			 <%= @email_management.footer_message %>
+		</td>
+	</tr>
+	<tr>
+		<td align="right">
+			<b>Email interval</b> 
+		</td>
+		<td>&nbsp;</td>
+		<td align="left">
+			  <%= @email_management.email_interval %>
+		</td>
+	</tr>
+</table>
+
+
+
+
+
+<%= link_to 'Back', :action => 'list' %>

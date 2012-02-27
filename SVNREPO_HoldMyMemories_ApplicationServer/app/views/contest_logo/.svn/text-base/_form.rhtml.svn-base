@@ -1,0 +1,77 @@
+<fieldset>
+    <table width="75%" border="0" cellspacing="0" cellpadding="0">
+      <tr>
+        <td><br/></td>
+      </tr>      
+      <% unless @contest_logo_detail.nil? %>
+        <% if @contest_logo_detail.logo!=nil %>
+          <tr>
+            <td width="1%" align="left" valign="top" class="whitecont">&nbsp;</td>
+            <td><img src="<%= @contest_logo_detail.img_url %>/user_content/contest_logos/<%= @contest_logo_detail.logo %>"  style="vertical-align: middle;margin-top: -1.5px;" height="131" border="0" /></td>
+          </tr>
+        <% end %>
+      <% end %>
+      <tr>
+        <td width="1%" align="left" valign="top" class="whitecont">&nbsp;</td>
+        <td width="30%" align="left" valign="top" class="whitecont">Upload Contest Logo* </td>
+        <td width="1%" align="left" valign="top" class="whitecont">:</td>
+        <td width="68%" align="left" valign="top">
+          <input type="file" name="contest_logo" onChange="return validateFileExtension(this)"/>
+          <br />							  <br/>
+        </td>
+      </tr>
+      
+
+      <% if contest_logo == nil
+        contest_id = 0
+      else
+        if contest_logo.contest_type == 'image'
+          sel1 = 'selected'
+        else
+          sel2 = 'selected'
+        end
+        contest = contest_logo.contest_details_id
+      end
+        %>
+
+      <tr>
+        <td width="1%" align="left" valign="top" class="whitecont">&nbsp;</td>
+        <td width="30%" align="left" valign="top" class="whitecont">Type</td>
+        <td width="1%" align="left" valign="top" class="whitecont">:</td>
+        <td width="68%" align="left" valign="top">
+        <select name="type" id="type">
+          <option value="image" <%= sel1 %>>Image</option>
+            <option value="video" <%= sel2 %>>Video</option>
+        </select>
+        </td>
+      </tr>
+
+      <tr>
+        <td><br/></td>
+      </tr>
+
+
+      <tr>
+        <td width="1%" align="left" valign="top" class="whitecont">&nbsp;</td>
+        <td width="30%" align="left" valign="top" class="whitecont">Contests</td>
+        <td width="1%" align="left" valign="top" class="whitecont">:</td>
+        <td width="68%" align="left" valign="top">
+          <%= select_tag(:contest_details_id, "<option>-Select a Contest</option>" + options_from_collection_for_select(ContestDetail.find(:all), :id, :name, contest)) %>
+        <%#= collection_select :contest_details_id, ContestDetail.all, :id, :name, :prompt => "--Select a Contest--"  %>
+        </td>
+      </tr>
+
+      <tr>
+        <td width="1%" align="left" valign="top" class="whitecont">&nbsp;</td>
+        <td>
+          <input type="submit" id="sub" name="sub" class="cmd-btn" value="Update" style="cursor:pointer;"/>
+        </td>
+        <td>
+          <a href="/contest_logo/list">Back</a>
+        </td>
+      </tr>
+      <tr>
+        <td><br/></td>
+      </tr>     
+    </table>
+  </fieldset>

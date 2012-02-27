@@ -1,0 +1,284 @@
+<%= javascript_include_tag 'modalbox/prototype' %>
+<script type="text/javascript" src="/javascripts/modalbox/scriptaculous.js?load=effects"></script>
+<script type="text/javascript" src="/javascripts/modalbox/modalbox.js"></script>
+<%= stylesheet_link_tag 'modalbox/modalbox' %>
+<% session['redirect'] = '10' %>
+<p><%=flash[:share_familypage]%></p>
+<input type="hidden" name="family_name" id="family_name" value="<%=params[:familyname]%>" />
+<% if(params[:modal] == '1')%>
+  <script language='javascript'>
+    var familyname = document.getElementById('family_name').value;
+    Modalbox.show('/my_familywebsite/share?link=/'+familyname+'&error=Invalid Capcha Please try again!!', {title: '<br><font color="#ff0000">Share this Page with your friends!</font>',  width:625})
+  </script>
+
+<%end%>
+<font color="#ff0000"><%= flash[:notice_chapjournal]%>
+<%=flash[:notice_chapjournal_update]%></font>
+<table width="100%" border="0" >
+  <tr>
+    <% @tag = Tag.find(:all, :conditions => "id=#{params[:id]}")
+    for @i in @tag
+      @chapname=@i.v_tagname
+    %><th width="777" height="" colspan="" align="left"><font size="3">
+        </font></th>
+
+    <%end%><th width="32" align="right" valign="middle">
+    </th>
+  </tr><tr>
+    <td align="right">
+      <a href="/my_familywebsite/subchapter_grid_view/<%=params[:familyname]%>?chapter_id=<%=params[:id]%>" class="orangelinkswitch">
+
+        Switch To Grid View</a>&nbsp;&nbsp;
+      </td>
+  </tr>
+</table>
+<table width="100%" border="0" cellspacing="0" cellpadding="0" align="center">
+
+  <tr><td align="center">
+      <input type="hidden" name="chapterid" id="chapterid" value="<%=@chapterid%>">
+
+      <%
+      if(@item<=0)
+      %>
+    <tr><td><font color="#ff0000">You dont have permision to view Sub-chapters of this chapter</font></td></tr>
+  <%else%>
+    <%
+    if (@userid[0]['themes'] == 'myfamilywebsite' or @userid[0]['themes'] == 'familywebsite_pink_bottom' or @userid[0]['themes'] == 'familywebsite_white_bottom')
+
+      cwidth=898
+      cheight=350
+
+    else
+
+      cwidth=560
+      cheight=350
+
+    end
+  %>
+    <input type="hidden" id="proxyurls" value="<%=@proxyurls%>"/>
+    <script src="/AC_OETags.js" language="JavaScript"></script>
+    <script src="DWConfiguration/ActiveContent/IncludeFiles/AC_RunActiveContent.js" type="text/javascript"></script>
+    <script type="text/javascript">
+      var chapid = document.getElementById("chapterid").value;
+      var proxyurls = document.getElementById("proxyurls").value;
+      var familynam = document.getElementById('family_name').value;
+      AC_FL_RunContent( 'codebase','http://download.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=7,0,19,0',
+      'width','<%=cwidth%>',
+      'height','<%=cheight%>',
+      'src','/RightDisplayStack',
+      'quality','high',
+      'wmode','transparent',
+      'pluginspage','http://www.macromedia.com/go/getflashplayer',
+      'movie','/RightDisplayStack',
+
+      'flashvars', 'serverUrl=/my_familywebsite/coverFlowImages/'+chapid+'&navigateToUrl=/my_familywebsite/gallery/&buttonsVisible=false&proxyurls='+proxyurls+'&familyname='+familynam); //end AC code
+
+    </script>
+    <noscript>
+      <object classid="clsid:D27CDB6E-AE6D-11cf-96B8-444553540000" codebase="http://download.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=7,0,19,0" width="<%=cwidth%>" height="<%=cheight%>">
+        <param name="movie" value="/Chapter.swf" />
+        <param name="quality" value="high" />
+        <param name="FlashVars"  />
+        <embed src="/Chapter.swf" quality="high" FlashVars=""  pluginspage="http://www.macromedia.com/go/getflashplayer" type="application/x-shockwave-flash" width="<%=cwidth%>" height="<%=cheight%>"></embed>
+      </object>
+    </noscript>
+
+
+  <%end%>
+</td></tr>
+<tr><td align="right">
+    <table  width="100%" align="right">
+        <tr><td align="right" >&nbsp;</td></tr>
+        <tr><td align="right" ><%= render :partial => "sharesocialnetwork" %></td></tr>
+        <tr><td align="right" >&nbsp;</td></tr>
+      </table>
+  </td></tr>
+</table>
+
+
+
+
+<table align="center" width="100%" border="0" cellspacing="0" cellpadding="0">
+  <input type="hidden" name="order" value="<%=params[:order]%>" />
+  <tr>
+    <th align="center" colspan="6">
+
+
+    </th>
+  <tr>
+    <td colspan="6">
+      <div id="me">
+        <font color="#ff0000"><%=  flash[:notice_cc]%></font>
+        <font color="#ff0000"><%=  flash[:notice_cca]%></font>
+        <font color="#ff0000"><%=  flash[:notice_ccr]%></font>
+        <font color="#ff0000"><%=  flash[:notice_ccd]%></font>
+        <font color="#ff0000"><%=flash[:notice2]%></font>
+
+      </div>
+    </td>
+  </tr>
+</tr>
+
+
+</table>
+<table width="800" border="0">
+  <tr><td align="center">
+      <%if session[:hmm_user] && logged_in_hmm_user.family_name == params[:familyname] %> <a href="/manage_content/new_chapjournal/<%=params[:id]%>?familyname=<%=params[:familyname]%>" class="journal_txt_link">Journal this</a><%else%><tr><td colspan="3">
+        <p align="center"><u><%= link_to_remote("<span class='commentcont'>Add Comment</span>", :update =>"add_comment",
+            :url => {:controller => :my_familywebsite, :action => :new_chap_comment, :id=> params[:id] , :familyname => params[:familyname]} ,:layout => false  ) %></u>
+          &nbsp; <%  @chapter_comment_count = ChapterComment.count(:all,:conditions => "tag_id=#{params[:id]} and tag_jid='0' and e_approval='approve'")
+          if @chapter_comment_count > 0 %>
+
+            <u><%= link_to_remote("<span class='commentcont'>View Comments</span>", :update =>"add_comment",
+              :url => {:controller => :my_familywebsite, :action => :view_chap_comments, :tag_id => params[:id], :jid => 0, :familyname => params[:familyname]  } ,:layout => false  ) %></u>
+          <%end%>
+          </font></p>
+        <p>
+        <div id="add_comment"></div>
+        </p>
+
+      </td></tr>
+
+  <%end%>
+
+</td></tr>
+</table>
+<!-- html code for chapter journals -->
+<% @chapter_journal_count = ChapterJournal.count(:all,:conditions =>" tag_id=#{params[:id]}") %>
+<% if @chapter_journal_count >0 %>
+  <table class="border" width="88%" border="0" cellspacing="0" cellpadding="0">
+    <tr>
+
+      <th width="944" height="295" align="left" valign="top" scope="col">
+        <table width="100%" border="0" cellspacing="0" cellpadding="0" id="table_br">
+
+          <tr>
+            <th colspan="2" width="22" height="32" align="left" valign="middle"  id="table_bar_bg" scope="col">
+              <span class="btmtxt">&nbsp;&nbsp;Journal			  </span></th>
+            <th align="left" valign="middle"  id="table_bar_bg" scope="col" colspan="1"><span class="btmtxt">
+                <%if (@chap_cnt < 1 || @chap_cnt == "") %><a href='/chapter_journal/new/<%=params[:id]%>'>
+                  </a>
+
+                <%else if @chap_cnt >= 1 %>
+
+                    <% for @i in @chapter_journal %><a href='/chapter_journal/edit/<%= @i.id %>'>
+                      </a></span><%end%><%end%></th><th  id="table_bar_bg" scope="col" align="right">&nbsp;</th>
+            </tr>
+
+            <tr>
+              <th height="32" align="left" valign="top" scope="col">&nbsp;</th>
+              <th align="left" valign="middle" scope="col"><span class="commenthr">
+
+                  <%= @i.v_tag_title %>&nbsp;&nbsp;
+                  <% ActiveSupport::CoreExtensions::Time::Conversions::DATE_FORMATS.merge!(
+                    :date => "%Y-%m-%d",
+                    :presentable_datetime => "%a %b %d, %Y %H:%M",
+                    :presentable_date => "%a %b %d, %Y")
+                  @created_date=@i.d_created_at %>
+
+                <%=@created_date.to_s(:presentable_date)%></span></th>
+
+              <th align="left" valign="top" scope="col">&nbsp;</th>
+            </tr>
+            <tr>
+              <th height="65" align="left" valign="top" scope="col">&nbsp;</th>
+              <th align="left" valign="top" class="commentcont" scope="col">
+              <%= @i.v_tag_journal.gsub("\n", "<br />\n") %>			  	</th>
+            </tr>
+            <tr>
+              <% if session[:hmm_user]
+              else%>
+                <th height="100" align="left" valign="top" scope="col">&nbsp;</th>
+                <th align="right" colspan="3">
+                  &nbsp;&nbsp;&nbsp;&nbsp;
+                  <div id="show_comment" style="display:none" >
+                    <table >
+                      <tr>
+                        <td valign="top">&nbsp;						</td>
+                        <td>
+                          <form name="frm1" action="/chapter_comment/create_cmt">
+                            <input type="hidden" value="<%= params[:id]%>" name="tag_id" />
+                            <input type="hidden" value="<%=@i.id%>" name="tag_j_id" />
+                            <input type="hidden" value="<%=request.request_uri%>" name="re_send" id="re_send" />
+                            <table>
+                              <tr>
+
+                                <td align="center">
+                                  <textarea class='textbox-1'  cols='40' id='chapter_comment_j_v_comment' name='chapter_comment[v_comment]' rows='2'></textarea>									</td>
+                              </tr>
+                              <tr>
+                                <td>
+
+                                  <table>
+                                    <tr>
+                                      <td>
+                                        <input type="submit" value="Create" name="Create" id="Create">												</td>
+                                    </tr>
+                                  </table>									</td>
+                              </tr>
+                            </table>
+                          </form>						</td>
+                      </tr>
+                    </table>
+                  </div>				</th>
+              <%end%>
+            </tr>
+
+
+            <tr>
+              <th>	</th>
+              <th>
+
+
+                <% @tag_cnt = ChapterComment.count(:joins => "as a , chapter_journals as c " , :conditions => "c.tag_id=#{params[:id]} and c.id=a.tag_jid and a.e_approval = 'approve'") %>
+                <% if @tag_cnt != 0 %>
+                  <table width="90%"  id="table_br" cellspacing="0" cellpadding="3">
+                    <tr bordercolor="#000000">
+
+                      <th align="left" valign="middle"  id="table_bar_bg" scope="col" colspan="3"><span class="btmtxt"><%if session[:friend]==''%>Approved<%end%> Journal Comments</th>
+                    </tr>
+                    <input type="hidden" value="<%= params[:id] %>" name="tag_jid" />
+                  </table>	</th>
+              </tr><%end%>
+
+
+            <font color="#ff0000"><%=  flash[:notice1]%></font>
+            <font color="#ff0000"><%=  flash[:notice2]%></font>
+            <tr>
+              <th height="28" align="left" valign="top"  id="table_bar_bg" scope="col">&nbsp;</th>
+              <th align="left" valign="middle"  id="table_bar_bg" class="text-journal" scope="col" colspan="3">			</th>
+            </tr>
+
+
+
+
+          <%end%>
+        </table></th>
+
+
+    </tr>
+  </table>
+
+<%else%>
+
+
+<%end%>
+
+
+<script type="text/javascript">
+
+
+  function call_cntbx()
+  {
+    if(document.getElementById('show_comment').style.display=='none')
+    {
+      document.getElementById('show_comment').style.display = 'block';
+    }else{
+
+      document.getElementById('show_comment').style.display = 'none';
+    }
+
+  }
+
+</script>
+

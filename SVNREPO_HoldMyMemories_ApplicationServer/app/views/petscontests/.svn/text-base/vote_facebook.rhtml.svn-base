@@ -1,0 +1,8 @@
+<p>or login with Facebook connect</p>
+<script src="http://www.google.com/jsapi" type="text/javascript"></script>
+    <script type="text/javascript">
+      google.load("jquery", "1.4.2");
+    </script>
+<%= fb_connect_javascript_tag %>
+  <%= init_fb_connect "XFBML", {:js => :jquery ,  :app_settings => " { permsToRequestOnConnect : 'email' }"} %>
+  <%= fb_login_button('window.location =\''+ url_for(:action => 'face_book_logged_in') + '\'') %>

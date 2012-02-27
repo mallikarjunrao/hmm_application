@@ -1,0 +1,82 @@
+ 	 <table border="0" width="88%" cellspacing="4"  cellpadding="4">
+    
+    <% 
+		if(@fnf_blocked.size==0)
+		%>
+		<tr><td>
+		<table class="border" width="100%"> 
+			<tr class="border"><td>&nbsp;&nbsp;</td><td  valign="middle"  align="left"><h4><font color="white">No Blocked Users!</font></h4></td></tr>
+		</table>
+		</td></tr>
+		<%
+		else
+		cnt=@fnf_blocked_count[0]['cnt']
+		j=0
+		
+	%>
+	<tr><td height="0">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td><td>&nbsp;&nbsp;&nbsp;&nbsp;</td><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td></tr><tr>
+	 
+	<% for i in @fnf_blocked 
+	   	if(j>=5)	
+		%>
+		</tr><tr><td height="8">&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr><tr>
+		<%
+		end
+		j=j+1	
+		%>
+	
+		  
+		 
+	<td align="center"><table align="center" width="50%">
+	<tr>
+      <th colspan="2" align="center" valign="middle" bgcolor="#191919" scope="col">
+      </th>
+    
+	</tr>
+	 
+	 <tr>
+	 	<th  width='15%' align="center" valign="middle">
+	 		<a href="/customers/profile/<%=i.frid%>"> <img src="<%=i.img_url%>/hmmuser/photos/thumb/<%=i.v_myimage%>" border="0"/></a>
+		</th>
+       
+	   <th  colspan="0" align="center" valign="top" scope="col">
+       
+	   </th>
+	   
+	</tr>
+	 <tr>
+	 	
+       
+	   <th  colspan="2" align="center" valign="top" scope="col">
+     	<%=i.v_fname%>
+	   </th>
+	   
+	</tr>	
+	 <tr>
+	 	<th  width='15%' align="center" valign="middle">
+	 	</th>
+       
+	   <th  colspan="0" align="center" valign="top" scope="col">
+     	<div id="<%=i.id%>" > </div>	
+	   </th>
+	   
+	</tr>	
+		
+	<tr >
+		
+		<th  colspan="2" align="center">
+			
+	
+	<a href="/customers/unblockFnf/<%=i.frid%>"><img src="/images/unblock_btn.jpg" border="0"  /></a>       
+		</th>
+	
+	</tr>
+	</table></td>
+
+ <%
+       
+         
+     end
+end
+ %>
+</table>

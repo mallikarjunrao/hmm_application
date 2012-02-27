@@ -1,0 +1,16 @@
+<h3>Tag Details</h3>
+<table>
+  	<tr>
+   	<td><th>Tag Name</th></td> <td><%=h @tag.v_tagname%></td>
+   	</tr>
+   
+	<tr>
+	<td><th>Tag Type</th></td><td> <%=h @tag.e_tagtype%></td>	
+	</tr>
+	
+	</table>
+	
+	
+	
+<%= link_to 'Edit', :action => 'edit', :id => @tag %> |
+<%= link_to 'Back', :action => 'list' %>

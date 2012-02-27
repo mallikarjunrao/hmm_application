@@ -1,0 +1,108 @@
+<%= javascript_include_tag 'check_flash' %>
+<%= stylesheet_link_tag 'main' %>
+<%= stylesheet_link_tag 'hmmout' %>
+<script type="text/javascript">
+  function check_terms()
+  {
+    if(document.getElementById('app_name').value=='')
+    {
+      alert("Please add the App Name");
+      document.getElementById('app_name').focus();
+      return false;
+    }
+    if(document.getElementById('iphone_app_full_name').value=='')
+    {
+      alert("Please add the Full App Name");
+      document.getElementById('iphone_app_full_name').focus();
+      return false;
+    }
+
+  }
+  function textCounter(field, countfield, maxlimit) {
+    if (field.value.length > maxlimit) // if too long...trim it!
+        field.value = field.value.substring(0, maxlimit);
+        // otherwise, update 'characters left' counter
+    else
+        countfield.value = maxlimit - field.value.length;
+}
+
+
+</script>
+<table width="900"  border="0" cellspacing="0" cellpadding="0">
+  <tr><td valign="top">
+      <%= render :partial => 'links' %>
+    </td><td>
+
+      <form name="frm" action="/manage_mobile_studios/manage_app_name/<%=@employee.store_id%>" method="post" enctype="multipart/form-data"  on>
+        <table width="600" border="0" cellspacing="0" cellpadding="0">
+          <tr>
+            <td colspan="4" align="left" valign="top" class="leftconthr" ><h3><font color="#ff6400">Create your iPhone App in 5 Easy Steps</font></h3></td></tr>
+          <tr> <td colspan="4" align="left" valign="top" class="leftconthr" ><h3><u>Step 2.A: Add Your App Name:</u></h3></td>
+          </tr>
+          <tr>
+            <td colspan="4" align="left" valign="top" class="leftconthr" >&nbsp;</td>
+          </tr>
+          <%if(params[:success]=='1')%>
+            <tr>
+              <td colspan="4" align="center" valign="top" class="leftconthr">
+                <font color="#FF0000">Studio Logo Updated</font>
+              </td>
+            </tr>
+            <tr>
+              <td colspan="4" align="left" valign="top" class="leftconthr" >&nbsp;</td>
+            </tr>
+          <%end%>
+          <tr>
+            <td width="1%" align="left" valign="top" class="whitecont">&nbsp;</td>
+            <td width="34%" align="left" valign="top" class="whitecont">Add Your App Name * </td>
+            <td width="3%" align="left" valign="top" class="whitecont"></td>
+            <td width="62%" align="left" valign="top"><input type="text" name="app_name" id="app_name" maxlength="11" size="11" value="<%=@studio.iphone_app_name%>"  onKeyDown="textCounter(this.form.app_name,this.form.remLen,11);" onKeyUp="textCounter(this.form.message,this.form.remLen,11);">
+            <br /><br /><br />
+    <input readonly type='text' name='remLen' size=2 maxlength=2 value="10" />characters left
+
+</td></tr>
+
+
+          <tr>
+            <td align="left" valign="top">&nbsp;</td>
+            <td align="left" valign="top">&nbsp;</td>
+            <td align="left" valign="top">&nbsp;</td>
+            <td align="left" valign="top">Max.Character allowed is 11</td>
+          </tr>
+           <tr>
+            <td width="1%" align="left" valign="top" class="whitecont">&nbsp;</td>
+            <td width="34%" align="left" valign="top" class="whitecont">Add Your App Full Name * </td>
+            <td width="3%" align="left" valign="top" class="whitecont"></td>
+            <td width="62%" align="left" valign="top"><input type="text" name="iphone_app_full_name" id="iphone_app_full_name" value="<%=@studio.iphone_app_full_name%>">
+
+
+</td></tr>
+
+
+          <tr>
+            <td align="left" valign="top">&nbsp;</td>
+            <td align="left" valign="top">&nbsp;</td>
+            <td align="left" valign="top">&nbsp;</td>
+            <td align="left" valign="top"></td>
+          </tr>
+
+           <tr>
+            <td align="left" valign="top">&nbsp;</td>
+            <td align="left" valign="top">&nbsp;</td>
+            <td align="left" valign="top">&nbsp;</td>
+            <td align="left" valign="top"></td>
+          </tr>
+          
+
+
+          <tr>
+            <td align="left" valign="top">&nbsp;</td>
+            <td align="left" valign="top">&nbsp;</td>
+            <td align="left" valign="top">&nbsp;</td>
+            <td align="left" valign="top">&nbsp;</td>
+          </tr>
+
+        </table>
+      </form>
+    </td>
+  </tr></table>

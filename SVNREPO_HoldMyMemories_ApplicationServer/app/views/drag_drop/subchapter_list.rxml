@@ -1,0 +1,23 @@
+xml.instruct! :xml, :version=>"1.0"
+xml.root {
+  xml.subchapters{
+    for subchapter123 in @sub_chapters
+      xml.subchapter{
+        xml.id(subchapter123.id)
+        xml.tagid(subchapter123.tagid)
+        xml.access(subchapter123.e_access)
+        xml.name(subchapter123.sub_chapname)
+        xml.icon(subchapter123.img_url + "/user_content/photos/icon_thumbnails/#{subchapter123.v_image}")
+        xml.tags(subchapter123.v_subchapter_tags)
+        xml.description(subchapter123.v_desc)
+        subchaptercheck=SubChapter.count(:all, :conditions => "id='#{subchapter123.id}' and store_id is not null")
+            if(subchaptercheck > 0)
+              xml.editable("false")
+            else
+              xml.editable("true")
+            end
+        xml.gallerycount(subchapter123.gallery_count)
+      }
+    end
+  }
+}

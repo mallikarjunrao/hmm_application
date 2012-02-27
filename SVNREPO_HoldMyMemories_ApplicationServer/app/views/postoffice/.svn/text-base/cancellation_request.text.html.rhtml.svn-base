@@ -1,0 +1,48 @@
+<p>Hello <i><%= @store_employee_name %></i>. </p>
+
+<% 
+                if( @account_type=='platinum_user') 
+                 @account_type = "Premium Account"
+                 @amount="$9.95"
+                else
+                  if( @account_type=='familyws_user')
+                    @account_type = "Family Website Account" 
+                    @amount="$4.95"                    
+                  end  
+                end  
+%>
+
+<p> Request has been sent to the cancellation of the <%=@account_type%> by the customer name: <%=@v_fname%> <%=@l_fname%>.<br></p>
+<br>
+  <p> <b>Reason provided by the customer:</b> <%=@reason%></p>
+<br><br>
+  
+<p> <b>Customer Subscription Details:</b></p>
+
+<p>Invoice Number: <%= @invoicenumber%> </p>  
+<p>Subscription Number: <%= @subscriptionnumber%> </p>  
+<p>Customer Name: <%=@v_fname%> <%=@l_fname%></p>
+<p>Account type: <%=@account_type%></p>
+<p>Subscription Amount: <%= @amount%> </p><br>
+
+<p><b>Credit Points Details:</b></p>
+
+<p>Studio Group: <%=@studio_group%></p>
+<p>Studio Name: <%=@studio_name%></p>
+<p>Credit : <%=@credit_point%></p>
+
+<p><b>Billing / Shipping Address: </b></p><br>
+<p>Name: <%=@v_fname%> <%=@l_fname%> </p>
+<p>Street Address: <%= @street_address%> </p>
+<p>City : <%= @city %> </p>
+<p>Postal/Zip code: <%= @postcode %> </p>
+<p>State: <%= @state %> </p>
+<p>Country: <%= @country %> 
+<p>Phone Number: <%= @telephone %> 
+
+
+<br><br>
+
+
+<p>Thank-you,</p>
+<p>Your HoldMyMemories.com Team</p>

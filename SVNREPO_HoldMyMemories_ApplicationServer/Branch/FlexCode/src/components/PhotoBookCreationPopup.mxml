@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:VBox xmlns:mx="http://www.adobe.com/2006/mxml" width="100%" height="100%" backgroundColor="0" horizontalAlign="center" verticalAlign="middle" creationComplete="handleCreationComplete()">
+	<mx:Text color="0xFFFFFF" fontSize="14" text="{statustext}" id="textfield"/>
+	<mx:Script>
+		<![CDATA[
+			import mx.formatters.SwitchSymbolFormatter;
+			[Bindable]
+			private var statustext : String = "Please wait your request is beeing processed";
+			private function handleCreationComplete() : void
+			{
+				var timer : Timer = new Timer(1000);
+				timer.addEventListener(TimerEvent.TIMER,handleTimerevent);
+				timer.start();
+			}
+			
+			private var i : int = 0;
+			private function handleTimerevent(event : TimerEvent) : void
+			{
+				switch(i)
+				{
+					case 0:
+					       statustext = "Please wait your request is beeing processed .";
+					       i = 1;
+					       break;
+					case 1:       
+							statustext = "Please wait your request is beeing processed ..";
+							i = 2;
+							break;
+					case 3: 
+					       statustext = "Please wait your request is beeing processed ...";
+					       i = 3;
+					       break;
+					case 4:
+					      statustext = "Please wait your request is beeing processed ....";
+					      i = 0;
+					      break;		
+				}
+			}
+		]]>
+	</mx:Script>
+</mx:VBox>

@@ -1,0 +1,648 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:Canvas xmlns:mx="http://www.adobe.com/2006/mxml" width="100%" height="100%" show="handleShow()" 
+	 xmlns:components="components.*" creationComplete="handleCreationComplete()" xmlns:renderers="renderers.*" 
+	 xmlns:ipeControls="qs.ipeControls.*" >
+	<mx:ViewStack height="100%" width="100%" id="galleryViewStack" change="handleStackChange()">
+		<mx:VBox width="100%" height="100%" name="gallerylist" id="galleryList" verticalGap="0" horizontalAlign="center" verticalAlign="top">
+		    <mx:Label text="Choose Gallery Type Below" color="0xf79646"/>
+			<mx:TileList id="galleryTileList" verticalAlign="top" height="230" width="100%" borderStyle="none" borderThickness="0" columnWidth="130" rowHeight="130"
+				 backgroundColor="#111111" rollOverColor="#9C9C9C" offscreenExtraRowsOrColumns="0" backgroundAlpha="0">
+			  <mx:itemRenderer>renderers.FolderRenderer</mx:itemRenderer>
+			</mx:TileList>
+		</mx:VBox>
+		<mx:VBox id="renameGallery" name="renamegallery" width="100%" height="100%" paddingLeft="5" verticalAlign="top" show="handleRenameGallery()" 
+			verticalGap="0" horizontalAlign="center">
+			<mx:Label text="Name your Gallery" color="0xf79646" fontSize="15"/>
+			 <mx:VBox id="renameBox" height="130" width="130" horizontalAlign="center" verticalAlign="middle">
+			 <components:SmoothImage cachePolicy="off" id="iconImage" 
+		 			x="4" y="9" source="{iconUrl}" width="72" height="72" filters="{glow}" toolTip="{itemToolTip}"/>
+		 		<ipeControls:IPETextInput id="folderName"  editOnClick="true" enter="handleTextEntered(event)"  
+		 			updateComplete="handleIPECC()" commitOnBlur="true" commitOnEnter="true" width="72" creationComplete="handleIPETextInputComplete()"/>
+		 	</mx:VBox>		
+		</mx:VBox>
+		<mx:VBox id="createGallery" name="creategallery" width="100%" height="100%"  verticalAlign="top" verticalGap="0" horizontalAlign="center">
+				<mx:Text text="Get your memories!" textDecoration="underline" fontSize="15" color="0xf79646"/>
+				<mx:Spacer height="15" width="100%"/>
+				<mx:VBox width="350" height="160" cornerRadius="25" horizontalAlign="center" verticalAlign="middle" borderColor="0xffffff" borderThickness="3" borderStyle="solid">
+					<mx:Button cornerRadius="0" styleName="createphotogallery" click="handleCreatePhotoGallery()" buttonMode="true" useHandCursor="true"/>
+					<mx:Button cornerRadius="0" styleName="createvideogallery" click="handleCreateVideoGallery()" buttonMode="true" useHandCursor="true"/>
+					<mx:Button cornerRadius="0" styleName="createaudiogallery" click="handleCreateAudioGallery()" buttonMode="true" useHandCursor="true"/>
+				</mx:VBox>
+		</mx:VBox>
+		<components:BasicUserUploadSelection name="uploadselection" id="uploadSelection" width="100%" height="100%"/>
+		<mx:VBox width="100%" name="editbox" height="100%" id="editTagsBox" horizontalAlign="center" verticalGap="0">
+			<components:BatchEditTags id="editTags" dataProvider="{editTagsDataprovider}" width="100%" height="100%" creationPolicy="all" isBasicUser="true"/>
+			<mx:Label paddingTop="0" text="Change the titles, add descriptions, add a tag, or go to the next step:" fontSize="15" color="0xf79646"/>
+			<mx:Button styleName="proceedNextstep" click="handleShowContents()" />
+		</mx:VBox>
+		 <components:BasicUserContents name="gallerycontents" id="contentView" width="100%" height="70%" borderThickness="0"/>
+	</mx:ViewStack>
+	<mx:HBox paddingTop="0" y="250" width="100%" height="30" horizontalGap="0" id="createLinkBox" horizontalAlign="center">
+		<mx:LinkButton label="CLICK HERE" click="galleryViewStack.selectedChild = createGallery;" textDecoration="underline"/>
+		<mx:Label text="to create a new Gallery" fontSize="16" color="white" fontFamily="Arial"/>
+	</mx:HBox>
+	<mx:Style>
+		.createphotogallery
+		{
+			up-skin: Embed(source='assets/create_photogallery_def.jpg');
+			down-skin: Embed(source='assets/create_photogallery_def.jpg');
+			over-skin:  Embed(source='assets/create_photogallery_over.jpg');
+		     
+			
+		}
+		.createvideogallery
+		{
+			up-skin: Embed(source='assets/create_videogallery_def.jpg');
+			down-skin: Embed(source='assets/create_videogallery_def.jpg');
+			over-skin:  Embed(source='assets/create_videogallery_over.jpg');
+		}
+		
+		.createaudiogallery
+		{
+			up-skin: Embed(source='assets/create_audiogallery_def.jpg');
+			down-skin: Embed(source='assets/create_audiogallery_def.jpg');
+			over-skin:  Embed(source='assets/create_audiogallery_over.jpg');
+		}
+		
+		.proceedNextstep
+		{
+			up-skin: Embed(source='assets/proceed_btn.jpg');
+			down-skin: Embed(source='assets/proceed_btn.jpg');
+			over-skin:  Embed(source='assets/proceed_btn.jpg');
+		}
+		
+		.vboxBackColor
+		{
+			background-color : #33CCFF;
+		}
+		
+		.textAllign
+		{
+			horizontal-align: center;
+			vertical-align: middle;
+		}
+	</mx:Style>
+	
+	<mx:Script>
+		<![CDATA[
+			import vo.VideoGalleryVO;
+			import vo.AudioGalleryVO;
+			import vo.PhotoGalleryVO;
+			import mx.controls.TextInput;
+			import vo.GalleryTypes;
+			import mx.utils.StringUtil;
+			import vo.GalleryVO;
+			import vo.WebFileVO;
+			import mx.controls.Alert;
+			import vo.GalleryItem;
+			import mx.core.Application;
+			import model.HmmChaptersModel;
+			import mx.rpc.http.HTTPService;
+			import mx.rpc.events.FaultEvent;
+			import mx.rpc.events.ResultEvent;
+			import mx.collections.ArrayCollection;
+			import model.WebFileSystemModel;
+			
+			[Bindable]
+			private var _dataprovider : ArrayCollection;
+			[Bindable]
+			private var editTagsDataprovider : ArrayCollection = new ArrayCollection();
+			private var serviceItemDictionary : Dictionary = new Dictionary();
+			private var _renamed : Boolean = false;
+			private var _folderCreated : Boolean = false;
+			[Bindable]
+			private var renameGallDP : ArrayCollection;
+			[Bindable]
+			private var iconUrl : String;
+			[Bindable]
+			private var folderNameString :  String;
+			[Bindable]
+			private var itemToolTip : String;
+			[Bindable]
+			private var glow : Array;
+			private var selectedGallery : Object;
+			
+			private var newGallery : GalleryVO;
+			private var proxyName : String;
+			private var proxyUrl : String;
+			
+			public function set dataprovider(value : ArrayCollection) : void
+			{
+				_dataprovider = value;
+				
+			}
+			
+			public function get dataprovider() : ArrayCollection
+			{
+				return _dataprovider;
+			}
+			
+			private function  handleIPETextInputComplete() : void
+			{
+				folderName.textInput.styleName = "textAllign";
+			}
+			private function handleCreatePhotoGallery() : void
+			{
+				newGallery = new PhotoGalleryVO();
+				newGallery.icon = proxyUrl+newGallery.icon;
+				newGallery.name = "Photo Gallery";
+				newGallery.type = "image"; 
+				newGallery.access = "semiprivate";
+				var createGalleryService : HTTPService = new HTTPService();
+				var obj : Object = new Object();
+				obj.subchapter_id = Application.application.currentSubChapterId;
+				obj.userId = HmmChaptersModel.getInstance().userId;
+				obj.name = newGallery.name;
+				obj.image = newGallery.icon;
+				obj.type = "image";
+				createGalleryService.url = "/galleries/createGallery";
+				createGalleryService.addEventListener(ResultEvent.RESULT, handleCreateResult);
+				createGalleryService.addEventListener(FaultEvent.FAULT, handleFault);
+				createGalleryService.contentType = HTTPService.RESULT_FORMAT_OBJECT;
+				createGalleryService.send(obj);
+				FadingNotifier.setBusyState();
+				//folderName.textInput.styleName = "textAllign";
+			}
+			
+			private function handleCreateVideoGallery() : void
+			{
+				newGallery = new VideoGalleryVO();
+				newGallery.icon = proxyUrl+newGallery.icon;
+				newGallery.name = "Video Gallery";
+				newGallery.access = "semiprivate"; 
+				var createGalleryService : HTTPService = new HTTPService();
+				var obj : Object = new Object();
+				obj.subchapter_id = Application.application.currentSubChapterId;
+				obj.userId = HmmChaptersModel.getInstance().userId;
+				obj.name = newGallery.name;
+				obj.image = newGallery.icon;
+				obj.type = "video";
+				createGalleryService.url = "/galleries/createGallery";
+				createGalleryService.addEventListener(ResultEvent.RESULT, handleCreateResult);
+				createGalleryService.addEventListener(FaultEvent.FAULT, handleFault);
+				createGalleryService.contentType = HTTPService.RESULT_FORMAT_OBJECT;
+				createGalleryService.send(obj);
+				FadingNotifier.setBusyState();
+			}
+			
+			private function handleCreateAudioGallery() : void
+			{
+				newGallery = new AudioGalleryVO();
+				newGallery.icon = proxyUrl+newGallery.icon;
+				newGallery.name = "Audio Gallery"; 
+				var createGalleryService : HTTPService = new HTTPService();
+				var obj : Object = new Object();
+				obj.subchapter_id = Application.application.currentSubChapterId;
+				obj.userId = HmmChaptersModel.getInstance().userId;
+				obj.name = newGallery.name;
+				obj.image = newGallery.icon;
+				obj.type = "audio";
+				obj.id = -1;
+				newGallery.access = "semiprivate";
+				createGalleryService.url = "/galleries/createGallery/";
+				createGalleryService.addEventListener(ResultEvent.RESULT, handleCreateResult);
+				createGalleryService.addEventListener(FaultEvent.FAULT, handleFault);
+				createGalleryService.contentType = HTTPService.RESULT_FORMAT_OBJECT;
+				createGalleryService.send(obj);
+				FadingNotifier.setBusyState();
+			}
+			
+			private function handleCreateResult(event : ResultEvent) : void
+			{
+				folderCreated = true;
+				trace(event.toString());
+				//renamed = false;
+				newGallery.id = event.result as int;
+				newGallery.flag = true;
+				newGallery.writable = true;
+				newGallery.renamed = false;
+				var datap : ArrayCollection = galleryTileList.dataProvider as ArrayCollection;
+				if(datap)
+				{
+					datap.addItem(newGallery);
+				}
+				else
+				{
+				 	datap = new ArrayCollection();
+				 	datap.addItem(newGallery);
+				}
+				galleryTileList.dataProvider = null;
+				galleryTileList.dataProvider = datap;
+				galleryTileList.selectedItem = newGallery;
+				Application.application.currentGallery = newGallery;
+				Application.application.currentGalleryId = newGallery.id;
+				FadingNotifier.removeBusyState();
+				galleryViewStack.selectedChild = renameGallery;
+				//Application.application.folderCreated = true;
+				
+			}
+			
+			public function addMore() : void
+			{
+				galleryViewStack.selectedChild = uploadSelection;
+				uploadSelection.addMore();
+			}
+			
+			private function handleFault(event : FaultEvent) : void
+			{
+				Alert.show(event.fault.toString());
+				FadingNotifier.removeBusyState();
+			}
+			
+			private function handleIPECC() : void
+			{
+				if(selectedGallery != null)
+				{
+				if(selectedGallery.flag == true)
+				{
+					folderName.editable = true;
+					var textinput : TextInput = folderName.textInput;
+					textinput.setSelection(0, textinput.text.length);
+					
+				}
+				}
+			}
+			
+			
+			public function get renamed() : Boolean
+			{
+				return _renamed;
+			}
+			
+			
+			public function set renamed(value : Boolean) : void
+			{
+				if(value == true && galleryTileList.selectedItem.renamed)
+				{	
+					_renamed = value;
+					Application.application.folderCreated = false;
+				}
+				else
+				 _renamed = value;
+			}
+			
+			public function set folderCreated(value : Boolean) : void
+			{
+				_folderCreated = value;
+				Application.application.folderCreated = value;
+			}
+			
+			public function get folderCreated() : Boolean
+			{
+				return _folderCreated;
+			}
+			
+			
+			private function handleCreationComplete() : void
+			{
+				addEventListener("uploadcomplete", handleUploadDone);
+				proxyName = this.parentApplication.proxyName;
+				proxyUrl =  this.parentApplication.proxyUrl;
+			}
+			
+			private var datFlag : Boolean = true;
+			
+			private function handleRenameGallery() : void
+			{
+				    renameBox.styleName = "";
+					updateDisplayList(this.unscaledWidth,this.unscaledHeight); 
+					var renamegall : ArrayCollection = new ArrayCollection();
+					var gall : Object =  galleryTileList.selectedItem;
+					gall.name = "";
+					gall.flag = true;
+					renamegall = new ArrayCollection();
+					renamegall.addItem(gall);
+					renameGallDP = renamegall;
+					datFlag = false;
+					iconUrl = gall.icon;
+					folderNameString =  "   ";
+					folderName.textInput.text = "";
+					folderName.editable = true;
+					selectedGallery = gall;
+					focusManager.setFocus(folderName.textInput);
+					focusManager.showFocus();
+					if(gall.access == "private")
+					{
+						glow = [new GlowFilter(0xFF0000)];
+						itemToolTip= "This item is private";
+					}else if(gall.access == "public")
+					{
+						glow = [new GlowFilter(0x00FF00)];
+						itemToolTip= "This item is public";
+					}else if(gall.access == "semiprivate")
+					{
+						glow = [new GlowFilter(0xFFFF00)];
+						itemToolTip= "This item is visible to friends and family only";
+					}
+					if(iconImage)
+							iconImage.filters = glow;
+					
+					renamed = false;
+					Application.application.folderCreated = true;
+					renameGallery.addEventListener(Event.ENTER_FRAME,handleEnterFrame);
+				
+			}
+			
+			private function handleUploadDone(event : Event) : void
+			{
+				var getImages : HTTPService = new HTTPService();
+				getImages.url = "/customers/uncategorized/"+HmmChaptersModel.getInstance().userId;
+				getImages.addEventListener(ResultEvent.RESULT, handleGetImagesResult);
+				getImages.addEventListener(FaultEvent.FAULT, handleGetImagesFault);
+				var urlVars : URLVariables = new URLVariables();
+				urlVars.time = new Date().toTimeString();
+				getImages.send(urlVars);
+				FadingNotifier.setBusyState();
+			}
+			
+			public function handleBack() : Boolean
+			{
+				switch(galleryViewStack.selectedChild.name)
+				{
+					case "gallerylist":
+					                   return true;
+					                   break;
+					case "creategallery":
+					                   if(dataprovider.length)
+					                   	{
+					                   		galleryViewStack.selectedChild = galleryList;
+					                   		return false;
+					                   	}
+					                   	else
+					                   	 return true;
+					                   break;
+					case "renamegallery":
+					                    if(renamed)
+										{
+											
+				 							galleryViewStack.selectedChild = galleryList;
+				 							renamed = false;  
+										}
+										return false;
+					                    break;
+					                                       
+					case "uploadselection":
+					                   galleryViewStack.selectedChild = galleryList;
+					                   return false;
+					                   break;
+				    case "gallerycontents":
+				                         return false;  
+				                         break;                   
+				}
+				
+				return false;
+				
+				
+			}
+			
+			
+			private function handleGetImagesResult(event : ResultEvent) : void
+			{
+				editTagsDataprovider = new ArrayCollection();
+				var images : ArrayCollection;
+				 if(event.result.images.image is ArrayCollection)
+					 images = event.result.images.image as ArrayCollection;
+				else
+				  	images = new ArrayCollection([event.result.images.image]);  
+					var files : ArrayCollection = new ArrayCollection();
+					for( var i : int = 0; i < images.length; i++)
+					{
+						var file : WebFileVO = new WebFileVO();
+						
+						file.name = images[i].name;
+						file.id = images[i].id;
+						file.type = images[i].type;
+						file.icon = images[i].icon;
+						file.creationDate = new Date(images[i].creationdate);
+						files.addItem(file);
+					}
+					for(var i : int = 0; i < files.length; i++)
+					{
+					    
+						var item : Object = files[i];
+						var obj : Object = new Object();
+						var fileName : String = item.icon;
+						var splitval : Array =  fileName.split('/');
+						var service : HTTPService = new HTTPService();
+						service.addEventListener(ResultEvent.RESULT, handleItemAddServiceResult);
+						service.addEventListener(FaultEvent.FAULT, handleItemAddServiceFault);
+						service.url = "/myphotos/addPhoto";
+	                    obj["v_filename"] = splitval[splitval.length-1];
+	                    var type : String = new String();
+	                    var galleryType : String = (Application.application.currentGallery as GalleryVO).type; 
+						switch(galleryType)
+						{
+							case "audio": type = "audio";
+							        break;
+							case "video":
+							        type = "video"; 
+									var xplodedName :Array = obj.v_filename.split(".");
+									var j : int;
+									for(j = 0; j < xplodedName.length; j++)
+									{
+										if(xplodedName[j] == "jpg")
+										break;
+									}
+									xplodedName.splice(j, 1);
+									obj["v_filename"] = xplodedName.join("."); 
+									break;
+							case "image":type = "image";
+								   break;						
+						}
+				
+						obj["e_filetype"] = type; 
+						obj["v_tagphoto"] = item.name;
+						obj["sub_chapid"] = Application.application.currentSubChapterId;
+						obj["gallery_id"] = Application.application.currentGalleryId;
+						obj["tagid"] = Application.application.currentChapterId;
+						obj["createddate"] = item.creationDate.toString();
+						obj["e_access"] = "private";
+						obj["userId"] = HmmChaptersModel.getInstance().userId;
+						service.send(obj);
+						serviceItemDictionary[service] = item;
+					}
+				
+				FadingNotifier.removeBusyState();
+				galleryViewStack.selectedIndex = galleryViewStack.selectedIndex + 1;
+				
+			}
+			
+			private function handleShowContents() : void
+			{
+				var contents : ArrayCollection = new ArrayCollection(Application.application.currentGallery["files"]);
+				contentView.data = contents;
+				galleryViewStack.selectedIndex = galleryViewStack.selectedIndex + 1;
+				
+			}
+			private function handleItemAddServiceResult(event : ResultEvent) : void
+			{
+				trace(event.result.toString());
+				var img : Object = serviceItemDictionary[event.target];
+				img.id = event.result.photoid;
+				img.access = "semiprivate";
+				editTagsDataprovider.addItem(img);
+				Application.application.currentGallery.files.push(img);
+				//dataProvider = currentFiles;
+				
+			}
+		
+			private function handleItemAddServiceFault(event : FaultEvent) : void
+			{
+				Alert.show(event.fault.toString());
+				trace(event.toString());
+			}
+			
+			private function handleSaveUploadedData( dataCollection : ArrayCollection) : void
+			{
+			  	
+			}
+			private function handleGetImagesFault(event : FaultEvent) : void
+			{
+				
+			}
+			
+			override public function set data(value:Object):void
+			{
+				dataprovider = value as ArrayCollection;
+			}
+			
+			private function handleShow() : void
+			{
+				galleryTileList.dataProvider = dataprovider;
+				if(dataprovider.length)
+					galleryViewStack.selectedIndex = 0;
+				else
+				  galleryViewStack.selectedChild = createGallery;
+				 	
+			}
+			
+			private function handleStackChange() : void
+			{
+				
+				if(galleryViewStack.selectedIndex)
+				{
+					createLinkBox.visible = false;
+					Application.application.nextVisble = false;
+				}
+				else
+				{
+					createLinkBox.visible = true;
+					galleryTileList.dataProvider = _dataprovider;
+					Application.application.nextVisble = true;
+				}
+				if(galleryViewStack.selectedIndex == 1)
+				{
+					Application.application.nextVisble = true;
+				}
+				
+			}
+			
+			public function checkForRenameGallery() : Boolean
+			{
+				var currentFolder : Object = galleryTileList.selectedItem as GalleryVO;
+				 if(currentFolder.renamed)
+				{ 
+				 renamed = false;
+				 return true;	
+				}
+				else
+				{
+					return false;
+				}
+				
+				return true;
+			}
+			
+			private function handleTextEntered(event :Event) : void
+			{
+					folderName.text = StringUtil.trim(folderName.text);	
+					if(folderName.text == "" ||  folderName.text == null )
+					{
+						folderName.text = "";
+						return;
+					}	
+					selectedGallery.name = folderName.text;
+					var renameService : HTTPService = new HTTPService();
+					switch(selectedGallery.classType)
+					{
+						case "chapterVO" : 
+						 	renameService.url = "/tags/renameTag";
+							break;
+						case "VideoGalleryVO":
+						case GalleryTypes.PHOTO:
+						case "AudioGalleryVO":	
+						case "galleryVO":
+							renameService.url = "/galleries/renameGallery";
+							break;
+						case "webFileVO" :
+							renameService.url = "/sub_chapter/renameGalleryItem";		
+							break;
+						case "subChapterVO":
+							renameService.url = "/sub_chapter/renameSubChapter";
+							break
+					}
+					
+					renameService.addEventListener(ResultEvent.RESULT, handleNameChangeResult);
+					renameService.addEventListener(FaultEvent.FAULT,handleRenameFault);
+					var obj : Object = new Object();
+					obj.id = selectedGallery.id;
+					obj.name = folderName.text;
+					renameService.send(obj);
+					FadingNotifier.setBusyState();
+					cursorManager.setBusyCursor();
+					//editing = false;
+					
+				
+			}
+			
+			private function handleNameChangeResult(event : ResultEvent) : void
+			{
+				trace(event.result.toString());
+				var dpAC : ArrayCollection = galleryTileList.dataProvider as ArrayCollection;
+				for(var i : int = 0; i < dpAC.length; i++)
+				{ 
+				  if(dpAC[i] == selectedGallery)
+				  {
+					dpAC.removeItemAt(i);
+					selectedGallery.name = folderName.text;
+					selectedGallery.renamed = true;
+					selectedGallery.flag = false;
+					dpAC.addItemAt(selectedGallery,i);
+					galleryTileList.dataProvider = null;
+					galleryTileList.dataProvider = dpAC;
+					galleryTileList.selectedItem = selectedGallery; 
+					break;
+				   }
+				}
+				cursorManager.removeBusyCursor();
+				FadingNotifier.removeBusyState();
+				renamed = true;
+				if(folderCreated)
+				 folderCreated = false;
+				
+				renameGallery.removeEventListener(Event.ENTER_FRAME,handleEnterFrame); 
+				folderName.editable = false;
+				folderName.focusManager.hideFocus();
+				renameBox.styleName = "vboxBackColor";
+			}
+			
+			private function handleRenameFault(event : FaultEvent) : void
+			{
+				cursorManager.removeBusyCursor();
+				FadingNotifier.removeBusyState();
+				Alert.show("Unable to Name the gallery, Please try again");
+				trace(event.fault.toString());	
+			}
+			
+			private function handleEnterFrame(event : Event) : void
+			{
+			  	folderName.textInput.setFocus();
+			  	folderName.textInput.getFocus();
+			  	folderName.editable = true;
+			  
+			}
+
+			
+		]]>
+	</mx:Script>
+</mx:Canvas>

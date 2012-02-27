@@ -1,0 +1,235 @@
+<%= javascript_include_tag 'check_flash' %>
+<script src="/javascripts/ckeditor/ckeditor.js" type="text/javascript"></script>
+<script src="/javascripts/ckfinder/ckfinder.js" type="text/javascript"></script>
+<%= stylesheet_link_tag 'main' %>
+<%= stylesheet_link_tag 'hmmout' %>
+
+<%= javascript_include_tag :fckeditor %>
+
+
+<table width="900"  border="0" cellspacing="0" cellpadding="0">
+  <tr><td valign="top">
+      <%= render :partial => 'links1' %>
+    </td><td>
+
+  <table width="700" border="0" cellspacing="0" cellpadding="0">
+    <tr>
+      <td colspan="4" align="left" valign="top" class="leftconthr" ><h3><font color="#ff6400">Create your iPhone App in 5 Easy Steps</font></h3></td></tr>
+    <tr>
+      <td colspan="4" align="left" valign="top" class="leftconthr"><h3><u>Step2: Enter Your About Us Info:</u></h3></td>
+    </tr>
+
+    <tr>
+      <td colspan="4" align="center" valign="top" class="leftconthr">
+        <%if(params[:success]=='1')%>
+          <font color="#FF0000">About Us Details Updated Successfully</font>
+        <%end%>
+      </td>
+    </tr>
+
+    <tr>
+      <td align="left" valign="top">&nbsp;</td>
+      <td align="left" valign="top">&nbsp;</td>
+      <td align="left" valign="top">&nbsp;</td>
+      <td align="left" valign="top">&nbsp;</td>
+    </tr>
+    
+     <tr><td height="20">
+
+       </td></tr>
+    
+
+        <tr>
+      <td  align="left" valign="top" class="whitecont">
+         <%if @studio%>
+        <%if(@studio.aboutus_image!=nil && @studio.aboutus_image!='')%>
+          <img src="<%=@studio.about_us_img_url%>/user_content/studio_aboutus_logos/<%=@studio.aboutus_image%>" border="0" width="100" height="100"><br />
+         <!-- <a href="/hmm_studios/delete_logo/<%=params[:id]%>">(Remove)</a>-->
+         <%end%>
+       <%else%>
+          No Image
+        <%end%>
+      </td></tr>
+    <tr>
+      <td align="left" valign="top">&nbsp;</td>
+      <td align="left" valign="top">&nbsp;</td>
+      <td align="left" valign="top">&nbsp;</td>
+      <td align="left" valign="top">&nbsp;</td>
+    </tr>
+    <tr>
+
+      <td align="left" valign="top" class="whitecont">Enter Info About Your Studio(upto 300 characters) * </td>
+     </tr>
+<tr><td><%
+        if @studio.description!=nil && @studio.description!=''
+          @description=@studio.description
+          @description.gsub("<br />","\n")
+        else
+          @description = '';
+        end
+
+
+      %>
+
+    <%= fckeditor_textarea("studio","description",:toolbarSet => 'Simple', :value=> @decription,:width => '100%', :height => '300px') %>
+
+
+      </td>
+    </tr>
+    <tr>
+      <td align="left" valign="top">&nbsp;</td>
+      <td align="left" valign="top">&nbsp;</td>
+      <td align="left" valign="top">&nbsp;</td>
+      <td align="left" valign="top">&nbsp;</td>
+    </tr>
+   
+    <tr>
+      <td align="left" valign="top">&nbsp;</td>
+      <td align="left" valign="top">&nbsp;</td>
+      <td align="left" valign="top">&nbsp;</td>
+      <td align="left" valign="top">&nbsp;</td>
+    </tr>
+
+  </table>
+
+      </td>
+</tr></table>
+<script type="text/javascript">
+			      //<![CDATA[
+                                                // This call can be placed at any point after the <textarea>, or inside a <head><script> in a window.onload
+                                                // event handler. Replace the <textarea id="editor"> with an CKEditor instance, using default configurations.
+                                                CKEDITOR.replace('description',{
+                                                        filebrowserBrowseUrl : 'ckfinder/ckfinder.html',
+
+                                                        filebrowserImageBrowseUrl : '/javascripts/ckfinder/ckfinder.html?type=Images',
+
+                                                 } );
+                                                        //]]>
+
+
+/*
+ * Adjust the behavior of the dataProcessor to avoid styles
+ * and make it look like FCKeditor HTML output.
+ */
+function configureHtmlOutput( ev )
+{
+	var editor = ev.editor,
+		dataProcessor = editor.dataProcessor,
+		htmlFilter = dataProcessor && dataProcessor.htmlFilter;
+
+	// Out self closing tags the HTML4 way, like <br>.
+	dataProcessor.writer.selfClosingEnd = '>';
+
+	// Make output formatting behave similar to FCKeditor
+	var dtd = CKEDITOR.dtd;
+
+	for ( var e in CKEDITOR.tools.extend( {}, dtd.$nonBodyContent, dtd.$block, dtd.$listItem, dtd.$tableContent ) )
+	{
+		dataProcessor.writer.setRules( e,
+			{
+				indent : true,
+				breakBeforeOpen : true,
+				breakAfterOpen : false,
+				breakBeforeClose : !dtd[ e ][ '#' ],
+				breakAfterClose : true
+			});
+	}
+
+	// Output properties as attributes, not styles.
+	htmlFilter.addRules(
+		{
+			elements :
+			{
+				$ : function( element )
+				{
+					// Output dimensions of images as width and height
+					if ( element.name == 'img' )
+					{
+						var style = element.attributes.style;
+
+						if ( style )
+						{
+							// Get the width from the style.
+							var match = /(?:^|\s)width\s*:\s*(\d+)px/i.exec( style ),
+								width = match && match[1];
+
+							// Get the height from the style.
+							match = /(?:^|\s)height\s*:\s*(\d+)px/i.exec( style );
+							var height = match && match[1];
+
+							if ( width )
+							{
+								element.attributes.style = element.attributes.style.replace( /(?:^|\s)width\s*:\s*(\d+)px;?/i , '' );
+								element.attributes.width = width;
+							}
+
+							if ( height )
+							{
+								element.attributes.style = element.attributes.style.replace( /(?:^|\s)height\s*:\s*(\d+)px;?/i , '' );
+								element.attributes.height = height;
+							}
+						}
+					}
+
+					// Output alignment of paragraphs using align
+					if ( element.name == 'p' )
+					{
+						style = element.attributes.style;
+
+						if ( style )
+						{
+							// Get the align from the style.
+							match = /(?:^|\s)text-align\s*:\s*(\w*);/i.exec( style );
+							var align = match && match[1];
+
+							if ( align )
+							{
+								element.attributes.style = element.attributes.style.replace( /(?:^|\s)text-align\s*:\s*(\w*);?/i , '' );
+								element.attributes.align = align;
+							}
+						}
+					}
+
+					if ( !element.attributes.style )
+						delete element.attributes.style;
+
+					return element;
+				}
+			},
+
+			attributes :
+				{
+					style : function( value, element )
+					{
+						// Return #RGB for background and border colors
+						return convertRGBToHex( value );
+					}
+				}
+		} );
+}
+
+
+/**
+* Convert a CSS rgb(R, G, B) color back to #RRGGBB format.
+* @param Css style string (can include more than one color
+* @return Converted css style.
+*/
+function convertRGBToHex( cssStyle )
+{
+	return cssStyle.replace( /(?:rgb\(\s*(\d+)\s*,\s*(\d+)\s*,\s*(\d+)\s*\))/gi, function( match, red, green, blue )
+		{
+			red = parseInt( red, 10 ).toString( 16 );
+			green = parseInt( green, 10 ).toString( 16 );
+			blue = parseInt( blue, 10 ).toString( 16 );
+			var color = [red, green, blue] ;
+
+			// Add padding zeros if the hex value is less than 0x10.
+			for ( var i = 0 ; i < color.length ; i++ )
+				color[i] = String( '0' + color[i] ).slice( -2 ) ;
+
+			return '#' + color.join( '' ) ;
+		 });
+}
+			//]]>
+
+			</script>

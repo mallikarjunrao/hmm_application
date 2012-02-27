@@ -1,0 +1,319 @@
+<script type="text/javascript">
+function textCounter(field, countfield, maxlimit) {
+if (field.value.length > maxlimit) // if too long...trim it!
+field.value = field.value.substring(0, maxlimit);
+// otherwise, update 'characters left' counter
+else
+countfield.value = maxlimit - field.value.length;
+}
+
+function validate_book()
+{
+//alert();
+if(document.getElementById('FirstName').value=='')
+{
+	alert('Please enter your First Name');
+	document.getElementById('FirstName').focus();
+	return false;
+}
+
+if(document.getElementById('LastName').value=='')
+{
+	alert('Please enter your Last Name');
+	document.getElementById('LastName').focus();
+	return false;
+}
+
+if(document.getElementById('Phone').value=='')
+{
+	alert('Please enter your Phone number');
+	document.getElementById('Phone').focus();
+	return false;
+}
+
+if(document.getElementById('Email').value=='')
+{
+	alert('Please enter your Email address');
+	document.getElementById('Email').focus();
+	return false;
+}
+    var str = document.getElementById('Email').value;
+	var filter=/^([\w-]+(?:\.[\w-]+)*)@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$/i
+	if (!filter.test(str))
+	{
+		alert("Please input a valid email address!")
+		document.getElementById('Email').value='';
+		document.getElementById('Email').focus();
+		return false;
+	}
+
+if(document.getElementById('orderdate_Month').value=='')
+{
+	alert('Please select a Month');
+	document.getElementById('orderdate_Month').focus();
+	return false;
+}
+
+if(document.getElementById('orderdate_Day_ID').value=='')
+{
+	alert('Please select a Day');
+	document.getElementById('orderdate_Day_ID').focus();
+	return false;
+}
+
+if(document.getElementById('orderdate_Year').value=='')
+{
+	alert('Please select a Year');
+	document.getElementById('orderdate_Year').focus();
+	return false;
+}
+
+if(document.getElementById('SessionTime').value=='')
+{
+	alert('Please select a Session Time');
+	document.getElementById('SessionTime').focus();
+	return false;
+}
+}
+
+</script>
+<body bgcolor="#000000">
+
+<table cellpadding="0" cellspacing="0">
+<tr bgcolor="#FFFFFF"><td align="left">
+<a href="<%=@hmm_studio.studio_website%>" target="_blank"><img src="<%=request_content_url%>/user_content/studio_top_logos/<%=@studio_header_img%>" alt="Logo" border="0"  /></a></td><td>&nbsp;</td><td align="right">
+<a href="http://www.holdmymemories.com" target="_blank"><img src="http://www.holdmymemories.com/images/hmm_logo_whitebg.jpg" alt="Logo" border="0" /></a></td></tr><tr><td colspan="3">
+<form action="/my_familywebsite/send_book_session/<%=params[:id]%>" method="post" name="BookingForm" onSubmit="return validate_book();">
+<table align="center" bgcolor="#666666" border="0" cellpadding="2" cellspacing="2" width="100%">
+          <tbody><tr bgcolor="#000000">
+            <td colspan="2" align="right" valign="middle" height="30"><div align="left"><font color="#ffffff" size="2" face="Arial, Helvetica, sans-serif"><strong style="color: rgb(255, 255, 255);"> Request for an appointment :<br>
+
+            </strong></font></div>
+            <br>
+              <div align="center"><font color="#FF0000" face="Arial, Helvetica, sans-serif" size="2"></font></div></td>
+          </tr>
+          <tr bgcolor="#000000">
+            <td colspan="2" align="right" valign="middle" height="30"><div align="left"><font color="#ffffff" size="2" face="Arial, Helvetica, sans-serif"><strong style="color: rgb(255, 255, 255);"> Select Other Studios :
+ <%@studio_group=HmmStudio.find(:first,:conditions=>"id=#{params[:studio_id]}")%>
+          <%= collection_select :search,:studio_id, HmmStudio.find(:all, :conditions => " studio_groupid=#{@studio_group.studio_groupid} and status='active'"), :id, :studio_name,{:prompt => "#{@hmm_studio.studio_name}"} ,{:onchange => "window.location='/my_familywebsite/book_session?studio_id='+this.value;"}%></td> </tr>
+          <tr align="right" bgcolor="#333333">
+             <td  height="30"><b><font color="#ffffff" size="2" face="Arial, Helvetica, sans-serif">First
+              Name:</font></b></td>
+            <td align="left" valign="bottom" width="621" height="30"><div align="left"><font size="2" face="Arial, Helvetica, sans-serif">
+                <input name="FirstName" id="FirstName" type="text">
+            <font color="#ffffff" size="1" face="Arial, Helvetica, sans-serif">* REQUIRED</font> </font></div></td>
+          </tr>
+          <tr align="right" bgcolor="#333333">
+            <td  height="30"><b><font color="#ffffff" size="2" face="Arial, Helvetica, sans-serif">Last
+              Name:</font></b></td>
+            <td valign="bottom" width="621" height="30"><div align="left"><font size="2" face="Arial, Helvetica, sans-serif">
+                <input name="LastName" id="LastName" type="text">
+                <font color="#ffffff" size="1" face="Arial, Helvetica, sans-serif">*
+            REQUIRED</font> </font></div></td>
+          </tr>
+          <tr bgcolor="#333333">
+            <td align="right"  height="30"><b><font color="#ffffff" size="2" face="Arial, Helvetica, sans-serif">Day-time
+              Phone Number:</font> </b> </td>
+            <td align="left" valign="middle" width="621" height="30"><div align="left"><font size="2" face="Arial, Helvetica, sans-serif">
+            <input name="Phone" id="Phone" type="text">
+                  <font color="#ffffff" size="1" face="Arial, Helvetica, sans-serif">*
+            REQUIRED</font> </font></div></td>
+          </tr>
+          <tr bgcolor="#333333">
+            <td align="right" height="30"><b><font color="#ffffff" size="2" face="Arial, Helvetica, sans-serif">Night-time
+              Phone Number:</font></b></td>
+            <td align="left" valign="middle" height="30"><div align="left"><font size="2" face="Arial, Helvetica, sans-serif">
+                  <input name="AltPhone" type="text">
+            </font></div></td>
+          </tr>
+          <tr bgcolor="#333333">
+            <td align="right"  height="30"><b><font color="#ffffff" size="2" face="Arial, Helvetica, sans-serif"> Street
+              Address:</font></b></td>
+            <td align="left" valign="middle" width="621" height="30"><div align="left"><font size="2" face="Arial, Helvetica, sans-serif">
+            <textarea name="street_address" id="street_address"></textarea>
+                  </font></div></td>
+          </tr>
+          <tr bgcolor="#333333">
+            <td align="right"  height="30"><b><font color="#ffffff" size="2" face="Arial, Helvetica, sans-serif"> Email
+              Address:</font></b></td>
+            <td align="left" valign="middle" width="621" height="30"><div align="left"><font size="2" face="Arial, Helvetica, sans-serif">
+            <input name="Email" id="Email" type="text">
+                  <font color="#ffffff" size="1" face="Arial, Helvetica, sans-serif">*
+            REQUIRED</font> </font></div></td>
+          </tr>
+          <tr bgcolor="#333333">
+            <td align="right"  height="30"><b><font color="#ffffff" size="2" face="Arial, Helvetica, sans-serif"> Have you visited our studio before: </font></b></td>
+            <td align="left" valign="middle" width="621" height="30"><div align="left"><font color="#ffffff" size="2" face="Arial, Helvetica, sans-serif">
+            <input name="studio_visit" id="studio_visit" type="radio" value="Yes" checked="checked">Yes&nbsp;<input name="studio_visit" id="studio_visit" type="radio" value="No">No
+                  </font></div></td>
+          </tr>
+          <tr bgcolor="#333333">
+            <td align="right" height="30"><b><font color="#ffffff" size="2" face="Arial, Helvetica, sans-serif">How
+              did you hear about us?:</font></b></td>
+            <td align="left" valign="middle" height="30"><div align="left"><font size="2" face="Arial, Helvetica, sans-serif">
+              <select name="Source">
+                <option value="">Please select an option</option>
+                <option value="Family or Friend">Family or Friend</option>
+                <option value="Phonebook">Phonebook</option>
+                <option value="Internet">Internet</option>
+                <option value="Driving By">Driving By</option>
+                <option value="Digital Screening">Digital Screening</option>
+                <option value="Other">Other</option>
+                 </select>
+                </font></div>            </td>
+          </tr>
+          <tr bgcolor="#333333">
+            <td colspan="2" align="right"><b><font size="2" face="Arial, Helvetica, sans-serif">            </font></b><font size="2" face="Arial, Helvetica, sans-serif">&nbsp;
+            </font></td>
+          </tr>
+          <tr bgcolor="#333333">
+            <td align="right" height="30"><b><font color="#ffffff" size="2" face="Arial, Helvetica, sans-serif">Select
+                  a date:</font></b></td>
+            <td align="left" valign="middle" height="30">
+
+<table cellpadding="0" cellspacing="2"><tbody><tr>
+<td height="24" valign="middle">
+<select name="orderdate_Month" id="orderdate_Month" class="calendarDateInput" >
+<option value="">-Month-</option>
+<option value="Jan">Jan</option>
+<option value="Feb">Feb</option>
+<option value="Mar">Mar</option>
+<option value="Apr">Apr</option>
+
+<option value="May">May</option>
+<option value="Jun">Jun</option>
+<option value="Jul" >Jul</option>
+<option value="Aug">Aug</option>
+<option value="Sep">Sep</option>
+<option value="Oct">Oct</option>
+<option value="Nov">Nov</option>
+<option value="Dec">Dec</option>
+</select></td>
+<td valign="middle">
+<select class="calendarDateInput" name="orderdate_Day_ID" id="orderdate_Day_ID" >
+<option value="">-Day-</option>
+<option value="1">1</option>
+<option value="2">2</option>
+<option value="3">3</option>
+<option value="4">4</option>
+<option value="5">5</option>
+<option value="6">6</option>
+<option value="7">7</option>
+<option value="8">8</option>
+<option value="9">9</option>
+<option value="10">10</option>
+<option value="11">11</option>
+<option value="12">12</option>
+<option value="13">13</option>
+<option value="14">14</option>
+<option value="15">15</option>
+<option value="16">16</option>
+<option value="17">17</option>
+<option value="18">18</option>
+<option value="19">19</option>
+<option value="20">20</option>
+<option value="21">21</option>
+<option value="22">22</option>
+<option value="23">23</option>
+<option value="24">24</option>
+<option value="25">25</option>
+<option value="26">26</option>
+<option value="27">27</option>
+<option value="28">28</option>
+<option value="29">29</option>
+<option value="30">30</option>
+<option value="31">31</option>
+</select></td>
+<td valign="middle">
+<select class="calendarDateInput" name="orderdate_Year" id="orderdate_Year" >
+<option value="">-Year-</option>
+<option value="2009">2009</option>
+<option value="2010">2010</option>
+<option value="2011">2011</option>
+<option value="2012">2012</option>
+<option value="2013">2013</option>
+<option value="2014">2014</option>
+<option value="2015">2015</option>
+<option value="2016">2016</option>
+<option value="2017">2017</option>
+<option value="2018">2018</option>
+<option value="2019">2019</option>
+<option value="2020">2020</option>
+<option value="2021">2021</option>
+<option value="2022">2022</option>
+<option value="2023">2023</option>
+<option value="2024">2024</option>
+<option value="2025">2025</option>
+</select></td><td valign="middle" width="200"> <font size="2" face="Arial, Helvetica, sans-serif"> <font color="#ffffff" size="1" face="Arial, Helvetica, sans-serif">*
+            REQUIRED</font></font>
+
+</td>
+</tr>
+</tbody></table>
+
+             </td>
+          </tr>
+          <tr bgcolor="#333333">
+            <td align="right" height="30"><b><font color="#ffffff" size="2" face="Arial, Helvetica, sans-serif">Select
+            a time:</font></b></td>
+            <td align="left" valign="middle" height="30"><select name="SessionTime" id="SessionTime">
+            <option value="">Please Select a Time</option>
+			<option value="9am">9 am</option>
+            <option value="10am">10 am</option>
+            <option value="11am">11 am</option>
+            <option value="12pm">12 pm</option>
+            <option value="1pm">1 pm</option>
+            <option value="2pm">2 pm</option>
+            <option value="3pm">3 pm</option>
+            <option value="4pm">4 pm</option>
+            <option value="5pm">5 pm</option>
+            <option value="6pm">6 pm</option>
+            <option value="7pm">7 pm</option>
+            <option value="8pm">8pm</option>
+                </select>
+              <font size="2" face="Arial, Helvetica, sans-serif"> <font color="#ffffff" size="1" face="Arial, Helvetica, sans-serif">*
+            REQUIRED</font> </font></td>
+          </tr>
+          <tr bgcolor="#333333">
+            <td align="right" height="30"><b><font color="#ffffff" size="2" face="Arial, Helvetica, sans-serif">Session
+                    Type:</font></b></td>
+            <td align="left" valign="middle" height="30"><select name="SessionType">
+            <option>Please Select a Session</option>
+            <option value="Family">Family</option>
+			<option value="Children">Children</option>
+            <option value="Maternity">Maternity</option>
+
+            <option value="Senior">Senior</option>
+            <option value="Business">Business</option>
+            <option value="Pets">Pets</option>
+            <option value="outdoor">outdoor</option>
+            </select>            </td>
+          </tr>
+          <tr bgcolor="#333333">
+            <td align="right" height="30" valign="top"><p align="justify"><b><b><font color="#ffffff" size="2" face="Arial, Helvetica, sans-serif">Is there anything we should know about your portrait session?
+For example, who will we be photographing, what are their ages,
+is it a birthday or other special event, do you have any props you
+would like to bring in, are there any special poses you would like?
+            </font></b></b></p></td>
+            <td align="left" valign="middle" height="30">
+              <font size="1" face="arial, helvetica, sans-serif">
+              <textarea name="SessionComments" id="SessionComments" wrap="physical" cols="50" rows="5" onKeyDown="textCounter(this.form.SessionComments,this.form.remLen,250);" onKeyUp="textCounter(this.form.SessionComments,this.form.remLen,250);"></textarea>
+              <br>
+              <font color="#ffffff" size="2">( You may enter up to 250 characters. )</font><br>
+              <input readonly="readonly" name="remLen" size="3" maxlength="3" value="250" type="text">
+              <font color="#ffffff" size="2"> characters left</font></font>            </td>
+          </tr>
+          <tr bgcolor="#333333">
+            <td colspan="2" align="right" valign="middle"><div align="center"><b><font size="2" face="Arial, Helvetica, sans-serif">
+                <input name="WhichWebForm" id="WhichWebForm" value="BookingForm" type="hidden">
+              </font></b><font size="2" face="Arial, Helvetica, sans-serif">
+                <input name="Submit" value="Click Once to Submit" type="submit" >
+            </font></div></td>
+          </tr>
+  </tbody></table>
+  <input type="hidden" name="studio_email" id="studio_email" value="<%=@hmm_studio.contact_email%>" />
+  <input type="hidden" name="studio_header_img" id="studio_header_img" value="<%=@studio_header_img%>" />
+  <input type="hidden" name="studio_id" id="studio_id" value="<%=params[:studio_id]%>" />
+  </form>
+</td></tr></table>
+</body>

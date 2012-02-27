@@ -1,0 +1,20 @@
+<table  border="0" width="500" align="center">
+  <tr><td align="right"><h3><a href="/sales_person/add_sales_person"><u>Add Sales Persons</u></a></h3></td></tr>
+
+</table>
+<table border="0" width="800" align="center">
+  <tr><td><h2>Listing all the Sales Person</h2> </td></tr>
+  <% if flash[:message] %>
+    <tr><td><h4><font color="red"><%=flash[:message]%></font></h4></td></tr>
+<%end%>
+  <tr><td background="/images/body_hor.JPG">Sales Person Name</td><td background="/images/body_hor.JPG">Sales Person Username</td><td background="/images/body_hor.JPG">Sales Person Password</td><td background="/images/body_hor.JPG">Sales Person Email</td><td background="/images/body_hor.JPG">Action</td></tr>
+ <% for empuser in @salespersion %>
+<tr class="<%= cycle('odd', 'even') %>">
+  <td><%=empuser.name%></td>
+  <td><%=empuser.username%></td>
+   <td><%=empuser.password%></td>
+   <td><%=empuser.email%></td>
+   <td><%= link_to 'Edit |', :action => 'edit_sales_person', :id =>empuser.id %>&nbsp;&nbsp;<%= link_to 'Delete', {:action => 'delete_sales_person', :id =>empuser.id}, :confirm => 'Are you sure to delete this user?' %></td>
+</tr>
+<%end%>
+</table>

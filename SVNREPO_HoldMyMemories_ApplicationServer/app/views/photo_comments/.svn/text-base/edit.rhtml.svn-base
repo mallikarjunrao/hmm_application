@@ -1,0 +1,17 @@
+<h1>Editing photo_comment</h1>
+
+<%= error_messages_for :photo_comment %>
+
+<% form_for(:photo_comment, :url => photo_comment_path(@photo_comment), :html => { :method => :put }) do |f| %>
+  <p>
+    <b>V title</b><br />
+    <%= f.text_field :v_title %>
+  </p>
+
+  <p>
+    <%= submit_tag "Update" %>
+  </p>
+<% end %>
+
+<%= link_to 'Show', photo_comment_path(@photo_comment) %> |
+<%= link_to 'Back', photo_comments_path %>

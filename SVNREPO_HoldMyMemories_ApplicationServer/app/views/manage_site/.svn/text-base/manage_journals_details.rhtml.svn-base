@@ -1,0 +1,584 @@
+<%session[:friend]=''
+familyname= params[:id]
+%>
+<table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top" >
+    <td width="170" valign="top" valign="top" align="left">
+      <%= render :partial => "leftnav", :locals => { :current => "journal"} %>
+    </td>
+    <td valign="top">
+      <script type="text/javascript">
+        function grow_text_boxes(textareaid,divid,profileimg)
+        {
+          document.getElementById(divid).style.display='block';
+          document.getElementById(textareaid).style.width='300px';
+          document.getElementById(textareaid).style.height='100px';
+          document.getElementById(profileimg).style.display='block';
+          if (document.getElementById(textareaid).value == 'Type your comments here...') {
+            document.getElementById(textareaid).value = '';
+          }
+        }
+        function shrink_text_boxes(textareaid,divid,profileimg)
+        {
+		
+          if (document.getElementById(textareaid).value == '') {
+            document.getElementById(textareaid).style.width = '300px';
+            document.getElementById(textareaid).style.height = '50px';
+            document.getElementById(textareaid).value='Type your comments here...';
+            document.getElementById(divid).style.display='none';
+            document.getElementById(profileimg).style.display='none';
+          }
+        }
+      </script>
+      <font color="white" face="arial" size="3"><b>Manage Journals</b></font><br>
+      <font color="#f5dfa6"><%=flash[:notice]%></font>
+      <font color="#f5dfa6"><%=flash[:notice2]%></font>
+      <%
+      # Added as path to redirect the moments or chapters breadcrumb to redirect to this page
+      session[:path]='journals'
+    %>
+      <%session['redirect']='5'%>
+      <p align="center"><font color="#f5dfa6"><%=flash[:notice2]%></font>
+        <font color="#f5dfa6"><%=  flash[:notice_cca_jlist]%></font>
+        <font color="#f5dfa6"><%=  flash[:notice_ccr_jlist]%></font>
+        <font color="#f5dfa6"><%=  flash[:notice_ccd_jlist]%></font>
+        <font color="#f5dfa6"><%=  flash[:notice_sca_jlist]%></font>
+        <font color="#f5dfa6"><%=  flash[:notice_scr_jlist]%></font>
+        <font color="#f5dfa6"><%=  flash[:notice_scd_jlist]%></font>
+        <font color="#f5dfa6"><%=  flash[:notice_gca_jlist]%></font>
+        <font color="#f5dfa6"><%=  flash[:notice_gcr_jlist]%></font>
+        <font color="#f5dfa6"><%=  flash[:notice_gcd_jlist]%></font>
+        <font color="#f5dfa6"><%=  flash[:notice_pca_jlist]%></font>
+        <font color="#f5dfa6"><%=  flash[:notice_pcr_jlist]%></font>
+        <font color="#f5dfa6"><%=  flash[:notice_pcd_jlist]%></font>
+        <font color="#f5dfa6"><%=flash[:notice_cca_list]%></font>
+        <font color="#f5dfa6"><%=flash[:notice_ccr_list]%></font>
+        <font color="#f5dfa6"><%=flash[:notice_ccd_list]%></font>
+        <font color="#f5dfa6"><%=flash[:notice_cca]%></font>
+        <font color="#f5dfa6"><%=flash[:share_journal_pass]%></font>
+        <font color="#f5dfa6"><%=flash[:share_journal_sc]%></font>
+        <font color="#f5dfa6"><%=  flash[:share_journalredirect]%></font>
+        <font color="#f5dfa6"><%=flash[:addnonhmm]%></font>
+      </p>
+      <table width="100%" border="0" align="center" cellspacing="0" cellpadding="0">
+        <font color="#f5dfa6"><%=  flash[:notice_cc_jlist]%></font>
+        <font color="#f5dfa6"><%=  flash[:notice_scc_jadd]%></font>
+        <font color="#f5dfa6"><%=  flash[:notice_gcc_jadd]%></font>
+        <font color="#f5dfa6"><%=  flash[:notice_pc_jadd]%></font>
+        <%
+
+        @id1=0
+        for @i in @tagid
+          @id1=@id1+1
+          @id="#{@id1}"
+        %>
+          <% if (@i.jtype=='chapter') %>
+            <%
+            tag=Tag.find(@i.master_id)
+            type1="Chapter"
+            status=tag.status
+            name=tag.v_tagname
+            uid=tag.uid
+            e_access=tag.e_access
+            if(tag.v_chapimage == "folder_img.png")
+              imgpath='/user_content/photos/big_thumb/noimage.jpg'
+            else
+              imageName  = tag.v_chapimage
+              imageName.slice!(-3..-1)
+              imgpath="#{@i.img_url}/user_content/photos/flex_icon/"+imageName+"jpg"
+            end
+            deletepath="/chapter_journal/"
+          %>
+          <%else%>
+            <% if (@i.jtype=='subchap') %>
+              <%
+              subchap=SubChapter.find(@i.master_id)
+              type1="Sub Chapter"
+              name=subchap.sub_chapname
+              status=subchap.status
+              uid=subchap.uid
+              e_access=subchap.e_access
+              if(subchap.v_image == "folder_img.png")
+                imgpath='/user_content/photos/big_thumb/noimage.jpg'
+              else
+                imageName  = subchap.v_image
+                imageName.slice!(-3..-1)
+                imgpath="#{@i.img_url}/user_content/photos/flex_icon/"+imageName+"jpg"
+              end
+              deletepath="/sub_chap_journal/"
+            %>
+            <%else%>
+              <% if (@i.jtype=='gallery') %>
+                <%
+                gal=Galleries.find(@i.master_id)
+                type1="Gallery"
+                name=gal.v_gallery_name
+                status=gal.status
+                subchap1=SubChapter.find(gal.subchapter_id)
+                uid=subchap1.uid
+                e_access=gal.e_gallery_acess
+                if(gal.v_gallery_image=='picture.png' || gal.v_gallery_image=='audio.png' ||gal.v_gallery_image=='video.png')
+                  imgpath='/user_content/photos/big_thumb/noimage.jpg'
+                else
+                  imageName  = gal.v_gallery_image
+                  imageName.slice!(-3..-1)
+                  imgpath="#{@i.img_url}/user_content/photos/flex_icon/"+imageName+"jpg"
+                end
+                deletepath="/manage_site/"
+              %>
+              <%else%>
+                <% if (@i.jtype=='photo') %>
+                  <%
+                  photo=UserContent.find(@i.master_id)
+                  type1="Moment"
+                  status=photo.status
+                  name=photo.v_tagphoto
+                  uid=photo.uid
+                  e_access=photo.e_access
+                 deletepath="/manage_site/"
+                %>
+                <%end%><%end%>
+            <%end%><%end%>
+          <% if (session[:friend]!='')
+            access=e_access
+          else
+            access='public'
+          end
+        %>
+          <% if (status=='active') %>
+            <%if access=='public' || access=='semiprivate'  %>
+              <tr >
+                <th  height="32" colspan="3" align="left" valign="middle" bgcolor="#191919" scope="col">
+                  <!--  <span>&nbsp;&nbsp;Journal for <%=name%> <%=type1%>	-->		  </span></th>
+              </tr>
+              <tr >
+                <th width="271" height="10" align="left" valign="top" bgcolor="#000000" scope="col">&nbsp;</th>
+                <th>&nbsp;</th>
+                <th  width="927" align="left" valign="middle" bgcolor="#000000" scope="col"></th>
+              </tr>
+              <tr>
+                <th height="65" align="left"  valign="top" scope="col" >
+                  <% if (@i.jtype=='chapter') %>
+                    <%
+                    tag=Tag.find(@i.master_id)%>
+                    <a href="/my_familywebsite/subchapters/<%=tag.id%>?familyname=<%=familyname%>"><img src="<%=imgpath%>" border='0' width="192"/>	</a>
+                  <%else%>
+                    <% if (@i.jtype=='subchap') %>
+                      <%
+                      subchap=SubChapter.find(@i.master_id)%>
+                      <a href="/my_familywebsite/gallery/<%=subchap.id%>?familyname=<%=familyname%>"><img src="<%=imgpath%>"  border='0' width="192"/></a>
+                    <%else%>
+                      <% if (@i.jtype=='gallery') %>
+                        <%
+                        gal=Galleries.find(@i.master_id)%>
+                        <a href="/my_familywebsite/gallery_fisheye/<%=gal.id%>?familyname=<%=familyname%>">
+                          <img src="<%=imgpath%>" border='0' width="192"/></a>
+                        </a>
+                      <%else%>
+
+                        <% if (@i.jtype=='photo') %>
+                          <a href="/my_familywebsite/moment_page/<%=@i.master_id%>?familyname=<%=familyname%>">
+                            <% if (photo.e_filetype == 'image') %>
+                              <img src="<%=@i.img_url%>/user_content/photos/big_thumb/<%=photo.v_filename%>" border='0' width="192"/>
+                            <%else%>
+                              <% if (photo.e_filetype == 'video') %>
+                                <img src="<%=@i.img_url%>/user_content/videos/thumbnails/<%=photo.v_filename%>.jpg" border='0' width="192"/>
+                              <%else%>
+                                <% if (photo.e_filetype == 'audio') %>
+                                  <img src="/user_content/audios/speaker.jpg" border='0' width="192"/>
+                                <%else%>
+                                  <% if (photo.e_filetype == 'swf') %>
+                                    <img src="<%=@i.img_url%>/user_content/videos/thumbnails/<%=photo.v_filename%>.jpg" border='0' width="192"/>
+                                  <%end%><%end%><%end%><%end%>
+                          </a>
+                        <%else%>
+                          <img src="/user_content/photos/icon_thumbnails/noimage.jpg" border='0' width="192"/>
+
+                      <%end%><%end%><%end%><%end%>			  </th>
+                <th>&nbsp;</th>
+                <th align="left" valign="top" class="text-journal" scope="col" bordercolor="#191919">
+                  <span class="heading-journal">
+
+                    <%= @i.title %>&nbsp;&nbsp;
+                    <% ActiveSupport::CoreExtensions::Time::Conversions::DATE_FORMATS.merge!(
+                      :date => "%Y-%m-%d",
+                      :presentable_datetime => "%a %b %d, %Y %H:%M",
+                      :presentable_date => "%a %b %d, %Y")
+                    @created_date=@i.d_created_at%>
+
+                  <%=@created_date.to_s(:presentable_date)%></span>
+                  <br><br>
+                  <%= @i.descr.gsub("\n", "<br />\n") %>
+                  <br><br><br><br><br>
+                  <table border="0">
+                    <tr>
+                      <td valign="bottom" align="left">
+                        <% if session[:friend]!=''
+                        else
+                        %>
+                          <% if (@i.jtype=='chapter') %>
+                            <%
+                            tag=Tag.find(@i.master_id)%>
+                            <%tagJ_id = ChapterJournal.find_by_sql("Select * from chapter_journals where tag_id='#{tag.id}'") %>
+                            <%for i in  tagJ_id %>
+                              <a href="/manage_site/edit_chapter_journal?id=<%=@familyname%>&jid=<%=i.id%>">Edit Journal
+                                <!--img src="/images/editajounal_btn.jpg" border="0"--></a>
+                            <%end%>
+                          <%else%>
+                            <% if (@i.jtype=='subchap') %>
+                              <%
+                              subchap=SubChapter.find(@i.master_id)%>
+                              <%subchapJ_id = SubChapJournal.find_by_sql("Select * from sub_chap_journals where sub_chap_id='#{subchap.id}'") %>
+                              <%for j in  subchapJ_id %>
+                                <a href="/manage_site/edit_subchap_journal?id=<%=@familyname%>&jid=<%=j.id%>">Edit Journal
+                                  <!--img src="/images/editajounal_btn.jpg" border="0"--></a>
+                              <%end%>
+                            <%else%>
+                              <% if (@i.jtype=='gallery') %>
+                                <%
+                                gal=Galleries.find(@i.master_id)%>
+                                <%galJ_id = GalleryJournal.find_by_sql("Select * from gallery_journals where galerry_id='#{gal.id}'") %>
+                                <%for k in galJ_id %>
+                                  <a href="/manage_site/edit_gallery_journal?id=<%=@familyname%>&jid=<%=k.id%>">Edit Journal
+                                    <!--img src="/images/editajounal_btn.jpg" border="0"--></a>
+                                <%end%>
+                              <%else%>
+                                <%if (@i.jtype=='photo') %>
+                                  <a href="/manage_site/edit_photo_journal?id=<%=@familyname%>&jid=<%=@i.master_id%>">Edit Journal
+                                    <!--img src="/images/editajounal_btn.jpg" border="0"--></a>
+                                <%end%><%end%><%end%><%end%><%end%></td>
+                      <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                        <%	if (@i.jtype=='chapter')
+                          if(session[:friend]!='')
+                            e_approved="and e_approval='approve'"
+                          else
+                            e_approved=''
+                          end%>
+                          <%if(session[:friend]!='')
+                            approved="and status='accepted'"
+                          else
+                            approved=''
+                          end%>
+
+                          <% comnt_chap=ChapterComment.find_by_sql("select count(*) as cnt from chapter_comments  where tag_jid=#{@i.id} #{e_approved}")
+                          for cmt_chap in comnt_chap
+                            count_chap=cmt_chap['cnt']
+                          end%>
+                          <% share_cmt = ShareJournalcomment.find_by_sql("select count(*) as cnt1 from share_journalcomments where journal_id=#{@i.id} and journal_type='chapter' #{approved} ")
+                          for cmt_share in share_cmt
+                            count_share=cmt_share['cnt1']
+                          end
+                          guestcout = GuestComment.count(:all, :conditions => "journal_id=#{@i.id} and journal_type='chapter' #{approved}" )
+                        %>
+
+                          <% total_cnt = Integer(count_share) + Integer(count_chap) + guestcout %>
+                          <%if session[:friend]==nil || session[:friend]=='' %><a href="/manage_site/destroying_chap_journal/<%=@i.id%>/?familyname=<%=params[:id]%>" onClick="if(confirm('Do you want to delete this Journal?')){return true; } else return false;">Delete Journal</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<%end%>
+                          &nbsp;&nbsp;&nbsp;
+                          <%= link_to_remote("View Comments"+" ("+String (total_cnt)+")", :update =>@i.jtype+@id,
+                            :url => {:controller => :chapter_comment, :action => :jcomment_list, :tag_id => tag.id, :id => @i.id, :id_journal => @i.id, :mode => 'chapter' , :familyname => params[:id] } ,:layout => false  ) %>
+
+                        <% else if (@i.jtype=='subchap')
+                            if(session[:friend]!='')
+                              e_approved="and e_approval='approve'"
+                            else
+                              e_approved=''
+                            end %>
+
+                            <% comnt_sub=SubchapComment.find_by_sql("select count(*) as cnt from subchap_comments  where subchap_jid=#{@i.id}  #{e_approved} ")
+
+                            for cmt_sub in comnt_sub
+                              count_sub=cmt_sub['cnt']
+                            end
+
+                            share_cmt = ShareJournalcomment.find_by_sql("select count(*) as cnt1 from share_journalcomments where journal_id=#{@i.id} and journal_type='sub-chapter' #{approved} ")
+                            for cmt_share in share_cmt
+                              count_share=cmt_share['cnt1']
+                            end
+
+                            guestcout = GuestComment.count(:all, :conditions => "journal_id=#{@i.id} and journal_type='sub-chapter' #{approved}" )
+                            total_comment=Integer(count_sub) + guestcout + Integer(count_share)
+                          %>
+                            <% if session[:friend] == '' %>
+                            <%else%>
+                              <table >
+                                <tr>
+                                  <td valign="top">
+                                    <div id="profile_img1" style="display:none">
+                                      <table border="0">
+                                        <tr>
+                                          <td align="top">
+                                            <img src="<%=logged_in_hmm_user.img_url %>/hmmuser/photos/thumb/<%=logged_in_hmm_user.v_myimage %>" width="77" height="78" border="0" />
+                                          </td>
+                                        </tr>
+                                      </table>
+                                    </div>
+                                  </td>
+                                  <td>
+                                    <form name="frm2" action="/subchap_comment/create_jcmt">
+                                      <input type="hidden" value="<%=subchap.id%>" name="subchap_id" />
+                                      <input type="hidden" value="<%= @i.id%>" name="subchap_j_id" />
+                                      <input type="hidden" value="<%= params[:redirect]%>" name="redirect" />
+                                      <table>
+                                        <tr>
+                                          <td><% if session[:friend]==''%><%else%>
+                                              <textarea class='textbox-1' onfocus="grow_text_boxes(this.id,'journals_cmt_sub1<%=@i.jtype%><%=@id%>','profile_img1');" onblur="shrink_text_boxes(this.id,'journals_cmt_sub1<%=@i.jtype%><%=@id%>','profile_img1');" cols='40' id='journals_comment_v_comment1<%=@i.jtype%><%=@id%>' name='subchap_comment[v_comments]' rows='2'>Type your comments here...</textarea>
+                                            <%end%>
+                                          </td>
+                                        </tr>
+                                        <tr>
+                                          <td>
+                                            <div id="journals_cmt_sub1<%=@i.jtype%><%=@id%>" style="display:none">
+                                              <table>
+                                                <tr>
+                                                  <td>
+                                                    <input type="submit" value="Create" name="Create" id="Create">
+                                                  </td>
+                                                </tr>
+                                              </table>
+                                            </div>
+                                          </td>
+                                        </tr>
+                                      </table>
+                                    </form>
+                                  </td>
+                                </tr>
+                              </table>
+                            <%end%>
+                            &nbsp;&nbsp;&nbsp;
+                            <%if session[:friend]==nil || session[:friend]=='' %><a href="/manage_site/destroying_subchap_journal/<%=@i.id%>/?familyname=<%=params[:id]%>" onClick="if(confirm('Do you want to delete this Journal?')){return true; } else return false;">Delete Journal</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<%end%>
+                            &nbsp;&nbsp;&nbsp;
+                            <%= link_to_remote("View Comments"+" ("+String (total_comment)+")", :update =>@i.jtype+@id,
+                              :url => {:controller => :chapter_comment, :action => :jcomment_list, :id => @i.id, :id_journal => @i.id, :mode => 'sub-chapter' , :familyname => params[:id]} , :layout => false  ) %>
+
+                          <%else if (@i.jtype=='gallery')
+                              if(session[:friend]!='')
+                                e_approved="and e_approval='approve'"
+                              else
+                                e_approved=''
+                              end
+                            %>
+                              <% comnt_gal=GalleryComment.find_by_sql("select count(*) as cnt from gallery_comments  where gallery_jid=#{@i.id} #{e_approved} ")
+                              for cmt_gal in comnt_gal
+                                count_gal=cmt_gal['cnt']
+                              end
+
+                              share_cmt = ShareJournalcomment.find_by_sql("select count(*) as cnt1 from share_journalcomments where journal_id=#{@i.id} and journal_type='gallery' #{approved} ")
+                              for cmt_share in share_cmt
+                                count_share=cmt_share['cnt1']
+                              end
+
+                              guestcout = GuestComment.count(:all, :conditions => "journal_id=#{@i.id} and journal_type='gallery' #{approved}" )
+                              total_comment=Integer(count_gal) + guestcout + Integer(count_share)
+                            %>
+                              <% if session[:friend] == '' %>
+
+                              <%else%>
+                                <table >
+                                  <tr>
+                                    <td valign="top">
+                                      <div id="profile_img2" style="display:none">
+                                        <table border="0">
+                                          <tr>
+                                            <td align="top">
+                                              <img src="<%=logged_in_hmm_user.img_url %>/hmmuser/photos/thumb/<%=logged_in_hmm_user.v_myimage %>" width="77" height="78" border="0" />
+                                            </td>
+                                          </tr>
+                                        </table>
+                                      </div>
+                                    </td>
+                                    <td>
+                                      <form name="frm3" action="/gallery_comment/create_jcmt">
+                                        <input type="hidden" value="<%=gal.id%>" name="gallery_id" />
+                                        <input type="hidden" value="<%= @i.id%>" name="gallery_j_id" />
+                                        <input type="hidden" value="<%= params[:redirect]%>" name="redirect" />
+                                        <table>
+                                          <tr>
+                                            <td><% if session[:friend]==''%><%else%>
+                                                <textarea class='textbox-1' onfocus="grow_text_boxes(this.id,'journals_cmt_sub2<%=@i.jtype%><%=@id%>','profile_img2');" onblur="shrink_text_boxes(this.id,'journals_cmt_sub2<%=@i.jtype%><%=@id%>','profile_img2');" cols='40' id='journals_comment_v_comment2<%=@i.jtype%><%=@id%>' name='gallery_comment[v_comment]' rows='2'>Type your comments here...</textarea>
+                                              <%end%>
+                                            </td>
+                                          </tr>
+                                          <tr>
+                                            <td>
+                                              <div id="journals_cmt_sub2<%=@i.jtype%><%=@id%>" style="display:none">
+                                                <table>
+                                                  <tr>
+                                                    <td>
+                                                      <input type="submit" value="Create" name="Create" id="Create">
+                                                    </td>
+                                                  </tr>
+                                                </table>
+                                              </div>
+                                            </td>
+                                          </tr>
+
+                                        </table>
+                                      </form>
+                                    </td>
+                                  </tr>
+                                </table>
+                              <%end%>
+                              &nbsp;&nbsp;&nbsp;
+                              <%if session[:friend]==nil || session[:friend]=='' %><a href="/manage_site/destroying_gallery_journal/<%=@i.id%>/?familyname=<%=params[:id]%>" onClick="if(confirm('Do you want to delete this Journal?')){return true; } else return false;">Delete Journal</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<%end%>
+                              &nbsp;&nbsp;&nbsp;
+
+                              <%= link_to_remote("View Comments"+" ("+String (total_comment)+")", :update =>@i.jtype+@id,
+                                :url => {:controller => :chapter_comment, :action => :jcomment_list, :id => @i.id, :id_journal => @i.id, :mode => 'gallery' , :familyname => params[:id]}, :layout => false  ) %>
+
+                            <%else if(@i.jtype=='photo')
+                                if(session[:friend]!='')
+                                  e_approved="and e_approved='approve'"
+                                else
+                                  e_approved=''
+                                end%>
+                                <%if(session[:friend]!='')
+                                  approved="and status='accepted'"
+                                else
+                                  approved=''
+                                end%>
+
+
+                                <% comnt_photo=PhotoComment.find_by_sql("select count(*) as cnt from photo_comments where journal_id=#{@i.id} #{e_approved}")
+                                for cmt_photo in comnt_photo
+                                  count_photo=cmt_photo['cnt']
+                                end %>
+                                <% share_cmt = ShareJournalcomment.find_by_sql("select count(*) as cnt1 from share_journalcomments where journal_id=#{@i.id} and journal_type='photo' #{approved} ")
+                                for cmt_share in share_cmt
+                                  count_share=cmt_share['cnt1']
+                                end
+                                guestcout = GuestComment.count(:all, :conditions => "journal_id=#{@i.id} and journal_type='photo' #{approved}" )
+                              %>
+
+                                <% total_cnt_pic = Integer(count_share) + Integer(count_photo) + guestcout  %>
+
+                                <% if session[:friend] == '' %>
+                                <%else%>
+                                  <table >
+                                    <tr>
+                                      <td valign="top">
+                                        <div id="profile_img3" style="display:none">
+                                          <table border="0">
+                                            <tr>
+                                              <td align="top">
+                                                <img src="<%=logged_in_hmm_user.img_url %>/hmmuser/photos/thumb/<%=logged_in_hmm_user.v_myimage %>" width="77" height="78" border="0" />
+                                              </td>
+                                            </tr>
+                                          </table>
+                                        </div>
+                                      </td>
+                                      <td>
+
+                                        <form name="frm4" action="/photo_comments/create_jcmt">
+                                          <input type="hidden" value="<%=@i.id%>" name="i_id" />
+                                          <input type="hidden" value="<%= photo.id%>" name="user_content_id" />
+                                          <input type="hidden" value="<%= params[:redirect]%>" name="redirect" />
+                                          <table>
+                                            <tr>
+                                              <td><% if session[:friend]==''%><%else%>
+                                                  <textarea class='textbox-1' onfocus="grow_text_boxes(this.id,'journals_cmt_sub3<%=@i.jtype%><%=@id%>','profile_img3');" onblur="shrink_text_boxes(this.id,'journals_cmt_sub3<%=@i.jtype%><%=@id%>','profile_img3');" cols='40' id='journals_comment_v_comment3<%=@i.jtype%><%=@id%>' name='photo_comments[v_comment]' rows='2'>Type your comments here...</textarea>
+                                                <%end%>
+                                              </td>
+                                            </tr>
+                                            <tr>
+                                              <td>
+                                                <div id="journals_cmt_sub3<%=@i.jtype%><%=@id%>" style="display:none">
+                                                  <table>
+                                                    <tr>
+                                                      <td>
+                                                        <input type="submit" value="Create" name="Create" id="Create">
+                                                      </td>
+                                                    </tr>
+                                                  </table>
+                                                </div>
+                                              </td>
+                                            </tr>
+
+                                          </table>
+                                        </form>
+                                      </td>
+                                    </tr>
+                                  </table>
+                                <%end%> &nbsp;&nbsp;&nbsp;
+                                <%if session[:friend]==nil || session[:friend]=='' %><a href="<%=deletepath%>destroying/<%=@i.id%>/?familyname=<%=params[:id]%>" onClick="if(confirm('Do you want to delete this Journal?')){return true; } else return false;">Delete Journal</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<%end%>
+
+                                &nbsp;&nbsp;&nbsp;
+
+                                <%= link_to_remote("View Comments"+" ("+String (total_cnt_pic)+")",:update =>@i.jtype+@id,
+                                  :url => {:controller => :chapter_comment, :action => :jcomment_list, :id => @i.id, :id_journal => @i.id, :mode => 'photo' , :familyname => params[:id]}, :layout => false  ) %>
+
+                              <%end%><%end%><%end%><%end%>
+                        <%@jtype = @i.jtype%>
+
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                        <% if session[:friend] == '' %>
+
+                        <%else%>
+                        <%end%>
+
+                        &nbsp;&nbsp; </td></tr></table>
+                  <div id=<%=@i.jtype+@id%>></div>
+                  <br>
+
+                </th>
+              </tr>
+
+              <tr><td colspan="3" height="20"></td></tr>
+
+            <%end%><%end%><%end%>
+        <tr bordercolor="#00000">
+          <td colspan="2">
+            <font color="#f5dfa6"><%=  flash[:notice_cca_jlist]%></font>
+            <font color="#f5dfa6"><%=  flash[:notice_ccr_jlist]%></font>
+            <font color="#f5dfa6"><%=  flash[:notice_ccd_jlist]%></font>
+
+            <font color="#f5dfa6"><%=  flash[:notice_sca_jlist]%></font>
+            <font color="#f5dfa6"><%=  flash[:notice_scr_jlist]%></font>
+            <font color="#f5dfa6"><%=  flash[:notice_scd_jlist]%></font>
+
+            <font color="#f5dfa6"><%=  flash[:notice_gca_jlist]%></font>
+            <font color="#f5dfa6"><%=  flash[:notice_gcr_jlist]%></font>
+            <font color="#f5dfa6"><%=  flash[:notice_gcd_jlist]%></font>
+
+            <font color="#f5dfa6"><%=  flash[:notice_pca_jlist]%></font>
+            <font color="#f5dfa6"><%=  flash[:notice_pcr_jlist]%></font>
+            <font color="#f5dfa6"><%=  flash[:notice_pcd_jlist]%></font>
+            <font color="#f5dfa6"><%=  flash[:notice2]%></font>				</td>
+        </tr>
+
+        <tr>
+          <td>				</td>
+        </tr>
+      </table>
+      <%if @total==0 %>
+        <table  width="100%" align="center"><tr><td align="center" >
+              <font color="#ffffff">No journals found.</font>
+
+            </td></tr></table>
+      <%else%>
+        <table  width="100%" align="right"><tr><td align="right" >
+
+              <%if @page==0 %>
+
+                <% if @nonext==1%>
+                <%else%>
+                  <font color="#ffffff" size="2">
+                    <%= link_to_remote("Next >> ",
+                      :update => 'content1', :url => {  :action =>:manage_journals_details, :page => @nextpage} ) %>
+                  <%end%>
+                <%else%>
+
+                  <%= link_to_remote("  << Previous ",
+                    :update => 'content1', :url => {  :action =>:manage_journals_details, :page => @previouspage} ) %>
+                  &nbsp;&nbsp;&nbsp;
+                  <% if @nonext==1%>
+                  <%else%>
+                    <%= link_to_remote("Next >> ",
+                      :update => 'content1', :url => { :action =>:manage_journals_details, :page => @nextpage} ) %>
+                  <%end%>
+
+                <%end%>&nbsp;&nbsp;&nbsp;(Pages <%= @page+1 %> of <%=@numberofpages+1%>)</font>
+              <br><br>
+            </td></tr></table>
+      <%end%>
+
+    </td></tr></table>

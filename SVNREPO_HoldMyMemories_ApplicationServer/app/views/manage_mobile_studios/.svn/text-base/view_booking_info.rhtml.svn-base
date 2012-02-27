@@ -1,0 +1,24 @@
+<table width="900"  border="0" cellspacing="0" cellpadding="0">
+  <tr><td valign="top">
+      <%= render :partial => 'links1' %>
+    </td><td>
+     
+
+        <table width="600" border="0" cellspacing="0" cellpadding="0">
+          <tr><td class="leftconthr"> <h3><font color="#ff6400">Create your iPhone App in 5 Easy Steps</h3></td></tr>
+          <tr><td class="leftconthr"> <h3><u>Step4: Upload Booking Info</u></h3></td></tr>
+          <tr><td class="leftconthr"> <%if flash[:notice] %><font color="#ff6400"><%=flash[:notice] %></font><%end%></td></tr>
+        </table>
+        <table border="0">
+         
+            <tr><td height="50"  align="left">Booking Telephone : </td><td align="left" class="leftconthr"><input type="text" name="phone_no" id="phone" size="30" value='<%=@infos.phone_no%>'  onKeyUp="valid(this,'special')" /></td></tr>
+             <tr><td></td><td>  Separate multiple Phone Numbers with a comma	</td></tr>
+            <tr><td height="50" align="left">Booking Email :</td><td align="left" class="leftconthr"> <input type="text" name="email" id="email" size="30"  value='<%=@infos.email%>' onKeyUp="valid(this,'special')" /></td></tr>
+            <tr><td></td><td>  Separate multiple email addresses with a comma	</td></tr>
+            <tr><td height="50" align="left">Booking URL :</td><td align="left" class="leftconthr"> <input type="text" name="url" id="url" size="30"  value="http://holdmymemories.com/manage_iphone_studio/booking_info/?studio_id=<%=session[:store_id]%>" /></td></tr>
+            <tr><td><input type="hidden" name="id" value='<%=@infos.id%>' /></td></tr>
+         
+          
+        </table>
+      
+    </td></tr></table>

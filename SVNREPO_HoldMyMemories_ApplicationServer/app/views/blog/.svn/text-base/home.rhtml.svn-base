@@ -1,0 +1,318 @@
+<table width="100%" border="0" cellspacing="0" cellpadding="0">
+  <tr>
+    <td height="100%" align="right" valign="top" class="leftshad"></td>
+    <td width="990" height="500" align="center" valign="top"><table width="990" border="0" cellspacing="0" cellpadding="0">
+      <tr>
+        <td align="center" valign="top"><table width="970" border="0" cellspacing="0" cellpadding="0">
+  <tr>
+    <td align="center" valign="top" class="tab-dots"><table width="970" border="0" cellspacing="0" cellpadding="0" id="tab_bgcolor_repeat">
+          
+          <tr>
+            <td align="left" valign="top"><table width="100%" border="0" cellspacing="0" cellpadding="0">
+              <tr>
+                <td width="13" align="left" valign="top"></td>
+                <td width="944" align="left" valign="top"><table width="100%" border="0" cellspacing="0" cellpadding="0">
+                  <tr>
+                    <td height="10" align="left" valign="top"></td>
+                    </tr>
+                  <tr>
+                    <td height="35" align="left" valign="bottom" class="header-page">&nbsp;Blog</td>
+                    </tr>
+                  <tr>
+                    <td height="10" align="left" valign="top"></td>
+                  </tr>
+                  <tr>
+                    <td height="1" align="left" valign="top" bgcolor="#454545"></td>
+                    </tr>
+                  <tr>
+                    <td height="10" align="left" valign="top"></td>
+                  </tr>
+                  <tr>
+                    <td align="left" valign="top" class="content-trans-bg">
+<% @id1=0
+	for @i in @tagid
+	@id1=@id1+1
+	@id="#{@id1}" %>
+
+<% if (@i.jtype=='chapter') %>
+				<%
+					tag=Tag.find(@i.master_id)
+					type1="Chapter"
+					status=tag.status
+					name=tag.v_tagname
+					uid=tag.uid
+					e_access=tag.e_access
+					if(tag.v_chapimage == "folder_img.png")
+		imgpath='/user_content/photos/big_thumb/noimage.jpg'
+	  else
+        imageName  = tag.v_chapimage
+        imageName.slice!(-3..-1)
+        imgpath="#{@i.img_url}/user_content/photos/flex_icon/"+imageName+"jpg"
+      end
+		deletepath="/chapter_journal/"
+%>
+<%else%>
+<% if (@i.jtype=='subchap') %>
+				<%
+					subchap=SubChapter.find(@i.master_id)
+					type1="Sub Chapter"
+					name=subchap.sub_chapname
+					status=subchap.status
+					uid=subchap.uid
+					e_access=subchap.e_access
+	if(subchap.v_image == "folder_img.png")
+		imgpath='/user_content/photos/big_thumb/noimage.jpg'
+	  else
+        imageName  = subchap.v_image
+        imageName.slice!(-3..-1)
+        imgpath="#{@i.img_url}/user_content/photos/flex_icon/"+imageName+"jpg"
+      end
+deletepath="/sub_chap_journal/"
+%>
+				<%else%>
+<% if (@i.jtype=='gallery') %>
+				<%
+					gal=Galleries.find(@i.master_id)
+					type1="Gallery"
+					name=gal.v_gallery_name
+					status=gal.status
+
+					subchap1=SubChapter.find(gal.subchapter_id)
+					uid=subchap1.uid
+					e_access=gal.e_gallery_acess
+
+				 if(gal.v_gallery_image=='picture.png' || gal.v_gallery_image=='audio.png' ||gal.v_gallery_image=='video.png')
+        			imgpath='/user_content/photos/big_thumb/noimage.jpg'
+     			 else
+        			imageName  = gal.v_gallery_image
+        			imageName.slice!(-3..-1)
+        			 imgpath="#{@i.img_url}/user_content/photos/flex_icon/"+imageName+"jpg"
+    			 end
+
+	deletepath="/gallery_journal/"
+
+			%>
+				<%else%>
+<% if (@i.jtype=='photo') %>
+				<%
+					photo=UserContent.find(@i.master_id)
+					type1="Moment"
+					status=photo.status
+					name=photo.v_tagphoto
+					uid=photo.uid
+					e_access=photo.e_access
+
+
+
+					deletepath="/journals_photos/"
+
+%>
+        <%else%>
+<% if (@i.jtype=='text') %>
+				<%
+					hmmuser=HmmUser.find(@i.master_id)
+					type1="text"
+					status="active"
+					name=hmmuser.v_myimage
+					uid=hmmuser.id
+					e_access="public"
+                                        imgpath="#{hmmuser.img_url}/hmmuser/photos/thumb/#{name}"
+
+
+					deletepath="/journals_text/"
+
+%>
+ <%end%>
+<%end%>
+<%end%>
+<%end%>
+<%end%>
+
+                      <table width="100%" border="0" cellspacing="0" cellpadding="0">
+                      <tr>
+                        <td align="left" valign="top"></td>
+                        <td align="left" valign="top">&nbsp;</td>
+                        <td align="left" valign="top"></td>
+                        <td align="left" valign="top">&nbsp;</td>
+                        <td align="left" valign="top"></td>
+                        </tr>
+                      <tr>
+                        <td width="28" align="left" valign="top"></td>
+                        <td width="193" align="left" valign="top"><table width="100%" border="0" cellspacing="0" cellpadding="0">
+                          <tr>
+                            <td align="left" valign="top">
+                              <% if (@i.jtype=='chapter')
+                                tag=Tag.find(@i.master_id)%>
+				<a href="/familywebsite/subchapters/<%params[:id]%>?chapter_id=<%=tag.id%>"><img src="<%=imgpath%>" border='0' width="192" /></a>
+                                <%else
+                                    if (@i.jtype=='subchap')
+					subchap=SubChapter.find(@i.master_id) %>
+                                    <a href="/familywebsite/galleries/<%params[:id]%>?subchapter_id=<%=subchap.id%>"><img src="<%=imgpath%>"  border='0' width="192" /></a>
+                                    <%else
+                                       if (@i.jtype=='gallery')
+					gal=Galleries.find(@i.master_id) %>
+                                        <a href="/familywebsite/gallery_contents/<%params[:id]%>?gallery_id=<%=gal.id%>">
+                                          <img src="<%=imgpath%>" border='0' width="192" alt="" /></a>
+			             <%else
+                                        if (@i.jtype=='text') %>
+                                            <img src="<%=imgpath%>" border='0' alt="" />
+
+                                        <%else%>
+
+			<% if (@i.jtype=='photo') %>
+				<a href="/my_familywebsite/moment_page/<%=@i.master_id%>?familyname=<%=familyname%>">
+				<% if (photo.e_filetype == 'image') %>
+					<img src="<%=@i.img_url%>/user_content/photos/big_thumb/<%=photo.v_filename%>" border='0' width="192" onMouseDown="callme(this.id);" onContextMenu="return false;"/>
+				<%else%>
+				<% if (photo.e_filetype == 'video' || photo.e_filetype == 'swf') %>
+					<img src="<%=@i.img_url%>/user_content/videos/thumbnails/<%=photo.v_filename%>.jpg" border='0' width="192"/>
+				<%else%>
+				<% if (photo.e_filetype == 'audio') %>
+					<img src="/user_content/audios/speaker.jpg" border='0' width="192"/>
+
+				<%end%><%end%><%end%>
+				</a>
+					<%else%>
+				<%end%><%end%><%end%><%end%><%end%>
+                              <img src="images/journal_thumb_img1.jpg" width="192" height="127" alt="" /></td>
+                            </tr>
+                          <tr>
+                            <td align="center" valign="top">&nbsp;</td>
+                            </tr>
+                          <tr>
+                            <td align="center" valign="top" class="content"><% ActiveSupport::CoreExtensions::Time::Conversions::DATE_FORMATS.merge!(
+    				:date => "%Y-%m-%d",
+    				:presentable_datetime => "%a %b %d, %Y %H:%M",
+    				:presentable_date => "%a %b %d, %Y")
+				@created_date=@i.d_created_at%>
+
+				<%=@created_date.to_s(:presentable_date)%></td>
+                            </tr>
+                          </table></td>
+                        <td width="20" align="left" valign="top"></td>
+                        <td width="673" align="left" valign="top"><table width="100%" border="0" cellspacing="0" cellpadding="0">
+                          <tr>
+                            <td height="35" align="left" valign="top" class="header-paragraph"><%= @i.title %></td>
+                            </tr>
+                          <tr>
+                            <td align="left" valign="top" class="content"><%= @i.descr.gsub("\n", "<br />\n") %></td>
+                            </tr>
+                          <tr>
+                            <td align="left" valign="top">&nbsp;</td>
+                            </tr>
+                          <tr>
+                            <td align="left" valign="top" class="side-heading">(&nbsp;&nbsp;&nbsp;&nbsp;<a href="#">ADD COMMENT</a>&nbsp;&nbsp;&nbsp;&nbsp;)&nbsp;&nbsp;&nbsp;&nbsp;(&nbsp;&nbsp;&nbsp;&nbsp; <a href="#">VIEW COMMENTS</a>&nbsp;&nbsp;&nbsp;&nbsp;)</td>
+                          </tr>
+                          </table></td>
+                        <td width="28" align="left" valign="top"></td>
+                        </tr>
+                      <tr>
+                        <td height="20" colspan="5" align="left" valign="top">&nbsp;</td>
+                      </tr>
+                      <tr>
+                        <td height="1" colspan="5" align="left" valign="top" bgcolor="#202020"></td>
+                        </tr>
+                        <tr style="display:none;">
+                        <td colspan="3" align="left" valign="top"></td>
+                        <td align="left" valign="top"><table width="100%" border="0" cellspacing="0" cellpadding="0">
+                          <tr>
+                            <td colspan="4" align="left" valign="top">&nbsp;</td>
+                          </tr>
+                          <tr>
+                            <td colspan="4" align="left" valign="top" class="cont-white-title">Journal Comments</td>
+                          </tr>
+                          <tr>
+                            <td colspan="4" align="left" valign="top">&nbsp;</td>
+                            </tr>
+                          <tr>
+                            <td width="35" rowspan="2" align="center" valign="top">&nbsp;</td>
+                            <td width="106" height="30" align="left" valign="top" class="side-heading">Commented By: </td>
+                            <td width="20" align="left" valign="top">&nbsp;</td>
+                            <td width="512" align="left" valign="top" class="content">Page Paekeseveleth</td>
+                          </tr>
+                          <tr>
+                            <td align="left" valign="top" class="side-heading">Description:</td>
+                            <td align="left" valign="top">&nbsp;</td>
+                            <td align="left" valign="top" class="content"><p>JACOB, <br />
+                              Mommy misses you so much...thank you for trying to call me while I am in Rome!!! </p>
+                              <p>Say your prayers!! <br />
+                                Love you <br />
+                                MOMMY</p></td>
+                          </tr>
+                          <tr>
+                            <td height="10" colspan="4" align="left" valign="top"></td>
+                          </tr>
+                          <tr>
+                            <td height="1" colspan="4" align="left" valign="top" bgcolor="#202020"></td>
+                          </tr>
+                          <tr>
+                            <td height="10" colspan="4" align="left" valign="top"></td>
+                            </tr>
+                          <tr>
+                            <td rowspan="2" align="center" valign="top">&nbsp;</td>
+                            <td height="30" align="left" valign="top" class="side-heading">Commented By: </td>
+                            <td align="left" valign="top">&nbsp;</td>
+                            <td align="left" valign="top" class="content">Page Paekeseveleth</td>
+                          </tr>
+                          <tr>
+                            <td align="left" valign="top" class="side-heading">Description:</td>
+                            <td align="left" valign="top">&nbsp;</td>
+                            <td align="left" valign="top" class="content"><p>JACOB, <br />
+                              Mommy misses you so much...thank you for trying to call me while I am in Rome!!! </p>
+                              <p>Say your prayers!! <br />
+                                Love you <br />
+                                MOMMY</p></td>
+                          </tr>
+                          <tr>
+                            <td height="10" colspan="4" align="left" valign="top"></td>
+                          </tr>
+                          <tr>
+                            <td height="1" colspan="4" align="left" valign="top" bgcolor="#202020"></td>
+                          </tr>
+                          <tr>
+                            <td height="10" colspan="4" align="left" valign="top"></td>
+                          </tr>
+                        </table></td>
+                        <td align="left" valign="top"></td>
+                      </tr>
+                      <tr style="display:none;">
+                        <td align="left" valign="top"></td>
+                        <td align="left" valign="top">&nbsp;</td>
+                        <td align="left" valign="top"></td>
+                        <td align="left" valign="top">&nbsp;</td>
+                        <td align="left" valign="top"></td>
+                        </tr>
+                      </table>
+                      <%end%>
+                    </td>
+                  </tr>
+
+                  <tr>
+                    <td align="right" valign="top" class="content">(Pages <%= @page+1 %> of <%=@numberofpages+1%>)</td>
+                  </tr>
+                  </table></td>
+                <td width="13" align="left" valign="top"></td>
+                </tr>
+              </table></td>
+          </tr>
+          </table></td>
+  </tr>
+  <tr>
+    <td align="center" valign="top" >&nbsp;</td>
+  </tr>
+        </table></td>
+      </tr>
+
+      <tr>
+        <td height="19"></td>
+      </tr>
+
+      <tr>
+            <td align="center" valign="top" height="25">&nbsp;</td>
+       </tr>
+
+
+    </table></td>
+    <td align="left" valign="top" class="rightshad"></td>
+  </tr>
+</table>

@@ -1,0 +1,10 @@
+<h2>New Contest Logo</h2>
+<br/>
+<%if(params[:success]=='0')%>
+  <div><font color="#FF0000"> No image selected.</font></div>
+<%end%>
+ 
+   
+<% form_tag("#{request_content_url}/contest_upload/upload_logo?id=#{@contest_detail}", {:multipart => true}) do %>
+  <%= render :partial=>"form", :locals => {:contest_logo => nil} %>
+<% end %>

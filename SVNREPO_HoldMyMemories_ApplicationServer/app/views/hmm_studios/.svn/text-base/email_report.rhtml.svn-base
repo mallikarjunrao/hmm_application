@@ -1,0 +1,260 @@
+
+<script type="text/javascript">
+  function chg(val)
+  {
+
+    if (document.getElementById('pcode').style.display == 'none' && document.getElementById('cty').style.display == 'block' && val=='USA') {
+      document.getElementById('pcode').style.display = 'block';
+      document.getElementById('cty').style.display = 'none';
+    }else{
+      document.getElementById('pcode').style.display = 'none';
+      document.getElementById('cty').style.display = 'block';
+    }
+
+  }
+</script>
+
+
+      <form name="frm" action="/hmm_studios/email_report" method="post">
+         <table bordercolor="#e5b467"  align="center" width="100%" border="10" cellpadding="4" cellspacing="4">
+          <tr  ><th background="/images/body_hor.JPG" colspan="4" align="center" style="backgrund:repeat;" >Search </th>
+          </tr>
+         <!-- <tr><td>From Date</td><td><%= date_select  'from_bdate' , :order => [:month, :day, :year], :start_year => Time.now.year - 100  %> </td></tr>
+          <tr><td>To Date</td><td><%= date_select  'to_bdate', :order => [:month, :day, :year], :start_year => Time.now.year - 100  %></td ></tr>-->
+          <tr><td>From Date</td><td>
+          <select name="fmm">
+          <option value="">-Select-</option>
+          <option value="1">January</option>
+          <option value="2">February</option>
+          <option value="3">March</option>
+          <option value="4">April</option>
+          <option value="5">May</option>
+          <option value="6">June</option>
+          <option value="7">July</option>
+          <option value="8">August</option>
+          <option value="9">September</option>
+          <option value="10">October</option>
+          <option value="11">November</option>
+          <option value="12">December</option>
+          </select>
+          &nbsp;
+          <select name="fdd">
+          <option value="">-Select-</option>
+          <option value="1">1</option>
+          <option value="2">2</option>
+          <option value="3">3</option>
+          <option value="4">4</option>
+          <option value="5">5</option>
+          <option value="6">6</option>
+          <option value="7">7</option>
+          <option value="8">8</option>
+          <option value="9">9</option>
+          <option value="10">10</option>
+          <option value="11">11</option>
+          <option value="12">12</option>
+          <option value="13">13</option>
+          <option value="14">14</option>
+          <option value="15">15</option>
+          <option value="16">16</option>
+          <option value="17">17</option>
+          <option value="18">18</option>
+          <option value="19">19</option>
+          <option value="20">20</option>
+          <option value="21">21</option>
+          <option value="22">22</option>
+          <option value="23">23</option>
+          <option value="24">24</option>
+          <option value="25">25</option>
+          <option value="26">26</option>
+          <option value="27">27</option>
+          <option value="28">28</option>
+          <option value="29">29</option>
+          <option value="30">30</option>
+          <option value="31">31</option>
+          </select>&nbsp;<select name="fyy">
+          <option value="">-Select-</option>
+          <option value="2005">2005</option>
+          <option value="2006">2006</option>
+          <option value="2008">2008</option>
+          <option value="2009">2009</option>
+          <option value="2010">2010</option>
+          <option value="2011">2011</option>
+          <option value="2012">2012</option>
+          <option value="2013">2013</option>
+          <option value="2014">2014</option>
+          <option value="2015">2015</option>
+          </select>
+          &nbsp;
+          </td></tr>
+          <tr><td>To Date</td><td><select name="tmm">
+          <option value="">-Select-</option>
+          <option value="1">January</option>
+          <option value="2">February</option>
+          <option value="3">March</option>
+          <option value="4">April</option>
+          <option value="5">May</option>
+          <option value="6">June</option>
+          <option value="7">July</option>
+          <option value="8">August</option>
+          <option value="9">September</option>
+          <option value="10">October</option>
+          <option value="11">November</option>
+          <option value="12">December</option>
+          </select>
+          &nbsp;
+          <select name="tdd">
+          <option value="">-Select-</option>
+          <option value="1">1</option>
+          <option value="2">2</option>
+          <option value="3">3</option>
+          <option value="4">4</option>
+          <option value="5">5</option>
+          <option value="6">6</option>
+          <option value="7">7</option>
+          <option value="8">8</option>
+          <option value="9">9</option>
+          <option value="10">10</option>
+          <option value="11">11</option>
+          <option value="12">12</option>
+          <option value="13">13</option>
+          <option value="14">14</option>
+          <option value="15">15</option>
+          <option value="16">16</option>
+          <option value="17">17</option>
+          <option value="18">18</option>
+          <option value="19">19</option>
+          <option value="20">20</option>
+          <option value="21">21</option>
+          <option value="22">22</option>
+          <option value="23">23</option>
+          <option value="24">24</option>
+          <option value="25">25</option>
+          <option value="26">26</option>
+          <option value="27">27</option>
+          <option value="28">28</option>
+          <option value="29">29</option>
+          <option value="30">30</option>
+          <option value="31">31</option>
+          </select>&nbsp;<select name="tyy">
+          <option value="">-Select-</option>
+          <option value="2005">2005</option>
+          <option value="2006">2006</option>
+          <option value="2008">2008</option>
+          <option value="2009">2009</option>
+          <option value="2010">2010</option>
+          <option value="2011">2011</option>
+          <option value="2012">2012</option>
+          <option value="2013">2013</option>
+          <option value="2014">2014</option>
+          <option value="2015">2015</option>
+          </select>
+          &nbsp;</td></tr>
+          <tr><td>Account Type</td><td>
+          <select name="account_type" id="account_type">
+								<option value="" <%if params[:account_type]=="" %>selected<%end%>>All Users</option>
+								<option value="free_user" <%if params[:account_type]=="free_user" %>selected<%end%>>Free Users </option>
+								<option value="familyws_user" <%if params[:account_type]=="familyws_user" %>selected<%end%>>Family Website Users  </option>
+								<option value="platinum_user" <%if params[:account_type]=="platinum_user" %>selected<%end%>>Premium Users </option>
+
+								
+							</select>	
+                             &nbsp;</td></tr>
+                                <tr><td>Customer Type</td><td>
+          <select name="customer_type" id="customer_type">
+								<option value="" <%if params[:customer_type]=="" %>selected<%end%>>All Customers</option>
+								<option value="0" <%if params[:customer_type]=="0" %>selected<%end%>>Direct Customers</option>
+								<option value="1" <%if params[:customer_type]=="1" %>selected<%end%>>Studio Customers</option>
+							</select>	
+                             &nbsp;</td></tr>
+                              <tr><td>Studio Group</td><td>
+          <select name="studio_group" id="studio_group">
+          						
+								<option value="" <%if params[:studio_group]=='' %>selected<%end%>>All</option>
+                                <% @hmmstudiogrps=HmmStudiogroup.find(:all) %>
+                                <%for k in @hmmstudiogrps %>
+								<option value="<%=k.id%>" <%if (k.id=="#{params[:studio_group]}") %>selected<%end%>><%=k.hmm_franchise_studio%></option>
+                                <% end %>
+							</select>	
+                             &nbsp;</td></tr>
+          <tr><td align="center" >&nbsp;</td>
+            <td align="left" ><input type="submit" name="sub1" value="Search"/>&nbsp;&nbsp;<input type="button" name="view_all" value="View All" onclick="window.location='/hmm_studios/email_report/?cpg=1'"/></td></tr>
+        </table>
+        
+      </form>
+      <% if (params[:fyy]!=nil && params[:fmm] !=nil && params[:fdd] !=nil && params[:tyy] !=nil && params[:tmm] !=nil && params[:tdd] !=nil && params[:fyy]!='' && params[:fmm] !='' && params[:fdd] !='' && params[:tyy] !='' && params[:tmm] !='' && params[:tdd] !='') %>
+
+      <p>Search Results From Date : <%=params[:fmm]%>-<%=params[:fdd]%>-<%=params[:fyy]%> To Date : <%=params[:tmm]%>-<%=params[:tdd]%>-<%=params[:tyy]%></p>
+      <% end%>
+      
+      <br>
+      <p>(<a href="/hmm_studios/email_report_excel/?account_type=<%=params[:account_type]%>&customer_type=<%=params[:customer_type]%>&fdd=<%=params[:fdd]%>&fmm=<%=params[:fmm]%>&fyy=<%=params[:fyy]%>&studio_group=<%=params[:studio_group]%>&sub1=Search&tdd=<%=params[:tdd]%>&tmm=<%=params[:tmm]%>&tyy=<%=params[:tyy]%>">Click here to generate report in Excel sheet</a>)
+</p>
+
+      <table border="0">
+        <tr><td colspan="15"><h2>Customers Email Report</h2> </td></tr>
+
+        <tr>
+          </td></tr>
+        <tr valign='center' align='center'>
+          <th background="/images/body_hor.JPG"><font class='txt'><table> <tr><th><%= sort_header_tag('v_fname', :text => "Cutomer Name") %></th></tr></table></font></th>
+          
+          <th background="/images/body_hor.JPG"><font class='txt'><table> <tr><th><%= sort_header_tag('v_user_name', :text => "User Name") %></th></tr></table></font></th>
+          <th background="/images/body_hor.JPG"><font class='txt'><table> <tr><th><%= sort_header_tag('v_e_mail', :text => "Email Address") %></th></tr></table></font></th>
+          <th background="/images/body_hor.JPG"><font class='txt'><table> <tr><th><%= sort_header_tag('d_created_date', :text => "Created date") %></th></tr></table></font></th>
+          <th background="/images/body_hor.JPG"><font class='txt'><table> <tr><th><%= sort_header_tag('account_type', :text => "Account Type") %></th></tr></table></font></th>
+          <th background="/images/body_hor.JPG"><font class='txt'><table> <tr><th><%= sort_header_tag('studio_name', :text => "Studio Name") %></th></tr></table></font></th>
+          <th background="/images/body_hor.JPG"><font class='txt'><table> <tr><th><%= sort_header_tag('hmm_franchise_studio', :text => "Studio Group") %></th></tr></table></font></th>
+          <th background="/images/body_hor.JPG"><font class='txt'><table> <tr><th> Status</th></tr></table></font></th>
+        </tr>
+
+        <% 	odd_or_even = 0
+        i = 0
+        for colmn in @hmm_users
+          i = i + 1
+          odd_or_even = 1 - odd_or_even
+        %>
+
+          <tr class='ListLine<%= odd_or_even %>'>
+            <td align="center"><%=h colmn.v_fname%> <%=h colmn.v_lname%></td>
+            <td align="center"><%=h colmn.v_user_name%></td>
+            <td align="center"><%=h colmn.v_e_mail%></td>
+            <td align="center">
+              <% if colmn.d_created_date == nil || colmn.d_created_date == '' %>
+                    -
+              <%else%>
+                <%=h colmn.d_created_date.strftime("%m - %d - %Y")%>
+              <%end%>            </td>
+            <td align="center"><%=h colmn.account_type%></td>
+            <td align="center">
+              <%if (colmn.studio_name == nil || colmn.studio_name == '' )  %>
+                            Direct Customer
+              <%else%>
+               <%=colmn.studio_name %>
+              <%end%>            </td>
+              <td align="center">
+              <%if (colmn.hmm_franchise_studio == nil || colmn.hmm_franchise_studio == '' )  %>
+                    -       
+              <%else%>               
+                <%=colmn.hmm_franchise_studio%>
+              <%end%>            </td>
+            
+            <td align="center">
+              <% if colmn.account_expdate!=nil %>
+                <%  t = Time.now
+                    dat=t.strftime("%Y-%m-%d")%>
+                    <% if  colmn.account_expdate > dat.to_date %>
+                  Active
+                <%else%>Inactive
+                <%end%>
+              <%else%>Inactive
+            <%end%></td>
+        
+        <% end %>
+        <input type="hidden" name="len" id="len" value="<%= i %>"/>
+        <tr><td colspan="4">
+            <%=will_paginate @hmm_users ,:params=>params%>
+          </td>
+        </tr>
+      </table>
+    </td></tr></table>
+<br />

@@ -1,0 +1,87 @@
+<% session[:vote_url] = params[:url] %>
+
+<form name="frm" action="/contests/import" method="post" onsubmit="return validate_form() " >
+<script type="text/javascript">
+         function validate_form()
+		 {
+		 	
+			if(document.getElementById('from').selectedIndex == 0)
+			{
+				alert("Please select an Account Type");
+				return false;
+			}
+			
+			
+		 	if ( document.getElementById('login').value == "" )
+		    {
+		        alert ( "Please enter your Email Address." );
+		        return false;
+		    }
+			var reg = /^([A-Za-z0-9_\-\.])+\@([A-Za-z0-9_\-\.])+\.([A-Za-z]{2,4})$/; 
+			var address = document.getElementById('login').value;
+			
+			
+			 /*if(document.getElementById('pswd').value == "")
+			{
+				alert("Please enter the Password.");
+				return false;
+			}*/
+			
+			return true;
+			
+			
+			
+		 }
+	
+    </script>
+<input type="hidden" name="momentid" id="momentid" value="<%=params[:id]%>">
+<table class="border" align="center" cellpadding="2" cellspacing="2">
+	<tr>
+		<td colspan="2" align="center"><font size="4" color="#ffffff">Invite your Friends to Vote</font></td>
+	</tr>
+	<tr>
+		<td colspan="2">
+			&nbsp;
+		</td>
+	</tr>
+    <tr>
+    	<td align="left"><font color="#ffffff" size="2" >Select Account type</font></font>
+		</td>
+		<td align="left">
+			<select name="from" id="from">
+        		<option value="">Select Id</option>
+        		<option value="gmail">Gmail</option>
+        		<option value="yahoo">Yahoo</option>
+        	</select>
+		</td>
+	</tr>
+	<tr>
+		<td align="left"><font color="#ffffff" size="2" >Please Enter Your Email Address:</font>
+		</td>
+		<td align="left">
+			<input type="text" name="login" id="login">
+		</td>
+	</tr>
+	<tr>
+		<td align="left">
+			<font color="#ffffff" size="2" >Enter Your Password :</font>
+		</td>
+		<td align="left"> 
+			<input type="password" name="password" id="pswd">
+		</td>
+	</tr>
+		
+	<TR>
+		<TD>&nbsp;</TD>
+		<TD align="left" size="2" ><p><font color="#ffffff" >Note : we are not going to save your Password anywhere </font></p></TD>
+	</TR>	
+	<tr>
+		<td></td>
+		<td align="left"><input type="submit" value="Find My Friends" /></td>
+	</tr>
+</table>
+        
+        
+        
+        
+</form>

@@ -1,0 +1,266 @@
+<%= javascript_include_tag "themes/swfobject" %>
+<%= javascript_include_tag "themes/nyromodal/jquery-1.3.2.min" %>
+<script type="text/javascript">
+  var $j = jQuery.noConflict();
+</script>
+<%= javascript_include_tag "themes/nyromodal/jquery.nyroModal-1.5.2.pack.js" %>
+<%= stylesheet_link_tag '/stylesheets/themes/nyromodal/nyroModal'%>
+<script type="text/javascript">
+  var $j = jQuery.noConflict();
+  //var Up = jQuery.noConflict();
+      $j(document).ready(function(){
+        function preloadImg(image) {
+          var img = new Image();
+          img.src = image;
+        }
+        preloadImg('/images/ajaxLoader.gif');
+
+        $j.nyroModalSettings({
+          minWidth: 344,
+          minHeight: 405,
+          autoSizable: true
+
+        });
+      });
+</script>
+<table width="100%" border="0" cellspacing="0" cellpadding="0">
+  <tr>
+    <td height="100%" align="right" valign="top" ></td>
+    <td width="990" height="500" align="center" valign="top"><table width="990" border="0" cellspacing="0" cellpadding="0">
+        <tr>
+          <td align="center" valign="top"><table width="970" border="0" cellspacing="0" cellpadding="0">
+              <tr>
+                <td align="center" valign="top" class="tab-dots">
+                  <table width="970" border="0" cellspacing="0" cellpadding="0" id="tab_bgcolor_repeat">
+                    <tr>
+                      <td align="left" valign="top"><table width="100%" border="0" cellspacing="0" cellpadding="0">
+                          <tr>
+                            <td width="13" align="left" valign="top"></td>
+                            <td width="944" align="left" valign="top"><table width="100%" border="0" cellspacing="0" cellpadding="0">
+                                <tr>
+                                  <td height="10" align="left" valign="top"></td>
+                                </tr>
+                                <tr>
+                                  <td height="35" align="left" valign="bottom" class="header-page">Blog</td>
+                                </tr>
+                                <tr>
+                                  <td height="10" align="left" valign="top"></td>
+                                </tr>
+                                <tr>
+                                  <td height="1" align="left" valign="top" bgcolor="#454545"></td>
+                                </tr>
+                                <tr>
+                                  <td height="10" align="left" valign="top"></td>
+                                </tr>
+                                <tr>
+                                  <td align="left" valign="top"><table width="100%" border="0" cellspacing="0" cellpadding="0">
+                                      <tr>
+                                        <td height="10" align="right" valign="top" class="comment"><a href="javascript:history.back();">( << Back )</a></td>
+                                      </tr>
+                                      <tr>
+                                        <td height="10" align="center" valign="top" class="error-message"><%=flash[:message]%></td>
+                                      </tr>
+                                      <tr>
+                                        <td width="932" align="left" valign="top"><table width="100%" border="0" cellspacing="0" cellpadding="0">
+                                            <tr>
+                                              <td height="30" align="right" valign="middle" class="side-heading">
+
+                                                <br><br>
+                                              </td>
+                                            </tr>
+                                            <tr>
+                                              <td class="content-trans-bg">
+                                                <%if @results.size==0 %>
+                                                  <table width="100%" border="0" cellspacing="0" cellpadding="0">
+                                                    <tr><td align="center" class="content"><p>No entries found.</p></td></tr>
+                                                  </table>
+                                                <%end%>
+                                                <% @id1=0
+                                                for result in @results
+                                                %>
+                                                  <table width="100%" border="0" cellspacing="0" cellpadding="0">
+                                                    <tr>
+                                                      <td align="left" valign="top"></td>
+                                                      <td align="left" valign="top">&nbsp;</td>
+                                                      <td align="left" valign="top"></td>
+                                                      <td align="left" valign="top">&nbsp;</td>
+                                                      <td align="left" valign="top"></td>
+                                                    </tr>
+                               <% if result[:type]=='image' &&  result[:client]=='iphone' %>
+                                                    <center><img src="<%=result[:source]%>" width="700px" /></center>
+                              <% else %>
+                              <% if result[:type]=='video' || result[:type]=='audio'%>
+                                                    <tr>
+                            <td width="25" align="center" valign="top"></td>
+                            <td  align="center" valign="middle" class="content-trans-bg" colspan="3">
+
+                                <div id="flash_content">
+                                  <h1>Get Flash Player</h1>
+                                  <p><a href="http://www.adobe.com/go/getflashplayer"><img src="http://www.adobe.com/images/shared/download_buttons/get_flash_player.gif" alt="Get Adobe Flash player" /></a></p>
+                                </div>
+                                <script type="text/javascript">
+                                  var flashvars = {};
+                                  flashvars.hmmtype = "<%= result[:type] %>";
+                                  flashvars.gallery = "<%= result[:blog_type_id] %>";
+                                  flashvars.gallery_id = "<%= result[:blog_type_id] %>";
+                                  //flashvars.user_id = "<%= result[:blog_type_id] %>";
+                                  flashvars.proxyurl = "<%= @proxyurls %>";
+  <% if result[:type] == 'video' %>
+   <% if result[:source]!= nil%>
+     flashvars.content = "<%= result[:source] %>";
+    <% else %>
+      flashvars.content = "<%= result[:uimg_url] %>/user_content/videos/<%=result[:filename]%>.flv";
+      <% end %>
+
+  <% else %>
+
+    <% if result[:source]!= nil%>
+     flashvars.content = "<%= result[:source] %>";
+    <% else %>
+      flashvars.content = "<%= result[:uimg_url] %>/user_content/audios/<%=result[:filename]%>";
+      <% end %>
+
+  <% end %>
+
+
+  var params = {};
+  params.wmode = "transparent";
+  params.allowFullScreen = true
+  swfobject.embedSWF("/MediaPlayer.swf", "flash_content", "640", "500", "9.0.0", "/expressInstall.swf",flashvars,params);
+                                </script>
+
+                </td>
+                            <td width="24" align="center" valign="top">&nbsp;</td>
+                          </tr>
+                          <%end%>
+                          <%end%>
+                          <tr>
+                            <td align="center" valign="top"></td>
+                            <td align="center" valign="top" >&nbsp;</td>
+                            <td align="center" valign="top">&nbsp;</td>
+                          </tr>
+                                     <tr>
+                                                      <td width="25" align="left" valign="top"></td>
+                                                  <td width="192" align="left" valign="top" ><table width="192" border="0" cellspacing="0" cellpadding="0">
+                                                          <tr>
+                                                            <td align="left" valign="top">
+                                                              <a href="<%=result[:link]%>">
+                                                                <img src="<%=result[:thumbnail]%>" border="0" /></a>
+                                                              </a>
+                                                            </td>
+                                                          </tr>
+                                                          <tr>
+                                                            <td align="center" valign="top">&nbsp;</td>
+                                                          </tr>
+                                                          <tr>
+                                                            <td align="center" valign="top" class="content">
+                                                              <%=result[:created_date]%></td>
+                                                          </tr>
+                                                        </table></td>
+                                                    <td width="4" align="left" valign="top"></td>
+                                        <td width="687" align="left" valign="top"><table width="100%" border="0" cellspacing="0" cellpadding="0">
+                                                          <tr>
+                                                            <td height="35" align="left" valign="top" class="header-paragraph"><%= result[:title] %></td>
+                                                          </tr>
+                                                          <tr>
+                                                            <% description = result[:description]%>                                              <td align="left" valign="top" class="content">
+                                                              <%= description.gsub("\n", "<br />\n") %></td>
+                                                          </tr>
+                                                          <tr>
+                                                            <td align="left" valign="top">&nbsp;</td>
+                                                          </tr>
+                                                          <tr><td class="side-heading"><%if session[:hmm_user]%>
+                                                                (&nbsp;&nbsp;&nbsp;&nbsp;
+                                                                <a href="/blog/share_blog/<%=params[:id]%>?blog_id=<%= result[:blog_type_id] %>&blog_type=<%=result[:type] %>" class="comment">SHARE THIS BLOG ENTRY</a>
+                                                                &nbsp;&nbsp;&nbsp;&nbsp;)
+                                                              <%else%>
+                                                                (&nbsp;&nbsp;&nbsp;&nbsp;
+                                                                <a href="/blog/addblog_comment/<%=params[:id]%>/?blog_id=<%=result[:blog_id] %>" class="nyroModal" rev="modal">ADD COMMENT</a>
+                                                                &nbsp;&nbsp;&nbsp;&nbsp;)
+                                                              <%end%></td></tr>
+                                                        </table></td>
+                                                    <td width="24" align="left" valign="top"></td>
+                                                    </tr>
+                                                    <tr>
+                                                      <td height="20" colspan="5" align="left" valign="top">&nbsp;</td>
+                                                    </tr>
+
+
+                                                  </table>
+                                                <%end%>
+                                              </td>
+                                            </tr>
+                                            <tr>
+                                              <td>&nbsp;</td>
+                                            </tr>
+                                            <tr>
+                                              <td height="30" align="right" valign="middle" class="side-heading">
+
+                                                <% if @blog_comments && @blog_comments.length>0 %>
+                                                  <table width="100%" border="0" cellspacing="0" cellpadding="0">
+                                                    <tr>
+                                                      <td class="content-trans-bg"><table width="100%" border="0" cellspacing="0" cellpadding="0">
+                                                          <tr>
+                                                            <td colspan="3" height="35" align="left" valign="middle" background="/images/common/tab_trans.png" class="headers">&nbsp;&nbsp;Comments</td>
+                                                          </tr>
+                                                          <tr>
+                                                            <td height="10" colspan="3"  align="left" valign="top"></td>
+                                                          </tr>
+                                                          <% for comment in @blog_comments %>
+                                                            <tr>
+                                                              <td width="10"></td>
+                                                              <td align="left" valign="top" class="content"><%= comment.comment %></td>
+                                                              <td width="10"></td>
+                                                            </tr>
+                                                            <tr>
+                                                              <td width="10"></td>
+                                                              <td  align="right" valign="top" class="content"><% unless comment.name.blank? %><em>commented by <%= comment.name %></em><% end %></td>
+                                                              <td width="10"></td>
+                                                            </tr>
+                                                            <tr>
+                                                              <td height="10" colspan="3"  align="left" valign="top"></td>
+                                                            </tr>
+                                                            <tr>
+                                                              <td width="10"></td>
+                                                              <td height="1"   align="left" valign="top" bgcolor="#202020"></td>
+                                                              <td width="10"></td>
+                                                            </tr>
+                                                            <tr>
+
+                                                              <td height="10" colspan="3" align="left" valign="top"></td>
+                                                            </tr>
+                                                          <%  end %>
+                                                        </table></td>
+                                                    </tr>
+                                                    <tr>
+                                                      <td>&nbsp;</td>
+                                                    </tr>
+                                                  </table>
+                                                <% end %>
+                                                <br><br>
+                                              </td>
+                                            </tr>
+                                          </table></td>
+                                        <td width="1" align="left" valign="top"></td>
+                                        <td width="11" align="left" valign="top" class="tab-dots">&nbsp;</td>
+                                      </tr>
+                                    </table></td>
+                                </tr>
+
+                              </table></td>
+                            <td width="13" align="left" valign="top"></td>
+                          </tr>
+                        </table></td>
+                    </tr>
+                  </table></td>
+              </tr>
+
+            </table></td>
+        </tr>
+        <tr>
+          <td height="19"></td>
+        </tr>
+      </table></td>
+    <td align="left" valign="top" ></td>
+  </tr>
+</table>

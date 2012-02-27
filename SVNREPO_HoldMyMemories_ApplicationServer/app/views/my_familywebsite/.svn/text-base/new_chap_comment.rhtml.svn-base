@@ -1,0 +1,26 @@
+
+
+<% form_tag :action => 'create_chap_comment' do %>
+  <%= error_messages_for 'chapter_comment' %>
+
+<input type="hidden" name="familyname" value="<%=params[:familyname]%>" />
+<input type="hidden" name="tag_id" value="<%=params[:id]%>" />
+<table  class="boder" align="center" cellpadding="4" cellspacing="4">
+	
+	<tr align="center">
+		<td align="right" valign="top" class="commentcont">Name:</td><td align="left"><%= text_field 'chapter_comment', 'v_name', :size => "18",  :class => "textbox-1"  %></td>
+	</tr>
+	<tr align="center">
+		<td align="right" valign="top" class="commentcont">Comment:</td><td><%= text_area 'chapter_comment', 'v_comment', :rows =>"10", :cols=>"40",  :class => "textbox-1"  %></td>
+	</tr>
+	<tr>
+		<td>&nbsp;</td><td><input type="image" src="/images/submit_btn.jpg" />&nbsp;&nbsp;&nbsp;<a href="/my_familywebsite/subchapters/<%=params[:id]%>?familyname=<%=params[:familyname]%>"><img src="/images/cancel_button.jpg" border="0" /></a></td>
+	</tr>
+</table>			
+
+<% end %>
+
+
+
+
+

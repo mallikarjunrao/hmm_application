@@ -1,0 +1,248 @@
+<script type="text/javascript">
+function windowOpener(windowHeight, windowWidth, windowName, windowUri)
+{
+	//alert();
+    var centerWidth = (window.screen.width - windowWidth) / 2;
+    var centerHeight = (window.screen.height - windowHeight) / 2;
+
+	var features='resizable=0,scrollbars=yes,width='+ windowWidth +
+        ',height='+ windowHeight +
+        ',left='+ centerWidth +
+        ',top='+ centerHeight;
+    newWindow = window.open(windowUri,'',features);
+
+    //newWindow.focus();
+    //return newWindow.name;
+}
+</script>
+<table width="970" border="0" cellspacing="0" cellpadding="0" id="tab_bgcolor_repeat">
+  <tr>
+    <td align="left" valign="top"><table width="100%" border="0" cellspacing="0" cellpadding="0">
+        <tr>
+          <td width="13" align="left" valign="top"></td>
+          <td width="944" align="left" valign="top"><table width="100%" border="0" cellspacing="0" cellpadding="0">
+              <tr>
+                <td height="10" align="left" valign="top"></td>
+              </tr>
+              <tr>
+                <td height="35" align="left" valign="bottom" class="header-page">Manage My Site</td>
+              </tr>
+              <tr>
+                <td height="10" align="left" valign="top"></td>
+              </tr>
+              <tr>
+                <td height="1" align="left" valign="top" bgcolor="#454545"></td>
+              </tr>
+              <tr>
+                <td height="10" align="left" valign="top"></td>
+              </tr>
+              <tr>
+                <td align="left" valign="top"><table width="100%" border="0" cellspacing="0" cellpadding="0">
+                    <tr>
+                      <td width="173" align="left" valign="top" class="content-trans-bg">
+                        <%= render :partial => "partials/manage_website_menu", :locals => { :current_item => "#{@current_item}"} %>
+                      </td>
+                      <td width="17" align="left" valign="top"></td>
+                      <td width="754" align="left" valign="top"><table width="100%" border="0" cellspacing="0" cellpadding="0">
+                          <tr>
+                            <td class="content-trans-bg"><table width="100%" border="0" cellspacing="0" cellpadding="0">
+                                <tr>
+                                  <td ><table width="100%" border="0" cellspacing="0" cellpadding="0">
+                                      <tr>
+                                        <td height="10" colspan="3" align="left" valign="top"></td>
+                                      </tr>
+                                      <tr>
+                                        <td width="20" align="left" valign="top"></td>
+                                        <td align="left" valign="top"><table width="100%" border="0" cellspacing="0" cellpadding="0">
+                                            <tr>
+                                              <td align="right" valign="top" class="side-heading">&nbsp;</td>
+                                            </tr>
+                                            <tr>
+                                              <td align="left" valign="top" class="header-paragraph">Account Settings</td>
+                                            </tr>
+                                            <tr>
+                                              <td align="left" valign="top">&nbsp;</td>
+                                            </tr>
+                                            <tr>
+                                              <td align="left" valign="top" class="content-trans-bg"><table width="100%" border="0" cellspacing="0" cellpadding="0">
+                                                  <tr>
+                                                    <td align="left" valign="top" class="tab-dots"><table width="100%" border="0" cellspacing="0" cellpadding="0" id="tab_bgcolor">
+                                                        <tr>
+                                                          <td  align="left" valign="middle" ></td>
+                                                          <td align="left" valign="top" class="content">&nbsp;</td>
+                                                        </tr>
+                                                        <tr>
+                                                          <td width="25"  align="left" valign="middle" ></td>
+                                                          <td align="left" valign="top" class="content-white"><span class="thummbimg_title">Upgrade Your Account</span> :</td>
+                                                        </tr>
+                                                        <tr>
+                                                          <td  align="left" valign="middle" ></td>
+                                                          <td height="30" align="left" valign="top" class="content">&nbsp;</td>
+                                                        </tr>
+                                                        <tr>
+                                                          <td  align="left" valign="middle" ></td>
+                                                          <td align="left" valign="top" class="headers">You can upgrade your account here</td>
+                                                        </tr>
+                                                        <tr>
+                                                          <td  align="left" valign="middle" ></td>
+                                                          <td align="left" valign="top" class="content">&nbsp;</td>
+                                                        </tr>
+                                                        <tr>
+                                                          <td  align="left" valign="middle" ></td>
+                                                          <td align="right" valign="top" class="content"><label>
+                                                              <input name="button" type="submit" class="cmd-btn" id="button" value="Upgrade My Account"   onclick="window.location.href='/account_settings/upgrade_account/<%=params[:id]%>'"/>
+                                                              &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </label></td>
+                                                        </tr>
+                                                        <tr>
+                                                          <td  align="left" valign="middle" ></td>
+                                                          <td align="left" valign="top" class="content">&nbsp;</td>
+                                                        </tr>
+                                                      </table></td>
+                                                  </tr>
+                                                </table></td>
+                                            </tr>
+                                            <tr>
+                                              <td align="left" valign="top">&nbsp;</td>
+                                            </tr>
+                                            <tr>
+                                              <td align="left" valign="top" class="content-trans-bg"><table width="100%" border="0" cellspacing="0" cellpadding="0">
+                                                  <tr>
+                                                    <td align="left" valign="top" class="tab-dots"><table width="100%" border="0" cellspacing="0" cellpadding="0" id="tab_bgcolor">
+                                                        <tr>
+                                                          <td  align="left" valign="middle" ></td>
+                                                          <td align="left" valign="top" class="content">&nbsp;</td>
+                                                        </tr>
+                                                        <tr>
+                                                          <td width="25"  align="left" valign="middle" ></td>
+                                                          <td align="left" valign="top" class="content-white"><span class="thummbimg_title">Subscription Invoice</span> :</td>
+                                                        </tr>
+                                                        <tr>
+                                                          <td  align="left" valign="middle" ></td>
+                                                          <td height="30" align="left" valign="top" class="content">&nbsp;</td>
+                                                        </tr>
+                                                        <tr>
+                                                          <td  align="left" valign="middle" ></td>
+                                                          <td align="left" valign="top" class="headers">You can download your account subscription invoice here</td>
+                                                        </tr>
+                                                        <tr>
+                                                          <td  align="left" valign="middle" ></td>
+                                                          <td align="left" valign="top" class="content">&nbsp;</td>
+                                                        </tr>
+                                                        <tr>
+                                                          <td  align="left" valign="middle" ></td>
+                                                          <td align="right" valign="top" class="content"><label>
+                                                              <input name="button" type="submit" class="cmd-btn" id="button" value="Subscription Invoice" onClick="window.open('/account_settings/generate_receipt/<%=params[:id]%>','_blank');"  />
+                                                              &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </label></td>
+                                                        </tr>
+                                                        <tr>
+                                                          <td  align="left" valign="middle" ></td>
+                                                          <td align="left" valign="top" class="content">&nbsp;</td>
+                                                        </tr>
+                                                      </table></td>
+                                                  </tr>
+                                                </table></td>
+                                            </tr>
+                                            <tr>
+                                              <td align="left" valign="top">&nbsp;</td>
+                                            </tr>
+                                            <tr>
+                                              <td align="left" valign="top" class="content-trans-bg"><table width="100%" border="0" cellspacing="0" cellpadding="0">
+                                                  <tr>
+                                                    <td align="left" valign="top" class="tab-dots"><table width="100%" border="0" cellspacing="0" cellpadding="0" id="tab_bgcolor">
+                                                        <tr>
+                                                          <td  align="left" valign="middle" ></td>
+                                                          <td align="left" valign="top" class="content">&nbsp;</td>
+                                                        </tr>
+                                                        <tr>
+                                                          <td width="25"  align="left" valign="middle" ></td>
+                                                          <td align="left" valign="top" class="content-white"><span class="thummbimg_title">Cancel Account</span> :</td>
+                                                        </tr>
+                                                        <tr>
+                                                          <td  align="left" valign="middle" ></td>
+                                                          <td height="30" align="left" valign="top" class="content">&nbsp;</td>
+                                                        </tr>
+                                                        <tr>
+                                                          <td  align="left" valign="middle" ></td>
+                                                          <td align="left" valign="top" class="headers">You may cancel your account here<br />
+                                                            <br />
+                                                            (If you decide to cancel your account   please do so at least 72 hours before your next month's subscription is processed.) </td>
+                                                        </tr>
+                                                        <tr>
+                                                          <td  align="left" valign="middle" ></td>
+                                                          <td align="left" valign="top" class="content">&nbsp;</td>
+                                                        </tr>
+                                                        <tr>
+                                                          <td  align="left" valign="middle" ></td>
+                                                          <td align="right" valign="top" class="content">
+                                                            <label>
+                                                              <label>
+
+                                                             <%if(@family_website_owner.account_type=='platinum_user' and @studio_groups)
+
+
+                                                                  if @studio_groups.credit_system =="Dollars"
+                                                                    if(@credit_points)
+                                                                     @val=number_with_precision(@credit_points.available_credits, :precision => 2)
+                                                                    else
+                                                                      @val= 0.0
+                                                                    end
+                                                                   @msg='$'+@val.to_s+' studio credit.'
+                                                                    @sys='credit.'
+                                                                  else
+                                                                    if(@credit_points)
+                                                                     @val=@credit_points.available_credits.round
+                                                                    else
+                                                                      @val= 0.0
+                                                                    end
+                                                                    
+                                                                    @msg=@val.to_s+' studio points.'
+                                                                    @sys='points.'
+                                                                  end %>
+
+
+
+                                   <!--if(confirm('<%=@content%>')){window.location='/account_settings/new_cancel_subscription/<%=params[:id]%>'; } else window.location='/account_settings/not_canceled'; -->
+                                                              <input name="button" type="submit" class="cmd-btn" id="button" value="Cancel Account" onClick="return windowOpener('500', '500', 'Cancel Account', '/account_settings/pop1/<%=params[:id]%>')" />
+
+                                                         <%else%>
+                                                              <input name="button" type="submit" class="cmd-btn" id="button" value="Cancel Account" onClick="if(confirm('Are you sure you want to cancel your subscription?')){window.location='/account_settings/new_cancel_subscription/<%=params[:id]%>'; } else window.location='/account_settings/not_canceled';" />
+                                                            <%end%>
+
+                                                              &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  </label></td>
+                                                        </tr>
+                                                        <tr>
+                                                          <td  align="left" valign="middle" ></td>
+                                                          <td align="left" valign="top" class="content">&nbsp;</td>
+                                                        </tr>
+                                                      </table></td>
+                                                  </tr>
+                                                </table></td>
+                                            </tr>
+                                          </table></td>
+                                        <td width="20" align="left" valign="top"></td>
+                                      </tr>
+                                      <tr>
+                                        <td height="10" colspan="3" align="left" valign="top"></td>
+                                      </tr>
+                                    </table></td>
+                                </tr>
+                              </table></td>
+                          </tr>
+                          <tr>
+                            <td>&nbsp;</td>
+                          </tr>
+                        </table></td>
+                    </tr>
+                    <tr>
+                      <td align="left" valign="top">&nbsp;</td>
+                      <td align="left" valign="top"></td>
+                      <td align="left" valign="top">&nbsp;</td>
+                    </tr>
+                  </table></td>
+              </tr>
+            </table></td>
+          <td width="13" align="left" valign="top"></td>
+        </tr>
+      </table></td>
+  </tr>
+</table>

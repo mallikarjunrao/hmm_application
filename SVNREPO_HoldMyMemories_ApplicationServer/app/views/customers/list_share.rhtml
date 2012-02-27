@@ -1,0 +1,322 @@
+    <script type="text/javascript">
+    function validate() {
+      /*
+      Following filter taken from
+      
+      http://www.quirksmode.org/js/mailcheck.html
+      
+      */
+      var filter = /^([a-zA-Z0-9_\.\-])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/;
+      var addresses = document.getElementById( "idEmail" ).value.split( "," );
+      var ok = true;
+      for ( var i=0; i<addresses.length; ++i ) {
+        if ( !addresses[i].match(filter) ) {
+          ok = false;
+          
+		  break;
+        }
+      }
+      if ( ok ) {
+       // alert( "Input is valid!" );
+		return true;
+      } else {
+        alert( "Input is not valid!" );
+		return false;
+      }
+    }
+  </script>
+<%session[:sharepath]='fnf'%>
+
+<% session[:friend]=''%>
+
+<table border="0">
+<tr>
+  <th width="0" align="left" valign="top" scope="col"></th>
+  <th width="510" align="left" valign="top" scope="col">
+  	<table width="100%" border="0" cellspacing="0" cellpadding="0">
+    <tr>
+      <th width="140" height="22" align="left" valign="top" scope="col">
+      	
+      	<a href="/customers/edit_profile/<%=logged_in_hmm_user.id%>" onMouseOut="MM_swapImgRestore();" onMouseOver="MM_swapImage('Image22','','/images/manage-profile_over.jpg',1)">
+      	<img src="/images/manage-profile_def.jpg" name="Image22" width="140" height="22" border="0" id="Image22" /></a>
+	  </th>
+      
+	  
+      
+	  <th width="206" align="left" valign="top" scope="col">
+	  
+	  		<img src="/images/manage-fndsandfmly_over.jpg" name="Image24" width="206" height="22" border="0" id="Image24" /></a>
+			</th>
+      
+	  <th width="164" align="left" valign="top" scope="col">
+	  	<a href="/chapter_comment/allcmt_list/" onMouseOut="MM_swapImgRestore();" onMouseOver="MM_swapImage('Image25','','/images/manage-comments_over.jpg',1)">
+	  	<img src="/images/manage-comments_def.jpg" name="Image25" width="164" height="22" border="0" id="Image25" /></a>	  </th>
+		</th>
+		
+		<th width="164" align="left" valign="top" scope="col">
+	  	<a href="/share_moments/manageShare/" onMouseOut="MM_swapImgRestore();" onMouseOver="MM_swapImage('Image26','','/images/manage-share_over.jpg',1)">
+	  	<img src="/images/manage-share_def.jpg" name="Image25" width="140" height="22" border="0" id="Image26" /></a>	  
+		</th>
+		
+		<th width="206" align="left" valign="top" scope="col">
+	  	<a href="/family_members/familypage_step1/<%=logged_in_hmm_user.id%>" onMouseOut="MM_swapImgRestore();" onMouseOver="MM_swapImage('Image26','','/images/mang_family_web_over.jpg',1)">
+	  	<img src="/images/mang_family_web_def.jpg" name="Image25" width="206" height="22" border="0" id="Image26" /></a>	  
+		</th>
+		
+    </tr>
+  </table></th>
+  <th width="390" align="left" valign="top" scope="col"></th>
+</tr>
+</table>
+
+
+
+
+<p align="center" width="100%"><font color="f5dfa6"><%= flash[:notice_accept] %></font>
+<font color="f5dfa6"><%= flash[:notice_reg]%></font></p>
+<table width="898"><tr>
+	
+	<td width="100%" align="left" valign="top" class="border">
+	<table border="0" width="120">
+		<tr bgcolor="#191919" >
+			<td >
+				<span class="btmtxt">Friends List</span>
+				<% @myfriends = FamilyFriend.find(:all, :select => "a.*,b.*", :joins => "as a, hmm_users as b", :conditions => "a.uid=#{logged_in_hmm_user.id} and b.id=a.fid and a.block_status='unblock' and a.status='accepted'")
+				  %>
+				<% for i in @myfriends %>
+				<tr>
+					<td class="border" align="center">
+					<%= link_to_remote("<img src='#{i.img_url}/hmmuser/photos/thumb/#{i.v_myimage}' border='0'/>",
+			:update => "effect_area", :url => {:controller => :customers, :action => :friends_share, :id => i.id }) %>	
+					</td>
+				</tr>
+				<tr>
+					<td class="border" align="center">
+						<font color="#ffffff" size="3"><%=i.v_fname%></font>
+					</td>
+				</tr>
+				<%end%>
+				
+				
+			</td>
+		</tr>
+	</table>
+	
+</td>
+
+	
+	
+<td width="100%" align="left" valign="top">
+	<div id="effect_area">
+    
+   
+
+<table width="500" border="0" cellspacing="4" class="border" cellpadding="4">
+	
+	<tr>
+		<th colspan="2">
+			<font size="4" style="Arial, Helvetica, sans-serif">Latest Shared Moments</font>
+		</th>
+	</tr>
+	<% 
+		params[:id]=logged_in_hmm_user.id
+     	my_details=HmmUser.find(params[:id])
+
+			shared=Share.find_by_sql("
+						(
+							SELECT b.id AS id, b.presenter_id AS presenter, b.email AS email, b.expiry_date AS expire, b.created_date as createdate, b.message as message, b.ctype as typeshare
+							FROM share_moments AS b
+							WHERE b.email = '#{logged_in_hmm_user.v_e_mail}'
+							AND DATE_FORMAT( b.expiry_date, '%Y-%m-%d' ) >= curdate( )
+							AND b.status != 'reject'
+						)
+						union 
+						(
+							SELECT a.id AS id, a.presenter_id AS presenter, a.email_list AS email, a.expiry_date AS expire, a.created_date as createdate, a.message as message, a.ctype as typeshare
+							FROM shares AS a
+							WHERE a.email_list LIKE '%#{logged_in_hmm_user.v_e_mail}%'
+							AND DATE_FORMAT( a.expiry_date, '%Y-%m-%d' ) >= curdate( )
+						)
+							order by createdate desc ")
+     	
+		%>
+		
+		<%for sha in shared
+			
+        			params[:id]=sha.presenter
+					friend_details=HmmUser.find(params[:id]) 
+					friend_name=friend_details.v_fname
+					friend_image=friend_details.v_myimage
+                                        
+					shareid=sha.id
+					sharemessage=sha.message
+					typetable = sha.typeshare
+				    created_date = sha.createdate 
+                
+                                            
+                %> 
+	<tr>
+		 
+      <th colspan="2" align="left" valign="middle" bgcolor="#191919" scope="col">
+      	<span class="btmtxt">
+      		<%= created_date %>
+      		</span>
+	  </th>
+    
+	</tr>
+	 
+	 <tr>
+	 	<th class="border" width='15%' align="center" valign="middle">
+	 		<a href="/customers/profile/<%=friend_details.id%>"><img src="<%=friend_details.img_url%>/hmmuser/photos/thumb/<%=friend_image%>" border="0"/></a>
+		</th>
+       
+	   <th class="border" colspan="0" align="left" valign="top" scope="col">
+       	<%=friend_name%> wants to share memories with you!!<br>
+		<br><%=sharemessage.gsub("\n", "<br />\n") %>
+	   </th>
+	</tr>
+		
+		
+	<tr bordercolor="#191919">
+		
+		<th class="border" colspan="2" align="left">
+			<%if typetable=='share'%>
+				<a href="/tags/memories/<%=sha.id%>">View</a> &nbsp;&nbsp;&nbsp;&nbsp;<a href="/tags/rejectshare/<%=sha.id%>">Remove</a>
+			<%else if typetable=='momentShare' %>
+				<a href="/share_moments/shareMoment_view/<%=sha.id%>">View</a> &nbsp;&nbsp;&nbsp;&nbsp;<a href="/share_moments/moment_rejectshare/<%=sha.id%>">Remove</a>
+			<%end%>
+			<%end%>
+		</th>
+	
+	</tr>
+
+ <% flag=1 %>
+     <%end%>
+ 
+</table>
+<%if(flag==1)%>
+<%else%>
+<table border="0">
+<tr>
+	<th align="left" valign="middle" bgcolor="#191919" scope="col">
+      	<span class="btmtxt">No moments found!</span>
+	  </th>
+	  <th></th>
+    
+	</tr>
+	</table>
+<%end%>
+</div>
+</td>
+
+<td width="100%" valign="top">
+<table align="right" width="200"  border="0" class="border" cellspacing="0" cellpadding="0">
+    <font color="f5dfa6"></font>
+	<tr bgcolor="#191919" height="20">
+      <th colspan="2" align="left" valign="middle" scope="col"><font size="2"><font face="Arial, Helvetica, sans-serif">Manage Groups</font></font></th>
+    </tr>
+	<tr>
+      <th width="100%" align="left" valign="top" class="text-journal" scope="col">
+      <table width="200" align="center" border="0" >
+      	<% for group in @fnf_groups %>
+		<tr>
+        	<td>
+            	<% friends = FamilyFriend.count(:all, :conditions => "fnf_category=#{group.id} and status='accepted'")%> 
+				<a href="/customers/fnf_show/<%=group.id%>"><%=group.fnf_category%>(<%=friends%>)</a></td>
+				<%if group.fnf_category=='Friends' || group.fnf_category=='Family' %>
+					<td colspan="2">
+					Default Group	<td>
+				<%else%>
+			<td>
+				<%= link_to_remote("Edit",
+				:update => 'effect_area', :url => {:controller => :fnf_group, :action => :edit, :id => group.id }) %>			</td>
+			<td>
+				<a href="/fnf_group/destroying/<%=group.id%>">Delete</a>		</td>
+        </tr>
+       		<%end%>
+		<%end%>   
+      </table>            </th>
+      <th width="566" align="left" valign="top" scope="col"></th>
+    </tr>
+    <tr>
+      <th align="left" valign="top" class="text-journal" scope="col">&nbsp;</th>
+      <th align="left" valign="top" scope="col"></th>
+    </tr>
+    <tr>
+      <th align="left" valign="top" class="text-journal" scope="col">&nbsp;</th>
+      <th align="left" valign="top" scope="col"></th>
+    </tr>
+    
+    <tr class="border"  align="center" height="20">
+      <th colspan="2"  align="left" valign="top" class="text-journal" scope="col"><font size='2'><u><font face='Arial, Helvetica, sans-serif'><u><a href="/customers/list_share/<%=group.id%>">Friends Shared Moments</a></u></font>
+		</th>
+      </tr>
+    <tr>
+      <th colspan="2" align="left" valign="top" class="text-journal" scope="col">&nbsp;</th>
+    </tr>
+	
+	<tr class="border"  align="center" height="20">
+      <th colspan="2"  align="left" valign="top" class="text-journal" scope="col"><font size='2'>
+      	<u><font face='Arial, Helvetica, sans-serif'><u>
+      		<a href="/share_moments/shareMoments_byme/<%=group.id%>">Shared Moments by Me</a></u></font>
+		</th>
+      </tr>
+    <tr>
+      <th colspan="2" align="left" valign="top" class="text-journal" scope="col">&nbsp;</th>
+    </tr>
+	
+    <tr class="border"  align="center" height="20">
+      <th colspan="2" align="left" valign="top" class="text-journal" scope="col">    	 	
+	  <font face='Arial, Helvetica, sans-serif'><u><a href="/customers/list_imports/<%=group.id%>">Imported Moments</a></u></font>
+  	</th>
+	<tr>
+      <th colspan="2" align="left" valign="top" class="text-journal" scope="col">&nbsp;</th>
+    </tr>
+    </tr>
+	<tr class="border"  align="center" height="30">
+      <th colspan="2" align="left" valign="top" class="text-journal" scope="col">    	 	
+	  <font face='Arial, Helvetica, sans-serif'><u><a href="/customers/list_export/<%=group.id%>">Exported Moments</a></u></font>
+  	</th>
+    </tr>
+	<tr>
+      <th colspan="2" align="left" valign="top" class="text-journal" scope="col">&nbsp;</th>
+    </tr>
+    <tr class="border"  align="center" height="20">
+      <th colspan="2" align="left" valign="top" class="text-journal" scope="col">    	 	
+	  <font face='Arial, Helvetica, sans-serif'><u><a href="/customers/shareJournal_list/<%=group.id%>">Shared Journals</a></u></font>
+  	</th>
+	<tr>
+	
+	
+    <tr>
+      <th colspan="2" align="left" valign="top" class="text-journal" scope="col">&nbsp;</th>
+    </tr>
+    <tr class="border"  align="center" height="">
+      <th colspan="2" align="left" valign="bottom" class="text-journal" scope="col">    	 	
+	  <font face='Arial, Helvetica, sans-serif'><b>Invite friends</b></font>
+      <form method="post" action="/invite_friends/create" onsubmit="return validate();">
+   
+
+  
+  
+    <p>
+      Please enter one or more email addresses separated by commas.
+    </p>
+    <input type="text" name="email" id="idEmail"  size=""/>
+    <input type="submit" value="add friends" />
+  
+      </form>
+  	</th>
+    </tr>
+    
+    
+	<font color="fdf1ca"></font>
+	
+</table>
+
+</td>
+</tr></table>
+
+<br>
+
+

@@ -1,0 +1,31 @@
+<h1>Shipping Methods List</h1>
+
+<table>
+	<tr>
+  <td colspan="5" align="center"><font color="#FF0000"><%=flash[:notice]%></font></td>
+  </tr>
+  <tr>
+  <td colspan="5" align="center">&nbsp;</td>
+  </tr>
+
+<tr>
+  <td colspan="5" align="right"><%= link_to 'Add New', :action => 'new_shipprice_group' %></td>
+  </tr>
+  <tr>
+  <th background="/images/body_hor.JPG" ><font class='txt'>Shipping Method
+</font></th>
+  <th background="/images/body_hor.JPG" colspan="3"><font class='txt'>Action</font></th>
+  </tr>
+
+<% for ship in @shippingmethod %>
+  <tr class="<%= cycle('odd', 'even') -%>">
+
+    <td><%=ship.method_name %></td>
+	<td><%= link_to 'Edit', :action => 'edit_shipprice_group', :id => ship.id %></td>
+    <td><%= link_to 'Delete', { :action => 'destroy_shipprice_group', :id => ship.id }, :confirm => 'Are you sure?', :method => :post %></td>
+  </tr>
+<% end %>
+</table>
+
+<br />
+

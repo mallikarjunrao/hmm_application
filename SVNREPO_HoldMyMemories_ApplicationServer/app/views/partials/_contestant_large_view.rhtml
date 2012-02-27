@@ -1,0 +1,150 @@
+<% session[:redirect_url]=request.request_uri %>
+
+<style type = "text/css">
+.text3{
+	font-family:Arial, Helvetica, sans-serif;
+	font-size:12px;
+	font-weight:normal;
+	color:#ffffff;
+}
+</style>
+<%= javascript_include_tag 'SpryAssets/SpryValidationTextField' %>
+ <%= stylesheet_link_tag 'SpryAssets/SpryValidationTextField' %>
+
+<%  session[:video_vote]=nil %>
+<%  session[:image_vote]="1" %>
+<%= javascript_include_tag 'modalbox/prototype' %>
+<script type="text/javascript" src="/javascripts/modalbox/scriptaculous.js?load=effects"></script>
+<script type="text/javascript" src="/javascripts/modalbox/modalbox.js"></script>
+<%= stylesheet_link_tag 'modalbox/modalbox' %>
+
+
+<!--<table><tr><td>
+	<%# if  flash[:notice_invite1] %>
+<p>
+<table align="left" width="100%" border="0" cellpadding=0 cellspacing=0 border="0">
+<tr><td align="left" colspan="2" valign="top"><font color="#f5dfa6" size="2">You have successfully Invited your friends to vote!!</font></td></tr>
+    <tr><td align="left" valign="top"><font color="#f5dfa6" size="2">Click here to invite your FaceBook friends to vote: </font></td><td align="left" valign="top"><a href="http://www.holdmymemories.com/face_book_invite/vote/?url=<%#=url%>" target="_blank"><img src="/images/facebookhmmlogo.jpg" border="0" /></a></td></tr>
+	<tr><td align="left" valign="top" height="10"><font color="#f5dfa6" size="2"></td></tr>
+	<tr><td align="left" valign="top"><font color="#f5dfa6" size="2" >Click here to invite your MySpace friends to vote: </font></td><td align="left" valign="top">
+
+	<form id="myspacepostto" method="post" action="http://www.myspace.com/index.cfm?fuseaction=postto" target="_blank">
+
+		<input type="hidden" name="t" value="Hi friends!!" />
+		<input type="hidden" name="c" value="Please vote for this contest entry by clicking on the above given link: Thank you." />
+		<input type="hidden" name="u" value="<%#=url%>" />
+		<input type="hidden" name="l" value="2" />
+		<a href="#" onclick="document.getElementById('myspacepostto').submit();return false;">
+			<img src="/images/myspace_icon.jpg" border="0" alt="Post to MySpace!" />
+		</a>
+	</form>
+
+	</td></tr>
+	<tr><td align="left" valign="top"><font color="#f5dfa6" size="2">Click here to invite your friends in other accounts to vote:  </font></td><td align="left"><a href="/contests/import_form/?url=<%#=url%>"><img src="/images/gmail_yahoo_icon.jpg"  border="0"  /></a></td></tr>
+
+</table><br><br><br>
+
+</p>
+<%#end%>
+
+</td></tr>
+
+</table>-->
+
+
+
+<table border="0"  width="65%" align="center">
+	<tr><td></td></tr>
+        <tr><td colspan="4"><font color="#f5dfa6" size="2"><%= flash[:notice_vote]%>  <% if  flash[:notice_vote] %> <br><br><a href="http://www.holdmymemories.com/customers/authorise_verify"><u><font color="#FFFFFF">Click here</font></u></a> to sign up for your FREE HoldMyMemories.com account.<%end%><br></font></td></tr>
+	<tr>
+
+          <td colspan="3"  align="left"><img width="273" src="<%=@contest.img_url%>/contest_logos/<%=@contest.logo%>" border="0"> </td>
+
+	</tr>
+	<tr><td colspan="3"></td></tr>
+
+
+	<tr>
+    <td align="right"><%#= link_to '<img src="/images/arrow1_left_def.png" name="Image23"  border="0" id="Image23" />', { :page => @contest_cutekid.previous_page, :hmm =>"true" },{ :onMouseOver => "MM_swapImage('Image23','','/images/arrow1_left_over.png',1)"} if @contest_cutekid.previous_page %>
+			</td>
+		<td align="center" ><%if @contestant.user_content_type=="video" %>
+               <embed src="/MediaPlayer.swf" quality="high" FlashVars="hmmtype=video&content=<%=@contestant.usercontent_url%>/user_content/videos/<%=@contestant.user_content_file%>.flv&proxyurl=http://12.156.60.97"  pluginspage="http://www.macromedia.com/go/getflashplayer" type="application/x-shockwave-flash" width="500" height="401"></embed>
+
+      <%else%>
+        <img width="550"  src="<%=@contestant.usercontent_url%>/user_content/photos/journal_thumb/<%=@contestant.user_content_file%>" onmousedown="callme(this.id);" onContextMenu="return false;"/>
+
+      <%end%> </td>
+        <td align="left"><%#= link_to "<img src='/images/arrow1_right_def.png' name='Image22'  border='0' id='Image22' />",  { :page => @contest_cutekid.next_page, :hmm =>"true" }, {:onMouseOver =>"MM_swapImage('Image22','','/images/arrow1_right_over.png',1)"} if @contest_cutekid.next_page %>
+				</td>
+	</tr>
+	<tr><th colspan="3">&nbsp;</th></tr>
+
+	<tr>
+		<th align="center" colspan="3" class="text3">
+			<%=@contestant.name %>
+		</th>
+	</tr>
+        <tr>
+		 <td  align="center" valign="middle" colspan="3" >
+<!--<img src="/images/vote_btn1.jpg" alt="vote" name="Image4413" width="61" height="20" border="0" id="Image4413" />-->
+                                <a href="/contestants/vote/<%=@contestant.contestant_id%>"  onclick="Modalbox.show(this.href, {title: 'My Image', width: 1000, height:1000}); return false;">
+					<input type="button" id="Image4413" class="cmd-btn" value="Vote" style="cursor:pointer;">
+                    </a>
+                                </td>
+
+	</tr>
+	<tr><th>&nbsp;</th></tr>
+
+	<tr>
+		<th align="center" valign="middle" scope="col" colspan="3"><span class="text3">
+
+			<table width="700" align="center" class="border">
+
+				<tr>
+					<th align="left" bgcolor="#191919" colspan="2">
+						<font size="3" color="#FFFFFF"> Journal</font>
+					</th>
+				</tr>
+				<tr><th colspan="2">&nbsp;</th></tr>
+				<tr>
+					<th>&nbsp;&nbsp;</th>
+					<th align="left" class="text3">
+
+							 <%= @journal.v_title %> -
+					  				<% ActiveSupport::CoreExtensions::Time::Conversions::DATE_FORMATS.merge!(
+    									:date => "%Y-%m-%d",
+    									:presentable_datetime => "%a %b %d, %Y %H:%M",
+    									:presentable_date => "%a %b %d, %Y")
+										@created_date=@journal.date_added%>
+					   				<%= @created_date.to_s(:presentable_date) %>
+					</th>
+				</tr>
+				<tr><th colspan="2">&nbsp;</th></tr>
+				<tr>
+					<th>&nbsp;&nbsp;</th>
+					<th align="left" class="text3">
+						<%=@journal.v_image_comment.gsub("\n", "<br />\n") %>
+					</th>
+				</tr>
+				<tr><th>&nbsp;</th></tr>
+				<tr><th>&nbsp;</th></tr>
+			</table>
+		</th>
+	</tr>
+	<tr>
+		<th  colspan="3">&nbsp;
+
+		</th>
+	</tr>
+
+
+</table>
+
+
+
+<script type="text/javascript">
+
+
+var sprytextfield11 = new Spry.Widget.ValidationTextField("sprytextfield11", "email", {validateOn:["blur", "submit"]});
+
+	</script>

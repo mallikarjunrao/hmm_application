@@ -1,0 +1,20 @@
+<% if(logged_in_hmm_user.account_type == "free_user")  %>
+<%else%>
+<% if logged_in_hmm_user.unid %>
+  <p align="left"><a href="/customers/generate_receipt/<%=logged_in_hmm_user.unid%>" target="_blank" ><font face="arial" size="3" color="white">Click here to download your subscription receipt.</font></a></p>
+  <%end%>
+  <%end%>
+<p align="left"><a href="/customers/upgrade_select/"><font face="arial" size="3" color="white">Click here to Upgrade Your Account</font></a> <br><br>
+  <% if(logged_in_hmm_user.account_type == "free_user")  %>
+<%else%>
+  <a href="/customers/cancel_subscription/" onClick="if(confirm('Are you sure you want to cancel your subscription?')){return true; } else return false;"><font face="arial" size="3" color="white">Click here to Cancel Your Subscription</font></a>
+  <%end%>
+  </p> 
+    <% form_tag ("http://content.holdmymemories.com/manage_hmm_account/update_profile/#{@hmm_user.id}", {:multipart => true}) do %>
+    <% session[:friend]=''%>
+    <table width="898" border="0" cellspacing="0" cellpadding="0">
+                <tr><td height="227" align="left" valign="top" ><%= render :partial => 'form1' %></td></tr>
+                
+                
+    </table>
+<% end %>

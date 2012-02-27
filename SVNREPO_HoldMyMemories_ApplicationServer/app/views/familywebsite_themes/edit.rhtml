@@ -1,0 +1,9 @@
+<h1>Editing familywebsite_theme</h1>
+
+<% form_tag :action => 'update', :id => @familywebsite_theme do %>
+  <%= render :partial => 'form' %>
+  <%= submit_tag 'Edit' %>
+<% end %>
+
+<%= link_to 'Show', :action => 'show', :id => @familywebsite_theme %> |
+<%= link_to 'Back', :action => 'list' %>

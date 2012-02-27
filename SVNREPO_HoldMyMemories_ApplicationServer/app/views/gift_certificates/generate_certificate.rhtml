@@ -1,0 +1,174 @@
+<style type="text/css">
+  <!--
+
+  body {
+    font-family:Arial, Helvetica, sans-serif;
+    color:#333;
+    text-decoration:none;
+  }
+  p {
+    font-size: 13px;
+    text-decoration: none;
+    margin:0px;
+    padding-bottom:10px;
+    font-weight:bold;
+  }
+  .smaltxt {
+    font-size: 11px;
+    text-decoration: none;
+    font-weight:normal;
+    color:#666;
+  }
+  h1{
+    font-size: 20px;
+    color:#cc6600;
+    font-weight:bold;
+    text-decoration: none;
+    margin:0px;
+    padding-bottom:10px;
+  }
+
+  #content {
+    font-size:14px;
+    color:#333;
+    line-height:1.4em;
+  }
+  .sub-btn{
+    background:transparent;
+    background-image: url(/images/sub-btn.png);
+    height:24px;
+    width:94px;
+    border:none;
+    font-size:13px;
+    font-weight:bold;
+    color:#FFF;
+    cursor:pointer;
+  }
+  .sub-btn:hover{
+    background-image: url(/images/sub-btn-ovr.png);
+  }
+
+  -->
+</style>
+<form action="/gift_certificates/new_gift_certificate" method="post">
+  <table width="880" border="0" cellspacing="0" cellpadding="0" style="border:#cc6600 solid 1px; background-color: #ffffff" >
+    <tr>
+      <td width="246"><img src="/images/hmm_logo_whitebg.jpg" width="246" height="71" /></td>
+      <td width="388" align="center"><h1>Gift Certificate</h1>
+        <strong>Certificate Number:</strong> <%=@certificate_id%></td>
+      <td width="246" align="right"><img src="<%=@studios[0].img_url%>/user_content/studio_top_logos/<%=@studios[0].studio_top_logo%>_black.png"  height="71" /></td>
+    </tr>
+    <tr>
+      <td height="1" colspan="3" bgcolor="#CCCCCC"></td>
+    </tr>
+    <tr>
+      <td colspan="3" style="padding:50px;">
+        <table width="100%" border="0" cellspacing="0" cellpadding="0" id="content">
+          <tr>
+            <td width="29%" align="right" valign="top" style="padding-right:30px;"><strong>Certificate Name: </strong></td>
+            <td><%=params[:certificate_name]%></td>
+          </tr>
+          <tr>
+            <td width="29%" align="right" valign="top" style="padding-right:30px;"><strong>This certificate is Valid for : </strong></td>
+            <td width="71%">
+              <% for i in 0..params[:description].length-1%>
+                <%=params[:description][i]%><br />
+              <%end%>
+            </td>
+          </tr>
+          <tr>
+            <td height="25" colspan="2" valign="top">&nbsp;</td>
+          </tr>
+          <tr>
+            <td width="29%" valign="top">&nbsp;</td>
+            <td class="smaltxt"><em><%=@disclaimer_notes%></em></td>
+          </tr>
+          <tr>
+            <td height="25" colspan="2" valign="top">&nbsp;</td>
+          </tr>
+          <tr>
+            <td align="right" valign="top" style="padding-right:30px;"><strong>This certificate is valid at the following locations :</strong></td>
+            <td><table border="0"> <% for studios in  @studios %>
+                  <tr>
+                    <td>&nbsp;</td>
+                    <td valign="top"><%=studios.studio_name%></td>
+                  </tr>
+                  <tr>
+                    <td>&nbsp;</td>
+                    <td>Studio Phone : <%=studios.studio_phone%></td>
+                  </tr>
+                  <tr>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                  </tr>
+
+                <%end%></table></td>
+          </tr>
+          <tr>
+            <td width="29%" valign="top">Amount:$<%=number_with_precision(Float(@total_fee).round(2), :precision => 2)%></td>
+            <td class="smaltxt"></td>
+          </tr>
+        </table>
+      </td>
+    </tr>
+
+  </table>
+  <input type="hidden" name="membership_term_id" value="<%=params[:membership_term_id]%>" />
+  <% for i in 0..params[:description].length-1 %>
+    <input type="hidden" name="description[]" value="<%=params[:description][i]%>" />
+  <%end%>
+  <% for i in 0..params[:studio_id].length-1 %>
+    <input type="hidden" name="studio_id[]" value="<%=params[:studio_id][i]%>" />
+  <%end%>
+  <input type="hidden" name="studio_id_coll" id="studio_id_coll" value="<%= params[:studio_id_coll] %>" />
+  <input type="hidden" name="certificate_price" value="<%=params[:certificate_price]%>" />
+  <input type="hidden" name="certificate_name" value="<%=params[:certificate_name]%>" />
+  <input type="hidden" name="total_price" value="<%=params[:total_price]%>" />
+  <input type="hidden" name="disclaimer_notes" value="<%=@disclaimer_notes%>" />
+  <input type="hidden" name="certificate_id" value="<%=@certificate_id%>" />
+  <% for i in 0..params[:studiogroup_id].length-1 %>
+    <input type="hidden" name="studiogroup_id[]" value="<%=params[:studiogroup_id][i]%>" />
+  <%end%>
+  <input type="hidden" name="membership_option" value="<%=params[:membership_option]%>" />
+  <table width="880" border="0" cellspacing="0" cellpadding="0">
+    <tr>
+      <td align="center">
+        <input name="" type="submit"  class="sub-btn" value="Previous" /></td></form>
+
+    <form action="<%= request_content_url %>/manage_mobile_studios_content/cetificate_image_upload" method="post" enctype="multipart/form-data">
+      <input type="hidden" name="membership_term_id" value="<%=params[:membership_term_id]%>" />
+      <% for i in 0..params[:description].length-1 %>
+        <input type="hidden" name="description[]" value="<%=params[:description][i]%>" />
+      <%end%>
+      <% for i in 0..params[:studio_id].length-1 %>
+        <input type="hidden" name="studio_id[]" value="<%=params[:studio_id][i]%>" />
+      <%end%>
+      <input type="hidden" name="certificate_price" value="<%=params[:certificate_price]%>" />
+      <input type="hidden" name="certificate_name" value="<%=params[:certificate_name]%>" />
+      <input type="hidden" name="total_price" value="<%=params[:total_price]%>" />
+      <input type="hidden" name="disclaimer_notes" value="<%=@disclaimer_notes%>" />
+      <input type="hidden" name="certificate_id" value="<%=@certificate_id%>" />
+      <% for i in 0..params[:studiogroup_id].length-1 %>
+        <input type="hidden" name="studiogroup_id[]" value="<%=params[:studiogroup_id][i]%>" />
+      <%end%>
+      <input type="hidden" name="membership_option" value="<%=params[:membership_option]%>" />
+      <tr><td align="center" width="880">
+          <table align="center">
+            <tr>
+              <td td height="50" style="color:#ffffff">Upload Certificate Logo </td>
+              <td align="left" valign="top" style="color:#ffffff">
+                <input type="file" name="cert_logo"  onChange="return validateFileExtension(this)" /><br />							 (Please upload a PNG or JPEG image)
+              </td>
+            </tr>
+          </table>
+        </td>
+      </tr>
+      <tr>
+        <td align="center" width="880">
+          <input name="Submit" type="submit"  class="sub-btn" value="Submit"/>
+        </td>
+      </tr>
+    </form>
+    </tr>
+  </table>
+

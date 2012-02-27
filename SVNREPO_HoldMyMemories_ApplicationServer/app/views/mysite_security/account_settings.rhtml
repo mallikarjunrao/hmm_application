@@ -1,0 +1,156 @@
+<%session[:friend]='' %>
+<style type="text/css">
+  .welcometxt {
+    font-family: Verdana, Arial, Helvetica, sans-serif;
+    font-size: 11px;
+    font-weight: bold;
+    color: #FF6A00;
+  }
+  h1 {
+    font-size: 100%;
+    color: #ff0000;
+    line-height: 1.5em;
+  }
+  #contpadding {
+    padding-left:10px;
+  }
+  .yellowtextsmall {
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 12px;
+    font-weight: normal;
+    color: #d9c99f;
+  }
+  .video_link_txt {
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 12px;
+    font-weight: bold;
+    text-decoration: none;
+    color: #ffffff;
+  }
+  #borderbox {
+    border:1px solid #fff;
+    padding:3px;
+  }
+  .urltextname {
+    font-family: Verdana, Arial, Helvetica, sans-serif;
+    font-size: 11px;
+    font-weight: bold;
+    color: #000;
+    padding-left:3px;
+  }
+  .cont {
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 13px;
+    font-weight: normal;
+    color: #8d8d8d;
+  }
+  .text-journal {
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 13px;
+    font-weight: normal;
+    color: #ffffff;
+  }
+</style>
+<%@rec = HmmUser.find(:all, :conditions => "id=#{logged_in_hmm_user.id}")%>
+<% for i in @rec %>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+    <tr>
+      <td width="170" valign="top" align="left" ><%= render :partial => "manage_site/leftnav", :locals => { :current => "account_setting"} %></td>
+      <td width="680"><table width="680" border="0" cellspacing="0" cellpadding="0">
+          <tr>
+            <td align="left" valign="middle" ><fieldset>
+                <legend class="welcometxt">Upgrade Your Account</legend>
+                <table width="680" border="0" cellspacing="0" cellpadding="0">
+                  <tr>
+                    <td height="20" align="left" valign="middle"  class="text-journal" >You can upgrade your account here</td>
+                  </tr>
+                  <tr>
+                    <td height="20" align="center" valign="middle" class="welcometxt" >&nbsp;</td>
+                  </tr>
+                  <tr>
+                    <td height="20" align="right" valign="middle" class="welcometxt" ><a href="/manage_site/upgrade_select/<%=params[:id]%>" onmouseout="MM_swapImgRestore()" onmouseover="MM_swapImage('Image17','','/images/upgrademyaccountovr.jpg',1)"><img src="/images/upgrademyaccountdef.jpg" name="Image17" width="235" height="32" border="0" id="Image17" /></a></td>
+                  </tr>
+                </table>
+              </fieldset></td>
+          </tr>
+          <!-- <tr>
+             <td align="left" valign="middle" class="welcometxt">&nbsp;</td>
+           </tr>
+           <tr>
+             <td align="left" valign="middle"><fieldset>
+                 <legend class="welcometxt">Edit Payment Information</legend>
+                 <table width="680" border="0" cellspacing="0" cellpadding="0">
+                   <tr>
+                     <td height="20" align="left" valign="middle"  class="text-journal" >You can edit your payment information here</td>
+                   </tr>
+                   <tr>
+                     <td height="20" align="center" valign="middle" class="welcometxt" >&nbsp;</td>
+                   </tr>
+                   <tr>
+                     <td height="20" align="right" valign="middle" class="welcometxt" ><a href="#" onmouseout="MM_swapImgRestore()" onmouseover="MM_swapImage('Image18','','/images/editpaymentinfoovr.jpg',1)"><img src="/images/editpaymentinfodef.jpg" name="Image18" width="235" height="32" border="0" id="Image18" /></a></td>
+                   </tr>
+                 </table>
+               </fieldset></td>
+           </tr>-->
+          <tr>
+            <td align="left" valign="middle" class="welcometxt">&nbsp;</td>
+          </tr>
+          <tr>
+            <td align="left" valign="middle"><fieldset>
+                <legend class="welcometxt">Subscription Invoice</legend>
+                <table width="680" border="0" cellspacing="0" cellpadding="0">
+                  <tr>
+                    <td height="20" align="left" valign="middle"  class="text-journal" >You can download your account subscription invoice here</td>
+                  </tr>
+                  <tr>
+                    <td height="20" align="center" valign="middle" class="welcometxt" >&nbsp;</td>
+                  </tr>
+                  <tr>
+                    <td height="20" align="right" valign="middle" class="welcometxt" ><a href="/customers/generate_receipt/<%=logged_in_hmm_user.unid%>" onmouseout="MM_swapImgRestore()" onmouseover="MM_swapImage('Image118','','/images/subscriptioninvoiceovr.jpg',1)" target="_blank"><img src="/images/subscriptioninvoicedef.jpg" name="Image118" width="235" height="32" border="0" id="Image118" /></a></td>
+                  </tr>
+                </table>
+              </fieldset></td>
+          </tr>
+          <tr>
+            <td align="left" valign="middle" class="welcometxt">&nbsp;</td>
+          </tr>
+          <tr>
+            <td align="left" valign="middle"><fieldset>
+                <legend class="welcometxt">Cancel Account</legend>
+                <table width="680" border="0" cellspacing="0" cellpadding="0">
+                  <tr>
+                    <td height="20" align="left" valign="middle"  class="text-journal" >You may cancel your account here<br><br>(If you decide to cancel your account please do so at least 72 hours before your next month’s subscription is processed.)
+                    </td>
+                  </tr>
+                  <tr>
+                    <td height="20" align="center" valign="middle" class="welcometxt" >&nbsp;</td>
+                  </tr>
+                  <tr>
+                    <td height="20" align="right" valign="middle" class="welcometxt" >
+                      <% if(@creditvalue==1) %>
+                      <%if @credit_points.available_credits !=0.00 &&  @credit_points !=''%>
+                      <a href="/manage_site/cancel_subscription/<%=params[:id]%>" onClick="if(confirm('Are you sure you want to cancel your subscription, you will loose <% if @studio_groups.credit_system =="Dollars" %>$<%end%><%=@credit_points.available_credits%> credit points?')){return true; } else return false;" onmouseout="MM_swapImgRestore()" onmouseover="MM_swapImage('Image218','','/images/cancelmyaccountovr.jpg',1)"><img src="/images/cancelmyaccountdef.jpg" name="Image218" width="235" height="32" border="0" id="Image218" /></a>
+                      <%else%>
+                      <a href="/manage_site/cancel_subscription/<%=params[:id]%>" onClick="if(confirm('Are you sure you want to cancel your subscription?')){return true; } else return false;" onmouseout="MM_swapImgRestore()" onmouseover="MM_swapImage('Image218','','/images/cancelmyaccountovr.jpg',1)"><img src="/images/cancelmyaccountdef.jpg" name="Image218" width="235" height="32" border="0" id="Image218" /></a>
+                      <%end%>
+                      <%else%>
+                        <a href="/manage_site/cancel_subscription/<%=params[:id]%>" onClick="if(confirm('Are you sure you want to cancel your subscription?')){return true; } else return false;" onmouseout="MM_swapImgRestore()" onmouseover="MM_swapImage('Image218','','/images/cancelmyaccountovr.jpg',1)"><img src="/images/cancelmyaccountdef.jpg" name="Image218" width="235" height="32" border="0" id="Image218" /></a>
+                      <%end%>
+                    </td>
+                  </tr>
+                </table>
+              </fieldset></td>
+          </tr>
+          <tr>
+            <td align="center" valign="middle" class="welcometxt">&nbsp;</td>
+          </tr>
+          <tr>
+            <td align="center" valign="middle" class="welcometxt">&nbsp;</td>
+          </tr>
+          <tr>
+            <td align="center" valign="middle" class="welcometxt">&nbsp;</td>
+          </tr>
+        </table></td>
+    </tr>
+  </table>
+<%end%>

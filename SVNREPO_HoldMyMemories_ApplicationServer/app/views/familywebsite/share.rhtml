@@ -1,0 +1,251 @@
+<link href="/stylesheets/main.css" media="screen" rel="Stylesheet" type="text/css" />
+<link href="/stylesheets/hmm.css" media="screen" rel="Stylesheet" type="text/css" />
+<link href="/stylesheets/mystyle_black_left.css" rel="stylesheet" type="text/css" />
+<%= stylesheet_link_tag 'hmmout' %>
+
+
+<script language="javascript">
+function validate() {
+    alert("2dffewfwe");
+    return false;
+}
+/*
+      Following filter taken from
+
+      http://www.quirksmode.org/js/mailcheck.html
+
+      */
+    /*  var filter = /^([a-zA-Z0-9_\.\-])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/;
+      var addresses = document.getElementById( "reciepent_email" ).value.split( "," );
+      var ok = true;
+      for ( var i=0; i<addresses.length; ++i ) {
+        if ( !addresses[i].match(filter) ) {
+          ok = false;
+
+		  break;
+        }
+      }
+      if ( ok ) {
+       // alert( "Input is valid!" );
+		return true;
+      } else {
+        alert( "Input is not valid!" );
+		return false;
+      }
+    }
+    */
+
+	function verify()
+	{
+
+		if (document.getElementById('valid_pass').value == 'false')
+		{
+			alert('invalid password!!');
+			document.getElementById('employe_username').focus();
+			return false;
+		}
+
+	}
+
+
+
+
+	function trim(stringToTrim) {
+	return stringToTrim.replace(/^\s+|\s+$/g,"");
+}
+
+	function format_emails()
+	{
+		var emails = document.getElementById('reciepent_email').value;
+		var email = emails.split(',');
+		for(var i=0;i<email.length;i++){
+			email[i]=trim(email[i]);
+		}
+		emails=email.join(',');
+		var email = emails.split(';');
+		for(var i=0;i<email.length;i++){
+			email[i]=trim(email[i]);
+		}
+		emails=email.join(',');
+		document.getElementById('reciepent_email').value=emails;
+	}
+
+</script>
+
+<form action="/familywebsite/shareWorker/" method="post" onsubmit=" if(document.getElementById('sender_name').value==''){ alert('Please enter sender name'); document.getElementById('sender_name').focus();return false;} if(document.getElementById('sender_email').value==''){ alert('Please enter sender email'); document.getElementById('sender_email').focus();return false;} var addresses = document.getElementById( 'reciepent_email' ).value.split( ',' ); var ok=true; var filter = /^([a-zA-Z0-9_\.\-])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/; if(document.getElementById('reciepent_email').value=='' && document.getElementById('amail').value==''){ alert('Please enter an email address to share'); return false;}else{ if(document.getElementById('reciepent_email').value!='') { for ( var i = 0; i < document.getElementById( 'reciepent_email' ).value.split( ',' ).length; ++i ) { if ( !addresses[i].match(filter) ) {  ok = false; break; } } if ( ok ) {  } else { alert( 'Recipients e-mail(s) are not valid. Please remember not to put any space or special characters other than a comma between the two e-mails.' );  return false; }}else{ return true;} } if(document.getElementById('pass_req').style.display=='block') { if (document.getElementById('pass').value == ''){alert('please enter family website password.');document.getElementById('pass').focus();return false; } }">
+  <table width="600" align="center" border="0" cellspacing="0" cellpadding="0">
+	<input type="hidden" value="<%=params[:id]%>" name="id" />
+	<% if params[:pa]%>
+	<input type="hidden" value="<%=params[:link]%>" name="link" />
+	<%else%>
+	<input type="hidden" value="<%=params[:link]%>" name="link" />
+	<%end%>
+	<input type="hidden" value="<%=params[:id]%>" name="share_type" />
+
+  <tr>
+    <td width="10" height="10" align="left" valign="top"><img src="/images/1.gif" width="10" height="10" /></td>
+    <td align="left" width="580" valign="top" background="/images/2.gif" colspan="2"></td>
+    <td width="10" height="10" align="left" valign="top"><img src="/images/3.gif" width="10" height="10" /></td>
+  </tr>
+
+	 <tr>
+    <td align="left" valign="top" background="/images/4.gif">&nbsp;</td>
+    <td height="20" align="left" valign="top" bgcolor="#000000" colspan="2"><font color="#ffffff" size="4">Lets Share <font color="#fe6809">Memories</font> with our Friends and Family!!</b></font></td>
+    <td align="left" valign="top" background="/images/5.gif">&nbsp;</td>
+  </tr>
+
+  <tr>
+    <td align="left" valign="top" background="/images/4.gif">&nbsp;</td>
+    <td height="20" align="left" valign="top" bgcolor="#000000" colspan="2"><center><font color="#ffffff" size="2"></center></font></td>
+    <td align="left" valign="top" background="/images/5.gif">&nbsp;</td>
+  </tr>
+
+  <tr>
+    <td align="left" valign="top" background="/images/4.gif">&nbsp;</td>
+    <td height="20" align="left" valign="top" bgcolor="#000000"><font color="#ffffff" size="2">Sender Name : &nbsp;&nbsp;
+	<span id="sprytextfield1"> <input type="text" name="sender_name" id="sender_name" value="<%=@userid[0]['v_fname']%>" class="textbox-signup">
+	<span class="textfieldRequiredMsg"><br></br></span></font></td>
+	<td height="20" align="left" valign="top" bgcolor="#000000"><font color="#ffffff" size="2">Sender E-mail : &nbsp;&nbsp;
+	<span id="sprytextfield11"><input type="text" name="sender_email" id="sender_email" value="<%=@userid[0]['v_e_mail']%>" class="textbox-signup">
+	<span class="textfieldRequiredMsg"><br></span><span class="textfieldInvalidFormatMsg"><br></span></span></span></font></td>
+    <td align="left" valign="top" background="/images/5.gif">&nbsp;</td>
+  </tr>
+
+  <tr>
+    <td align="left" valign="top" background="/images/4.gif">&nbsp;</td>
+    <td height="20" align="left" valign="top" bgcolor="#000000" colspan="2"><font color="#ffffff" size="2"> </font></td>
+    <td align="left" valign="top" background="/images/5.gif">&nbsp;</td>
+  </tr>
+
+  <tr>
+    <td align="left" valign="top" background="/images/4.gif">&nbsp;</td>
+    <td height="20" align="left" valign="top" bgcolor="#000000" colspan="2"><font color="#ffffff" size="2"> Recipient's email : &nbsp;&nbsp;
+	<span id="sprytextfield3"><input type="text"  name="reciepent_email" id="reciepent_email" class="textbox-signup-managepage" onblur="trim_emails();" >
+	</font><span class="textfieldRequiredMsg"><br>Value is required.</br></span></span></font></td>
+    <td align="left" valign="top" background="/images/5.gif">&nbsp;</td>
+  </tr>
+  <tr>
+    <td align="left" valign="top" background="/images/4.gif">&nbsp;</td>
+    <td height="20" align="left" valign="top" bgcolor="#000000" colspan="2"><font color="#f5dfa6" size="2">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Separate multiple email addresses with a comma</font></td>
+    <td align="left" valign="top" background="/images/5.gif">&nbsp;</td>
+  </tr>
+   <tr>
+    <td align="left" valign="top" background="/images/4.gif">&nbsp;</td>
+    <td height="20" align="left" valign="top" bgcolor="#000000" colspan="2"><font color="#ffffff" size="2"> </font></td>
+    <td align="left" valign="top" background="/images/5.gif">&nbsp;</td>
+  </tr>
+ <% if session[:hmm_user]%>
+  <tr>
+    <td align="left" valign="top" background="/images/4.gif">&nbsp;</td>
+    <td height="20" align="left" valign="top" bgcolor="#000000" colspan="2"><table><tr><td valign="top">
+		<font color="#ffffff" size="2">Select from address book :</font>
+
+</td><td>
+
+
+	<select multiple="multiple" style="width:300px;height:75px;" name="address_email[]" id="amail">
+ <% for i in @results1 %>
+
+	<option value="<%=i.v_email%>"><%=i.v_name%> (<%=i.v_email%>)</option>
+
+<% end %>
+</select>
+	</td></tr>
+	</table></td>
+    <td align="left" valign="top" background="/images/5.gif">&nbsp;</td>
+  </tr>
+
+  <tr>
+    <td align="left" valign="top" background="/images/4.gif">&nbsp;</td>
+    <td height="20" align="left" valign="top" bgcolor="#000000" colspan="2"><font color="#f5dfa6" size="2">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Hold the Ctrl  key to select multiple email addresses</font></td>
+    <td align="left" valign="top" background="/images/5.gif">&nbsp;</td>
+  </tr>
+
+
+
+
+ <tr>
+    <td align="left" valign="top" background="/images/4.gif">&nbsp;</td>
+    <td height="20" align="left" valign="top" bgcolor="#000000" colspan="2"><font color="#ffffff" size="2"> </font></td>
+    <td align="left" valign="top" background="/images/5.gif">&nbsp;</td>
+  </tr>
+ <%else%>
+     <input type="hidden" name="amail" id="amail">
+     <%end%>
+  <tr>
+    <td align="left" valign="top" background="/images/4.gif">&nbsp;</td>
+    <td height="20" align="left" bgcolor="#000000" colspan="2" valign="top">
+    <table><tr><td valign="top">
+		<font color="#ffffff" size="2"> Message to your friend :</font> </td><td>
+	<textarea rows="4" cols="40"   name="reciepent_message" ></textarea>
+
+        </td></tr><tr><td colspan="2">
+          <table class="border" align="center">
+            <tr><td align="center"><font color="#ffffff" size="2"> <%= recaptcha_tags :ajax=>true %> </font> </td>
+      </tr>
+
+	</table></tr>
+    </table>
+    </td>
+    <td align="left" valign="top" background="/images/5.gif">&nbsp;</td>
+  </tr>
+
+  <tr>
+    <td align="left" valign="top" background="/images/4.gif">&nbsp;</td>
+    <td height="20" align="left" valign="top" bgcolor="#000000" colspan="2"><font color="#ffffff" size="2"> </font></td>
+    <td align="left" valign="top" background="/images/5.gif">&nbsp;<%=@password_protected%></td>
+  </tr>
+  <%@pass_req = HmmUser.count(:all, :conditions => "(family_name='#{params[:id]}' || alt_family_name='#{params[:id]}') and password_required= 'yes'")%>
+  <%if @pass_req > 0%>
+  <tr>
+    <td align="left" valign="top" background="/images/4.gif">&nbsp;</td>
+    <td height="20" align="center" valign="top" bgcolor="#000000" colspan="2"><font color="#ffffff" size="2">Note: This family website is password protected, Would you like to share your password ?
+	<br>Yes <input type="radio" name="ask" id="ask" value="yes"  onclick="document.getElementById('pass_req').style.display='block';"> No <input type="radio" name="ask" id="ask" value="no" onclick="document.getElementById('pass_req').style.display='none'; alert('Your friend may not be able to view your website without password!');"> </font></td>
+    <td align="left" valign="top" background="/images/5.gif">&nbsp;</td>
+
+  </tr>
+
+  <tr>
+    <td align="left" valign="top" background="/images/4.gif">&nbsp;</td>
+    <td height="20" align="left" valign="top" bgcolor="#000000" colspan="2">
+    	<div id="pass_req" style="display:none">
+    	<table>
+    		<tr>
+    			<td>
+    				<font color="#ffffff" size="3"> Please enter the family website password to exectue this share &nbsp;
+					<input type="password" name="pass" id="pass" > </font>
+    			</td>
+				<%family_name1=params[:id]
+		%>
+    		</tr>
+
+    	</table>
+		  </div>
+		</td>
+    <td align="left" valign="top" background="/images/5.gif">&nbsp;</td>
+  </tr>
+  <%end%>
+  <tr>
+    <td align="left" valign="top" background="/images/4.gif">&nbsp;</td>
+	 <td height="20" align="right" valign="top" bgcolor="#000000" ><input type="image" src="/images/share.jpg" value="submit" id="submit"  >&nbsp;&nbsp;</td>
+    <td height="20" align="left" valign="top" bgcolor="#000000" >&nbsp;&nbsp;
+	<a href="#" onclick="Modalbox.hide();return false;"><img src="/images/cancel.jpg" id="close" border="0" title="Close window" ></a></td>
+    <td align="left" valign="top" background="/images/5.gif"></td>
+  </tr>
+
+  <tr>
+    <td align="left" valign="top"><img src="/images/6.gif" width="10" height="10" /></td>
+    <td align="left" valign="top" background="/images/7.gif" colspan="2"></td>
+    <td align="left" valign="top"><img src="/images/8.gif" width="10" height="10" /></td>
+  </tr>
+
+</table>
+</form>
+<script type="text/javascript">
+
+	var sprytextfield1 = new Spry.Widget.ValidationTextField("sprytextfield1", "none", {validateOn:["blur"]});
+	var sprytextfield11 = new Spry.Widget.ValidationTextField("sprytextfield11", "email", {validateOn:["blur"]});
+    var sprytextfield3 = new Spry.Widget.ValidationTextField("sprytextfield3", "none", {validateOn:["blur"]});
+	//var sprytextfield12 = new Spry.Widget.ValidationTextField("sprytextfield12", "email", {validateOn:["blur"]});
+
+</script>

@@ -1,0 +1,13 @@
+<h3>Add New Advertisement</h3>
+
+
+<% form_tag({:action => "create"}, {:multipart => true}) do %>
+  <%= render :partial => 'form' %>
+  <!--<%= submit_tag "Create" , :onclick => "return verify()"
+ %>-->
+ <%= submit_tag "Create"  %>
+ 
+<% end %>
+
+<%= link_to_remote("Back",
+:update => 'content', :url => {:controller =>:ads , :action => :index } ) %>

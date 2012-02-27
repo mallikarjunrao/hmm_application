@@ -1,0 +1,322 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>HoldMyMemories Billing Details</title>
+<link href="/stylesheets/mystyle_black_left.css" media="screen" rel="Stylesheet" type="text/css" />
+</head>
+
+<body bgcolor="#000000">
+<style>
+	.text1{
+	font-family:Arial, Helvetica, sans-serif;
+	font-size:16px;
+	font-weight:bold;
+	color:#c6c6c6;
+}
+.text2{
+	font-family:Arial, Helvetica, sans-serif;
+	font-size:12px;
+	font-weight:bold;
+	color:#ffffff;
+}
+</style>
+<script type="text/javascript">
+
+	function valButton(btn,elem) {
+		var cnt = -1;
+		for (var i=btn.length-1; i > -1; i--) {
+		   if (btn[i].checked) {cnt = i; i = -1;}
+	   }
+		if (cnt > -1)
+			return true;
+		else {
+			document.getElementById(elem).focus();
+			return false;
+		}
+
+}
+
+function valForm(form) {
+	<%num=1%>
+	<%for i in @my_carts%>
+	 if(valButton(form.sizes<%=i.id%>,'sizes-<%=num%>')==false)
+	 {
+	 	alert('please select the size you would like to print!');
+		return false;
+	 }
+	 <%num=num+1%>
+	<%end%>
+
+}
+
+
+	/*function val_items()
+	{
+		var len = document.getElementById('noof_items').value;
+		for (i=1; i<=len; i++)
+		{
+
+			alert(i);
+			document.getElementById('sizes-' + i).checked
+			if (document.getElementById('sizes-' + i).checked==true || document.getElementById('sizes-' + i).checked==true || document.getElementById('sizes-' + i).checked==true)
+			{
+
+			}else{
+				alert('please select the size you would like to print!');
+				document.getElementById('sizes-' + i).focus();
+				return false;
+			}
+
+		}
+
+	}*/
+
+</script>
+<%= javascript_include_tag 'modalbox/prototype' %>
+<script type="text/javascript" src="/javascripts/modalbox/scriptaculous.js?load=effects"></script>
+<script type="text/javascript" src="/javascripts/modalbox/modalbox.js"></script>
+<%= stylesheet_link_tag 'modalbox/modalbox' %>
+<style>
+	.text1{
+	font-family:Arial, Helvetica, sans-serif;
+	font-size:16px;
+	font-weight:bold;
+	color:#c6c6c6;
+}
+.text2{
+	font-family:Arial, Helvetica, sans-serif;
+	font-size:12px;
+	font-weight:bold;
+	color:#ffffff;
+}
+</style>
+
+<%if @my_carts_count > 0%>
+<form name="frm" id="frm" action="/my_familywebsite/update_copies/<%=logged_in_hmm_user.id%>/?familyname=<%=params[:id]%>" method="post" onSubmit="return valForm(frm);">
+<table align="center"><tr><td>
+<table width="703" class="border" align="center">
+<tr><td colspan="4" align="center" class="cont"><h3><font color="#FFFFFF">Billing Receipt</font></h3></td></tr>
+	<tr><td><font color="#f5dfa6"><%=flash[:succes]%></font></td></tr>
+	<tr bgcolor="#191919">
+		<td width="200" class="text1" >
+			Selected Moments		</td>
+		<td class="text1" colspan="2" align="center">
+			List of Sizes and Copies Selected		</td>
+
+
+		<td width="150" class="text1">
+			<div align="center">Sub Total		</div></td>
+	</tr>
+<input type="hidden" name="noof_items" value="<%=@my_carts_count%>" id="noof_items">
+<% temp = 1%>
+<%tmp=1%>
+<%for i in @my_carts%>
+<input type="hidden" name="chap" value="<%=i.added_item%>" id="chap">
+<input type="hidden" name="mycart_id[]" value="<%=i.id%>" id="mycart_id[]">
+
+   <%if i.added_item=='chap'
+    @tags = Tag.find(:all, :conditions => "uid=#{logged_in_hmm_user.id} and id=#{i.moment_id}")%>
+		<tr>
+		<%for tag in @tags
+			 @moment_tag_count = UserContent.count(:all, :conditions => "uid=#{logged_in_hmm_user.id} and tagid=#{tag.id} and e_filetype='image'")%>
+			<input type="hidden" name="no_moments[]" value="<%=@moment_tag_count%>" id="no_moments[]">
+		<input type="hidden" name="chap_id" value="<%=i.moment_id%>" id="chap_id">
+		<td width="200">
+
+
+		<img src="<%= tag.img_url %>/user_content/photos/icon_thumbnails/<%= tag.v_chapimage %>" border="5" style="border-color:#000000;"  /><br>
+			<font class="cont" ><%=tag.v_tagname%></a><br><br></font>		</td>
+		<td class="text1" align="center" colspan="2">
+        <table cellpadding="1" cellspacing="1">
+
+	   <tr align="center" bgcolor="#191919"  class="cont">
+		<td align="center"><b>Sizes</b></td>
+	    <td align="center"><b>Moments</b></td>
+		<td align="center"><b>Copies</b></td>
+		<td align="center"><b>Price</b></td>
+	   </tr>
+	   <%
+	   @product_deatils = ProductDetail.find(:all,:conditions=>"cartid=#{i.id}")
+		for m in @product_deatils%>
+	  	<tr class="cont">
+		<td align="center"><% @product_name = Product.find(:first, :conditions => "id=#{m.product_id }").product_name %><%=@product_name %>	</td>
+	    <td align="center"><%=m.no_of_moments%> </td>
+		<td align="center"><%=m.no_of_copies%> </td>
+		<td align="center">$<%=m.product_price %> </td>
+	   </tr>
+		<%end%>
+        </table><br></td>
+
+		<td width="100"  class="text2" align="center">
+		    <div align="center">$<%=i.price %>		</div></td>
+		</tr>
+		<tr bgcolor="#191919">
+			<td colspan="5">&nbsp;</td>
+		</tr>
+		<%end%>
+   <%elsif i.added_item=='subchapter'
+	@sub_chap = SubChapter.find(:all, :conditions => "uid=#{logged_in_hmm_user.id} and id=#{i.moment_id}")%>
+		<tr>
+		<%for subchap in @sub_chap
+              @moment_subchap_count = UserContent.count(:all, :conditions => "uid=#{logged_in_hmm_user.id} and sub_chapid=#{subchap.id} and e_filetype='image'")%>
+		<input type="hidden" name="no_moments[]" value="<%=@moment_subchap_count%>" id="no_moments[]">
+		<input type="hidden" name="subchap_id" value="<%=i.moment_id%>" id="subchap_id">
+			<td width="200">
+
+
+				<img src="<%= subchap.img_url %>/user_content/photos/icon_thumbnails/<%= subchap.v_image %>" border="5" style="border-color:#000000;"  /><br>
+				<font class="cont"><%=subchap.sub_chapname%></a></font>			</td>
+		  <td class="text1" align="center" colspan="2">
+        <table cellpadding="1" cellspacing="1">
+
+	   <tr align="center" bgcolor="#191919"  class="cont">
+		<td align="center"><b>Sizes</b></td>
+	    <td align="center"><b>Moments</b></td>
+		<td align="center"><b>Copies</b></td>
+		<td align="center"><b>Price</b></td>
+	   </tr>
+	   <%
+	   @product_deatils = ProductDetail.find(:all,:conditions=>"cartid=#{i.id}")
+		for m in @product_deatils%>
+	  	<tr class="cont">
+		<td align="center"><% @product_name = Product.find(:first, :conditions => "id=#{m.product_id }").product_name %><%=@product_name %>	</td>
+	    <td align="center"><%=m.no_of_moments%> </td>
+		<td align="center"><%=m.no_of_copies%> </td>
+		<td align="center">$<%=m.product_price %> </td>
+	   </tr>
+		<%end%>
+        </table><br></td>
+
+			<td width="100" class="text2" align="center">
+				<div align="center">$<%=i.price %>			</div></td>
+		</tr>
+		<tr bgcolor="#191919">
+			<td colspan="5">&nbsp;</td>
+		</tr>
+		<%end%>
+   <%elsif i.added_item=='gallery'
+    @gal = Galleries.find(:all, :conditions => "id=#{i.moment_id}")%>
+		<tr>
+		<%for gallery in @gal
+            @moment_gal_count = UserContent.count(:all, :conditions => "uid=#{logged_in_hmm_user.id} and gallery_id=#{gallery.id}")%>
+		<input type="hidden" name="gal_id" value="<%=i.moment_id%>" id="gal_id">
+		<input type="hidden" name="no_moments[]" value="<%=@moment_gal_count%>" id="no_moments">
+		<td width="200">
+
+
+				<img src="<%= gallery.img_url %>/user_content/photos/icon_thumbnails/<%= gallery.v_gallery_image%>" border="5" style="border-color:#000000;"  /><br>
+				<font class="cont"><%=gallery.v_gallery_name%></a></font>		  </td>
+		  <td class="text1" align="center" colspan="2">
+        <table cellpadding="1" cellspacing="1">
+
+	   <tr align="center" bgcolor="#191919"  class="cont">
+		<td align="center"><b>Sizes</b></td>
+	    <td align="center"><b>Moments</b></td>
+		<td align="center"><b>Copies</b></td>
+		<td align="center"><b>Price</b></td>
+	   </tr>
+	   <%
+	   @product_deatils = ProductDetail.find(:all,:conditions=>"cartid=#{i.id}")
+		for m in @product_deatils%>
+	  	<tr class="cont">
+		<td align="center"><% @product_name = Product.find(:first, :conditions => "id=#{m.product_id }").product_name %><%=@product_name %>	</td>
+	    <td align="center"><%=m.no_of_moments%> </td>
+		<td align="center"><%=m.no_of_copies%> </td>
+		<td align="center">$<%=m.product_price %> </td>
+	   </tr>
+		<%end%>
+        </table>
+        <br></td>
+
+			<td width="100" class="text2" align="center">
+				<div align="center">$<%=i.price %>			</div></td>
+		</tr>
+		<tr bgcolor="#191919">
+			<td colspan="5">&nbsp;</td>
+		</tr>
+		<%end%>
+
+   <%elsif i.added_item=='moment'
+    @moment = UserContent.find(:all, :conditions => "uid=#{logged_in_hmm_user.id} and id=#{i.moment_id}")%>
+		<tr>
+		<%for moments in @moment%>
+		<input type="hidden" name="moment_id" value="<%=i.moment_id%>" id="moment_id">
+		<input type="hidden" name="no_moments[]" value="1" id="no_moments[]">
+			<td width="200">
+
+				<img src="<%= moments.img_url %>/user_content/photos/big_thumb/<%= moments.v_filename%>" border="5" style="border-color:#000000;"  /><br>
+
+			<center><font class="leftconthr"><%=moments.v_tagphoto%><br></font></center>			</td>
+		  <td class="text1" align="center" colspan="2">
+       <table cellpadding="1" cellspacing="1">
+
+	   <tr align="center" bgcolor="#191919"  class="cont">
+		<td align="center"><b>Sizes</b></td>
+	    <td align="center"><b>Moments</b></td>
+		<td align="center"><b>Copies</b></td>
+		<td align="center"><b>Price</b></td>
+	   </tr>
+	   <%
+	   @product_deatils = ProductDetail.find(:all,:conditions=>"cartid=#{i.id}")
+		for m in @product_deatils%>
+	  	<tr class="cont">
+		<td align="center"><% @product_name = Product.find(:first, :conditions => "id=#{m.product_id }").product_name %><%=@product_name %>	</td>
+	    <td align="center"><%=m.no_of_moments%> </td>
+		<td align="center"><%=m.no_of_copies%> </td>
+		<td align="center">$<%=m.product_price %> </td>
+	   </tr>
+		<%end%>
+        </table><br></td>
+
+			<td width="100" class="text2" align="center">
+				<div align="center">$<%=i.price %>			</div></td>
+		</tr>
+		<tr bgcolor="#191919">
+			<td colspan="5">&nbsp;</td>
+		</tr>
+		  <%end%>
+   <%end%>
+   <%temp=temp+1%>
+   <%end%>
+   <tr align="right" class="cont">
+   	 <td>&nbsp;</td>
+     <td>&nbsp;</td>
+     <td><b>Total:</b></td>
+     <td align="center"><b>$<%=@totalamount%></b></td>
+   </tr>
+</table>
+</form>
+
+
+
+</td>
+<td width="180" align="left" valign="top" rowspan="<%=@my_carts_count%>">&nbsp;</td>
+</tr>
+</table>
+<%else%>
+
+<table >
+<tr>
+		<td colspan="4">
+
+		</td>
+	</tr>
+	<tr>
+		<td colspan="4">
+
+		</td>
+	</tr>
+	<tr>
+		<td colspan="4">
+			<font color="#ffffff">There are no moments in your shopping cart</font>
+		</td>
+	</tr>
+	<tr>
+		<td height="200" colspan="4">
+
+		</td>
+	</tr>
+</table>
+	<%end%>
+

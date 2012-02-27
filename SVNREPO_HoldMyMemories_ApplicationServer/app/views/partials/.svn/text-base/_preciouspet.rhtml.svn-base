@@ -1,0 +1,215 @@
+<style type="text/css">
+  .img-txt {
+    font-family:"Comic Sans MS", Arial;
+    font-size:15px;
+    color: #d2dce6;
+    text-decoration:none;
+    font-weight:bold;
+  }
+
+
+</style>
+
+<table width="893" border="0" align="center" cellpadding="0" cellspacing="0" style="border:10px solid #FFF; background:url(/images/petscontest/background.jpg) repeat-y">
+  <tr>
+    <td width="239" align="center" valign="top"><table width="152" border="0" cellspacing="0" cellpadding="0">
+        <tr>
+          <td height="115" align="left" valign="top">&nbsp;</td>
+        </tr>
+        <tr>
+          <td align="left" valign="top"><img src="/images/petscontest/top-entries.png" width="152" height="113" /></td>
+        </tr>
+        <tr>
+          <td height="20" align="center" valign="top"></td>
+        </tr>
+        <tr>
+          <td height="80" align="center" valign="top">
+            <% if topentries_photo[0] %>
+              <% if website_type == "familywebsite" %>
+                <a href="/familywebsite_contest/<%= params[:id] %>/momentdetails/<%= params[:contest_id]%>?moment_id=<%= topentries_photo[0].moment_id%>">
+                <%else%>
+                  <a href="/<%=controller_name%>/<%= params[:id] %>/momentdetails/<%=topentries_photo[0].moment_id%>">
+                  <%end%>
+                  <img src="<%= topentries_photo[0].img_url %>/user_content/photos/big_thumb/<%= topentries_photo[0].v_filename %>" width="75" height="75" style="z-index:0;" border="0"/></a><%end%></td>
+        </tr>
+        <tr>
+          <td height="35" align="center" valign="top" class="img-txt"><% if topentries_photo[0] %>
+              <% count = ContestVotes.count_by_sql("select COUNT(*) AS COUNT from contest_votes where contest_id='#{topentries_photo[0].contest_id}' and conformed='yes'") %>
+              <%=count%> <% if count.to_i > 1 %> Votes<%else%>Vote<%end%><%end%></td>
+        </tr>
+        <tr>
+          <td height="6" align="center" valign="top"></td>
+        </tr>
+        <tr>
+          <td height="80" align="center" valign="top"><% if topentries_photo[2] %> <% if website_type == "familywebsite" %>
+                <a href="/familywebsite_contest/<%= params[:id] %>/momentdetails/<%= params[:contest_id]%>?moment_id=<%=topentries_photo[2].moment_id%>">
+                <%else%>
+                  <a href="/<%=controller_name%>/<%= params[:id] %>/momentdetails/<%=topentries_photo[2].moment_id%>">
+                  <%end%>
+                  <img src="<%= topentries_photo[2].img_url %>/user_content/photos/big_thumb/<%= topentries_photo[2].v_filename %>" width="75" height="75" style="z-index:0;" border="0"/></a> <%end%></td>
+        </tr>
+        <tr>
+          <td height="35" align="center" valign="top" class="img-txt"><% if topentries_photo[2] %><% count = ContestVotes.count_by_sql("select COUNT(*) AS COUNT from contest_votes where contest_id='#{topentries_photo[2].contest_id}' and conformed='yes'") %>
+              <%=count%> <% if count.to_i > 1 %> Votes<%else%>Vote<%end%><%end%></td>
+        </tr>
+        <tr>
+          <td height="6" align="center" valign="top"></td>
+        </tr>
+        <tr>
+          <td height="80" align="center" valign="top"><% if topentries_photo[4] %> <% if website_type == "familywebsite" %>
+                <a href="/familywebsite_contest/<%= params[:id] %>/momentdetails/<%= params[:contest_id]%>?moment_id=<%=topentries_photo[4].moment_id%>">
+                <%else%>
+                  <a href="/<%=controller_name%>/<%= params[:id] %>/momentdetails/<%=topentries_photo[4].moment_id%>">
+                  <%end%>
+                  <img src="<%= topentries_photo[4].img_url %>/user_content/photos/big_thumb/<%= topentries_photo[4].v_filename %>" width="75" height="75" style="z-index:0;" border="0"/></a> <%end%></td>
+        </tr>
+        <tr>
+          <td height="35" align="center" valign="top" class="img-txt"><% if topentries_photo[4] %><% count = ContestVotes.count_by_sql("select COUNT(*) AS COUNT from contest_votes where contest_id='#{topentries_photo[4].contest_id}' and conformed='yes'") %>
+              <%=count%> <% if count.to_i > 1 %> Votes<%else%>Vote<%end%><%end%></td>
+        </tr>
+        <tr>
+          <td height="6" align="center" valign="top"></td>
+        </tr>
+        <tr>
+          <td height="80" align="center" valign="top"><% if topentries_photo[6] %> <% if website_type == "familywebsite" %>
+                <a href="/familywebsite_contest/<%= params[:id] %>/momentdetails/<%= params[:contest_id]%>?moment_id=<%=topentries_photo[6].moment_id%>">
+                <%else%>
+                  <a href="/<%=controller_name%>/<%= params[:id] %>/momentdetails/<%=topentries_photo[6].moment_id%>">
+                  <%end%>
+                  <img src="<%= topentries_photo[6].img_url %>/user_content/photos/big_thumb/<%= topentries_photo[6].v_filename %>" width="75" height="75" style="z-index:0;" border="0"/></a> <%end%></td>
+        </tr>
+        <tr>
+          <td height="35" align="center" valign="top" class="img-txt"><% if topentries_photo[6] %><% count = ContestVotes.count_by_sql("select COUNT(*) AS COUNT from contest_votes where contest_id='#{topentries_photo[6].contest_id}' and conformed='yes'") %>
+              <%=count%> <% if count.to_i > 1 %> Votes<%else%>Vote<%end%><%end%></td>
+        </tr>
+      </table></td>
+    <td width="430" valign="top"><table width="430" border="0" align="right" cellpadding="0" cellspacing="0">
+        <tr>
+          <td colspan="2" align="left" valign="bottom"><img src="/images/petscontest/top-bg.jpg" width="430" height="11" /></td>
+        </tr>
+        <tr>
+          <td height="265" colspan="2" align="center" valign="top"><img src="/images/petscontest/logo.jpg" width="426" height="245" /></td>
+        </tr>
+
+        <% @winners = ContestWinner.find(:first, :select => "a.*, b.photo_logo, b.video_logo, b.heading_logo", :joins => "as a, contest_details as b", :conditions => "a.contest_phase = b.id and a.contest_phase = 12", :order => "contest_phase desc") %>
+        <tr>
+          <td colspan="2" align="center" valign="top">Congratulations to <% if @winners.photo_winner_name.length > 1 %>All the winners!<br /><% else %>
+              <% @winners.photo_winner_name.each do |photo| %><%= photo["name"] %> !<br /> <% end %><% end %></td>
+        </tr>
+        <tr>
+          <td colspan="2" align="center" valign="top"><% @winners.photo_winner_name.each do |photo| %>
+              <a href="<%= photo["link"] %>"><img border="4" alt="<%= photo["name"] %>" width="350" style="border-color: rgb(0, 0, 0);" src="<%= photo["url"] %>" /></a><% end %>
+            &nbsp;
+          </td>
+        </tr>
+
+        <tr>
+          <td height="30" colspan="2" align="left" valign="top"></td>
+        </tr>
+        <tr>
+          <td height="40" colspan="2" align="left" valign="top"></td>
+        </tr>
+        <tr>
+          <td colspan="2" align="center" valign="top">
+            <% if website_type == "familywebsite_contest" %>
+              <%if(session[:hmm_user]) %>
+                <a href="/familywebsite_contest/<%= params[:id]%>/manage_moments_vote/<%= params[:contest_id]%>?contest=photo">
+                  <img src="/images/petscontest/view-entrants.png" width="347" height="62"  border="0"/></a>
+              <%else%>
+                <a href="/familywebsite_contest/<%= params[:id]%>/moments_vote/<%= params[:contest_id]%>">
+                  <img src="/images/petscontest/view-entrants.png" width="347" height="62"  border="0"/></a>
+              <%end%>
+            <%else%>
+              <a href="/<%= controller_name %>/<%= params[:id] %>/moments_vote">
+                <img src="/images/petscontest/view-entrants.png" width="347" height="62"  border="0"/></a>
+            <%end%>
+          </td>
+        </tr>
+        <tr>
+          <td height="17" colspan="2" align="left" valign="top"></td>
+        </tr>
+
+        <tr>
+          <td height="40" colspan="2" align="left" valign="top">&nbsp;</td>
+        </tr>
+        <tr>
+          <td colspan="2" align="left" valign="top"><img src="/images/petscontest/bottom-bg.jpg" width="430" height="11" /></td>
+        </tr>
+      </table></td>
+    <td width="224" align="center" valign="top"><table width="152" border="0" cellspacing="0" cellpadding="0">
+        <tr>
+          <td height="115" align="left" valign="top">&nbsp;</td>
+        </tr>
+        <tr>
+          <td align="left" valign="top"><img src="/images/petscontest/top-entries.png" width="152" height="113" /></td>
+        </tr>
+        <tr>
+          <td height="20" align="center" valign="top"></td>
+        </tr>
+        <tr>
+          <td height="80" align="center" valign="top">
+            <% if topentries_photo[1] %>
+              <% if website_type == "familywebsite" %>
+                <a href="/familywebsite_contest/<%= params[:id]%>/momentdetails/<%= params[:contest_id]%>?moment_id=<%=topentries_photo[1].moment_id%>">
+                <%else%>
+                  <a href="/<%=controller_name%>/<%= params[:id] %>/momentdetails/<%=topentries_photo[1].moment_id%>">
+                  <%end%>
+                  <img src="<%= topentries_photo[1].img_url %>/user_content/photos/big_thumb/<%= topentries_photo[1].v_filename %>" width="75" height="75" style="z-index:0;" border="0"/></a><%end%></td>
+        </tr>
+        <tr>
+          <td height="35" align="center" valign="top" class="img-txt"> <% if topentries_photo[1] %>
+              <% count = ContestVotes.count_by_sql("select COUNT(*) AS COUNT from contest_votes where contest_id='#{topentries_photo[1].contest_id}' and conformed='yes'") %>
+              <%=count%> <% if count.to_i > 1 %> Votes<%else%>Vote<%end%> <%end%></td>
+        </tr>
+        <tr>
+          <td height="6" align="center" valign="top"></td>
+        </tr>
+        <tr>
+          <td height="80" align="center" valign="top"><% if topentries_photo[3] %>
+              <% if website_type == "familywebsite" %>
+                <a href="/familywebsite_contest/<%= params[:id]%>/momentdetails/<%= params[:contest_id]%>?moment_id=<%=topentries_photo[3].moment_id%>">
+                <%else%>
+                  <a href="/<%=controller_name%>/<%= params[:id] %>/momentdetails/<%=topentries_photo[3].moment_id%>">
+                  <%end%>
+                  <img src="<%= topentries_photo[3].img_url %>/user_content/photos/big_thumb/<%= topentries_photo[3].v_filename %>" width="75" height="75" style="z-index:0;" border="0"/></a> <%end%></td>
+        </tr>
+        <tr>
+          <td height="35" align="center" valign="top" class="img-txt"><% if topentries_photo[3] %>
+              <% count = ContestVotes.count_by_sql("select COUNT(*) AS COUNT from contest_votes where contest_id='#{topentries_photo[3].contest_id}' and conformed='yes'") %>
+              <%=count%> <% if count.to_i > 1 %> Votes<%else%>Vote<%end%><%end%></td>
+        </tr>
+        <tr>
+          <td height="6" align="center" valign="top"></td>
+        </tr>
+        <tr>
+          <td height="80" align="center" valign="top"><% if topentries_photo[5] %><% if website_type == "familywebsite" %>
+                <a href="/familywebsite_contest/<%= params[:id]%>/momentdetails/<%= params[:contest_id]%>?moment_id=<%=topentries_photo[5].moment_id%>">
+                <%else%>
+                  <a href="/<%=controller_name%>/<%= params[:id] %>/momentdetails/<%=topentries_photo[5].moment_id%>">
+                  <%end%>
+                  <img src="<%= topentries_photo[5].img_url %>/user_content/photos/big_thumb/<%= topentries_photo[5].v_filename %>" width="75" height="75" style="z-index:0;" border="0"/></a> <%end%></td>
+        </tr>
+        <tr>
+          <td height="35" align="center" valign="top" class="img-txt"><% if topentries_photo[5] %>
+              <% count = ContestVotes.count_by_sql("select COUNT(*) AS COUNT from contest_votes where contest_id='#{topentries_photo[5].contest_id}' and conformed='yes'") %>
+              <%=count%> <% if count.to_i > 1 %> Votes<%else%>Vote<%end%> <%end%></td>
+        </tr>
+        <tr>
+          <td height="6" align="center" valign="top"></td>
+        </tr>
+        <tr>
+          <td height="80" align="center" valign="top"><% if topentries_photo[7] %><% if website_type == "familywebsite" %>
+                <a href="/familywebsite_contest/<%= params[:id]%>/momentdetails/<%= params[:contest_id]%>?moment_id=<%=topentries_photo[7].moment_id%>">
+                <%else%>
+                  <a href="/<%=controller_name%>/<%= params[:id] %>/momentdetails/<%=topentries_photo[7].moment_id%>">
+                  <%end%>
+                  <img src="<%= topentries_photo[7].img_url %>/user_content/photos/big_thumb/<%= topentries_photo[7].v_filename %>" width="75" height="75" style="z-index:0;" border="0"/></a><%end%></td>
+        </tr>
+        <tr>
+          <td height="35" align="center" valign="top" class="img-txt"><% if topentries_photo[7] %>
+              <% count = ContestVotes.count_by_sql("select COUNT(*) AS COUNT from contest_votes where contest_id='#{topentries_photo[7].contest_id}' and conformed='yes'") %>
+              <%=count%> <% if count.to_i > 1 %> Votes<%else%>Vote<%end%>  <%end%></td>
+        </tr>
+      </table></td>
+  </tr>
+</table>

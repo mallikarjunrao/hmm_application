@@ -1,0 +1,194 @@
+<style type="text/css">
+@media print {
+body * {
+display:none;
+}
+#print_div {
+display:block;
+}
+}
+</style>
+<script type="text/javascript">
+	
+	
+	
+	function chg(val)
+	{
+		
+		if (document.getElementById('pcode').style.display == 'none' && document.getElementById('cty').style.display == 'block' && val=='USA') {
+			document.getElementById('pcode').style.display = 'block';
+			document.getElementById('cty').style.display = 'none';
+		}else{
+			document.getElementById('pcode').style.display = 'none';
+			document.getElementById('cty').style.display = 'block';
+		}
+		
+	
+	}
+	
+	
+	
+	function printIt(target) { 
+document.getElementById('prn').style.display="none";
+document.getElementById('prn1').style.display="none";
+  winId=window.open('','printwin','width=810,height=400'); 
+  winId.document.write(target); 
+  winId.document.close(); 
+  winId.focus(); 
+  if (window.print) winId.print(); 
+} 
+	
+</script>
+
+<style>
+
+</style>
+
+<table><tr><td>
+<table cellpadding="0" cellspacing="0" width="80%" border="1" bordercolor="#e5b467" align="center">
+	<tr>
+		<td colspan="2" align="center" valign="middle">
+			<h3>Customers Failed Transactions  Report</h3>
+		</td>
+	</tr>
+	
+	</table>
+	<form name="frm" action="/account/failed_transactions">
+	<table cellpadding="4" cellspacing="4" border="1" bordercolor="#e5b467" align="center" align="center">
+	<tr>
+		<td align="center" colspan="4" height="48">
+			<font size="3">Search Users </font>
+		</td>
+	</tr>
+	
+	
+	<tr>
+	
+			<td width="90">
+			Email
+		</td>
+		<td colspan="2">
+				<input type="text" name="email" id="email" value="<%=@email%>" size="40" class="textbox-signup" />
+			
+		</td>
+		
+	</tr>
+	<tr>
+		<td>
+			Date 
+		</td>
+		<td>
+			from: <%= date_select 'faq',  'fromdate',  :order => [:month, :day, :year], :start_year => Time.now.year - 100  %>
+		</td>
+	
+		<td>
+			to:  <%= date_select 'faq', 'todate',  :order => [:month, :day, :year], :start_year => Time.now.year - 100  %>
+		</td>
+		
+	</tr>
+	
+	<tr>
+		<td colspan="3" align="center">
+		<input type="image" name="sub" id="search" src="/images/search_over.jpg"  border="0" />
+		</td>
+	</tr>
+
+</table>
+</form>
+<div id="prn"><input type="button" value="Print this page!" name="print" onclick="printIt(document.getElementById('print_div').innerHTML);return false" />
+
+<div id="print_div">
+<table width="100%"  border="1" cellpadding="0" cellspacing="0" align="left"  >
+					
+	
+	<tr><td colspan="15"><h2>HoldMyMemories.com Failed Transactions </h2> </td></tr>
+  <tr>
+
+ </td></tr>
+
+  <tr >
+  	
+  	 
+    <th ><font class='txt'><table> <tr><th><%= sort_header_tag('v_fname', :text => "First Name") %></th></tr></table></font></th>
+	<th ><font class='txt'><table> <tr><th><%= sort_header_tag('v_lname', :text => "Last Name") %></th></tr></table></font></th>
+	<th ><font class='txt'><table> <tr><th><%= sort_header_tag('v_e_mail', :text => "Email Address") %></th></tr></table></font></th>
+	<th ><font class='txt'><table> <tr><th><%= sort_header_tag('telephone', :text => "Telephone No") %></th></tr></table></font></th>
+	<th ><font class='txt'><table> <tr><th><%= sort_header_tag('d_created_date', :text => "Created date") %></th></tr></table></font></th>
+	<th ><font class='txt'><table> <tr><th><%= sort_header_tag('account_type', :text => "payment type") %></th></tr></table></font></th>
+	<th ><font class='txt'><table> <tr><th><%= sort_header_tag('studio_branch', :text => "Branch") %></th></tr></table></font></th>
+	<th ><font class='txt'><table> <tr><th><%= sort_header_tag('transdate', :text => "Transaction Date") %></th></tr></table></font></th>
+	<th ><font class='txt'><table> <tr><th><%= sort_header_tag('custFirstName', :text => "Name on Credit Card") %></th></tr></table></font></th>
+	<th ><font class='txt'><table> <tr><th><%= sort_header_tag('subscriptionStatus', :text => "Transaction Response Text") %></th></tr></table></font></th>
+	<th ><font class='txt'><table> <tr><th><%= sort_header_tag('respText', :text => "Transaction Response Text") %></th></tr></table></font></th>
+	<th  ><font class='txt'>Actions</font></th>
+	
+
+  </tr>
+
+<% 	odd_or_even = 0 
+	i = 0
+	for colmn in @hmm_users
+	 i = i + 1
+	odd_or_even = 1 - odd_or_even
+ %>
+
+  <tr >
+  	
+	<% hmmdet=HmmUser.find(:all,:conditions=>"id=#{colmn.id}")%>
+   
+	<td align="center"><%=h colmn.v_fname%></td>
+	
+	<td align="center"><%=h colmn.v_lname%></td>
+	<td align="center"><%=h colmn.v_e_mail%></td>
+	<td align="center"><%=h colmn.telephone%></td>
+	
+	<td align="center">
+		<% if colmn.d_created_date == nil || colmn.d_created_date == '' %>
+		-
+		<%else%>
+			<%=h colmn.d_created_date%>
+		<%end%>
+		</td>
+	
+	<td align="center"><%=h colmn.account_type%></td>
+	
+	<td align="center">
+		<%if (colmn.emp_id == nil || colmn.emp_id == '' )  %>
+			Direct Customer
+		<%else%>
+		<%=h colmn.studio_branch%>
+		<%end%>
+	</td>
+    
+<td align="center"><%=h colmn.transdate.strftime("%m-%d-%Y")%></td>
+<td align="center"><%=h colmn.custFirstName %> <%=h colmn.custLastName %></td>
+<td align="center"><%=h colmn.subscriptionStatus%></td>
+<td align="center"><%=h colmn.respText%></td>
+    
+  <td><form id="loginform<%=colmn.v_user_name%>" target="_blank" name="loginform<%=colmn.v_user_name%>" action='/user_account/authenticate'  method="post">
+                        		<input type="hidden" name="hmm_user[v_user_name]" value="<%=colmn.v_user_name%>" />
+								<input type="hidden" name="hmm_user[v_password]" value="<%=hmmdet[0]['v_password']%>" />
+                        		<input type="submit" name="sub1" value="Click here to Login" />
+							</form>
+							
+							</td>
+							
+							
+  </tr>
+ 
+<% end %>
+<input type="hidden" name="len" id="len" value="<%= i %>"/>
+<tr><td colspan="4">
+	<div id="prn1"><%=will_paginate @hmm_users %> </div>
+</td>
+</tr>
+
+</table>
+
+
+</div>
+
+</td></tr></table>
+
+
+

@@ -1,0 +1,198 @@
+<%= javascript_include_tag 'themes/formcheck/core' %>
+<%= javascript_include_tag 'themes/formcheck/more' %>
+<%= javascript_include_tag 'themes/formcheck/en' %>
+<%= javascript_include_tag 'themes/formcheck/formcheck' %>
+<%= stylesheet_link_tag 'themes/formcheck/formcheck'%>
+<style type="text/css">
+  .tip-top{    
+    margin: 0;
+    padding: 8px 8px 4px 0px;
+    background: url(/images/common/bubble.png) top left;
+  }
+  .tip{
+    font-family: Arial;
+    font-size:12px;
+    color:#FFFFFF;   
+    width: 250px;
+    z-index: 13000;
+    background: url(/images/common/bubble.png);
+  }
+  .tip-bottom{
+   
+    color:#FFFFFF;
+    padding: 8px 8px 4px;
+    background: url(/images/common/bubble.png) bottom right;
+
+  }
+</style>
+
+<form action="<%= @content_server_url %>/manage_website/website_header_update/<%= params[:id] %>" method="post" name="website_header_form" id="websiteheaderform" enctype="multipart/form-data">
+
+  <table width="970" border="0" cellspacing="0" cellpadding="0">
+    <tr>
+      <td align="center" valign="top" class="tab-dots"><table width="970" border="0" cellspacing="0" cellpadding="0" id="tab_bgcolor_repeat">
+          <tr>
+            <td align="left" valign="top"><table width="100%" border="0" cellspacing="0" cellpadding="0">
+                <tr>
+                  <td width="13" align="left" valign="top"></td>
+                  <td width="944" align="left" valign="top"><table width="100%" border="0" cellspacing="0" cellpadding="0">
+                      <tr>
+                        <td height="10" align="left" valign="top"></td>
+                      </tr>
+                      <tr>
+                        <td height="35" align="left" valign="bottom" class="header-page">Manage My Site</td>
+                      </tr>
+                      <tr>
+                        <td height="10" align="left" valign="top"></td>
+                      </tr>
+                      <tr>
+                        <td height="1" align="left" valign="top" bgcolor="#454545"></td>
+                      </tr>
+                      <tr>
+                        <td height="10" align="left" valign="top"></td>
+                      </tr>
+                      <tr>
+                        <td align="left" valign="top"><table width="100%" border="0" cellspacing="0" cellpadding="0">
+                            <tr>
+                              <td width="183" align="left" valign="top" class="content-trans-bg">
+                                <%= render :partial => "partials/manage_website_menu", :locals => { :current_item => "#{@current_item}"} %>
+                              </td>
+                              <td width="17" align="left" valign="top"></td>
+                              <td width="744" align="left" valign="top"><table width="100%" border="0" cellspacing="0" cellpadding="0">
+                                  <tr>
+                                    <td class="content-trans-bg"><table width="100%" border="0" cellspacing="0" cellpadding="0">
+                                        <tr>
+                                          <td height="10" colspan="3" align="left" valign="top"></td>
+                                        </tr>
+                                        <tr>
+                                          <td width="20" align="left" valign="top"></td>
+                                          <td align="left" valign="top"><table width="100%" border="0" cellspacing="0" cellpadding="0">
+                                              <tr>
+                                                <td align="right" valign="top" class="side-heading">&nbsp;</td>
+                                              </tr>
+                                              <tr>
+                                                <td align="left" valign="top" class="header-paragraph">Edit Header:</td>
+                                              </tr>
+                                              <tr>
+                                                <td align="left" valign="top">&nbsp;</td>
+                                              </tr>
+                                              <tr>
+                                                <td align="left" valign="top" class="content-trans-bg"><table width="100%" border="0" cellspacing="0" cellpadding="0">
+                                                    <tr>
+                                                      <td align="left" valign="top"></td>
+                                                      <td align="left" valign="top">&nbsp;</td>
+                                                      <td align="left" valign="top"></td>
+                                                    </tr>
+                                                    <tr>
+                                                      <td align="left" valign="top"></td>
+                                                      <td height="35" align="left" valign="middle" class="content-white"><strong>Customize your Family Website header&nbsp;&nbsp;<a href="#"><img src="/images/common/question.gif" width="20" height="19" border="0" align="absmiddle" class="mootip1" title="&nbsp;Tips: You can customize your family header..." /></a></strong></td>
+                                                      <td align="left" valign="top"></td>
+                                                    </tr>
+
+                                                    <tr>
+                                                      <td align="left" valign="top"></td>
+                                                      <td height="151" align="left" valign="middle" class="content-texture"><table width="100%" border="0" cellspacing="0" cellpadding="0">
+                                                          <tr>
+                                                            <td width="10" align="left" valign="top"></td>
+                                                            <td width="175" align="left" valign="top"><img src="<%=  @family_website_owner.img_url %>/hmmuser/familyphotos/thumbs/<%=  @family_website_owner.family_pic %>"  height="131" /></td>
+                                                            <td width="10" align="left" valign="top"></td>
+                                                            <td width="408" align="left" valign="middle"><table width="100%" border="0" cellspacing="0" cellpadding="0">
+                                                                <tr>
+                                                                  <td colspan="3" align="left" valign="top"><label>
+                                                                      <input name="family_header" type="text" class="validate['required','length[1,15]']" id="textfield" value="<%= @family_website_owner.family_header %>" />
+                                                                    </label></td>
+                                                                </tr>
+                                                                <tr>
+                                                                  <td colspan="3" align="left" valign="top" class="content">&nbsp;Max 15 characters.</td>
+                                                                </tr>
+                                                                <tr>
+                                                                  <td width="150" align="left" valign="top">&nbsp;</td>
+                                                                  <td colspan="2" align="left" valign="top"><input name="familyname_select" class="validate['required','length[1,14]']" type="text" id="textfield" value="<%= @family_website_owner.familyname_select %>" /></td>
+                                                                </tr>
+                                                                <tr>
+                                                                  <td align="left" valign="top">&nbsp;</td>
+                                                                  <td colspan="2" align="left" valign="top" class="content">&nbsp;Max 14 characters.</td>
+                                                                </tr>
+                                                                <tr>
+                                                                  <td colspan="2" align="left" valign="top">&nbsp;</td>
+                                                                  <td width="138" align="left" valign="top"><input name="family_footer" type="text" class="validate['required','length[1,20]']" id="textfield"  value="<%= @family_website_owner.family_footer %>" /></td>
+                                                                </tr>
+                                                                <tr>
+                                                                  <td colspan="2" align="left" valign="top">&nbsp;</td>
+                                                                  <td align="left" valign="top" class="content">&nbsp;Max 20 characters.</td>
+                                                                </tr>
+                                                              </table></td>
+                                                          </tr>
+                                                        </table></td>
+                                                      <td align="left" valign="top"></td>
+                                                    </tr>
+                                                    <tr>
+                                                      <td width="20" align="left" valign="top"></td>
+                                                      <td align="left" valign="top">&nbsp;</td>
+                                                      <td width="20" align="left" valign="top"></td>
+                                                    </tr>
+
+                                                    <tr>
+                                                      <td align="left" valign="top"></td>
+                                                      <td align="left" valign="middle"><table width="100%" border="0" cellspacing="0" cellpadding="0">
+                                                          <tr>
+                                                            <td width="160" align="left" valign="middle" class="content-white"><strong>Upload Family Image:</strong></td>
+                                                            <td width="120" align="left" valign="middle">
+                                                              <input type="file" name="family_pic">
+                                                            </td>
+                                                            <td width="30" align="left" valign="middle"><strong><a href="#"><img src="/images/common/question.gif" width="20" height="19" border="0" align="absmiddle" class="mootip2" title="&nbsp;Tips:
+                                                                                                                                 Family Image will be displayed on the header of your family website...<br/>&nbsp;Please upload Your family image...<br/>&nbsp;<a href='/bob' target='_blank'>Click here to view Sample Family Website</a>"/></a></strong></td>
+                                                            <td align="right" valign="middle"><label>
+                                                                <input name="button2" type="submit" class="cmd-btn" id="button2" value="Save &amp; Preview" />
+                                                              </label></td>
+                                                          </tr>
+                                                        </table></td>
+                                                      <td align="left" valign="top"></td>
+                                                    </tr>
+
+                                                    <tr>
+                                                      <td align="left" valign="top"></td>
+                                                      <td align="left" valign="top">&nbsp;</td>
+                                                      <td align="left" valign="top"></td>
+                                                    </tr>
+                                                  </table></td>
+                                              </tr>
+
+                                              <tr>
+                                                <td align="left" valign="top">&nbsp;</td>
+                                              </tr>
+
+
+                                            </table></td>
+                                          <td width="20" align="left" valign="top"></td>
+                                        </tr>
+
+
+                                      </table></td>
+                                  </tr>
+                                  <tr>
+                                    <td>&nbsp;</td>
+                                  </tr>
+                                </table></td>
+                            </tr>
+                          </table></td>
+                      </tr>
+
+                    </table></td>
+                  <td width="13" align="left" valign="top"></td>
+                </tr>
+              </table></td>
+          </tr>
+        </table></td>
+    </tr>
+  </table>
+  <input type="hidden" name="user_id" value="<%= @family_website_owner.id %>">
+</form>
+<script type="text/javascript">
+  window.addEvent('domready', function(){
+    formcheck = new FormCheck('websiteheaderform');
+    var Tips1 = new Tips($$('.mootip1'));
+    var Tips2 = new Tips($$('.mootip2'));
+
+  })
+</script>

@@ -1,0 +1,158 @@
+
+<table><tr>
+<td>
+<table width="100%" border="0" align="center" cellspacing="0" cellpadding="0">
+  <tr>
+    <td width="10"  align="left" valign="top"><img src="/images/1.gif" width="10"/></td>
+    <td align="left" valign="top" background="/images/2.gif" colspan="5"></td>
+    
+    <td width="10"  align="left" valign="top"><img src="/images/3.gif" width="10"/></td>
+  </tr>
+  <%if @moment_details[0].e_filetype=="video" %>
+    <% url= "http://www.holdmymemories.com/contests/videomoment_details/#{@moment_details[0].id}" %>
+  <%else%>
+  <% url= "http://www.holdmymemories.com/contests/momentdetails/#{@moment_details[0].id}" %>
+  <%end%>
+  <% myspacecnt="Vote to the contest entry in the below given link: <br> #{url}" %>
+ <tr>
+    <td align="left" valign="top" background="/images/4.gif">&nbsp;</td>
+    <td align="left" valign="top"  colspan="5">
+	
+	<form id="myspacepostto" method="post" action="http://www.myspace.com/index.cfm?fuseaction=postto"
+target="_blank">
+<input type="hidden" name="t" value="Hi friends!!" />
+<input type="hidden" name="c" value="Join HoldMyMemories.com" />
+<input type="hidden" name="u" value="http://www.HoldMyMemories.com" />
+<input type="hidden" name="l" value="2" />
+<font color="white" face="arial">Invite friends from <a href="/face_book_invite/vote/?url=<%=url%>"><img src="/images/facebook_icon.jpg" border="0" /></a>, &nbsp;<a href="/contests/import_form/?url=<%=url%>"><img src="/images/gmail_yahoo_icon.jpg"  border="0" /></a>,&nbsp;<a href="#" onclick="document.getElementById('myspacepostto').submit();return false;">
+<img src="/images/myspace_icon.jpg" border="0" alt="Post to MySpace!" /> 
+</a>to vote for this contest entry.
+
+</font>
+</form> </td>
+    
+    <td align="left" valign="top" background="/images/5.gif" width="4" rowspan="6"><img src="/images/5.gif" width="4" /><img src="/images/5.gif" width="4" /></td>
+  </tr>
+  </table>
+</td>
+</tr>
+<tr>
+<td>
+<form name="myfrm" action="/contests/create_vote/" method="post">
+<table width="100%" border="0" align="center" cellspacing="0" cellpadding="0">
+  <tr>
+	<td align="left" valign="top" background="/images/4.gif">&nbsp;</td>
+    
+	
+             <td height="20" align="left" valign="top" bgcolor="#000000" colspan="4" class="border">
+                 
+	<%if @moment_details[0].e_filetype=="video" %>
+		
+      <embed src="/MediaPlayer.swf" quality="high" FlashVars="hmmtype=video&content=<%=@moment_details[0].img_url%>/user_content/videos/<%=@moment_details[0].v_filename%>.flv&proxyurl=http://12.156.60.97"  pluginspage="http://www.macromedia.com/go/getflashplayer" type="application/x-shockwave-flash" width="500" height="401"></embed>
+      
+      <%else%>
+        <img width="550"  src="<%=@moment_details[0].img_url%>/user_content/photos/journal_thumb/<%=@moment_details[0].v_filename%>" />
+       
+      <%end%>
+      </td>
+              <td align="left" valign="top" width="100%" bgcolor="#0000000" rowspan="6" >
+                    <%for @j in @journal %>
+  <table width="100%"  cellpadding="0" cellspacing="0" >
+				
+<tr>
+					<th  colspan="2" align="left" bgcolor="#191919" style="padding-left:10px;">
+						<font size="3"> Journal</font>					</th>
+		  </tr>
+				<tr><th  colspan="2">&nbsp;</th>
+		  </tr>	
+				<tr>
+					<th width="3%" >&nbsp;&nbsp;</th>
+<th align="left" class="heading-journal" rowspan="1">
+							 
+							<b> <%= @j.v_title %> -
+					  				<% ActiveSupport::CoreExtensions::Time::Conversions::DATE_FORMATS.merge!(
+    									:date => "%Y-%m-%d",
+    									:presentable_datetime => "%a %b %d, %Y %H:%M",
+    									:presentable_date => "%a %b %d, %Y") 
+										@created_date=@j.date_added%>  
+					   				<%= @created_date.to_s(:presentable_date) %></b></span>					</th>
+		  </tr>
+				<tr><th  colspan="2">&nbsp;</th>
+		  </tr>		
+				<tr>
+					<th valign="top">&nbsp;&nbsp;</th>
+					<th align="left" valign="top">
+                                          <%if @moment_details[0].e_filetype=="video" 
+                                            detail_path='videomoment_details'
+                                          else
+                                             detail_path='momentdetails' 
+                                          end   
+                                          %>
+                                            
+                                        <%=@j.v_image_comment.gsub("\n", "<br />\n").slice(0,1500) %>...<a href="/contests/<%=detail_path%>/<%=@moment_details[0].id%>"><font size="3">more</font></a>					</th>
+				</tr>
+				
+			</table>
+                        <%end%>                    </td>
+      <td  valign="top" background="/images/5.gif" rowspan="6"><img src="/images/5.gif" width="4" /> <img src="/images/5.gif" width="4" /></td>
+  </tr>
+  
+   <tr>
+	<td align="left" valign="top" background="/images/4.gif">&nbsp;</td>
+    
+	        <td height="20" align="center" valign="middle" bgcolor="#000000"colspan="4" >
+                <font color="white" size="2" ><b><%=@contests_fname[0].first_name %></b></font>		</td>
+             
+            
+                <td align="left" valign="top" background="/images/5.gif" width="4" rowspan="6"><img src="/images/5.gif" width="4" /><img src="/images/5.gif" width="4" /></td>
+   </tr> 
+   
+   <tr>
+	<td align="left" valign="top" background="/images/4.gif">&nbsp;</td>
+    
+	
+             <td height="20" align="center" valign="top" bgcolor="#000000" colspan="5">                        </td>
+                <td align="left" valign="top" background="/images/5.gif"><img src="/images/5.gif" width="4" /></td>
+   </tr> 
+   <% if session[:hmm_user].nil? %>
+   
+  <tr>
+    <td align="left" valign="top" background="/images/4.gif">&nbsp;</td>
+    <td  align="center" valign="middle" bgcolor="#000000" width="7">&nbsp;</td>
+    <td height="20"  align="center" valign="middle" bgcolor="#000000" width="210"><font color="#ffffff" size="2">Please enter Email address to vote</font></td>
+	<td height="20" width="10" align="left" valign="top" bgcolor="#000000">&nbsp;</td>
+	<td height="20" width="273" align="left" valign="top" bgcolor="#000000"><input type="text" name="email" id="email"><input type="hidden" name="mom_id" id="mom_id" value="<%=@mom_id%>"></td>
+   
+    <td align="left" valign="top" background="/images/5.gif"><img src="/images/5.gif" width="4" /></td>
+  </tr>
+ <%else%>
+    <input type="hidden" name="email" id="email" value="" /><input type="hidden" name="mom_id" id="mom_id" value="<%=@mom_id%>">
+  <%end%>
+  <tr>
+    <td align="left" valign="top" background="/images/4.gif">&nbsp;</td>
+    <td  align="right" valign="top" bgcolor="#000000">&nbsp;</td>
+    <td height="40"  align="right" valign="top" bgcolor="#000000"><font color="#ffffff" size="2">&nbsp;</font></td>
+	<td height="20" width="10" align="left" valign="top" bgcolor="#000000">&nbsp;</td>
+	<td height="40" width="273" align="left" valign="middle" bgcolor="#000000"><input type="image" align="center" src="/images/vote_btn1.jpg" value="sub" id="sub" title="Submit" />&nbsp;&nbsp;&nbsp;
+	  <input type="image" align="center" src="/images/close.jpg" value="close" id="close" title="Close window" onclick="Modalbox.hide(); return false;"></td>
+    
+    <td align="left" valign="top" background="/images/5.gif"><img src="/images/5.gif" width="4" /></td>
+  </tr>
+  
+   
+   <tr>
+    <td align="left" valign="top" background="/images/4.gif">&nbsp;</td>
+    <td height="20" align="center" valign="top" bgcolor="#000000" colspan="5">&nbsp; &nbsp;</td>
+    <td align="left" valign="top" background="/images/5.gif"> <img src="/images/5.gif" width="4" /></td>
+  </tr>
+  <tr>
+    <td align="left" valign="top"><img src="/images/6.gif" width="10" height="10" /></td>
+    <td align="left" valign="top" background="/images/7.gif" colspan="5"></td>
+    <td align="left" valign="top"><img src="/images/8.gif" width="10" height="10" /></td>
+  </tr>
+</table>
+</form>
+</td>
+</tr>
+</table>
+  

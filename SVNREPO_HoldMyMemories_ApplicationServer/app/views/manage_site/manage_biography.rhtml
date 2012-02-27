@@ -1,0 +1,79 @@
+<table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top">
+    <td width="170" valign="top" align="left"><%= render :partial => "leftnav", :locals => { :current => "biography"} %> </td>
+    <td><style>
+    .ListLine0 {
+      background: #777777;
+      color:#FFFFFF;
+      font-size: 12px;
+    }
+    .ListLine1 {
+      background: #bbbbbb;
+      font-size: 12px;
+      color: #000000;
+    }
+  </style>
+  <%session[:sharepath]='fnf'%>
+  <% session[:friend]=''%>
+  <font color="#ffffff" size="3">Family Biography</font>
+  <table>
+    <tr>
+      <td align="right" colspan="9"><font color="#ffffff"><a href="/manage_site/add_biography/<%=params[:id]%>?uid=<%=logged_in_hmm_user.id%>"><img src="/images/addnewbiography.png"  border="0" title="Add New Biography" alt="Add New Biography"></a></font>
+        <font color="#ffffff"><a href="/manage_site/add_familyhistory/<%=params[:id]%>?uid=<%=logged_in_hmm_user.id%>"><img src="/images/write_family_history.png"  border="0" title="Add and Edit Family History" alt="Add and Edit Family History"></a></font></td>
+    </tr>
+     <tr>
+      <td align="center" colspan="9"><font color="#ffffff"><%=flash[:notice1]%></font></td>
+    </tr>
+    <tr bgcolor="#333333">
+      <th>Image</th>
+      <th>Member</th>
+      <th>Relation</th>
+      <th>Biography</th>
+      <th colspan="3">Actions</th>
+      <th colspan="2">Reorder</th>
+    </tr>
+    <%
+    i=0
+    @arr = []
+
+    @family_members2 = FamilyMember.find(:all, :conditions => "uid=#{logged_in_hmm_user.id}", :order => 'id')
+
+    for family_member in @family_members2
+      @arr[i]=family_member
+      i=i+1
+      j=i
+
+    end %>
+    <% odd_or_even = 0
+    i = 0
+    @family_members1 = FamilyMember.find(:all, :conditions => "uid=#{logged_in_hmm_user.id}",:order => 'id')
+    for family_member in @family_members1
+
+      odd_or_even = 1 - odd_or_even %>
+      <tr class='ListLine<%= odd_or_even %>'>
+        <td align="top" ><img src="<%=family_member.img_url%>/hmmuser/family_members/thumbs/<%=h family_member.member_image %>" border="0"></td>
+        <td align="top" ><%=h family_member.familymember_name %></td>
+        <td align="top"><%=h family_member.relation %></td>
+        <td width="500" style="text-align:justify"><%=h family_member.biographie %></td>
+        <td ><a class='ListLine<%= odd_or_even %>' href="/manage_site/show_biography/?id=<%=params[:id]%>&member_id=<%=family_member.id%>"><img src="/images/view.png"  border="0" title="View Biography" alt="View Biography"></a></td>
+        <td class='ListLine<%= odd_or_even %>'><a class='ListLine<%= odd_or_even %>' href="/manage_site/edit_biography/?id=<%=params[:id]%>&member_id=<%=family_member.id%>"><img src="/images/edit.png"  border="0" title="Edit Biography" alt="Edit Biography"></a></td>
+        <td class='ListLine<%= odd_or_even %>'><a class='ListLine<%= odd_or_even %>' href="/manage_site/delete_biography/?id=<%=params[:id]%>&member_id=<%=family_member.id%>" onClick="if(confirm('Are you sure you want to delete this biography')){return true; } else return false;"><img src="/images/delete.png"  border="0" title="Delete Biography" alt="Delete Biography"></a></td>
+        <td><%if i==j-1 %>
+          <%else%>
+            <%= link_to '<img src="/images/arrow_it.png"  border="0" title="Move Down" alt="Move Down">', { :action => 'movedown_biography', :currentid => family_member.id , :nextid => @arr[i+1],:id => params[:id]  }, :method => :post %>
+          <%end%>
+        </td>
+        <td><%if i==0 %>
+          <%else%>
+            <%= link_to '<img src="/images/arrow_up_fa.png" title="Move Up" alt="Move Up" border="0">', { :action => 'moveup_biography', :prev => @arr[i-1], :currentid => family_member.id,:id => params[:id] }, :method => :post %>
+          <%end%>
+        </td>
+      </tr>
+      <%
+      i = i + 1
+    end %>
+  </table>
+  <br />
+</td>
+</tr>
+</table>

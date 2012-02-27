@@ -1,0 +1,87 @@
+<%= javascript_include_tag 'check_flash' %>
+<%= stylesheet_link_tag 'main' %>
+<%= stylesheet_link_tag 'hmmout' %>
+<script type="text/javascript">
+  function validateFileExtension(fld) {
+    if(!/(\.png|\.PNG)$/i.test(fld.value)) {
+      alert("Invalid file type.. Please Upload only transparent PNG image file!!");
+       fld.value = '';
+       document.getElementsByName('studio_logo').value = '';
+        fld.focus();
+      return false;
+    }
+    return true;
+  }
+</script>
+
+
+  <script type="text/javascript">
+  function check_terms()
+  {
+    if(document.frm.studio_logo.value=='')
+    {
+      alert("Please Upload a PNG transparent Studio Logo");
+      document.frm.studio_logo.focus();
+      return false;
+    }
+
+      if(!/(\.png|\.PNG)$/i.test(document.getElementById('studio_logo').value)){
+        alert("Invalid file type.. Please Upload only transparent PNG image file!!");
+        document.frm.studio_logo.focus();
+        return false;
+      }
+
+  }
+  </script>
+<table width="900"  border="0" cellspacing="0" cellpadding="0">
+  <tr><td valign="top">
+      <%= render :partial => 'links' %>
+    </td><td>
+
+<form name="frm" action="<%=request_content_url%>/manage_mobile_studios_content/manage_studio_logo_update/<%=@employee.store_id%>" method="post" enctype="multipart/form-data"  on>
+  <table width="600" border="0" cellspacing="0" cellpadding="0">
+    <tr>
+      <td colspan="4" align="left" valign="top" class="leftconthr" ><h3><font color="#ff6400">Create your iPhone App in 5 Easy Steps</font></h3></td></tr>
+    <tr> <td colspan="4" align="left" valign="top" class="leftconthr" ><h3><u>Step1: Upload Your Studio Logo</u></h3></td>
+    </tr>
+    <tr>
+      <td colspan="4" align="left" valign="top" class="leftconthr" >&nbsp;</td>
+    </tr>
+    <%if(params[:success]=='1')%>
+      <tr>
+        <td colspan="4" align="center" valign="top" class="leftconthr">
+          <font color="#FF0000">Studio Logo Updated</font>
+        </td>
+      </tr>
+      <tr>
+        <td colspan="4" align="left" valign="top" class="leftconthr" >&nbsp;</td>
+      </tr>
+    <%end%>
+        <tr>
+          <td width="1%" align="left" valign="top" class="whitecont">&nbsp;</td>
+          <td width="34%" align="left" valign="top" class="whitecont"> 
+        
+         <%if @studio%>
+        <%if(@studio.mobile_studio_logo!=nil && @studio.mobile_studio_logo!='')%>
+          <img src="<%=@studio.logo_img_url%>/user_content/mobile_studio_logos/<%=@studio.mobile_studio_logo%>" border="0" width="100" height="100"><br />
+         <!-- <a href="/hmm_studios/delete_logo/<%=params[:id]%>">(Remove)</a>-->
+         <%end%>
+       <%else%>
+          No Image
+        <%end%>
+      </td>
+      <td width="3%" align="left" valign="top" class="whitecont"></td>
+      <td width="62%" align="left" valign="top"></td>
+    </tr>
+
+    <tr>
+      <td align="left" valign="top">&nbsp;</td>
+      <td align="left" valign="top">&nbsp;</td>
+      <td align="left" valign="top">&nbsp;</td>
+      <td align="left" valign="top">&nbsp;</td>
+    </tr>
+
+  </table>
+</form>
+</td>
+</tr></table>

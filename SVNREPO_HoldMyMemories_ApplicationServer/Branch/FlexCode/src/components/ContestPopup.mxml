@@ -1,0 +1,411 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:VBox xmlns:mx="http://www.adobe.com/2006/mxml" width="460"  height="100%" backgroundColor="#000000" 
+	 xmlns:com="com.*" horizontalScrollPolicy="off" verticalScrollPolicy="off" verticalAlign="middle" horizontalAlign="center" xmlns:components="components.*">
+	
+	<mx:transitions>
+		<mx:Transition fromState="*" toState="*">
+			<mx:Parallel targets="{[this]}">
+				<mx:Resize duration="500" heightTo="680" easingFunction="Quadratic.easeOut"/>
+				<mx:Move yBy="-150" easingFunction="Quadratic.easeOut"/>
+			</mx:Parallel>
+		</mx:Transition> 
+	</mx:transitions>
+	<mx:states>
+		<mx:State name="enterJournal" basedOn="">
+		    <mx:RemoveChild  target="{hbox}"  />
+			<mx:AddChild relativeTo="{this}" position="lastChild" creationPolicy="all">
+				<mx:Text>
+				<mx:htmlText>
+					<![CDATA[ 
+<font color='#ffffff' size='13' ><b>A journal entry is required for this moment to be entered as a contest.
+                         Please enter the information below</b></font>						
+					]]>
+				</mx:htmlText>
+				</mx:Text>
+		     </mx:AddChild>       
+		     <mx:AddChild relativeTo="{this}" position="lastChild" creationPolicy="all">
+		       <mx:HBox width="100%" paddingLeft="10">
+		          <mx:Label text="Title:" color="0xFFFFFF" fontSize="10" fontWeight="bold"/>
+		          <mx:Spacer width="52"/>
+		       	  <mx:TextInput id="title" text="{journalTitle}" width="200" color="#000000" editable="false"/>
+		       </mx:HBox>
+		     </mx:AddChild>  
+		     <mx:AddChild relativeTo="{this}" position="lastChild" creationPolicy="all">
+		           <mx:HBox width="100%" paddingLeft="10">
+		           		<mx:Label text="Journal Date:" color="0xFFFFFF" fontSize="10" fontWeight="bold"/>
+		           		<mx:Spacer width="5"/> 
+		           		<com:CustomDate id="journalDate" color="#000000"/> 
+		           </mx:HBox>
+		      </mx:AddChild>     	 
+		      <mx:AddChild relativeTo="{this}" position="lastChild" creationPolicy="all">   
+		           <mx:HBox width="100%" paddingLeft="10"> 
+		           		    <mx:Label text="Description:" color="0xFFFFFF" fontSize="10" fontWeight="bold" />
+		           		    <mx:Spacer width="13"/> 
+		                <mx:TextArea id="description" text="{journalDescription}" width="300" height="150" color="#000000" editable="false"/>
+		           </mx:HBox>
+		    </mx:AddChild>
+            <mx:AddChild relativeTo="{this}" position="lastChild" creationPolicy="all">
+            <mx:HBox width="100%" verticalAlign="middle" horizontalAlign="center" paddingTop="5">
+            	<mx:Button id="submit" click="handleSubmit()" styleName="submit"/>
+            	<mx:Spacer width="5"/> 
+            	<mx:Button  click="handleCancel()"  styleName="cancel"/>
+            	<mx:Spacer width="5"/> 
+            	<mx:Button id="edit" click="handleEdit()" styleName="editButton" visible="false"/>
+            	</mx:HBox>   
+            </mx:AddChild>
+           </mx:State>  
+	</mx:states>
+	<!--mx:VBox height="100%" width="100%" verticalAlign="middle" horizontalAlign="center"-->
+		<mx:Canvas id="display" width="400" height="280"  creationComplete="handleCreationCompleteCanvas()">
+		  <mx:VBox horizontalAlign="center" verticalAlign="middle" height="270" width="400"  horizontalScrollPolicy="off" verticalScrollPolicy="off">
+		  	<mx:VideoDisplay id="videoDisplay" source="{videoPath}" visible="{showVideo}" width="100%" height="100%" autoPlay="false" complete="handleVideoComplete()"/>  
+			<mx:Image source="{imageSource}" id="image" complete="handleRemove()"  visible="{!showVideo}"  maxWidth="400" maxHeight="270"/>
+			  </mx:VBox>
+			<mx:VBox width="100%" height="100%" horizontalAlign="center" verticalAlign="middle">
+				<mx:Button id="playButton" styleName="videoButton" visible="{showVideo}" click="clickHandler(event)"/>				
+			</mx:VBox>
+		</mx:Canvas>
+		<mx:Label text="{data.title}" color="#ffffff" fontSize="13" fontWeight="bold" /> 
+		<mx:HBox id="first" width="100%"  paddingBottom="10" height="20">
+			<mx:Text htmlText="{htmlText}"/>
+		  	<mx:TextInput id="fname" width="150" color="#000000" enter="handleYes()"/>
+		 </mx:HBox>
+		<mx:HBox id="hbox" verticalAlign="bottom" horizontalAlign="center" width="100%" paddingLeft="10" paddingTop="5">
+			<mx:Button id="yes" x="128" y="254" click="handleYes()" styleName="saveButton"/>
+			<mx:Spacer width="10"/>
+			<mx:Button id="no"  y="254" x="280"  click="handleCloseClick()" styleName="noButton"/>
+		</mx:HBox>  
+	<!--/mx:VBox-->
+	<mx:Style>
+	.submit
+	{
+		    up-skin : Embed(source = "assets/submit_btn_def.jpg");
+			 over-skin : Embed(source = "assets/submit_btn_ovr.jpg");
+			down-skin : Embed(source = "assets/submit_btn_def.jpg");   
+	}
+	.cancel
+	{
+		up-skin : Embed(source = "assets/cancel_btn_def.jpg");
+		over-skin : Embed(source = "assets/cancel_btn_ovr.jpg");
+		down-skin : Embed(source = "assets/cancel_btn_def.jpg");
+	}
+	
+		.saveButton
+		{
+			up-skin : Embed(source = "assets/popup_yes_btn.jpg");
+			over-skin : Embed(source = "assets/popup_yes_btn_ovr.jpg");
+			down-skin : Embed(source = "assets/popup_yes_btn.jpg");
+		}
+		.noButton
+		{
+			up-skin : Embed(source = "assets/popup_no_btn.jpg");
+			over-skin : Embed(source = "assets/popup_no_btn_ovr.jpg");  
+			down-skin : Embed(source = "assets/popup_no_btn.jpg");
+		}
+		.editButton
+		{
+      		up-skin : Embed(source = "assets/edit_journal_btn_def.jpg");
+			over-skin : Embed(source = "assets/edit_journal_btn_ovr.jpg");  
+			down-skin : Embed(source = "assets/edit_journal_btn_def.jpg"); 
+		}  
+		
+		
+	</mx:Style>
+	<mx:Validator id="required" source="{title}" property="text" />
+	<mx:Validator id="requiredfield" source="{description}" property="text" />
+	<mx:Validator id="nameField" source="{fname}" property="text"/>
+	<mx:DateFormatter id="format" formatString="YYYY-MM-DD"/>  
+	<mx:Script>
+		<![CDATA[
+			import mx.core.Application;
+			import events.RefreshDatagridEvent;
+			import qs.ipeControls.classes.EditButton;
+			import mx.core.UIComponent;
+			import mx.rpc.events.FaultEvent;
+			import mx.rpc.events.ResultEvent;
+			import mx.rpc.http.HTTPService;  
+			import mx.events.ValidationResultEvent;
+			import mx.controls.Alert;
+			import mx.effects.easing.Quadratic;
+		    import mx.effects.easing.Bounce;
+			import mx.core.IFlexDisplayObject;
+			import mx.managers.PopUpManager; 
+			import mx.collections.ArrayCollection; 
+			[Bindable]
+			public var contentAC : ArrayCollection; 
+			[Bindable]
+			public var selectedIndex : int;
+			[Bindable]
+			public var imageSource : String;
+			[Bindable]
+			public var videoSource : String;
+			[Bindable]
+			public var hasData : String;
+			[Bindable]
+			public var journalId : int;
+			[Bindable]
+			public var type : String;
+			
+			[Bindable]
+			public var firstName: String;
+			[Bindable]
+			public var hasJournal : String;
+			private var htmlText : String = "<font color='#ffffff' size='15' ><b>Enter the first name of your child:</b></font>"+"<font color='#ff0000' size='15' ><b>*</b></font>";
+			[Bindable]
+			private var years : Array = new Array();
+			[Bindable]
+			public var showVideo : Boolean = false;
+			[Bindable]
+			private var videoPath : String;
+			[Bindable]
+			private var momentType : String;
+			private var preloaderSprite : Sprite;
+			[Bindable]
+			private var journalDescription : String = "";	
+			[Bindable]
+			private var journalTitle : String = "";
+			[Embed(source="assets/ajax-loader.swf")]
+			private var preLoaderSwf : Class;
+			private var preloader :UIComponent; 
+			[Bindable]
+			private var isEdited: Boolean = false;
+			public var _eventcontroller :EventDispatcher;
+			
+			private function handleVideoComplete() : void
+			{
+				playButton.visible = true;
+			}
+			public function handleCreationComplete():void
+			{
+				if(hasJournal == "yes")
+				{
+					currentState = "enterJournal";
+					edit.visible = true;
+					journalDate.enabled = false;
+					         
+				}
+				
+			}
+			
+			public function set eventcontroller(event:EventDispatcher)
+			{
+				_eventcontroller = event;
+			}
+			public function setJournal() : void
+			{
+				    journalTitle = data.journaltitle.toString();
+					journalDescription = data.journaltext.toString(); 
+					journalDate.setJournalDate(data.journaldate.toString());
+			}
+			
+			private function handleCreationCompleteCanvas() : void
+			{  
+				
+				if(momentType == "image"){
+				if(!preloader)
+				{
+					preloaderSprite = new preLoaderSwf(); 
+					preloader = new UIComponent();
+				}
+				preloader.addChild(preloaderSprite); 
+				display.addChild(preloader);
+				preloader.x = (display.width - preloaderSprite.width)/2 -20;  
+				preloader.y = (display.height - preloaderSprite.height)/2; 
+		  }
+		  else
+		  
+				if(showVideo)
+				{
+					videoDisplay.load();
+				} 
+			}
+			private function handleRemove() : void
+			{
+				display.removeChild(preloader); 
+				image.visible = true;
+			}
+			
+	 		override public function set data(value:Object):void
+			{
+				super.data = value;
+				if(data.type == "video")
+				{
+					//showVideo = true;
+					videoPath = data.path;
+				}
+				momentType = data.type;
+			} 
+			private function handleCloseClick() : void
+			{
+				if(data.type == "video")
+					videoDisplay.close();
+				PopUpManager.removePopUp(this as IFlexDisplayObject);
+			}
+			private function handleCancel() : void
+			{
+				if(data.type == "video")
+					videoDisplay.close();
+				PopUpManager.removePopUp(this as IFlexDisplayObject);
+			}
+			private function handleYes() : void
+			{    
+				nameField.validate() 
+				if(fname.text !='')
+				{
+					firstName = fname.text;
+					onHandleYes();
+				}
+			
+			}
+				private function onHandleYes() : void
+				{
+					
+				 if(hasJournal == "no")
+				 {
+				      currentState="enterJournal"; 
+				       title.editable = true;
+					description.editable = true;
+				}
+				 else
+				 
+				 {
+					
+					var service : HTTPService = new HTTPService();
+				 	service.url = "/contests/select_contestmoment/";
+				 	service.addEventListener(ResultEvent.RESULT,handleYesResult);
+				 	service.addEventListener(FaultEvent.FAULT,handleYesFault)
+				 	 var obj : Object = new Object()
+				 	 obj.journal = data.journal; 
+			         obj.fname = fname.text.toString();
+			         obj.momentid  = data.id;
+			         obj.jid  = data.journalid;
+			         obj.type = data.type;
+			         service.send(obj); 
+				 }
+			}
+				  
+			private function handleYesResult(result : ResultEvent) : void
+			{ 
+				var status : String = result.result.toString();
+				if(data.type == "video")
+					videoDisplay.stop();
+				switch(status)
+				{
+					case "true":
+					           Alert.show("You have successfully submited your moment for the contest.");
+							   PopUpManager.removePopUp(this);
+					           break;
+					case "false":
+					           Alert.show("Please change the first name! \n A moment is already submitted by you with that name.");
+					           break;
+					case "submited":
+					           Alert.show("This moment is already submited for the contest! \n You can not submit it again.");
+					           PopUpManager.removePopUp(this);
+					           break;                      
+				}
+				
+			} 
+			private function handleYesFault(event : FaultEvent) : void
+			{
+				Alert.show(event.message.toString()); 
+			}
+			
+			private function  handleSubmit() : void  
+			{
+				   nameField.validate();
+				   required.validate();
+                  requiredfield.validate();
+                  if(fname.text == '')
+                  {
+                  	Alert.show("Please enter the first name.");
+                  }
+                  if( fname.text !='' && title.text !='' && description.text !='')
+                  {
+                  	
+	                  	var httpservice : HTTPService = new HTTPService();
+	                  	httpservice .url = "/contests/select_contestmoment/";
+	                  	httpservice.addEventListener(ResultEvent.RESULT,handleResult);
+	                  	httpservice.addEventListener(FaultEvent.FAULT,handleFault);
+	                  	var object : Object = new Object()
+	                  	object.fname = fname.text.toString();
+	                  	object.title = title.text;
+	                  	var month : int = journalDate.monthsCB.selectedIndex+1;
+	                  	var monthstr  : String;
+	                  	if(month < 10)
+	                  	 monthstr = "0"+month.toString();
+	                  	else
+	                  	  monthstr = month.toString();
+	                  	object.date = journalDate.yearsCB.selectedItem + "-" + monthstr + "-" + journalDate.daysCB.selectedItem;
+	                  	object.journal_desc = description .text;
+	                  	object.type = data .type;
+	                  	object.momentid = data.id;
+	                  	if(isEdited)
+	                  	{
+	                  		object.journal = "edited";
+	                  		object.jid  = data.journalid;
+	                  	}
+	                  	else
+	                  	object.journal = data.journal;
+	                  	httpservice.send(object); 
+	                  	
+                
+                }
+         }
+         
+            private function handleResult(result : ResultEvent) : void
+            {
+            	if(data.type == "video")
+					videoDisplay.stop();
+            	var status : String = result.result.toString();
+				switch(status)
+				{
+					case "true":
+					           /*  data.journal ="yes";
+					            data.journaltitle = title.text;
+					            data.journaltext = description .text;
+					            var month : int = journalDate.monthsCB.selectedIndex+1;
+			                  	var monthstr  : String;
+			                  	if(month < 10)
+			                  	 monthstr = "0"+month.toString();
+			                  	else
+			                  	  monthstr = month.toString();
+			                  	data.journaldate = journalDate.yearsCB.selectedItem + "-" + monthstr + "-" + journalDate.daysCB.selectedItem; */
+			                  	Application.application.dispatchEvent(new RefreshDatagridEvent(RefreshDatagridEvent.REFRESHDATAGRIDEVENT));
+			                  //	this.parentDocument.handleRefresh(null);
+					           Alert.show("You have successfully submited your moment for the contest.");
+					            PopUpManager.removePopUp(this);
+							   break;
+					case "false":
+					           Alert.show("Please change the first name! \n A moment is already submitted by you with that name.");
+					           break;
+					case "submited":
+					           Alert.show("This moment is already submited for the contest! \n You can not submit it again.");
+					           PopUpManager.removePopUp(this);
+					           break;                       
+				}
+            	
+            }
+            private function handleFault(fault : FaultEvent) : void
+            {
+            	trace(fault.message.toString());
+            	Alert.show("could not save");  
+            }
+            private function handleEdit() : void
+            {
+            	isEdited = true;
+            	title.editable = true;
+            	journalDate.enabled = true;
+            	description.editable = true;
+            }
+            
+            private function clickHandler(event : Event) : void
+			{   
+				
+			 playButton.visible = false;
+			  videoDisplay.load();
+			  videoDisplay.play();
+			}	
+            
+		]]>
+	</mx:Script>
+</mx:VBox>

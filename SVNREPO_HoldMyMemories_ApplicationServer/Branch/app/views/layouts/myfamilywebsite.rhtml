@@ -1,0 +1,459 @@
+<% 
+    @get_content_url=ContentPath.find(:all, :conditions => "status='active'")
+    $content_path=@get_content_url[0]['content_path']
+    $servername=@get_content_url[0]['proxyname']
+
+                                @m=request.request_uri.split('/')
+				@path=@m[2];
+                                if(@path.nil?)
+                                else  
+                                
+				@path=@path.split('?')
+				@path=@path[0]
+                                end
+%>
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+<title>Hold My Memories</title>
+<%= stylesheet_link_tag 'hmmout' %> 
+<%= javascript_include_tag 'prototype' %>
+
+<%= javascript_include_tag 'SpryAssets/SpryValidationTextField' %>
+<%= stylesheet_link_tag 'SpryAssets/SpryValidationTextField' %>
+<%= javascript_include_tag 'modalbox/prototype' %>
+<script type="text/javascript" src="/javascripts/modalbox/scriptaculous.js?load=effects"></script>
+<script type="text/javascript" src="/javascripts/modalbox/modalbox.js"></script>
+<%= stylesheet_link_tag 'modalbox/modalbox' %>
+<script type="text/javascript">
+<!--
+function MM_findObj(n, d) { //v4.01
+  var p,i,x;  if(!d) d=document; if((p=n.indexOf("?"))>0&&parent.frames.length) {
+    d=parent.frames[n.substring(p+1)].document; n=n.substring(0,p);}
+  if(!(x=d[n])&&d.all) x=d.all[n]; for (i=0;!x&&i<d.forms.length;i++) x=d.forms[i][n];
+  for(i=0;!x&&d.layers&&i<d.layers.length;i++) x=MM_findObj(n,d.layers[i].document);
+  if(!x && d.getElementById) x=d.getElementById(n); return x;
+}
+function MM_swapImgRestore() { //v3.0
+  var i,x,a=document.MM_sr; for(i=0;a&&i<a.length&&(x=a[i])&&x.oSrc;i++) x.src=x.oSrc;
+}
+function MM_preloadImages() { //v3.0
+  var d=document; if(d.images){ if(!d.MM_p) d.MM_p=new Array();
+    var i,j=d.MM_p.length,a=MM_preloadImages.arguments; for(i=0; i<a.length; i++)
+    if (a[i].indexOf("#")!=0){ d.MM_p[j]=new Image; d.MM_p[j++].src=a[i];}}
+}
+
+function MM_swapImage() { //v3.0
+  var i,j=0,x,a=MM_swapImage.arguments; document.MM_sr=new Array; for(i=0;i<(a.length-2);i+=3)
+   if ((x=MM_findObj(a[i]))!=null){document.MM_sr[j++]=x; if(!x.oSrc) x.oSrc=x.src; x.src=a[i+2];}
+}
+//-->
+</script>
+
+
+<script langauge="javascript">
+  
+  function test_browser()
+  {
+     var browser=navigator.appName;
+     var b_version=navigator.appVersion;
+     var version=parseFloat(b_version)
+     
+        if (typeof document.body.style.maxHeight != "undefined") {
+        
+            // IE 7, mozilla, safari, opera 9
+            
+            
+            document.getElementById('imgfamily').style.display="block";
+            document.getElementById('imgfamilydiv').style.display="none";
+
+        } else {
+            
+            
+            // IE6, older browsers
+            
+             document.getElementById('imgfamily').style.display="none";
+            document.getElementById('imgfamilydiv').style.display="block";
+            
+
+        }
+
+ 
+
+     
+  }
+   
+</script>
+
+<link rel='SHORTCUT ICON' href='/images/HMM-icon.ico'/>
+</head>
+<% 
+	puts request.request_uri				
+
+				@m=request.request_uri.split('/')
+
+				@path=@m[2];
+			 
+				
+if (@path=='subchapters')
+
+@sub_chapter = SubChapter.find(:all, :conditions => "tagid='#{params[:id]}'")	
+@userid = HmmUser.find(:all, :conditions => "id='#{@sub_chapter[0].uid}'") 
+
+		@uid = @userid[0]['id']
+
+else
+if (@path=='gallery')
+
+
+@sub_chapter = SubChapter.find(params[:id])		
+@userid = HmmUser.find(:all, :conditions => "id='#{@sub_chapter.uid}'") 
+
+		@uid = @userid[0]['id']
+else
+if (@path=='gallery_fisheye')
+
+@gallery=Galleries.find(params[:id])
+
+@sub_chapter = SubChapter.find(@gallery.subchapter_id)	
+@userid = HmmUser.find(:all, :conditions => "id=#{@sub_chapter.uid}") 
+
+		@uid = @userid[0]['id']
+else
+if (@path=='moment_page')
+
+@usercontent=UserContent.find(params[:id])
+
+
+@userid = HmmUser.find(:all, :conditions => "id='#{@usercontent.uid}'") 
+
+		@uid = @userid[0]['id']
+
+
+else
+if (@path=='messageboard')
+
+
+
+
+@userid = HmmUser.find(:all, :conditions => "family_name='#{@familyname}'")
+		@uid = @userid[0]['id']
+
+else
+if (@path=='message_worker')
+
+
+
+
+@userid = HmmUser.find(:all, :conditions => "family_name='#{@familyname}'")
+		@uid = @userid[0]['id']
+else
+
+if (@path=='journals')
+
+
+
+@userid = HmmUser.find(:all, :conditions => "family_name='#{@familyname}'")
+		@uid = @userid[0]['id']
+else
+ @userid = HmmUser.find(:all, :conditions => "family_name='#{params[:id]}'")
+		@uid = @userid[0]['id']
+
+end	
+end
+end	
+end	
+end
+end
+end
+%>
+
+<body  class="bodytag" onload="test_browser();">
+
+<table width="100%" border="0" cellspacing="0" cellpadding="0">
+  <tr>
+    <td height="7" align="center" valign="top"></td>
+  </tr>
+  <tr>
+    <td height="37" align="left" valign="top" class="menu_top_bg"></td>
+  </tr>
+  <tr>
+    <td height="5" align="left" valign="top"></td>
+  </tr>
+  <tr>
+    <td align="center" valign="top"><table width="100%" border="0" cellspacing="0" cellpadding="0">
+      <tr>
+        <td align="left" valign="top" id="body_left_bg"><img src="/images/transe.jpg" width="1" height="1" /></td>
+        <td width="901" align="left" valign="top"><table width="901" border="0" cellspacing="0" cellpadding="0">
+          <tr>
+            <td align="left" valign="top"><table width="100%" border="0" cellspacing="0" cellpadding="0">
+              <tr>
+                <td height="175" align="left" valign="top" class="banner_main_bg"><table width="100%" border="0" cellspacing="0" cellpadding="0">
+                <tr>
+                  <td width="232" height="175" align="center" valign="middle" >
+                
+					<img src="<%=@userid[0].img_url%>/hmmuser/familyphotos/thumbs/<%=@userid[0]['family_pic'] %>" /></td>
+					
+                  <td align="left" valign="top"><table width="100%" border="0" cellspacing="0" cellpadding="0">
+                      <tr>
+                        <td height="28" align="left" valign="top"></td>
+                        <td align="right" valign="top" scope="col" >
+                        	
+                       		<%@password_protected = HmmUser.count(:all, :conditions => "family_name='#{params[:id]}' and password_required='no'")%>
+                        	
+							<%if (session[:family]=='' || session[:family]==nil)%>
+							<%else if @password_protected == 0%>
+							<%= link_to "Sign Out #{session[:family]}", {:controller => 'my_familywebsite', :action => 'logout',:id => session[:family]},
+							:method => :post , :style => "color:#000000"%>&nbsp;
+							<%end%><%end%>
+							|&nbsp;
+							<% if(request.request_uri != "/my_familywebsite/login/#{@userid[0]['family_name']}" ) %>
+							<a href="https://www.holdmymemories.com/user_account/login" ><font color="#000000">Log In</font></a>&nbsp;&nbsp;&nbsp;&nbsp;
+							<%end%>
+							</td>
+                      </tr>
+                      <tr>
+                        <td width="386" height="117" align="left" valign="top">
+                          <div id="imgfamily" style="display:none;">
+                          <table width="190%" border="0" cellspacing="0" cellpadding="0">
+                          <tr>
+                            <td align="left" valign="top"><img src="/images/welcometo_txt.jpg" width="181" height="45" /></td>
+                          </tr>
+                          <tr>
+                            <td height="102" align="left" valign="top" style="background-image:url(/images/family_website_img.jpg); background-repeat:no-repeat; background-position:left bottom; ">
+							<img src="<%=@userid[0].img_url%>/familytitleImages/<%=@userid[0]['familypage_image']%>" border="0"    align="left"/></td>
+                          </tr>
+                          
+                    </table></div>
+                    <div id="imgfamilydiv" style="display:none">
+                          <table width="100%" border="0" cellspacing="0" cellpadding="0">
+                          <tr>
+                            <td align="left" valign="top"><span class="familytitle1"> Welcome to:</span></td>
+                          </tr>
+                          <tr>
+                          	<% @marital_status = HmmUser.count(:all, :conditions => "family_name='#{@familyname}' and marital_status='married'" )%>
+                            
+							
+													
+							
+							<td height="76" align="left" valign="middle" >
+							
+                                                        <span class="familytitle">&nbsp;&nbsp;&nbsp;&nbsp;The <%=@userid[0]['v_lname']%>'s</span>
+                                                        
+                                                        
+                                                        </td>
+                          </tr>
+                          
+                          
+                          <tr><td align="right">
+                            
+                              <span class="familytitle2">  Family Website</span>
+                            
+                          </td></tr>
+                          
+                        </table>
+                      </div>
+                    </td>
+                        <td height="147" align="right" valign="bottom"> 
+                        	<a href="http://www.holdmymemories.com"><img src="/images/logofamily.jpg" width="220" height="53" border="0" ></a>
+						</td>
+                      </tr>
+                  </table></td>
+                </tr>
+            </table></td>
+              </tr>
+			  
+              <tr>
+                <td height="38" align="left" valign="middle" id="menu_main_bg"><table width="100%" height="28" border="0" cellpadding="0" cellspacing="0">
+                <tr>
+                	<td width="232" align="left" valign="top">
+                		<%if(request.request_uri == "/my_familywebsite/journals/#{@userid[0]['family_name']}" || request.request_uri == "/my_familywebsite/messageboard/#{@userid[0]['family_name']}" ) %>
+                  		<a href="/my_familywebsite/share/?link=<%=request.request_uri%>&id=<%=@familyname%>" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('Image55','','/images/share-ths_btn_ovr.jpg',1)" onclick="Modalbox.show(this.href, {title: this.title, width: 625}); return false;" >
+                        	<img src="/images/share-ths_btn_def.jpg" name="Image55" width="232" height="28" border="0" id="Image55" />
+						</a>
+						<%else%>
+						<a href="/my_familywebsite/share/?link=<%=request.request_uri%>&id=<%=params[:id]%>" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('Image55','','/images/share-ths_btn_ovr.jpg',1)" onclick="Modalbox.show(this.href, {title: this.title, width: 625}); return false;" >
+                        	<img src="/images/share-ths_btn_def.jpg" name="Image55" width="232" height="28" border="0" id="Image55" />
+						</a>
+						<%end%>
+					</td>
+                  <td width="1" align="left" valign="top"><img src="/images/menu_sup_img.jpg" width="1" height="28" /></td>
+                  
+				  <td width="75" align="left" valign="top">
+                  	<a href="/my_familywebsite/home/<%=@userid[0]['family_name']%>" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('Image22','','/images/home_btn_ovr.jpg',1)">
+                  		<% if(request.request_uri == "/my_familywebsite/home/#{@userid[0]['family_name']}" ) %>
+						<img src="/images/home_btn_ovr.jpg" name="Image22" alt="Home" width="75" height="28" border="0" id="Image22"  />
+						<%else%>
+						<img src="/images/home_btn_def.jpg" name="Image22" alt="Home" width="75" height="28" border="0" id="Image22"  />
+						<%end%>
+						</a>
+						</td>
+						
+                  <td width="1" align="left" valign="top">
+                  	<img src="/images/menu_sup_img.jpg" width="1" height="28" /></td>
+                  <td width="101" align="left" valign="top">
+                  	<a href="/my_familywebsite/biographies/<%=@userid[0]['family_name']%>" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('Image23','','/images/biographi_btn_ovr.jpg',1)">
+                  		<% if(request.request_uri == "/my_familywebsite/biographies/#{@userid[0]['family_name']}" ) %>
+						<img src="/images/biographi_btn_ovr.jpg" name="Image23" alt="Biographies"width="101" height="28" border="0" id="Image23" />
+						<%else%>
+						<img src="/images/biographi_btn_def.jpg" name="Image23" alt="Biographies"width="101" height="28" border="0" id="Image23" />
+						<%end%>
+						</a>
+						</td>
+										
+				  <td width="1" align="left" valign="top">
+				  	<img src="/images/menu_sup_img.jpg" width="1" height="28" /></td>
+                  <td width="138" align="left" valign="top">
+                  	<a href="/my_familywebsite/journals/<%=@userid[0]['family_name']%>" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('Image24','','/images/news_jour_btn_ovr.jpg',1)">
+                  		<% if(request.request_uri == "/my_familywebsite/journals/#{@userid[0]['family_name']}" ) %>
+						<img src="/images/news_jour_btn_ovr.jpg" name="Image24" alt="News/Journals" width="138" height="28" border="0" id="Image24" />
+                  		<%else%>
+						<img src="/images/news_jour_btn_def.jpg" name="Image24" alt="News/Journals" width="138" height="28" border="0" id="Image24" />
+						<%end%>
+						</a>
+						</td>
+						
+				  <td width="1" align="left" valign="top">
+				  	<img src="/images/menu_sup_img.jpg" width="1" height="28" /></td>
+                  <td width="136" align="left" valign="top">
+                  	<a href="/my_familywebsite/messageboard/<%=@userid[0]['family_name']%>" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('Image25','','/images/message_board_btn_ovr.jpg',1)">
+                  		<% if(request.request_uri == "/my_familywebsite/messageboard/#{@userid[0]['family_name']}" ) %>
+						<img src="/images/message_board_btn_ovr.jpg" name="Image25" alt="Message Board"  width="136" height="28" border="0" id="Image25" />
+						<%else%>
+						<img src="/images/message_board_btn_def.jpg" name="Image25" alt="Message Board"  width="136" height="28" border="0" id="Image25" />
+						<%end%>
+						</a>
+						</td>
+                  
+				  <td width="1" align="left" valign="top">
+				  	<img src="/images/menu_sup_img.jpg" width="1" height="28" /></td>
+                  <td width="95" align="left" valign="top">
+                  	<a href="/my_familywebsite/calender/<%=@userid[0]['family_name']%>" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('Image26','','/images/calender_btn_ovr.jpg',1)">
+                  		<% if(request.request_uri == "/my_familywebsite/calender/#{@userid[0]['family_name']}" ) %>
+						<img src="/images/calender_btn_ovr.jpg" name="Image26" width="95" alt="Calendar" height="28" border="0" id="Image26" />
+						<%else%>
+						<img src="/images/calender_btn_def.jpg" name="Image26" width="95" alt="Calendar" height="28" border="0" id="Image26" />
+						<%end%>
+						</a>
+						</td>
+                  
+				  <td width="1" align="left" valign="top">
+				  	<img src="/images/menu_sup_img.jpg" width="1" height="28" /></td>
+                  <td width="118" align="left" valign="top">
+                  	<a href="/my_familywebsite/contactus/<%=@userid[0]['family_name']%>" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('Image27','','/images/contact_btn_ovr.jpg',1)">
+                  		<% if(request.request_uri == "/my_familywebsite/contactus/#{@userid[0]['family_name']}" ) %>
+						
+						<img src="/images/contact_btn_ovr.jpg" name="Image27" alt="Contact Us" width="118" height="28" border="0" id="Image27" />
+						<%else%>
+						<img src="/images/contact_btn_def.jpg" name="Image27" alt="Contact Us" width="118" height="28" border="0" id="Image27" />
+						<%end%>
+						</a>
+						</td>
+                </tr>
+            </table></td>
+              </tr>
+              <tr>
+            <td height="21" align="left" valign="top" class="breadcrumb">
+            	
+				
+					<%  if(request.request_uri == "/my_familywebsite" )%>
+					
+					<% else if(request.request_uri == "/my_familywebsite/subchapters/#{params[:id]}" )%>
+								<%
+									tags=Tag.find(params[:id]);
+								%>	
+								&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                               <a href="/my_familywebsite/home/<%=@userid[0]['family_name']%>" style="text-decoration:none"> <font color="#ffffff" size="2" face="Arial" >Home</font></a> 
+                                <font color="#7C7A7B" size="2" face="Arial" > &gt;&gt; 
+                                 <font color="#7C7A7B" size="2" face="Arial" ><%=tags.v_tagname%> &gt;&gt;
+                                 </font> <font color="#ffffff" size="2" face="Arial" >(Subchapters)</font>
+								
+					<% else if(request.request_uri == "/my_familywebsite/gallery/#{params[:id]}" )%>
+								&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                 <%
+									subchapters=SubChapter.find(params[:id])
+									tags=Tag.find(subchapters.tagid)
+								%>	
+                           <a href="/my_familywebsite/home/<%=@userid[0]['family_name']%>" style="text-decoration:none">  <font color="#ffffff" size="2" face="Arial" >Home</font></a>
+							  
+							    <font color="#7C7A7B" size="2" face="Arial" >&gt;&gt; </font>
+                                 <a href="/my_familywebsite/subchapters/<%=tags.id%>" style="text-decoration:none" ><font color="#ffffff" size="2" face="Arial" ><%=tags.v_tagname%></font> </a> 								
+								 <font color="#7C7A7B" size="2" face="Arial" > &gt;&gt; 
+                                 <%=subchapters.sub_chapname%> &gt;&gt;</font> <font color="#ffffff" size="2" face="Arial" >(Galleries)</font>
+								 
+					<% else if(request.request_uri == "/my_familywebsite/gallery_fisheye/#{params[:id]}" )%>
+								 <%
+								 	galleries=Galleries.find(params[:id])
+									subchapters=SubChapter.find(galleries.subchapter_id)
+									tags=Tag.find(subchapters.tagid)
+									
+								%>	
+								<font color="#7C7A7B" size="2" face="Arial" >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                             <a href="/my_familywebsite/home/<%=@userid[0]['family_name']%>" style="text-decoration:none">  <font color="#ffffff" size="2" face="Arial" >Home</font></a>
+							  
+							    <font color="#7C7A7B" size="2" face="Arial" >&gt;&gt; </font>
+                                 <a href="/my_familywebsite/subchapters/<%=tags.id  %>" style="text-decoration:none" ><font color="#ffffff" size="2" face="Arial" ><%=tags.v_tagname%></font> </a> 								
+								 <font color="#7C7A7B" size="2" face="Arial" > &gt;&gt; </font>
+                                 <a href="/my_familywebsite/gallery/<%=subchapters.id  %>" style="text-decoration:none" ><font color="#ffffff" size="2" face="Arial" ><%=subchapters.sub_chapname%> </font></a>
+								 <font color="#7C7A7B" size="2" face="Arial" > &gt;&gt; </font>
+                                <font color="#7C7A7B" size="2" face="Arial" ><%=galleries.v_gallery_name%> &gt;&gt; </font> 
+								<font color="#ffffff" size="2" face="Arial" >(Moments)</font>
+								 
+						<% else if(@path=="moment_page" )%>		 
+								  <%
+								  	user_contents=UserContent.find(params[:id])
+								 	galleries=Galleries.find(user_contents.gallery_id)
+									subchapters=SubChapter.find(galleries.subchapter_id)
+									tags=Tag.find(subchapters.tagid)
+									
+								%>	
+								<font color="#7C7A7B" size="2" face="Arial" >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                             <a href="/my_familywebsite/home/<%=@userid[0]['family_name']%>" style="text-decoration:none">  <font color="#ffffff" size="2" face="Arial" >Home</font></a>
+							  
+							    <font color="#7C7A7B" size="2" face="Arial" >&gt;&gt; </font>
+                                 <a href="/my_familywebsite/subchapters/<%=tags.id  %>" style="text-decoration:none" ><font color="#ffffff" size="2" face="Arial" ><%=tags.v_tagname%></font> </a> 								
+								 <font color="#7C7A7B" size="2" face="Arial" > &gt;&gt; </font>
+                                 <a href="/my_familywebsite/gallery/<%=subchapters.id  %>" style="text-decoration:none" ><font color="#ffffff" size="2" face="Arial" ><%=subchapters.sub_chapname%> </font></a>
+								 <font color="#7C7A7B" size="2" face="Arial" > &gt;&gt; </font>
+                                 <a href="/my_familywebsite/gallery_fisheye/<%=galleries.id%>" style="text-decoration:none">  <font color="#ffffff" size="2" face="Arial" ><%=galleries.v_gallery_name%> &gt;&gt; </font> 
+								 <font color="#7C7A7B" size="2" face="Arial" >moment	<%end%><%end%>
+					<%end%>	<%end%><%end%>
+			</td>
+         	 </tr>
+            </table></td>
+          </tr>
+          
+          <tr>
+            <td align="left" valign="top">
+            	<div id="content" align="center" width="100%">
+					<%= yield %>
+				</div>
+            </td>
+          </tr>
+        </table></td>
+        <td align="right" valign="top" id="body_right_bg"><img src="/images/transe.jpg" width="1" height="1" /></td>
+      </tr>
+    </table></td>
+  </tr>
+  <tr>
+    <td height="5" align="center" valign="top"></td>
+  </tr>
+  <tr>
+    <td height="32" align="center" valign="top" class="bottom_line"></td>
+  </tr>
+  <tr>
+    <td height="60" align="center" valign="top" class="copyrighttxt"> Copyright &copy; 2008 HoldMyMemories.com All rights   reserved. Website Designed and Developed by <a href="http://www.softwaysolutions.com" target="_blank" class="copyrighttxt">Softway Solutions,   Inc.</a>&nbsp;</td>
+  </tr>
+</table>
+<script type="text/javascript">
+var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+</script>
+<script type="text/javascript">
+var pageTracker = _gat._getTracker("UA-5209348-1");
+pageTracker._trackPageview();
+</script>
+</body>
+</html>

@@ -1,0 +1,154 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Untitled Document</title>
+<style type="text/css">
+<!--
+body {
+	margin: 0px;
+	padding: 0px;
+}
+.cont_hr {
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 20px;
+	font-weight: bold;
+	color: #000000;
+	text-decoration: none;
+}
+.cont {
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 12px;
+	font-weight: bold;
+	color: #838383;
+	text-decoration: none;
+	line-height:20px;
+}
+.cont_bold {
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 12px;
+	font-weight: bold;
+	color: #000000;
+	text-decoration: none;
+	line-height:20px;
+}
+.footertxt {
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 10px;
+	font-weight: bold;
+	color: #838383;
+	text-decoration: none;
+}
+.footertxt_link {
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 10px;
+	font-weight: bold;
+	color: #546eb0;
+	text-decoration: none;
+}
+.footertxt_link {
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 10px;
+	font-weight: bold;
+	color: #546eb0;
+	text-decoration: none;
+}
+.image_border {
+	border: 1px solid #ff6101;
+}
+.submitbtn{
+	background-image:url(http://www.holdmymemories.com/images/submitbtn.jpg);
+	border-top-width: 0px;
+	border-right-width: 0px;
+	border-bottom-width: 0px;
+	border-left-width: 0px;
+	width:96px;
+	height:24px;
+	font-family:Arial, Helvetica, sans-serif;
+	font-size:11px;
+	color:#000000;
+	font-weight:bold;
+	
+}
+-->
+</style>
+</head>
+
+<body>
+<table width="640" border="0" align="left" cellpadding="0" cellspacing="0">
+  <tr>
+    <td width="38" align="left" valign="top"></td>
+    <td align="left" valign="top"><table width="100%" border="0" cellspacing="0" cellpadding="0">
+      <tr>
+        <td height="30" align="left" valign="top"></td>
+      </tr>
+      <tr>
+        <td align="left" valign="top"><table width="100%" border="0" cellspacing="0" cellpadding="0">
+          <tr>
+          
+           
+            <%if @momenttype == 'video'%>
+			  <td width="320" align="center" valign="top">
+		<img src="<%=@contenturl%>/user_content/videos/thumbnails/<%=@filename%>.jpg" border="0">
+		<%else%>
+		  <td width="193" align="center" valign="top">
+		<img src="<%=@contenturl%>/user_content/photos/big_thumb/<%=@filename%>" border="0">
+		<%end%>
+            	<br />
+                <%=@kidsname%>
+            </td>
+			<td width="10">&nbsp;</td>
+            <td align="left" valign="top"><table width="100%" border="0" cellspacing="0" cellpadding="0">
+              <tr>
+                <td align="left" valign="top" class="cont"  style="font-family: Arial; font-size: 12px; font-weight: bold; color: #838383;">HoldMyMemories.com Vote Request!!</td>
+              </tr>
+              <tr>
+                <td height="10" align="left" valign="top"></td>
+              </tr>
+              <tr>
+                <td align="left" valign="top">
+                
+               
+<a href="<%=@vote_url%>">   <img src="http://www.holdmymemories.com/images/view_n_vote_btn.gif" width="96" height="24" border="0" /></a>
+
+                </td>
+              </tr>
+              <tr>
+                <td height="10" align="left" valign="top"></td>
+              </tr>
+              <tr>
+                <td height="20" align="left" valign="top"><span class="cont_bold"><%=@message.gsub("\n", "<br />\n") %></span></td>
+              </tr>
+              
+              <tr>
+                <td height="25" align="left" valign="middle">
+                <table width="350" border="0" cellspacing="0" cellpadding="0">
+                  <tr>
+                  
+                    <td height="1" align="left" valign="top" bgcolor="#d3d3d3">
+                    	
+                    </td>
+                    </tr>
+                  </table>
+                  </td>
+              </tr>
+              </table></td>
+          </tr>
+        </table></td>
+      </tr>
+      <tr>
+        <td height="60" align="left" valign="bottom"><a href="http://www.holdmymemories.com" ><img src="http://www.holdmymemories.com/images/email_logo.gif" width="177" height="48" alt="Logo" border="0" /></a></td>
+      </tr>
+      <tr>
+        <td height="25" align="left" valign="middle" class="footertxt" style="font-family: Arial; font-size: 10px; font-weight: bold; color: #838383;">If you are unable to access this page, please paste the link below into your browser.</td>
+      </tr>
+      <tr>
+        <td align="left" valign="top"> 
+<a href="<%=@vote_url%>" ><%=@vote_url%></a>
+</td>
+      </tr>
+    </table></td>
+  </tr>
+</table>
+</body>
+</html>

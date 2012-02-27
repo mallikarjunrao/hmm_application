@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:DateField xmlns:mx="http://www.adobe.com/2006/mxml" creationComplete="handleCreationComplete()"  close="handleClose(event)" >
+	<mx:DateValidator id="validator" source="{dateInputBox}" property="text" inputFormat="MM/DD/YYYY" 
+    	 valid="handleValid()" triggerEvent="enter" invalid="{dateValidFlag = false;}" />      
+	<mx:Script>
+		<![CDATA[
+			import mx.controls.Alert;
+			import mx.formatters.DateFormatter;
+			import mx.controls.TextInput;
+			[Bindable]
+			public var dateInputBox : TextInput;
+			private var dateValidFlag : Boolean = true;
+			 
+			public function get isDateValid() : Boolean
+			{
+				return dateValidFlag;
+			}
+			
+			private function handleCreationComplete() : void
+			{
+				this.textInput.visible = false;
+				dateInputBox  = new TextInput();
+				this.addChild(dateInputBox);
+				dateInputBox.x = this.textInput.x;
+				dateInputBox.width = this.textInput.width;
+				dateInputBox.height = this.textInput.height;
+				this.textInput.width = 0;
+			}
+			
+			override protected function commitProperties():void
+			{
+				super.commitProperties()
+				if(this.selectedDate && dateInputBox)
+				{
+					//dateInputBox  = new TextInput();
+					var format : String = "MM/DD/YYYY";
+					var dateFormatter : DateFormatter = new DateFormatter();
+					dateFormatter.formatString = format;
+					dateInputBox.text = dateFormatter.format(this.selectedDate);
+				}
+				//dateInputBox.text = this.selectedDate.toDateString();
+			}
+			
+			override protected function updateDisplayList(unscaledWidth:Number, unscaledHeight:Number):void
+			{
+				super.updateDisplayList(unscaledWidth,unscaledHeight);
+				if(this.selectedDate && dateInputBox)
+				{
+					//dateInputBox  = new TextInput();
+					var format : String = "MM/DD/YYYY";
+					var dateFormatter : DateFormatter = new DateFormatter();
+					dateFormatter.formatString = format;
+					dateInputBox.text = dateFormatter.format(this.selectedDate);
+				}
+			}
+			override public function set selectedDate(value:Date):void
+			{
+				super.selectedDate = value;
+				var date : Date = this.selectedDate;
+				var format : String = "MM/DD/YYYY";
+				var dateFormatter : DateFormatter = new DateFormatter();
+				dateFormatter.formatString = format;
+				dateInputBox.text = dateFormatter.format(this.selectedDate);
+			}
+			
+			public function reset() : void
+			{
+				if(dateInputBox)
+					dateInputBox.text = "";
+			}
+			
+			private function handleChange() : void
+			{
+				var date : Date = this.selectedDate;
+				var format : String = "MM/DD/YYYY";
+				var dateFormatter : DateFormatter = new DateFormatter();
+				dateFormatter.formatString = format;
+				dateInputBox.text = dateFormatter.format(this.selectedDate);	
+			}
+			
+			private function handleValid() : void
+			{
+				textInput.text = dateInputBox.text;
+				var date : Date = new Date();
+				date.time = Date.parse(dateInputBox.text);
+				selectedDate = date;
+				dateValidFlag = true;
+			}
+			
+			private function handleClose(event : Event) : void
+			{
+				var date : Date = this.selectedDate;
+				var format : String = "MM/DD/YYYY";
+				var dateFormatter : DateFormatter = new DateFormatter();
+				dateFormatter.formatString = format;
+				dateInputBox.text = dateFormatter.format(this.selectedDate);  
+			}
+			
+		]]>
+	</mx:Script>
+</mx:DateField>

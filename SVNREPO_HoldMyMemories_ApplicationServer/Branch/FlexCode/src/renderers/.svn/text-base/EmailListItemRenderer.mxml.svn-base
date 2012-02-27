@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:TextArea xmlns:mx="http://www.adobe.com/2006/mxml" creationComplete="handleCreationComplete()" 
+	color="0xFFFFFF" editable="false" borderStyle="none" borderThickness="0" backgroundAlpha="0">
+	<mx:Script>
+		<![CDATA[
+			
+			private function handleCreationComplete() : void
+			{
+				this.text = data.emaillist;
+				this.wordWrap = true;
+			}
+		]]>
+	</mx:Script>
+</mx:TextArea>

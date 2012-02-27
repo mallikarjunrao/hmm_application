@@ -1,0 +1,13 @@
+<%= error_messages_for 'chapter_comment' %>
+
+
+
+<input type="hidden" value="<%= params[:id]%>" name="tag_id" />
+
+<input type="hidden" value="<%= params[:id_journal]%>" name="tag_j_id" />
+<input type="hidden" value="<%= params[:redirect]%>" name="redirect" />
+<p><label for="chapter_comment_v_comment"></label><br/>
+<%= text_area 'chapter_comment', 'v_comment', :rows =>"10", :cols=>"40",  :class => "textbox-1"  %></p>
+
+
+

@@ -1,0 +1,22 @@
+xml.instruct! :xml, :version=>"1.0"
+xml.Chapters{
+   
+     for chapter_value in @results
+       xml.Chapter{
+          xml.id(chapter_value.id)
+          xml.access(chapter_value.e_access)
+          xml.name(chapter_value.v_tagname)
+          xml.icon(chapter_value.img_url + "/user_content/photos/icon_thumbnails/#{chapter_value.v_chapimage}")
+          xml.tags(chapter_value.v_chapter_tags)
+          xml.description(chapter_value.v_desc)
+          xml.defaulttag(chapter_value.default_tag)
+          xml.username(@userDetail.v_user_name)
+          xml.pass(@userDetail.v_password)
+          xml.UserFirstName(@userDetail.v_fname)
+          xml.UserLastName(@userDetail.v_lname)
+          xml.UserEmailId(@userDetail.v_e_mail)
+          xml.folder_type(chapter_value.tag_type)
+       }
+    
+   end 
+}

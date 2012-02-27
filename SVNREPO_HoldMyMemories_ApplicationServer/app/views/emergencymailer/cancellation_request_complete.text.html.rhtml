@@ -1,0 +1,34 @@
+<p>Hello <i><%=@v_fname%> <%=@l_fname%></i>. </p>
+
+<% 
+                if( @account_type=='platinum_user') 
+                 @account_type = "Premium Account"
+                 @amount="$9.95"
+                else
+                  if(@account_type=='familyws_user')
+                    @account_type = "Family Website Account" 
+                    @amount="$4.95"                    
+                  end  
+                end  
+%>
+
+<p>Your susbcription with HoldMyMemeories.com <%=@account_type%> has been closed.<br></p>
+<br><br>
+<p> <b>Your Subscription Details:</b></p>
+
+<p>Invoice Number : <%= @invoicenumber%> </p>  
+<p>Subscription Number : <%= @subscriptionnumber%></p>  
+<p>Account type: <%=@account_type%></p>
+<p>Subscription Amount : <%= @amount%> </p><br>
+  <p>Subscription Status : Closed </p>
+<br>
+  
+  <p>You are always welcome to login to your account using below given link to upgrade your account and regain all the features available in to your Account. </p><BR>
+  <p><a href="http://www.holdmymemories.com/user_account/login">http://www.MeriYaadein.com/user_account/login</a></p>
+  
+  <p>Username: <%=@username%></p>
+  <p>Password: <%=@pass%></p>
+  <br>
+<br><BR>
+<p>Thank-you,</p>
+<p>Your HoldMyMemories.com Team</p>

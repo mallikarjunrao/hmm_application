@@ -1,0 +1,26 @@
+
+
+<table>
+	<input type="hidden" value="<%=params[:id]%>" name="count" />
+	<%k=params[:id]%>
+	<tr>
+		<td>
+			<%if @chap_count != 0 %>
+			&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+			&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+			<select name="chapter" id="chapter" >
+			<option value="default" lable='default'>Select Chapter</option>
+			<%for i in @chap%>
+			<%if i.v_tagname == 'STUDIO SESSIONS'%>
+			<%else%>
+			<option value="<%=i.id %>"><%=i.v_tagname%></option>
+			<%end%>
+			<%end%>
+			</select>
+			<%else%>
+			There are no chapter's in Your account
+			<%end%>
+			
+		</td>
+	</tr>
+</table>

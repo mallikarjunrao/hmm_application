@@ -1,0 +1,126 @@
+<style type = "text/css">
+  .info_text{
+    color:#ffffff;
+    font-family:Arial;
+    font-size: 20px;
+  }
+
+  .click_text{
+    color:#e36500;
+    font-family:Arial;
+    font-size: 20px;
+    text-decoration:none;
+  }
+</style>
+
+
+<%for @i in  @usercontent %>
+  <table>
+    <tr>
+      <th>
+        &nbsp;
+      </th>
+    </tr>
+    <tr>
+      <th>
+        <span class="info_text">You have successfully entered the HoldMy</span><span class="click_text" >Memories</span><span class="info_text">.com  <% if @i.e_filetype == 'video' %>Video<%else%> Photo <%end%> Contest.
+          <br>
+          After your entry has been approved you will receive an email notification so that you may vote for your entry, and invite your friends to vote for your entry.</span>
+      </th>
+    </tr>
+    <tr>
+      <th>
+        &nbsp;
+      </th>
+    </tr>
+    <tr>
+      <%if @i.e_filetype == 'video'%>
+        <th align="center">
+          <input type="hidden" id="contentId" value="<%=@i.img_url%>/user_content/videos/<%=@i.v_filename%>.flv">
+          <input type="hidden" id="type" value="video">
+          <input type="hidden" id="proxyurl" value="<%=@i.img_url%>">
+          <input type="hidden" id="swfName" value="/ContestMediaPlayer">
+          <script src="/AC_OETags.js" language="JavaScript"></script>
+          <script src="DWConfiguration/ActiveContent/IncludeFiles/AC_RunActiveContent.js" type="text/javascript"></script>
+          <script type="text/javascript">
+            var galId = document.getElementById("contentId").value;
+            var flashName = document.getElementById("swfName").value;
+            var hmmtype = document.getElementById("type").value;
+            var proxyurl = document.getElementById("proxyurl").value;
+            AC_FL_RunContent( 'codebase','http://download.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=7,0,19,0',
+            'width','500',
+            'height','401',
+            'src', flashName,
+            'quality', 'high',
+            'pluginspage','http://www.macromedia.com/go/getflashplayer',
+            'movie',flashName,
+            'bgcolor','#000000',
+            'allowFullScreen','true',
+            'flashvars', 'hmmtype='+hmmtype+'&content='+galId+"&proxyurl="+proxyurl
+          ); //end AC code
+          </script><noscript><object classid="clsid:D27CDB6E-AE6D-11cf-96B8-444553540000" codebase="http://download.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=7,0,19,0" width="500" height="401">
+              <param name="movie" value="/Chapter.swf" />
+              <param name="quality" value="high" />
+              <param name="FlashVars"  />
+              <embed src="/ContestMediaPlayer.swf" quality="high" FlashVars=""  pluginspage="http://www.macromedia.com/go/getflashplayer" type="application/x-shockwave-flash" width="500" height="401"></embed>
+            </object></noscript>
+        </th>
+      <%else%>
+        <th align="center">
+          <img src="<%=@i.img_url%>/user_content/photos/journal_thumb/<%=@i.v_filename%>" border="0">
+        </th>
+      <%end%>
+    <%end%>
+  </tr>
+  <tr>
+    <th>
+      &nbsp;
+    </th>
+  </tr>
+  <tr>
+    <th>
+      <a href="/manage_website/file_manager/<%=logged_in_hmm_user.family_name%>"> <span class="info_text">To Upload more Moments Please </span><span class="click_text" >Click Here</span></a>
+    </th>
+  </tr>
+  <%for @j in @journal %>
+    <tr>
+      <th align="center" valign="middle" scope="col"><span class="heading-journal">
+          <table width="600" class="border">
+            <tr>
+              <th align="left" bgcolor="#191919" colspan="2">
+                <font size="3" color="#ffffff"> Journal</font>
+              </th>
+            </tr>
+            <tr><th colspan="2">&nbsp;</th></tr>
+            <tr>
+              <th>&nbsp;&nbsp;</th>
+              <th align="left" class="heading-undermenuwhite">
+
+                <%= @j.title %> -
+                <% ActiveSupport::CoreExtensions::Time::Conversions::DATE_FORMATS.merge!(
+                  :date => "%Y-%m-%d",
+                  :presentable_datetime => "%a %b %d, %Y %H:%M",
+                  :presentable_date => "%a %b %d, %Y")
+                @created_date=@j.created_at%>
+                <%= @created_date.to_s(:presentable_date) %></span>
+              </th>
+            </tr>
+            <tr><th colspan="2">&nbsp;</th></tr>
+            <tr>
+              <th>&nbsp;&nbsp;</th>
+              <th align="left" class="heading-undermenuwhite">
+                <%=@j.description %>
+              </th>
+            </tr>
+            <tr><th>&nbsp;</th></tr>
+            <tr><th>&nbsp;</th></tr>
+          </table>
+      </th>
+    </tr>
+    <tr>
+      <th>
+        &nbsp;
+      </th>
+    </tr>
+  </table>
+<%end%>

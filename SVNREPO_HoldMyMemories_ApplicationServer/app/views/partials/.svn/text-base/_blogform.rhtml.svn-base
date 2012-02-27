@@ -1,0 +1,57 @@
+<%= javascript_include_tag 'themes/formcheck/core' %>
+<%= javascript_include_tag 'themes/formcheck/more' %>
+<%= javascript_include_tag 'themes/formcheck/en' %>
+<%= javascript_include_tag 'themes/formcheck/formcheck' %>
+<%= stylesheet_link_tag 'themes/formcheck/formcheck'%>
+<table width="100%" border="0" cellspacing="0" cellpadding="0">
+  <tr>
+    <td align="left" valign="top">&nbsp;</td>
+  </tr>
+  <tr>
+    <td height="25" align="left" valign="top" class="content">Title </td>
+  </tr>
+  <tr>
+    <td align="left" valign="top"><label>
+        <%= text_field "#{model}", "#{field1}", :size => 20, :class => "validate['required']"  %>
+      </label></td>
+  </tr>
+  <tr>
+    <td align="left" valign="top">&nbsp;</td>
+  </tr>
+  <tr>
+    <td height="25" align="left" valign="top" class="content">Blog Entry Date</td>
+  </tr>
+  <tr>
+    <td align="left" valign="top"><%= date_select "#{model}", "#{field2}", :order => [:month, :day, :year], :start_year => Time.now.year - 100, :end_year => Time.now.year   %></td>
+  </tr>
+  <tr>
+    <td align="left" valign="top">&nbsp;</td>
+  </tr>
+  <tr>
+    <td height="25" align="left" valign="top" class="content">Description</td>
+  </tr>
+  <tr>
+    <td align="left" valign="top"><label>
+        <%= text_area "#{model}", "#{field3}", :rows =>"10", :cols=>"80", :class => "validate['required']" %>
+      </label></td>
+  </tr>
+  <tr>
+    <td align="left" valign="top">&nbsp;</td>
+  </tr>
+  <tr>
+    <td align="left" valign="top"><label>
+        <input type="submit" class="cmd-btn" value="<%= label %>" />
+        &nbsp;
+        <input type="button" class="cmd-btn" value="Cancel"  onClick="javascript:history.back();"/>
+      </label></td>
+  </tr>
+  <tr>
+    <td align="left" valign="top">&nbsp;</td>
+  </tr>
+</table>
+<script type="text/javascript">
+  window.addEvent('domready', function(){
+    new FormCheck('blogform');
+  });
+</script>
+<% @hide_float_menu = true %>

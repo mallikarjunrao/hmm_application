@@ -1,0 +1,14 @@
+
+xml.instruct! :xml, :version=>"1.0" 
+xml.contents{
+	for content in @contents
+  xml.content{
+      xml.icon(content.img_url + "/user_content/photos/coverflow/"+content.v_filename)
+      xml.name(content.v_tagphoto)
+      xml.id(content.id)
+      xml.hmmtype(content.e_filetype)
+      }
+  end
+      
+
+}

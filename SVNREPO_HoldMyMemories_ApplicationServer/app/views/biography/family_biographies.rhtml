@@ -1,0 +1,204 @@
+<table width="970" border="0" cellspacing="0" cellpadding="0" id="tab_bgcolor_repeat">
+  <tr>
+    <td align="left" valign="top"><table width="100%" border="0" cellspacing="0" cellpadding="0">
+        <tr>
+          <td width="13" align="left" valign="top"></td>
+          <td width="944" align="left" valign="top"><table width="100%" border="0" cellspacing="0" cellpadding="0">
+              <tr>
+                <td height="10" align="left" valign="top"></td>
+              </tr>
+              <tr>
+                <td height="35" align="left" valign="bottom" class="header-page">Manage My Site</td>
+              </tr>
+              <tr>
+                <td height="10" align="left" valign="top"></td>
+              </tr>
+              <tr>
+                <td height="1" align="left" valign="top" bgcolor="#454545"></td>
+              </tr>
+              <tr>
+                   <td height="10" colspan="3" align="center" valign="top" class="error-message">
+                   <%  if params[:sucess]=="1"%>
+                   <font style="padding:5px 0 5px 0;" class="error-message">Family Information was successfully updated.</font>
+                  <%else%>
+                     <%=flash[:message]%>
+                  <%end%></td>
+              </tr>
+                <tr>
+                <td align="left" valign="top"><table width="100%" border="0" cellspacing="0" cellpadding="0">
+                    <tr>
+                      <td width="173" align="left" valign="top" class="content-trans-bg">
+                        <%= render :partial => "partials/manage_website_menu", :locals => { :current_item => "#{@current_item}"} %>
+                      </td>
+                      <td width="17" align="left" valign="top"></td>
+                      <td width="754" align="left" valign="top"><table width="100%" border="0" cellspacing="0" cellpadding="0">
+                                      <tr>
+                                        <td class="content-trans-bg"><table width="100%" border="0" cellspacing="0" cellpadding="0">
+                                            <tr>
+                                              <td height="10" colspan="3" align="left" valign="top"></td>
+                                            </tr>
+                                            <tr>
+                                              <td width="20" align="left" valign="top"></td>
+                                              <td align="left" valign="top"><table width="100%" border="0" cellspacing="0" cellpadding="0">
+                                                  <tr>
+                                                    <td align="right" valign="top" class="side-heading">&nbsp;</td>
+                                                  </tr>
+                                                  <tr>
+                                                    <td align="left" valign="top" class="header-paragraph">Family Bios</td>
+                                                  </tr>
+                                                  <tr>
+                                                    <td height="25" align="left" valign="top">&nbsp;</td>
+                                                  </tr>
+                                                  <tr>
+                                                    <td align="right" valign="top"><input name="button2" type="submit" class="cmd-btn" id="button2" value="Add New Biography" onclick="window.location='/biography/add_biography/<%=params[:id]%>'" style="cursor:pointer;" />
+                                                      &nbsp;&nbsp;
+                                                      <input name="button3" type="submit" class="cmd-btn" id="button3" value="Write Family History" onclick="window.location='/biography/write_familyhistory/<%=params[:id]%>'" style="cursor:pointer;"/>
+                                                    </td>
+                                                  </tr>
+                                                  <tr>
+                                                    <td height="10" align="center" valign="top"></td>
+                                                  </tr>
+                                                  <tr>
+                                                    <td align="center" valign="top">
+                                                      <%  @count=FamilyMember.count(:all, :conditions => "uid=#{logged_in_hmm_user.id}", :order => 'id') 
+                                                          if @count ==0%>
+                                                      <table width="100%" border="0" cellpadding="2" cellspacing="0"><tr><td class="error-message" align="center" valign="middle" height="100">No family biographies found ...</td></tr></table>
+                                                      <%else%>
+                                                      <table width="100%" border="0" cellpadding="2" cellspacing="0">
+                                                        <tr>
+                                                          <td width="155" height="30" align="left" valign="middle" class="content-white"><strong>&nbsp;Image</strong></td>
+                                                          <td width="75" align="left" valign="middle" class="content-white"><strong>&nbsp;Member</strong></td>
+                                                          <td width="75" align="left" valign="middle" class="content-white"><strong>&nbsp;Relation</strong></td>
+                                                          <td align="left" valign="middle" class="content-white"><strong>&nbsp;Biography</strong></td>
+                                                          <td width="90" align="left" valign="middle" class="content-white"><strong>&nbsp;Actions</strong></td>
+                                                          <td width="55" align="left" valign="middle" class="content-white"><strong>&nbsp;Reorder</strong></td>
+                                                        </tr>
+                                                         <%
+                                                    i=0
+                                                    @arr = []
+
+                                                    @family_members2 = FamilyMember.find(:all, :conditions => "uid=#{logged_in_hmm_user.id}", :order => 'id')
+
+                                                    for family_member in @family_members2
+                                                      @arr[i]=family_member
+                                                      i=i+1
+                                                      j=i
+
+                                                    end %>
+                                                    <% odd_or_even = 0
+                                                    i = 0
+                                                    @family_members1 = FamilyMember.find(:all, :conditions => "uid=#{logged_in_hmm_user.id}",:order => 'id')
+                                                    for family_member in @family_members1
+
+                                                      odd_or_even = 1 - odd_or_even %>
+                                                        <tr>
+                                                          <td align="left" valign="top"><table width="100%" border="0" cellspacing="0" cellpadding="0" class="content-trans-white-bg">
+                                                              <tr>
+                                                                <td height="135" align="center" valign="middle"><img src="<%=family_member.img_url%>/hmmuser/family_members/thumbs/<%=h family_member.member_image %>" border="0" width="80" alt=""/></td>
+                                                              </tr>
+                                                            </table></td>
+                                                          <td align="left" valign="top"><table width="100%" border="0" cellspacing="0" cellpadding="0" class="content-trans-white-bg">
+                                                              <tr>
+                                                                <td height="135" align="center" valign="middle" class="content-white" ><%=h family_member.familymember_name %></td>
+                                                              </tr>
+                                                            </table></td>
+                                                          <td align="left" valign="top"><table width="100%" border="0" cellspacing="0" cellpadding="0" class="content-trans-white-bg">
+                                                              <tr>
+                                                                <td height="135" align="center" valign="middle" class="content-white" ><%=h family_member.relation %></td>
+                                                              </tr>
+                                                            </table></td>
+                                                          <td align="left" valign="top"><table width="100%" border="0" cellpadding="0" cellspacing="0" class="content-trans-white-bg">
+                                                              <tr>
+                                                                <td width="10" align="left" valign="middle"> </td>
+                                                                <td height="135" align="left" valign="middle" class="content-white" ><%=h family_member.biographie %></td>
+                                                              </tr>
+                                                            </table></td>
+                                                          <td align="left" valign="top"><table width="100%" border="0" cellpadding="0" cellspacing="0" class="content-trans-white-bg">
+                                                              <tr>
+                                                                <td height="135" align="center" valign="middle" class="content-white" >
+                                                                    
+                                                                      <input name="button" type="submit" class="cmd-btn-trans" id="button" value="&nbsp;&nbsp;View&nbsp;&nbsp;" onclick="window.location='/biography/show_biography/<%=params[:id]%>?member_id=<%=family_member.id%>'" />
+                                                                    <br />
+                                                                    <br />
+                                                                    
+                                                                    <input name="button4" type="submit" class="cmd-btn-trans" id="button4" value="&nbsp;&nbsp;&nbsp;Edit&nbsp;&nbsp;&nbsp;" onclick="window.location='/biography/edit_biography/<%=params[:id]%>?member_id=<%=family_member.id%>'" />
+                                                                    <br />
+                                                                    <br />
+                                                                   
+                                                                      <input name="button5" type="submit" class="cmd-btn-trans" id="button5" value="Delete" onclick="if(confirm('Are you sure you want to delete this biography?')){window.location='/biography/delete_biography/<%=params[:id]%>?member_id=<%=family_member.id%>'; } else return false;"/>
+                                                                  </td>
+                                                              </tr>
+                                                            </table></td>
+                                                          <td align="left" valign="top"><table width="100%" border="0" cellspacing="0" cellpadding="0" class="content-trans-white-bg">
+                                                              <tr>
+                                                                  <td height="135" align="center" valign="middle">
+                                                                    <%if i==0 %>
+          <%else%>
+            <%= link_to '<img src="/images/common/nav-arrow-top.png" title="Move Up" alt="Move Up" border="0">', { :action => 'moveup_biography', :prev => @arr[i-1], :currentid => family_member.id,:id => params[:id] }, :method => :post %>
+          <%end%>
+                                                                  <br /><br />
+                                                                  <%if i==j-1 %>
+          <%else%>
+            <%= link_to '<img src="/images/common/nav-arrow-bottom.png"  border="0" title="Move Down" alt="Move Down">', { :action => 'movedown_biography', :currentid => family_member.id , :nextid => @arr[i+1],:id => params[:id]  }, :method => :post %>
+          <%end%>
+                                                                  <br /></td>
+                                                              </tr>
+                                                            </table></td>
+                                                        </tr>
+                                                        <%  i = i + 1
+                                                  end %>
+                                                        <tr>
+                                                          <td align="left" valign="top">&nbsp;</td>
+                                                          <td align="left" valign="top">&nbsp;</td>
+                                                          <td align="left" valign="top">&nbsp;</td>
+                                                          <td align="left" valign="top">&nbsp;</td>
+                                                          <td align="left" valign="top">&nbsp;</td>
+                                                          <td align="left" valign="top">&nbsp;</td>
+                                                        </tr>
+                                                      </table><%end%></td>
+                                                  </tr>
+                                                  <tr>
+                                                    <td align="center" valign="top">&nbsp;</td>
+                                                  </tr>
+                                                  <tr>
+                                                    <td align="center" valign="top">&nbsp;</td>
+                                                  </tr>
+                                                  <tr>
+                                                    <td align="center" valign="top">&nbsp;</td>
+                                                  </tr>
+                                                  <tr>
+                                                    <td align="center" valign="top">&nbsp;</td>
+                                                  </tr>
+                                                  <tr>
+                                                    <td align="center" valign="top">&nbsp;</td>
+                                                  </tr>
+                                                  <tr>
+                                                    <td align="center" valign="top">&nbsp;</td>
+                                                  </tr>
+                                                  <tr>
+                                                    <td height="50" align="center" valign="top">&nbsp;</td>
+                                                  </tr>
+                                               </table></td>
+                                              <td width="20" align="left" valign="top"></td>
+                                            </tr>
+                                            <tr>
+                                              <td height="10" colspan="3" align="left" valign="top"></td>
+                                            </tr>
+
+                                          </table></td>
+                                      </tr>
+                                    </table></td>
+                    </tr>
+                    <tr>
+                      <td align="left" valign="top">&nbsp;</td>
+                      <td align="left" valign="top"></td>
+                      <td align="left" valign="top">&nbsp;</td>
+                    </tr>
+                  </table></td>
+              </tr>
+            </table></td>
+          <td width="13" align="left" valign="top"></td>
+        </tr>
+      </table></td>
+  </tr>
+</table>

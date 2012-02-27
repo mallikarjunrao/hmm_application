@@ -1,0 +1,10 @@
+
+<br>
+
+
+<% form_tag :action => 'create_textblog' do %>
+<input type="hidden" name="familyname" id="familyname" value="<%=params[:familyname]%>" />
+  <%= render :partial => 'form_textblog' %>
+
+<% end %>
+

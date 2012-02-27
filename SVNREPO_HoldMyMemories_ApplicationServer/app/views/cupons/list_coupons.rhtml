@@ -1,0 +1,130 @@
+<script type="text/javascript" src="/javascripts/new_calender/calendar_us.js"></script>
+<link rel="stylesheet" type="text/css" media="screen" href="/stylesheets/new_calender/calendar.css">
+<h1>Manage E-commerce Coupons</h1>
+<form name="search" action="/cupons/list_coupons" method="post">
+  <table border="1" cellpadding="0" cellspacing="0" align="center" width="550">
+    <tr><td align="center" colspan="4" height="30"><h3>Search Coupons</h3></td></tr>
+    <tr><td align="center" height="40">Coupon number:</td><td align="center" colspan="4" height="30"><input type="text" name="coupon_id" value="<%= params[:coupon_id] %>"/><br></br>Search by keyword (Eg: "1234")</td></tr>
+    <tr><td align="center" height="40">Discount type:</td><td align="center" height="40"><select name="discount_type">
+          <option value="">All</option>
+          <option value="percentage"<%= @percentage %> >Percentage</option>
+          <option value="dollar" <%= @dollar %>>Dollar</option>
+        </select><br></br></td><td align="center" height="40">Free Shipping:</td><td align="center" height="40"><select name="free_shipping">
+          <option value="">All</option>
+          <option value="true" <%= @yes %> >Yes</option>
+          <option value="false" <%= @no %>>No</option>
+        </select><br></br></td></tr>
+    <tr>
+      <td > Start Date</td>
+      <td><input type="text" name="start_date"  size="20" class="textbox-signup" value="<%=@starts_date%>"/>
+        <script language="JavaScript">
+          new tcal ({
+            // form name
+            'formname': 'search',
+            // input name
+            'controlname': 'start_date'
+          });
+
+        </script></td>
+      <td>End Date</td>
+      <td><input type="text" name="end_date"   size="20" class="textbox-signup" value="<%=@ends_date%>"/>
+        <script language="JavaScript">
+          new tcal ({
+            // form name
+            'formname': 'search',
+            // input name
+            'controlname': 'end_date'
+          });
+
+        </script></td>
+    </tr>
+    <tr><td align="center" colspan="4" height="40"><input type="submit" name="Search" value="Search" class="sub-btn"/></td></tr>
+  </table>
+</form>
+<br></br>
+<table>
+  <tr>
+    <th colspan="8" align="left"><a href="/cupons/new_ecommerce_coupon">Create Coupon</a></th>
+  </tr>
+
+  <%if(@cpcnt>0)%>
+    <tr><th align="center"><font color="red"><%=flash[:notice]%></font></th></tr>
+
+    <tr>
+      <th background="/images/body_hor.JPG"><font class='txt'><table> <tr><th><%= sort_header_tag('coupon_id', :text => "Coupon Number") %></th></tr></table></font></th>
+      <th background="/images/body_hor.JPG"><font class='txt'><table> <tr><th><%= sort_header_tag('discount_type', :text => "Discount Type") %></th></tr></table></font></th>
+      <th background="/images/body_hor.JPG"><font class='txt'><table> <tr><th><%= sort_header_tag('discount_amount', :text => "Discount Amount") %></th></tr></table></font></th>
+      <th background="/images/body_hor.JPG"><font class='txt'><table> <tr><th><%= sort_header_tag('discount_percentage', :text => "Discount Percentage") %></th></tr></table></font></th>
+      <th background="/images/body_hor.JPG"><font class='txt'><table> <tr><th><%= sort_header_tag('free_shipping', :text => "Free Shipping") %></th></tr></table></font></th>
+      <th background="/images/body_hor.JPG"><font class='txt'><table> <tr><th><%= sort_header_tag('start_date', :text => "Start Date") %></th></tr></table></font></th>
+      <th background="/images/body_hor.JPG"><font class='txt'><table> <tr><th><%= sort_header_tag('end_date', :text => "Expiry Date") %></th></tr></table></font></th>
+      <th background="/images/body_hor.JPG"><font class='txt'><table> <tr><th><%= sort_header_tag('status', :text => "Status") %></th></tr></table></font></th>
+      <th background="/images/body_hor.JPG"><font class='txt'>Created By</font></th>
+      <th background="/images/body_hor.JPG" colspan="2"><font class='txt'>Actions</font></th>
+    </tr>
+
+    <%
+    odd_or_even = 0
+    i = 0
+    for cp_detail in @cp_details
+      i = i + 1
+      odd_or_even = 1 - odd_or_even
+
+    %>
+      <tr class='ListLine<%=odd_or_even %>'>
+        <td><%=cp_detail.coupon_id %></td>
+        <td>
+          <%if(cp_detail.discount_type!='' && cp_detail.discount_type!=nil)%>
+            <%=cp_detail.discount_type.capitalize %>
+          <%else%>
+            -
+          <%end%>
+        </td>
+        <td>
+          <%if cp_detail.discount_type == "dollar"%>
+            $<%=cp_detail.discount_amount %>
+          <%else%>
+            -
+          <%end%>
+        </td>
+        <td>
+          <%if cp_detail.discount_type=="percentage"%>
+            <%=cp_detail.discount_percentage %>%
+          <%else%>
+            -
+          <%end%>
+        </td>
+        <td><%=cp_detail.free_shipping %></td>
+        <td><%=cp_detail.start_date.strftime("%m / %d / %Y ") %></td>
+        <td><%=cp_detail.end_date.strftime("%m / %d / %Y ") %></td>
+        <td><%=cp_detail.status %></td>
+        <td>
+          <%if(cp_detail.studio_owner_id==0)%>
+            Admin
+          <%else
+            @stdgrp=HmmStudiogroup.find(cp_detail.studio_owner_id)
+          %>
+            <%=@stdgrp.hmm_franchise_studio%>
+          <%end%>
+        </td>
+        <td class="cont"><%= link_to '<font color=#000000>View Studios</font>', :action => 'view_studios', :id => cp_detail %></td>
+        <td class="cont"><a href="/cupons/delete_coupon/<%=cp_detail.id%>" onclick="return confirm('Are you sure you want to delete?')" class='txt'><font color=#000000>Delete</font></a>
+        </td>
+      </tr>
+    <% end %>
+  <%else%>
+    <tr>
+      <th colspan="8"><font class='txt'>No Records Found</font></th>
+    </tr>
+  <%end%>
+
+</table>
+
+<table>
+  <tr>
+    <th align="left">
+      <%=will_paginate @cp_details, :params => params%>
+    </th>
+  </tr>
+</table>
+<br />

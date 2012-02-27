@@ -1,0 +1,2 @@
+module EmailManagementsHelper
+end

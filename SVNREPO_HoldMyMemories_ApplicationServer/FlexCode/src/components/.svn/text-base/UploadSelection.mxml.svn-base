@@ -1,0 +1,223 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:Canvas xmlns:mx="http://www.adobe.com/2006/mxml" horizontalScrollPolicy="off">
+	<mx:HBox width="100%" height="100%">
+		<mx:TileList id="fileList" width="100%" columnCount="3" dataProvider="{listOfFileNames}" allowMultipleSelection="true" 
+        offscreenExtraRowsOrColumns="2" keyUp="handleKeyUp(event)" horizontalScrollPolicy="off" height="100%"
+        itemsChangeEffect="{dataChangeEffect1}" backgroundColor="0" color="0xffffff" fontFamily="Arial"/>
+        
+       
+        	
+        
+			
+	</mx:HBox>
+	<mx:Sequence id="dataChangeEffect1">
+        <mx:Blur id="blur"
+            blurYTo="12" blurXTo="12" 
+            duration="300" 
+            perElementOffset="150"
+            filter="removeItem"/> 
+        <mx:SetPropertyAction 
+            name="visible" value="false" 
+            filter="removeItem"/>    
+        <mx:UnconstrainItemAction/>
+        <mx:Parallel>
+            <mx:Move 
+                duration="750" 
+                easingFunction="{Quadratic.easeOut}" 
+                perElementOffset="20"/>
+            <mx:RemoveItemAction 
+                startDelay="400" 
+                filter="removeItem"/>
+            <mx:AddItemAction  
+                startDelay="400" 
+                filter="addItem"/>
+            <mx:Blur 
+                startDelay="410" 
+                blurXFrom="18" blurYFrom="18" blurXTo="0" blurYTo="0" 
+                duration="300" 
+                filter="addItem"/>
+        </mx:Parallel>
+    </mx:Sequence> 
+    <mx:Button styleName="lastButtonStyle" id="deleteSelected"  label="x" toolTip="Delete Selected." click="handleClick()" x="{this.width-deleteSelected.width - 20}" y="0"/>
+	<mx:Script>
+		<![CDATA[/* if(!listOfFiles.length)
+            	{
+            		var evt : Event = new Event(CustomFileReferenceList.LIST_COMPLETE);
+            		dispatchEvent(evt); 
+            		return;
+            	} */
+			import mx.core.Application;
+			import mx.effects.easing.Quadratic;
+			import mx.controls.SWFLoader;
+			import mx.managers.PopUpManager;
+			import mx.core.IFlexDisplayObject;
+			import mx.effects.easing.Elastic;
+			import mx.collections.ArrayCollection;
+			[Embed(source="assets/busy.swf")]
+			private var busy : Class;
+			private var fileRefList : CustomFileReferenceList;
+			[Bindable]
+			private var listOfFileNames : ArrayCollection = new ArrayCollection();
+            public var listOfFiles : ArrayCollection = new ArrayCollection();
+            public var isBasicUser : Boolean = false;
+            private var upLoadPopup : IFlexDisplayObject;
+            
+            private function handleClick() : void
+            {
+            	var evt : KeyboardEvent = new KeyboardEvent(KeyboardEvent.KEY_UP);
+            	evt.keyCode = Keyboard.DELETE;
+            	handleKeyUp(evt);
+            }
+            
+            public  function uploadFiles() : void
+            {
+            	//if(fileRefList == null)
+            	if(!listOfFiles.length)
+            	    return;
+            	/* if(!listOfFiles.length)
+            	{
+            		var evt : Event = new Event(CustomFileReferenceList.LIST_COMPLETE);
+            		dispatchEvent(evt); 
+            		return;
+            	} */
+            			
+            	//var uploadListData : ArrayCollection = new ArrayCollection(fileRefList.fileList);
+            	upLoadPopup = PopUpManager.createPopUp(this.parentDocument as DisplayObject, UploadProgress, true);
+            	(upLoadPopup as UploadProgress).uploadList.dataProvider = listOfFiles;
+            	(upLoadPopup as UploadProgress).fileUploadController = fileRefList;
+            	/* for(var i : int = 0; i < fileRefList.fileList.length; i++)
+            	{
+            		fileRefList.addPendingFile(fileRefList.fileList[i]);
+            	} */
+            	
+            		fileRefList.addPendingFile(listOfFiles);
+            		//upLoadPopup.addEventListener("Cancel",handleCancel);
+            		
+            	PopUpManager.centerPopUp(upLoadPopup);
+            }
+            
+            private function handleListUploadCancel(event : Event) : void
+            {
+            	busyPopup.visible =false;
+				fileList.visible = true;
+            	listOfFileNames = new ArrayCollection();
+            	listOfFiles = new ArrayCollection();
+            	fileList.dataProvider = listOfFileNames;
+            	dispatchEvent(event.clone());
+				PopUpManager.removePopUp(upLoadPopup);
+            }
+			public function selectFiles() : void
+			{
+				if(fileRefList == null)
+				{
+					fileRefList = new CustomFileReferenceList();
+					fileRefList.proxyName = this.parentApplication.proxyName;
+					fileRefList.proxyUrl = this.parentApplication.proxyUrl;
+					fileRefList.addEventListener(Event.SELECT, handleFilesSelected);
+					fileRefList.addEventListener(Event.CANCEL, handleFilesSelectionCancel);
+					fileRefList.addEventListener(CustomFileReferenceList.LIST_CANCEL, handleListUploadCancel);
+					fileRefList.addEventListener(CustomFileReferenceList.LIST_COMPLETE, handleListUploadComplete);
+				}	
+				if(isBasicUser)
+				{
+					browseFilesBasicUser();
+				}
+				else
+				{
+					var popup : FileTypeSelector =  PopUpManager.createPopUp(Application.application as DisplayObject, FileTypeSelector, true) as FileTypeSelector;
+					PopUpManager.centerPopUp(popup);
+					popup.callback = browseFiles;
+				}
+			}
+			
+			private function browseFiles(target : FileTypeSelector) : void
+			{
+				var val : int = int(target.selector.selectedValue);
+				
+				PopUpManager.removePopUp(target);
+				fileRefList.browse([fileRefList.getTypes(val)]);
+				
+			}
+			
+			private function browseFilesBasicUser() : void
+			{
+				fileRefList.browse([fileRefList.getTypes(Application.application.currentGalleryType)]);
+			}
+			
+			public function clearFileList() : void
+			{
+				fileRefList.fileList.splice(0, fileRefList.fileList.length);
+				listOfFileNames.removeAll();
+			}
+			
+			private function handleListUploadComplete(event : Event) : void
+			{
+				busyPopup.visible =false;
+				fileList.visible = true;
+				fileRefList.uploadCancelFlag = false;
+				fileRefList.uploadDoneFlag = false;
+				//selectFiles.visible = true;
+				listOfFiles.source = [];
+				
+				dispatchEvent(event.clone());
+				PopUpManager.removePopUp(upLoadPopup);
+			}
+			
+			private function handleKeyUp(event : KeyboardEvent) : void
+			{
+				if(event.keyCode == Keyboard.DELETE)
+				{
+					var toRemove:Array = [];
+	                for (var i:int = 0; i < fileList.selectedItems.length; i++)
+	                {
+	                	toRemove.push(fileList.selectedItems[i]);
+	                	
+	                }
+	                    
+	                for (i = 0; i < toRemove.length; i++)
+	                {
+	                	var index : int = listOfFileNames.getItemIndex(toRemove[i]);
+	                	if(index >= 0)
+	                	{
+	                		listOfFiles.removeItemAt(index);
+	                		listOfFileNames.removeItemAt(index);
+	                		fileRefList.fileList.splice(index,1);	
+	                	}
+	                	
+	                	
+	                }
+                    
+				}
+				fileList.removeEventListener(KeyboardEvent.KEY_UP, handleKeyUp);
+			}
+			
+			private function handleFilesSelected(event : Event) : void
+			{
+				
+				for(var i : int = 0; i< fileRefList.fileList.length; i++)
+				{
+					var fileRef : FileReference = fileRefList.fileList[i] as FileReference;
+					listOfFiles.addItem(fileRef);
+					listOfFileNames.addItem(fileRef.name);
+				}
+				if(isBasicUser)
+				{
+					uploadFiles();
+				}
+				//fileList.dataProvider = listOfFiles;
+			}
+			
+			private function handleFilesSelectionCancel(event : Event) : void
+			{
+				
+			}
+			
+			private function handleShow() : void
+			{
+				fileList.visible = false;
+				//selectFiles.visible = false;	
+			}
+		]]>
+	</mx:Script>
+	<mx:SWFLoader id="busyPopup" show="handleShow()" visible="false" source="{new busy()}" x="{(this.width-busyPopup.width)/2}" y="{(this.height-busyPopup.height)/2}"/>
+</mx:Canvas>

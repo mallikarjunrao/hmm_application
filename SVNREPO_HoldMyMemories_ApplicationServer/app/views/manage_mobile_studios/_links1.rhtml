@@ -1,0 +1,19 @@
+<%= stylesheet_link_tag 'vertical_links' %>
+
+<table valign="top" id="menu8">
+  <tr height="50"><td></td></tr>
+   <tr><td><%= link_to 'Home', :action => 'show_app' , :id=>params[:id]%></td></tr>
+  <tr><td><%= link_to 'Logo', :action => 'view_studio_logo', :id=>params[:id]%></td></tr>
+
+  <tr><td><%= link_to 'About Us', :action => 'view_aboutus' , :id=>params[:id]%></td></tr>
+   <tr><td class="text"><%= link_to 'App Name', :action => 'view_app_name',:id=>params[:id]  %></td></tr>
+
+  <tr><td><%= link_to 'App Store Desc.', :action => 'view_app_store_description',:id=>params[:id]%></td></tr>
+
+  <tr><td><%= link_to 'Studio Portfolio', :action => 'view_studio_portfolios' , :id=>params[:id]%></td></tr>
+
+  <tr><td><%= link_to 'Booking Information', :action => 'view_booking_info' , :id=>params[:id]%></td></tr>
+
+  <tr><td class="text"><%= link_to 'Studio Specials', :action => 'view_studio_specials' , :id=>params[:id]%></td></tr>
+ 
+</table>

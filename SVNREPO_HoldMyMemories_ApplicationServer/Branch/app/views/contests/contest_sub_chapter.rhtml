@@ -1,0 +1,130 @@
+
+<%chap_check = Tag.count(:all, :conditions => "id=#{params[:id]} and uid=#{logged_in_hmm_user.id} ")
+if chap_check == 1
+%>
+<table align="center" width="899" border="0" cellspacing="0" cellpadding="0">
+<input type="hidden" name="order" value="<%=@params[:order]%>" />
+
+
+<tr>
+		<td valign="middle" colspan="2"> 
+			<table align="left"><tr>
+		
+			<%= sort_header_tag('d_updated_on', :text => "<img  src='/images/date_sort.gif' border='0'/>") %>
+&nbsp;&nbsp;&nbsp;&nbsp;
+<%= sort_header_tag('sub_chapname', :text => "<img  src='/images/name_sort.gif'   border='0'/>") %>
+</tr></table>
+		</td>
+		
+		
+	</tr>
+
+    
+	<tr>
+		<% @tag = Tag.find(:all, :conditions => "id=#{params[:id]}")
+		for @i in @tag 
+			@chapname=@i.v_tagname
+		%><th height="10" valign="top" colspan="2" align="left"><font size="3"></font></th>
+		
+		<%end%></tr>
+<tr>
+ 
+  <th height="128" align="left" valign="top" scope="col" colspan="4">
+	 <table width="99%" border="0"  cellspacing="0" align="left" cellpadding="0">
+        <tr>
+           <th height="4" colspan="10" align="left" valign="top" scope="col" ></th>
+        </tr>   <tr>
+                     <th height="9"  align="left" valign="top" scope="col">&nbsp;&nbsp;&nbsp;&nbsp;</th><th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th><th></th><th></th><th></th>
+                    </tr>
+      		<% 
+				j=0	
+				if @total == 0 %>
+				<p>No items found...</p>
+			<% else %>
+ 			   <% @sub_chapters.each do |@sub_chapter|
+			   
+			   
+			%>
+			<% if j == 0 %>
+			<tr>
+				
+			<% else if j >= 3 
+			j=0
+				
+			%>
+			</tr>
+				<tr>
+					<th height="20"  align="center" valign="top" scope="col" ></th><th></th><th></th>
+	   <th></th>
+	   <th></th>
+	   <th></th>
+	   <th></th>
+	   <th></th>
+	   <th></th>
+	   <th></th>
+	   <th></th>
+	   <th></th>
+                </tr>
+			<tr>
+			<% end %>	
+			<% end %>
+			
+            <th width="2%" align="left" valign="top" scope="col"><% j=j+1%></th>
+            <th width="73" align="left" valign="top" scope="col" >
+            	<%gal =  Galleries.count(:all, :conditions => "subchapter_id=#{@sub_chapter.id} and e_gallery_type='#{session[:contests_type]}'")%>
+				<%gallery =  Galleries.find(:all, :conditions => "subchapter_id=#{@sub_chapter.id} and e_gallery_type='#{session[:contests_type]}'")%>
+				
+				
+				<%for v in gallery%>
+				<% if gal > 1%>
+            	<a href='/contests/contest_gallery/<%=  @sub_chapter.id %>' >				
+				<%else%>
+				<a href='/contests/contest_moments/<%=  v.id %>' >
+
+            	<%end%>	<%end%>
+            		<img src="<%= @sub_chapter.img_url %>/user_content/photos/icon_thumbnails/<%= @sub_chapter.v_image %>" border="5" style="border-color:#000000;"  /></a></th>
+            <th width="10" align="left" valign="top" scope="col">&nbsp;</th>
+            <th width="139" align="left" valign="top" scope="col">
+            	<table width="100%" border="0" cellspacing="0" cellpadding="0">
+                	<tr>
+                		<th height="13" align="left" valign="top" scope="col"></th>
+                	</tr>
+                	<tr>
+               		  <th height="21" align="left" valign="top" class="chapindex-text" scope="col"><%= @sub_chapter.sub_chapname %></th>
+                 	</tr>
+					
+                    <tr>
+                 	  <th align="left" valign="top" class="chapindex-text2" scope="col" colspan="2">last updated <br>
+					  <%= @sub_chapter.d_updated_on.strftime("%a %b #{@sub_chapter.d_updated_on.day.ordinalize} %Y,   %I:%M %p") %>
+					  </th>
+                    </tr>
+              </table>			 </th>
+   <% end %></tr>	  
+    </table></th>
+  </tr>
+  <tr>
+  
+    	<th valign="bottom" scope="col" align="center" colspan="10">
+		<% if @sub_chapters_pages.page_count > 1 %>
+		&nbsp;
+		<font size="3"><%= link_to('Previous', {:params => params.merge('page' => @sub_chapters_pages.current.previous)}) if @sub_chapters_pages.current.previous %> &nbsp;&nbsp;&nbsp;</font>
+			<% for page in @sub_chapters_pages -%>
+			<font size="3"><%= link_to_unless((params[:page].to_i == page.number),
+				 page.number, :page => page) %></font> 
+			<% end -%>
+			<font size="3">&nbsp;&nbsp;&nbsp;&nbsp;<%= link_to('Next', {:params => params.merge('page' => @sub_chapters_pages.current.next)}) if @sub_chapters_pages.current.next %></font>
+<% end %></th>
+  </tr>
+ </table>
+      <% end %> 
+<%else%>
+<p>Records not found</p>
+<%end%>
+	  <table border="0"><tr><th colspan="5">&nbsp;</th></tr></table>
+	  
+

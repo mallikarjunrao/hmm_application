@@ -1,0 +1,13 @@
+<font color="#ffffff" />
+
+  <form action="/print_size_prices/email_coupon" method="post">
+    <input type="hidden" name="id" value="<%=params[:id]%>" />
+  <table border="0" align="center" bgcolor="#000000" width="650" height="350" valign="top">
+    <tr height="30"><td>&nbsp;</td></tr>
+    <tr><td><table border="0"><tr><td> Email Coupon to all</td></tr></table></td></tr>
+  <tr><td><input type="checkbox" id="free_users" name="free_users" value="free_user" />Free Customers</td><td><input type="checkbox" id="family_users" name="family_users" value="familyws_user" /> Family Customers</td><td><input type="checkbox" name="premium_users" id="premium_users" value="platinum_user" />Premium Cutomers</td></tr>
+  <tr><td></td><td><a href="/print_size_prices/email_specific_customers?id=<%=params[:id]%>"> Email to specific customers </a></td><td></td></tr>
+  <tr><td></td><td><input type="submit" name="sub" value="Send"/></td></tr>
+</table>
+</form>
+</font>

@@ -1,0 +1,27 @@
+xml.instruct! :xml, :version=>"1.0"
+xml.Users{
+  for user_details in @results
+    xml.User{
+      xml.UserName(user_details.v_user_name)
+      xml.UserEmailId(user_details.v_e_mail)
+      xml.Phone(user_details.telephone)
+      xml.UserId(user_details.id)     
+      xml.FirstName(user_details.v_fname)
+      xml.LastName(user_details.v_lname)
+      xml.Sex(user_details.e_sex)
+      xml.Status(user_details.e_user_status)
+      xml.AccountType(user_details.account_type)
+      xml.CreditNotes(user_details.notes)
+      if(user_details.available_credits==nil || user_details.available_credits=='')        
+        xml.AvailablePoints('0')
+      else
+        xml.AvailablePoints(user_details.available_credits)
+      end
+      if(user_details.used_credits ==nil || user_details.used_credits=='')
+        xml.UsedPoints('0')
+      else        
+        xml.UsedPoints(user_details.used_credits)
+      end
+    }
+  end
+}

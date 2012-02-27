@@ -1,0 +1,8 @@
+<p>
+  <b>Uid:</b>
+  <%=h @invite_friend.uid %>
+</p>
+
+
+<%= link_to 'Edit', edit_invite_friend_path(@invite_friend) %> |
+<%= link_to 'Back', invite_friends_path %>

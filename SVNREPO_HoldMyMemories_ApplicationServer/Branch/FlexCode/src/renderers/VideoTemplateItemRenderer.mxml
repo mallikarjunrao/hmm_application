@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:VBox xmlns:mx="http://www.adobe.com/2006/mxml" width="110" height="150" verticalGap="0" verticalAlign="middle"
+	horizontalAlign="center">
+		<mx:Image source="{data.image}" />
+		<!--<mx:Image source="{data.tempImage}"/>-->
+		<mx:Label text="{data.tempImage}"/>
+		<mx:Button click="handlePreview()" label="Preview"/>
+	<mx:Style>
+		 Button
+		{
+			 fillColors: #000000, #000000, #000000, #cccccc;
+			corner-radius : 0;
+			color : #ffffff;
+			selection-color : #ff6633;
+			theme-color : #ff6633;
+			text-roll-over-color : #ff6633;
+		}
+	</mx:Style>
+	<mx:Script>
+		<![CDATA[
+			import flash.net.navigateToURL;
+			[Bindable]
+			public var tempname : String; 
+			override public function set data(value : Object) : void
+			{
+				super.data = value;
+				tempname = data.name;
+			}
+			
+			private function handlePreview() : void
+			{
+				navigateToURL(new URLRequest(data.link),"_self");
+			}
+		]]>
+	</mx:Script>
+</mx:VBox>

@@ -1,0 +1,33 @@
+<h1>List of Studios</h1>
+<font color="#f5dfa6"><%=flash[:notice]%><%=flash[:notice_del]%></font>
+<form action="/hmm_studios/studio_credit_list" method="post">
+  <table border="1" cellpadding="0" cellspacing="0" align="center" width="450">
+    <tr><td align="center" colspan="4" height="30"><h3>Search Studio details</h3></td></tr>
+    <tr><td align="center" height="40">Studio Branch:</td><td><input type="text" name="studio_branch" value="<%= params[:studio_branch] %>"/><br></br>Search by keyword (Eg: "Hanes Mall")</td>
+      <td align="center" height="40">Studio Address:</td><td><input type="text" name="studio_address" value="<%= params[:studio_address] %>"/><br></br>Search by keyword (Eg: "N.W. 12 Street")</td></tr>
+    <tr><td align="center" colspan="4" height="40"><input type="submit" name="Search" value="Search" class="sub-btn"/></td></tr>
+  </table>
+</form>
+<table>
+  <tr>
+
+    <th background="/images/body_hor.JPG"><table> <tr><th><%= sort_header_tag('studio_branch', :text => "Studio Branch") %></th></tr></table></th>
+    <th background="/images/body_hor.JPG"><table> <tr><th><%= sort_header_tag('studio_address', :text => "Studio address") %></th></tr></table></th>
+
+    <th background="/images/body_hor.JPG" colspan="3" align="center">Actions</th>
+  </tr>
+
+  <% for hmm_studio in @hmm_studios %>
+    <tr class="<%= cycle('odd', 'even') -%>">
+
+      <td><%=hmm_studio.studio_branch %></td>
+      <td><%=hmm_studio.studio_address %></td>
+      <td><%= link_to 'Edit', :action => 'studio_edit', :id => hmm_studio %></td>
+    </tr>
+  <% end %>
+</table>
+
+<%=will_paginate @hmm_studios, :params => params%>
+<br />
+
+<%= link_to 'Add New Studio', :action => 'studio_signup' %>

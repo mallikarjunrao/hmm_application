@@ -1,0 +1,987 @@
+
+<%= javascript_include_tag 'themes/prototype' %>
+
+<%  @studio_header = HmmStudio.find(@family_website_owner.studio_id)
+if @studio_header.studio_groupid==pp_studio_group
+
+  bgcolor="rightBarMdl"
+   bgcolor1="rightBarMdl"
+   bgcolor2="content-trans-bg-new"
+else
+bgcolor=""
+bgcolor1="content-trans-bg"
+bgcolor2="content-trans-bg"
+end %>
+
+<table cellspacing="0" cellpadding="0" border="0" width="100%" align="center" class="<%= bgcolor %>">
+
+<%  @studio_header = HmmStudio.find(@family_website_owner.studio_id)
+  if @studio_header.studio_groupid==pp_studio_group%>
+  <% else %>
+    <%= render :partial => "family_memory/partials/heading"%>
+  <% end %>
+  <tr>
+    <td align="left" valign="bottom" height="35" class="header-page">View Comments</td>
+  </tr>
+  <tr>
+    <td bgcolor="#84b7d6" align="left" valign="top" height="1"></td>
+  </tr>
+ 
+  <tr>
+
+
+
+
+    <td class="<%= bgcolor1 %> "   id="content"><table width="100%" border="0" cellspacing="0" cellpadding="0">
+        <tr>
+          <td height="10" colspan="3" align="left" valign="top"></td>
+        </tr>
+        <tr>
+          <td width="20" align="left" valign="top"></td>
+          <td align="left" valign="top"><table width="100%" border="0" cellspacing="0" cellpadding="0">
+              <%  unless flash[:message]==nil%>
+                <tr>
+                  <td align="center" valign="top" class="content-white"><%=flash[:message]%></td>
+                </tr>
+              <%end%>
+
+              <tr>
+                <td height="15" colspan="3" align="left" valign="top"></td>
+              </tr>
+
+              <%unless @total==0%>
+                <tr>
+                  <td>
+                    <table width="100%" border="0" align="right" cellpadding="0" cellspacing="0" class="border">
+                      <tr><% if params[:view_all] == "true" %>
+                        <% else %>
+                          <td align="left"><font class="content-orange">
+                              <a style="text-decoration: none;" href="/family_memory/view/<%= params[:id] %>?view_all=true">View All Comments</a></font></td>
+                        <% end %>
+                        <td align="right"  class="side-heading" style="font-size: 14px">
+                          <%= will_paginate @tagid %>
+                        </td></tr>
+                    </table>
+                  </td>
+                </tr>
+                <tr>
+                  <td height="10" align="left" valign="top"></td>
+                </tr>
+              <%end%>
+              <tr>
+                <td align="left" valign="top">
+
+                  <%
+                  if(session[:friend]!='')
+                    uid1=session[:friend]
+                  else
+                    uid1=logged_in_hmm_user.id
+                  end
+                  @id1=0
+                  @tagid = @tagid
+
+                  for @i in @tagid
+
+                    @id1=@id1+1
+                    @id="#{@id1}"
+                    comment=@i.comment
+                    approvepath=""
+                    rejectpath=""
+                    replypath=""
+                  %>
+
+
+                    <% if (@i.ctype=='chapter') %>
+                      <%
+                      tag=Tag.find(@i.master_id)
+                      type1="Chapter"
+                      status=tag.status
+                      name=tag.v_tagname
+                      uid=tag.uid
+                      @i.ctype="Chapter"
+
+                      hmmuser=HmmUser.find(@i.user_id)
+                      #username=hmmuser.v_fname+" "+hmmuser.v_lname
+                      if(@i.name=='' || @i.name==nil )
+                        hmmuser=HmmUser.find(@i.user_id)
+                        username=hmmuser.v_fname+" "+hmmuser.v_lname
+                      else
+                        username=@i.name
+                      end
+                      e_access=tag.e_access
+                      if(tag.v_chapimage == "folder_img.png")
+                        imgpath='/user_content/photos/icon_thumbnails/folder_img.png'
+                      else
+                        imageName  = tag.v_chapimage
+                        imageName.slice!(-3..-1)
+                        imgpath="#{tag.img_url}/user_content/photos/icon_thumbnails/"+imageName+"png"
+                      end
+
+                      path="/family_memory/gallery_details/#{params[:id]}?chapter_id=#{tag.id}"
+                      tag_name=''
+                      sub_name=''
+                      gal_name=''
+                      if @i.e_approval=="pending"
+                        approvepath="/family_memory/chapter_comment_approve_cmt/#{params[:id]}?comment_id=#{@i.id}"
+                        rejectpath="/family_memory/chapter_comment_reject_cmt/#{params[:id]}?comment_id=#{@i.id}"
+                      else
+                        deletepath="/family_memory/chapter_comment_destroy_cmt/#{params[:id]}?comment_id=#{@i.id}"
+                      end
+                      table="chapter_comments"
+                    %>
+
+                    <%else%>
+                      <% if (@i.ctype=='sub_chapter') %>
+                        <%
+                        subchap=SubChapter.find(@i.master_id)
+                        type1="Sub Chapter"
+                        name=subchap.sub_chapname
+                        status=subchap.status
+                        uid=subchap.uid
+                        e_access=subchap.e_access
+                        tag=Tag.find(subchap.tagid)
+                        type1="Chapter"
+                        @i.ctype="Sub Chapter"
+                        tag_status=tag.status
+                        tag_name=tag.v_tagname
+                        hmmuser=HmmUser.find(@i.user_id)
+                        #username=hmmuser.v_fname+" "+hmmuser.v_lname
+                        if(@i.name=='' || @i.name==nil )
+                          hmmuser=HmmUser.find(@i.user_id)
+                          username=hmmuser.v_fname+" "+hmmuser.v_lname
+                        else
+                          username=@i.name
+                        end
+                        if(subchap.v_image == "folder_img.png")
+                          imgpath='/user_content/photos/icon_thumbnails/folder_img.png'
+                        else
+                          imageName  = subchap.v_image
+                          imageName.slice!(-3..-1)
+                          imgpath="#{subchap.img_url}/user_content/photos/icon_thumbnails/"+imageName+"png"
+                        end
+                        path="/family_memory/gallery_details/#{params[:id]}?sub_chapid=#{subchap.id}"
+
+
+                        sub_name=''
+                        gal_name=''
+                        if @i.e_approval=="pending"
+                          approvepath="/family_memory/subchap_comment_approve_cmt/#{params[:id]}?comment_id=#{@i.id}"
+                          rejectpath="/family_memory/subchap_comment_reject_cmt/#{params[:id]}?comment_id=#{@i.id}"
+                        else
+                          deletepath="/family_memory/subchap_comment_destroy_cmt/#{params[:id]}?comment_id=#{@i.id}"
+                        end
+                        table="subchap_comments"
+                      %>
+
+
+                      <%else%>
+                        <% if (@i.ctype=='gallery') %>
+                          <%
+                          gal=Galleries.find(@i.master_id)
+                          type1="Gallery"
+                          name=gal.v_gallery_name
+
+
+                          status=gal.status
+
+                          subchap1=SubChapter.find(gal.subchapter_id)
+                          sub_name=subchap1.sub_chapname
+                          uid=subchap1.uid
+                          e_access=gal.e_gallery_acess
+                          hmmuser=HmmUser.find(@i.user_id)
+                          #username=hmmuser.v_fname+" "+hmmuser.v_lname
+                          if(@i.name=='' || @i.name==nil )
+                            hmmuser=HmmUser.find(@i.user_id)
+                            username=hmmuser.v_fname+" "+hmmuser.v_lname
+                          else
+                            username=@i.name
+                          end
+                          tags=Tag.find(subchap1.tagid)
+                          tag_name=tags.v_tagname
+                          if(gal.v_gallery_image=='picture.png' || gal.v_gallery_image=='audio.png' ||gal.v_gallery_image=='video.png')
+                            imgpath='/user_content/photos/icon_thumbnails/'+gal.v_gallery_image
+                          else
+                            imageName  = gal.v_gallery_image
+                            imageName.slice!(-3..-1)
+                            imgpath="#{gal.img_url}/user_content/photos/icon_thumbnails/"+imageName+"png"
+                          end
+                          path="/family_memory/gallery_details/#{params[:id]}?gallery_id=#{gal.id}"
+
+                          gal_name=''
+                          if @i.e_approval=="pending"
+                            approvepath="/family_memory/gallery_comment_approve_cmt/#{params[:id]}?comment_id=#{@i.id}"
+                            rejectpath="/family_memory/gallery_comment_reject_cmt/#{params[:id]}?comment_id=#{@i.id}"
+                          else
+                            deletepath="/family_memory/gallery_comment_destroy_cmt/#{params[:id]}?comment_id=#{@i.id}"
+                          end
+                          table="gallery_comments"
+
+                        %>
+                        <%else%>
+                          <% if (@i.ctype=='moment') %>
+                            <%
+                            photo=UserContent.find(@i.master_id)
+                            type1="Moment"
+                            @i.ctype="Moment"
+                            status=photo.status
+                            name=photo.v_tagphoto
+                            uid=photo.uid
+                            e_access=photo.e_access
+                            tag=Tag.find(photo.tagid)
+                            type1="Chapter"
+
+                            tag_status=tag.status
+                            tag_name=tag.v_tagname
+                            if(@i.name=='' || @i.name==nil )
+                              hmmuser=HmmUser.find(@i.user_id)
+                              username=hmmuser.v_fname+" "+hmmuser.v_lname
+                            else
+                              username=@i.name
+                            end
+                            gal=Galleries.find(photo.gallery_id)
+                            type1="Chapter"
+
+                            gal_status=gal.status
+                            gal_name=gal.v_gallery_name
+
+                            sub=SubChapter.find(gal.subchapter_id)
+                            type1="Chapter"
+                            if(photo.e_filetype=='video' || photo.e_filetype=='swf')
+                              imgpath="#{photo.img_url}/user_content/videos/thumbnails/#{photo.v_filename}"+".jpg"
+                            else
+                              if(photo.e_filetype=='image')
+                                imgpath="#{photo.img_url}/user_content/photos/small_thumb/#{photo.v_filename}"
+                              else
+                                imgpath="/user_content/audios/speaker.jpg"
+                              end
+                            end
+
+
+                            sub_status=sub.status
+                            sub_name=sub.sub_chapname
+                            path="/family_memory/gallery_details/#{params[:id]}?moment_id=#{photo.id}"
+                            if @i.e_approval=="pending"
+                              approvepath="/family_memory/photo_comments_approve_cmt/#{params[:id]}?comment_id=#{@i.id}"
+                              rejectpath="/family_memory/photo_comments_reject_cmt/#{params[:id]}?comment_id=#{@i.id}"
+                            else
+                              deletepath="/family_memory/photo_comments_destroy_cmt/#{params[:id]}?comment_id=#{@i.id}"
+
+
+                              replypath="/chapter_comment/reply_comnt/#{@i.id}"
+                            end
+                            table="photo_comments"
+                          %>
+
+                          <%else%>
+                            <% if (@i.ctype=='shareJournal') %>
+                              <%
+                              shareJ=ShareJournal.find(@i.master_id)
+
+                              type1="Shared Blog"
+                              @i.ctype="Shared Blog"
+                              status='pending'
+                              name=shareJ.jtype
+                              uid=shareJ.presenter_id
+                              e_access='public'
+                              tag_name=''
+                              sub_name=''
+                              gal_name=''
+                              journal_id=shareJ.jid
+
+                              journaltype=shareJ.jtype
+
+                              if(journaltype == 'chapter')
+                                chapjournal_count=ChapterJournal.count(:all, :conditions => "id='#{journal_id}'")
+                                if(chapjournal_count > 0)
+                                  chapjournal=ChapterJournal.find(journal_id)
+                                  tagid=chapjournal.tag_id
+                                  tags=Tag.find(tagid)
+                                  img=tags.v_chapimage
+                                  if(img == "folder_img.png")
+                                    imgpath='/user_content/photos/icon_thumbnails/folder_img.png'
+                                  else
+                                    imageName  = img
+                                    imageName.slice!(-3..-1)
+                                    imgpath="#{tags.img_url}/user_content/photos/icon_thumbnails/"+imageName+"png"
+                                  end
+                                end
+                              else
+                                if(journaltype=='subchap')
+                                  subchapjournal_count=SubChapJournal.count(:all, :conditions => "id='#{journal_id}'")
+                                  if(subchapjournal_count > 0)
+                                    subchapjournal=SubChapJournal.find(journal_id)
+                                    subchapid=subchapjournal.sub_chap_id
+                                    subchap=SubChapter.find(subchapid)
+                                    img=subchap.v_image
+                                    if(img == "folder_img.png")
+                                      imgpath='/user_content/photos/icon_thumbnails/folder_img.png'
+                                    else
+                                      imageName  = img
+                                      imageName.slice!(-3..-1)
+                                      imgpath="#{subchap.img_url}/user_content/photos/icon_thumbnails/"+imageName+"png"
+                                    end
+                                  end
+                                else
+                                  if(journaltype=='gallery')
+                                    galleryjournal_count=GalleryJournal.count(:all, :conditions => "id='#{journal_id}'")
+                                    if(galleryjournal_count > 0)
+                                      galleryjournal=GalleryJournal.find(journal_id)
+                                      galleryid=galleryjournal.galerry_id
+                                      gallery=Galleries.find(galleryid)
+                                      img=gallery.v_gallery_image
+                                      if(img == "folder_img.png")
+                                        imgpath='/user_content/photos/icon_thumbnails/folder_img.png'
+                                      else
+                                        imageName = img
+                                        imageName.slice!(-3..-1)
+                                        imgpath="#{gallery.img_url}/user_content/photos/icon_thumbnails/"+imageName+"png"
+                                      end
+                                    end
+                                  else
+                                    if(journaltype=='text')
+                                      textyjournal_count=TextJournal.count(:all, :conditions => "id='#{journal_id}'")
+                                      if(textyjournal_count > 0)
+                                        textjournal=TextJournal.find(journal_id)
+                                        uid=textjournal.uid
+                                        #gallery=Galleries.find(galleryid)
+                                        img=logged_in_hmm_user.v_myimage
+                                        imgpath="#{logged_in_hmm_user.img_url}/hmmuser/photos/thumb/#{img}"
+                                      end
+                                    else
+                                      if(journaltype=='photo')
+                                        journalphoto_count=JournalsPhoto.count(:all, :conditions => "id='#{journal_id}'")
+                                        if(journalphoto_count > 0)
+                                          journalphoto=JournalsPhoto.find(journal_id)
+                                          usercontentid=journalphoto.user_content_id
+                                          usercontent = nil
+                                          usercontent=UserContent.find(usercontentid)
+                                          filetype=usercontent.e_filetype
+                                          img=usercontent.v_filename
+                                          if (filetype == 'image')
+                                            if(img == "folder_img.png")
+                                              imgpath='/user_content/photos/icon_thumbnails/folder_img.png'
+                                            else
+                                              imageName = img
+                                              #imageName.slice!(-3..-1)
+                                              imgpath="#{usercontent.img_url}/user_content/photos/small_thumb/#{imageName}"#+"jpg"
+                                            end
+                                          else
+                                            if (usercontent.e_filetype == 'video' || usercontent.e_filetype == 'swf')
+                                              imageName = img
+                                              imgpath="#{usercontent.img_url}/user_content/videos/thumbnails/#{imageName}"+".jpg"
+                                            else
+                                              if (usercontent.e_filetype == 'audio')
+                                                imgpath="/user_content/audios/speaker.jpg"
+                                              else
+                                                imgpath="/user_content/photos/icon_thumbnails/noimage1.jpg"
+                                              end
+                                            end
+                                          end
+                                        end
+                                      end
+                                    end
+                                  end
+                                end
+
+                              end
+                              #path="/share_journals/shareJournal_view/#{shareJ.id}?familyname=#{params[:id]}"
+                              path="#"
+
+                              username=@i.name
+
+                              if @i.e_approval=="pending"
+                                approvepath="/family_memory/share_journalcomments_approve_cmt/#{params[:id]}?comment_id=#{@i.id}"
+                                rejectpath="/family_memory/share_journalcomments_reject_cmt/#{params[:id]}?comment_id=#{@i.id}"
+                              else
+                                deletepath="/family_memory/share_journalcomments_destroy_cmt/#{params[:id]}?comment_id=#{@i.id}"
+                                replypath="/share_journalcomments/reply_comnt/#{@i.id}"
+                              end
+                              table="share_journalcomments"
+                            %>
+
+
+
+
+                            <%else%>
+                              <% if (@i.ctype=='website' || @i.ctype=='iphone') %>
+                                <%
+                                blog=Blog.find(@i.id)
+
+                                journaltype=blog.blog_type
+                                name=blog.title
+                                e_access='public'
+                                tag_name=''
+                                sub_name=''
+                                gal_name=''
+
+                                if(journaltype == 'chapter')
+                                  chapjournal_count=Blog.count(:all, :conditions => "id=#{@i.id}")
+                                  if(chapjournal_count > 0)
+                                    chapjournal=Blog.find(@i.id)
+                                    tagid=chapjournal.blog_type_id
+                                    tags=Tag.find(tagid)
+                                    img=tags.v_chapimage
+                                    if(img == "folder_img.png")
+                                      imgpath='/user_content/photos/icon_thumbnails/folder_img.png'
+                                    else
+                                      imageName  = img
+                                      imageName.slice!(-3..-1)
+                                      imgpath="#{tags.img_url}/user_content/photos/icon_thumbnails/"+imageName+"png"
+                                    end
+                                  end
+                                else
+                                  if(journaltype=='subchapter')
+                                    subchapjournal_count=Blog.count(:all, :conditions => "id=#{@i.id}")
+                                    if(subchapjournal_count > 0)
+                                      subchapjournal=Blog.find(@i.id)
+                                      subchapid=subchapjournal.blog_type_id
+                                      subchap=SubChapter.find(subchapid)
+                                      img=subchap.v_image
+                                      if(img == "folder_img.png")
+                                        imgpath='/user_content/photos/icon_thumbnails/folder_img.png'
+                                      else
+                                        imageName  = img
+                                        imageName.slice!(-3..-1)
+                                        imgpath="#{subchap.img_url}/user_content/photos/icon_thumbnails/"+imageName+"png"
+                                      end
+                                    end
+                                  else
+                                    if(journaltype=='gallery')
+                                      galleryjournal_count=Blog.count(:all, :conditions => "id=#{@i.id}")
+                                      if(galleryjournal_count > 0 && Galleries.exists?(galleryid))
+                                        galleryjournal=Blog.find(@i.id)
+                                        galleryid=galleryjournal.blog_type_id
+                                        gallery=Galleries.find(galleryid)
+                                        img=gallery.v_gallery_image
+                                        if(img == "folder_img.png")
+                                          imgpath='/user_content/photos/icon_thumbnails/folder_img.png'
+                                        else
+                                          imageName = img
+                                          imageName.slice!(-3..-1)
+                                          imgpath="#{gallery.img_url}/user_content/photos/icon_thumbnails/"+imageName+"png"
+                                        end
+                                      end
+                                    else
+                                      if(journaltype=='text')
+                                        textyjournal_count=Blog.count(:all, :conditions => "id=#{@i.id}")
+                                        if(textyjournal_count > 0)
+                                          textjournal=Blog.find(@i.id)
+                                          uid=textjournal.user_id
+                                          #gallery=Galleries.find(galleryid)
+                                          img=logged_in_hmm_user.v_myimage
+                                          imgpath="#{logged_in_hmm_user.img_url}/hmmuser/photos/thumb/#{img}"
+                                        end
+                                      else
+                                        if(1==1)
+                                          journalphoto_count=Blog.count(:all, :conditions => "id=#{@i.id}")
+                                          if(journalphoto_count > 0)
+                                            journalphoto=Blog.find(@i.id)
+                                            usercontentid=journalphoto.blog_type_id
+                                            usercontent = nil
+                                            if UserContent.exists?(usercontentid)
+                                              usercontent=UserContent.find(usercontentid)
+                                              filetype=usercontent.e_filetype
+                                              img=usercontent.v_filename
+
+                                              if (usercontent.e_filetype == 'video' || usercontent.e_filetype == 'swf')
+                                                imageName = img
+                                                imgpath="#{usercontent.img_url}/user_content/videos/thumbnails/#{imageName}"+".jpg"
+                                              else
+                                                if (usercontent.e_filetype == 'audio')
+                                                  imgpath="/user_content/audios/speaker.jpg"
+                                                else
+                                                  imgpath="/user_content/photos/icon_thumbnails/noimage1.jpg"
+                                                end
+
+                                                if (filetype == 'image')
+                                                  if(img == "folder_img.png")
+                                                    imgpath='/user_content/photos/icon_thumbnails/folder_img.png'
+                                                  else
+                                                    imageName = img
+                                                    #imageName.slice!(-3..-1)
+                                                    imgpath="#{usercontent.img_url}/user_content/photos/small_thumb/#{imageName}"#+"jpg"
+                                                  end
+                                                else
+
+                                                end
+                                              end
+                                            end
+                                          end
+                                        end
+                                      end
+                                    end
+                                  end
+
+                                end
+
+
+
+
+                                #path="/share_journals/shareJournal_view/#{shareJ.id}?familyname=#{params[:id]}"
+                                path="#"
+
+                                username=@i.name
+
+                                if @i.e_approval=="pending"
+                                  approvepath="/family_memory/share_blog_approve_cmt/#{params[:id]}?comment_id=#{@i.reply}"
+                                  rejectpath="/family_memory/share_blog_reject_cmt/#{params[:id]}?comment_id=#{@i.reply}"
+                                else
+                                  deletepath="/family_memory/share_blog_destroy_cmt/#{params[:id]}?comment_id=#{@i.reply}"
+                                  replypath="/share_journalcomments/reply_comnt/#{@i.reply}"
+                                end
+                                table="share_journalcomments"
+
+                              %>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                              <%else%>
+                                <% if(@i.ctype=='sharemoment_comment') %>
+                                  <%
+                                  share=ShareMoment.find(@i.master_id)
+
+
+
+                                  share_content=UserContent.find(share.usercontent_id)
+
+                                  type1="Shared moments"
+                                  @i.ctype="Shared Moments"
+                                  status='active'
+                                  name=share.moment_type
+                                  uid=share.presenter_id
+                                  e_access='public'
+                                  tag_name=''
+                                  sub_name=''
+                                  gal_name=''
+                                  path="/share_moments/shareMoment_view/#{@i.master_id}"
+                                  if(share_content.e_filetype=='video' || share_content.e_filetype=='swf')
+                                    imgpath="#{share_content.img_url}/user_content/videos/thumbnails/#{share_content.v_filename}"+".jpg"
+                                  else
+                                    if(share_content.e_filetype=='image')
+                                      imgpath="#{share_content.img_url}/user_content/photos/small_thumb/#{share_content.v_filename}"
+                                    else
+                                      imgpath="/user_content/audios/speaker.jpg"
+                                    end
+                                  end
+
+                                  if(@i.name=='' || @i.name==nil )
+                                    hmmuser=HmmUser.find(@i.user_id)
+                                    username=hmmuser.v_fname+" "+hmmuser.v_lname
+                                  else
+                                    username=@i.name
+                                  end
+                                  if @i.e_approval=="pending"
+                                    approvepath="/family_memory/share_momentcomments_approve_cmt/#{params[:id]}?comment_id=#{@i.id}"
+                                    rejectpath="/family_memory/share_momentcomments_reject_cmt/#{params[:id]}?comment_id=#{@i.id}"
+                                  else
+                                    deletepath="/family_memory/share_momentcomments_destroy_cmt/#{params[:id]}?comment_id=#{@i.id}"
+                                    replypath="/share_momentcomments/reply_comnt/#{params[:id]}?comment_id=#{@i.id}"
+
+
+                                  end
+                                  table="share_momentcomments"
+
+                                %>
+                                <%else%>
+                                  <% if(@i.ctype=='guest_comment') %>
+
+                                    <%
+                                    guest_det=GuestComment.find(@i.id)
+
+                                    if(guest_det.journal_type=='chapter')
+                                      tag=Tag.find(guest_det.journal_typeid)
+                                      type1="Chapter"
+                                      status=tag.status
+                                      name=tag.v_tagname
+                                      uid=tag.uid
+                                      @i.ctype="Chapter"
+                                      hmmuser=HmmUser.find(@i.user_id)
+                                      #username=hmmuser.v_fname+" "+hmmuser.v_lname
+                                      e_access=tag.e_access
+                                      if(tag.v_chapimage == "folder_img.png")
+                                        imgpath='/user_content/photos/icon_thumbnails/folder_img.png'
+                                      else
+                                        imageName  = tag.v_chapimage
+                                        imageName.slice!(-3..-1)
+                                        imgpath="#{tag.img_url}/user_content/photos/icon_thumbnails/"+imageName+"png"
+                                      end
+
+                                      path="/familywebsite/subchapters/#{params[:id]}?chapter_id=#{tag.id}"
+                                      tag_name=''
+                                      sub_name=''
+                                      gal_name=''
+
+                                    else
+                                      if (guest_det.journal_type=='sub-chapter' && SubChapter.exists?(guest_det.journal_typeid))
+                                        subchap=SubChapter.find(guest_det.journal_typeid)
+                                        type1="Sub Chapter"
+                                        name=subchap.sub_chapname
+                                        status=subchap.status
+                                        uid=subchap.uid
+                                        e_access=subchap.e_access
+                                        tag=Tag.find(subchap.tagid)
+                                        type1="Chapter"
+                                        @i.ctype="Sub Chapter"
+                                        tag_status=tag.status
+                                        tag_name=tag.v_tagname
+                                        hmmuser=HmmUser.find(@i.user_id)
+                                        #username=hmmuser.v_fname+" "+hmmuser.v_lname
+                                        if(subchap.v_image == "folder_img.png")
+                                          imgpath='/user_content/photos/icon_thumbnails/folder_img.png'
+                                        else
+                                          imageName  = subchap.v_image
+                                          imageName.slice!(-3..-1)
+                                          imgpath="#{subchap.img_url}/user_content/photos/icon_thumbnails/"+imageName+"png"
+                                        end
+                                        path="/familywebsite/galleries/#{params[:id]}?subchapter_id=#{subchap.id}"
+                                        sub_name=''
+                                        gal_name=''
+                                      else
+                                        if (guest_det.journal_type=='gallery' && Galleries.exists?(guest_det.journal_typeid))
+                                          gal=Galleries.find(guest_det.journal_typeid)
+                                          type1="Gallery"
+                                          name=gal.v_gallery_name
+                                          status=gal.status
+
+                                          subchap1=SubChapter.find(gal.subchapter_id)
+                                          sub_name=subchap1.sub_chapname
+                                          uid=subchap1.uid
+                                          e_access=gal.e_gallery_acess
+                                          hmmuser=HmmUser.find(@i.user_id)
+                                          #username=hmmuser.v_fname+" "+hmmuser.v_lname
+                                          tags=Tag.find(subchap1.tagid)
+                                          tag_name=tags.v_tagname
+                                          if(gal.v_gallery_image=='picture.png' || gal.v_gallery_image=='audio.png' ||gal.v_gallery_image=='video.png')
+                                            imgpath="#{gal.img_url}/user_content/photos/icon_thumbnails/"+gal.v_gallery_image
+                                          else
+                                            imageName  = gal.v_gallery_image
+                                            imageName.slice!(-3..-1)
+                                            imgpath="#{gal.img_url}/user_content/photos/icon_thumbnails/"+imageName+"png"
+                                          end
+                                          path="/familywebsite/gallery_contents/#{params[:id]}?gallery_id=#{gal.id}"
+                                          gal_name=''
+                                        else
+                                          if (guest_det.journal_type=='text')
+                                            hmmuser=HmmUser.find(logged_in_hmm_user.id)
+                                            type1="Text"
+                                            name="Text Blog"
+                                            status="active"
+                                            imagename=logged_in_hmm_user.v_myimage
+                                            imgpath="#{logged_in_hmm_user.img_url}/hmmuser/photos/thumb/#{imagename}"
+                                            path="#"
+
+                                          else
+                                            if (guest_det.journal_type=='photo' && UserContent.exists?(guest_det.journal_typeid))
+                                              photo=UserContent.find(guest_det.journal_typeid)
+                                              type1="Moment"
+                                              @i.ctype="Moment"
+                                              status=photo.status
+                                              name=photo.v_tagphoto
+                                              uid=photo.uid
+                                              e_access=photo.e_access
+                                              tag=Tag.find(photo.tagid)
+                                              type1="Chapter"
+
+                                              tag_status=tag.status
+                                              tag_name=tag.v_tagname
+                                              if(@i.name=='' || @i.name==nil )
+                                                hmmuser=HmmUser.find(@i.user_id)
+                                                username=hmmuser.v_fname+" "+hmmuser.v_lname
+                                              else
+                                                username=@i.name
+                                              end
+                                              gal=Galleries.find(photo.gallery_id)
+                                              type1="Chapter"
+
+                                              gal_status=gal.status
+
+                                              gal_name=gal.v_gallery_name
+
+                                              sub=SubChapter.find(gal.subchapter_id)
+                                              type1="Chapter"
+                                              if(photo.e_filetype=='video' || photo.e_filetype=='swf')
+                                                imgpath="#{photo.img_url}/user_content/videos/thumbnails/#{photo.v_filename}"+".jpg"
+                                              else
+                                                if(photo.e_filetype=='image')
+                                                  imgpath="#{photo.img_url}/user_content/photos/small_thumb/#{photo.v_filename}"
+                                                else
+                                                  imgpath="/user_content/audios/speaker.jpg"
+                                                end
+                                              end
+                                              sub_status=sub.status
+                                              sub_name=sub.sub_chapname
+                                              path="/familywebsite/moments/#{params[:id]}?moment_id=#{photo.id}"
+                                            end
+                                          end
+                                        end
+                                      end
+                                    end
+
+
+                                    username=@i.name
+
+
+                                    if @i.e_approval=="pending"
+                                      approvepath="/family_memory/guest_comments_approve_jcmt/#{params[:id]}?comment_id=#{@i.id}"
+                                      rejectpath="/family_memory/guest_comments_reject_jcmt/#{params[:id]}?comment_id=#{@i.id}"
+                                    else
+                                      deletepath="/family_memory/guest_comments_destroy_jcmt/#{params[:id]}?comment_id=#{@i.id}"
+                                      replypath="/guest_comments/reply_jcmnt/#{params[:id]}?comment_id=#{@i.id}"
+                                    end
+                                    table="guest_comments"
+
+                                  %>
+                                  <%else%>
+                                    <% if(@i.ctype=='message_boards') %>
+
+                                      <%
+                                      message_boards=MessageBoard.find(@i.id)
+                                      type1="Guest messages"
+                                      @i.ctype="message boards"
+                                      status='accepted'
+                                      name=message_boards.subject
+                                      subject = message_boards.subject
+                                      e_access='accepted'
+                                      flag = 1
+                                      #path="/tags/memories/#{@i.master_id}"
+                                      imgpath="#{message_boards.img_url}/hmmuser/message_board/thumb/#{message_boards.guest_image}"
+                                      username=message_boards.guest_name
+
+                                      if @i.e_approval=="pending"
+                                        approvepath="/family_memory/message_boards_approve_cmt/#{params[:id]}?comment_id=#{@i.id}"
+                                        rejectpath="/family_memory/message_boards_destroy_cmt/#{params[:id]}?comment_id=#{@i.id}"
+                                      else
+                                        deletepath="/family_memory/message_boards_destroy_cmt/#{params[:id]}?comment_id=#{@i.id}"
+                                      end
+                                      table="message_boards"
+
+                                    %>
+                                    <%else%>
+
+
+                                      <%
+                                      share=Share.find(@i.master_id)
+                                      type1="Shared moments"
+                                      @i.ctype="Shared Moments"
+                                      status='active'
+                                      name="Gallery"
+                                      uid=share.presenter_id
+                                      e_access='public'
+                                      tag_name=''
+                                      sub_name=''
+                                      gal_name=''
+                                      #path="/tags/memories/#{@i.master_id}?familyname=#{params[:id]}"
+                                      path="#"
+                                      imgpath="#{share.img_url}#{share.icon}"
+                                      if(@i.name=='' || @i.name==nil )
+                                        hmmuser=HmmUser.find(@i.user_id)
+                                        username=hmmuser.v_fname+" "+hmmuser.v_lname
+                                      else
+                                        username=@i.name
+                                      end
+                                      if @i.e_approval=="pending"
+                                        approvepath="/family_memory/share_comments_approve_cmt/#{params[:id]}?comment_id=#{@i.id}"
+                                        rejectpath="/family_memory/share_comments_reject_cmt/#{params[:id]}?comment_id=#{@i.id}"
+                                      else
+                                        deletepath="/family_memory/share_comments_destroy_cmt/#{params[:id]}?comment_id=#{@i.id}"
+                                      end
+                                      table="share_comments"
+
+                                    %>
+
+
+                                    <%end%><%end%><%end%>
+                              <%end%><%end%><%end%><%end%><%end%><%end%>
+                    <% if (session[:friend]!='')
+
+
+                      access=e_access
+                    else
+                      access='public'
+
+                    end
+                  %>
+
+
+
+                    <table border="0" cellspacing="0" cellpadding="0" width="100%">
+                      <tr>
+                        <td width="22" height="21" class="top-left"></td>
+                        <td class="top-repeat"></td>
+                        <td width="22" class="top-right"></td>
+                      </tr>
+                      <tr>
+                        <td width="22" class="left-repeat"></td>
+
+                        <td><table width="100%" border="0" cellspacing="0" cellpadding="0" class="cmtsml">
+
+
+
+                            <td align="left" valign="top" class="content-trans-bg">
+                              <table width="100%" border="0" cellspacing="0" cellpadding="0">
+                                <tr>
+                                  <td height="10" colspan="5" align="left" valign="top"></td>
+                                </tr>
+
+                                <tr>
+                                  <td height="10" colspan="5" align="left" valign="top"></td>
+                                </tr>
+                                <tr>
+                                  <td align="left" valign="top"></td>
+                                  <td height="30" colspan="3" align="left" valign="top" class="headers"><span class="side-heading">Comment On:</span>  <span class="side-heading"> &quot;<%=name%>&quot;</span></td>
+                                  <td align="left" valign="top"></td>
+                                </tr>
+                                <tr>
+                                  <td width="13" align="left" valign="top"></td>
+                                  <td width="142" align="left" valign="top"><table width="142" border="0" cellspacing="0" cellpadding="0">
+                                      <tr>
+                                        <td height="10" align="center" valign="top"></td>
+                                      </tr>
+                                      <tr>
+
+                                        <td height="120" align="center" valign="middle" class="<%=  bgcolor2 %>"><a href="<%=path%>" style="text-decoration:none"> <img src="<%=imgpath%>"  border="0" width="80" alt=""/></a></td>
+
+
+
+
+                                      </tr>
+                                    </table></td>
+                                  <td width="11" align="left" valign="top"></td>
+                                  <td align="left" valign="top"><table width="100%" border="0" cellspacing="0" cellpadding="0">
+                                      <tr>
+                                        <td height="15" colspan="2" align="left" valign="top" class="content-orange"></td>
+                                      </tr>
+                                      <tr>
+                                        <td width="100" height="25" align="left" valign="top" class="content-orange"><%if @i.ctype == 'message boards' %>Guest book<%else%><%=h @i.ctype %><%end%>&nbsp; </td>
+                                        <td align="left" valign="top" class="content"><%if (@i.ctype=='website' || @i.ctype=='iphone')%>Blog Entry<%else%> <%if  @i.ctype!='message boards'%><%if tag_name!='' %><%=h tag_name %> >> <%end%><%if sub_name!='' %><%=h sub_name %> >> <%end%> <%if gal_name!='' %><%=h gal_name %> >> <%end%><a href="<%=h path %>" style="text-decoration:none"><%=h name %></a><%else%><%=h name %><%end%><%end%></td>
+                                      </tr>
+                                      <tr>
+                                        <td height="25" align="left" valign="top" class="content-orange"> Commented By&nbsp;&nbsp;&nbsp; </td>
+                                        <td height="20" align="left" valign="top" class="content"><%=h username %></td>
+                                      </tr>
+                                      <tr>
+                                        <td align="left" valign="top" class="content-orange"> Comment&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </td>
+                                        <td height="30" align="left" valign="top" class="content"><%=h @i.comment.gsub("\n", "<br />\n") %></td>
+                                      </tr>
+                                      <% if(@i.ctype=='website' || @i.ctype=='iphone') %>
+                                        <tr>
+                                          <td align="left" valign="top" class="content-orange"> Date&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </td>
+
+                                          <td height="30" align="left" valign="top" class="content">
+                                            <% dt = @i.d_created_at.split(' ')
+
+                                            dt1=dt[0].split('-')
+                                            dt2="#{dt1[1]}/#{dt1[2]}/#{dt1[0]}"
+
+                                          %>
+                                            <%=dt2%>
+                                          </td>
+
+                                        </tr>
+                                      <%end%>
+
+
+                                      <% if @i.reply=="" || @i.reply==nil %>
+                                      <%else%>
+                                        <!-- tr>
+                                          <td align="left" valign="top" class="content-orange">Reply&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </td>
+                                          <td height="30" align="left" valign="top" class="content"><%=@i.reply%></td>
+                                        </tr -->
+                                      <%end%>
+                                      <tr>
+                                        <td align="left" valign="top" class="content-orange"></td>
+                                        <td height="17" align="left" valign="top" class="content"></td>
+                                      </tr>
+                                      <tr>
+                                        <td height="30" colspan="2" align="left" valign="top" class="side-heading"><%if @i.e_approval=="pending"%>(&nbsp;&nbsp;&nbsp;&nbsp;<a href="<%=approvepath%>" class="side-heading">APPROVE</a>&nbsp;&nbsp;&nbsp;&nbsp;)&nbsp;&nbsp;&nbsp;&nbsp;(&nbsp;&nbsp;&nbsp;&nbsp;<a href="<%=rejectpath%>" class="side-heading">REJECT</a>&nbsp;&nbsp;&nbsp;&nbsp;) <%else%>
+                                            <a href="<%=deletepath%>" onClick="if(confirm('Do you want to delete this comment?')){return true; } else return false;" class="side-heading">(&nbsp;&nbsp;Delete&nbsp;&nbsp;)</a>
+                                            &nbsp;&nbsp;&nbsp;<%end%><br><br><div id=<%=@i.id%>></div></td>
+                                      </tr>
+                                    </table></td>
+                                  <td width="16" align="left" valign="top"></td>
+                                </tr>
+                                <tr>
+                                  <td height="10" colspan="5" align="left" valign="top"></td>
+                                </tr>
+                              </table></td>
+
+                          </table>
+                        </td>
+
+
+
+                        <td class="right-repeat"></td>
+                      </tr>
+                      <tr>
+                        <td width="22" height="21"   class="bottom-left"></td>
+                        <td class="bottom-repeat"></td>
+                        <td width="22" height="21"  class="bottom-right"></td>
+                      </tr>
+                    </table>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                  <%end%>
+                </td>
+              </tr>
+              <tr>
+                <td>&nbsp;</td>
+              </tr>
+              <%if @total==0 %>
+                <tr>
+                  <td align="center" class="content">No comments found.</td>
+                </tr>
+              <%else%>
+                <tr>
+                  <td><table width="100%" border="0" align="right" cellpadding="0" cellspacing="0" class="border">
+                      <tr>
+                        <td align="right"  class="side-heading" style="font-size: 14px">
+                          <%= will_paginate @tagid %>
+                        </td></tr></table></td>
+                </tr>
+              <%end%>
+              <tr>
+                <td>&nbsp;</td>
+              </tr>
+            </table>
+          </td>
+          <td width="20" align="left" valign="top"></td>
+        </tr>
+
+        <tr>
+          <td height="30" colspan="3" align="left" valign="top"></td>
+        </tr>
+      </table></td>
+  </tr>
+  <tr>
+  </tr>
+</table>
+
+
+
+
+
+

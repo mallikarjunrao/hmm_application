@@ -1,0 +1,75 @@
+<form name="login_info" id="login_info" action="/order_request/login" method="post" >
+  <table width="900" height=402 class="bg_login"  align="center" border="0">
+
+    <tr>
+      <th><center spry:hover="style1" class="style1">Welcome To HoldMyMemories.com</center></th>
+    </tr>
+    <tr bordercolor="#000000"><td align="center" valign="top"><table align="center" class="border" width="40%" border="1"  cellpadding="5" cellspacing="5" bordercolor="#191919">
+          <tr>
+            <td colspan="2" align="center" valign="middle" style="border:none" bgcolor="#191919" height="20"><span class="style1"><font size="3px" color="#ffffff">Visitor Login</font></span></td>
+          </tr>
+
+          <% if flash[:notice] %>
+            <tr>
+              <td colspan="2" align="center" class="border1" style="color:#CC0000;">
+                 <%= flash[:notice] %>
+              </td>
+            </tr>
+          <% end %>
+
+          <tr>
+            <td align="right" class="style1" style="border:none"><font size="3px" color="#ffffff">Email Address </font></td>
+            <td width="49%" style="border:none" align="left"><input class="textbox-signup" id="username" name="username" size="30" type="text" /></td>
+          </tr >
+          <tr style="border:none"><td align="right" class="style1" style="border:none"><font size="3px" color="#ffffff">Password</font></td>
+            <td align="left" style="border:none"><input class="textbox-signup" id="password" name="password" size="30" type="password" /></td>
+          </tr >
+          <tr style="border:none"><td style="border:none"></td><td  style="border:none" colspan="" align="left"><!--<input type="image" id="sign_in" src="/images/log_ovr.jpg"  border="0" />-->
+               <label>
+                <input type="submit" id="sign_in" class="cmd-btn" value="Log In" name="sub_bt" style="cursor:pointer;" onclick='request_form_validation();' />
+               </label>
+            </td></tr></table>
+
+      </td></tr>
+  </table>
+</form>
+
+<script type="text/javascript">
+ var username = document.getElementById('username');
+ var password = document.getElementById('password');
+
+ <%# visitor = OrderRequest.find_by_email_address_and_request_code(username.value,password.value) rescue nil
+    unless  visitor.nil?
+      val_username = visitor.email_address
+      val_password = visitor.password
+    else
+      val_username =  nil
+      val_password =  nil
+    end
+%>
+
+   var val_username;
+   var val_password;
+
+    //val_username = <%# val_username %>;
+    //val_password = <%# val_password %>;
+
+  function request_form_validation()
+ {
+  if(username.value == "" || password.value == "")
+  {
+    alert('Invalid login details');
+  }
+
+
+    //if(username.value != val_username && username.value != val_password)
+    //{
+      //alert('Invalid login details');
+    //}
+
+ }
+
+
+</script>
+
+

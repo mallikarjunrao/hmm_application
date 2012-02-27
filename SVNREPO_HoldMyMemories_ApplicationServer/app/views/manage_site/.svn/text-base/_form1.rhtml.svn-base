@@ -1,0 +1,755 @@
+<%= javascript_include_tag 'modalbox/prototype' %>
+<script type="text/javascript" src="/javascripts/modalbox/scriptaculous.js?load=effects"></script>
+<script type="text/javascript" src="/javascripts/modalbox/modalbox.js"></script>
+<%= stylesheet_link_tag 'modalbox/modalbox' %>
+<script type="text/javascript">
+	
+function isValidURL(url){ 
+    var RegExp = /^(([\w]+:)?\/\/)?(([\d\w]|%[a-fA-f\d]{2,2})+(:([\d\w]|%[a-fA-f\d]{2,2})+)?@)?([\d\w][-\d\w]{0,253}[\d\w]\.)+[\w]{2,4}(:[\d]+)?(\/([-+_~.\d\w]|%[a-fA-f\d]{2,2})*)*(\?(&?([-+_~.\d\w]|%[a-fA-f\d]{2,2})=?)*)?(#([-+_~.\d\w]|%[a-fA-f\d]{2,2})*)?$/; 
+    if(RegExp.test(url)){ 
+        return true; 
+    }else{ 
+        return false; 
+    } 
+} 
+
+function echeck(str) {
+
+		var at="@"
+		var dot="."
+		var lat=str.indexOf(at)
+		var lstr=str.length
+		var ldot=str.indexOf(dot)
+		if (str.indexOf(at)==-1){
+		   alert("Invalid E-mail ID")
+		   return false
+		}
+
+		if (str.indexOf(at)==-1 || str.indexOf(at)==0 || str.indexOf(at)==lstr){
+		   alert("Invalid E-mail ID")
+		   return false
+		}
+
+		if (str.indexOf(dot)==-1 || str.indexOf(dot)==0 || str.indexOf(dot)==lstr){
+		    alert("Invalid E-mail ID")
+		    return false
+		}
+
+		 if (str.indexOf(at,(lat+1))!=-1){
+		    alert("Invalid E-mail ID")
+		    return false
+		 }
+
+		 if (str.substring(lat-1,lat)==dot || str.substring(lat+1,lat+2)==dot){
+		    alert("Invalid E-mail ID")
+		    return false
+		 }
+
+		 if (str.indexOf(dot,(lat+2))==-1){
+		    alert("Invalid E-mail ID")
+		    return false
+		 }
+		
+		 if (str.indexOf(" ")!=-1){
+		    alert("Invalid E-mail ID")
+		    return false
+		 }
+
+ 		 return true					
+	}
+
+function verify(){
+//alert("nnnnnnnn")
+	//if (document.getElementById('hmm_user_v_password').value == document.getElementById('hmm_user_v_security_a').value) {
+	//	alert('Accout Security Answer Cant be a Password!!');
+	//	return false;
+	//}
+	
+	if (document.getElementById('hmm_user_v_fname').value == "") 
+        {
+            
+            document.getElementById('hmm_user_v_fname').focus();
+            alert("Please select your first name")
+            flag=1;
+            return false;
+	}
+	
+	if (document.getElementById('hmm_user_v_lname').value == "") 
+        {
+            
+            document.getElementById('hmm_user_v_lname').focus();
+            alert("Please enter your last name")
+            flag=1;
+            return false;
+	}
+	if (document.getElementById('hmm_user_v_zip').value == "") 
+        {
+             
+            document.getElementById('hmm_user_v_zip').focus();
+            alert("Please select your zipcode")
+            flag=1;
+            return false;
+	}
+	if(document.getElementById('hmm_user_telephone').value != "")
+                {
+                    var res = televerify();
+                    if(res==false)
+                    {
+                        alert("Invalid Telephone Number");
+                        document.getElementById('hmm_user_telephone').focus();
+                        return false;
+                    }
+                }
+	if (document.getElementById('hmm_user_v_e_mail').value == ""  ) 
+        {
+            
+            document.getElementById('hmm_user_v_e_mail').focus();
+            alert("Please enter your email address")
+            flag=1;
+            return false;
+	}
+	var check = echeck(document.getElementById('hmm_user_v_e_mail').value)
+	if (check==false){
+		
+		document.getElementById('hmm_user_v_e_mail').focus();
+		return false
+	}
+	
+	if (document.getElementById('hmm_user_v_security_a').value == '') 
+        {
+            
+            document.getElementById('hmm_user_v_security_a').focus();
+             alert("Please enter your Security Answer")
+            flag=1;
+            return false;
+	}
+	
+	 if(document.getElementById('hmm_user_v_link1').value != '' && !isValidURL(document.getElementById('hmm_user_v_link1').value)){ 
+       alert("You must supply a valid URL.");
+	   document.getElementById('hmm_user_v_link1').focus();
+	   return false;
+    } 
+	
+	if(document.getElementById('hmm_user_v_link2').value != '' && !isValidURL(document.getElementById('hmm_user_v_link2').value)){ 
+       alert("You must supply a valid URL.");
+	   document.getElementById('hmm_user_v_link2').focus();
+	   return false;
+    } 
+	
+	if(document.getElementById('hmm_user_v_link3').value != '' && !isValidURL(document.getElementById('hmm_user_v_link3').value)){ 
+       alert("You must supply a valid URL.");
+	   document.getElementById('hmm_user_v_link3').focus();
+	   return false;
+    } 
+
+	/*if (document.getElementById('hmm_user_v_link1').value != "") {
+		var v = new RegExp();
+		v.compile("^(www.|ftp:\/\/www.|www.){1}([0-9A-Za-z]+\.){2}([0-9A-Za-z]){3}(\.[0-9A-Za-z])");
+		if (!v.test(document.getElementById('hmm_user_v_link1').value)) {
+			alert("You must supply a valid URL.");
+			document.getElementById('hmm_user_v_link1').focus();
+			return false;
+		}
+	}*/
+	/*if (document.getElementById('hmm_user_v_link2').value != "") {
+		var v = new RegExp();
+		v.compile("^(www.|ftp:\/\/www.|www.){1}([0-9A-Za-z]+\.){2}(com|net|org|in)");
+		if (!v.test(document.getElementById('hmm_user_v_link2').value)) {
+			alert("You must supply a valid URL.");
+			document.getElementById('hmm_user_v_link2').focus();
+			return false;
+		}
+	}
+	if (document.getElementById('hmm_user_v_link3').value != "") {
+		var v = new RegExp();
+		v.compile("^(www.|ftp:\/\/www.|www.){1}([0-9A-Za-z]+\.){2}(com|net|org|in)");
+		if (!v.test(document.getElementById('hmm_user_v_link3').value)) {
+			alert("You must supply a valid URL.");
+			document.getElementById('hmm_user_v_link3').focus();
+			return false;
+		}
+	}*/
+	document.getElementById('imgmsg').style.display = 'block';
+	
+	return true;
+}
+
+
+	
+	
+	function chg(val)
+	{
+		
+		if (document.getElementById('pcode').style.display == 'none' && document.getElementById('cty').style.display == 'block' && val=='USA') {
+			document.getElementById('pcode').style.display = 'block';
+			document.getElementById('cty').style.display = 'none';
+		}else{
+			document.getElementById('pcode').style.display = 'none';
+			document.getElementById('cty').style.display = 'block';
+		}
+		
+	}
+	function validateFileExtension(fld) {
+	if(!/(\.bmp|\.gif|\.jpg|\.jpeg)$/i.test(fld.value)) {
+		alert("Invalid file type.. Please enter only image files!!");
+		fld.focus();
+		return false;
+	}
+	return true;
+}
+   function televerify()
+        {
+                   
+                    var Phone=document.getElementById('hmm_user_telephone')
+	
+                    
+                    if (checkInternationalPhone(Phone.value)==false){
+                            alert("Please Enter a Valid Phone Number")
+                            Phone.value=""
+                            Phone.focus()
+                            return false
+                    }
+                    
+					return true
+                   
+                   
+                }
+	
+	</script>
+        
+        
+      <script language = "Javascript">
+/**
+ * DHTML phone number validation script. Courtesy of SmartWebby.com (http://www.smartwebby.com/dhtml/)
+ */
+
+// Declaring required variables
+var digits = "0123456789";
+// non-digit characters which are allowed in phone numbers
+var phoneNumberDelimiters = "()- ";
+// characters which are allowed in international phone numbers
+// (a leading + is OK)
+var validWorldPhoneChars = phoneNumberDelimiters + "+";
+// Minimum no of digits in an international phone no.
+var minDigitsInIPhoneNumber = 10;
+
+function isInteger(s)
+{   var i;
+    for (i = 0; i < s.length; i++)
+    {   
+        // Check that current character is number.
+        var c = s.charAt(i);
+        if (((c < "0") || (c > "9"))) return false;
+    }
+    // All characters are numbers.
+    return true;
+}
+function trim(s)
+{   var i;
+    var returnString = "";
+    // Search through string's characters one by one.
+    // If character is not a whitespace, append to returnString.
+    for (i = 0; i < s.length; i++)
+    {   
+        // Check that current character isn't whitespace.
+        var c = s.charAt(i);
+        if (c != " ") returnString += c;
+    }
+    return returnString;
+}
+function stripCharsInBag(s, bag)
+{   var i;
+    var returnString = "";
+    // Search through string's characters one by one.
+    // If character is not in bag, append to returnString.
+    for (i = 0; i < s.length; i++)
+    {   
+        // Check that current character isn't whitespace.
+        var c = s.charAt(i);
+        if (bag.indexOf(c) == -1) returnString += c;
+    }
+    return returnString;
+}
+
+function checkInternationalPhone(strPhone){
+var bracket=3
+strPhone=trim(strPhone)
+if(strPhone.indexOf("+")>1) return false
+if(strPhone.indexOf("-")!=-1)bracket=bracket+1
+if(strPhone.indexOf("(")!=-1 && strPhone.indexOf("(")>bracket)return false
+var brchr=strPhone.indexOf("(")
+if(strPhone.indexOf("(")!=-1 && strPhone.charAt(brchr+2)!=")")return false
+if(strPhone.indexOf("(")==-1 && strPhone.indexOf(")")!=-1)return false
+s=stripCharsInBag(strPhone,validWorldPhoneChars);
+return (isInteger(s) && s.length >= minDigitsInIPhoneNumber);
+}
+
+function ValidateForm(){
+	var Phone=document.frmSample.txtPhone
+	
+	if ((Phone.value==null)||(Phone.value=="")){
+		alert("Please Enter your Phone Number")
+		Phone.focus()
+		return false
+	}
+	if (checkInternationalPhone(Phone.value)==false){
+		alert("Please Enter a Valid Phone Number")
+		Phone.value=""
+		Phone.focus()
+		return false
+	}
+	return true
+ }
+</script> 
+<%= stylesheet_link_tag 'SpryAssets/SpryValidationTextField' %>
+<%= javascript_include_tag 'SpryAssets/SpryValidationTextField' %>
+<%= javascript_include_tag 'SpryAssets/SpryValidationRadio' %>
+<%= javascript_include_tag 'SpryAssets/SpryValidationPassword' %>
+
+<%= stylesheet_link_tag 'SpryAssets/SpryValidationRadio' %>
+<%= stylesheet_link_tag 'SpryAssets/SpryValidationPassword' %>
+
+
+
+<p align="center"><font color="#f5dfa6"><%= flash[:notice]%></font></p>
+<table width="100%" border="0" cellspacing="0" cellpadding="0">
+<tr>
+  <th width="1" height="1" align="left" valign="top" bgcolor="#404040" scope="col"></th>
+  <th width="825" align="left" valign="top" bgcolor="#404040" scope="col"></th>
+  <th width="1" align="left" valign="top" bgcolor="#404040" scope="col"></th>
+</tr>
+<%@rec = HmmUser.find(:all, :conditions => "id=#{logged_in_hmm_user.id}")%>
+<% for i in @rec %>
+
+
+<tr>
+  <th width="1" align="left" valign="top" bgcolor="#404040" scope="col"></th>
+  <th align="left" valign="top" bgcolor="#111111" scope="col">
+  <table width="100%" border="0" cellspacing="0" cellpadding="0">
+    <tr>
+      <th width="678" align="left" valign="top" scope="col"><table width="100%" border="0" cellspacing="0" cellpadding="0">
+        <tr>
+          <th width="65" align="left" valign="top" scope="col">&nbsp;</th>
+          <th width="504" align="left" valign="top" scope="col"><table width="40%" border="0" cellspacing="0" cellpadding="0">
+            
+            <tr>
+              <th colspan="2" height="60" align="left" valign="middle" scope="col"><table width="100%" border="0" cellspacing="0" cellpadding="0">
+                <tr>
+                  <th width="134" height="29" align="left" valign="middle" class="contmanagepage" scope="col">First Name:</th>
+                  <th width="13" align="left" valign="top" scope="col">&nbsp;</th>
+                  <th width="134" align="left" valign="middle" class="contmanagepage" scope="col">Last Name:</th>
+                </tr>
+                <tr>
+                  <th align="left" valign="top" scope="col">
+                  	<span id="sprytextfield1">
+                  	<%= text_field "hmm_user", "v_fname", :class => "textbox-signup-managepage-small", :size => 20, :maxlength => 25 %>
+					<span class="textfieldRequiredMsg"><br>First Name is required.</br></span></span>
+					</th>
+                  <th align="left" valign="top" scope="col">&nbsp;</th>
+                  <th align="left" valign="top" scope="col">
+                  	<span id="sprytextfield2">
+                  	<%= text_field  "hmm_user", "v_lname", :class => "textbox-signup-managepage-small" , :size => 20 %>
+                  	<span class="textfieldRequiredMsg"><br>Last Name is required.</br></span></span>
+					</th>
+                </tr>
+              </table></th>
+            </tr>
+            <tr>
+              <th height="15" colspan="2" align="left" valign="top" class="warningtxt-mngpage" scope="col"><font size="1">First and last name is private and used for search functions only.</font></th>
+            </tr>
+            <tr>
+              <th colspan="2" align="left" valign="top" scope="col"><table width="100%" border="0" cellspacing="0" cellpadding="0">
+                <tr>
+                  <th width="67" align="left" valign="middle" class="contmanagepage" scope="col">Gender:</th>
+                  <th colspan="3" align="left" valign="top" scope="col">&nbsp;</th>
+                </tr>
+                <tr>
+                  <th colspan="4" align="left" valign="middle" class="contmanagepage" scope="col">
+                    <span id="RadioWidget">
+                      <%= radio_button 'hmm_user', 'e_sex', 'M', :class => "radioRequiredState" %>&nbsp;&nbsp;Male<%= radio_button 'hmm_user', 'e_sex', 'F', :class => "radioRequiredState"   %>&nbsp;&nbsp;Female
+                      <span class="radioRequiredMsg"><br>Please make a selection.</span></span></span></br>                  </th>
+                  </tr>
+              </table></th>
+            </tr>
+            <tr>
+              <th height="25" colspan="2" align="left" valign="middle" class="contmanagepage" scope="col">Date of Birth:</th>
+            </tr>
+            <tr>
+              <th colspan="2" align="left" valign="top" scope="col"><table width="100%" border="0" cellspacing="0" cellpadding="0">
+                <tr>
+                  <th width="100%" align="left" valign="top" scope="col" >                
+                  	<%= date_select 'hmm_user', 'd_bdate', :order => [:month, :day, :year], :start_year => Time.now.year, :end_year => Time.now.year - 100 %></th>
+                </tr>
+              </table></th>
+            </tr>
+            <tr>
+              <th colspan="2" align="left" valign="top" scope="col"><table width="100%" border="0" cellspacing="0" cellpadding="0">
+                
+                
+              </table></th>
+            </tr>
+            <tr>
+              <th height="29" colspan="2" align="left" valign="middle" class="contmanagepage" scope="col">Country:</th>
+            </tr>
+            <tr>
+              <th width="283" align="left" valign="top" scope="col">
+                          	<span id="sprytextfield4"><span id="sprytextfield4">
+                          	<select name="hmm_user[v_country]" onchange='return chg(this.value)' class => "combobox1">
+							<option value="USA" <%if(i.v_country=='USA')%> selected="selected" <%end%>>USA</option>
+							<option value="Afghanistan"<%if(i.v_country=='Afghanistan')%> selected="selected" <%end%>>Afghanistan </option>
+							<option value="Albania"<%if(i.v_country=='Albania')%> selected="selected" <%end%>>Albania  </option>
+							<option value="Algeria"<%if(i.v_country=='Algeria')%> selected="selected" <%end%>>Algeria </option>
+							<option value="American Samoa"<%if(i.v_country=='American Samoa')%> selected="selected" <%end%>>American Samoa </option>
+							<option value="Argentina"<%if(i.v_country=='Argentina')%> selected="selected" <%end%>>Argentina </option>
+							<option value="Australia"<%if(i.v_country=='Australia')%> selected="selected" <%end%>>Australia </option>
+							<option value="Austria"<%if(i.v_country=='Austria')%> selected="selected" <%end%>>Austria </option>
+							<option value="Azerbaijan"<%if(i.v_country=='Azerbaijan')%> selected="selected" <%end%>>Azerbaijan</option>
+							<option value="Bahamas"<%if(i.v_country=='Bahamas')%> selected="selected" <%end%>>Bahamas </option>
+							<option value="Bahrain"<%if(i.v_country=='Bahrain')%> selected="selected" <%end%>>Bahrain </option>
+							<option value="Bangladesh"<%if(i.v_country=='Bangladesh')%> selected="selected" <%end%>>Bangladesh </option>
+							<option value="Barbados"<%if(i.v_country=='Barbados')%> selected="selected" <%end%>>Barbados </option>
+							<option value="Belgium"<%if(i.v_country=='Belgium')%> selected="selected" <%end%>>Belgium </option>
+							<option value="Benin"<%if(i.v_country=='Benin')%> selected="selected" <%end%>>Benin </option>
+							<option value="Bermuda"<%if(i.v_country=='Bermuda')%> selected="selected" <%end%>>Bermuda </option>
+							<option value="Bosnia-Herzegovina"<%if(i.v_country=='Bosnia-Herzegovina')%> selected="selected" <%end%>>Bosnia-Herzegovina </option>
+							<option value="Brazil"<%if(i.v_country=='Brazil')%> selected="selected" <%end%>>Brazil </option>
+							<option value="Burundi"<%if(i.v_country=='Burundi')%> selected="selected" <%end%>>Burundi </option>
+							<option value="Cambodia"<%if(i.v_country=='Cambodia')%> selected="selected" <%end%>>Cambodia </option>
+							<option value="Cameroon"<%if(i.v_country=='Cameroon')%> selected="selected" <%end%>>Cameroon </option>
+							<option value="Canada"<%if(i.v_country=='Canada')%> selected="selected" <%end%>>Canada </option>
+							<option value="Cayman Islands"<%if(i.v_country=='Cayman Islands')%> selected="selected" <%end%>>Cayman Islands </option>
+							<option value="Central African Republic"<%if(i.v_country=='Central African Republic')%> selected="selected" <%end%>>Central African Republic </option>
+							<option value="Chile"<%if(i.v_country=='Chile')%> selected="selected" <%end%>>Chile</option>
+							<option value="China"<%if(i.v_country=='China')%> selected="selected" <%end%>>China </option>
+							<option value="Colombia"<%if(i.v_country=='Colombia')%> selected="selected" <%end%>>Colombia </option>
+							<option value="Comoros"<%if(i.v_country=='Comoros')%> selected="selected" <%end%>>Comoros </option>
+							<option value="Conch Republic"<%if(i.v_country=='Conch Republic')%> selected="selected" <%end%>>Conch Republic</option>
+							<option value="Costa Rica"<%if(i.v_country=='Costa Rica')%> selected="selected" <%end%>>Costa Rica </option>
+							<option value="Croatia"<%if(i.v_country=='Croatia')%> selected="selected" <%end%>>Croatia </option>
+							<option value="Cuba"<%if(i.v_country=='Cuba')%> selected="selected" <%end%>>Cuba </option>
+							<option value="Cyprus"<%if(i.v_country=='Cyprus')%> selected="selected" <%end%>>Cyprus </option>
+							<option value="Czech Republic"<%if(i.v_country=='Czech Republic')%> selected="selected" <%end%>>Czech Republic/option>
+							<option value="Denmark"<%if(i.v_country=='Denmark')%> selected="selected" <%end%>>Denmark</option>
+							<option value="Dominica"<%if(i.v_country=='Dominica')%> selected="selected" <%end%>>Dominica</option>
+							<option value="Dominican Republic"<%if(i.v_country=='Dominican Republic')%> selected="selected" <%end%>>Dominican Republic/option>
+							<option value="Ecuador"<%if(i.v_country=='Ecuador')%> selected="selected" <%end%>>Ecuador/option>
+							<option value="Egypt"<%if(i.v_country=='Egypt')%> selected="selected" <%end%>>Egypt </option>
+							<option value="Ethiopia"<%if(i.v_country=='Ethiopia')%> selected="selected" <%end%>>Ethiopia </option>
+							<option value="Falkland Islands"<%if(i.v_country=='Falkland Islands')%> selected="selected" <%end%>>Falkland Islands </option>
+							<option value="Fiji"<%if(i.v_country=='Fiji')%> selected="selected" <%end%>>Fiji </option>
+							<option value="Finland"<%if(i.v_country=='Finland')%> selected="selected" <%end%>>Finland </option>
+							<option value="France"<%if(i.v_country=='France')%> selected="selected" <%end%>>France </option>
+							<option value="French Guiana"<%if(i.v_country=='French Guiana')%> selected="selected" <%end%>>French Guiana </option>
+							<option value="Germany"<%if(i.v_country=='Germany')%> selected="selected" <%end%>>Germany </option>
+							<option value="Greece"<%if(i.v_country=='Greece')%> selected="selected" <%end%>>Greece </option>
+							<option value="Greenland"<%if(i.v_country=='Greenland')%> selected="selected" <%end%>>Greenland </option>
+							<option value="Guyana"<%if(i.v_country=='Guyana')%> selected="selected" <%end%>>Guyana </option>
+							<option value="Hong Kong"<%if(i.v_country=='Hong Kong')%> selected="selected" <%end%>>Hong Kong </option>
+							<option value="Hungary"<%if(i.v_country=='Hungary')%> selected="selected" <%end%>>Hungary</option>
+							<option value="Iceland"<%if(i.v_country=='Iceland')%> selected="selected" <%end%>>Iceland</option>
+							<option value="India"<%if(i.v_country=='India')%> selected="selected" <%end%>>India </option>
+							<option value="Indonesia"<%if(i.v_country=='Indonesia')%> selected="selected" <%end%>>Indonesia </option>
+							<option value="Iran"<%if(i.v_country=='Iran')%> selected="selected" <%end%>>Iran </option>
+							<option value="Iraq"<%if(i.v_country=='Iraq')%> selected="selected" <%end%>>Iraq </option>
+							<option value="Ireland"<%if(i.v_country=='Ireland')%> selected="selected" <%end%>>Ireland</option>
+							<option value="Israel"<%if(i.v_country=='Israel')%> selected="selected" <%end%>>Israel</option>
+							<option value="Italy"<%if(i.v_country=='Italy')%> selected="selected" <%end%>>Italy</option>
+							<option value="Jamaica"<%if(i.v_country=='Jamaica')%> selected="selected" <%end%>>Jamaica</option>
+							<option value="Japan"<%if(i.v_country=='Japan')%> selected="selected" <%end%>>Japan</option>
+							<option value="Jordan"<%if(i.v_country=='Jordan')%> selected="selected" <%end%>>Jordan</option>
+							<option value="Kazakhstan"<%if(i.v_country=='Kazakhstan')%> selected="selected" <%end%>>Kazakhstan</option>
+							<option value="Kiribati"<%if(i.v_country=='Kiribati')%> selected="selected" <%end%>>Kiribati</option>
+							<option value="Korea (South)"<%if(i.v_country=='Korea (South)')%> selected="selected" <%end%>>Korea (South)</option>
+							<option value="Korea"<%if(i.v_country=='Korea')%> selected="selected" <%end%>>Korea (Democratic People's Republic)</option>
+							<option value="Kuwait"<%if(i.v_country=='Kuwait')%> selected="selected" <%end%>>Kuwait</option>
+							<option value="Kyrgyzstan"<%if(i.v_country=='Kyrgyzstan')%> selected="selected" <%end%>>Kyrgyzstan</option>
+							<option value="Laos"<%if(i.v_country=='Laos')%> selected="selected" <%end%>>Laos</option>
+							<option value="Latvia"<%if(i.v_country=='Latvia')%> selected="selected" <%end%>>Latvia</option>
+							<option value="Lebanon"<%if(i.v_country=='Lebanon')%> selected="selected" <%end%>>Lebanon</option>
+							<option value="Liberia"<%if(i.v_country=='Liberia')%> selected="selected" <%end%>>Liberia</option>
+							<option value="Libya"<%if(i.v_country=='Libya')%> selected="selected" <%end%>>Libya</option>
+							<option value="Liechtenstein"<%if(i.v_country=='Liechtenstein')%> selected="selected" <%end%>>Liechtenstein</option>
+							<option value="Lithuania"<%if(i.v_country=='Lithuania')%> selected="selected" <%end%>>Lithuania</option>
+							<option value="Luxembourg"<%if(i.v_country=='Luxembourg')%> selected="selected" <%end%>>Luxembourg</option>
+							<option value="Macao"<%if(i.v_country=='Macao')%> selected="selected" <%end%>>Macao</option>
+							<option value="Macedonia"<%if(i.v_country=='Macedonia')%> selected="selected" <%end%>>Macedonia</option>
+							<option value="Madagascar"<%if(i.v_country=='Madagascar')%> selected="selected" <%end%>>Madagascar</option>
+							<option value="Malawi"<%if(i.v_country=='Malawi')%> selected="selected" <%end%>>Malawi</option>
+							<option value="Malaysia"<%if(i.v_country=='Malaysia')%> selected="selected" <%end%>>Malaysia</option>
+							<option value="Maldives"<%if(i.v_country=='Maldives')%> selected="selected" <%end%>>Maldives</option>
+							<option value="Marshall Islands"<%if(i.v_country=='Marshall Islands')%> selected="selected" <%end%>>Marshall Islands</option>
+							<option value="Mauritania"<%if(i.v_country=='Mauritania')%> selected="selected" <%end%>>Mauritania</option>
+							<option value="Mauritius"<%if(i.v_country=='Mauritius')%> selected="selected" <%end%>>Mauritius</option>
+							<option value="Mexico"<%if(i.v_country=='Mexico')%> selected="selected" <%end%>>Mexico</option>
+							<option value="Micronesia"<%if(i.v_country=='Micronesia')%> selected="selected" <%end%>>Micronesia</option>
+							<option value="Midway Islands"<%if(i.v_country=='Midway Islands')%> selected="selected" <%end%>>Midway Islands</option>
+							<option value="Moldova"<%if(i.v_country=='Moldova')%> selected="selected" <%end%>>Moldova</option>
+							<option value="Monaco"<%if(i.v_country=='Monaco')%> selected="selected" <%end%>>Monaco</option>
+							<option value="Mongolia"<%if(i.v_country=='Mongolia')%> selected="selected" <%end%>>Mongolia</option>
+							<option value="Montserrat"<%if(i.v_country=='Montserrat')%> selected="selected" <%end%>>Montserrat</option>
+							<option value="Morocco"<%if(i.v_country=='Morocco')%> selected="selected" <%end%>>Morocco</option>
+							<option value="Mozambique"<%if(i.v_country=='Mozambique')%> selected="selected" <%end%>>Mozambique</option>
+							<option value="Myanmar (Burma)"<%if(i.v_country=='Myanmar')%> selected="selected" <%end%>>Myanmar (Burma)</option>
+							<option value="Namibia"<%if(i.v_country=='Namibia')%> selected="selected" <%end%>>Namibia</option>
+							<option value="Nauru"<%if(i.v_country=='Nauru')%> selected="selected" <%end%>>Nauru</option>
+							<option value="Nepal"<%if(i.v_country=='Nepal')%> selected="selected" <%end%>>Nepal</option>
+							<option value="Netherlands"<%if(i.v_country=='Netherlands')%> selected="selected" <%end%>>Netherlands</option>
+							<option value="New Zealand"<%if(i.v_country=='New Zealand')%> selected="selected" <%end%>>New Zealand</option>
+							<option value="Nicaragua"<%if(i.v_country=='Nicaragua')%> selected="selected" <%end%>>Nicaragua</option>
+							<option value="Niger"<%if(i.v_country=='Niger')%> selected="selected" <%end%>>Niger</option>
+							<option value="Nigeria"<%if(i.v_country=='Nigeria')%> selected="selected" <%end%>>Nigeria</option>
+							<option value="North Korea"<%if(i.v_country=='North Korea')%> selected="selected" <%end%>>North Korea</option>
+							<option value="Northern Mariana Islands"<%if(i.v_country=='Northern Mariana Islands')%> selected="selected" <%end%>>Northern Mariana Islands</option>
+							<option value="Norway"<%if(i.v_country=='Norway')%> selected="selected" <%end%>>Norway</option>
+							<option value="Oman"<%if(i.v_country=='Oman')%> selected="selected" <%end%>>Oman</option>
+							<option value="Pakistan"<%if(i.v_country=='Pakistan')%> selected="selected" <%end%>>Pakistan</option>
+							<option value="Panama"<%if(i.v_country=='Panama')%> selected="selected" <%end%>>Panama</option>
+							<option value="Paraguay"<%if(i.v_country=='Paraguay')%> selected="selected" <%end%>>Paraguay</option>
+							<option value="Peru"<%if(i.v_country=='Peru')%> selected="selected" <%end%>>Peru</option>
+							<option value="Philippines"<%if(i.v_country=='Philippines')%> selected="selected" <%end%>>Philippines</option>
+							<option value="Pitcairn"<%if(i.v_country=='Pitcairn')%> selected="selected" <%end%>>Pitcairn</option>
+							<option value="Poland"<%if(i.v_country=='Poland')%> selected="selected" <%end%>>Poland</option>
+							<option value="Portugal"<%if(i.v_country=='Portugal')%> selected="selected" <%end%>>Portugal</option>
+							<option value="Qatar"<%if(i.v_country=='Qatar')%> selected="selected" <%end%>>Qatar</option>
+							<option value="Romania"<%if(i.v_country=='Romania')%> selected="selected" <%end%>>Romania</option>
+							<option value="Russia"<%if(i.v_country=='Russia')%> selected="selected" <%end%>>Russia</option>
+							<option value="Rwanda"<%if(i.v_country=='Rwanda')%> selected="selected" <%end%>>Rwanda</option>
+							<option value="Saint Lucia"<%if(i.v_country=='Saint Lucia')%> selected="selected" <%end%>>Saint Lucia</option>
+							<option value="Saint Vincent and the Grenadines"<%if(i.v_country=='Saint Vincent and the Grenadines')%> selected="selected" <%end%>>Saint Vincent and the Grenadines</option>
+							<option value="Samoa"<%if(i.v_country=='Samoa')%> selected="selected" <%end%>>Samoa</option>
+							<option value="San Marino"<%if(i.v_country=='San Marino')%> selected="selected" <%end%>>San Marino</option>
+							<option value="Saudi Arabia"<%if(i.v_country=='Saudi Arabia')%> selected="selected" <%end%>>Saudi Arabia</option>
+							<option value="Senegal"<%if(i.v_country=='Senegal')%> selected="selected" <%end%>>Senegal</option>
+							<option value="Serbia and Montenegro"<%if(i.v_country=='Serbia and Montenegro')%> selected="selected" <%end%>>Serbia and Montenegro</option>
+							<option value="Singapore"<%if(i.v_country=='Singapore')%> selected="selected" <%end%>>Singapore</option>
+							<option value="Slovak Republic"<%if(i.v_country=='Slovak Republic')%> selected="selected" <%end%>>Slovak Republic</option>
+							<option value="Solomon Islands"<%if(i.v_country=='Solomon Islands')%> selected="selected" <%end%>>Solomon Islands</option>
+							<option value="South Africa"<%if(i.v_country=='South Africa')%> selected="selected" <%end%>>South Africa</option>
+							<option value="Spain"<%if(i.v_country=='Spain')%> selected="selected" <%end%>>Spain</option>
+							<option value="Sri Lanka"<%if(i.v_country=='Sri Lanka')%> selected="selected" <%end%>>Sri Lanka</option>
+							<option value="Sudan"<%if(i.v_country=='Sudan')%> selected="selected" <%end%>>Sudan</option>
+							<option value="Suriname"<%if(i.v_country=='Suriname')%> selected="selected" <%end%>>Suriname</option>
+							<option value="Swaziland"<%if(i.v_country=='Swaziland')%> selected="selected" <%end%>>Swaziland</option>
+							<option value="Sweden"<%if(i.v_country=='Sweden')%> selected="selected" <%end%>>Sweden</option>
+							<option value="Switzerland"<%if(i.v_country=='Switzerland')%> selected="selected" <%end%>>Switzerland</option>
+							<option value="Syria"<%if(i.v_country=='Syria')%> selected="selected" <%end%>>Syria</option>
+							<option value="Taiwan"<%if(i.v_country=='Taiwan')%> selected="selected" <%end%>>Taiwan</option>
+							<option value="Tajikistan"<%if(i.v_country=='Tajikistan')%> selected="selected" <%end%>>Tajikistan</option>
+							<option value="Tanzania"<%if(i.v_country=='Tanzania')%> selected="selected" <%end%>>Tanzania</option>
+							<option value="Thailand"<%if(i.v_country=='Thailand')%> selected="selected" <%end%>>Thailand</option>
+							<option value="Timor-Leste"<%if(i.v_country=='Timor-Leste')%> selected="selected" <%end%>>Timor-Leste</option>
+							<option value="Togo"<%if(i.v_country=='Togo')%> selected="selected" <%end%>>Togo</option>
+							<option value="Tonga"<%if(i.v_country=='Tonga')%> selected="selected" <%end%>>Tonga</option>
+							<option value="Trinidad and Tobago"<%if(i.v_country=='Trinidad and Tobago')%> selected="selected" <%end%>>Trinidad and Tobago</option>
+							<option value="Trust Territory of the Pacific Islands"<%if(i.v_country=='Trust Territory of the Pacific Islands')%> selected="selected" <%end%>>Trust Territory of the Pacific Islands</option>
+							<option value="Tunisia"<%if(i.v_country=='Tunisia')%> selected="selected" <%end%>>Tunisia</option>
+							<option value="Turkey"<%if(i.v_country=='Turkey')%> selected="selected" <%end%>>Turkey</option>
+							<option value="Turkmenistan"<%if(i.v_country=='Turkmenistan')%> selected="selected" <%end%>>Turkmenistan</option>
+							<option value="Turks and Caicos Islands"<%if(i.v_country=='Turks and Caicos Islands')%> selected="selected" <%end%>>Turks and Caicos Islands</option>
+							<option value="Tuvalu"<%if(i.v_country=='Tuvalu')%> selected="selected" <%end%>>Tuvalu</option>
+
+							<option value="Uganda"<%if(i.v_country=='Uganda')%> selected="selected" <%end%>>Uganda</option>
+							<option value="Ukraine"<%if(i.v_country=='Ukraine')%> selected="selected" <%end%>>Ukraine</option>
+							<option value="United Arab Emirates"<%if(i.v_country=='United Arab Emirates')%> selected="selected" <%end%>>United Arab Emirates</option>
+							<option value="United Kingdom"<%if(i.v_country=='United Kingdom')%> selected="selected" <%end%>>United Kingdom</option>
+							<option value="Uruguay"<%if(i.v_country=='Uruguay')%> selected="selected" <%end%>>Uruguay</option>
+							<option value="Uzbekistan"<%if(i.v_country=='Uzbekistan')%> selected="selected" <%end%>>Uzbekistan</option>
+							<option value="Vanuatu"<%if(i.v_country=='Vanuatu')%> selected="selected" <%end%>>Vanuatu</option>
+							<option value="Vatican City"<%if(i.v_country=='Vatican City')%> selected="selected" <%end%>>Vatican City</option>
+							<option value="Venezuela"<%if(i.v_country=='Venezuela')%> selected="selected" <%end%>>Venezuela</option>
+							<option value="Viet Nam"<%if(i.v_country=='Viet Nam')%> selected="selected" <%end%>>Viet Nam</option>
+							<option value="Western Samoa"<%if(i.v_country=='Western Samoa')%> selected="selected" <%end%>>Western Samoa</option>
+							<option value="White Russia"<%if(i.v_country=='White Russia')%> selected="selected" <%end%>>White Russia</option>
+							<option value="Yemen"<%if(i.v_country=='Yemen')%> selected="selected" <%end%>>Yemen</option>
+							<option value="Yugoslavia"<%if(i.v_country=='Yugoslavia')%> selected="selected" <%end%>>Yugoslavia </option>
+							<option value="Zambia"<%if(i.v_country=='Zambia')%> selected="selected" <%end%>>Zambia</option>
+							<option value="Zimbabwe"<%if(i.v_country=='Zimbabwe')%> selected="selected" <%end%>>Zimbabwe</option>
+                            </select>
+						    <span class="textfieldRequiredMsg">Country Is Required.</span></span></span> 
+						</th>
+            </tr>
+            <tr>
+            	
+              <th height="29" colspan="2" align="left" valign="middle" class="contmanagepage" scope="col">
+              	<label for="hmm_user_zip"><div id='pcode' style='display:block;'>Zip / Postal Code:</div>
+											<div id='cty' style='display:none;'>City/Province</div></lable></th>
+              </tr>
+            <tr>
+            	<th colspan="2" align="left" valign="top" scope="col">
+            		<span id="sprytextfield7"><span id="sprytextfield7">
+     				<div id='pcode' style='display:block;'><%= text_field 'hmm_user', 'v_zip', :size => 20, :class => "textbox-signup-managepage-small"%></div>
+					<div id='cty' style='display:none;'><%= text_field 'hmm_user', 'city', :size => 20, :class => "textbox-signup-managepage-small"%></div>
+				<span class="textfieldRequiredMsg">Mandatory field</span></span></span>
+				</th>
+			</tr>
+			
+			 <tr>
+				<th height="29" colspan="2" align="left" valign="middle" class="contmanagepage" scope="col">
+            	  Phone Number : 
+            	</th>
+			</tr>
+			
+			<tr>
+				<th colspan="2" align="left" valign="top" scope="col">
+					
+                           	<%= text_field 'hmm_user', 'telephone', :size => 20, :class => "textbox-signup-managepage"  %> <font size="1" color="green">Example: 555-555-5555   or 5555555555</font>
+					
+				</th>
+			</tr>
+			<tr>
+				<th height="29" colspan="2" align="left" valign="middle" class="contmanagepage" scope="col">
+            		E-mail : 
+            	</th>
+			</tr>
+			
+			<tr>
+				<th colspan="2" align="left" valign="top" scope="col">
+					<span id="sprytextfield11"><span id="sprytextfield11">
+                           	<%= text_field 'hmm_user', 'v_e_mail', :size => 20, :class => "textbox-signup-managepage"  %>
+					<span class="textfieldRequiredMsg">E-mail Required</span><span class="textfieldInvalidFormatMsg">Invalid E-mail</span></span></span>
+				</th>
+			</tr>
+			
+			<tr>
+				<th height="29" colspan="2" align="left" valign="middle" class="contmanagepage" scope="col">
+            		Account Security Question : 
+            	</th>
+			</tr>
+			 <tr>
+				<th colspan="2" align="left" valign="top" scope="col">
+            		
+					<select name="hmm_user[v_security_q]">
+							<option value="What is the name of your favorite pet? " <%if(i.v_security_q=="What is the name of your favorite pet? ")%> selected="selected" <%end%>>What is the name of your favorite pet? </option>
+							<option value="In what city were you born? " <%if(i.v_security_q=="In what city were you born? ")%> selected="selected" <%end%>>In what city were you born? </option>
+							<option value="What high school did you attend? " <%if(i.v_security_q=='What high school did you attend?')%> selected="selected" <%end%>>What high school did you attend? </option>
+							<option value="What is your favorite movie? " <%if(i.v_security_q=="What is your favorite movie? ")%> selected="selected" <%end%>>What is your favorite movie? </option>
+							<option value="What is your mothers maiden name? " <%if(i.v_security_q=="What is your mothers maiden name? ")%> selected="selected" <%end%>>What is your mothers maiden name? </option>
+							<option value="What street did you grow up on? " <%if(i.v_security_q=="What street did you grow up on? ")%> selected="selected" <%end%>>What street did you grow up on? </option>
+							<option value="What was the make of your first car?  " <%if(i.v_security_q=="What was the make of your first car? ")%> selected="selected" <%end%>>What was the make of your first car? </option>
+							<option value="When is your anniversary? " <%if(i.v_security_q=="When is your anniversary? ")%> selected="selected" <%end%>>When is your anniversary? </option>
+							<option value="What is your favorite color? " <%if(i.v_security_q=="What is your favorite color? ")%> selected="selected" <%end%>>What is your favorite color? </option>
+                            </select>
+            	</th>
+			</tr>
+			
+			<tr>
+				<th height="29" colspan="2" align="left" valign="middle" class="contmanagepage" scope="col">
+            		Change Account Security Answer : 
+            	</th>
+			</tr>
+			
+			<tr>
+				<th colspan="2" align="left" valign="top" scope="col">
+					<span id="sprytextfield15"><span id="sprytextfield15">
+            		<%= text_field 'hmm_user', 'v_security_a', :size => 15, :class => "textbox-signup-managepage" %>
+            	<span class="textfieldRequiredMsg">Security Answer Required</span></span></span>
+				</th>
+			</tr>
+			
+			
+            <tr>
+              <th height="62" colspan="2" align="left" valign="top" scope="col">&nbsp;</th>
+            </tr>
+          </table></th>
+          <th width="117" align="left" valign="top" scope="col">&nbsp;</th>
+          <th width="571"  align="left" valign="top" scope="col"><table width="40%" border="0" cellspacing="0" cellpadding="0">
+            <tr>
+              <th height="39" align="left" valign="middle" class="contmanagepage" scope="col">About Us:</th>
+            </tr>
+            <tr>
+              <th height="179" align="left" valign="top" scope="col">
+              	<%= text_area 'hmm_user', 'about_family', :rows =>"9", :cols=>"40",  :class => "textarea-mngpage" %>
+				</textarea></th>
+            </tr>
+			 <tr>
+              <th height="39" align="left" valign="middle" class="contmanagepage" scope="col">Upload Profile Image:</th>
+            </tr>
+			<tr>
+              <th height="20" align="left" valign="top" scope="col">
+              		<%= file_field 'hmm_user', 'v_myimage', :size => 30,:onchange => "return validateFileExtension(this)" %>
+					&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+					&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+					&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+					&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+					<a href="/manage_site/myimagePreview"  onclick="Modalbox.show(this.href, {title: 'Profile Image', width: 800}); return false;">
+					Preview </a>
+				</textarea></th>
+            </tr>
+            <tr>
+              <th height="29" align="left" valign="middle" class="contmanagepage" scope="col">My Links:</th>
+            </tr>
+            <tr>
+              <th align="left" valign="top" scope="col">
+              	<%= text_field 'hmm_user', 'v_link1', :size => 40, :class => "textbox-signup-managepage" %><br/>
+				<font size="1" color="#ffe5b4">Example : www.holdmymemories.com</font>
+              	</th>
+            </tr>
+            <tr>
+              <th height="9" align="left" valign="top" scope="col"></th>
+            </tr>
+            <tr>
+              <th align="left" valign="top" scope="col">
+              	<%= text_field 'hmm_user', 'v_link2', :size => 40, :class => "textbox-signup-managepage" %>
+			  </th>
+            </tr>
+            <tr>
+              <th height="9" align="left" valign="top" scope="col"></th>
+            </tr>
+            <tr>
+              <th align="left" valign="top" scope="col">
+              	<%= text_field 'hmm_user', 'v_link3', :size => 40, :class => "textbox-signup-managepage" %>
+              	</th>
+            </tr>
+            <tr>
+              <th height="20" align="right" valign="middle" class="textorange" scope="col"></th>
+            </tr>
+            <tr>
+              <th align="right" valign="top" scope="col"><input type='image' src="/images/save-changes-btn.jpg" width="124" height="26" value="Create" onclick="return verify();" /><br><br></th>
+            </tr>
+			<tr>
+              <th height="20" align="right" valign="top" class="textorange" scope="col">
+              	<div id="imgmsg" style="display:none;">
+				<img src="/images/update_profile.gif" name="load" id="load">
+				</div></th>
+            </tr>
+          </table></th>
+        </tr>
+      </table></th>
+    </tr>
+  </table></th>
+  <th align="left" valign="top" bgcolor="#404040" scope="col"></th>
+</tr>
+<tr>
+  <th height="1" align="left" valign="top" bgcolor="#404040" scope="col"></th>
+  <th align="left" valign="top" bgcolor="#404040" scope="col"></th>
+  <th align="left" valign="top" bgcolor="#404040" scope="col"></th>
+</tr>
+</table>
+<%end%>
+
+
+<script type="text/javascript">
+
+var sprytextfield1 = new Spry.Widget.ValidationTextField("sprytextfield1", "none", {validateOn:["blur"]});
+var sprytextfield2 = new Spry.Widget.ValidationTextField("sprytextfield2", "none", {validateOn:["blur"]});
+var sprytextfield3 = new Spry.Widget.ValidationTextField("sprytextfield3", "none", {validateOn:["blur"]});
+var sprytextfield4 = new Spry.Widget.ValidationTextField("sprytextfield4", "none", {validateOn:["blur"]});
+var sprytextfield5 = new Spry.Widget.ValidationTextField("sprytextfield5", "none", {validateOn:["blur"]});
+var sprytextfield6 = new Spry.Widget.ValidationTextField("sprytextfield6", "none", {validateOn:["blur"]});
+var sprytextfield7 = new Spry.Widget.ValidationTextField("sprytextfield7", "none", {validateOn:["blur"]});
+var sprytextfield8 = new Spry.Widget.ValidationTextField("sprytextfield8", "none", {validateOn:["blur"]});
+var sprytextfield9 = new Spry.Widget.ValidationTextField("sprytextfield9", "none", {validateOn:["blur"]});
+var sprytextfield10 = new Spry.Widget.ValidationTextField("sprytextfield10", "none", {validateOn:["blur"]});
+var sprytextfield11 = new Spry.Widget.ValidationTextField("sprytextfield11", "email", {validateOn:["blur"]});
+var sprytextfield12 = new Spry.Widget.ValidationTextField("sprytextfield12", "none", {validateOn:["blur"]});
+var sprytextfield13 = new Spry.Widget.ValidationTextField("sprytextfield13", "none", {validateOn:["blur"]});
+var sprytextfield14 = new Spry.Widget.ValidationTextField("sprytextfield14", "none", {validateOn:["blur"]});
+var sprytextfield15 = new Spry.Widget.ValidationTextField("sprytextfield15", "none", {validateOn:["blur"]});
+var sprytextfield16 = new Spry.Widget.ValidationTextField("sprytextfield16", "none", {validateOn:["blur"]});
+
+var RadioWidget  = new Spry.Widget.ValidationRadio("RadioWidget",2);
+
+	</script>
+	
+	
+	

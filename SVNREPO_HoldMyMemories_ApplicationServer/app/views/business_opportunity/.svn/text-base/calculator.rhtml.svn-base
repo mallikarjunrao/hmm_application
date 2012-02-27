@@ -1,0 +1,344 @@
+<br>
+<p align="right" class="heading"><a href='/business_opportunity/logout'><img src="/home_images/btn_logout.jpg" border="0"></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</p>
+<p align="center" class="heading"><strong>HOW DO I MAKE MONEY AND HOW MUCH MONEY CAN I MAKE?</strong></p>
+<script type="text/javascript">
+function roundNumber(rnum, rlength) { // Arguments: number to round, number of decimal places
+  var newnumber = Math.round(rnum*Math.pow(10,rlength))/Math.pow(10,rlength);
+  return newnumber; // Output the result to the form field (change for your purposes)
+}
+function extractNumber(obj, decimalPlaces, allowNegative)
+{
+	var temp = obj.value;
+	
+	// avoid changing things if already formatted correctly
+	var reg0Str = '[0-9]*';
+	if (decimalPlaces > 0) {
+		reg0Str += '\\.?[0-9]{0,' + decimalPlaces + '}';
+	} else if (decimalPlaces < 0) {
+		reg0Str += '\\.?[0-9]*';
+	}
+	reg0Str = allowNegative ? '^-?' + reg0Str : '^' + reg0Str;
+	reg0Str = reg0Str + '$';
+	var reg0 = new RegExp(reg0Str);
+	if (reg0.test(temp)) return true;
+
+	// first replace all non numbers
+	var reg1Str = '[^0-9' + (decimalPlaces != 0 ? '.' : '') + (allowNegative ? '-' : '') + ']';
+	var reg1 = new RegExp(reg1Str, 'g');
+	temp = temp.replace(reg1, '');
+
+	if (allowNegative) {
+		// replace extra negative
+		var hasNegative = temp.length > 0 && temp.charAt(0) == '-';
+		var reg2 = /-/g;
+		temp = temp.replace(reg2, '');
+		if (hasNegative) temp = '-' + temp;
+	}
+	
+	if (decimalPlaces != 0) {
+		var reg3 = /\./g;
+		var reg3Array = reg3.exec(temp);
+		if (reg3Array != null) {
+			// keep only first occurrence of .
+			//  and the number of places specified by decimalPlaces or the entire string if decimalPlaces < 0
+			var reg3Right = temp.substring(reg3Array.index + reg3Array[0].length);
+			reg3Right = reg3Right.replace(reg3, '');
+			reg3Right = decimalPlaces > 0 ? reg3Right.substring(0, decimalPlaces) : reg3Right;
+			temp = temp.substring(0,reg3Array.index) + '.' + reg3Right;
+		}
+	}
+	
+	obj.value = temp;
+}
+function blockNonNumbers(obj, e, allowDecimal, allowNegative)
+{
+	var key;
+	var isCtrl = false;
+	var keychar;
+	var reg;
+		
+	if(window.event) {
+		key = e.keyCode;
+		isCtrl = window.event.ctrlKey
+	}
+	else if(e.which) {
+		key = e.which;
+		isCtrl = e.ctrlKey;
+	}
+	
+	if (isNaN(key)) return true;
+	
+	keychar = String.fromCharCode(key);
+	
+	// check for backspace or delete, or if Ctrl was pressed
+	if (key == 8 || isCtrl)
+	{
+		return true;
+	}
+
+	reg = /\d/;
+	var isFirstN = allowNegative ? keychar == '-' && obj.value.indexOf('-') == -1 : false;
+	var isFirstD = allowDecimal ? keychar == '.' && obj.value.indexOf('.') == -1 : false;
+	
+	return isFirstN || isFirstD || reg.test(keychar);
+}
+function calculate()
+{
+	if(document.getElementById('session').value=='')
+	{
+		alert("Please enter the number of sessions");
+		document.getElementById('session').focus();
+		return false;
+	}
+	if(document.getElementById('avg').value=='')
+	{
+		alert("Please enter average print");
+		document.getElementById('avg').focus();
+		return false;
+	}
+	
+	var sess=parseFloat(document.getElementById('session').value);
+	var avg=parseFloat(document.getElementById('avg').value);
+	var ttl=((sess)*(avg));
+	
+	var less=roundNumber((ttl*0.25),2);
+	
+	var ttlw=roundNumber(ttl-less,2);
+	
+	
+	
+	var hours=roundNumber(sess*3,2);
+	
+	var sales=roundNumber((sess*0.50)*120,2);
+	
+	var halfsale=roundNumber((sales*0.50),2);
+	
+	var hmmweek=roundNumber(sales-halfsale,2);
+	
+	var weekly=roundNumber(ttlw+hmmweek,2);
+	
+	var earn=roundNumber(weekly/hours,2);
+	
+	
+	document.getElementById('ttl').innerHTML=Math.round(roundNumber(ttl,2));	
+	document.getElementById('less').innerHTML=Math.round(less);	
+	document.getElementById('ttlw').innerHTML=Math.round(ttlw);
+	document.getElementById('weekly').innerHTML=Math.round(weekly);
+	document.getElementById('sess').innerHTML=Math.round(sess);
+	document.getElementById('hours').innerHTML=Math.round(hours);
+	document.getElementById('win').innerHTML=Math.round(weekly);
+	document.getElementById('hw').innerHTML=Math.round(hours);
+	document.getElementById('earn').innerHTML=Math.round(earn);
+	document.getElementById('sales').innerHTML=Math.round(sales);
+	document.getElementById('halfsale').innerHTML=Math.round(halfsale);
+	document.getElementById('hmmweek').innerHTML=Math.round(hmmweek);
+	  
+}
+</script>
+<table width="759" border="0" cellspacing="0" cellpadding="0">
+  <tr>
+    <td width="442" align="left" valign="top" class="cont">Enter the number of sessions you realistically plan to shoot each week</td>
+    <td width="56" align="center" valign="top" class="cont">&nbsp;</td>
+    <td width="61" align="center" valign="top" class="cont">&nbsp;</td>
+    <td width="200" align="center" valign="top" class="cont">
+    <input type="text" name="session" id="session" size="3" onKeyUp="extractNumber(this,-1,false);" value="3" ></td>
+  </tr>
+  <tr>
+    <td align="left" valign="top" class="cont">Average print sale</td>
+    <td align="center" valign="top" class="cont">X</td>
+    <td align="center" valign="top" class="cont">$</td>
+    <td align="center" valign="top" class="cont"> <input type="text" name="avg" id="avg" size="3" onKeyUp="extractNumber(this,-1,false);" value="200" ></td>
+  </tr>
+  <tr>
+    <td align="left" valign="top" class="cont">Total retail print sales for the week</td>
+    <td align="center" valign="top" class="cont">&nbsp;</td>
+    <td align="center" valign="top" class="cont">$</td>
+    <td align="center" valign="top" class="cont"> <span id="ttl">600</span></td>
+  </tr>
+  
+  <tr>
+    <td align="left" valign="top" class="cont">Less:&nbsp;    Estimated lab, delivery, and transactional costs of 25%</td>
+    <td align="center" valign="top" class="cont">&nbsp;</td>
+    <td align="center" valign="top" class="cont">&nbsp;</td>
+    <td align="center" valign="top" class="cont"><span id="less">150</span></td>
+  </tr>
+  <tr height="3">
+    <td align="left" valign="top" class="cont">&nbsp;</td>
+    <td align="center" valign="top" class="cont">&nbsp;</td>
+    <td align="center" valign="top" class="cont"><hr /></td>
+    <td align="center" valign="top" class="cont"><hr /></td>
+  </tr>
+  <tr>
+    <td align="left" valign="top" class="cont">Total estimated weekly income from    photography work</td>
+    <td align="center" valign="top" class="cont">&nbsp;</td>
+    <td align="center" valign="top" class="cont">$</td>
+    <td align="center" valign="top" class="cont"><span id="ttlw">450</span></td>
+  </tr>
+  <tr>
+    <td align="left" valign="top" class="cont">&nbsp;</td>
+    <td align="center" valign="top" class="cont">&nbsp;</td>
+    <td align="center" valign="top" class="cont">&nbsp;</td>
+    <td align="center" valign="top" class="cont">&nbsp;</td>
+  </tr>
+  <tr>
+    <td align="left" valign="top" class="cont">&nbsp;</td>
+    <td align="center" valign="top" class="cont">&nbsp;</td>
+    <td align="center" valign="top" class="cont">&nbsp;</td>
+    <td align="center" valign="top" class="cont">&nbsp;</td>
+  </tr>
+  <tr>
+    <td align="left" valign="top" class="cont">&nbsp;</td>
+    <td align="center" valign="top" class="cont">&nbsp;</td>
+    <td align="center" valign="top" class="cont">&nbsp;</td>
+    <td align="center" valign="top" class="cont">&nbsp;</td>
+  </tr>
+  <tr>
+    <td align="left" valign="top" class="cont">HMM Subscription sales for the week,    assuming 50% of customers subscribe</td>
+    <td align="center" valign="top" class="cont">&nbsp;</td>
+    <td align="center" valign="top" class="cont">$&nbsp;</td>
+    <td align="center" valign="top" class="cont"><span id="sales">180</span></td>
+  </tr>
+  <tr>
+    <td align="left" valign="top" class="cont">Less: 50% license fee to HMM</td>
+    <td align="center" valign="top" class="cont">&nbsp;</td>
+    <td align="center" valign="top" class="cont">$</td>
+    <td align="center" valign="top" class="cont"><span id="halfsale">(90)</span></td>
+  </tr>
+   <tr height="3">
+    <td align="left" valign="top" class="cont">&nbsp;</td>
+    <td align="center" valign="top" class="cont">&nbsp;</td>
+    <td align="center" valign="top" class="cont"><hr /></td>
+    <td align="center" valign="top" class="cont"><hr /></td>
+  </tr>
+  <tr>
+    <td align="left" valign="top" class="cont">Total estimated weekly income from HMM subscriptions</td>
+    <td align="center" valign="top" class="cont">&nbsp;</td>
+    <td align="center" valign="top" class="cont">$</td>
+    <td align="center" valign="top" class="cont"><span id="hmmweek">90</span></td>
+  </tr>
+  <tr>
+    <td align="left" valign="top" class="cont">&nbsp;</td>
+    <td align="center" valign="top" class="cont">&nbsp;</td>
+    <td align="center" valign="top" class="cont">&nbsp;</td>
+    <td align="center" valign="top" class="cont">&nbsp;</td>
+  </tr>
+  <tr height="3">
+    <td align="left" valign="top" class="cont">&nbsp;</td>
+    <td align="center" valign="top" class="cont">&nbsp;</td>
+    <td align="center" valign="top" class="cont"><hr /></td>
+    <td align="center" valign="top" class="cont"><hr /></td>
+  </tr>
+  <tr>
+    <td align="left" valign="top" class="cont">Total estimated weekly income    (photography + HMM subscriptions)</td>
+    <td align="center" valign="top" class="cont">&nbsp;</td>
+    <td align="center" valign="top" class="cont">$</td>
+    <td align="center" valign="top" class="cont"><span id="weekly">540</span></td>
+  </tr>
+  <tr>
+    <td align="left" valign="top" class="cont">&nbsp;</td>
+    <td align="center" valign="top" class="cont">&nbsp;</td>
+    <td align="center" valign="top" class="cont">&nbsp;</td>
+    <td align="center" valign="top" class="cont">&nbsp;</td>
+  </tr>
+  <tr>
+    <td align="left" valign="top" class="cont">&nbsp;</td>
+    <td align="center" valign="top" class="cont">&nbsp;</td>
+    <td align="center" valign="top" class="cont">&nbsp;</td>
+    <td align="center" valign="top" class="cont">&nbsp;</td>
+  </tr>
+  <tr>
+    <td align="left" valign="top" class="cont">&nbsp;</td>
+    <td align="center" valign="top" class="cont">&nbsp;</td>
+    <td align="center" valign="top" class="cont">&nbsp;</td>
+    <td align="center" valign="top" class="cont">&nbsp;</td>
+  </tr>
+  <tr>
+    <td align="left" valign="top" class="cont"># Sessions per week (from above)</td>
+    <td align="center" valign="top" class="cont">&nbsp;</td>
+    <td align="center" valign="top" class="cont">&nbsp;</td>
+    <td align="center" valign="top" class="cont"><span id="sess">3</span></td>
+  </tr>
+  <tr>
+    <td align="left" valign="top" class="cont">Estimated hours per week, including prep    and post-production</td>
+    <td align="center" valign="top" class="cont">X</td>
+    <td align="center" valign="top" class="cont">&nbsp;</td>
+    <td align="center" valign="top" class="cont">3</td>
+  </tr>
+  <tr height="3">
+    <td align="left" valign="top" class="cont">&nbsp;</td>
+    <td align="center" valign="top" class="cont">&nbsp;</td>
+    <td align="center" valign="top" class="cont"><hr /></td>
+    <td align="center" valign="top" class="cont"><hr /></td>
+  </tr>
+  <tr>
+    <td align="left" valign="top" class="cont">Hours per week on sessions</td>
+    <td align="center" valign="top">&nbsp;</td>
+    <td align="center" valign="top">&nbsp;</td>
+    <td align="center" valign="top" class="cont"><span id="hours">9</span></td>
+  </tr>
+  <tr>
+    <td align="left" valign="top" class="cont"></td>
+    <td align="center" valign="top" class="cont">&nbsp;</td>
+    <td align="center" valign="top" class="cont">&nbsp;</td>
+    <td align="center" valign="top" class="cont"></td>
+  </tr>
+  <tr>
+    <td align="left" valign="top" class="cont"></td>
+    <td align="center" valign="top">&nbsp;</td>
+    <td align="center" valign="top">&nbsp;</td>
+    <td align="center" valign="top" class="cont"></td>
+  </tr>
+  <tr>
+    <td align="left" valign="top" class="cont"></td>
+    <td align="center" valign="top">&nbsp;</td>
+    <td align="center" valign="top" class="cont"></td>
+    <td align="center" valign="top" class="cont"></td>
+  </tr>
+  <tr>
+    <td align="left" valign="top" class="cont">Estimated weekly income (from above)</td>
+    <td align="center" valign="top">&nbsp;</td>
+    <td align="center" valign="top" class="cont">$</td>
+    <td align="center" valign="top" class="cont"><span id="win">540</span></td>
+  </tr>
+  <tr>
+    <td align="left" valign="top" class="cont">Hours per week on sessions (from above)</td>
+    <td align="center" valign="top" class="cont">/</td>
+    <td align="center" valign="top">&nbsp;</td>
+    <td align="center" valign="top" class="cont"><span id="hw">9</span></td>
+  </tr>
+  <tr height="3">
+    <td align="left" valign="top" class="cont">&nbsp;</td>
+    <td align="center" valign="top" class="cont">&nbsp;</td>
+    <td align="center" valign="top" class="cont"><hr /></td>
+    <td align="center" valign="top" class="cont"><hr /></td>
+  </tr>
+  <tr>
+    <td align="left" valign="top" class="cont">Estimated earnings per hour from    photography work &amp; subscription sales</td>
+    <td align="center" valign="top">&nbsp;</td>
+    <td align="center" valign="top" class="cont">$</td>
+    <td align="center" valign="top" class="cont"><span id="earn">60</span></td>
+  </tr>
+</table>
+<table align="center" border="0" width="85%">
+    <tbody>
+      <tr>
+        <th scope="col"><img src="/home_images/btn_calculate.jpg" border="0" onClick="return calculate();"></th>
+      </tr>
+    </tbody>
+  </table>
+  <p class="cont">NOTE: the above pro forma is based on estimates provided by HMM and the user.<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Actual results in the field will differ based on the types of sessions shot and other<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;factors. This is not intended to represent an earnings claim.  </p>
+ 
+</blockquote>
+<table align="center" border="0" width="85%">
+    <tbody>
+      <tr>
+        <th scope="col">&nbsp;</th>
+        <th scope="col">&nbsp;</th>
+        <th scope="col">&nbsp;</th>
+        <th scope="col">&nbsp;</th>
+      </tr>
+    </tbody>
+  </table>
+<p align="center" class="cont"><a href="/business_opportunity/whatdoesitcost"  class="cont">Learn more about HMM  --&gt; </a></p>
+</td></tr></table>

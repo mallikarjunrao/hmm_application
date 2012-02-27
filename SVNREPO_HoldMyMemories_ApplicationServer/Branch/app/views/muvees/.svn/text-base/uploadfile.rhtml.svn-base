@@ -1,0 +1,107 @@
+<script language="JavaScript">
+function verify(){
+	
+	document.getElementById('imgmsg').style.display = 'block';
+	return true;
+}
+</script>
+		<!--<form name="frm" action="test_sebservice" enctype="multipart/form-data">
+			<table>
+				<tr><td colspan="2">Upload form </td></tr>
+				<tr><td>Upload Image</td><td><input type="file" name="file1" id="file1"/></td></tr>
+			`	<tr><td></td><td><input type="submit" name="sub1" value="Submit"/></td></tr>
+			</table>
+		</form>-->
+		
+		
+		<script src="/javascripts/addInput.js" language="Javascript" type="text/javascript"></script>
+<form method="POST" action='/muvees/test_webser' enctype="multipart/form-data" onsubmit= " return verify()">
+    <!-- <div id="dynamicInput">
+           <font color="white">Moment 1</font><br><input type="file" name="myFiles[]">
+     </div>
+     <input type="button" value="Add another file input" onClick="addInput('dynamicInput');">
+    -->
+	<% 
+		 for gallery in @galleries_col
+     @galleries = Galleries.find(gallery.id)
+     @gallery_name=@galleries['v_gallery_name']
+      @contents_count = UserContent.count(:all, :conditions => "gallery_id=#{gallery.id} and status='active' and e_filetype!='swf' and e_filetype!='swf'",:order =>'id desc')
+  %>
+  <table align="center" width="890">
+  <%
+   if(@contents_count==0)
+	else
+%>
+	<tr><td height="30"></td>
+	<tr><td>
+	<p align="center"><font color="white" face="arial"><%=@contents_count%> moments found in Gallery: <%=@gallery_name%>  </font></p>
+	<%
+		 @contents = UserContent.find(:all, :conditions => "gallery_id=#{gallery.id} and status='active' and e_filetype!='swf'",:order =>'id desc')
+  		i=0
+%>
+	
+	
+	<table align="center"><tr>
+	<%
+		for content in @contents	
+		if(i==0 || i==8)
+		%>
+		</tr><tr height="10"><tD></tD></tr><tr>
+		
+		<%	
+			end
+		if(i==8)
+			i=0
+		end
+		%>
+		
+		<td valign="middle">
+		<% 
+			if content.e_filetype == 'video'
+		%>
+		<input type="checkbox" name="chk[]" value="<%=content.v_filename%>.avi"/><img src="/user_content/videos/thumbnails/<%=content.v_filename%>.jpg" width="55" height="55"  /></td><td>&nbsp;&nbsp;&nbsp;&nbsp;</td>	
+
+		
+	<%else%>
+	<% 
+			if content.e_filetype == 'audio'
+		%>
+		<input type="checkbox" name="chk[]" value="<%=content.v_filename%>"/><img title="<%=content.v_filename%>" src="/user_content/audios/speaker.jpg" width="55" height="55"  /></td><td>&nbsp;&nbsp;&nbsp;&nbsp;</td>	
+
+		
+	<%else%>
+				<input type="checkbox" name="chk[]" value="<%=content.v_filename%>"/><img src="/user_content/photos/small_thumb/<%=content.v_filename%>"  /></td><td>&nbsp;&nbsp;&nbsp;&nbsp;</td>	
+		
+	<%end%>
+	<%end%>
+	<%
+	i=i+1
+	end
+%>
+	</tr></table>
+<%
+	end
+%>
+</td></tr>
+<%
+	end%>
+	</table>
+	
+	<input type="hidden" name="gal_id" value="<%=params[:id]%>"/>
+	 <br><br>
+	
+	 <font color="white" face="arial">Please select a Style </font><br><select name="style">
+	 	<%
+			for sty in @styles
+
+		%>
+		<option value="<%=sty%>" ><%=sty%></option>
+		<% end %>
+		 </select>
+		 
+		 
+	<br>	 
+<p><input type="submit" value="Proceed to next step" name="sub1"/></p>
+<p><div id="imgmsg" style="display:none;"><font color="#f5dfa6" face="arial" > Please wait moments are getting submitted...</font></div></p>
+</form>
+

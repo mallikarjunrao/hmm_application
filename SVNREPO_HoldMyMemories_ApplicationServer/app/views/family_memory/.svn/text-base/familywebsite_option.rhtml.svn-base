@@ -1,0 +1,70 @@
+<table cellspacing="0" cellpadding="0" border="0" width="945">
+  <%= render :partial => "family_memory/partials/heading"%>
+  <tr>
+    <td class="subHead">Edit Profile</td>
+  </tr>
+  <tr>
+    <td height="10" align="left" valign="top"></td>
+  </tr>
+  <tr>
+    <td align="center" valign="middle" class="content"></td>
+  </tr>
+  <tr>
+    <td align="center" valign="middle" class="content"></td>
+  </tr>
+  <tr>
+    <td align="left" valign="top" height="10"></td>
+  </tr>
+  <tr>
+    <td align="left" valign="bottom" height="35" class="header-page">Account Settings</td>
+  </tr>
+  <tr>
+    <td align="left" valign="top" height="10"></td>
+  </tr>
+  <tr>
+    <td bgcolor="#454545" align="left" valign="top" height="1"></td>
+  </tr>
+  <tr>
+    <td align="left" valign="top" height="10"></td>
+  </tr>
+  <tr>
+    <td>
+      <table width="750" border="0" cellspacing="0" cellpadding="0">
+        <tr>
+          <td align="center" valign="top" class="tab-dots"><table width="750" border="0" cellspacing="0" cellpadding="0" id="tab_bgcolor_repeat">
+              <tr>
+                <td align="left" valign="top"><table width="100%" border="0" cellspacing="0" cellpadding="0">
+                    <tr>
+                      <td width="13" align="left" valign="top"></td>
+                      <td width="750" align="left" valign="top" ><table width="100%" border="0" cellspacing="0" cellpadding="0">
+                          <tr>
+                            <td height="10" align="left" valign="top"></td>
+                          </tr>
+                          <tr>
+                            <td height="10" align="left" valign="top"></td>
+                          </tr>
+                          <tr>
+                            <td align="left" valign="top" class="content-trans-bg"><table width="100%" border="0" cellspacing="0" cellpadding="0">
+                                <tr>
+                                  <td width="30" align="left" valign="top">&nbsp;</td>
+                                  <td width="750" align="center" valign="middle" class="content" height="350">If you choose not to continue with the premium plan you are at risk of losing your family website and Studio session folder. <br><br/>
+                                    if you would like you can continue with a $4.95 family website subscription and not loose your family website.<br><br>
+                                    <input type="button" value="Yes I would like to go for this option." onclick="window.location='/family_memory/upgrade_account_form/<%= params[:id] %>?acc_type=family_website'"/>&nbsp;&nbsp;<input type="button" value="No Thanks!" onclick="window.location='/family_memory/home/<%= params[:id] %>'" />
+                                  </td>
+                                </tr>
+                              </table></td>
+                          </tr>
+                          <tr>
+                            <td align="left" valign="top">&nbsp;</td>
+                          </tr>
+                        </table></td>
+                      <td width="13" align="left" valign="top"></td>
+                    </tr>
+                  </table></td>
+              </tr>
+            </table></td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+</table>

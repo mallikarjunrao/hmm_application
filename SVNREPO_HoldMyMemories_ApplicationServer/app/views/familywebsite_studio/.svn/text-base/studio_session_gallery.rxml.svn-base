@@ -1,0 +1,20 @@
+xml.instruct! :xml, :version=>"1.0"
+xml.images{
+  if @studio_gallery
+    xml.image{
+      if(params[:id]==4|| params[:id]=='4')
+        @content_server_url = "http://content.holdmymemories.com"
+      else
+        @content_server_url = @studio_gallery.img_url
+      end
+      xml.navigate_path("#{@content_path.proxyname}/familywebsite_studio/studio_session_videos/#{@family_website_owner.family_name}")
+      xml.icon(@content_server_url +"/user_content/videos/thumbnails/#{@studio_gallery.v_filename}.jpg")
+      xml.video_url(@content_server_url +"/user_content/videos/#{@studio_gallery.v_filename}.flv")
+      xml.id(@studio_gallery.id)
+      xml.name(@studio_gallery.v_filename)
+      xml.type("video")
+      xml.response_type("navigate")
+    }
+  end
+
+}

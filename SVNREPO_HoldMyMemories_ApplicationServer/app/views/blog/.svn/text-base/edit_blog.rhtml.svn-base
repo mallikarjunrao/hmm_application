@@ -1,0 +1,164 @@
+
+<table width="970" border="0" cellspacing="0" cellpadding="0" id="tab_bgcolor_repeat">
+  <tr>
+    <td align="left" valign="top"><table width="100%" border="0" cellspacing="0" cellpadding="0">
+        <tr>
+          <td width="13" align="left" valign="top"></td>
+          <td width="944" align="left" valign="top"><table width="100%" border="0" cellspacing="0" cellpadding="0">
+              <tr>
+                <td height="10" align="left" valign="top"></td>
+              </tr>
+              <tr>
+                <td height="35" align="left" valign="bottom" class="header-page">Manage My Site</td>
+              </tr>
+              <tr>
+                <td height="10" align="left" valign="top"></td>
+              </tr>
+              <tr>
+                <td height="1" align="left" valign="top" bgcolor="#454545"></td>
+              </tr>
+              <tr>
+                <td height="10" align="center" valign="top" class="content"><%=flash[:message]%></td>
+              </tr>
+              <tr>
+                <td height="10" align="left" valign="top">
+              <tr>
+                <td align="left" valign="top"><table width="100%" border="0" cellspacing="0" cellpadding="0">
+                    <tr>
+                      <td width="173" align="left" valign="top" id="tab_bgcolor_repeat">
+                        <%= render :partial => "partials/manage_website_menu", :locals => { :current_item => "#{@current_item}"} %>
+                      </td>
+                      <td width="17" align="left" valign="top"></td>
+                      <td width="754" align="left" valign="top"><table width="100%" border="0" cellspacing="0" cellpadding="0">
+                          <tr>
+                            <td class="content-trans-bg"><table width="100%" border="0" cellspacing="0" cellpadding="0">
+                                <tr>
+                                  <td height="10" colspan="3" align="left" valign="top"></td>
+                                </tr>
+                                <tr>
+                                  <td width="20" align="left" valign="top"></td>
+                                  <td align="left" valign="top"><table width="100%" border="0" cellspacing="0" cellpadding="0">
+                                      <tr>
+                                        <td align="right" valign="top" class="side-heading">&nbsp;</td>
+                                      </tr>
+                                      <tr>
+                                        <td align="left" valign="top" class="header-paragraph">Edit Blog Entry </td>
+                                      </tr>
+                                      <tr>
+                                        <td align="left" valign="top">&nbsp;</td>
+                                      </tr>
+                                      <tr>
+                                        <td align="center" valign="top">
+                                          <table width="100%" border="0" cellspacing="0" cellpadding="0">
+
+                                            <tr>
+                                              <td height="1" align="left" valign="top" bgcolor="#454545"></td>
+                                            </tr>
+                                            <tr>
+                                              <td height="10" align="left" valign="top"></td>
+                                            </tr>
+                                            <tr>
+                                              <td height="10" align="left" valign="top"></td>
+                                            </tr>
+                                            <tr>
+                                              <td align="left" valign="top" class="content-trans-bg"><table width="100%" border="0" cellspacing="0" cellpadding="0">
+                                                  <tr>
+                                                    <td width="30" align="left" valign="top">&nbsp;</td>
+                                                    <td width="912" align="left" valign="top">
+                                                      <form name="frm_edit_blog" id="blogform" action="/blog/edit_blog/<%=params[:id]%>?bid=<%=params[:bid]%>" method="post">
+                                                        <!--<%= render :partial => "partials/blogform", :locals => { :model => "sub_chap_journal",:field1 => "journal_title", :field2 => "created_on", :field3 => "subchap_journal", :label => "Update"} %>-->
+                                                        <table width="100%" border="0" cellspacing="0" cellpadding="0">
+                                                          <tr>
+                                                            <td align="left" valign="top">&nbsp;</td>
+                                                          </tr>
+                                                          <tr>
+                                                            <td height="25" align="left" valign="top" class="content">Title </td>
+                                                          </tr>
+                                                          <tr>
+                                                            <td align="left" valign="top"><label>
+                                                                <input type="text" name="title" value="<%=@blog.title%>" class="textbox-journal"/>
+                                                              </label></td>
+                                                          </tr>
+                                                          <tr>
+                                                            <td align="left" valign="top">&nbsp;</td>
+                                                          </tr>
+                                                          
+                                                          <tr>
+                                                            <td align="left" valign="top">&nbsp;</td>
+                                                          </tr>
+														    <tr>
+    <td height="25" align="left" valign="top" class="content">Blog Entry Date</td>
+  </tr>
+  <tr>
+    <td align="left" valign="top"><%= date_select "blog", "added_date", :order => [:month, :day, :year], :start_year => Time.now.year - 100, :end_year => Time.now.year   %></td>
+  </tr>
+  <tr>
+    <td align="left" valign="top">&nbsp;</td>
+  </tr>
+                                                          <tr>
+                                                            <td height="25" align="left" valign="top" class="content">Description</td>
+                                                          </tr>
+                                                          <tr>
+                                                            <td align="left" valign="top"><label>
+                                                                <textarea name="desc" class="textbox-journal"><%=@blog.description%></textarea>
+                                                              </label></td>
+                                                          </tr>
+                                                          <tr>
+                                                            <td align="left" valign="top">&nbsp;</td>
+                                                          </tr>
+                                                          <tr>
+                                                            <td align="left" valign="top"><label>
+                                                                <input type="submit" class="cmd-btn" value="Update" />
+                                                                &nbsp;
+                                                                <input type="button" class="cmd-btn" value="Cancel"  onClick="javascript:history.back();"/>
+                                                              </label></td>
+                                                          </tr>
+                                                          <tr>
+                                                            <td align="left" valign="top">&nbsp;</td>
+                                                          </tr>
+                                                        </table></form></td>
+                                                  </tr>
+                                                </table></td>
+                                            </tr>
+                                            <tr>
+                                              <td align="left" valign="top">&nbsp;</td>
+                                            </tr>
+
+                                          </table>
+                                        </td></tr>
+                                      <tr>
+                                        <td align="left" valign="top">&nbsp;</td>
+                                      </tr>
+                                      <tr>
+                                        <td align="left" valign="top">&nbsp;</td>
+                                      </tr>
+
+                                    </table> </td>
+                                  <td width="20" align="left" valign="top"></td>
+                                </tr>
+
+                                <tr>
+                                  <td height="30" colspan="3" align="left" valign="top"></td>
+                                </tr>
+                              </table></td>
+                          </tr>
+                          <tr>
+                            <td>&nbsp;</td>
+                          </tr>
+                        </table></td>
+                    </tr>
+                    <tr>
+                      <td align="left" valign="top">&nbsp;</td>
+                      <td align="left" valign="top"></td>
+                      <td align="left" valign="top">&nbsp;</td>
+                    </tr>
+                  </table></td>
+              </tr>
+
+            </table></td>
+          <td width="13" align="left" valign="top"></td>
+        </tr>
+      </table></td>
+  </tr>
+
+</table>

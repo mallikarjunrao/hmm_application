@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:Image xmlns:mx="http://www.adobe.com/2006/mxml" >
+	<mx:Script>
+		<![CDATA[
+			import mx.managers.DragManager;
+			import mx.core.DragSource;
+			
+			private function handleCreationComplete() : void
+			{
+				
+			}
+			
+			override public function set data(value:Object):void
+			{
+				super.data = value;
+				this.source = value.source;
+			}
+			 //mouseMove="mouseOverHandler(event);"
+			 private function mouseOverHandler(event:MouseEvent):void 
+            {                
+                var dragInitiator:Image=Image(event.currentTarget);
+                var ds:DragSource = new DragSource();
+                ds.addData(dragInitiator, "img");               
+
+                // The drag manager uses the image as the drag proxy
+                // and sets the alpha to 1.0 (opaque),
+                // so it appears to be dragged across the canvas.
+                var imageProxy:Image = this;
+                //imageProxy.source = globeImage;
+                //imageProxy.height=10;
+               // imageProxy.width=10;                
+                DragManager.doDrag(dragInitiator, ds, event, 
+                    imageProxy);
+            }
+
+			
+		]]>
+	</mx:Script>
+</mx:Image>

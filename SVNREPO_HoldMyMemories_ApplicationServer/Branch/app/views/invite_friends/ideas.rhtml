@@ -1,0 +1,20 @@
+<form action="/invite_friends/tips_view" method="post">
+<table>
+	<tr>
+		<td>
+			Tip Title
+		</td>
+		<td>
+			<%= text_field 'tip_ideas', 'tip_title', :size => 20, :class => "textbox-journals"  %>
+		</td>
+	</tr>
+	<tr>
+		<td valign="top">
+			Tip Description
+		</td>
+		<td>
+			<%= text_area 'tip_ideas', 'tip_desc', :rows =>"15", :cols=>"40",  :class => "textbox-journal" %>
+		</td>
+	</tr>
+</table>
+</form>

@@ -1,0 +1,3 @@
+<p align='right'><a href="javascript:history.back()"><< Back</a></p>
+<p align='center'><font color="red"><%=flash[:contest_rej]%></font></p>
+<%= render :partial => "partials/contestants" , :locals => { :admin => 'yes' } %>

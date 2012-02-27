@@ -1,0 +1,129 @@
+<%
+@userid = logged_in_hmm_user.id
+record = Tag.find_by_sql("SELECT a.uid, a.id as tid, a.e_access as te_access, a.v_tagname as tv_tagname, a.img_url as timg_url, a.v_chapimage as tv_chapimage, a.v_chapter_tags as tv_chapter_tags, a.v_desc as tv_desc, a.default_tag as tdefault_tag, a.tag_type as ttag_type,
+b.id as sid, b.tagid as stagid, b.e_access as se_access, b.sub_chapname as ssub_chapname, b.img_url as simg_url, b.v_image as sv_image, b.v_subchapter_tags as sv_subchapter_tags, b.v_desc as sv_desc,
+c.id as gid, c.img_url as gimg_url, c.v_gallery_image as gv_gallery_image, c.e_gallery_acess as ge_gallery_acess, c.v_gallery_name as gv_gallery_name, c.e_gallery_type as ge_gallery_type, c.v_gallery_tags as gv_gallery_tags, c.subchapter_id as gsubchapter_id, c.v_desc as gv_desc,
+d.id as mid, d.e_access as me_access, d.gallery_id as mgallery_id, d.v_tagphoto as mv_tagphoto, d.e_filetype as me_filetype, d.tagid as mtagid, d.sub_chapid as msubchapter_id, d.img_url as mimg_url, d.v_filename as mv_filename, d.v_tagname as mv_tagname, d.v_desc as mv_desc, d.d_momentdate as md_momentdate
+
+FROM tags as a,sub_chapters as b,galleries as c,user_contents as d
+WHERE a.uid=#{@userid} and a.id = b.tagid and b.id = c.subchapter_id and c.id = d.gallery_id ")
+
+tags=Tag.find(:all, :select => "id as tid, e_access as te_access, v_tagname as tv_tagname, img_url as timg_url, v_chapimage as tv_chapimage,v_chapter_tags as tv_chapter_tags, v_desc as tv_desc, default_tag as tdefault_tag, tag_type as ttag_type", :conditions => "uid=#{@userid}")
+# if the uid in tags table is same as that in galleries, user_contents then we could add these extra conditions for the corresponding table for much better query results
+# And instead of getting all the fields from the database, it would be better to get the fields that we need. This will save a lot of memory and confusion. like id of chapters, sub_chapters, galleries and contents are all id and we do not even use 'em
+xml=""
+
+xml +="<root>"
+  xml +="<chapters>"
+  xml +="<userid>#{@userid}</userid>"
+count=0
+  while count < tags.length
+    chapter_id = record[0].tid;
+    subchap_id = record[0].sid;
+    gallery_id = record[0].gid;
+    content_id = record[0].mid;
+    xml +="<chapter>"
+    xml +="<id>#{tags[count].tid}</id>"
+      xml +="<access>#{tags[count].te_access}</access>"
+    xml +="<name>#{tags[count].tv_tagname}</name>"
+    xml +="<icon>#{tags[count].timg_url}/user_content/photos/icon_thumbnails/#{tags[count].tv_chapimage}</icon>"
+    xml +="<tags>#{tags[count].tv_chapter_tags}</tags>"
+    xml +="<description>#{tags[count].tv_desc}</description>"
+    xml +="<defaulttag>#{tags[count].tdefault_tag}</defaulttag>"
+    subchaptercheck=SubChapter.count(:all,:conditions => "store_id is not null and tagid='#{chapter_value.id}'")
+    if(subchaptercheck > 0 || tags[count].tdefault_tag =="no" || tags[count].ttag_type=="event" || tags[count].ttag_type=="journal")
+      xml +="<editable>false</tagtype>"
+    else
+      xml +="<editable>true</tagtype>"
+    end
+    xml +="<tagtype>#{tags[count].ttag_type}</tagtype>"
+   #subchapters listing
+    subcount=SubChapter.count(:all,:conditions => "tagid=#{tags[count].tid}")
+    xml +="<subchaptercount>#{subcount}</subchaptercount>"
+    xml +="<subchapters>"
+    count1=0
+    while count1 < subcount
+        if(tags[count].tid==record[count1].sid)
+          xml +="<subchapter>"
+          xml +="<id>#{record[count1].sid}</id>"
+          xml +="<tagid>#{record[count1].stagid}</tagid>"
+          xml +="<access>#{record[count1].se_access}</access>"
+          xml +="<name>#{record[count1].ssub_chapname}</name>"
+          xml +="<icon>#{record[count1].simg_url}/user_content/photos/icon_thumbnails/#{record[count1].sv_image}</icon>"
+          xml +="<tags>#{record[count1].sv_subchapter_tags}</tags>"
+          subchaptercheck=SubChapter.count(:all, :conditions => "id='#{record[count1].sid}' and store_id is not null")
+            if(subchaptercheck > 0)
+              xml +="<editable>false</tagtype>"
+            else
+              xml +="<editable>true</tagtype>"
+            end
+          xml +="<description>#{record[count1].sv_desc}</description>"
+          #galleries listing
+          galbcount=Galleries.count(:all,:conditions => "tagid=#{record[count1].subchapter_id}")
+          xml +="<gallerycount>#{galbcount}</gallerycount>"
+          xml +="<galleries>"
+          count2=0
+          while count2 > galbcount
+            if(record[count1].subchapter_id==record[count2].gsubchapter_id)
+              xml +="<gallery>"
+              xml +="<id>#{record[count2].gid}</id>"
+              xml +="<icon>#{record[count2].gimg_url}/user_content/photos/icon_thumbnails/#{record[count2].gv_gallery_image}</icon>"
+              xml +="<access>#{record[count2].ge_gallery_acess}</access>"
+              xml +="<galleryid>#{record[count2].gid}</galleryid>"
+              xml +="<name>#{record[count2].gv_gallery_name}</name>"
+              xml +="<type>#{record[count2].ge_gallery_type}</type>"
+              xml +="<tags>#{record[count2].gv_gallery_tags}</tags>"
+              xml +="<tagid>#{record[count2].gsubchapter}</tagid>"
+              xml +="<subchapterid>#{record[count2].gsubchapter_id}</subchapterid>"
+              xml +="<description>#{record[count2].gv_desc}</description>"
+               galbcount=UserContent.count(:all,:conditions => "tagid=#{record[count2].gallery_id}")
+                xml +="<gallerycount>#{galbcount}</gallerycount>"
+                xml +="<files>"
+                count3=0
+                while count3 > galbcount
+                  if(record[count2].gallery_id==record[count3].gallery_id)
+                    xml +="<file>"
+                     xml +="<id>#{record[count3].mid}</id>"
+                     xml +="<access>#{record[count3].me_access}</access>"
+                     xml +="<galleryid>#{record[count3].mgallery_id}</galleryid>"
+                     xml +="<name>#{record[count3].mv_tagphoto}</name>"
+                     xml +="<type>#{record[count3].me_filetype}</type>"
+                     xml +="<tagid>#{record[count3].mtagid}</tagid>"
+                     xml +="<subchapterid>#{record[count3].msubchapter_id}</subchapterid>"
+                     if(record[0].me_filetype == "image")
+                      xml +="<icon>#{record[0].mimg_url}/user_content/photos/big_thumb/#{record[0].mv_filename}</icon>"
+                     end
+                     if(record[0].me_filetype == "video" || record[0].me_filetype == "swf")
+                      xml +="<icon>#{record[0].mimg_url}/user_content/videos/thumbnails/#{record[0].mv_filename}.jpg</icon>"
+                     end
+                     if(record[0].me_filetype == "audio")
+                      xml +="<icon>#{record[0].mimg_url}/user_content/audios/#{record[0].mv_filename}</icon>"
+                     end
+                     xml +="<tags>#{record[0].mv_tagname}</tags>"
+                     xml +="<description>#{record[0].mv_desc}</description>"
+                     xml +="<creationdate>#{record[0].md_momentdate}</creationdate>"
+                    xml +="</file>"
+                  end
+                  count3 +=1
+                end
+               xml +="</files>"
+               xml +="</gallery>"
+            end
+            count2 +=1
+          end
+          xml +="</galleries>"
+          xml +="</subchapter>"
+        end
+        count1 +=1
+        xml +="</subchapters>"
+        xml +="</chapter>"
+      end
+
+         count +=1
+    end
+xml +="</chapters>"
+xml +="</root>"
+
+%>
+
+<%=xml%>

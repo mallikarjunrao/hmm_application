@@ -1,0 +1,135 @@
+<h1>Edit Contest Winner</h1>
+<style type="text/css">
+  .sub-btn{
+    background:transparent;
+    background-image: url(/images/sub-btn.png);
+    height:24px;
+    width:94px;
+    border:none;
+    font-size:13px;
+    font-weight:bold;
+    color:#FFF;
+    cursor:pointer;
+  }
+  .sub-btn:hover{
+    background-image: url(/images/sub-btn-ovr.png);
+  }
+</style>
+<SCRIPT language="JavaScript">
+ 
+  function update_winner(form)
+  {
+    var len_photo = parseInt("<%= @winner.photo_winner_name.length %>");
+  
+    var len_video = parseInt("<%= @winner.video_winner_name.length %>");
+ 
+    var ret_val = true;
+
+    if(len_photo > 0)
+    {
+      for(var i = 0; i < len_photo; i++)
+      {
+        if (document.getElementById("winner_image_name_"+i).value == "" || document.getElementById("winner_image_url_"+i).value == "" || document.getElementById("winner_image_link_"+i).value == "")
+        {
+          ret_val = ret_val && false;
+        }
+        else 
+        {
+          ret_val = ret_val && true;
+        }
+      }
+    }
+
+    if(len_video > 0)
+    {
+      for(var i = 0; i < len_video; i++)
+      {
+        if(document.getElementById("winner_video_name_"+i).value == "" || document.getElementById("winner_video_url_"+i).value == "" || document.getElementById("winner_video_link_"+i).value == "")
+        {
+          ret_val = ret_val && false;
+        }
+        else {
+          ret_val = ret_val && true;
+        }
+      }
+    }
+    if (ret_val == false)
+    {
+      alert("Complete Image/Video Details");
+    }
+    return ret_val;
+  }
+</SCRIPT>
+<table width="601" border="0" cellspacing="0" cellpadding="0" align="center">
+  <tr>
+    <td height="30" align="center" valign="middle" class="cont_13">
+      <% if flash[:msg1] %>
+        <font color="Green"><%= flash[:msg1] %></font>
+      <% else %>
+        <font color="Red"><%= flash[:msg2] %></font>
+      <% end %>
+    </td>
+  </tr>
+  <tr>
+    <td align="left" colspan="6" height="40">
+      <a href="/contest_admin/contest_winners"><input type="submit" value="Back" class="sub-btn"/></a>
+    </td>
+    
+  </tr>
+  <tr>
+    <td align="center" valign="top">
+      <form action="/contest_admin/update_winners?contest_phase=<%= params[:contest_phase] %>" method="post" onsubmit="return update_winner(this);">
+        <table width="950" border="1" align="center" cellpadding="0" cellspacing="0">
+          <tr>
+            <td align="center" height="40" colspan="3" width="100%">
+              <img src="<%= @contest_name.heading_logo %>" />
+            </td>
+          </tr>
+          <% if @winner && @winner.photo_winner_name.length > 0 %>
+            <% i = 0 %>
+            <tr>
+              <td align="center" height="40" colspan="3"><h2>Photo Winners</h2></td>
+            </tr>
+            <tr>
+              <th align="center" height="40">Winner's name:</th>
+              <th align="center" height="40">Winner's image URL:</th>
+              <th align="center" height="40">Winner's photo Link:</th>
+            </tr>
+            <% @winner.photo_winner_name.each do |winner| %>
+              <tr>
+                <td width="50" align="center" style="padding-top: 5px; padding-bottom: 5px;"><input type="text" name="photo_winner_name[<%= i %>][name]" value="<%= winner["name"] %>" size="40" id="winner_image_name_<%= i %>"/></td>
+                <td width="50" align="center"><input type="text" name="photo_winner_name[<%= i %>][url]" value="<%= winner["url"] %>" size="40" id="winner_image_url_<%= i %>"/></td>
+                <td width="50" align="center"><input type="text" name="photo_winner_name[<%= i %>][link]" value="<%= winner["link"] %>" size="40" id="winner_image_link_<%= i %>"/></td>
+              </tr>
+              <% i += 1 %>
+            <% end %>
+          <% end %>
+          <% if @winner && @winner.video_winner_name.length > 0 %>
+            <% i = 0 %>
+            <tr>
+              <td align="center" height="40" colspan="3"><h2>Video Winners</h2></td>
+            </tr>
+            <tr>
+              <th align="center" height="40">Winner's name:</th>
+              <th align="center" height="40">Winner's image URL:</th>
+              <th align="center" height="40">Winner's photo Link:</th>
+            </tr>
+            <% @winner.video_winner_name.each do |winner| %>
+              <tr>
+                <td width="50" align="center" style="padding-top: 5px; padding-bottom: 5px;"><input type="text" name="video_winner_name[<%= i %>][name]" value="<%= winner["name"] %>" size="40" id="winner_video_name_<%= i %>" /></td>
+                <td width="50" align="center"><input type="text" name="video_winner_name[<%= i %>][url]" value="<%= winner["url"] %>" size="40" id="winner_video_url_<%= i %>"/></td>
+                <td width="50" align="center"><input type="text" name="video_winner_name[<%= i %>][link]" value="<%= winner["link"] %>" size="40" id="winner_video_link_<%= i %>"/></td>
+              </tr>
+              <% i += 1 %>
+            <% end %>
+          <% end %>
+          <tr>
+            <td align="center" colspan="6" height="40">
+              <input type="submit" name="Submit" value="Update" class="sub-btn" />
+            </td>
+          </tr>
+        </table>
+      </form>
+    </td>
+  </tr>
+</table>

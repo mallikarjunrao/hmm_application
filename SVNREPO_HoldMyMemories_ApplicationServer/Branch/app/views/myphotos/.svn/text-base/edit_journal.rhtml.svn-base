@@ -1,0 +1,5 @@
+
+
+<% form_tag :action => 'update_journal', :id => @user_content do %>
+  <%= render :partial => 'journal_frm' %>
+  <% end %>

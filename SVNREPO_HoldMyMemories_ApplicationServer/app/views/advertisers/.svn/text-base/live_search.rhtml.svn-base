@@ -1,0 +1,76 @@
+<%= javascript_include_tag "prototype" %>
+<script type="text/javascript">
+function disp_confirm()
+{
+var r=confirm("Press a button");
+if (r==true)
+  {
+  document.write("You pressed OK!");
+  }
+else
+  {
+  document.write("You pressed Cancel!");
+  }
+}
+</script>
+<% if @results.empty? %>
+  <font color="#ffffff">'<%=h @phrase %>' not found!</font>
+<% else %>
+  <font color="#ffffff">'<%=h @phrase %>' = Found <b><%= @number_match %></b> Records!</font>
+<% end %>
+
+<form name="myform" onsubmit="return confirmation();" action='<%= url_for(:action => "deleteSelection1") %>' method='POST'>
+	
+<table>
+	
+	
+<tr><th><center>
+	<input type="checkbox"  name="CheckAll" id="CheckAll" value="Check All"
+onClick="javascript:checkAll()  ;">
+    <!-- <%=check_box_tag 'name' %></center></th> -->
+    <th>First Name</th>
+	<th>Last Name</th>
+	<th>Address</th>
+	<th>Company</th>
+	<th>Phone</th>
+	<th>Email</th>
+	<th colspan=3>Actions</th>
+	
+ </tr>
+  
+<% 	odd_or_even = 0 
+ i = 0
+for colmn in @results 
+ i = i + 1
+odd_or_even = 1 - odd_or_even
+%>
+  <tr class='ListLine<%= odd_or_even %>'>
+  
+    <td>
+	
+	<input type="checkbox" id="colmn_<%=i.to_s%>"  name="colmn_<%=i.to_s%>" value="<%=colmn.id%>" />
+	</td>
+	<td><%=h colmn.v_firstname %></td>
+	<td><%=h colmn.v_lastname %></td>
+	<td><%=h colmn.v_address %></td>
+	<td><%=h colmn.v_company %></td>
+	<td><%=h colmn.v_phone %></td>
+	<td><%=h colmn.v_email %></td> 
+     <td>	<%= link_to_remote("Show",
+:update => 'content', :url => {:controller =>:advertisers , :action => :show ,  :id => colmn.id } ) %></td>
+    <td><%= link_to_remote("Edit",
+:update => 'content', :url => {:controller =>:advertisers , :action => :edit ,  :id => colmn.id } ) %></td>
+    <td><%= link_to_remote("Delete",
+:update => 'content', :url => {:controller =>:advertisers , :action => :destroy ,  :id => colmn.id } , :confirm => "Are you sure?" , :method => :post ) %></td>
+  </tr> 
+  
+<% end %>
+<input type="hidden" name="len" value="<%= i %>"/>
+
+<tr><td colspan=10><input type='submit'   value='DELETE SELECTED'/> </td></tr>
+
+</table>
+<%= link_to_remote("Add New Advertisers",
+:update => 'content', :url => {:controller =>:advertisers , :action => :new } ) %>
+
+</form>

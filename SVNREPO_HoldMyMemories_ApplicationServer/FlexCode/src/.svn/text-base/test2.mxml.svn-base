@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:Canvas xmlns:mx="http://www.adobe.com/2006/mxml" width="400" height="300" >
+	<mx:HBox width="100%" height="100%" verticalScrollPolicy="off" backgroundColor="0">
+		<!--<local:AnimatedRandomWalk id="randomWalk" width="500" height="420" 
+			historyManagementEnabled="true" itemRenderer="IconItem" itemClick="handleItemClick(event)"/>-->
+		<mx:VBox width="100%" height="100%" creationPolicy="all"  borderStyle="inset" >
+			<mx:VBox  height="100%" horizontalScrollPolicy="off" width="100%" >
+				<!--<mx:HorizontalList id="friendsList"  itemRenderer="renderers.FriendsListRenderer" height="100%" 
+						width="100%" backgroundColor="0" allowMultipleSelection="true" rowHeight="80" backgroundAlpha="0.7" />-->
+				<mx:Label text="User Groups" fontWeight="bold" fontSize="15" color="0xFFFFFF"/> 
+				<mx:Tree id="friendsList" width="100%" height="100%" itemRenderer="renderers.FriendsTreeItemRenderer" 
+													backgroundAlpha="0.7" borderThickness="0" color="#ffffff" backgroundColor="0" fontFamily="Arial" rowCount="2" />		
+			</mx:VBox>
+			<mx:HRule strokeColor="0xFFFFFF"  width="100%"/>
+				<mx:HBox width="100%" height="20%" id="emailContainer">
+					<mx:Label color="white" text="E-mail id:" />
+					<mx:TextInput id="emailId"  width="100%" color="0xFFFFFF" backgroundColor="0" borderColor="0xFFFFFF"/>	
+				</mx:HBox>
+				<mx:Label  id="emailText" text="Note: You can have multiple Email-Ids separated by a comma." fontFamily="Arial" color="0xFFFFFF" 
+					fontSize="13" />
+		</mx:VBox>
+		<mx:VBox width="100%" height="100%"  creationPolicy="all" backgroundColor="0" borderStyle="inset" verticalGap="0">
+			<mx:Tree  id="tree" width="100%" height="100%"  
+			itemRenderer="renderers.CustomTreeItemRenderer"  
+			backgroundAlpha="0" color="#ffffff"  fontFamily="Arial" borderStyle="none" borderThickness="0"/>
+			<mx:HRule strokeColor="0xFFFFFF"  width="100%"/>
+           <mx:Label text="Message :" color="#ffffff" fontFamily="Arial"/>
+		   <mx:TextArea id="message" width="100%" height="30%" fontFamily="Arial" backgroundColor="0" fontSize="13" color="#ffffff" editable="true"/>
+		   <mx:HBox width="100%" horizontalAlign="center" >
+			<mx:Button id="okButton" label="Ok"   styleName="lastButtonStyle"/>
+			<mx:Button label="Cancel"  styleName="lastButtonStyle"/>
+		   </mx:HBox>	
+		</mx:VBox>	
+			
+	</mx:HBox>
+</mx:Canvas>

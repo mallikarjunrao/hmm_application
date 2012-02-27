@@ -1,0 +1,9 @@
+<h2>View Studios</h2>
+<table border="0" cellpadding="0" cellspacing="0" width="100">
+  <tr><td  background="/images/body_hor.JPG">Studio Name</td></tr>
+  <% for studio in @studios
+  studio_name=HmmStudio.find(:first,:select=>"studio_name",:conditions=>"id=#{studio.studio_id}")
+  %>
+  <tr class="<%= cycle('odd', 'even')%>"><td><%=studio_name.studio_name%></td></tr>
+  <%end%>
+</table>

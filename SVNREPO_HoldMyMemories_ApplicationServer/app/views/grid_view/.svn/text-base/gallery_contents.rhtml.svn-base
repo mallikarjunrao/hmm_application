@@ -1,0 +1,248 @@
+<%= javascript_include_tag "themes/swfobject" %>
+<%= javascript_include_tag "themes/nyromodal/jquery-1.3.2.min" %>
+<%= javascript_include_tag "themes/nyromodal/jquery.nyroModal-1.5.2.pack.js" %>
+<%= stylesheet_link_tag '/stylesheets/themes/nyromodal/nyroModal'%>
+<table width="100%" border="0" cellspacing="0" cellpadding="0">
+  <tr>
+    <td height="100%" align="right" valign="top" class="leftshad"></td>
+    <td width="990" height="500" align="center" valign="top"><table width="990" border="0" cellspacing="0" cellpadding="0">
+        <tr>
+          <td align="center" valign="top"><table width="970" border="0" cellspacing="0" cellpadding="0">
+              <tr>
+                <td align="center" valign="top" class="tab-dots"><table width="970" border="0" cellspacing="0" cellpadding="0" id="tab_bgcolor_repeat">
+                    <tr>
+                      <td height="36" align="left" valign="middle" background="/images/common/tab_trans.png"></td>
+                    </tr>
+                    <tr>
+                      <td align="left" valign="top"><table width="100%" border="0" cellspacing="0" cellpadding="0">
+                          <tr>
+                            <td width="13" align="left" valign="top"></td>
+                            <td width="944" align="left" valign="top"><table width="100%" border="0" cellspacing="0" cellpadding="0">
+                                <tr>
+                                  <td height="10" align="left" valign="top"></td>
+                                </tr>
+                                <tr>
+                                  <td height="35" align="left" valign="bottom" class="header-page"><% if @detail.chapter_type!='photo' && @detail.chapter_type!='video' && @detail.chapter_type!='audio' %><%= @detail.gallery_name %><% else %><%= @detail.chapter_name %><% end %></td>
+                                </tr>
+                                <tr>
+                                  <td height="10" align="left" valign="top"></td>
+                                </tr>
+                                <tr>
+                                  <td height="1" align="left" valign="top" bgcolor="#454545"></td>
+                                </tr>
+                                <tr>
+                                  <td height="10" align="left" valign="top"></td>
+                                </tr>
+                                <% if flash[:notice] %>
+                                  <tr>
+                                    <td align="center" valign="middle" class="error-message"><%= flash[:notice] %></td>
+                                  </tr>
+                                  <tr>
+                                    <td height="10" align="left" valign="top"></td>
+                                  </tr>
+                                <%  end %>
+                                <tr>
+                                  <td align="left" valign="top" class="content-trans-bg"><table width="100%" border="0" cellspacing="0" cellpadding="0">
+                                      <tr>
+                                        <td width="20" align="left" valign="top"></td>
+                                        <td align="left" valign="top" style="padding-top:10px;"><table width="100%" border="0" cellspacing="0" cellpadding="0">
+                                            <tr>
+                                              <td align="left" valign="top" class="content">
+                                                <a href="/familywebsite/home/<%= params[:id] %>">Home</a> &gt;&gt; <a href="/grid_view/subchapters/<%= params[:id] %>?chapter_id=<%= @detail.chapter_id %>"><%= @detail.chapter_name  %></a> <% if @detail.chapter_type!='photo' && @detail.chapter_type!='video' && @detail.chapter_type!='audio' %>&gt;&gt; <a href="/grid_view/galleries/<%= params[:id] %>?subchapter_id=<%= @detail.subchapter_id %>"><%= @detail.subchapter_name  %></a> &gt;&gt; <%= @detail.gallery_name  %><% end %></td>
+                                              <td width="200" align="right" valign="top" class="thummbimg_title"><a href="/familywebsite/gallery_contents/<%=params[:id]%>?gallery_id=<%=params[:gallery_id]%>">Coverflow View</a><% if @detail.gallery_type == 'image' %><br/><br><a href="/familywebsite/slideshow/<%= params[:id] %>?gallery_id=<%= @detail.gallery_id %> ">Slideshow</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<% end %></td>
+                                            </tr>
+
+                                          </table></td>
+                                        <td width="20" align="left" valign="top"></td>
+                                      </tr>
+                                      <tr>
+                                        <td align="left" valign="top" colspan="3">
+                                          <table align="left" cellspacing="10">
+                                            <tr><th>
+                                                <%= sort_header_tag('d_createddate', :text => "<u>Sort By Date</u>",:title => "Sort By Date") %>
+                                                <%= sort_header_tag('v_tagphoto', :text => "<u>Sort By Name</u>",:title => "Sort By Name") %>
+                                              </th></tr>
+                                          </table>
+                                        </td>
+                                      </tr>
+                                      <tr>
+                                        <td align="left" valign="top"></td>
+                                        <td align="left" valign="top">&nbsp;</td>
+                                        <td align="left" valign="top"></td>
+                                      </tr>
+                                      <tr>
+                                        <td align="left" valign="top"></td>
+                                        <td align="center" valign="top">
+                                          <table border="0" cellpadding="0" cellspacing="0">
+                                            <tr> <td height="25"></td><td colspan="5"></td></tr>
+                                            <% if @countcheck > 0 %>
+                                              <tr>
+                                                <% j=0 %>
+                                                <% for i in @user_content
+                                                  photo_comments = PhotoComment.count(:conditions => "user_content_id = #{i.id}")%>
+
+                                                  <% @viewmoment_count = HmmUser.find_by_sql(" SELECT count( * ) as cnt
+      FROM memories_count
+      WHERE usercontent_id = #{i.id} ") %>
+                                                  <% if j==3 %>
+                                                    <% j=0 %>
+                                                    </th></tr><tr>
+                                                  <%end%>
+                                                  <th width="100" height="14" align="left" valign="top"  scope="col">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th>
+                                                  <th width='197' height='227'  style="background-repeat:no-repeat;" align="center"  >
+                                                    <table  width="117%" height="80" border="0" align="center">
+                                                      <tr>
+                                                        <th align="left" valign="top" scope="col" >
+                                                          <table width="215" border="0" align="center" cellpadding="0"  cellspacing="0" onkeyup=""  >
+                                                            <tr>
+                                                              <td height="192" align="center" valign="middle" scope="col"  >
+                                                                <a href="/familywebsite/moments/<%= params[:id] %>?moment_id=<%= i.id %>">
+                                                                  <% @gal = Galleries.find(:all, :conditions => "id=#{params[:gallery_id]}")
+                                                                  for @i in @gal
+                                                                    @gal_name=@i.v_gallery_name
+                                                                    @gal_type=@i.e_gallery_type
+                                                                  end %>
+                                                                  <% if @gal_type == 'video'
+                                                                    filename=i.v_filename+'.jpg'
+                                                                  %>
+                                                                    <img  width="192"  src="<%=i.img_url%>/user_content/videos/thumbnails/<%=filename%>"  border="0"  id="img1"  alt=""/>
+                                                                  <% else if @gal_type == 'audio'%>
+                                                                      <img  width="192"  src="<%=i.img_url%>/user_content/audios/speaker.jpg" border="0" id="img2"  alt="" />
+                                                                    <%else%>
+                                                                      <img  width="192"  src="<%=i.img_url%>/user_content/photos/big_thumb/<%= i.v_filename %>" border="0" id="img3"    alt=""  />
+
+                                                                    <%end%><%end%>
+                                                                </a></td><td>&nbsp;&nbsp;&nbsp;</td>
+                                                            </tr>
+                                                            <tr>
+                                                              <td height="6" align="left" valign="top" scope="col"></td>
+                                                            </tr>
+                                                            <tr>
+                                                              <td height="24" width="" align="center" valign="middle" class="text-journal" scope="col"> <a href="/familywebsite/moments/<%= params[:id] %>?moment_id=<%= i.id %>"><span class="content-white"><% if (i.v_tagphoto.nil?) %> No name <% else %>  <% if (i.v_tagphoto.slice(0,25)) %> <%= i.v_tagphoto.slice(0,25) %> <%else%> No Name <%end%><%end%></span></a></td>
+                                                            </tr>
+                                                            <tr>
+                                                              <th align="center" class="content" valign="top"  scope="col">Created</th>
+                                                            </tr>
+                                                            <tr>
+                                                              <th align="center" class="content" valign="top"  scope="col">
+                                                                <%= i.d_createddate.strftime("%a %b #{i.d_createddate.day.ordinalize} %Y,   %I:%M %p") %></th>
+                                                            </tr>
+                                                          </table></th>
+                                                      </tr>
+                                                    </table>
+                                                    <% j= j+1 %>
+                                                  <%end%>
+                                                <% else %>
+                                              <tr><td>
+                                                  <span class="header-paragraph">
+                                                    No Moment's found...
+                                                  </span>
+                                                </td></tr>
+                                            <% end %>
+                                            <tr>
+                                              <th height="53" align="left" valign="top"  scope="col"></th>
+                                              <th align="center" colspan="5" valign="top" class="side-heading" id="padding_photos" scope="col">
+
+                                              </th>
+                                              <th width="95" align="left" valign="top"  scope="col"></th>
+                                            </tr>
+                                            <tr>
+                                              <th colspan="10" align="center" valign="top" scope="col"><div id="me"></div></th>
+                                            </tr>
+                                          </table>
+                                        </td>
+                                        <td align="left" valign="top"></td>
+                                      </tr>
+                                      <tr>
+                                        <td align="left" valign="top"></td>
+                                        <td align="left" valign="top">&nbsp;</td>
+                                        <td align="left" valign="top"></td>
+                                      </tr>
+                                      <tr>
+                                        <td align="left" valign="top"></td>
+                                        <td align="left" valign="top">&nbsp;</td>
+                                        <td align="left" valign="top"></td>
+                                      </tr>
+                                      <tr>
+                                        <td align="left" valign="top"></td>
+                                        <td align="center" valign="top" class="side-heading"><%=will_paginate @user_content%></td>
+                                        <td align="left" valign="top"></td>
+                                      </tr>
+                                      <tr>
+                                        <td align="left" valign="top"></td>
+                                        <td align="left" valign="top">&nbsp;</td>
+                                        <td align="left" valign="top"></td>
+                                      </tr>
+                                      <tr>
+                                        <td align="left" valign="top"></td>
+                                        <td align="left" valign="top">&nbsp;</td>
+                                        <td align="left" valign="top"></td>
+                                      </tr>
+                                      <tr>
+                                        <td align="left" valign="top"></td>
+                                        <td align="left" valign="top"><table width="100%" border="0" cellspacing="0" cellpadding="0">
+                                            <tr>
+                                              <td width="200" align="left" valign="top">&nbsp;</td>
+                                              <td align="center" valign="top" class="headers">
+                                                <% if logged_in_hmm_user && logged_in_hmm_user.id == @family_website_owner.id %>
+                                                  <a href="/blog/create_gallery_newblog_entry/<%= params[:id] %>?gallery_id=<%= params[:gallery_id] %>&redirect_url=<%= request.url %>" >( Blog this )</a>
+                                                <% end %>&nbsp;<a href="/familywebsite_comments/create_gallery_comment/<%=params[:id]%>?gallery_id=<%=params[:gallery_id]%>" class="nyroModal" rev="modal">( Add comment )</a>
+                                              </td>
+                                              <td width="200" align="right" valign="top"></td>
+                                            </tr>
+                                          </table></td>
+                                        <td align="left" valign="top"></td>
+                                      </tr>
+                                      <tr>
+                                        <td align="left" valign="top"></td>
+                                        <td align="left" valign="top">&nbsp;</td>
+                                        <td align="left" valign="top"></td>
+                                      </tr>
+                                      <tr><td align="left" valign="top"></td>
+                                        <td align="left" valign="top">
+                                          <%= render :partial => "partials/comments", :locals => { :comments => @comments} %>
+
+                                        </td>
+                                        <td align="left" valign="top"></td></tr><tr>
+                                        <td align="left" valign="top"></td>
+                                        <td align="left" valign="top">&nbsp;</td>
+                                        <td align="left" valign="top"></td>
+                                      </tr>
+                                      <tr><td align="left" valign="top"></td>
+                                        <td align="left" valign="top">
+                                          <%= render :partial => "partials/blogentry", :locals => { :blog => @blog} %>
+
+                                        </td>
+                                        <td align="left" valign="top"></td></tr>
+                                      <tr>
+                                        <td align="left" valign="top"></td>
+                                        <td align="left" valign="top">&nbsp;</td>
+                                        <td align="left" valign="top"></td>
+                                      </tr>
+                                    </table></td>
+                                </tr>
+                                <tr>
+                                  <td align="left" valign="top">&nbsp;</td>
+                                </tr>
+
+                              </table></td>
+                            <td width="13" align="left" valign="top"></td>
+                          </tr>
+                        </table></td>
+                    </tr>
+                  </table></td>
+              </tr>
+              <tr>
+                <td align="center" valign="top" >&nbsp;</td>
+              </tr>
+            </table></td>
+        </tr>
+        <tr>
+          <td align="center" valign="top" height="25">&nbsp;</td>
+        </tr>
+      </table></td>
+    <td align="left" valign="top" class="rightshad"></td>
+  </tr>
+</table>
+</body>
+</html>

@@ -1,0 +1,97 @@
+<%= javascript_include_tag 'themes/formcheck/core' %>
+<%= javascript_include_tag 'themes/formcheck/more' %>
+<%= javascript_include_tag 'themes/formcheck/en' %>
+<%= javascript_include_tag 'themes/formcheck/formcheck' %>
+<%= stylesheet_link_tag 'themes/formcheck/formcheck'%>
+<table width="100%" border="0" cellspacing="0" cellpadding="0" height="100%">
+  <tr><td align="center"><table width="100%" border="0" cellspacing="0" cellpadding="0">
+        <tr>
+          <td width="77%" align="center"><img src="/images/family_memory/hmm-logo.png" /></td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+  <tr>
+    <td align="center" height="16%">&nbsp;</td>
+  </tr>
+  <tr>
+    <td align="center" height="35" class="profileName">Please login to Upload/Import Images</td>
+  </tr>
+  <tr>
+    <td align="center" valign="top">
+      <table cellspacing="0" cellpadding="0" border="0" width="369" class="login-box">
+        <tbody><tr>
+            <td align="left" valign="top" height="35" colspan="4"></td>
+          </tr>
+        <form id="loginform" name="loginform" action="/family_memory/login/<%= params[:id] %>" method="post">
+          <tr>
+            <input type="hidden" name="redirect_url"  value="<%=params[:redirect_url]%>" onclick="this.value=''"/>
+            <td align="left" width="30" valign="top"></td>
+            <td align="left" width="93" valign="middle" class="content-white">User Name:</td>
+            <td align="left" width="203" valign="middle">
+              <label>
+                <input type="text" class="validate['required']" id="textfield" name="username" />
+              </label>
+            </td>
+            <td align="left" width="43" valign="top">&nbsp;</td>
+          </tr>
+          <tr>
+            <td align="left" valign="top" height="10" colspan="4"></td>
+          </tr>
+          <tr>
+            <td align="left" valign="top"></td>
+            <td align="left" valign="middle" class="content-white">Password:</td>
+            <td align="left" valign="middle">
+              <input type="password" autocomplete="off" class="validate['required']" id="textfield" name="password" />
+            </td>
+            <td align="left" valign="top">&nbsp;</td>
+          </tr>
+          <tr>
+            <td align="left" valign="top" height="20" colspan="4"></td>
+          </tr>
+          <tr>
+            <td align="left" valign="top"></td>
+            <td align="left" valign="middle" class="content-white">&nbsp;</td>
+            <td align="right" valign="middle">
+              <label>
+                <input type="submit" value="Submit" id="button" class="cmd-btn" name="button" />
+              </label>
+            </td>
+
+            <td align="left" valign="top">&nbsp;</td>
+          </tr>
+        </form>
+        <tr>
+          <td align="left" valign="top"></td>
+          <td align="center" valign="middle" height="25" class="content-white" colspan="2">&nbsp;</td>
+          <td align="left" valign="top">&nbsp;</td>
+        </tr>
+        <tr>
+          <td align="left" valign="top"></td>
+          <td align="center" valign="middle" height="25" class="content-white" colspan="2"><a href="/familywebsite/forgot_password/<%= params[:id] %>">I cannot access my account</a></td>
+          <td align="left" valign="top">&nbsp;</td>
+        </tr>
+        <tr>
+          <td align="left" valign="top"></td>
+          <td align="center" valign="middle" height="25" class="content-white" colspan="2"><a href="/customers/authorise_verify"> Create an account </a> </td>
+          <td align="left" valign="top">&nbsp;</td>
+        </tr>
+        <tr>
+          <td align="left" valign="top"></td>
+          <td align="left" valign="middle" class="content-white">&nbsp;</td>
+          <td align="left" valign="middle">&nbsp;</td>
+          <td align="left" valign="top">&nbsp;</td>
+        </tr>
+        </tbody>
+      </table>
+    </td>
+  </tr>
+</table>
+<% unless params[:redirect_url].blank? %>
+  <input type="hidden" name="redirect_url" id="redirect_url" value="<%= params[:redirect_url] %>">
+<% end %>
+<script type="text/javascript">
+  window.addEvent('domready', function(){
+    new FormCheck('loginform');
+  });
+</script>

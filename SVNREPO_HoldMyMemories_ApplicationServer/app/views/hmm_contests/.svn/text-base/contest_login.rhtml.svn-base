@@ -1,0 +1,124 @@
+<script type="text/javascript">
+  function escapeSpecialCharacters(field)
+  {
+    var name = document.getElementById(field).value;
+    name =  name.replace(/[^a-zA-Z0-9]+/g,'');
+    document.getElementById('family_name').value=name;
+  }
+  function verify(){
+    if (document.getElementById('valid').value == 'false') {
+      document.getElementById('family_name').focus();
+      return false;
+    }
+    else
+	
+    return true;
+}
+function check(){
+		
+  if (document.getElementById('hmm_user_v_user_name').value == '')
+  {
+    document.getElementById('hmm_user_v_user_name').focus();
+    alert("Please enter your User Name");
+    return false;
+  }
+		
+  if  (document.getElementById('hmm_user_v_password').value == '')
+  {
+    document.getElementById('hmm_user_v_password').focus();
+    alert("Please enter your Password");
+    return false;
+  }
+  else
+    return true;
+}
+	
+</script>
+<%= javascript_include_tag 'prototype' %>
+<%= javascript_include_tag 'check_flash' %>
+<%= javascript_include_tag 'scriptaculous' %>
+<%= javascript_include_tag 'SpryAssets/SpryValidationTextField' %>
+<%= stylesheet_link_tag 'SpryAssets/SpryValidationTextField' %>
+
+<table width="100%" align="center" border="0" cellspacing="0" cellpadding="0">
+  <tr>
+    <th height="20" align="center" valign="top" class="text1" scope="col"></th>
+  </tr>
+  <tr>
+    <th align="center" valign="top" scope="col">
+     <img src="<%=@contest.img_url%>/contest_logos/<%=@contest.logo%>" width="286" height="123"/>
+    </th>
+  </tr>
+  <tr>
+    <th height="20" align="left" valign="top" scope="col"></th>
+  </tr>
+  <tr>
+    <th height="50" align="center" valign="middle" class="text1" scope="col">To enter the contest you must log in or create your free account!</th>
+  </tr>
+  <tr>
+    <th height="20" align="left" valign="top" scope="col"></th>
+  </tr>
+  <tr>
+    <th align="left" valign="top" scope="col"><table width="930" border="0" align="center" cellpadding="0" cellspacing="0">
+        <tr>
+          <th width="100%" align="center" valign="top" scope="col">
+            <% form_for (:hmm_user, :url => {:action => 'authenticate'}, :html => {:onSubmit => 'return check();'}) do |f| -%>
+              <input type="hidden" id="cont" name="cont" value="<%=params[:id]%>">
+              <input type="hidden" id="id" name="id" value="<%=params[:id]%>">
+              <table  align="center" class="bg_login" width=100% height="402" border="0" cellpadding="0" cellspacing="0">
+                <div id="notice" align="center"><font color='#fdf1ca' ><b><%= flash[:notice] %> </b></font></div>
+                <tr bordercolor="#000000"><td align="center"  valign="top"><table align="center" class="border" width="400" border="1"  cellpadding="5" cellspacing="5" bordercolor="#191919">
+                      <tr><td colspan="2" align="center" valign="middle" style="border:none" bgcolor="#191919" height="20"><span class="style1"><font size="3px" color="#ffffff">Member Login</font></span></td>
+                      </tr>
+                      <tr><td colspan="2" align="center" class="border1"><% if flash[:error] -%>
+                            <div id="notice"><font size="1" color="#FF0000"><b><%= flash[:notice] %><span class="err-msg"> NOTE: User Name Or Password Incorrect!!</b></span></font></div>
+                          <%else if flash[:error1]%>
+                              <div id="notice"><font size="1" color="#FF0000"><b><%= flash[:notice] %><span class="err-msg"> NOTE: User is blocked.. Contact Admin!!</b></span></font></div>
+                            <% end -%>
+                          <% end -%> </td>
+                      </tr>
+                      <tr >
+                        <td width="137" align="right" class="style1" style="border:none"><font size="3px" color="#ffffff">Username </font></td>
+                        <td width="256" style="border:none" align="left"><%= f.text_field :v_user_name, :class => "textbox-signup", :size => 30 %></td>
+                      </tr >
+                      <tr style="border:none"><td align="right" class="style1" style="border:none"><font size="3px" color="#ffffff">Password</font></td>
+                        <td align="left" style="border:none"><%= f.password_field :v_password, :class => "textbox-signup", :size => 30 %></td>
+                      </tr >
+                      <tr style="border:none"><td style="border:none"></td><td  style="border:none" colspan="" align="left"><!--<input type="image" id="sign_in" src="/images/log_ovr.jpg"  border="0" />-->
+                          <input type="submit" id="sign_in" class="cmd-btn" value="Log In" style="cursor:pointer;">
+                        </td></tr>
+                      <tr style="border:none">
+                      <tr ><td class="border1" colspan="2" align="center">&nbsp;</td>
+                      </tr>
+                      <tr ><td class="border1" colspan="2" align="center"><a href="/user_account/forgot_password_new/<%=params[:id]%>" style="text-decoration:none;">
+                            <font face="Arial" color="#ffffff" size=2 >Forgot Password</font> </a>
+                          <%if(params[:id]=='video')
+                            id='memorable'
+                          else
+                            id='cutekid'
+                          end
+                        %>
+                        </td>
+                      <tr style="border:none"><td class="border1" colspan="2" align="center"><p> <a href="/contests/rapid_registration/<%=id%>" style="text-decoration:none;" > <font face="Arial" color="#ffffff" size=2 >Create your free account </font> </a>
+                        </td></tr>
+                    </table>
+                  </td></tr>
+              </table>
+            <%end%>
+          </th>
+        </tr>
+      </table></th>
+  </tr>
+  <tr>
+    <th align="center" valign="top" scope="col">&nbsp;</th>
+  </tr>
+  <tr>
+    <th align="center" valign="top" scope="col">&nbsp;</th>
+  </tr>
+  <tr>
+    <th height="50" align="center" valign="top" scope="col">&nbsp;</th>
+  </tr>
+</table>
+<script type="text/javascript">
+var sprytextfield1 = new Spry.Widget.ValidationTextField("sprytextfield1", "none", {validateOn:["blur"],hint:'Family Name',isRequired:true});
+</script>

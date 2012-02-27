@@ -1,0 +1,28 @@
+<table border="0" width="1000">
+  <tr><th background="/images/body_hor.JPG">Studio Name </th><th background="/images/body_hor.JPG">Requested date</th><th colspan="4" background="/images/body_hor.JPG">Actions</th><th  background="/images/body_hor.JPG">Current Status</th></tr>
+  <tr><th background="/images/body_hor.JPG"></th><th background="/images/body_hor.JPG"></th><th background="/images/body_hor.JPG">View</th><th background="/images/body_hor.JPG">Approve</th><th background="/images/body_hor.JPG">Reject</th><th background="/images/body_hor.JPG">Paste App Store Link</th><th background="/images/body_hor.JPG"></th></tr>
+  <%for i in 0..@stuidodid.length-1%>
+    <% logger.info(@stuidodid[0])%>
+    <% logger.info(@stuidodid.inspect)%>
+    <% logger.info(@stuidodid.length)%>
+    <%  @info=EmployeAccount.find(:first,:conditions =>"status='unblock' and store_id=#{@stuidodid[i]}") %>
+    <tr class="<%= cycle('odd', 'even') %>">
+      <td align="center"><%=@stuidoname[i]%></td>
+      <td><%=@registered_date[i].strftime("%m / %d / %Y")%></td>
+      <td align="center"><form id="loginform<%=@stuidodid[i]%>" target="_blank" name="loginform<%=@stuidodid[i]%>" action='/manage_mobile_studios/show_app/<%=@stuidodid[i]%>'  method="post">
+          <input type="submit" name="sub1" value="View" />
+        </form></td>
+      <% if  @studio_app_status[i]!='Live'%>
+        <% if  @studio_app_status[i]!='Approved'%>
+        <td align="center"><form id="loginform<%=@stuidodid[i]%>" target="_blank" name="loginform<%=@stuidodid[i]%>" action='/manage_mobile_studios/approve_app/<%=@stuidodid[i]%>'  method="post"><input type="submit" name="Approve" value="Approve" /></form></td>
+        <%else%>
+        <td></td>
+        <%end%>
+        <td align="center"><form id="loginform<%=@stuidodid[i]%>"  name="loginform<%=@stuidodid[i]%>" action='/manage_mobile_studios/reject_app/<%=@stuidodid[i]%>'  method="post"><input type="submit" name="Reject" value="Reject" /></form></td>
+      <%else%>
+        <td></td><td></td>
+      <%end%>
+      <td align="center"><form id="loginform<%=@stuidodid[i]%>"  name="loginform<%=@stuidodid[i]%>" action='/manage_mobile_studios/live_app/<%=@stuidodid[i]%>'  method="post"><input type="text" name="iphone_live_url" id="iphone_live_url" value="<%=@studio_app_store_link[i]%>" /><input type="submit" name="Submit" value="Submit" /></form></td>
+      <td align="center"><%=@studio_app_status[i]%></td></tr>
+  <%end%>
+</table>

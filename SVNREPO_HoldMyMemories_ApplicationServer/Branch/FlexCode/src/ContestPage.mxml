@@ -1,0 +1,184 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:Application xmlns:mx="http://www.adobe.com/2006/mxml" layout="vertical"  horizontalAlign="center" verticalAlign="top" 
+	xmlns:rockfish="com.rockfish.*" height="100%" verticalGap="0" initialize="handleInitialize()" preloader="custompreloader.PreloaderHourGlass"
+	 creationComplete="handleCreationComplete()" paddingTop="0" width="100%" backgroundAlpha="0" verticalScrollPolicy="off" horizontalScrollPolicy="off">
+	<mx:Style>
+		.hboxStyle
+		{
+			horizontal-align:center;
+			vertical-align:middle; 
+		}
+		.firstButtonStyle
+		{
+			 fillColors: #000000, #000000, #000000, #cccccc;     
+			corner-radius : 0;
+			color : #Ffffff;
+			selection-color : #ff6633;
+			theme-color : #ff6633;  
+		}
+		
+		Alert {
+		    corner-radius: 8;
+		    header-height: 27;
+		    header-colors: #999999, #000000;
+		    background-color: #000000;
+		    color: #ffffff;
+		    border-thickness: 4;
+		    border-color: #000000;
+		    panel-border-style: roundCorners;
+		    shadow-distance: 4;
+		    shadow-direction: bottom;
+		    button-style-name: "firstButtonStyle";
+		  }
+	</mx:Style>
+	<mx:Script>
+		<![CDATA[
+			import events.RefreshDatagridEvent;
+			import mx.charts.CategoryAxis;  
+			import mx.containers.HBox;
+			import mx.controls.Text;
+			import mx.core.UIComponent;
+			import mx.controls.Alert;
+			import mx.rpc.Fault;
+			import mx.rpc.events.FaultEvent;  
+			import mx.rpc.events.ResultEvent; 
+			import mx.rpc.http.HTTPService;   
+			import renderers.CustomContestItemRenderer;
+			import mx.collections.ArrayCollection;
+			import com.rockfish.renderers.PaginationButton; 
+			import com.rockfish.events.PaginationEvent; 
+			[Bindable]  
+			private var selectedItems :ArrayCollection;        
+			
+			private function handleInitialize() : void
+			{
+				Security.loadPolicyFile("http://12.156.60.97/crossdomain.xml");	 			
+			}
+			private function handleCreationComplete():void          
+			{
+ 
+                var service : HTTPService = new HTTPService();
+				service.url = "/contests/get_memories_list/" + Application.application.parameters.galleryid;
+				service.addEventListener(ResultEvent.RESULT,handleResult);
+				service.addEventListener(FaultEvent.FAULT,handleFault);
+				service.send();    
+				Application.application.addEventListener(RefreshDatagridEvent.REFRESHDATAGRIDEVENT,handleRefresh);
+			}  
+			private function handleRefresh(event : RefreshDatagridEvent) : void 
+			{
+				var service : HTTPService = new HTTPService();
+				service.url = "/contests/get_memories_list/" + Application.application.parameters.galleryid;
+				service.addEventListener(ResultEvent.RESULT,handleResult);
+				service.addEventListener(FaultEvent.FAULT,handleFault);
+				service.send();               
+		  }
+			private function handleResult(event : ResultEvent) : void   
+			{
+				try
+				{
+					if(event.result.contents)
+					{
+						if(event.result.contents.content is ArrayCollection)
+					     xmlListColl = event.result.contents.content as ArrayCollection;
+					    else
+					     xmlListColl = new ArrayCollection([event.result.contents.content]); 
+					    if(xmlListColl.length >= 9)
+					    {
+					     paginator.setButtons(xmlListColl.length,9);  
+					     getItems(1,9);
+					     if(xmlListColl.length == 9)
+					     {
+					      paginator.visible = false;   
+					     }
+					    }   
+					    else
+					    {
+					     paginator.setButtons(xmlListColl.length,xmlListColl.length);  
+					     getItems(1,xmlListColl.length);
+					     paginator.visible = false;
+					    }
+					}  
+					else 
+					{
+						var textHtml : Text = new Text();
+						textHtml.htmlText = "<font color='#ffffff' size='25' ><b>No moments found in this gallery!</b></font>";
+						var hbox : HBox = new HBox();
+						hbox.horizontalScrollPolicy = "off";
+						hbox.verticalScrollPolicy = "off";
+						hbox.width = this.width;
+						hbox.height = this.height;
+						hbox.styleName = "hboxStyle";
+						pageItemsList.height = 0;
+						pageItemsList.width = 0;
+						paginator.height = 0;
+						paginator.width = 0;       
+						this.addChild(hbox);
+						hbox.addChild(textHtml);
+						
+					}
+				}
+				catch(ex : Error)
+				{
+					Alert.show("Unable to load your monents! \n Please try again.");
+				}
+				
+			}
+			   
+			private function handleFault(event : Fault) : void    
+			{
+				Alert.show("Unable to load your gallery ! \n Please try again");   	
+			}
+			
+			private function onPageNav(event:PaginationEvent):void     
+			{
+				var pb:PaginationButton = event.pageButton;
+				
+				getItems(pb.start, pb.count); 
+			}  
+			
+			private function getItems(start:int, count:int):void               
+			{
+				  
+				selectedItems = new ArrayCollection();       
+				
+				var i:int;
+				var n:int = count;
+							
+				for (i = 0; i < n; i++)   
+				{
+					selectedItems.addItem(xmlListColl.getItemAt(start+i-1));
+				}
+			}
+		]]>
+	</mx:Script>
+	<mx:Style>
+	.submitButton
+	{     
+		up-skin : Embed(source="assets/submit_btn.jpg");
+		over-skin:Embed(source="assets/submit_btn_ovr1.jpg");       
+		down-skin : Embed(source="assets/submit_btn.jpg");                 
+	}
+	.videoButton
+	{     
+		up-skin : Embed(source="assets/24hr_play_button_def.png");
+		over-skin:Embed(source="assets/24hr_play_button_down.png");     
+		down-skin : Embed(source="assets/24hr_play_button_up.png");                 
+	}
+	
+		.lastButtonStyle  
+					{
+						fillColors: #000000, #000000, #000000, #cccccc;     
+						corner-radius : 0;
+						selection-color : #ff6633;
+						color : #Ffffff;
+						theme-color : #ff6633;
+						textRollOverColor: #ff6633;           
+					}
+	</mx:Style>
+	<mx:Binding source="xmlListColl.length" destination="paginator.count" />
+	<mx:ArrayCollection id="xmlListColl"/>
+	<mx:TileList id="pageItemsList" dataProvider="{selectedItems}" x="10" y="34" width="900" height="750"  rollOverColor="#000000" backgroundAlpha="0"
+		verticalScrollPolicy="off" rowHeight="250" maxColumns="3" maxRows="3"	columnWidth="300" itemRenderer="renderers.CustomContestItemRenderer" borderThickness="0" selectionColor="0"/>
+	<rockfish:Pagination id="paginator" interval="9" pageNav="onPageNav(event)"  height="26" backgroundAlpha="0"/> 
+</mx:Application>                       
+    

@@ -1,0 +1,30 @@
+
+<table width="890">
+	<%=params[:productid]%>
+	<input type="hidden" name="type" id="type" value="<%=params[:type]%>">
+	<tr>
+		<td width="44" height="44" valign="top"><br>
+			<% if(params[:type]=='chap' || params[:type]=='subchapter' || params[:type]=='gallery') %>
+			<%= link_to "<img src='/images/arrow_left_def.png' name='Image22'  border='0' id='Image22' />",  { :page => @selected_items.previous_page , :id => params[:id], :type => params[:type], :productid => params[:productid] }, {:onMouseOver =>"MM_swapImage('Image22','','/images/arrow_right_over.png',1)"} if @selected_items.previous_page %> 
+			<%end%>
+		</td>
+		<%for i in @selected_items%>
+		<td align="center" valign="middle" >
+			
+			<% if params[:productid] == '1'%>
+			<img src="<%=i.img_url%>/user_content/photos/journal_thumb/<%=i.v_filename%>" border="1" width="1000" height="800">
+			<% elsif params[:productid] == '2' %>
+			<img src="<%=i.img_url%>/user_content/photos/journal_thumb/<%=i.v_filename%>" border="1" width="700" height="500">
+			<% elsif params[:productid] == '3' %>
+			<img src="<%=i.img_url%>/user_content/photos/journal_thumb/<%=i.v_filename%>" border="1" width="500" height="350">
+			<%end%>
+			
+		</td>
+		<%end%>
+		<th width="44" height="44" valign="top"><br>
+			<% if(params[:type]=='chap' || params[:type]=='subchapter' || params[:type]=='gallery') %>
+			<%= link_to "<img src='/images/arrow_right_def.png' name='Image22'  border='0' id='Image22' />",  { :page => @selected_items.next_page , :id => params[:id], :type => params[:type], :productid => params[:productid] }, {:onMouseOver =>"MM_swapImage('Image22','','/images/arrow_right_over.png',1)"} if @selected_items.next_page %> 	
+			<%end%>
+		</th>
+	</tr>
+</table>

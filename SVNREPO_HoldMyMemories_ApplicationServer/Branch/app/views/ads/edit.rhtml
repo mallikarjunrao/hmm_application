@@ -1,0 +1,10 @@
+<h3>Edit Advertisement</h3>
+
+
+<% form_tag :action => 'update', :id => @advertisement_detail do %>
+  <%= render :partial => 'form' %>
+  <%= submit_tag 'Edit' %>
+<% end %>
+
+<%= link_to 'Show', :action => 'show', :id => @advertisement_detail %> |
+<%= link_to 'Back', :action => 'list' %>

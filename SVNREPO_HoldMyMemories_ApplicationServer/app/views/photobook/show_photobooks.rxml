@@ -1,0 +1,12 @@
+xml.instruct! :xml, :version=>"1.0"
+xml.photobooks {
+   for photobooks in @photobook
+    xml.photobook{
+      xml.book_id("#{photobooks.id}")
+      xml.title("#{photobooks.title}")
+      xml.photobook_icon("#{request_content_url}/user_content/photos/big_thumb/#{photobooks.photobook_icon}")
+      xml.description("#{photobooks.description}")
+    }
+  end
+ 
+}

@@ -1,0 +1,181 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:VBox xmlns:mx="http://www.adobe.com/2006/mxml" width="100%" height="100%"  creationComplete="handleCreationComplete()" verticalAlign="top"
+	show="setDataProvider()">
+		<mx:TileList id="chapterTileList" height="260" width="100%" verticalAlign="top" borderStyle="none" borderThickness="0" 
+			columnWidth="130" rowHeight="130" backgroundColor="#111111" rollOverColor="#9C9C9C" offscreenExtraRowsOrColumns="0"
+			 backgroundAlpha="0">
+			<mx:itemRenderer>renderers.BasicUserFolderRenderer</mx:itemRenderer>
+		</mx:TileList>
+	<mx:HBox width="100%" height="30" horizontalGap="0" verticalAlign="top" horizontalAlign="center">
+	    <mx:Label text="Click on a Chapter above, or" fontSize="16" color="white" fontFamily="Arial"/>
+		<mx:LinkButton label="CLICK HERE" click="createChapter()" textDecoration="underline"/>
+		<mx:Label text="to create a new Chapter/Folder" fontSize="16" color="white" fontFamily="Arial"/>
+	</mx:HBox>
+	
+	<mx:Script>
+		<![CDATA[
+			import renderers.BasicUserFolderRenderer;
+			import mx.controls.Alert;
+			import mx.core.Application;
+			import mx.managers.CursorManager;
+			import model.HmmChaptersModel;
+			import mx.core.IFlexDisplayObject;
+			import mx.containers.Canvas;
+			import mx.managers.PopUpManager;
+			import mx.collections.ArrayCollection;
+			import vo.ChapterVO;
+			import mx.rpc.events.FaultEvent;
+			import mx.rpc.events.ResultEvent;
+			import mx.rpc.http.HTTPService;
+			import mx.controls.Button;
+			import model.WebFileSystemModel;
+			
+			private var newChapter : ChapterVO;
+			private var webfilesystemModel : WebFileSystemModel;
+			private var popup : IFlexDisplayObject;
+			private var _dataProvider : ArrayCollection;
+			[Bindable]
+			private var _renamed : Boolean = true;
+			private var proxyName : String;
+			private var proxyUrl : String;
+			
+			public function get renamed() : Boolean
+			{
+				if(Application.application.folderCreated)
+				 return false;
+				else
+					return _renamed;
+			}
+			
+			public function set renamed(value : Boolean) : void
+			{
+				if(Application.application.folderCreated)
+				{
+				var shareChapter : SharedObject;
+				if(value)
+				{
+				   	Application.application.folderCreated = false;
+				   	_renamed = value;
+				   	shareChapter = SharedObject.getLocal("chapter");
+					shareChapter.data.renamed = true;
+					shareChapter.flush();
+				}
+				else
+				{
+					shareChapter = SharedObject.getLocal("chapter");
+					shareChapter.data.renamed = true;
+					shareChapter.flush();
+					_renamed = value;
+				}
+				}
+				 
+			}
+			private function handleCreationComplete() : void
+			{
+				proxyName = this.parentApplication.proxyName;
+				proxyUrl = this.parentApplication.proxyUrl;
+				var shareChapter : SharedObject = SharedObject.getLocal("chapter");
+				shareChapter.data.renamed = true;
+				shareChapter.flush();
+			}
+			
+			
+			public function set model(value : Object) : void
+			{
+				if(value != null)
+				{
+					webfilesystemModel = value as WebFileSystemModel;
+					chapterTileList.dataProvider = webfilesystemModel.folderList;
+					_dataProvider = webfilesystemModel.folderList;
+				}	
+			}
+			
+			public function set dataprovider(dp : ArrayCollection) : void
+			{
+				_dataProvider = dp;
+			}
+			
+			public function get dataprovider() : ArrayCollection
+			{
+				return _dataProvider;
+			}
+			
+			private function setDataProvider() : void
+			{
+			  chapterTileList.dataProvider = _dataProvider;
+			  if(_dataProvider.length == 1)
+			  {
+			  	createChapter();
+			  }	
+			}
+			
+			private function handleChange() : void 
+			{
+				/* var pos : int = Math.abs(Math.floor(scroller.value));
+				chapterTileList.verticalScrollPosition = pos; */
+			}
+			
+			private function createChapter() : void
+			{
+				    if(!renamed)
+				   {
+				   		Alert.show("Please enter the name for Chapter in the box");
+				   }
+				   else
+				   {
+				   	
+				   	Application.application.createType = 0;
+					newChapter = new ChapterVO();
+					newChapter.icon = proxyUrl+"/user_content/photos/icon_thumbnails/folder_img.png"; 
+					var createChapterService : HTTPService = new HTTPService();
+					createChapterService.url = "/tags/createchapter";
+					createChapterService.addEventListener(ResultEvent.RESULT, handleServiceResult);
+					createChapterService.addEventListener(FaultEvent.FAULT, handleServiceFault);
+					createChapterService.contentType = HTTPService.RESULT_FORMAT_OBJECT;
+					var obj : Object = new Object();
+					obj.userId = HmmChaptersModel.getInstance().userId;
+					obj.name = newChapter.name;
+					createChapterService.send(obj);
+					setWindowModal();
+					CursorManager.setBusyCursor();
+					
+				   }
+			}
+			
+			private function handleServiceResult(event : ResultEvent) : void
+			{
+				
+					trace(event.toString());
+					var datap : ArrayCollection = chapterTileList.dataProvider as ArrayCollection;
+					datap.addItem(newChapter);
+					newChapter.id = event.result.chapterid;
+					newChapter.flag = true;
+					newChapter.access = "semiprivate";
+					newChapter.name = "";
+					removeModalWindow();
+					CursorManager.removeBusyCursor();
+					Application.application.folderCreated = true;
+				    renamed = false;
+					
+			}
+			
+			private function handleServiceFault(event : FaultEvent) : void
+			{
+				
+			}
+			
+			protected function setWindowModal() : void
+			{
+				popup = PopUpManager.createPopUp(this, Canvas, true);
+				popup.width = 0;
+				popup.height = 0;
+			
+			}
+		
+			protected function removeModalWindow() : void
+			{
+				PopUpManager.removePopUp(popup);
+			}
+		]]>
+	</mx:Script>
+</mx:VBox>

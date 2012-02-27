@@ -1,0 +1,32 @@
+<form name="verify_form" action="/account/authenticate_coupon" method="post">
+	<input type="hidden" value="<%=params[:id]%>" name="userid" id="userid">
+<table >
+	<tr>
+		<th colspan="2" align="center">
+			<font size="5">Verify Coupon Number</font>
+		</th>
+	</tr>
+	<tr><th colspan="2"><font color="#f5dfa6"><%=flash[:unid_failed]%>
+	<%=flash[:unid_succes]%></font></th></tr>
+	<tr>
+		<th>
+			&nbsp;
+		</th>
+	</tr>
+	<tr>
+		<th>
+			Enter Coupon Number
+		</th>
+		<th>
+			<input type="text" name="cupon_no" id="cupon_no" size="20" class="textbox-signup">
+		</th>
+	</tr>
+	<tr><th colspan="2">&nbsp;</th></tr>
+	<tr>
+		<td colspan="2" align="center">
+		<input type="image" name="sub" id="search" src="/images/upgrade_over_btn1.jpg"  border="0" />
+		</td>
+	</tr>
+	<tr><th colspan="2">&nbsp;</th></tr>
+</table>
+</form>

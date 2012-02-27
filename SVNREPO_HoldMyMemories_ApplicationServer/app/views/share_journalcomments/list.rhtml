@@ -1,0 +1,27 @@
+<h1>Listing share_journalcomments</h1>
+
+<table>
+  <tr>
+  <% for column in ShareJournalcomment.content_columns %>
+    <th><%= column.human_name %></th>
+  <% end %>
+  </tr>
+  
+<% for share_journalcomment in @share_journalcomments %>
+  <tr>
+  <% for column in ShareJournalcomment.content_columns %>
+    <td><%=h share_journalcomment.send(column.name) %></td>
+  <% end %>
+    <td><%= link_to 'Show', :action => 'show', :id => share_journalcomment %></td>
+    <td><%= link_to 'Edit', :action => 'edit', :id => share_journalcomment %></td>
+    <td><%= link_to 'Destroy', { :action => 'destroy', :id => share_journalcomment }, :confirm => 'Are you sure?', :method => :post %></td>
+  </tr>
+<% end %>
+</table>
+
+<%= link_to 'Previous page', { :page => @share_journalcomment_pages.current.previous } if @share_journalcomment_pages.current.previous %>
+<%= link_to 'Next page', { :page => @share_journalcomment_pages.current.next } if @share_journalcomment_pages.current.next %> 
+
+<br />
+
+<%= link_to 'New share_journalcomment', :action => 'new' %>

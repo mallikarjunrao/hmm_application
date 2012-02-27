@@ -1,0 +1,137 @@
+<%= stylesheet_link_tag 'SpryAssets/SpryValidationTextField' %>
+<%= javascript_include_tag 'SpryAssets/SpryValidationTextField' %>
+
+<%= error_messages_for 'user_content' %>
+<style>
+	body{
+		background-image :url('/images/bg.jpg');
+	}
+h1{
+	font-family : "MS Sans Serif";
+	font-size : medium;
+	font-weight : bold;
+	color: #fdf1ca;
+}	
+p{
+	font-family : "MS Sans Serif";
+	font-size : medium;
+	color: #fdf1ca;
+}	
+	
+</style>
+<script type='text/javascript'>
+	function shwl()
+	{
+		document.getElementById('shwldg').style.display='block';
+	}
+	
+</script>
+<script type='text/javascript'>
+	function chk(val)
+	{
+		if(val=='newtag')
+		{
+			document.getElementById('newtag').style.display='block';
+			document.getElementById('seltag').style.display='none';
+		}
+		if(val=='seltag')
+		{
+			document.getElementById('newtag').style.display='none';
+			document.getElementById('seltag').style.display='block';
+		}
+	}
+	function chap(val)
+	{
+		if(val=='yes')
+		{
+			document.getElementById('chapter').style.display='block';
+		
+		}
+		if(val=='no')
+		{
+			document.getElementById('chapter').style.display='none';
+		}
+	}
+	
+</script>
+
+
+
+<input type="hidden" name="user_content[e_filetype]" value="PHOTO"/>
+<p><label for="tag_v_tagname">Tag Name</label>
+</p>
+<p><%= text_field 'user_content', 'v_tagname'  %></p>
+<br/>
+
+<p><label for="user_content_v_filename">Upload Photo Album</label><br/>
+	<div id="img_file">
+		
+	<br><span class="textfieldRequiredMsg">Upload an Image File</span></span></span></p>
+</div>
+
+<input name="button" type="button" onClick="return moreFiles();shw1()" value="Add Images...">
+
+         <script type="text/javascript">
+		 		var tmp_loop=1;
+				function moreFiles()
+				{
+					tmp_loop++;
+					var d = document.createElement("input");
+					d.setAttribute('type', 'file');
+					d.setAttribute('name', 'user_content[v_filename][]');
+					d.setAttribute('size', '30');
+					document.getElementById('img_file').appendChild(document.createElement('br'));
+					//document.getElementById('img_file').appendChild(document.createElement('br'));
+					document.getElementById('img_file').appendChild(d);
+					
+														
+				}
+			</script>
+
+<p><label for="user_content_v_desc">Description</label><br/>
+<%= text_field 'user_content', 'v_desc'  %></p>
+<div style='display:none;'>
+<p><label for="user_content_v_desc">Created Date</label><br/>
+<%= date_select 'user_content', 'd_createddate' %></p>
+</div>
+   
+	 <p><label for="user_content_v_desc">Moment Captured</label><br/>
+<%= date_select 'user_content', 'd_momentdate' %></p>
+
+<p><label for="user_content_uid">Do You want to add Chapters ?</label><br/>
+Yes<input type='radio' name='ch[chap]' onclick='return chap("yes")' value='yes'>No<input type='radio' name='ch[chap]' onclick='return chap("no")' value='no'>
+<div id='chapter' style='display:none;'>
+<p><label for="user_content_uid">Choose Chapter</label><br/>
+New<input type='radio' name='rdo[ext]' onclick='return chk("newtag")' value='new'>Existing<input type='radio' name='rdo[ext]' onclick='return chk("seltag")' value='existing'>
+<div id='seltag' style='display:none;'>
+<p><label for="user_content_tagid">Select Chapter</label><br/>
+<%= collection_select("user_content", "tagid" , @tags , "id", "v_tagname") %></p>
+</div>
+<div id='newtag' style='display:none;'>
+<p><label for="tag_v_tagname">Chapter Name</label>
+</p>
+<%= text_field 'tag', 'v_tagname'  %></p>
+<br/>
+
+<% radio_button "post", "category", "rails" %>
+<p><label for="tag_e_tagtype">Tag Type<br/>
+Family<%= radio_button 'tag', 'e_tagtype','family'  %>
+Event<%= radio_button 'tag', 'e_tagtype','event'  %>
+Paper Work<%= radio_button 'tag', 'e_tagtype','paperwork'  %></p>
+</div>
+</div>
+	
+
+<script type="text/javascript">
+<!--
+var sprytextfield1 = new Spry.Widget.ValidationTextField("sprytextfield1", "none", {validateOn:["blur"]});
+var sprytextfield2 = new Spry.Widget.ValidationTextField("sprytextfield2", "none", {validateOn:["blur"]});
+var sprytextfield3 = new Spry.Widget.ValidationTextField("sprytextfield3", "none", {validateOn:["blur"]});
+var sprytextfield4 = new Spry.Widget.ValidationTextField("sprytextfield4", "none", {validateOn:["blur"]});
+var sprytextfield5 = new Spry.Widget.ValidationTextField("sprytextfield5", "none", {validateOn:["blur"]});
+var sprytextfield6 = new Spry.Widget.ValidationTextField("sprytextfield6", "none", {validateOn:["blur"]});
+var sprytextfield7 = new Spry.Widget.ValidationTextField("sprytextfield7", "none", {validateOn:["blur"]});
+var sprytextfield8 = new Spry.Widget.ValidationTextField("sprytextfield8", "none", {validateOn:["blur"]});
+//-->
+</script>
+

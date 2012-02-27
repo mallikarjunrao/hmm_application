@@ -1,0 +1,27 @@
+<h1>Listing fnf_groups</h1>
+
+<table>
+  <tr>
+  <% for column in FnfGroups.content_columns %>
+    <th><%= column.human_name %></th>
+  <% end %>
+  </tr>
+  
+<% for fnf_groups in @fnf_groups %>
+  <tr>
+  <% for column in FnfGroups.content_columns %>
+    <td><%=h fnf_groups.send(column.name) %></td>
+  <% end %>
+    <td><%= link_to 'Show', :action => 'show', :id => fnf_groups %></td>
+    <td><%= link_to 'Edit', :action => 'edit', :id => fnf_groups %></td>
+    <td><%= link_to 'Destroy', { :action => 'destroy', :id => fnf_groups }, :confirm => 'Are you sure?', :method => :post %></td>
+  </tr>
+<% end %>
+</table>
+
+<%= link_to 'Previous page', { :page => @fnf_groups_pages.current.previous } if @fnf_groups_pages.current.previous %>
+<%= link_to 'Next page', { :page => @fnf_groups_pages.current.next } if @fnf_groups_pages.current.next %> 
+
+<br />
+
+<%= link_to 'New fnf_groups', :action => 'new' %>

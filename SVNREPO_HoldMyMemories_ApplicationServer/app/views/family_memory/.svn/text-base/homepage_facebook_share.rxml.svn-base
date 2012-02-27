@@ -1,0 +1,6 @@
+xml.instruct! :xml, :version=>"1.0"
+xml.contents("message" => ""){
+  for usercontent in @results
+    xml.content( "icon" => usercontent[:orginal_img_url], "name" => "", "id" => usercontent[:gallery_id], "hmmtype" => "image", :type => usercontent[:edit_tag_type])
+  end
+}

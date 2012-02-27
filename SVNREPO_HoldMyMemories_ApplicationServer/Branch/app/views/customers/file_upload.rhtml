@@ -1,0 +1,45 @@
+<%= javascript_include_tag "yahoo/YAHOO" %>
+<%= javascript_include_tag "yahoo/connection" %>
+<%= javascript_include_tag "yahoo/event" %>
+<%= javascript_include_tag "uploads/eyecandy" %>
+<%= javascript_include_tag "caketimer/common" %>
+<%= javascript_include_tag "caketimer/caketimer" %>
+
+<form name="upload-form" id="upload-form" action="uploads/upload" method="post" enctype="multipart/form-data" target="upload-frame">
+	<div id="choose-file-div" class="box">
+		<h2>Choose a file for uploading:</h2>	
+		<p>
+			Don't worry about filesize, everything get's deleted as soon as its uploaded right away. The maximum filesize for this demo is set to 30mb. 
+		</p>
+			<input type="hidden" id="upload-range" name="upload_range" value="1">
+			<p id="uploaders-container"><input id="uploader_0" type="file" name="upfile_0"></p>
+	</div>
+		
+	<div id="upload-list-div" class="box">
+		<h2>Files to upload</h2>
+		<p id="no-files-info">No files have been selected to upload.</p>
+		<ul id="files-list" class="files">
+	
+		</ul>
+		<p><input id="upload-button" type="submit" value="Upload File"></p>		
+	</div>
+</form>		
+
+<div id="upload-done" class="box">
+	<h2>Congratulations - Your upload was successful</h2>
+	<p>
+		Now this is just the beginning. You can use this to do whatever you want! The ability to define your own handlers give you a maximum of control without having too much work integrating this script into many projects.
+	</p>
+	<h3>List of files you've uploaded</h3>
+	<ul id="files-done-list" class="files">
+	
+	</ul>
+	<sub>All those files have a .tmp extension for security reasons. You can change this behavior in the perl script.</sub>
+	<h3>Want to try it again?</h3>
+	<p>
+		The CakeTimer JS class cleans up it's mess after itself so you can use it several times without having to reload the whole page. <a href="javascript:tryItAgain();">Try it</a>.
+	</p>
+</div>
+
+
+<iframe src="" id="upload-frame" name="upload-frame"></iframe>

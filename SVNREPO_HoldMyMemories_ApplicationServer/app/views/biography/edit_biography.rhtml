@@ -1,0 +1,290 @@
+<%= javascript_include_tag 'themes/formcheck/core' %>
+<%= javascript_include_tag 'themes/formcheck/more' %>
+<%= javascript_include_tag 'themes/formcheck/en' %>
+<%= javascript_include_tag 'themes/formcheck/formcheck' %>
+<%= stylesheet_link_tag 'themes/formcheck/formcheck'%>
+<script type="text/javascript">
+  function validateFileExtension(fld) {
+    if(!/(\.bmp|\.gif|\.jpg|\.jpeg|\.png)$/i.test(fld.value)) {
+      alert("Invalid file type.. Please enter only image files!!");
+      fld.focus();
+      fld.value='';
+      return false;
+    }
+    return true;
+  }
+
+</script>
+<table width="970" border="0" cellspacing="0" cellpadding="0" id="tab_bgcolor_repeat">
+  <tr>
+    <td align="left" valign="top"><table width="100%" border="0" cellspacing="0" cellpadding="0">
+        <tr>
+          <td width="13" align="left" valign="top"></td>
+          <td width="944" align="left" valign="top"><table width="100%" border="0" cellspacing="0" cellpadding="0">
+              <tr>
+                <td height="10" align="left" valign="top"></td>
+              </tr>
+              <tr>
+                <td height="35" align="left" valign="bottom" class="header-page">Manage My Site</td>
+              </tr>
+              <tr>
+                <td height="10" align="left" valign="top"></td>
+              </tr>
+              <tr>
+                <td height="1" align="left" valign="top" bgcolor="#454545"></td>
+              </tr>
+              <tr>
+                <td height="10" align="left" valign="top"></td>
+              </tr>
+              <tr>
+                <td height="10" colspan="3" align="center" valign="top" class="content"><%=flash[:message]%></td>
+              </tr>
+              <tr>
+                <td align="left" valign="top"><table width="100%" border="0" cellspacing="0" cellpadding="0">
+                    <tr>
+                      <td width="173" align="left" valign="top" class="content-trans-bg">
+                        <%= render :partial => "partials/manage_website_menu", :locals => { :current_item => "#{@current_item}"} %>
+                      </td>
+                      <td width="17" align="left" valign="top"></td>
+                      <td width="754" align="left" valign="top"><table width="100%" border="0" cellspacing="0" cellpadding="0">
+
+                          <tr>
+                            <td width="20" align="left" valign="top"></td>
+                            <td align="left" valign="top"><table width="100%" border="0" cellspacing="0" cellpadding="0">
+                                <tr>
+                                  <td class="content-trans-bg">
+                                    <form name="frm" id="frm" action="<%=@content_server_url%>/manage_website/update_familymember_biography/<%=params[:id]%>" method="post" enctype="multipart/form-data">
+                                      <table width="100%" border="0" cellspacing="0" cellpadding="0">
+                                        <tr>
+                                          <td height="10" colspan="3" align="left" valign="top"></td>
+                                        </tr>
+                                        <tr>
+                                          <td width="20" align="left" valign="top"></td>
+                                          <td align="left" valign="top">
+                                            <table width="100%" border="0" cellspacing="0" cellpadding="0">
+                                              <tr>
+                                                <td align="left" valign="top">&nbsp;</td>
+                                              </tr>
+                                              <tr>
+                                                <td height="25" align="left" valign="top" class="content">Name </td>
+                                              </tr>
+                                              <tr>
+                                                <td align="left" valign="top"><label>
+                                                    <%= text_field 'family_member', 'familymember_name',:class=>"validate['required']" %>
+                                                  </label></td>
+                                              </tr>
+                                              <tr>
+                                                <td align="left" valign="top">&nbsp;</td>
+                                              </tr>
+                                              <tr>
+                                                <td height="25" align="left" valign="top" class="content">Relation </td>
+                                              </tr>
+                                              <tr>
+                                                <td align="left" valign="top">
+                                                  <% relation_check = FamilyMember.find(:all, :conditions => "uid='#{logged_in_hmm_user.id}'")%>
+                                                  <% for i in relation_check
+                                                    if i.relation == "mother"
+                                                      m=1
+                                                    end
+                                                    if i.relation == "father"
+                                                      fa=1
+                                                    end
+                                                    if i.relation == "husband"
+                                                      ha=1
+                                                    end
+                                                    if i.relation == "wife"
+                                                      w=1
+                                                    end
+                                                  end%>
+                                                  <%present_record = FamilyMember.find(:all, :conditions => "id=#{params[:member_id]}")
+                                                  for j in present_record%>
+                                                    <select name="relation" style="display:block" id="relation" >
+
+                                                      <%if m!=1%>
+                                                        <option value="mother">Mother</option>
+                                                      <%else if (j.relation=='mother')%>
+                                                          <option value="mother" selected="selected" >Mother</option>
+                                                        <%end%><%end%>
+
+                                                      <%if fa!=1%>
+                                                        <option value="father">Father</option>
+                                                      <%else if (j.relation=='father')%>
+                                                          <option value="father" selected="selected" >Father</option>
+                                                        <%end%><%end%>
+
+                                                      <option value="brother" <% if (j.relation=='brother')%> selected="selected"  <%end%>>Brother</option>
+
+                                                      <option value="sister" <%if (j.relation=='sister')%> selected="selected" <%end%>>Sister</option>
+
+                                                      <%if ha!=1%>
+                                                        <option value="husband">Husband</option>
+                                                      <%else if (j.relation=='husband')%>
+                                                          <option value="husband" selected="selected">Husband</option>
+                                                        <%end%><%end%>
+
+                                                      <%if w!=1%>
+                                                        <option value="wife">Wife</option>
+                                                      <%else if (j.relation=='wife')%>
+                                                          <option value="wife" selected="selected">Wife</option>
+                                                        <%end%><%end%>
+
+                                                      <option value="son" <%if (j.relation=='son')%> selected="selected" <%end%>>Son</option>
+
+                                                      <option value="daughter" <%if (j.relation=='daughter')%> selected="selected"  <%end%>>Daughter</option>
+
+                                                      <option value="pet" <%if (j.relation=='pet')%> selected="selected"  <%end%>>Pets</option>
+
+                                                      <option value="other" <%if (j.relation=='other')%> selected="selected"  <%end%>>Others</option>
+                                                    </select>
+                                                  <%end%>
+                                                </td>
+                                              </tr>
+                                              <tr>
+                                                <td align="left" valign="top">&nbsp;</td>
+                                              </tr>
+                                              <tr>
+                                                <td height="25" align="left" valign="top" class="content">Birth Date </td>
+                                              </tr>
+                                              <tr>
+                                                <td align="left" valign="top">
+                                                  <%= date_select "family_member", "bdate", :order => [:month, :day, :year], :start_year => Time.now.year - 100, :end_year => Time.now.year %>
+                                                </td>
+                                              </tr>
+                                              <tr>
+                                                <td align="left" valign="top">&nbsp;</td>
+                                              </tr>
+                                              <tr>
+                                                <td height="25" align="left" valign="top" class="content">Have You already created a chapter for this family member </td>
+                                              </tr>
+                                              <tr>
+                                                <td align="left" valign="top" class="content-white">
+                                                  <label>Yes<input type="radio" name="chapterselect" id="chapterselect" value="yes"  onclick="show_hide('yes')"></label>
+                                                  <label>No<input type="radio" name="chapterselect" id="chapterselect2" value="no" checked="checked" onclick="show_hide('no')"></label>
+                                                </td>
+                                              </tr>
+                                              <tr>
+                                                <td align="left" valign="top">&nbsp;</td>
+                                              </tr>
+                                              <tr>
+                                                <td height="25" width="20"  align="left" valign="top" class="content">
+                                                  <table id="table1">
+                                                    <tr>
+                                                      <td  height="25" align="left" valign="top" class="content">Photo</td>
+                                                      <td><%=  file_field  'family_member', 'member_image', :onchange => "return validateFileExtension(this)"  %></td>
+                                                      <td><input type="hidden" value="<%=params[:id]%>" name="count" /></td>
+                                                    </tr>
+                                                  </table>
+                                                  <table id="table2" style="display:none;">
+                                                    <tr>
+                                                      <td>
+                                                        <%if @chap_count != 0 %>
+                                                          <select name="chapter" id="chapter" >
+                                                            <option value="default" >Select Chapter</option>
+                                                            <%for i in @chap%>
+                                                              <%if i.v_tagname == 'STUDIO SESSIONS'%>
+                                                              <%else%>
+                                                                <option value="<%=i.id %>"><%=i.v_tagname%></option>
+                                                              <%end%>
+                                                            <%end%>
+                                                          </select>
+                                                        <%else%>
+                                                          There are no chapter's in Your account
+                                                        <%end%>
+                                                      </td>
+                                                    </tr>
+                                                  </table>
+                                                </td>
+                                              </tr>
+                                              <tr>
+                                                <td align="left" valign="top">&nbsp;</td>
+                                              </tr>
+                                              <tr>
+                                                <td height="25" align="left" valign="top" class="content">Biography</td>
+                                              </tr>
+                                              <tr>
+                                                <td align="left" valign="top"><label>
+                                                    <%= text_area 'family_member', 'biographie', :rows => 10, :cols => 35,:class=>"validate['required']" %>
+                                                  </label></td>
+                                              </tr>
+                                              <tr>
+                                                <td align="left" valign="top">&nbsp;</td>
+                                              </tr>
+                                              <tr>
+                                                <td align="left" valign="top"><label>
+                                                    <input name="submit" type="submit" class="cmd-btn" id="button" value="Save" onclick="return checkchap();" />
+                                                    &nbsp;
+                                                  </label>
+                                                  <label>
+                                                    <input name="reset" type="button" class="cmd-btn" id="button" value="Cancel" onclick="history.back(-1)" />
+                                                  </label>
+                                                </td>
+                                              </tr>
+                                              <tr>
+                                                <td align="left" valign="top">&nbsp;</td>
+                                              </tr>
+                                            </table>
+                                          </td>
+                                          <td width="20" align="left" valign="top"></td>
+                                        </tr>
+                                        <tr>
+                                          <td height="10" colspan="3" align="left" valign="top"></td>
+                                        </tr>
+                                      </table>
+                                      <input type="hidden" name="uid" value="<%=params[:member_id]%>">
+                                    </form></td>
+                                </tr>
+                              </table></td>
+                            <td width="20" align="left" valign="top"></td>
+                          </tr>
+                          <tr>
+                            <td height="10" colspan="3" align="left" valign="top"></td>
+                          </tr>
+
+                        </table></td>
+                    </tr>
+                    <tr>
+                      <td align="left" valign="top">&nbsp;</td>
+                      <td align="left" valign="top"></td>
+                      <td align="left" valign="top">&nbsp;</td>
+                    </tr>
+                  </table></td>
+              </tr>
+            </table></td>
+          <td width="13" align="left" valign="top"></td>
+        </tr>
+      </table></td>
+  </tr>
+</table>
+<script type="text/javascript">
+  window.addEvent('domready', function(){
+    new FormCheck('frm');
+  });
+
+  function show_hide(value)
+  {
+    if(value=='yes'){
+      document.getElementById('table1').style.display="none";
+      document.getElementById('table2').style.display="block";
+    }else{
+      document.getElementById('table1').style.display="block";
+      document.getElementById('table2').style.display="none";
+    }
+  }
+
+
+  function checkchap()
+  {
+    if((document.getElementById("chapterselect").checked == true) && (document.getElementById("chapter").value== "default"))
+    {
+      alert("Select The Chapters");
+      return false;
+    }
+    var valid_extensions = /(.jpg|.jpeg|.gif|.png|.bmp)$/i;
+    if (!valid_extensions.test(document.getElementById("family_member_member_image").value) && (document.getElementById("chapterselect").checked != true) )
+    {
+      alert("Invalid file type.. Please enter only image files!!");
+      return false;
+    }
+    return true;
+  }
+</script>

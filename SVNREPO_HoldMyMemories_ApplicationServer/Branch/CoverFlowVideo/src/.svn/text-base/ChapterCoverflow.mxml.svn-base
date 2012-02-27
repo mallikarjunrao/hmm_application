@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:Application xmlns:mx="http://www.adobe.com/2006/mxml" xmlns:local="*" 
+   backgroundColor="black" applicationComplete="handleApplicationComplete()" >
+  
+  <mx:HTTPService id="service" result="handleResult(event)" fault="handleFault(event)"/>
+	<mx:Script>
+		<![CDATA[
+			import mx.collections.ArrayCollection;
+			import mx.rpc.events.ResultEvent;
+			import mx.rpc.events.FaultEvent;
+			[Bindable]
+			private var coverflowData : ArrayCollection = new ArrayCollection();
+			private function handleFault(event : FaultEvent) : void
+			{
+				trace(event.fault);
+			} 
+			
+			private function handleResult(event : ResultEvent) : void
+			{
+				
+				if(event.result.contents.content is ArrayCollection)
+				{
+					var result : ArrayCollection = event.result.contents.content as ArrayCollection;
+					for(var i : int =0; i<result.length; i++)
+					{
+						var obj : Object = new Object();
+						obj.icon = result[i].icon.toString();
+						obj.name = result[i].name.toString();
+						obj.id = result[i].id.toString();
+						coverflowData.addItem(obj);
+					}	
+				}else
+				{
+					
+					obj = new Object();
+					obj.icon = event.result.contents.content.icon.toString();
+					obj.name = event.result.contents.content.name.toString();
+					obj.id = event.result.contents.content.id.toString();
+					coverflowData.addItem(obj);
+					
+				}
+			}
+			
+			private function handleApplicationComplete() : void
+			{
+				var serverUrl:String = Application.application.parameters.serverUrl;
+				service.url = serverUrl;
+				//service.url = "test.xml";
+				//navigateToUrl = Application.application.parameters.navigateToUrl;
+				service.send();
+				stage.scaleMode = StageScaleMode.NO_SCALE;
+				stage.align = StageAlign.TOP_LEFT;
+			}
+			
+			private function handleToggleFullscreen() : void
+			{
+				if(stage["displayState"]=="normal"){
+				    stage["displayState"]="fullScreen";
+				    stage.scaleMode = StageScaleMode.NO_SCALE;
+				  }else{
+				    stage["displayState"]="normal";
+				  }
+			}
+		]]>
+	</mx:Script>
+  <local:VideoCoverFlow dataProvider="{coverflowData}" width="100%" height="100%"/>
+<!--	<mx:Button id="fullscreen" label="fullscreen" click="handleToggleFullscreen()" toggle="true" visible="true"/>-->
+</mx:Application>

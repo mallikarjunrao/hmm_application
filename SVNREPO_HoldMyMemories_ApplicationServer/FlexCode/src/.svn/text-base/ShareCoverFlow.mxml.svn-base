@@ -1,0 +1,205 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:Application xmlns:mx="http://www.adobe.com/2006/mxml" xmlns:local="*" layout="absolute" modalTransparencyColor="0x111111" modalTransparency="0.9" modalTransparencyBlur="1"
+   backgroundColor="black" applicationComplete="handleApplicationComplete()" xmlns:components="components.*" preloader="custompreloader.PreloaderHourGlass"
+   initialize="handleInitialize()">
+  <mx:HTTPService id="service" result="handleResult(event)" fault="handleFault(event)"/>
+	<mx:Script>
+		<![CDATA[
+			import mx.core.UIComponent;
+			import mx.preloaders.Preloader;
+			import custompreloader.PreloaderHourGlass;
+			import mx.messaging.channels.StreamingAMFChannel;
+			import mx.events.ListEvent;
+			import events.CoverFlowEvent;
+			import vo.GalleryVO;
+			import mx.core.IFlexDisplayObject;
+			import vo.BaseVO;
+			import vo.SubChapterVO;
+			import mx.managers.PopUpManager;
+			import vo.ChapterVO;
+			import components.ExportControl;
+			import model.HmmChaptersModel;
+			import mx.collections.ArrayCollection;
+			import mx.rpc.events.ResultEvent;
+			import mx.rpc.events.FaultEvent;
+			[Bindable]
+			private var videoData : ArrayCollection = new ArrayCollection();
+			private var galleryId : int;
+			private var navigateTo : String;
+			public var multipleVideos  : Boolean;
+			
+			[Bindable]
+			private var seletectedObject : Object;
+			[Embed(source="assets/Shares.swf")]
+			private var preloaderShare : Class;
+			private var preloaderUICompoent : UIComponent;
+			private var preloaderSprite : Sprite;
+			private function handleInitialize() : void
+			{
+				Security.loadPolicyFile("http://192.168.4.116/crossdomain.xml");
+			}
+			private function handleFault(event : FaultEvent) : void
+			{
+				trace(event.fault);
+			} 
+			
+			private function handleResult(event : ResultEvent) : void
+			{ 
+				
+				if(event.result.contents.content is ArrayCollection)
+				{
+					var result : ArrayCollection = event.result.contents.content as ArrayCollection;
+					multipleVideos = true;
+					for(var i : int =0; i<result.length; i++)
+					{
+						var obj : Object = new Object();
+						obj.icon = result[i].icon.toString();
+						obj.name = result[i].name.toString();
+						obj.id = result[i].id.toString();
+						obj.type = result[i].hmmtype.toString();
+						if(obj.type == "video" || obj.type == "swf")
+							obj.flv = getVideoUrl(obj.icon);
+						if(obj.type == "audio")
+							obj.flv = result[i].path.toString();
+						videoData.addItem(obj);
+					}	
+				}else
+				{
+					
+					multipleVideos = false;
+					obj = new Object();
+					obj.name = event.result.contents.content.name.toString();
+					obj.id = event.result.contents.content.id.toString();
+					obj.icon = event.result.contents.content.icon.toString();
+					obj.type = event.result.contents.content.hmmtype.toString();
+					if(obj.type == "video" || obj.type == "swf")
+						obj.flv = getVideoUrl(obj.icon);
+					if(obj.type == "audio")
+						obj.flv = event.result.contents.content.path.toString();
+					videoData.addItem(obj);
+					
+				}
+				this.removeChild(preloaderUICompoent);
+				/* if(videoData.length == 1)
+				{
+					multipleVideos = false;
+					videoDisplayShelf.selectedIndex = 0;
+				}	
+				else	
+				{
+					multipleVideos =  true;
+					videoDisplayShelf.selectedIndex = Math.floor(videoData.length/2);
+				} */
+				
+				
+			}
+			
+			private function getVideoUrl(iconUrl : String) : String
+			{
+				var explodedUrl : Array = iconUrl.split("/");
+				var filename : String = explodedUrl[explodedUrl.length-1];
+				var filenameExploded : Array = filename.split(".");
+				filenameExploded[filenameExploded.length -1] = "flv";
+				for( var i : int = 0; i < explodedUrl.length; i++)
+				{
+					if(explodedUrl[i] == "thumbnails")
+					{
+						explodedUrl.splice(i, 1);
+						break;
+					}
+				}
+				filename = filenameExploded.join(".");
+				explodedUrl[explodedUrl.length-1] = filename;
+				return explodedUrl.join("/");
+			}
+			
+			override protected function updateDisplayList(unscaledWidth:Number, unscaledHeight:Number):void
+			{
+				super.updateDisplayList(unscaledWidth, unscaledHeight);
+				var g : Graphics = videoDisplayShelf.graphics;
+				g.beginFill(0);
+				g.drawRect(0,0, unscaledWidth, unscaledHeight);
+				g.endFill();
+			}
+			
+			private function handleApplicationComplete() : void
+			{
+				preloaderSprite = new preloaderShare();
+				preloaderUICompoent = new UIComponent();
+				preloaderUICompoent.addChild(preloaderSprite);
+				this.addChild(preloaderUICompoent);
+				preloaderUICompoent.x = this.width/2 - preloaderUICompoent.width/2;
+				preloaderUICompoent.y = this.height/2 - preloaderUICompoent.height/2;
+				var serverUrl:String = Application.application.parameters.serverUrl;
+				navigateTo = Application.application.parameters.navigateTo;
+				service.url = serverUrl;
+				if(serverUrl)
+				{
+					var explodedUrl : Array = serverUrl.split("/");
+					galleryId = int(explodedUrl[explodedUrl.length-1]);	
+				}
+				var buttonsVisible : String = "true";//Application.application.parameters.buttonsVisible;
+			
+				//service.url = "test.xml";
+				//navigateToUrl = Application.application.parameters.navigateToUrl;
+				service.send();
+				stage.scaleMode = StageScaleMode.NO_SCALE;
+				stage.align = StageAlign.TOP_LEFT;
+				videoDisplayShelf.addEventListener(CoverFlowEvent.NAVIGATE_TO, handleNavigateTo);
+			}
+			
+			private function handleToggleFullscreen() : void
+			{
+				if(stage["displayState"]=="normal"){
+				    stage["displayState"]="fullScreen";
+				    stage.scaleMode = StageScaleMode.NO_SCALE;
+				  }else{
+				    stage["displayState"]="normal";
+				  }
+			}
+			
+			private function handleItemClick(event : Event) : void
+			{
+				var evt : ListEvent = event as ListEvent;
+				//chapterName.text = shelf.selectedItem.name;
+				seletectedObject = videoDisplayShelf.selectedItem;
+			} 
+			
+			
+			
+			private function handleJournal() : void
+			{
+				var req : URLRequest = new URLRequest("/gallery_journal/new/"+galleryId);
+				navigateToURL(req, "_self");
+			}
+			
+			
+			private function handleNavigateTo(event : CoverFlowEvent) : void
+			{
+				trace(event.extra.id.toString());
+				var urlToNav : String = navigateTo + event.extra.id.toString();
+				var urlReq : URLRequest = new URLRequest(urlToNav);
+				navigateToURL(urlReq, "_self");
+				
+			}
+			
+			
+		]]>
+	</mx:Script>
+	<mx:Style>
+			.lastButtonStyle
+			{
+				fillColors: #000000, #000000, #000000, #cccccc;
+				corner-radius : 0;
+				selection-color : #ff6633;
+				color : #Ffffff;
+				theme-color : #ff6633;
+			}
+		</mx:Style>
+		<mx:GlowFilter id="glow" color="0xACACAC"/>
+	<components:ShareDisplayShelf dataProvider="{videoData}" id="videoDisplayShelf" width="100%" 
+  	 selectedIndex="{Math.floor(videoData.length/2)}" height="100%"  itemClick="handleItemClick(event)"/>
+  <mx:Label width="300" id="chapterName" x="{(videoDisplayShelf.width - chapterName.width)*0.5}" color="#FFFFFF" filters="{[glow]}"
+		fontFamily="Arial" fontSize="19" y="{this.height*9/10}" textAlign="center" text="{seletectedObject.name}"/>
+<!--	<mx:Button id="fullscreen" label="fullscreen" click="handleToggleFullscreen()" toggle="true" visible="true"/>-->
+</mx:Application>

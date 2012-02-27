@@ -1,0 +1,27 @@
+<h1>Listing sub_chapters</h1>
+
+<table>
+  <tr>
+  <% for column in SubChapter.content_columns %>
+    <th><%= column.human_name %></th>
+  <% end %>
+  </tr>
+  
+<% for sub_chapter in @sub_chapters %>
+  <tr>
+  <% for column in SubChapter.content_columns %>
+    <td><%=h sub_chapter.send(column.name) %></td>
+  <% end %>
+    <td><%= link_to 'Show', :action => 'show', :id => sub_chapter %></td>
+    <td><%= link_to 'Edit', :action => 'edit', :id => sub_chapter %></td>
+    <td><%= link_to 'Destroy', { :action => 'destroy', :id => sub_chapter }, :confirm => 'Are you sure?', :method => :post %></td>
+  </tr>
+<% end %>
+</table>
+
+<%= link_to 'Previous page', { :page => @sub_chapter_pages.current.previous } if @sub_chapter_pages.current.previous %>
+<%= link_to 'Next page', { :page => @sub_chapter_pages.current.next } if @sub_chapter_pages.current.next %> 
+
+<br />
+
+<%= link_to 'New sub_chapter', :action => 'new' %>

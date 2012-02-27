@@ -1,0 +1,47 @@
+
+<style>
+	.heading{
+		font-family: Verdana, Arial, Helvetica, sans-serif;
+		color: #ffffff;
+		
+		font-size:medium;
+	}
+</style>
+<p>Hello <i>Team</i>, </p>
+
+<p>HoldMyMemories.com Tips Section Views and Ideas... </p>
+<p>Sent on: <%=Time.now %></p>
+<p>Email address: <%= @from_email%></p>
+<table width="100%" border="0" cellspacing="0" cellpadding="0">
+    <tr>
+      
+      <th colspan="2" align="left" valign="middle" bgcolor="#191919" scope="col"><strong><font color="#FFFFFF"  face="areal"><em>Tips Section</em> Views and Ideas from  <%= @from_name%></font></strong></th>
+    	<th width="2" height="32" align="left" valign="top" bgcolor="#191919" scope="col">&nbsp;</th>
+	</tr>
+
+	<tr>
+      
+      <th colspan="2" align="left" valign="middle" scope="col"><span class="heading-journal"> <%= @from_name%><strong> would like to share Views and Ideas with you at HoldMyMemories.com.&nbsp; </strong></span></th>
+    <th height="32" align="left" valign="top" scope="col">&nbsp;</th>
+	</tr>
+
+<tr>
+      
+      <th width="128" align="left" valign="top" class="text-journal" scope="col"> <img src="http://12.156.60.97/hmmuser/photos/thumb/<%=@myimage%>"/> </th>
+      <th width="837" align="left" valign="middle" scope="col">Title :<%= @title %></th>
+    </tr>
+	
+	
+<tr>
+      
+      <th width="128" align="left" valign="top" class="text-journal" scope="col">&nbsp; </th>
+      <th width="837" align="left" valign="top" scope="col">Description :<%= @desc.gsub("\n", "<br />\n") %></th>
+    </tr>
+	
+
+
+
+
+<p>Thank-you,</p>
+
+<p>Your HoldMyMemories.com Team</p>

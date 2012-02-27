@@ -1,0 +1,61 @@
+<h1>Listing faqs</h1>
+
+<table border="">
+  <tr bordercolor="#0000000">
+  	 <th >S.no</th>
+  <% for column in Faq.content_columns %>
+    <th ><%= column.human_name.gsub("\n", "<br />\n") %></th>
+	
+  <% end %>
+  <th align="center" colspan="3">Actions</th>
+  </tr>
+  
+  <% 
+	i=0
+@arr = [] 
+
+
+
+for faq in @faqs
+@arr[i]=faq	
+i=i+1	
+j=i
+
+end %>
+  
+<% 
+i=0
+for faq in @faqs 
+
+%>
+  <tr >
+  	  <td ><%=i+1%></td>
+  
+  <% for column in Faq.content_columns %>
+    <td width="300"><%=h faq.send(column.name.gsub("\n", "<br />\n")) %></td>
+  <% end %>
+    <td ><%= link_to 'Show', :action => 'show', :id => faq %></td>
+    <td><%= link_to 'Edit', :action => 'edit', :id => faq %></td>
+    <td><%= link_to 'Destroy', { :action => 'destroy', :id => faq }, :confirm => 'Are you sure?', :method => :post %></td>
+  
+   <td>
+   
+		<%if i==j-1 %>
+		<%else%>
+		<%= link_to 'down', { :action => 'down', :id => faq , :nextid => @arr[i+1]   }, :confirm => 'Are you sure?', :method => :post %>
+   	   	<%end%>
+		<%if i==0 %>
+		<%else%>
+	   	<%= link_to 'up', { :action => 'up', :prev => @arr[i-1], :id => faq }, :confirm => 'Are you sure?', :method => :post %>	
+  		<%end%>
+   </td>
+ 
+  </tr>
+<% 
+i=i+1
+end %>
+</table>
+<%=will_paginate @faqs%>
+<br />
+
+<%= link_to 'New faq', :action => 'new' %>

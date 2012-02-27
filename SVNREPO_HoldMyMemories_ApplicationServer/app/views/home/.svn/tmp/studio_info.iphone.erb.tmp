@@ -1,0 +1,166 @@
+<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.2.6/jquery.min.js"></script>
+<script type="text/javascript">
+  var comboopenflag;
+  function init() {
+    var combo = document.getElementById('radius').value = "";
+    comboopenflag = "off";
+  }
+  function showOptions() {
+    if (comboopenflag != "on") {
+      document.getElementById('combodiv').style.display = "block";
+      comboopenflag = "on";
+    } else if (comboopenflag == "on") {
+      document.getElementById('combodiv').style.display = "none";
+      comboopenflag = "off";
+    }
+  }
+
+  function setOption(selection) {
+
+    var combo = document.getElementById('radius').value = selection;
+    document.getElementById('combodiv3').style.display = "none";
+    comboopenflag = "off";
+  }
+
+
+  function handleLostFocus(){
+    comboopenflag = "off";
+    showOptions();
+  }
+
+  //drop down options
+  function showOptions3() {
+    if (comboopenflag != "on") {
+      document.getElementById('combodiv3').style.display = "block";
+      comboopenflag = "on";
+    } else if (comboopenflag == "on") {
+      document.getElementById('combodiv3').style.display = "none";
+      comboopenflag = "off";
+    }
+  }
+
+  function setOption3(selection) {
+
+    var combo = document.getElementById('gift').value = selection;
+    document.getElementById('combodiv3').style.display = "none";
+    comboopenflag = "off";
+  }
+
+  function handleLostFocus3(){
+    comboopenflag = "off";
+    showOptions3();
+  }
+</script>
+<script type='text/javascript'>
+  function hideCombo() {
+    document.getElementById("bottom").style.display="none"
+  }
+
+  function zip_verify()
+  {
+
+    if(document.getElementById('radius').value == ' Distance')
+    {
+      alert("Select a Distance");
+      return false;
+    }
+    else
+      return true;
+
+  }
+
+  function gift_verify()
+  {
+
+    if(document.getElementById('gift').value == 'Select Gift Certificate')
+    {
+      alert("Select a Gift Certificate");
+      return false;
+    }
+    else
+      return true;
+
+  }
+
+</script>
+<table  align="center" cellspacing="0" cellpadding="0" border="0" width="256">
+  <tr>
+    <td colspan="2" align="left" valign="top" >&nbsp;</td>
+  </tr>
+  <tr>
+    <td height="23" colspan="2" align="center" valign="top"><font color="#ffffff" size="3">Find a Studio Near You</td>
+  </tr>
+  <tr>
+    <td height="1" colspan="2" align="left" valign="top" bgcolor="#4b4949"></td>
+  </tr>
+  <tr>
+    <td height="7" colspan="2" align="left" valign="top" ></td>
+  </tr>
+  <tr><td colspan="2" align="center" valign="middle">
+      <%if params[:app_type]
+      val="?app_type=#{params[:app_type]}"
+      else
+val=""
+end%>
+      <form name="frm" action="/user_account/studios_list<%=val%>" method="post" onSubmit="return zip_verify();" >
+        <table width="305" border="0" cellspacing="0" cellpadding="0">
+          <tr>
+            <td align="center" valign="top" colspan="6" color="#ffffff" size="3"><font color="#ffffff" size="3">Enter your zip code and select a distance to search for a Studio near you.</td>
+          </tr>
+          <tr>
+            <td width="86" align="left" valign="top">&nbsp;</td>
+            <td width="5">&nbsp;</td>
+            <td width="3" align="center" valign="top">&nbsp;</td>
+          </tr>
+
+          <tr>
+            <td colspan="4" align="left" valign="middle">
+              <table border="0" cellspacing="0" cellpadding="0" width="100%">
+                <tr>
+                  <td width="50%" align="center" valign="middle">
+                    <input type="text" maxlength="30" name="zipcode" id="zipcode" value="Zip code" onclick="this.value=''" /></td>
+                  <td  width="50%" align="center" valign="middle">
+                    <select name="radius" id="radius" readonly="readonly" valign="bottom">
+                      <option value="25 Miles" selected>25 Miles</option>
+                      <option value="50 Miles">50 Miles</option>
+                      <option value="75 Miles">75 Miles</option>
+                      <option value="100 Miles">100 Miles</option>
+                      <option value="200 Miles">200 Miles</option>
+                    </select>
+                  </td>
+
+               </tr>
+               <tr>
+          <td align="left" valign="top" height="30"><div class="divcombobox">
+              <input type="text" style="width: 200px; height: 18px; background:#666666; color:#fff; padding-top:4px; padding-bottom:4px; border:1px solid #494949;" value="Distance" readonly="readonly" id="radius" name="radius" onblur="handleLostFocus()" class="combo"><img src="/webpage/imgs_new/dropdownimg.jpg" alt="Click to open combo box" class="arrow" onclick="showOptions()" height="28" border="0" width="25" />
+              <div id="combodiv">
+
+                <a onclick="setOption('25 Miles')" href="javascript:void(0);" class="option">25 Miles</a>
+                <a onclick="setOption('50 Miles')" href="javascript:void(0);" class="option">50 Miles</a>
+                <a onclick="setOption('75 Miles')" href="javascript:void(0);" class="option">75 Miles</a>
+                <a onclick="setOption('100 Miles')" href="javascript:void(0);" class="option">100 Miles</a>
+                <a onclick="setOption('200 Miles')" href="javascript:void(0);" class="option">200 Miles</a> </div></div></td>
+        </tr>
+        
+              </table>
+            </td>
+          </tr>
+
+          <tr>
+            <td height="10" colspan="2" align="left" valign="top"></td>
+          </tr>
+          <tr>
+          <table align="center">
+            <tbody><tr>
+                <td height="12" align="center" valign="top" scope="col" class="signedtxtwhite" colspan="3" style="color:#ffffff">
+                  <input type="submit" id="regsubmit" class="whiteButton" value="Search" style="cursor:pointer;"/>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+          </tr>
+        </table>
+      </form>
+    </td>
+  </tr>
+</table>

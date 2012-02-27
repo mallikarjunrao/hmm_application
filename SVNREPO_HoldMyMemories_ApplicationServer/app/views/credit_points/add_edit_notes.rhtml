@@ -1,0 +1,59 @@
+<%  if params[:page].blank?
+  @pg=1
+else
+  @pg=params[:page]
+end
+
+@parm="?#{session[:custom_params]}&page=#{@pg}#{'"'}"
+if params[:report]=="used"
+  @back_url='"/credit_points/used_credits/'.concat(@parm)
+else
+  if params[:type]=="studio"
+    @back_url='"/credit_points/studio_credit_report/'.concat(@parm)
+  else
+    @back_url='"/credit_points/credit_report/'.concat(@parm)
+  end
+end
+%>
+<script type="text/javascript">
+  function chek()
+  {
+    if(document.getElementById('notes').value=='')
+    {
+      alert("please enter the notes");
+      document.getElementById('notes').focus();
+      return false;
+    }
+  }
+  function fn_back(){
+
+    window.location=<%=@back_url%>
+  }
+</script>
+
+<form name="frm_notes" id="frm_notes" action="/credit_points/add_edit_notes/<%=params[:id]%>" method="post" onsubmit="return chek();">
+  <input type="hidden" name="search_cond" id="search_cond" value="<%=params[:search_cond]%>">
+  <input type="hidden" name="type" id="type" value="<%=params[:type]%>">
+  <input type="hidden" name="page" id="page" value="<%=@pg%>">
+  <input type="hidden" name="report" value="<%=params[:report]%>" />
+  <table>
+    <tr>
+      <td colspan="2"><h1>Add/Edit notes</h1></td>
+    </tr>
+    <tr>
+      <td colspan="2">&nbsp;</td>
+    </tr>
+    <tr>
+      <td>Enter the notes :</td>
+      <td><textarea name="notes" id="notes" ><%=@credit.notes%></textarea></td>
+    </tr>
+    <tr>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+    </tr>
+    <tr>
+      <td>&nbsp;</td>
+      <td><input type="button" name="bt_back" value="Back" onclick="fn_back()">&nbsp;&nbsp;<input type="submit" name="sub_bt" value="Update" onclick="return chek();"></td>
+    </tr>
+  </table>
+</form>

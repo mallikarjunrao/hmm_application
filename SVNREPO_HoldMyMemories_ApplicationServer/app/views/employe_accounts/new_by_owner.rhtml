@@ -1,0 +1,49 @@
+<script type="text/javascript">
+	function verify()
+	{
+		if (document.getElementById('store_id').value == 'select')
+		{
+			alert("Please Select the Branch!!");
+			document.getElementById('store_id').focus();
+			return false;
+		}
+		
+		else
+		if (document.getElementById('emp_type').value == 'select')
+		{
+			alert("Please Select Your Designation!!");
+			document.getElementById('emp_type').focus();
+			return false;
+		}
+		else 
+		if (document.getElementById('valid_username').value == 'false') 
+		{
+			document.getElementById('employe_username').focus();
+			return false;
+		}
+		if (document.getElementById('valid_empid').value == 'false') 
+		{
+			document.getElementById('employe_id').focus();
+			return false;
+		}
+	}
+</script>
+
+<% form_tag :action => 'create' do %>
+<table width="890" border="0">
+	<tr><th>&nbsp;</th></tr>
+	<tr><th align="center"><font color="#999999" size="5">Employee SignUp Form</font></th></tr>
+	<tr><th>&nbsp;</th></tr>
+	<tr><th>
+
+  <%= render :partial => 'form_owner' %>
+  <center> <%= submit_tag "Create", :onclick => "return verify();" %></center>
+  </th></tr>
+  <tr>
+  	<th align="center">
+  		Note : Fields with * are mandatory
+  	</th>
+  </tr>
+  
+  </table>
+<% end %>

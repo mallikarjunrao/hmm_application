@@ -1,0 +1,120 @@
+<script language="JavaScript">
+       var jsReady = true;
+     function blockNavigation() {
+	 	if (document.all) // for IE
+            {
+				   document.onclick=noClick;
+			}
+            else // for other browsers
+            {
+				   document.onclick=clickMozilla;
+			}
+		 return jsReady;
+     }
+	 
+	 function unBlockNavigation() {
+		if (document.all) // for IE
+		{
+			document.onclick = clickEnable;
+		}
+		else
+		{
+			document.onclick = clickEnableMozilla;
+		}
+         return jsReady;
+     }
+	 
+	 function noClick() {
+	 	if (event.button==0) {
+		var where_to= confirm("Upload is in progress,\n Do you want to continue?");
+		 if (where_to == true) {
+		 	return true;
+		 }
+		 else
+		 {
+		 	return false;
+		 }
+		}
+	 }
+	 function clickMozilla(event) {
+		
+		if ((event.button==0)||(event.button==2)) {
+			var where_to= confirm("Upload is in progress,\n Do you want to continue?");
+		 if (where_to == true) {
+			 return true;
+		 }
+		 else
+		 {
+		 	return false;
+		 }
+			
+		}
+	}
+	function clickEnable(){
+	 	if ((event.button==1)||(event.button==2)) {
+	  }
+	 }
+	function clickEnableMozilla(event)
+	{
+	  if ((event.button==0)||(event.button==2)) {
+	  	
+	  return true;
+	  }
+	}
+ </script>
+<table width="898" cellpadding="0" cellspacing="0" border="0" align="center">
+	<tr>
+		<td align="right"><a href="/manage_site/home/<%=params[:id]%>" class="whitetext"><< Back </a>&nbsp;&nbsp;</td></tr>
+    <tr valign="top">
+        <td valign="top" align="center">
+            <script src="/AC_OETags.js" language="javascript">
+            </script>
+            <form name="frm" action="create" enctype="multipart/form-data" method="post" onsubmit ="addimage();manualPB2.setPercentage('5'); manualPB2.setPercentage('10'); manualPB2.setPercentage('15'); manualPB2.setPercentage('25'); manualPB2.setPercentage('25'); manualPB2.setPercentage('25'); manualPB2.setPercentage('50'); manualPB2.setPercentage('50'); manualPB2.setPercentage('50'); manualPB2.setPercentage('75'); manualPB2.setPercentage('75'); manualPB2.setPercentage('75'); manualPB2.setPercentage('100');">
+                <table width="100%" align="center">
+                    <tr>
+                        <td align="center">
+                            <input type="hidden" name="user_content[e_filetype]" value="PHOTO"/>
+							<input type="hidden" name="servername" id="servername" value="<%=@servername%>" />
+							<input type="hidden" name="serverurl" id="serverurl" value="<%=@serverurl%>" />
+							<input type="hidden" name="proxyurls" id="proxyurls" value="<%=@proxyurls%>" />
+                           <div id="uploadControl" align="center">
+                           	<span style="color:#ffffff">HoldMyMemories.com requires Adobe Flash 10.0 or later to work properly.  
+
+<br>It appears you may be running an older version of Adobe Flash, or may have Java Script turned off.
+</span>
+							<br><br><a href="http://www.adobe.com/go/getflashplayer"><u><font color=#FF6600>Get the latest Flash player from Adobe.</font></u></a>
+							
+							</div>
+		<script src="/swfobject.js" language="JavaScript"></script>
+			<script type="text/javascript">
+
+var flashvars = {proxy:'<%=@servername%>',proxyurl:'<%=@serverurl%>',proxyurls:'<%=@proxyurls%>'};
+var params = {allowfullscreen:true,bgcolor:'#000000'};
+var attributes = {};
+window.onload=swfobject.embedSWF("/AlbumUploadNew.swf", "uploadControl", "898", "700", "1.0.0","expressInstall.swf", flashvars, params, attributes);
+
+</script>	
+						   
+						    
+							
+							
+							
+                            <div id="demo" style="display:none;">
+                                <span id="element6">[ Loading Progress Bar ]</span>
+                            </div>
+                        </td>
+                    </tr>
+                </table>
+            </form>
+            <p align="right">
+            <font size='1' color="white">
+                <a href="/manage_site/classic_upload/<%=params[:id]%>">Classic Upload&nbsp;&nbsp;&nbsp;</a>
+            </font>
+        </td>
+    </tr>
+</table>
+<script type="text/javascript">
+	function page_reload()
+	{location.reload(true);}
+	
+</script>

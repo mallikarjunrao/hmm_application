@@ -1,0 +1,43 @@
+<h1>Shopping Cart Orders</h1>
+
+<table>
+  <tr>
+  
+    <td background="/images/body_hor.JPG"><font class='txt'> Name</td>
+	<td background="/images/body_hor.JPG"><font class='txt'> order id</td>
+	<!-- td background="/images/body_hor.JPG"><font class='txt'> no of copies ordered</td -->
+	<td background="/images/body_hor.JPG"><font class='txt'> order date</td>
+	<td background="/images/body_hor.JPG"><font class='txt'> order process status</td>
+	<td background="/images/body_hor.JPG"><font class='txt'> shipment date</td>
+	<td background="/images/body_hor.JPG"><font class='txt'> shipment status</td>
+	<td background="/images/body_hor.JPG"><font class='txt'> Actions</td>
+ 
+  </tr>
+  
+<% for i in @pending_orders %>
+  <tr  class="<%= cycle('odd', 'even') -%>">
+  
+    <td><%=i.fname %></td>
+	<td><%=i.order_id%></td>
+	<!-- % @ copie_c ount = OrderD etail .sum('no_o f_copies', :conditions => "u id='#{i.user_id}' and order_u nid='#{i.o rder_id}'" )
+      % >
+	<td>< %=@copie_count % ></td -->
+	
+	<td><%=i.order_date.strftime("%m - %d - %Y") %></td>
+	<td><%=i.order_process_status %></td>
+	<td><%=i.shippment_date.strftime("%m - %d - %Y") %></td>
+	<td><%=i.shipment_status %></td>
+	
+
+    <td><!-- % = link_to 'Show', :action => 'process_prints', :id => i.id % -->
+	<a href="http://content.holdmymemories.com/download_shoppingorders/process_prints/<%=i.id%>">Show</a></td>
+    <!-- td>< % = link_ to 'Edit', :act ion => 'edit', :i d  = >  payment_detail %></td>
+    <td>< % = link _to 'Dest roy', { :actio n => 'destroy', :i d => payment_de tail }, :conf irm => 'Are  you sure?', :method => :post % ></td -->
+  </tr>
+<% end %>
+</table>
+
+
+<br />
+
+<!-- %= lin k_to  'New pa yment_det ail',  :act ion => 'ne w ' % -->

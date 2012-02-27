@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:Button xmlns:mx="http://www.adobe.com/2006/mxml">
+	<mx:Script>
+		<![CDATA[
+			import components.IconUtility;
+			import mx.core.BitmapAsset;
+			import mx.controls.Image;
+			
+			override public function set data(value:Object):void
+			{
+				super.data = value;
+				this.setStyle("upSkin", IconUtility.getClass(this, data.icon));
+				this.setStyle("overSkin", IconUtility.getClass(this, data.icon));
+				this.setStyle("downSkin", IconUtility.getClass(this, data.icon));
+				label = "";
+				this.invalidateDisplayList();
+			}
+			
+			 
+		]]>
+	</mx:Script>
+</mx:Button>

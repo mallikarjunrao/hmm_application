@@ -1,0 +1,20 @@
+<table width="900" border="0">
+  <tr><td height="100">&nbsp;</td></tr>
+  <tr><td align="center" >
+      <table cellpadding="0" cellspacing="0" width="70%" border="1" bordercolor="#e5b467" align="center">
+        <tr>
+          <td align="center" valign="middle"><BR/>
+            <h3>Customers Account Cancellation Report</h3>
+          </td>
+        </tr>
+        <tr>
+          <td><br/>
+            <center>Number of users aborted&nbsp;&nbsp; :&nbsp; <%=@result.not_canceled %> <br></br>
+              &nbsp;&nbsp;Number of canceled users &nbsp;&nbsp;&nbsp;:&nbsp; <%=@result.canceled%></center>
+            <br/>
+          </td>
+        </tr>
+      </table>
+    </td></tr>
+</table>
+

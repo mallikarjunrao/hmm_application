@@ -1,0 +1,109 @@
+<%= error_messages_for 'email_management' %>
+
+Newsletter Mail <input type="radio" name="email_management[email_type]" id="email_management_email_type" value="newsletter" onclick="return check_email()">
+Text Mail <input type="radio" name="email_management[email_type]" id="email_management_email_type" value="textmail" onclick="return text_email()">
+<!--[eoform:email_management]-->
+
+
+<table border="0">
+	<!--tr>
+		<td align="right">
+			From
+		</td>
+		<td>&nbsp;</td>
+		<td>
+			< %= text_field 'email_management', 'from_email'  % >
+		</td>
+	</tr-->
+	<tr><td colspan="3">&nbsp;</td></tr>
+	<tr>
+		<td  align="right"  width="200">
+			Account Type
+		</td>
+		<td>&nbsp;</td>
+		<td>
+			<select name="email_management[to_email]" id="email_management_to_email">
+				<option value="select">Select</option>
+				<option value="premium">Premium Users</option>
+				<option value="family_wb">Family Website Users</option>
+				<option value="free_user">Free Users</option>
+			</select>
+		</td>
+	</tr>
+	<tr><td colspan="3">&nbsp;</td></tr>
+	<tr>
+		<td  align="right" valign="top" width="200">
+			Subject
+		</td>
+		<td>&nbsp;</td>
+		<td>
+			<%= text_field 'email_management', 'subject', :rows =>"9", :cols=>"40" %>
+		</td>
+	</tr>
+	<tr><td colspan="3">&nbsp;</td></tr>
+	<tr>
+		<td colspan="3">
+			<div id="text" >
+			<table border="0">
+				<tr>
+					<td align="right" valign="top" width="200">
+						Message
+					</td>
+					<td>&nbsp;</td>
+					<td>
+						<%= text_area 'email_management', 'message', :rows =>"9", :cols=>"40",  :class => "textbox-1"    %>
+										</td>
+				</tr>
+			</table>	
+			</div>	
+			<div id="newsletter"  style="display:none" >
+			<table border="0">
+				<tr>
+					<td align="right" valign="top" width="200">
+						Upload News Letter
+					</td>
+					<td>&nbsp;</td>
+					<td>
+						<%= file_field 'email_management', 'file_name' %>
+					</td>
+				</tr>
+			</table>	
+			</div>	
+		</td>
+	</tr>
+	<tr><td colspan="3">&nbsp;</td></tr>
+	<tr>
+		<td align="right" valign="top" width="200">
+			Signature
+		</td>
+		<td>&nbsp;</td>
+		<td>
+			<%= text_area 'email_management', 'footer_message', :rows =>"9", :cols=>"40",  :class => "textbox-1"    %>
+		</td>
+	</tr>
+	<tr><td colspan="3">&nbsp;</td></tr>
+	<tr>
+		<td align="right" width="200">
+			Email interval
+		</td>
+		<td>&nbsp;</td>
+		<td>
+			<select name="email_management[email_interval]" id="email_management_email_interval">
+				<option value="select">Select</option>
+				<option value="d1">Day 1</option>
+				<option value="d2">Day 2</option>
+				<option value="d3">Day 3</option>
+				<option value="1w">1st Week</option>
+				<option value="2w">2nd Week</option>
+				<option value="3w">3rd Week</option>
+				<option value="4w">4th Week</option>
+				<option value="1m">1st Month</option>
+				<option value="3m">3rd Month</option>
+				<option value="6m">6th Month</option>
+			</select>
+			<!-- % = text_field 'email_management', 'email_interval'  % -->
+		</td>
+	</tr>
+	<tr><td colspan="3">&nbsp;</td></tr>
+
+</table>

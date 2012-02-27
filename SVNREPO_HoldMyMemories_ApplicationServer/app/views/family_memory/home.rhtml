@@ -1,0 +1,69 @@
+<script language="javascript" type="text/javascript" src="/javascripts/themes/swfobject.js"></script>
+<script language="javascript" type="text/javascript" src="/javascripts/image_slider/mootools-1.2-core.js"></script>
+<script language="javascript" type="text/javascript" src="/javascripts/image_slider/mootools-1.2-more.js"></script>
+<script language="javascript" type="text/javascript" src="/javascripts/image_slider/SlideItMoo.js"></script>
+
+<script type="text/javascript">
+  var Jq = jQuery.noConflict();
+</script>
+
+<%  @studio_header = HmmStudio.find(@family_website_owner.studio_id)
+if @studio_header.studio_groupid==pp_studio_group%>
+  <tr>
+    <td height="400" align="center" class="rightBarMdl"><%= render :partial => "family_memory/partials/home_coverflow"%></td>
+  </tr>
+  <%if session[:hmm_user] && logged_in_hmm_user.id==@family_website_owner.id%>
+  <tr>
+    <td  class="rightBarMdlBtmPtr"><table width="100%" border="0" cellspacing="0" cellpadding="0">
+        <tr>
+          <td class="rightBarMdlBtm" width="100%"> <%= render :partial => "family_memory/partials/footer_sessions"%></td>
+        </tr>
+        <tr>
+          <td>&nbsp;</td>
+        </tr>
+      </table></td>
+  </tr>
+  <%else%>
+   <%= render :partial => "family_memory/partials/guest_footer"%>
+  <%end%>
+<%else%>
+  <table width="100%" border="0" cellspacing="0" cellpadding="0">
+
+    <%= render :partial => "family_memory/partials/heading"%>
+
+    <tr>
+      <td class="subHead">&nbsp;</td>
+    </tr>
+    <tr>
+      <td align="center">
+        <%= render :partial => "family_memory/partials/home_coverflow" %>
+      </td>
+    </tr>
+    <%= render :partial => "family_memory/partials/search"%>
+    <tr>
+      <td class="subHead">Studio Sessions</td>
+    </tr>
+    <tr><td>  <%= render :partial => "family_memory/partials/footer_sessions"%></td></tr>
+    <tr>
+      <td align="left">&nbsp;</td>
+    </tr>
+  </table>
+
+<%end%>
+<script language="javascript" type="text/javascript">
+
+  window.addEvent('domready', function(){
+    /* thumbnails example , links only */
+
+
+    /* thumbnails example , div containers */
+    new SlideItMoo({itemsVisible:4, // the number of thumbnails that are visible
+      currentElement: 0, // the current element. starts from 0. If you want to start the display with a specific thumbnail, change this
+      thumbsContainer: 'thumbs2',
+      elementScrolled: 'thumb_container2',
+      overallContainer: 'gallery_container2'});
+
+
+  });
+</script>
+

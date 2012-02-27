@@ -1,0 +1,27 @@
+<h1>Listing cupons</h1>
+
+<table>
+  <tr>
+  <% for column in Cupon.content_columns %>
+    <th><%= column.human_name %></th>
+  <% end %>
+  </tr>
+  
+<% for cupon in @cupons %>
+  <tr>
+  <% for column in Cupon.content_columns %>
+    <td><%=h cupon.send(column.name) %></td>
+  <% end %>
+    <td><%= link_to 'Show', :action => 'show', :id => cupon %></td>
+    <td><%= link_to 'Edit', :action => 'edit', :id => cupon %></td>
+    <td><%= link_to 'Destroy', { :action => 'destroy', :id => cupon }, :confirm => 'Are you sure?', :method => :post %></td>
+  </tr>
+<% end %>
+</table>
+
+<%= link_to 'Previous page', { :page => @cupon_pages.current.previous } if @cupon_pages.current.previous %>
+<%= link_to 'Next page', { :page => @cupon_pages.current.next } if @cupon_pages.current.next %> 
+
+<br />
+
+<%= link_to 'New cupon', :action => 'new' %>

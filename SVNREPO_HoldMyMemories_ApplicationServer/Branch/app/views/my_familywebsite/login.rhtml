@@ -1,0 +1,53 @@
+<style type="text/css">
+<!--
+.style1 {font-family: Arial, Helvetica, sans-serif;
+		color: #ffffff} 
+.style3 {font-size: 12px}
+.style4 {color: #CCCCCC}
+-->
+</style>
+
+
+
+<table width="" border="0" cellspacing="0" cellpadding="0" align='center'>
+
+<% form_for :hmm_user, :url => {:action => 'authenticate'} do |f| -%>
+<input type="hidden" name="url" id="url" value="<%=params[:url]%>" />
+<table width=100% height=402 class="bg_login"  align=center border=0>
+   <input type="hidden" value="<%= params[:id]%>" name="family_name" />
+   <tr>
+<th><center spry:hover="style1" class="style1">Welcome To HoldMyMemories.com Family Website</center></th>
+   </tr>
+<tr bordercolor="#000000"><td colspan="2" align="center"><br><div id="notice"><font color='#fdf1ca' ><b>&nbsp;&nbsp;&nbsp;&nbsp;<%= flash[:notice] %> </b></font></div></td>
+</tr>
+<tr bordercolor="#000000"><td align="center" valign="top"><table align="center" class="border" width="40%" border="1"  cellpadding="5" cellspacing="5" bordercolor="#191919">
+
+
+    <tr ><td colspan="2" align="center" valign="middle" style="border:none" bgcolor="#191919" height="20"><span class="style1"><font size="3px" color="#ffffff">Family Website Login</font></span></td>
+  </tr>
+ 
+  <tr ><td colspan="2" align="center" class="border1"><font color='#ee0000' ><b><%= flash[:error1] %></b></font></td>
+</tr>
+   	 
+     <tr style="border:none">
+     <td align="right" class="style1" style="border:none"><font size="3px" color="#ffffff">Password</font></td>
+     <td align="left" style="border:none">
+     	<input type="password" name="familywebsite_password" id="familywebsite_password" class = "textbox-signup" />
+     	</td>
+    </tr >
+    <tr style="border:none"><td style="border:none"></td><td  style="border:none" colspan="" align="left"><input type="image" id="sign_in" src="/images/familylog_def.jpg"  border="0" /></td></tr>
+    <tr style="border:none">
+    <tr ><td class="border1" colspan="2" align="center"><a href="/user_account/forgot_password" style="text-decoration:none;">
+	
+		
+  </tr>
+       
+</td></tr>
+</table>
+</td></tr>
+</table> 
+    <% end %>
+
+<script type="text/javascript">
+	window.onload = document.getElementById('familywebsite_password').focus();
+</script>

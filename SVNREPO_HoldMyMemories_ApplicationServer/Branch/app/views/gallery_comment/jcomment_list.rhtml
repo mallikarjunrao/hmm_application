@@ -1,0 +1,63 @@
+<style type="text/css">
+<!--
+.style1 {
+	font-family: Arial, Helvetica, sans-serif;
+	font-weight: bold;
+	font-size: 12px;
+	color:#914511;
+}
+.style3 {font-family: Arial, Helvetica, sans-serif; font-weight: bold; font-size: 18px; }
+-->
+</style>
+<!-- Gallery comment view -->
+<br>
+<table align="left" width="100%" border="1" bordercolor="#191919" height="30" cellspacing="0" cellpadding="10">
+  
+	
+	<tr bordercolor="#000000">	<input type="hidden" value="<%=params[:id]%>" name="gallery_id" />
+    
+       <th align="left" valign="middle" bgcolor="#191919" scope="col" colspan="2"><span class="btmtxt">Comments for <%=session[:gallery_name]%> Gallery</th>
+    </tr>
+	
+	<% @gal_c = GalleryComment.find_by_sql("select a.*,b.*,a.id as cid from gallery_comments as a , hmm_users as b where gallery_jid=#{params[:id]} and a.uid=b.id ORDER BY a.id DESC")
+		
+		 for j in @gal_c %>
+	
+
+	<tr bordercolor="#000000">
+      <th width="17%" align="left" valign="top" class="text-journal" scope="col"><span class="style1">Commented By&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>  </th>
+      <th width="83%" align="left"><%= j.v_fname%></th>
+  </tr>
+	
+	<tr bordercolor="#000000">
+      <th align="left" valign="top" class="text-journal" scope="col"><span class="style1">Description&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span> </th>
+	  <th align="left"><%= j.v_comment.gsub("\n", "<br />\n") %></th>
+  </tr>
+	 <%if j.reply=='' || j.reply==nil%>
+  	<%else%>
+  <tr bordercolor="#000000">
+      <th align="left" valign="top" class="text-journal" scope="col"><span class="style1">Reply&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span> </th><th align="left"><%= j.reply %></th>
+  </tr>
+	<%end%>
+    <tr bordercolor="#000000">
+      <th align="left" valign="middle" height="20" bgcolor="#191919" class="text-journal" scope="col" colspan="2">
+       		<% if session[:friend]!='' 
+				else
+%>
+			<% if j.e_approval=="pending" %>
+			 <a href='/gallery_comment/approve_jcmt/<%= j.cid %>'>Approve</a>&nbsp;&nbsp;&nbsp;
+			<a href='/gallery_comment/reject_jcmt/<%= j.cid %>'>Reject</a> 
+			<%else%>
+			
+			<a href='/gallery_comment/destroy_jcmt/<%= j.cid %>'>Delete</a>
+				&nbsp;&nbsp;&nbsp;
+			 <%= link_to_remote("Reply",
+			:update => j.cid, :url => { :controller => :chapter_comment,  :action =>:reply_comnt, :page => @page, :tag_id => @gal_id, :cid => j.cid, :id => @id, :table => 'gallery_comments'}  ) %>
+			<br><br>
+			<div id=<%=j.cid%>></div>
+			<% end %><%end%>
+	  </th>
+      
+   </tr>
+     <%end%>
+</table>

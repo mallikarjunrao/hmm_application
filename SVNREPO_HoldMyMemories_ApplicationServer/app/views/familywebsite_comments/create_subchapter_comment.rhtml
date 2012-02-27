@@ -1,0 +1,4 @@
+<form method="post" name="commentform" id="commentform" class="nyroModal" action="/familywebsite_comments/create_subchapter_comment/<%=params[:id]%>?subchapter_id=<%= params[:subchapter_id] %>">
+  <%= render :partial => "partials/commentform", :locals => { :model => "subchap_comment",:field1 => "v_name", :field2 => "v_comments", :label => "Save"} %>
+  <input type="hidden" name="chapter_comment[subchap_id]" value="<%= params[:subchapter_id] %>">
+</form>

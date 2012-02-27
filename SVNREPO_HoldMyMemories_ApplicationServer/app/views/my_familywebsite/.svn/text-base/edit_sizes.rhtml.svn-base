@@ -1,0 +1,179 @@
+ <form name="frm" action="" onSubmit="return validate();">
+ 	<input type="hidden" name="moment_type" value="<%=params[:moment_type]%>" >
+	<input type="hidden" name="moment_id" value="<%=params[:moment_id]%>" >
+	<input type="hidden" name="link" value="<%=params[:link]%>" >
+	<input type="hidden" name="familyname" value="<%=params[:familyname]%>" >
+	<input type="hidden" name="cartid" value="<%=params[:cartid]%>" >
+ <script type="text/javascript">
+function checkform ( form )
+{
+  // see http://www.thesitewizard.com/archive/validation.shtml
+  // for an explanation of this script and how to use it on your
+  // own website
+
+  // ** START **
+  if (form.nonhmm.value == "") {
+    alert( "Please enter your email address." );
+    form.email.focus();
+    return false ;
+  }
+  // ** END **
+  return true ;
+}
+
+function validate()
+{
+	if(document.getElementById('pname').value=='')
+	{
+		alert('Please select a Size');
+		return false;
+	}
+
+}
+
+</script>
+
+
+
+	<script type="text/javascript">
+		function changeproperty(element,status)
+		{
+			if(status==false)
+			{
+
+				document.getElementById(element).value = '';
+				document.getElementById(element).disabled = true;
+			}else if(status==true)
+				document.getElementById(element).disabled = false;
+		}
+	</script>
+
+<fieldset>
+<table width="100%"><tr><td width="37%" valign="middle">
+<% if(params[:moment_type]=='moment')
+
+     @moment = UserContent.find(:all, :conditions => "uid=#{logged_in_hmm_user.id} and id=#{params[:moment_id]}")
+
+     %>
+
+     <%for moments in @moment%>
+
+				<center><img src="<%= moments.img_url %>/user_content/photos/big_thumb/<%= moments.v_filename%>" border="5" style="border-color:#000000;"  /></center><br>
+
+	<center><font class="leftconthr"><%=moments.v_tagphoto%><br></font></center>
+    <%end%>
+     <%end%>
+
+     <% if(params[:moment_type]=='gallery')
+
+     @gal = Galleries.find(:all, :conditions => "id=#{params[:moment_id]}")
+
+     %>
+
+     <%for gallery in @gal %>
+
+			<center><img src="<%= gallery.img_url %>/user_content/photos/icon_thumbnails/<%= gallery.v_gallery_image%>" border="5" style="border-color:#000000;"  /></center><br>
+				<font class="cont"><%=gallery.v_gallery_name%></font>
+            <%end%>
+            <%end%>  </td>
+<td width="100%" align="left" valign="top">
+	 <table align="center" width="100%" height="100%">
+     <tr><td colspan="4" align="center">
+  <font class="cont"><font color="red">Note : Minimum of one copy with one size should be selected</font>
+		</td>
+
+	</tr>
+
+
+	<tr>
+
+		<td align="center" bgcolor="#191919" colspan="4">
+			<font class="leftconthr" >Select the Sizes and Number of Copies</font>
+		</td>
+	</tr>
+
+	<tr class="cont" align="left">
+		<td class="border4" colspan="4" align="center">
+			Sizes:
+
+            <% @hmmproducts = Product.find(:all,:conditions=>"ptype='hmm'") %>
+
+            <% if(params[:moment_type]=='moment') %>
+
+
+                <select name="pname" id="pname">
+                <option value="">-Select-</option>
+                <% for i in @hmmproducts %>
+                <option value="<%=i.id%>"><%=i.product_name%> - ($<%=i.price%>)</option>
+                <%end%>
+            </select>
+
+ <%end%>
+
+        &nbsp;&nbsp;Copies:
+			<select name="copies" id="copies">
+				<option value="1">1 copy</option>
+				<option value="2">2 copies</option>
+				<option value="3">3 copies</option>
+				<option value="4">4 copies</option>
+				<option value="5">5 copies</option>
+				<option value="6">6 copies</option>
+				<option value="7">7 copies</option>
+				<option value="8">8 copies</option>
+				<option value="9">9 copies</option>
+				<option value="10">10 copies</option>
+	  </select>
+			&nbsp;&nbsp;
+			<input type='image' src='/images/add_cont.jpg' value="Add">
+			</a> </td>
+		</tr>
+		<tr>
+
+		<td align="center" bgcolor="#191919" colspan="4">
+			<font class="leftconthr" >List of Sizes and Copies Selected </font>
+		</td>
+	   </tr>
+	   <tr>
+
+		<td align="center" bgcolor="#191919" colspan="4">
+			<font color="red" ><%=flash[:notice]%></font>
+		</td>
+	   </tr>
+	   <tr align="center" bgcolor="#191919"  class="cont">
+		<td align="center"><b>Sizes</b></td>
+	    <td align="center"><b>Images</b></td>
+		<td align="center"><b>Copies</b></td>
+		<td align="center"><b>Price</b></td>
+	   </tr>
+	   <%
+	   @product_deatils = ProductDetail.find(:all,:conditions=>"cartid=#{params[:cartid]}")
+		for m in @product_deatils%>
+	  	<tr class="cont">
+		<td align="center"><% @product_name = Product.find(:first, :conditions => "id=#{m.product_id }").product_name %><%=@product_name %>	</td>
+	    <td align="center"><%=m.no_of_moments%> </td>
+		<td align="center"><%=m.no_of_copies%> </td>
+		<td align="center">$<%=m.product_price %> </td>
+		<td width="91" align="center"><a href="/my_familywebsite/edit_sizes/?did=<%=m.id %>&moment_id=<%=params[:moment_id]%>&moment_type=<%=params[:moment_type]%>&link=<%=params[:link]%>&familyname=<%=params[:familyname]%>&cartid=<%=params[:cartid]%>">Delete</a></td>
+	   </tr>
+		<%end%>
+
+		<tr>
+
+		<td align="center" colspan="4">
+			<% @product_deatils_count = ProductDetail.count(:all,:conditions=>"cartid=#{params[:cartid]}")%>
+			<% if(@product_deatils_count > 0) %>
+			<a href="/my_familywebsite/selected_items/<%=params[:familyname]%>"><img src="/images/ordernow.jpg" border="0"></a> &nbsp;&nbsp;&nbsp;
+            <a href="/my_familywebsite/chapterindex/<%=params[:familyname]%>"><img src="/images/continueshopping.jpg" border="0"></a>
+			<%else%>
+			<a href="#" onClick="javascript:alert('Minimum of one copy with one size should be selected');return false;"><img src="/images/ordernow.jpg" border="0"></a>&nbsp;&nbsp;&nbsp;
+            <a href="#" onClick="javascript:alert('Minimum of one copy with one size should be selected');return false;"><img src="/images/continueshopping.jpg" border="0"></a>
+			<%end%>
+		</td>
+	   </tr>
+
+
+</table></td></tr></table>
+</fieldset>
+<br>
+</form>
+

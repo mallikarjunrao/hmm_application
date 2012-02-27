@@ -1,0 +1,395 @@
+<head>
+  <%= javascript_include_tag 'modalbox/prototype' %>
+  <script type="text/javascript" src="/javascripts/modalbox/scriptaculous.js?load=effects"></script>
+  <script type="text/javascript" src="/javascripts/modalbox/modalbox.js"></script>
+  <%= stylesheet_link_tag 'modalbox/modalbox' %>
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+  <title>Home For The Holidays</title>
+  <style type="text/css">
+    .img-txt {
+      font-family:"Comic Sans MS", Arial;
+      font-size:15px;
+      color: #000000;
+      text-decoration:none;
+      font-weight:bold;
+    }
+
+
+  </style>
+</head>
+
+
+<table width="920" border="0" align="center" cellpadding="0" cellspacing="0" style="border:10px solid #FFF; background-color:#FFFFFF; margin-top: 10px;">
+  <tr>
+    <td width="239" height="813" align="center" valign="top"><table width="224" border="0" cellspacing="0" cellpadding="0">
+        <tr>
+          <td valign="top" align="left" height="73"><img src="/images/home_holidays/box-left-top.jpg" /></td>
+        </tr>
+        <tr>
+          <td valign="top" align="center" height="674"><table width="160" border="0" cellspacing="0" cellpadding="0">
+
+              <tr>
+                <td align="left" valign="top"><img src="/images/home_holidays/top-entries-photo.png" width="160" height="143" /></td>
+              </tr>
+              <tr>
+                <td height="15" align="center" valign="top"></td>
+              </tr>
+              <tr>
+                <td height="80" align="center" valign="top"><table width="160" border="0" cellspacing="0" cellpadding="0">
+                    <% if params[:controller] == "familywebsite_contest" || params[:controller] == "familymemory_contests"%>
+                      <% @contest_phase = Base64.decode64(params[:p]) %>
+                    <% else %>
+                      <% @contest_phase = params[:contest_id] %>
+                    <% end %>
+
+                    <%
+                    cnt = 1
+                    for photo in @topentries_photo
+                      count = ContestVotes.count_by_sql("select COUNT(*) AS COUNT from contest_votes where contest_id='#{photo.contest_id}' and conformed='yes'")
+
+                      unless cnt%2 == 0
+
+                      %>
+                        <tr>
+                          <%if params[:controller]=="familymemory_contests"%>
+                            <td width="64" align="left" valign="top">
+
+                              <table width="100%" border="0" cellspacing="0" cellpadding="0">
+                                <tr>
+                                  <td><table width="100%" border="0" cellspacing="0" cellpadding="0">
+                                      <tr>
+                                        <td height="54" >
+                                          <% if website_type == "familywebsite" %>
+                                            <a href="/familymemory_contests/momentdetails/<%=id%>?contest_id=<%=photo.moment_id%>&&p=<%=params[:p]%>">
+                                            <%else%>
+                                              <a href="/contests/momentdetails?contest_id=<%= params[:contest_id] %>&moment_id=<%=photo.moment_id%>">
+                                              <%end%>
+                                              <img src="<%= photo.img_url %>/user_content/photos/big_thumb/<%= photo.v_filename %>" width="64"  style="z-index:0;" border="0"/></a></td>
+                                      </tr>
+                                      <tr>
+                                        <td height="36" align="left" valign="top" class="img-txt"><%=count%> <% if count.to_i > 1 %> Votes<%else%>Vote<%end%> </td>
+                                      </tr>
+                                    </table></td>
+                                </tr>
+
+                              </table> </td>
+                          <%else%>
+
+                            <td width="64" align="left" valign="top">
+
+                              <table width="100%" border="0" cellspacing="0" cellpadding="0">
+                                <tr>
+                                  <td><table width="100%" border="0" cellspacing="0" cellpadding="0">
+                                      <tr>
+                                        <td height="54" >
+                                          <% if website_type == "familywebsite" %>
+                                            <%if(session[:hmm_user]) %>
+                                              <a href="/familywebsite_contest/manage_momentdetails/<%=id%>?contest_id=<%=photo.moment_id%>&&p=<%=params[:p]%>">
+                                              <%else%>
+                                                <a href="/familywebsite_contest/momentdetails/<%=id%>?contest_id=<%=photo.moment_id%>&&p=<%=params[:p]%>">
+                                                <%end%>
+
+                                              <%else%>
+                                                <a href="/contests/momentdetails?moment_id=<%=photo.moment_id%>&contest_id=<%= params[:contest_id] %>">
+                                                <%end%>
+                                                <img src="<%= photo.img_url %>/user_content/photos/big_thumb/<%= photo.v_filename %>" width="64"  style="z-index:0;" border="0"/></a></td>
+                                              </tr>
+                                              <tr>
+                                                <td height="36" align="left" valign="top" class="img-txt"><%=count%> <% if count.to_i > 1 %> Votes<%else%>Vote<%end%> </td>
+                                              </tr>
+                                              </table></td>
+                                              </tr>
+
+                                              </table> </td>
+                                            <%end%>
+
+
+                                          <%else%>
+
+
+                                            <td width="14" align="left" valign="top">&nbsp;</td>
+                                            <td width="64" align="left" valign="top">
+                                              <table width="100%" border="0" cellspacing="0" cellpadding="0">
+                                                <tr>
+                                                  <td><table width="100%" border="0" cellspacing="0" cellpadding="0">
+                                                      <%if params[:controller]=="familymemory_contests"%>
+                                                        <tr>
+                                                          <td height="54" >
+                                                            <% if website_type == "familywebsite" %>
+                                                              <a href="/familymemory_contests/momentdetails/<%=id%>?contest_id=<%=photo.moment_id%>&&p=<%=params[:p]%>">
+                                                              <%else%>
+                                                                <a href="/contests/momentdetails?moment_id=<%=photo.moment_id%>&contest_id=<%= @contest_phase %>">
+                                                                <%end%>
+                                                                <img src="<%= photo.img_url %>/user_content/photos/big_thumb/<%= photo.v_filename %>" width="64"  style="z-index:0;" border="0"/></a></td>
+                                                        </tr>
+                                                      <%else%>
+                                                        <tr>
+                                                          <td height="54">
+                                                            <% if website_type == "familywebsite" %>
+                                                              <%if(session[:hmm_user]) %>
+                                                                <a href="/familywebsite_contest/manage_momentdetails/<%=id%>?contest_id=<%=photo.moment_id%>&&p=<%=params[:p]%>">
+                                                                <%else%>
+                                                                  <a href="/familywebsite_contest/momentdetails/<%=id%>?contest_id=<%=photo.moment_id%>&&p=<%=params[:p]%>">
+                                                                  <%end%>
+
+                                                                <%else%>
+                                                                  <a href="/contests/momentdetails?moment_id=<%=photo.moment_id%>&contest_id=<%= @contest_phase %>">
+                                                                  <%end%>
+                                                                  <img src="<%= photo.img_url %>/user_content/photos/big_thumb/<%= photo.v_filename %>" width="64"  style="z-index:0;" border="0" /></a></td>
+
+                                                                </tr>
+                                                              <%end%>
+                                                              </table></td>
+                                                              </tr>
+                                                              <tr>
+                                                                <td height="36" align="left" valign="top" class="img-txt"><%=count%> <% if count.to_i > 1 %> Votes<%else%>Vote<%end%> </td>
+                                                              </tr>
+                                                              </table>
+
+                                                              </td>
+                                                              </tr>
+                                                            <%end%>
+                                                            <%
+                                                            cnt = cnt + 1
+                                                          end%>
+                                                          </table>
+                                                          </td>
+                                                          </tr>
+                                                          <tr>
+                                                            <td height="14" align="center" valign="top"></td>
+                                                          </tr>
+
+                                                          </table></td>
+                                                          </tr>
+                                                          <tr>
+                                                            <td valign="bottom" align="left" height="67"><img src="/images/home_holidays/box-left-btm.jpg" /></td>
+                                                          </tr>
+
+                                                          </table></td>
+                                                          <td width="430" valign="top" background="/images/home_holidays/center-bg.jpg"><table width="430" border="0" align="right" cellpadding="0" cellspacing="0">
+
+                                                              <tr>
+                                                                <td height="224" colspan="2" align="center" valign="bottom"><img src="/images/home_holidays/logo.png" width="430" height="179" /></td>
+                                                              </tr>
+                                                              <tr>
+                                                                <td height="68" colspan="2" align="center" valign="middle"><img src="/images/home_holidays/price-winner-img.png" width="430" height="30" /></td>
+                                                              </tr>
+                                                              <tr>
+                                                                <td width="430" colspan="2" align="center" valign="top"><img src="/images/home_holidays/text-1.png" width="430" height="69" /></td>
+                                                              </tr>
+                                                              <tr>
+                                                                <td align="center" colspan="2" valign="top"><img src="/images/home_holidays/text-2.png" width="430" height="74" /></td>
+                                                              </tr>
+                                                              <tr>
+                                                                <td align="center" colspan="2" valign="top"><img src="/images/home_holidays/text-3.png" width="430" height="74" /></td>
+                                                              </tr>
+                                                              <tr>
+                                                                <td height="120" colspan="2" align="left" valign="top"></td>
+                                                              </tr>
+                                                              <%if Date.today <= @contest_details.entry_end_date.to_date %>
+                                                                <%if params[:controller]=="familymemory_contests"%>
+                                                                  <tr>
+                                                                    <td colspan="2" align="center" valign="top">
+                                                                      <% if website_type == "familywebsite" %>
+                                                                        <a href="/familymemory_contests/enter_contest/<%=id%>?type=enter&website_type=<%= website_type %>&p=<%=params[:p]%>"  onclick="Modalbox.show(this.href, {title:'My Image', width: 400, height:430});return false;">
+                                                                        <% else %>
+                                                                          <a href="/contests/enter_contest?contest_id=<%= @contest_phase %>&type=enter&website_type=<%= website_type %>&id=<%=id%>"  onclick="Modalbox.show(this.href, {title:'My Image', width: 400, height:430});return false;">
+                                                                          <% end %>
+                                                                          <img src="/images/home_holidays/enter-contest.png" width="350" height="62"  border="0"/>
+                                                                        </a>
+                                                                    </td>
+                                                                  </tr>
+                                                                <%elsif params[:controller]=="familywebsite_contest" %>
+                                                                  <tr>
+                                                                    <td colspan="2" align="center" valign="top">
+                                                                      <% if website_type == "familywebsite" %>
+                                                                        <a href="/contests/enter_contest?type=enter&website_type=<%= website_type %>&p=<%=params[:p]%>&id=<%=id%>"  onclick="Modalbox.show(this.href, {title:'My Image', width: 400, height:430});return false;">
+                                                                        <% else %>
+                                                                          <a href="/contests/enter_contest?contest_id=<%= @contest_phase %>&type=enter&website_type=<%= website_type %>&id=<%=id%>"  onclick="Modalbox.show(this.href, {title:'My Image', width: 400, height:430});return false;">
+                                                                          <% end %>
+                                                                          <img src="/images/home_holidays/enter-contest.png" width="350" height="62"  border="0"/></a></td>
+                                                                  </tr>
+                                                                <% else params[:controller]=="contests"%>
+                                                                  <tr>
+                                                                    <td colspan="2" align="center" valign="top"><a href="/contests/enter_contest?contest_id=<%= @contest_phase %>&type=enter&website_type=<%=website_type%>&id=<%=id%>"  onclick="Modalbox.show(this.href, {title:'My Image', width: 400, height:430});return false;"><img src="/images/home_holidays/enter-contest.png" width="350" height="62"  border="0"/></a></td>
+                                                                  </tr>
+                                                                <%end%>
+                                                              <%end%>
+                                                              <tr>
+                                                                <td height="17" colspan="2" align="left" valign="top"></td>
+                                                              </tr>
+
+                                                             
+                                                                <tr>
+                                                                  <td colspan="2" align="center" valign="top">
+
+                                                                    <%if params[:controller]=="familymemory_contests"%>
+
+                                                                      <% if website_type == "familywebsite" %>
+                                                                        <a href="/familymemory_contests/enter_contest/<%=id%>?type=view_vote&website_type=<%= website_type %>&p=<%=params[:p]%>"  onclick="Modalbox.show(this.href, {title:'My Image', width: 400, height:430});return false;">
+                                                                        <% else %>
+                                                                          <a href="/contests/enter_contest?contest_id=<%= @contest_phase %>&type=view_vote&website_type=<%= website_type %>&id=<%=id%>"  onclick="Modalbox.show(this.href, {title:'My Image', width: 400, height:430});return false;">
+                                                                          <% end %>
+                                                                          <img src="/images/home_holidays/view.png" width="350" height="63"  border="0"/></a>
+                                                                      <%elsif params[:controller]=="familywebsite_contest" %>
+                                                                        <tr>
+                                                                          <td colspan="2" align="center" valign="top">
+                                                                            <% if website_type == "familywebsite" %>
+                                                                              <a href="/contests/enter_contest?type=view_vote&website_type=<%= website_type %>&p=<%=params[:p]%>&id=<%=id%>"  onclick="Modalbox.show(this.href, {title:'My Image', width: 400, height:430});return false;">
+                                                                              <% else %>
+                                                                                <a href="/contests/enter_contest?contest_id=<%= @contest_phase %>&type=view_vote&website_type=<%= website_type %>&id=<%=id%>"  onclick="Modalbox.show(this.href, {title:'My Image', width: 400, height:430});return false;">
+                                                                                <% end %>
+                                                                                <img src="/images/home_holidays/view.png" width="350" height="62"  border="0"/></a></td>
+                                                                        </tr>
+                                                                      <% else params[:controller]=="contests"%>
+                                                                        <a href="/contests/enter_contest?contest_id=<%= @contest_phase %>&type=view_vote&website_type=<%=website_type%>&id=<%=id%>"  onclick="Modalbox.show(this.href, {title:'My Image', width: 400, height:430});return false;"><img src="/images/home_holidays/view.png" width="350" height="63"  border="0"/></a>
+                                                                    <%end%>  </td>
+                                                                </tr>
+                                                                <tr>
+                                                                  <td height="17" colspan="2" align="left" valign="top"></td>
+                                                                </tr>
+                                                            
+                                                              <tr>
+                                                                <td colspan="2" align="center" valign="top"><a href="/contests/ruleslist?contest_id=<%= @contest_phase %>"  onclick="Modalbox.show(this.href, {title:'My Image', width: 650, height:700});return false;"><img src="/images/home_holidays/rules-regulations.png" width="350" height="62"  border="0"/></a></td>
+                                                              </tr>
+                                                              <tr>
+                                                                <td height="40" colspan="2" align="left" valign="top">&nbsp;</td>
+                                                              </tr>
+
+                                                            </table></td>
+                                                          <td width="224" align="center" valign="top"><table width="224" border="0" cellspacing="0" cellpadding="0">
+                                                              <tr>
+                                                                <td valign="top" align="left" height="73"><img src="/images/home_holidays/box-rgt-top.jpg" /></td>
+                                                              </tr>
+                                                              <tr>
+                                                                <td valign="top" align="center" height="737"><table width="160" border="0" cellspacing="0" cellpadding="0">
+
+                                                                    <tr>
+                                                                      <td align="left" valign="top"><img src="/images/home_holidays/top-entries-video.png" width="160" height="143" /></td>
+                                                                    </tr>
+                                                                    <tr>
+                                                                      <td height="15" align="center" valign="top"></td>
+                                                                    </tr>
+                                                                    <tr>
+                                                                      <td height="80" align="center" valign="top"><table width="160" border="0" cellspacing="0" cellpadding="0">
+                                                                          <%
+                                                                          cnt = 1
+                                                                          for video in @topentries_video
+                                                                            count = ContestVotes.count_by_sql("select COUNT(*) AS COUNT from contest_votes where contest_id='#{video.contest_id}' and conformed='yes'")
+
+                                                                            unless cnt%2 == 0
+
+                                                                            %>
+                                                                              <tr>
+                                                                                <td width="64" align="left" valign="top">
+
+                                                                                  <table width="100%" border="0" cellspacing="0" cellpadding="0">
+                                                                                    <tr>
+                                                                                      <td><table width="100%" border="0" cellspacing="0" cellpadding="0">
+                                                                                          <%if params[:controller]=="familymemory_contests"%>
+                                                                                            <tr>
+                                                                                              <td height="54" >
+                                                                                                <% if website_type == "familywebsite" %>
+
+                                                                                                  <a href="/familymemory_contests/videomoment_details/<%=id%>?contest_id=<%=video.moment_id%>&&p=<%=params[:p]%>">
+
+                                                                                                  <%else%>
+                                                                                                    <a href="/contests/<%= params[:id] %>/videomoment_details/<%=video.moment_id%>">
+                                                                                                    <%end%>
+                                                                                                    <img src="<%= video.img_url %>/user_content/videos/thumbnails/<%= video.v_filename+'.jpg' %>" width="56" height="50" style="z-index:0;" border="0"/></a></td>
+                                                                                            </tr>
+                                                                                          <%else%>
+                                                                                            <tr>
+                                                                                              <td height="54" >
+                                                                                                <% if website_type == "familywebsite" %>
+                                                                                                  <%if(session[:hmm_user]) %>
+                                                                                                    <a href="/familywebsite_contest/manage_videomoment_details/<%=id%>?contest_id=<%=video.moment_id%>&&p=<%=params[:p]%>">
+                                                                                                    <%else%>
+                                                                                                      <a href="/familywebsite_contest/videomoment_details/<%=id%>?contest_id=<%=video.moment_id%>&&p=<%=params[:p]%>">
+                                                                                                      <%end%>
+
+                                                                                                    <%else%>
+                                                                                                      <a href="/contests/videomoment_details?moment_id=<%=video.moment_id%>&contest_id=<%= @contest_phase %>">
+                                                                                                      <%end%>
+                                                                                                      <img src="<%= video.img_url %>/user_content/videos/thumbnails/<%= video.v_filename+'.jpg' %>" width="56" height="50" style="z-index:0;" border="0"/></a></td>
+                                                                                                    </tr>
+                                                                                                  <%end%>
+                                                                                                  </table></td>
+                                                                                                  </tr>
+                                                                                                  <tr>
+                                                                                                    <td height="36" align="left" valign="top" class="img-txt"><%=count%> <% if count.to_i > 1 %> Votes<%else%>Vote<%end%> </td>
+                                                                                                  </tr>
+                                                                                                  </table> </td>
+
+                                                                                                <%else%>
+
+
+                                                                                                  <td width="14" align="left" valign="top">&nbsp;</td>
+                                                                                                  <td width="64" align="left" valign="top">
+                                                                                                    <table width="100%" border="0" cellspacing="0" cellpadding="0">
+                                                                                                      <tr>
+                                                                                                        <td><table width="100%" border="0" cellspacing="0" cellpadding="0">
+                                                                                                            <%if params[:controller]=="familymemory_contests"%>
+                                                                                                              <tr>
+                                                                                                                <td height="54">
+                                                                                                                  <% if website_type == "familywebsite" %>
+                                                                                                                    <a href="/familymemory_contests/videomoment_details/<%=id%>?contest_id=<%=video.moment_id%>&&p=<%=params[:p]%>">
+                                                                                                                    <%else%>
+                                                                                                                      <a href="/contests/videomoment_details?moment_id=<%=video.moment_id%>&contest_id=<%= @contest_phase %>">
+                                                                                                                      <%end%>
+                                                                                                                      <img src="<%= video.img_url %>/user_content/videos/thumbnails/<%= video.v_filename+'.jpg' %>" width="56" height="50" style="z-index:0;" border="0" /></a></td>
+                                                                                                              </tr>
+                                                                                                            <%else%>
+                                                                                                              <tr>
+                                                                                                                <td height="54">
+                                                                                                                  <% if website_type == "familywebsite" %>
+                                                                                                                    <%if(session[:hmm_user]) %>
+                                                                                                                      <a href="/familywebsite_contest/manage_videomoment_details/<%=id%>?contest_id=<%=video.moment_id%>&&p=<%=params[:p]%>">
+                                                                                                                      <%else%>
+                                                                                                                        <a href="/familywebsite_contest/videomoment_details/<%=id%>?contest_id=<%=video.moment_id%>&&p=<%=params[:p]%>">
+                                                                                                                        <%end%>
+
+                                                                                                                      <%else%>
+                                                                                                                        <a href="/contests/videomoment_details?moment_id=<%=video.moment_id%>&contest_id=<%= @contest_phase %>">
+                                                                                                                        <%end%>
+                                                                                                                        <img src="<%= video.img_url %>/user_content/videos/thumbnails/<%= video.v_filename+'.jpg' %>" width="56" height="50" style="z-index:0;" border="0" /></a></td>
+                                                                                                                      </tr>
+                                                                                                                    <%end%>
+                                                                                                                    </table></td>
+                                                                                                                    </tr>
+                                                                                                                    <tr>
+                                                                                                                      <td height="36" align="left" valign="top" class="img-txt"><%=count%> <% if count.to_i > 1 %> Votes<%else%>Vote<%end%> </td>
+                                                                                                                    </tr>
+                                                                                                                    </table>
+
+                                                                                                                    </td>
+                                                                                                                    </tr>
+                                                                                                                  <%end%>
+                                                                                                                  <%
+                                                                                                                  cnt = cnt + 1
+                                                                                                                end%>
+                                                                                                                </table>
+                                                                                                                </td>
+                                                                                                                </tr>
+                                                                                                                <tr>
+                                                                                                                  <td height="14" align="center" valign="top"></td>
+                                                                                                                </tr>
+                                                                                                                <tr>
+                                                                                                                  <td height="6" align="center" valign="top"></td>
+                                                                                                                </tr>
+
+
+
+
+
+
+                                                                                                                </table></td>
+                                                                                                                </tr>
+                                                                                                                <tr>
+                                                                                                                  <td valign="bottom" align="left" height="67"><img src="/images/home_holidays/box-rgt-btm.jpg" /></td>
+                                                                                                                </tr>
+
+                                                                                                                </table>
+                                                                                                                </td>
+                                                                                                                </tr>
+                                                                                                                </table>

@@ -1,0 +1,103 @@
+<script type="text/javascript">
+  var $j = jQuery.noConflict();
+
+</script>
+
+<%#  @studio_header = HmmStudio.find(@family_website_owner.studio_id)
+if @studio_header.studio_groupid==pp_studio_group
+
+  blogau = "blogAu_pp"
+  blogtxt = "blogTxt_pp"
+  blogwht = "blogWht_pp"
+  bgcolor="rightBarMdl"
+else
+  bgcolor=""
+  blogau = "blogAu"
+  blogtxt = "blogTxt"
+  blogwht = "blogWht"
+end %>
+<%
+
+  blogau = "blogAu_pp"
+  blogtxt = "blogTxt_pp"
+  blogwht = "blogWht_pp"
+  bgcolor="rightBarMdl"
+
+%>
+<table cellspacing="0" cellpadding="0" border="0" width="100%" align="center" class="<%= bgcolor %> ">
+  <%  @studio_header = HmmStudio.find(@family_website_owner.studio_id)
+  if @studio_header.studio_groupid==pp_studio_group%>
+  <% else %>
+    <%= render :partial => "family_memory/partials/heading"%>
+  <% end %>
+
+  <tr>
+    <td align="left" valign="bottom" height="35" class="header-page" valign="top">&nbsp;&nbsp;Blog</td>
+  </tr>
+  <tr>
+    <td bgcolor="#84b7d6" align="left" valign="top" height="1"></td>
+  </tr>
+  <tr>
+    <td align="left" valign="top" height="10"></td>
+  </tr>
+
+  <tr>
+    <td align="left" valign="top" height="10"></td>
+  </tr>
+  <%  @studio_header = HmmStudio.find(@family_website_owner.studio_id)
+  if @studio_header.studio_groupid==pp_studio_group%>
+
+  
+        <tr>
+          <td><div class="btn"><a href="/family_memory/new_text_blogentry/<%=params[:id]%>" title="New Entry" class="nyroModal">
+                <div class="cmnBtnB cmnBtnMar newEntry">New Entry</a></div></td>
+        </tr>
+ 
+  <% else %>
+    <tr>
+      <td><div class="btn"><a href="/family_memory/new_text_blogentry/<%=params[:id]%>" title="New Entry" class="nyroModal">
+            <img src="/images/family_memory/transaprent.png" class="menus newEntry" border="0"/></a></div></td>
+    </tr>
+  <%end%>
+  <tr>
+    <td align="left" valign="top" height="10"></td>
+  </tr>
+  <tr>
+    <td height="10" align="center" class="side-heading" style="font-size: 16px">
+      <%=will_paginate @entries ,:params=>params%>
+    </td>
+  </tr>
+  <%if @total>0 %>
+   
+      <%= render :partial=>'pp_family_memory_blog' %>
+ 
+  <%else%>
+        <td height="35" align="center" class="side-heading" style="font-size: 16px">
+                  <%=will_paginate @entries ,:params=>params%>
+                </td>
+    <table border="0" cellspacing="0" cellpadding="0" width="100%">
+      <tr>
+        <td width="22" height="21" class="top-left"></td>
+        <td class="top-repeat"></td>
+        <td width="22" class="top-right"></td>
+      </tr>
+      <tr>
+        <td width="22" class="left-repeat"></td>
+
+        <td><table width="100%" border="0" cellspacing="0" cellpadding="0" class="cmtsml">
+            <tr>
+              <td class="msgHead" align="center" height="500" valign="middle">No Entries Found.</td></tr> </table>
+        </td>
+        <td class="right-repeat"></td>
+      </tr>
+      <tr>
+        <td width="22" height="21"   class="bottom-left"></td>
+        <td class="bottom-repeat"></td>
+        <td width="22" height="21"  class="bottom-right"></td>
+      </tr>
+    </table>
+  <%end%>
+
+</table>
+
+

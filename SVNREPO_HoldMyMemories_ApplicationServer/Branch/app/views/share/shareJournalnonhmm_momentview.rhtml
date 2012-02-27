@@ -1,0 +1,75 @@
+<%  @usercontentid = UserContent.find(:all, :conditions => "id=#{params[:id]}")
+	for @i in @usercontentid %>
+	
+	<%  if(@i.e_filetype == "swf")
+	   @sshowSwf = "slideShow"
+     #@videoXmlFile = @i.img_url+"/user_content/videos/"+@i.v_filename;
+      @videoXmlFile = "/slideshow/get_slideshow_moment_list/#{params[:id]}"
+  end       %>
+<table width="100%" border="0" align="center" cellspacing="0" cellpadding="0">
+							<tr  background="/images/bg_chapter1_photo1.jpg">
+                            	
+								<th colspan="5" align="center" valign="middle" scope="col" >
+           					  	<%if (@i.e_filetype=="video" || @i.e_filetype=='audio')%>
+									
+									
+									<%if (@i.e_filetype == "video")%>
+										<input type="hidden" id="contentId" value="<%=@i.img_url%>/user_content/videos/<%=@i.v_filename%>.flv">
+										<input type="hidden" id="type" value="video">
+										<input type="hidden" id="proxyurl" value="<%=@i.img_url%>">
+									<% elsif( @i.e_filetype == "audio")%>
+										<input type="hidden" id="contentId" value="<%=@i.img_url%>/user_content/audios/<%=@i.v_filename%>">
+										<input type="hidden" id="type" value="audio">
+										<input type="hidden" id="proxyurl" value="<%=@i.img_url%>">
+									<%end%>
+								
+									<input type="hidden" id="swfName" value="/MediaPlayer">
+									<script src="/AC_OETags.js" language="JavaScript"></script>
+									<script src="DWConfiguration/ActiveContent/IncludeFiles/AC_RunActiveContent.js" type="text/javascript"></script>
+									<script type="text/javascript">
+										var galId = document.getElementById("contentId").value;
+										var flashName = document.getElementById("swfName").value;
+										var hmmtype = document.getElementById("type").value;
+										var proxyurl = document.getElementById("proxyurl").value;
+										AC_FL_RunContent( 'codebase','http://download.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=7,0,19,0',
+														'width','500',
+														'height','401',
+														'src', flashName,
+														'quality', 'high',
+														'pluginspage','http://www.macromedia.com/go/getflashplayer',
+														'movie',flashName,
+                                                                                                                'allowFullScreen','true',
+														'flashvars', 'hmmtype='+hmmtype+'&content='+galId+"&proxyurl="+proxyurl  
+														); //end AC code
+									</script><noscript><object classid="clsid:D27CDB6E-AE6D-11cf-96B8-444553540000" codebase="http://download.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=7,0,19,0" width="500" height="401">
+  									<param name="movie" value="/Chapter.swf" />
+									<param name="quality" value="high" />
+  									<param name="FlashVars"  />
+  									<embed src="/MediaPlayer.swf" quality="high" FlashVars=""  pluginspage="http://www.macromedia.com/go/getflashplayer" type="application/x-shockwave-flash" width="500" height="401"></embed>
+									</object></noscript>
+
+									<%elsif(@i.e_filetype == "image")%>
+							    		<img src="<%=@i.img_url%>/user_content/photos/journal_thumb/<%=@i.v_filename%>" />
+									<%elsif(@i.e_filetype == "swf")%>
+										<input type="hidden" id="swfFile" value="/<%= @sshowSwf%>" >
+										<input type="hidden" id="filename" value="<%= @videoXmlFile%>" >
+										<script language="JavaScript" type="text/javascript">
+											var flash = document.getElementById("swfFile").value;
+											var xmlfilename = document.getElementById("filename").value;
+											AC_FL_RunContent( 'codebase','http://download.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=7,0,19,0',
+                                                              'width','810',
+                                                              'height','450',
+                                                              'src',flash,
+                                                              'quality','high',
+                                                              'pluginspage','http://www.macromedia.com/go/getflashplayer',
+                                                              'movie',flash,
+                                                              'bgcolor','#000000',
+                                                              'allowFullScreen','true',
+                                                              'flashvars', 'xmlfile='+xmlfilename); 
+										</script><noscript><object classid="clsid:D27CDB6E-AE6D-11cf-96B8-444553540000" codebase="http://download.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=7,0,19,0" width="810" height="450"></object></noscript>
+									<%end%>							  
+								</th>
+								
+		  					</tr>
+            		   </table>	
+					   <%end%>

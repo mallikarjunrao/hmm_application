@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:TitleWindow xmlns:mx="http://www.adobe.com/2006/mxml" showCloseButton="true" close="handleCancelClick()" title="Step {currentStep} of {stepCount} " titleStyleName="titleStyle" backgroundColor="0">
+	<mx:VBox width="100%" height="100%">
+			<mx:ViewStack id="wizardStack" width="100%" height="90%"/>
+			<mx:HBox id="buttonBox" width="100%">
+				<mx:Button id="back" label="Back" click="handleBackClick()" enabled="false"/>
+				<mx:Button id="nextStep" label="Next" click="handleNextClick()"/>
+				<mx:Button id="finish" label="Cancel" click="handleCancelClick()"/>
+			</mx:HBox>		
+	</mx:VBox>
+	<mx:Style>
+		.titleStyle
+		{
+			font-size : 15;
+		}
+	</mx:Style>
+		<mx:Script>
+			<![CDATA[
+				import events.WizardEvent;
+				import mx.managers.PopUpManager;
+				import mx.core.Container;
+				import mx.collections.ArrayCollection;
+				private var _dataProvider : ArrayCollection;
+				[Bindable]
+				private var stackObjects : ArrayCollection;
+				private var childCount : int;
+				private var callbackDictionary : Dictionary = new Dictionary();
+				[Bindable]
+				private var stepCount : int;
+				[Bindable]
+				private var currentStep : int = 1;
+				public function registerComponent( component : IWizardComponent) : void
+				{
+					
+				}
+				
+				
+				public function set dataProvider(obj : ArrayCollection) : void
+				{
+					_dataProvider = obj;
+					stackObjects = new ArrayCollection();
+					for(var i : int = 0; i < _dataProvider.length; i++)
+					{
+						var itemClass : Class = _dataProvider[i] as Class;
+						var displayObj : Container = new itemClass();
+						
+						
+						if(displayObj == null)
+							throw(new Error("The item classes should extend from Container."));
+						if(displayObj is IWizardComponent)
+						{
+							wizardStack.addChild(displayObj);	
+						}else
+						{
+							throw(new Error("The component should implement the IWizardContainer interface"));
+						}
+						
+					}
+					
+					childCount = _dataProvider.length;
+					stepCount = childCount;
+						
+					
+				}
+				
+				private function handleBackClick() : void
+				{
+					/* var obj : IWizardComponent = wizardStack.selectedChild as IWizardComponent;
+					if(obj.getComponentData() == null)
+					  return; */
+					if(wizardStack.selectedIndex -1 >= 0)
+					{
+						updateComponentData();
+						wizardStack.selectedIndex--;
+						if(wizardStack.selectedIndex == 0)
+						{
+							back.enabled = false;	
+						}else
+						{
+							back.enabled = true;
+						}
+						back.label = "Back";
+						nextStep.label = "Next";
+						currentStep--;
+					}else
+					{
+						back.enabled = false;
+					}
+				}
+				
+				private function updateComponentData() : void
+				{
+					var obj : IWizardComponent = wizardStack.selectedChild as IWizardComponent;
+					/* if(!obj.validateComponentData())
+					  return; */
+					for(var j : int = 0; j < _dataProvider.length; j++)
+					{
+						if(obj is _dataProvider[j])
+						{
+							callbackDictionary[_dataProvider[j]] = obj.getComponentData();
+							break;		
+						}
+					}
+				}
+				
+				private function handleNextClick() : void
+				{
+					var obj : IWizardComponent = wizardStack.selectedChild as IWizardComponent;
+					if(!obj.validateComponentData())
+					  return;
+					if(wizardStack.selectedIndex + 1 <= childCount-1)
+					{
+						updateComponentData();
+						wizardStack.selectedIndex++;
+						if(wizardStack.selectedIndex == childCount-1)
+						{
+							nextStep.label = "Finish";
+						}else
+						{
+							nextStep.label = "Next";	
+						}
+						
+						back.enabled = true;
+						currentStep++;
+					}else
+					{
+						if(nextStep.label == "Finish")
+						{
+							updateComponentData();
+							var evt : WizardEvent = new WizardEvent(WizardEvent.WIZARD_COMPLETE);
+							evt.extra = callbackDictionary;
+							evt.classes = _dataProvider;
+							dispatchEvent(evt);
+							PopUpManager.removePopUp(this);
+						}else
+						{
+							nextStep.label = "Finish";	
+						}
+						
+						
+						
+					}
+				}
+				
+				private function handleCancelClick() : void
+				{
+					
+					PopUpManager.removePopUp(this);
+				}
+			]]>
+		</mx:Script>
+
+		
+	
+</mx:TitleWindow>

@@ -1,0 +1,17 @@
+<h1>Editing invite_friend</h1>
+
+<%= error_messages_for :invite_friend %>
+
+<% form_for(:invite_friend, :url => invite_friend_path(@invite_friend), :html => { :method => :put }) do |f| %>
+  <p>
+    <b>Uid</b><br />
+    <%= f.text_field :uid %>
+  </p>
+
+  <p>
+    <%= submit_tag "Update" %>
+  </p>
+<% end %>
+
+<%= link_to 'Show', invite_friend_path(@invite_friend) %> |
+<%= link_to 'Back', invite_friends_path %>

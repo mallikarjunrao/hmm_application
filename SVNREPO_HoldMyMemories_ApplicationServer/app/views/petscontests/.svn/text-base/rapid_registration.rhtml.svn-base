@@ -1,0 +1,857 @@
+<!-- JAVA SCRIPT FUNCTION FOR PASSWORD STRENGTH -->
+<script type="text/javascript">
+  function chg(val)
+  {
+    if (document.getElementById('pcode').style.display == 'none' && document.getElementById('cty').style.display == 'block' && val=='USA') {
+      document.getElementById('pcode').style.display = 'block';
+      document.getElementById('cty').style.display = 'none';
+    }else{
+      document.getElementById('pcode').style.display = 'none';
+      document.getElementById('cty').style.display = 'block';
+    }
+  }
+  function showdiv()
+  {
+    if(document.getElementById('fnfhmm').checked==true)
+    {
+      document.getElementById('fnf').style.display='block';
+    }
+    else
+    {
+      document.getElementById('fnf').style.display='none';
+    }
+  }
+	
+			
+  function passwordStrength(v_password)
+  {
+    var desc = new Array();
+    desc[0] = "Very Weak";
+    desc[1] = "Weak";
+    desc[2] = "Better";
+    desc[3] = "Medium";
+    desc[4] = "Strong";
+    desc[5] = "Strongest";
+    var score = 0; //if password bigger than 6 give 1 point
+    if (v_password.length > 6) score++; //if password has both lower and uppercase characters give 1 point
+    if ( ( v_password.match(/[a-z]/) ) && ( v_password.match(/[A-Z]/) ) ) score++; //if password has at least one number give 1 point
+    if (v_password.match(/\d+/)) score++; //if password has at least one special caracther give 1 point
+    if ( v_password.match(/.[!,@,#,$,%,^,&,*,?,_,~,-,(,)]/) ) score++; //if password bigger than 12 give another 1 point
+    if (v_password.length > 12) score++; document.getElementById("passwordDescription").innerHTML = desc[score];
+    document.getElementById("passwordStrength").className = "strength" + score;
+  } 
+  
+  
+  function verify(){
+    
+
+    if (document.getElementById('fname').value == 'First Name') {
+      alert("Please enter First Name");
+      document.getElementById('fname').focus();
+      return false;
+    }
+    else
+      if (document.getElementById('lname').value == 'Last Name') {
+        alert("Please enter Last Name");
+        document.getElementById('lname').focus();
+        return false;
+      }
+    else
+      if (document.getElementById('fname').value == "") {
+        //alert(document.getElementById('hmm_user_v_zip').value);
+        document.getElementById('fname').focus();
+      }
+    else
+      if (document.getElementById('lname').value == "") {
+        //alert(document.getElementById('hmm_user_v_zip').value);
+        document.getElementById('lname').focus();
+      }
+    else
+      if (document.getElementById('hmm_user_e_sex').checked == false) {
+        //alert(document.getElementById('hmm_user_e_sex').checked);
+        document.getElementById('hmm_user_e_sex').focus();
+      }
+    else
+      if (document.getElementById('hmm_user_v_zip').value == "") {
+        //alert(document.getElementById('hmm_user_v_zip').value);
+        document.getElementById('hmm_user_v_zip').focus();
+      }
+    else
+      if (document.getElementById('v_e_mail').value == "") {
+        //alert(document.getElementById('hmm_user_v_zip').value);
+        document.getElementById('v_e_mail').focus();
+      }
+    else
+      if (document.getElementById('v_user_name').value == "") {
+        //alert(document.getElementById('v_user_name').value);
+        document.getElementById('v_user_name').focus();
+      }
+    else
+      if (document.getElementById('v_password').value == "") {
+        //alert(document.getElementById('v_password').value);
+        document.getElementById('v_password').focus();
+      }
+    else
+      if (document.getElementById('v_password_conf').value == "") {
+        //alert(document.getElementById('v_password_conf').value);
+        document.getElementById('v_password_conf').focus();
+      }
+    else
+      if (document.getElementById('v_password_conf').value != document.getElementById('v_password').value) {
+        //alert(document.getElementById('v_password_conf').value);
+        document.getElementById('v_password_conf').focus();
+      }
+    else
+      if (document.getElementById('v_myimage').value == false) {
+        alert("Please Upload a Image")
+        document.getElementById('v_myimage').focus();
+        return false;
+      }
+    else
+      if (document.getElementById('hmm_user_v_security_q').value == '') {
+        alert('Please Select Account Security Question');
+        return false;
+      }
+    else
+												
+    if (document.getElementById('hmm_user_v_security_a').value == '') {
+      document.getElementById('hmm_user_v_security_a').focus();
+      //alert('Please Select Account Security Question');
+      return false;
+    }
+  else
+    if (document.getElementById('v_password').value == document.getElementById('hmm_user_v_security_a').value) {
+      alert('Accout Security Answer Cant be a Password!!');
+      return false;
+    }
+  else
+    if (document.getElementById('valid_email').value == 'false') {
+      document.getElementById('v_e_mail').focus();
+      return false;
+    }
+  else
+    if (document.getElementById('valid_username').value == 'false') {
+      document.getElementById('v_user_name').focus();
+      return false;
+    }
+  else
+    if(document.getElementById('terms').checked == false)
+  {
+    document.getElementById('terms').focus();
+    alert("You must agree to the terms and conditions to proceed")
+    return false;
+  }
+  else {
+    document.getElementById('imgmsg').style.display = 'block';
+  }
+  return true;
+}
+ 
+</script>
+<script type="text/javascript">
+function terms_check()
+{
+  if(document.getElementById('end_user_agreement').checked == false)
+  {
+    document.getElementById('end_user_agreement').focus();
+    alert("You must agree to the end users agreement to proceed")
+    return false;
+  }
+  if(document.getElementById('privacy_policy').checked == false)
+  {
+    document.getElementById('privacy_policy').focus();
+    alert("You must agree to the privacy policy to proceed")
+    return false;
+  }
+
+  var fup = document.getElementById('v_myimage');
+  if (fup.value != false){
+    var fileName = fup.value;
+    var ext = fileName.substring(fileName.lastIndexOf('.') + 1);
+    if(ext == "gif" || ext == "GIF" || ext == "JPEG" || ext == "jpeg" || ext == "jpg" || ext == "JPG" || ext == "png" || ext == "PNG")
+    {
+      return true;
+    }
+    else
+    {
+      alert("Upload images only");
+      fup.focus();
+      return false;
+    }
+  }
+
+}
+function escapeSpecialCharacters(field)
+{
+  var name = document.getElementById(field).value;
+  name =  name.replace(/[^a-zA-Z0-9]+/g,'');
+  document.getElementById(field).value=name;
+}
+</script>
+
+<%= javascript_include_tag 'prototype' %>
+<%= javascript_include_tag 'scriptaculous' %>
+<%= javascript_include_tag 'SpryAssets/SpryValidationTextField' %>
+<%= javascript_include_tag 'SpryAssets/SpryValidationRadio' %>
+<%= javascript_include_tag 'SpryAssets/SpryValidationPassword' %>
+<%= javascript_include_tag 'SpryAssets/SpryValidationConfirm' %>
+<%= javascript_include_tag 'SpryAssets/SpryValidationSelect' %>
+<%= stylesheet_link_tag 'SpryAssets/SpryValidationTextField' %>
+<%= stylesheet_link_tag 'SpryAssets/SpryValidationRadio' %>
+<%= stylesheet_link_tag 'SpryAssets/SpryValidationPassword' %>
+<%= stylesheet_link_tag 'SpryAssets/SpryValidationConfirm' %>
+<%= stylesheet_link_tag 'SpryAssets/SpryValidationSelect' %>
+<style type="text/css">
+  <!--
+  .style3 {color: #999999}
+  -->
+  .contsignup {
+    font-family: Tahoma;
+    font-size: 13px;
+    font-weight: normal;
+    color: #b5b5b5;
+  }
+</style>
+
+<% form_tag("#{request_content_url}/contest_upload/registration_create?contest_name=#{session[:contest_name]}", {:multipart => true}) do %>
+  <table width="905" border="0" cellspacing="0" cellpadding="0" bgcolor=#000000>
+    <tr>
+      <th height="227" align="left" valign="top" scope="col">
+        <center><%= error_messages_for 'hmm_user' %></center>
+        <div >&nbsp;&nbsp;&nbsp;&nbsp;<%= flash[:notice] %></div>
+        <div >&nbsp;&nbsp;&nbsp;&nbsp;<%= flash[:error] %></div>
+        <table width="100%" border="0" cellspacing="0" cellpadding="0">
+          <input type="hidden" value="<%=params[:id]%>" name="contest" id="contest">
+          <input type="hidden" value="phase12" name="phase" id="phase">
+          <tr>
+            <th width="148" height="44" align="left" valign="top" scope="col">&nbsp;</th>
+            <th width="116" align="left" valign="top" scope="col">&nbsp;</th>
+            <th width="10" align="left" valign="top" scope="col">&nbsp;</th>
+            <th align="left" valign="middle" scope="col"><img src="/images/tellus_signup.jpg" width="243" height="26" /></th>
+            <th width="236" align="left" valign="top" scope="col">&nbsp;</th>
+          </tr>
+          <tr>
+            <th height="0" align="left" valign="top" scope="col">&nbsp;</th>
+            <th align="right" valign="top" class="contsignup" scope="col"><label for="hmm_user_fname">My Name *</label></th>
+            <th align="left" valign="top" scope="col">&nbsp;</th>
+            <th align="left" valign="middle" scope="col">
+              <!-- FIRST NAME AND LAST NAME CODE FOR CUSTOMERS -->
+              <table width="100%" border="0" cellspacing="0" cellpadding="0">
+                <tr>
+                  <th width="143" align="left" valign="top" scope="col"><span id="sprytextfield1"><span id="sprytextfield1">
+                        <% if(request.request_uri == "/customers/new" )%>
+                          <%= text_field "hmm_user", "v_fname", :class => "textbox-signup",:id =>"fname", :value => "", :size => 20, :maxlength => 25 %>
+                        <%else%>
+                          <%= text_field "hmm_user", "v_fname", :class => "textbox-signup", :id =>"fname", :size => 20, :maxlength => 25 %>
+                        <%end%>
+                        <span class="textfieldRequiredMsg">First Name is required.</br></span></span></span>
+                  </th>
+                  <th width="0" align="left" valign="top" scope="col">&nbsp;</th>
+                  <th width="" align="left" valign="top" scope="col"><span id="sprytextfield2"><span id="sprytextfield2">
+                        <% if(request.request_uri == "/customers/new" ) %>
+                          <%= text_field  "hmm_user", "v_lname", :class => "textbox-signup", :id =>"lname", :value => "", :size => 20 %>
+                        <%else%>
+                          <%= text_field  "hmm_user", "v_lname", :class => "textbox-signup" , :id =>"lname", :size => 20 %>
+                        <%end%>
+                        <span class="textfieldRequiredMsg"><br>Last Name is required.</br></span></span></span>
+                  </th>
+                </tr>
+              </table>
+            </th>
+            <th align="left" valign="top" scope="col">&nbsp;</th>
+          </tr>
+          <tr>
+            <th height="10" align="left" valign="top" scope="col"></th>
+            <th align="right" valign="top" class="contsignup" scope="col"></th>
+            <th align="left" valign="top" scope="col"></th>
+            <th align="left" valign="middle" scope="col"></th>
+            <th align="left" valign="top" scope="col"></th>
+          </tr>
+          <tr>
+            <th height="0" align="left" valign="top" scope="col">&nbsp;</th>
+            <th align="right" valign="top" class="contsignup" scope="col"><label for="hmm_user_sex">Gender *</label></th>
+            <th align="left" valign="top" scope="col">&nbsp;</th>
+            <th align="left" valign="middle" scope="col">
+              <table width="100%" border="0" cellspacing="0" cellpadding="0">
+                <tr>
+                  <!-- GENDER CODE FOR CUSTOMER FORM-->
+                  <th width="5" align="left" valign="top" scope="col"></th>
+                  <th class="contsignup"  align="left" ><span id="RadioWidget"><%= radio_button 'hmm_user', 'e_sex', 'M', :class => "radioRequiredState", :id => "hmm_user_e_sex"   %>Male
+                      &nbsp;&nbsp;<%= radio_button 'hmm_user', 'e_sex', 'F', :class => "radioRequiredState", :id => "hmm_user_e_sex"   %>Female
+                      <span class="radioRequiredMsg"><br>Please make a selection.</span></span></span></br>
+                  </th>
+                </tr>
+              </table>
+            </th>
+            <th align="left" valign="top" scope="col">&nbsp;</th>
+          </tr>
+          <tr>
+            <th height="10" align="left" valign="top" scope="col"></th>
+            <th align="right" valign="top" class="contsignup" scope="col"></th>
+            <th align="left" valign="top" scope="col"></th>
+            <th align="left" valign="middle" scope="col"></th>
+            <th align="left" valign="top" scope="col"></th>
+          </tr>
+          <tr>
+            <th height="0" align="left" valign="top" scope="col">&nbsp;</th>
+            <th align="right" valign="top" class="contsignup" scope="col"><label for="hmm_user_sex">Marital Status *</label></th>
+            <th align="left" valign="top" scope="col">&nbsp;</th>
+            <th align="left" valign="middle" scope="col">
+              <table width="100%" border="0" cellspacing="0" cellpadding="0">
+                <tr>
+                  <!-- GENDER CODE FOR CUSTOMER FORM-->
+                  <th width="5" align="left" valign="top" scope="col"></th>
+                  <th class="contsignup" align="left"><span id="RadioWidget1">
+                      <input class="radioRequiredState" id="hmm_user_e_sex" name="hmm_user[marital_status]" value="single" type="radio">Single
+                      <input  class="radioRequiredState" id="hmm_user_e_sex" name="hmm_user[marital_status]" value="married" type="radio">
+                      Married
+  <%#= radio_button 'hmm_user', 'marital_status', 'single', :class => "radioRequiredState", :id => "hmm_user_e_sex"   %>
+  <%#= radio_button 'hmm_user', 'marital_status', 'married', :class => "radioRequiredState", :id => "hmm_user_e_sex"   %>
+
+                      <span class="radioRequiredMsg"><br>Please make a selection.</span></span></span></br>
+                  </th>
+                </tr>
+              </table>
+            </th>
+            <th align="left" valign="top" scope="col">&nbsp;</th>
+          </tr>
+          <tr>
+            <th height="10" align="left" valign="top" scope="col"></th>
+            <th align="right" valign="top" class="contsignup" scope="col"></th>
+            <th align="left" valign="top" scope="col"></th>
+            <th align="left" valign="middle" scope="col"></th>
+            <th align="left" valign="top" scope="col"></th>
+          </tr>
+          <tr>
+            <th height="0" align="left" valign="top" scope="col">&nbsp;</th>
+            <th align="right" valign="top" class="contsignup" scope="col"><label for="hmm_user_bdate">Birthday * </label></th>
+            <th align="left" valign="top" scope="col">&nbsp;</th>
+            <th align="left" valign="middle" scope="col">
+              <table width="100%" border="0" >
+                <!-- DATE SELECT CODE FOR BIRTHDAY FIELD CUSTOMER FORM -->
+                <tr>
+                  <th width="180" align="left" valign="bottom" scope="col"></th>
+                  <%= date_select 'hmm_user', 'd_bdate',  :order => [:month, :day, :year], :start_year => Time.now.year - 13, :end_year => Time.now.year - 100 %>
+                </tr>
+              </table>
+            </th>
+            <th align="left" valign="top" scope="col">&nbsp;</th>
+          </tr>
+          <tr>
+            <th height="10" align="left" valign="top" scope="col"></th>
+            <th align="right" valign="top" class="contsignup" scope="col"></th>
+            <th align="left" valign="top" scope="col"></th>
+            <th align="left" valign="middle" scope="col"></th>
+            <th align="left" valign="top" scope="col"></th>
+          </tr>
+          <tr>
+            <th height="0" align="left" valign="top" scope="col">&nbsp;</th>
+            <th align="right" valign="top" class="contsignup" scope="col"><label for="hmm_user_country">I live in *</label></th>
+            <th align="left" valign="top" scope="col">&nbsp;</th>
+            <th align="left" valign="middle" scope="col">
+              <table width="100%" border="0" cellspacing="0" cellpadding="0">
+                <!-- I LIVE IN FIELD CODE FOR CUSTOMER SIGN UP FORM -->
+                <tr>
+                  <th width="283" align="left" valign="top" scope="col">
+                    <span id="sprytextfield4">
+                      <select name="hmm_user[v_country]" id='v_country' onchange='return chg(this.value)' class => 'combobox1'>
+                        <option value="USA" selected='selected'>USA</option>
+                        <option value="Afghanistan ">Afghanistan </option>
+                        <option value="Albania  ">Albania  </option>
+                        <option value="Algeria ">Algeria </option>
+                        <option value="American Samoa ">American Samoa </option>
+                        <option value="Argentina ">Argentina </option>
+                        <option value="Australia ">Australia </option>
+                        <option value="Austria ">Austria </option>
+                        <option value="Azerbaijan">Azerbaijan</option>
+                        <option value="Bahamas ">Bahamas </option>
+                        <option value="Bahrain ">Bahrain </option>
+                        <option value="Bangladesh ">Bangladesh </option>
+                        <option value="Barbados ">Barbados </option>
+                        <option value="Belgium ">Belgium </option>
+                        <option value="Benin ">Benin </option>
+                        <option value="Bermuda ">Bermuda </option>
+                        <option value="Bosnia-Herzegovina ">Bosnia-Herzegovina </option>
+                        <option value="Brazil ">Brazil </option>
+                        <option value="Burundi ">Burundi </option>
+                        <option value="Cambodia ">Cambodia </option>
+                        <option value="Cameroon ">Cameroon </option>
+                        <option value="Canada ">Canada </option>
+                        <option value="Cayman Islands ">Cayman Islands </option>
+                        <option value="Central African Republic ">Central African Republic </option>
+                        <option value="Chile">Chile</option>
+                        <option value="China ">China </option>
+                        <option value="Colombia ">Colombia </option>
+                        <option value="Comoros ">Comoros </option>
+                        <option value="Conch Republic">Conch Republic</option>
+                        <option value="Costa Rica ">Costa Rica </option>
+                        <option value="Croatia ">Croatia </option>
+                        <option value="Cuba ">Cuba </option>
+                        <option value="Cyprus ">Cyprus </option>
+                        <option value="Czech Republic ">Czech Republic</option>
+                        <option value="Denmark">Denmark</option>
+                        <option value="Dominica">Dominica</option>
+                        <option value="Dominican Republic ">Dominican Republic</option>
+                        <option value="Ecuador ">Ecuador</option>
+                        <option value="Egypt ">Egypt </option>
+                        <option value="Ethiopia ">Ethiopia </option>
+                        <option value="Falkland Islands ">Falkland Islands </option>
+                        <option value="Fiji ">Fiji </option>
+                        <option value="Finland ">Finland </option>
+                        <option value="France ">France </option>
+                        <option value="French Guiana ">French Guiana </option>
+                        <option value="Germany ">Germany </option>
+                        <option value="Greece ">Greece </option>
+                        <option value="Greenland ">Greenland </option>
+                        <option value="Guyana ">Guyana </option>
+                        <option value="Hong Kong ">Hong Kong </option>
+                        <option value="Hungary">Hungary</option>
+                        <option value="Iceland">Iceland</option>
+                        <option value="India ">India </option>
+                        <option value="Indonesia ">Indonesia </option>
+                        <option value="Iran ">Iran </option>
+                        <option value="Iraq ">Iraq </option>
+                        <option value="Ireland">Ireland</option>
+                        <option value="Israel">Israel</option>
+                        <option value="Italy">Italy</option>
+                        <option value="Jamaica">Jamaica</option>
+                        <option value="Japan">Japan</option>
+                        <option value="Jordan">Jordan</option>
+                        <option value="Kazakhstan">Kazakhstan</option>
+                        <option value="Kiribati">Kiribati</option>
+                        <option value="Korea (South)">Korea (South)</option>
+                        <option value="Korea (Democratic People's Republic)">Korea (Democratic People's Republic)</option>
+                        <option value="Kuwait">Kuwait</option>
+                        <option value="Kyrgyzstan">Kyrgyzstan</option>
+                        <option value="Laos">Laos</option>
+                        <option value="Latvia">Latvia</option>
+                        <option value="Lebanon">Lebanon</option>
+                        <option value="Liberia">Liberia</option>
+                        <option value="Libya">Libya</option>
+                        <option value="Liechtenstein">Liechtenstein</option>
+                        <option value="Lithuania">Lithuania</option>
+                        <option value="Luxembourg">Luxembourg</option>
+                        <option value="Macao">Macao</option>
+                        <option value="Macedonia">Macedonia</option>
+                        <option value="Madagascar">Madagascar</option>
+                        <option value="Malawi">Malawi</option>
+                        <option value="Malaysia">Malaysia</option>
+                        <option value="Maldives">Maldives</option>
+                        <option value="Marshall Islands">Marshall Islands</option>
+                        <option value="Mauritania">Mauritania</option>
+                        <option value="Mauritius">Mauritius</option>
+                        <option value="Mexico">Mexico</option>
+                        <option value="Micronesia">Micronesia</option>
+                        <option value="Midway Islands">Midway Islands</option>
+                        <option value="Moldova">Moldova</option>
+                        <option value="Monaco">Monaco</option>
+                        <option value="Mongolia">Mongolia</option>
+                        <option value="Montserrat">Montserrat</option>
+                        <option value="Morocco">Morocco</option>
+                        <option value="Mozambique">Mozambique</option>
+                        <option value="Myanmar (Burma)">Myanmar (Burma)</option>
+                        <option value="Namibia">Namibia</option>
+                        <option value="Nauru">Nauru</option>
+                        <option value="Nepal">Nepal</option>
+                        <option value="Netherlands">Netherlands</option>
+                        <option value="New Zealand">New Zealand</option>
+                        <option value="Nicaragua">Nicaragua</option>
+                        <option value="Niger">Niger</option>
+                        <option value="Nigeria">Nigeria</option>
+                        <option value="North Korea">North Korea</option>
+                        <option value="Northern Mariana Islands">Northern Mariana Islands</option>
+                        <option value="Norway">Norway</option>
+                        <option value="Oman">Oman</option>
+                        <option value="Pakistan">Pakistan</option>
+                        <option value="Panama">Panama</option>
+                        <option value="Paraguay">Paraguay</option>
+                        <option value="Peru">Peru</option>
+                        <option value="Philippines">Philippines</option>
+                        <option value="Pitcairn">Pitcairn</option>
+                        <option value="Poland">Poland</option>
+                        <option value="Portugal">Portugal</option>
+                        <option value="Qatar">Qatar</option>
+                        <option value="Romania">Romania</option>
+                        <option value="Russia">Russia</option>
+                        <option value="Rwanda">Rwanda</option>
+                        <option value="Saint Lucia">Saint Lucia</option>
+                        <option value="Saint Vincent and the Grenadines">Saint Vincent and the Grenadines</option>
+                        <option value="Samoa">Samoa</option>
+                        <option value="San Marino">San Marino</option>
+                        <option value="Saudi Arabia">Saudi Arabia</option>
+                        <option value="Senegal">Senegal</option>
+                        <option value="Serbia and Montenegro">Serbia and Montenegro</option>
+                        <option value="Singapore">Singapore</option>
+                        <option value="Slovak Republic">Slovak Republic</option>
+                        <option value="Solomon Islands">Solomon Islands</option>
+                        <option value="South Africa">South Africa</option>
+                        <option value="Spain">Spain</option>
+                        <option value="Sri Lanka">Sri Lanka</option>
+                        <option value="Sudan">Sudan</option>
+                        <option value="Suriname">Suriname</option>
+                        <option value="Swaziland">Swaziland</option>
+                        <option value="Sweden">Sweden</option>
+                        <option value="Switzerland">Switzerland</option>
+                        <option value="Syria">Syria</option>
+                        <option value="Taiwan">Taiwan</option>
+                        <option value="Tajikistan">Tajikistan</option>
+                        <option value="Tanzania">Tanzania</option>
+                        <option value="Thailand">Thailand</option>
+                        <option value="Timor-Leste">Timor-Leste</option>
+                        <option value="Togo">Togo</option>
+                        <option value="Tonga">Tonga</option>
+                        <option value="Trinidad and Tobago">Trinidad and Tobago</option>
+                        <option value="Trust Territory of the Pacific Islands">Trust Territory of the Pacific Islands</option>
+                        <option value="Tunisia">Tunisia</option>
+                        <option value="Turkey">Turkey</option>
+                        <option value="Turkmenistan">Turkmenistan</option>
+                        <option value="Turks and Caicos Islands">Turks and Caicos Islands</option>
+                        <option value="Tuvalu">Tuvalu</option>
+                        <option value="Uganda">Uganda</option>
+                        <option value="Ukraine">Ukraine</option>
+                        <option value="United Arab Emirates">United Arab Emirates</option>
+                        <option value="United Kingdom">United Kingdom</option>
+                        <option value="Uruguay">Uruguay</option>
+                        <option value="Uzbekistan">Uzbekistan</option>
+                        <option value="Vanuatu">Vanuatu</option>
+                        <option value="Vatican City">Vatican City</option>
+                        <option value="Venezuela">Venezuela</option>
+                        <option value="Viet Nam">Viet Nam</option>
+                        <option value="Western Samoa">Western Samoa</option>
+                        <option value="White Russia">White Russia</option>
+                        <option value="Yemen">Yemen</option>
+                        <option value="Yugoslavia ">Yugoslavia </option>
+                        <option value="Zambia">Zambia</option>
+                        <option value="Zimbabwe">Zimbabwe</option>
+                      </select></span>
+                    <span class="textfieldRequiredMsg">Country Is Required.</span>
+                  </th>
+                </tr>
+              </table>
+            </th>
+            <th align="left" valign="top" scope="col">&nbsp;</th>
+          </tr>
+          <tr>
+            <th height="10" align="left" valign="top" scope="col"></th>
+            <th align="right" valign="top" class="contsignup" scope="col"></th>
+            <th align="left" valign="top" scope="col"></th>
+            <th align="left" valign="middle" scope="col"></th>
+            <th align="left" valign="top" scope="col"></th>
+          </tr>
+          <tr>
+            <th height="0" align="left" valign="top" scope="col">&nbsp;</th>
+
+            <th align="right" valign="top" class="contsignup" scope="col"><label for="hmm_user_zip"><div id='pcode' style='display:block;'>Postal Code *</div><div id='cty' style='display:none;'>City/Province *</div></lable></th>
+
+            <th align="left" valign="top" scope="col">&nbsp;</th>
+            <th align="left" valign="middle" scope="col">
+              <table width="100%" border="0" cellspacing="0" cellpadding="0">
+                <!-- POSTAL CODE FIELD FOR CUSTOMERS SIGN UP FORM -->
+                <tr>
+                  <th width="143" align="left" valign="top" scope="col">
+                    <span id="sprytextfield7"><span id="sprytextfield7">
+                        <div id='pcode' style='display:block;'><%= text_field 'hmm_user', 'v_zip', :size => 20, :class => "textbox-signup", :id => "hmm_user_v_zip" %></div>
+                        <div id='cty' style='display:none;'><%= text_field 'hmm_user', 'v_city', :size => 20, :class => "textbox-signup" , :id => "hmm_user_v_city"%></div>
+                        <span class="textfieldRequiredMsg">Mandatory field</span></span></span>
+                  </th>
+                  <th align="left" valign="top" scope="col">&nbsp;</th>
+                </tr>
+              </table>
+            </th>
+            <th align="left" valign="top" scope="col">&nbsp;</th>
+          </tr>
+        </table></td>
+    </tr>
+    <tr>
+      <td height="178" align="left" valign="top" >
+        <table width="100%" border="0" cellspacing="0" cellpadding="0">
+          <tr>
+            <th width="78" height="67" align="left" valign="top" scope="col">&nbsp;</th>
+            <th width="186" align="left" valign="top" scope="col">&nbsp;</th>
+            <th width="10" align="left" valign="top" scope="col">&nbsp;</th>
+            <th width="395" align="left" valign="middle" scope="col"><img src="/images/selectanID_heading-signup.gif" width="288" height="22" /></th>
+            <th width="236" align="left" valign="top" scope="col">&nbsp;</th>
+          </tr>
+          <tr>
+            <th height="0" align="left" valign="top" scope="col">&nbsp;</th>
+            <th align="right" valign="top" class="contsignup" scope="col"><label for="hmm_user_e_mail">E-mail *</label></th>
+            <th align="left" valign="top" scope="col">&nbsp;</th>
+            <th align="left" valign="middle" scope="col"><table width="100%" border="0" cellspacing="0" cellpadding="0">
+                <tr>
+                  <th width="143" align="left" valign="top" scope="col">
+                    <span id="sprytextfield11"><span id="sprytextfield11">
+                        <%= text_field 'hmm_user', 'v_e_mail', :size => 20, :class => "textbox-signup", :id => 'v_e_mail'  %>
+                        <%= observe_field   :'v_e_mail',
+                          :with       => "email",
+                          :frequency  => 0.25,
+                          :url        => {:action => :validate_email  },
+                          :update     => :message_email
+                      %>
+                        <span id="message_email"></span>
+                        <span class="textfieldRequiredMsg">E-mail Required</span><span class="textfieldInvalidFormatMsg">Invalid E-mail</span></span></span></th>
+                  <th align="left" valign="top" scope="col">&nbsp;</th>
+                </tr>
+              </table></th>
+            <th align="left" valign="top" scope="col">&nbsp;</th>
+          </tr>
+          <tr>
+            <th height="10" align="left" valign="top" scope="col"></th>
+            <th align="right" valign="top" class="contsignup" scope="col"></th>
+            <th align="left" valign="top" scope="col"></th>
+            <th align="left" valign="middle" scope="col"></th>
+            <th align="left" valign="top" scope="col"></th>
+          </tr>
+          <tr>
+            <th height="0" align="left" valign="top" scope="col">&nbsp;</th>
+            <th align="right" valign="top" class="contsignup" scope="col"><label for="hmm_user_e_mail">Confirm E-mail *</label></th>
+            <th align="left" valign="top" scope="col">&nbsp;</th>
+            <th align="left" valign="middle" scope="col"><table width="100%" border="0" cellspacing="0" cellpadding="0">
+                <tr>
+                  <th  align="left" valign="top" scope="col">
+                    <span id="spryconfirm4">
+                      <input type="text" name="confirm_email" id="confirm_email" class ="textbox-signup">
+                      <br> <span class="confirmRequiredMsg">Confirm Email is required.</span> <br>
+                      <span class="confirmInvalidMsg">Confirm Email does not match</span>
+                    </span></th>
+                </tr>
+              </table></th>
+            <th align="left" valign="top" scope="col">&nbsp;</th>
+          </tr>
+          <tr>
+            <th height="10" align="left" valign="top" scope="col"></th>
+            <th align="right" valign="top" class="contsignup" scope="col"></th>
+            <th align="left" valign="top" scope="col"></th>
+            <th align="left" valign="middle" scope="col"></th>
+            <th align="left" valign="top" scope="col"></th>
+          </tr>
+          <tr>
+            <th height="0" align="left" valign="top" scope="col">&nbsp;</th>
+            <th align="right" valign="top" class="contsignup" scope="col"><label for="hmm_user_user_name">User Name *<br />
+              </label></th>
+            <th align="left" valign="top" scope="col">&nbsp;</th>
+            <th align="left" valign="middle" scope="col"><table width="100%" border="0" cellspacing="0" cellpadding="0">
+                <tr>
+                <input type="hidden" name="payment_type" value="<%=params[:id]%>" />
+                <th width="150" align="left" valign="top" scope="col">
+                  <span id="sprytextfield16"><span id="sprytextfield16">
+                      <% if(request.request_uri == "/customers/new" ) %>
+                        <%= text_field 'hmm_user', 'v_user_name', :size => 20, :class => "textbox-signup", :id =>'v_user_name', :onclick => "disabled" ,:onkeyup => "escapeSpecialCharacters('v_user_name')" %>
+                      <% else if(request.request_uri == "/customers/create" ) %>
+                          <%= text_field 'hmm_user', 'v_user_name', :size => 20, :class => "textbox-signup" , :id =>'v_user_name', :onclick => "disabled" ,:onkeyup => "escapeSpecialCharacters('v_user_name')"%>
+                        <%else %>
+                          <%= text_field 'hmm_user', 'v_user_name', :size => 20, :class => "textbox-signup" , :id =>'v_user_name', :onclick => "disabled" ,:onkeyup => "escapeSpecialCharacters('v_user_name')"%>
+                        <%end%>
+                      <%end%>
+                      <%= observe_field :'v_user_name',
+                        :with       => "username",
+                        :frequency  => 0.25,
+                        :url        => {:action => :validate },
+                        :update     => :message
+                    %>
+                      <span id="message"></span>
+                      <span class="textfieldRequiredMsg"><br>User Name Required</br></span></span></span></th>
+                <th align="left" valign="top" scope="col"><label for="hmm_user_user_name">(No special characters are allowed)</label></th>
+          </tr>
+        </table></th>
+      <th align="left" valign="top" scope="col">&nbsp;</th>
+    </tr>
+    <tr>
+      <th height="10" align="left" valign="top" scope="col"></th>
+      <th align="right" valign="top" class="contsignup" scope="col"></th>
+      <th align="left" valign="top" scope="col"></th>
+      <th align="left" valign="middle" scope="col"></th>
+      <th align="left" valign="top" scope="col"></th>
+    </tr>
+    <tr>
+      <th height="0" align="left" valign="top" scope="col">&nbsp;</th>
+      <th align="right" valign="top" class="contsignup" scope="col"><label for="hmm_user_password">Password *</label></th>
+      <th align="left" valign="top" scope="col">&nbsp;</th>
+      <th align="left" valign="middle" scope="col"><table width="100%" border="0" cellspacing="0" cellpadding="0">
+          <tr>
+            <th width="150" align="left" valign="top" scope="col">
+              <span class="" id="sprypassword12">
+                <%= password_field 'hmm_user', 'v_password', :size => 20, :class => "textbox-signup", :onkeyup => "passwordStrength(this.value)",  :id => 'v_password' %>
+                <span class="passwordRequiredMsg">A value is required.</span> <span class="passwordMinCharsMsg">The minimum number of characters not met.</span> </span>								</th>
+            <th><div id="passwordDescription"></div>
+              <div id="passwordStrength" class="strength0"></div></th>
+            <th align="left" valign="top" scope="col">&nbsp;</th>
+          </tr>
+        </table></th>
+      <th align="left" valign="top" scope="col">&nbsp;</th>
+    </tr>
+    <tr>
+      <th height="10" align="left" valign="top" scope="col"></th>
+      <th align="right" valign="top" class="contsignup" scope="col"></th>
+      <th align="left" valign="top" scope="col"></th>
+      <th align="left" valign="middle" scope="col"></th>
+      <th align="left" valign="top" scope="col"></th>
+    </tr>
+    <tr>
+      <th height="0" colspan="2" align="right" valign="top" class="contsignup" scope="col">Re-type password *</th>
+      <th align="left" valign="top" scope="col">&nbsp;</th>
+      <th align="left" valign="middle" scope="col"><table width="100%" border="0" cellspacing="0" cellpadding="0">
+          <tr>
+            <th width="143" align="left" valign="top" scope="col">
+              <span class="" id="spryconfirm2">
+                <%= password_field  'hmm_user', 'v_password', :size => 20, :class => "textbox-signup", :id =>'v_password_conf' %>
+                <span class="confirmRequiredMsg">A value is required.</span> <span class="confirmInvalidMsg">The values don't match</span> </span></span>								</th>
+
+            <th align="left" valign="top" scope="col">&nbsp;</th>
+          </tr>
+        </table></th>
+      <th align="left" valign="top" scope="col">&nbsp;</th>
+    </tr>
+    <tr>
+      <th height="10" align="left" valign="top" scope="col"></th>
+      <th align="right" valign="top" class="contsignup" scope="col"></th>
+      <th align="left" valign="top" scope="col"></th>
+      <th align="left" valign="middle" scope="col"></th>
+      <th align="left" valign="top" scope="col"></th>
+    </tr>
+    <tr>
+      <th height="0"  align="right" colspan="2" valign="top" class="contsignup" scope="col"><label for="hmm_user_security_a">My Pic *</label></th>
+      <th align="left" valign="top" scope="col">&nbsp;</th>
+      <th align="left" valign="middle" scope="col"><table width="100%" border="0" cellspacing="0" cellpadding="0">
+          <tr>
+            <th width="400" align="left" valign="top" scope="col">
+              <span id="sprytextfield17">
+              <%= file_field 'hmm_user', 'v_myimage', :size => 30, :id =>'v_myimage' %></th>
+          <span class="textfieldRequiredMsg"><br>Upload a Image</br></span></span>
+          <th width="0" align="left" valign="top" scope="col"></th>
+    </tr>
+  </table></th>
+  <th align="left" valign="top" scope="col">&nbsp;</th>
+  </tr>
+  <tr>
+    <th height="10" align="left" valign="top" scope="col"></th>
+    <th align="right" valign="top" class="contsignup" scope="col"></th>
+    <th align="left" valign="top" scope="col"></th>
+    <th align="left" valign="middle" scope="col"></th>
+    <th align="left" valign="top" scope="col"></th>
+  </tr>
+  </table></td>
+  </tr>
+  <tr>
+    <td height="146" align="left" valign="top" >
+      <table width="100%" border="0" cellspacing="0" cellpadding="0">
+        <tr>
+          <th width="148" height="65" align="left" valign="top" scope="col">&nbsp;</th>
+          <th width="116" align="left" valign="top" scope="col">&nbsp;</th>
+          <th width="10" align="left" valign="top" scope="col">&nbsp;</th>
+          <th colspan="2" align="left" valign="middle" scope="col"><img src="/images/incaseyou_heading-signup.gif" width="368" height="27" /></th>
+        </tr>
+        <tr>
+          <th colspan="2" align="right" valign="top" class="contsignup" scope="col"><label for="hmm_user_security_q"> Security Question *</label></th>
+          <th align="left" valign="top" scope="col">&nbsp;</th>
+          <th align="left" valign="middle" scope="col">
+            <table width="100%" border="0" cellspacing="0" cellpadding="0">
+              <tr>
+                <th width="283" align="left" valign="top" scope="col">
+                  <span id="sprytextfield6">
+                    <select name="hmm_user[v_security_q]" id="hmm_user_v_security_q">
+                      <option value="" selected='selected'>[Select Account Security Question]</option>
+                      <option value="What is the name of your favorite pet? ">What is the name of your favorite pet? </option>
+                      <option value="In what city were you born? ">In what city were you born? </option>
+                      <option value="What high school did you attend? ">What high school did you attend? </option>
+                      <option value="What is your favorite movie? ">What is your favorite movie? </option>
+                      <option value="What is your mothers maiden name? ">What is your mothers maiden name? </option>
+                      <option value="What street did you grow up on? ">What street did you grow up on? </option>
+                      <option value="What was the make of your first car? ">What was the make of your first car? </option>
+                      <option value="When is your anniversary? ">When is your anniversary? </option>
+                      <option value="What is your favorite color? ">What is your favorite color? </option>
+                    </select><br/>
+                    <span class="selectRequiredMsg">Security Question Required</span></span>						  </th>
+              </tr>
+            </table>
+          <th width="236" align="left" valign="top" scope="col">&nbsp;</th>
+        </tr>
+        <tr>
+          <th height="10" align="left" valign="top" scope="col"></th>
+          <th align="right" valign="top" class="contsignup" scope="col"></th>
+          <th align="left" valign="top" scope="col"></th>
+          <th align="left" valign="middle" scope="col"></th>
+          <th align="left" valign="top" scope="col"></th>
+        </tr>
+        <tr>
+          <th height="0" align="left" valign="top" scope="col">&nbsp;</th>
+          <th align="right" valign="top" class="contsignup" scope="col" colspan="1"><label for="hmm_user_security_a">Your Answer *</label></th>
+          <th align="left" valign="top" scope="col">&nbsp;</th>
+          <th align="left" valign="middle" scope="col">
+            <table width="100%" border="0" cellspacing="0" cellpadding="0">
+              <tr>
+
+                <th width="370" align="left" valign="top" scope="col">
+                  <span id="sprytextfield15"><span id="sprytextfield15">
+                      <%= text_field 'hmm_user', 'v_security_a', :size => 15, :class => "textbox-signup" %>
+                      <br/><span class="textfieldRequiredMsg">Security Answer Required</span></span></span></th>
+                <th width="5" align="left" valign="top" scope="col"></th>
+              </tr>
+            </table></th>
+          <th align="left" valign="top" scope="col">&nbsp;</th>
+        </tr>
+        <tr>
+          <th align="center" colspan="5" class="contsignup"><br><br><%if session[:employe]%><%else%><br><br> <input type="checkbox" value="true" name="end_user_agreement" id="end_user_agreement"/> I agree to the <a href="/user_account/termsof_use" target="_blank" class="signedtxt style1 style3 style4"><u>End Users License Agreement</u></a> of HoldMyMemories.com<br>
+              <input type="checkbox" value="true" name="privacy_policy" id="privacy_policy"/> I agree to the <a href="/user_account/privacy_policy" target="_blank" class="signedtxt style1 style3 style4"><u>Privacy Policy</u></a> of HoldMyMemories.com
+            <%end%></th>
+        </tr>
+        <tr>
+          <th height="10" align="left" valign="top" scope="col"></th>
+          <th align="right" valign="top" class="contsignup" scope="col"></th>
+          <th align="left" valign="top" scope="col"></th>
+          <th align="left" valign="middle" scope="col"></th>
+          <th align="left" valign="top" scope="col"></th>
+        </tr>
+      </table>
+    </td>
+  </tr>
+  <tr>
+    <th height="120" align="left" valign="top" bgcolor="#000000"  scope="col">
+      <!--class="bgcont2-signup"-->
+      <table width="100%" border="0" cellspacing="0" cellpadding="0">
+        <tr>
+          <th width="322" height="30" align="left" valign="top" scope="col">&nbsp;</th>
+          <th width="131" align="left" valign="top" scope="col">&nbsp;</th>
+          <th width="20" align="left" valign="top" scope="col">&nbsp;</th>
+          <th width="115" align="left" valign="top" scope="col">&nbsp;</th>
+          <th width="257" align="left" valign="top" scope="col">&nbsp;</th>
+        </tr>
+        <tr>
+          <th height="30" align="left" valign="top" scope="col">&nbsp;</th>
+          <th align="left" valign="top" scope="col"><!--<input type='image' id="regsubmit" src="/images/createmy-ac_over-signup.gif" width="131" height="38" value="Create" />-->
+            <input type="submit" id="regsubmit" class="cmd-btn" value="Create My Account" style="cursor:pointer;" width="131" height="38" onClick="return terms_check();">
+          </th>
+          <th align="left" valign="top" scope="col">&nbsp;</th>
+          <th align="left" valign="top" scope="col"><!--<a href="/user_account/login" onmouseout="MM_swapImgRestore()" onmouseover="MM_swapImage('Image42','','/images/cancel_over_signup.gif',1)"><img src="/images/cancel_def_signup.gif" name="Image42" width="115" height="38" border="0" id="Image42" /></a>-->
+            <input type="button" id="Image42" class="cmd-btn" value="Cancel" style="cursor:pointer;" width="131" height="38" onclick="window.location='/user_account/login'">
+          </th>
+          <th align="left" valign="top" scope="col">&nbsp;</th>
+        </tr>
+        <tr>
+          <th height="30" align="left" valign="top" scope="col">&nbsp;</th>
+          <th align="left" valign="top" scope="col"></th>
+          <th align="left" valign="top" scope="col">&nbsp;</th>
+          <th align="left" valign="top" scope="col"><div id="imgmsg" style="display:none;">Please wait as your account is being created...<br>This could take a couple of minutes...</div></th>
+          <th align="left" valign="top" scope="col">&nbsp;</th>
+        </tr>
+      </table>
+    </th>
+  </tr>
+  </table>
+<%end%>          
+<script type="text/javascript">
+var sprytextfield1 = new Spry.Widget.ValidationTextField("sprytextfield1", "none", {validateOn:["blur"],hint:'First Name',isRequired:true});
+var sprytextfield2 = new Spry.Widget.ValidationTextField("sprytextfield2", "none", {validateOn:["blur"], hint:'Last Name'});
+var sprytextfield4 = new Spry.Widget.ValidationTextField("sprytextfield4", "none", {validateOn:["blur"]});
+var sprytextfield6 = new Spry.Widget.ValidationSelect("sprytextfield6", {validateOn:["change"]});
+var sprytextfield7 = new Spry.Widget.ValidationTextField("sprytextfield7", "none", {validateOn:["blur"]});
+var sprytextfield11 = new Spry.Widget.ValidationTextField("sprytextfield11", "email", {validateOn:["blur"]});
+var sprytextfield15 = new Spry.Widget.ValidationTextField("sprytextfield15", "none", {validateOn:["blur"]});
+var sprytextfield16 = new Spry.Widget.ValidationTextField("sprytextfield16", "none", {validateOn:["blur"]});
+var sprytextfield17 = new Spry.Widget.ValidationTextField("sprytextfield17", "none", {validateOn:["blur"]});
+var sprypassword12 = new Spry.Widget.ValidationPassword("sprypassword12",{validateOn:["blur"]});
+var spryconf1 = new Spry.Widget.ValidationConfirm("spryconfirm2", "sprypassword12", {validateOn: ['blur']});
+//Email Validation
+var spryconf3 = new Spry.Widget.ValidationConfirm("spryconfirm4", "sprytextfield11", {validateOn: ['blur']});
+var RadioWidget  = new Spry.Widget.ValidationRadio("RadioWidget",2);
+var RadioWidget1  = new Spry.Widget.ValidationRadio("RadioWidget1",2);
+</script>

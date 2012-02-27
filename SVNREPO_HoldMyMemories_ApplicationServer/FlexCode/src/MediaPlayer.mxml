@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:Application xmlns:mx="http://www.adobe.com/2006/mxml" layout="absolute" width="100%" height="100%" 
+	xmlns:components="components.*"	backgroundColor="0x0" backgroundAlpha="1" 
+	creationComplete="handleCreationComplete()" modalTransparencyColor="0x0" modalTransparency="0.0" 
+	modalTransparencyBlur="0" borderStyle="solid" borderColor="0X999999" borderThickness="1"
+	preloader="custompreloader.PreloaderHourGlass" initialize="handleInitialize()">
+	
+	<mx:Script>
+		<![CDATA[
+			import custompreloader.PreloaderHourGlass;
+			import mx.core.IDataRenderer;
+			import components.StandAloneVideoPlayer;
+			import components.HmmAudioPlayer;
+			import components.HmmVideoPlayer;
+			import mx.managers.PopUpManager;
+			import mx.core.IFlexDisplayObject;
+			[Bindable]
+			private var selectedChild : int;
+			private var player : IFlexDisplayObject;
+			
+			private function handleInitialize() : void
+			{
+				var url : String = Application.application.parameters.proxyurl;
+				Security.loadPolicyFile(url+"/crossdomain.xml");
+			}
+			private function handleCreationComplete() : void
+			{
+				var type : String = Application.application.parameters.hmmtype;
+				player = PopUpManager.createPopUp(this, StandAloneVideoPlayer, false);
+				player.x = 0;
+				player.y = 0;
+				var obj : Object = new Object();
+				obj.type = type;
+				var content : String = Application.application.parameters.content;
+				obj.icon = Application.application.parameters.content;
+				StandAloneVideoPlayer(player).isStandAlone = true;
+				IDataRenderer(player).data = obj; 
+				
+			}
+		]]>
+	</mx:Script>
+</mx:Application>

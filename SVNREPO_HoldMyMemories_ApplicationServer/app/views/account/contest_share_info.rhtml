@@ -1,0 +1,27 @@
+<table border="0" width="80%">
+  <tr> <h2>Detailed info about the sharing Contest Entry</h2> </tr>
+    <tr valign='center' align='center'>
+
+
+       <th background="/images/body_hor.JPG"><font class='txt'><table> <tr>First Name</tr></table></font></th>
+      <th background="/images/body_hor.JPG"><font class='txt'><table> <tr>Moment Type</tr></table></font></th>
+      <th background="/images/body_hor.JPG"><font class='txt'><table> <tr>Number of times shared</tr></table></font></th>
+
+    </tr>
+
+<% 	odd_or_even = 0
+	i = 0
+	for colmn in @contest_info
+	 i = i + 1
+	odd_or_even = 1 - odd_or_even
+ %>
+
+  <tr class='ListLine<%= odd_or_even %>'>
+    <td align="center"><%= colmn.first_name%></td>
+      <td align="center"><%= colmn.moment_type%></td>
+    <td align="center"> <%=  @controller.number_counts(colmn.contest_id,colmn.share_type) %></td>
+  </tr>
+  <%end%>
+</table>
+
+ <%= will_paginate @contest_info%>

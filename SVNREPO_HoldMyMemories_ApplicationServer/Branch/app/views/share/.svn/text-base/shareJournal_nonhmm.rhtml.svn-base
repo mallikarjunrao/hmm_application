@@ -1,0 +1,249 @@
+<style>
+	.text-color{
+		font-family: Verdana, Arial, Helvetica, sans-serif;
+		color: #ffffff
+	}
+	.text-header{
+		font-family: Verdana, Arial, Helvetica, sans-serif;
+		font-size: larger;
+		color: #ffffff
+	}
+</style>
+<%session['redirect']='1'%> 
+<%@shareid = params[:id]
+	
+   @share_journal = ShareJournal.find(:all, :conditions => "unid='#{params[:id]}'")
+      params[:id] = @share_journal[0]['id']
+	  @journalshareid = params[:id] 
+      params[:id] = @share_journal[0]['jid']
+      @journalid = params[:id]  
+      params[:id] = @share_journal[0]['jtype']
+      @journaltype = params[:id]
+    %>
+
+<% if @journaltype == 'chapter' %>
+	<%@chap_journal = ChapterJournal.find(:all, :joins => "as a, tags as b", :conditions => "a.id=#{@journalid} and a.tag_id=b.id") %>
+	<% for @j in @chap_journal%>
+		<table width="898" border="0">
+			<tr>
+				<td colspan="2" align="left" class="text-header" bgcolor="#191919">
+					journal for Chapter <%=@j.v_tagname%>
+				</td>
+			</tr>
+			
+				<%if(@j.v_chapimage == "folder_img.png")
+					imgpath='/user_content/photos/big_thumb/noimage.jpg'
+	  			else	
+        			imageName  = @j.v_chapimage
+        			imageName.slice!(-3..-1)
+        			imgpath=@j.img_url+'/user_content/photos/flex_icon/'+imageName+'jpg'
+      			end %>
+				
+			<tr>
+				<td width="100">
+					<img src="<%=imgpath%>" border='0' width="192"/>
+				</td >
+				<td align="left" valign="top" class="heading-journal">
+					<%= @j.v_tag_title %>&nbsp;&nbsp;
+					<% ActiveSupport::CoreExtensions::Time::Conversions::DATE_FORMATS.merge!(
+    				:date => "%Y-%m-%d",
+    				:presentable_datetime => "%a %b %d, %Y %H:%M",
+    				:presentable_date => "%a %b %d, %Y") 
+					@created_date=@j.d_created_at%>  
+
+				<%=@created_date.to_s(:presentable_date)%></span>
+				<br><br>
+				&nbsp;&nbsp;<font color="#ffffff" size="2"><%=@j.v_tag_journal%></font>
+				</td>
+			</tr>
+		</table>
+		<table border="0">
+		<tr>
+			<td>
+				<%= link_to_remote("Add Comment", :update =>"me", 
+		:url => {:controller => :share_journalcomments, :action => :new, :id=> @journalshareid, :id_journal => @journalid, :type_journal => @journaltype, :redirect_id => @shareid }, :layout => false  ) %>
+				
+				<div id="me" ></div>
+				<font color="#f5dfa6"><%=flash[:noticenonhmm_jcmt]%></font>
+			</td>
+		</tr>
+	</table>
+	<%end%>
+
+<%else if @journaltype == 'subchap' %>
+	<%@subchap_journal = SubChapJournal.find(:all, :joins => "as a, sub_chapters as b", :conditions => "a.id=#{@journalid} and a.sub_chap_id=b.id") %>
+	<% for @k in @subchap_journal%>
+	<table width="898" border="0">
+			<tr>
+				<td colspan="2" align="left" class="text-header" bgcolor="#191919">
+					journal for Sub-Chapter <%=@k.v_image%>
+				</td>
+			</tr>
+			
+				<%if(@k.v_image == "folder_img.png")
+					imgpath='/user_content/photos/big_thumb/noimage.jpg'
+	  			else	
+        			imageName  = @k.v_image
+        			imageName.slice!(-3..-1)
+        			imgpath=@k.img_url+'/user_content/photos/flex_icon/'+imageName+'jpg'
+      			end %>
+				
+			<tr>
+				<td width="100">
+					<img src="<%=imgpath%>" border='0' width="192"/>
+				</td >
+				<td align="left" valign="top" class="heading-journal">
+					<%= @k.journal_title %>&nbsp;&nbsp;
+					<% ActiveSupport::CoreExtensions::Time::Conversions::DATE_FORMATS.merge!(
+    				:date => "%Y-%m-%d",
+    				:presentable_datetime => "%a %b %d, %Y %H:%M",
+    				:presentable_date => "%a %b %d, %Y") 
+					@created_date=@k.created_on%>  
+
+				<%=@created_date.to_s(:presentable_date)%></span>
+				<br><br>
+				&nbsp;&nbsp;<font color="#ffffff" size="2"><%=@k.subchap_journal%></font>
+				</td>
+			</tr>
+		</table>
+		<table border="0">
+		<tr>
+			<td>
+				<%= link_to_remote("Add Comment", :update =>"me", 
+		:url => {:controller => :share_journalcomments, :action => :new, :id=> @journalshareid, :id_journal => @journalid, :type_journal => @journaltype, :redirect_id => @shareid }, :layout => false  ) %>
+				
+				<div id="me" ></div>
+				<font color="#f5dfa6"><%=flash[:noticenonhmm_jcmt]%></font>
+			</td>
+		</tr>
+	</table>
+	<%end%>
+
+<%else if @journaltype == 'gallery' %>
+	<%@gal_journal = GalleryJournal.find(:all, :joins => "as a, galleries as b", :conditions => "a.id=#{@journalid} and a.galerry_id=b.id") %>
+	<% for @l in @gal_journal%>
+	<table width="898" border="0">
+			<tr>
+				<td colspan="2" align="left" class="text-header" bgcolor="#191919">
+					journal for Gallery <%=@l.v_gallery_name%>
+				</td>
+			</tr>
+			
+				<%if(@l.v_gallery_image == "folder_img.png")
+					imgpath='/user_content/photos/big_thumb/noimage.jpg'
+	  			else	
+        			imageName  = @l.v_gallery_image
+        			imageName.slice!(-3..-1)
+        			imgpath=@l.img_url+'/user_content/photos/flex_icon/'+imageName+'jpg'
+      			end %>
+				
+			<tr>
+				<td width="100">
+					<img src="<%=imgpath%>" border='0' width="192"/>
+				</td >
+				<td align="left" valign="top" class="heading-journal">
+					<%= @l.v_title %>&nbsp;&nbsp;
+					<% ActiveSupport::CoreExtensions::Time::Conversions::DATE_FORMATS.merge!(
+    				:date => "%Y-%m-%d",
+    				:presentable_datetime => "%a %b %d, %Y %H:%M",
+    				:presentable_date => "%a %b %d, %Y") 
+					@created_date=@l.d_created_on%>  
+
+				<%=@created_date.to_s(:presentable_date)%></span>
+				<br><br>
+				&nbsp;&nbsp;<font color="#ffffff" size="2"><%=@l.v_journal%></font>
+				</td>
+			</tr>
+		</table>
+		<table border="0">
+		<tr>
+			<td>
+				<%= link_to_remote("Add Comment", :update =>"me", 
+		:url => {:controller => :share_journalcomments, :action => :new, :id=> @journalshareid, :id_journal => @journalid, :type_journal => @journaltype, :redirect_id => @shareid }, :layout => false  ) %>
+				
+				<div id="me" ></div>
+				<font color="#f5dfa6"><%=flash[:noticenonhmm_jcmt]%></font>
+			</td>
+		</tr>
+	</table>
+	<%end%>
+	
+<%else if @journaltype == 'photo' %>
+	<%@photo_journal = JournalsPhoto.find(:all, :joins => "as a, user_contents as b", :conditions => "a.id=#{@journalid} and a.user_content_id=b.id " ) %>
+	<% for @l in @photo_journal%>
+	<table width="898" border="0">
+			<tr>
+				<td colspan="2" align="left" class="text-header" bgcolor="#191919">
+					journal for <%=@l.v_title%> Moment 
+				</td>
+			</tr>
+			<tr>
+				<td width="200">
+				<% if (@l.e_filetype == 'image') %>
+				<%if(@l.v_filename == "folder_img.png")
+					imgpath='/user_content/photos/big_thumb/noimage.jpg'
+	  			else	
+        			imageName  = @l.v_filename
+        			imageName.slice!(-3..-1)
+        			imgpath=@l.img_url+'/user_content/photos/big_thumb/'+imageName+'jpg'
+      			end %>
+				
+				<%for m in @user_contentID %>
+				<a href="/share/shareJournalnonhmm_momentview/<%=m.user_content_id%>">
+				<img src="<%=imgpath%>" border='0' width="192"/>
+				<font size="2">Click Here to view this Image</font></a>
+				<%end%>
+			
+			<%else%>
+			<% if (@l.e_filetype == 'video' || @l.e_filetype == 'swf' ) %>	
+			<%for m in @user_contentID %>
+			<a href="/share/shareJournalnonhmm_momentview/<%=m.user_content_id%>">
+				<img src="<%=@l.img_url%>/user_content/videos/thumbnails/<%=@l.v_filename%>.jpg" border='0' width="192"/>
+				<font size="2">Click Here to view this Video</font></a>
+				<%end%>
+			
+			<%else%>
+			<% if (@l.e_filetype == 'audio') %>
+			<%for m in @user_contentID %>
+			<a href="/share/shareJournalnonhmm_momentview/<%=m.user_content_id%>">
+				<img src="/user_content/audios/speaker.jpg" border='0' width="192"/>
+			<font size="2">Click Here to listen this Audio</font></a>
+			<%end%>			
+			<%end%><%end%><%end%>	
+			
+					
+				</td >
+				<td align="left" valign="top" class="heading-journal">
+					<%= @l.v_title %>&nbsp;&nbsp;
+					<% ActiveSupport::CoreExtensions::Time::Conversions::DATE_FORMATS.merge!(
+    				:date => "%Y-%m-%d",
+    				:presentable_datetime => "%a %b %d, %Y %H:%M",
+    				:presentable_date => "%a %b %d, %Y") 
+					@created_date=@l.date_added%>  
+
+				<%=@created_date.to_s(:presentable_date)%></span>
+				<br><br>
+				&nbsp;&nbsp;<font color="#ffffff" size="2"><%=@l.v_image_comment%></font>
+				</td>
+			</tr>
+		</table>
+		
+	
+	<table border="0">
+		<tr>
+			<td>
+				<%= link_to_remote("Add Comment", :update =>"me", 
+		:url => {:controller => :share_journalcomments, :action => :new, :id=> @journalshareid, :id_journal => @journalid, :type_journal => @journaltype, :redirect_id => @shareid }, :layout => false  ) %>
+				
+				<div id="me" ></div>
+				<font color="#f5dfa6"><%=flash[:noticenonhmm_jcmt]%></font>
+			</td>
+		</tr>
+	</table>
+	
+	<%end%>
+
+<%end%>
+<%end%>
+<%end%>
+<%end%>

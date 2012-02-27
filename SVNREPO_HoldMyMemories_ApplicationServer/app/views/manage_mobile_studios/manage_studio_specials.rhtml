@@ -1,0 +1,108 @@
+<script type="text/javascript">
+  function check_terms()
+  {
+    if(document.getElementById('title').value == '')
+      {
+        alert("Please enter the Studio Title");
+        return false;
+      }
+      if(document.getElementById('description').value == '')
+      {
+        alert("Please enter the Description");
+        return false;
+      }
+      return true;
+  }
+  </script>
+<table width="900"  border="0" cellspacing="0" cellpadding="0">
+  <tr><td valign="top">
+      <%= render :partial => 'links' %>
+    </td><td>
+
+<form name="frm" action="/manage_mobile_studios/add_studio_specials/" method="post" >
+
+    <table width="600" border="0" cellspacing="0" cellpadding="0">
+<tr><td valign="top" class="leftconthr"> <h3><font color="#ff6400">Create your iPhone App in 5 Easy Steps</h3></font></td></tr>
+
+      <tr>
+        <td colspan="4" align="left" valign="top" class="leftconthr"><h3><u>Step5: Add Studio Special</u></h3></td>
+      </tr>
+
+      <tr>
+        <td colspan="4" align="center" valign="top" class="leftconthr">
+          <%if(flash[:notice])%>
+            <font color="#FF0000"><%=flash[:notice]%></font>
+          <%end%>
+        </td>
+      </tr>
+       <%if @special_count  > 0 %>
+      <tr>
+        <td  align="left" valign="top" class="whitecont">Studio Special Title *<select name="title" id="title" />
+            <%  for special in @specials %>
+            <option value="<%=special.coupon_title%>"><%=special.coupon_title%></optiopn>
+          <%end%>
+        </td>
+      </tr>
+       <%else%>
+      <tr>
+
+        <td  align="left" valign="top" class="whitecont">Studio Special Title *<input type="text" name="title" id="title" value="">
+        </td>
+      </tr>
+       <%end%>
+      <tr>
+
+        <td align="left" valign="top">&nbsp;</td>
+      </tr>
+      <tr>
+
+        <td  align="left" valign="top" class="whitecont">Description (150 Characters only) * </td>
+        </tr>
+      <tr>
+
+      <td  align="left" valign="top" class="whitecont"><textarea name="description" id="description" rows="5" cols="50"></textarea></td>
+
+      </tr>
+      <tr><td align="center" colspan="4" valign="top">&nbsp;</td></tr>
+      <tr>
+        <td align="left" colspan="1" valign="top">
+          <input type="hidden" name="emp_id" value="<%=session[:employe]%>" />
+          <input type="submit" id="sub" name="sub" class="cmd-btn" value="Add" style="cursor:pointer;" onClick="return check_terms();">
+        </td>
+      </tr>
+
+      <tr>
+        <td align="left" valign="top">&nbsp;</td>
+        <td align="left" valign="top">&nbsp;</td>
+        <td align="left" valign="top">&nbsp;</td>
+        <td align="left" valign="top">&nbsp;</td>
+      </tr>
+
+    </table>
+</form>
+<table width="600">
+  <tr><td> Previous Specials</td><tr>
+  <tr>
+    <th width="154" background="/images/body_hor.JPG" ><font class='txt'>Special</th>
+    <th width="412" background="/images/body_hor.JPG" ><font class='txt'>Description </th>
+    <th background="/images/body_hor.JPG" colspan="3"><font class='txt'>Action</th>
+  </tr>
+  <% if @studio_specials!=nil && @studio_specials.length>0 %>
+    <% for studio in @studio_specials %>
+      <tr class="<%= cycle('odd', 'even') %>">
+        <td><%= studio.title %></td>
+        <td><%= studio.description %></td>
+        <td width="55"><div align="center"><%= link_to 'Edit', :action => 'edit_studio_specials', :id => studio.id %></div></td>
+        <td width="59"><div align="center"><%= link_to 'Delete', { :action => 'delete_studio_specials', :id => studio.id }, :confirm => 'Are you sure?', :method => :post %></div></td>
+      </tr>
+    <% end %>
+  <% else %>
+    <tr><td align="center" colspan="4">Studio specials not found.</td></tr>
+  <% end %>
+</table>
+
+<br />
+
+<p><%=will_paginate @studio_specials%></p>
+ </td>
+</tr></table>

@@ -1,0 +1,24 @@
+<table width="100%" cellpadding="0" cellspacing="0" border="0" style="padding-top: 10px;"  >
+  <tr><td align="left"><h2>Add Price</h2></td></tr>
+  <tr><td align="right"><a href="/print_size_prices/franchise_list">Back</a></td></tr>
+
+  <tr><td>
+      <% form_for :print_size_price, @price, :url => { :action => "franchise_add" } do |f| %>
+        <table width="100%" cellpadding="5" cellspacing="5" border="0">
+          <tr><td align="left" colspan="3"><%= f.error_messages %></td></tr>
+          <tr><td>Sizes <font color="red">*</font></td><td>:</td><td><%= f.collection_select :print_size_id, PrintSize.find(:all, :conditions => "1=1 #{@exclude_sizes}"), :id, :label %></td></tr>
+          <tr><td>Price <font color="red">*</font></td><td>:</td><td><%= f.text_field :price %> (dollars)</td></tr>
+          <tr><td id="qty">Price After 72 hours </td><td>:</td><td><%= f.text_field :pricelt72 %> (dollars for single image)</td></tr>
+           <tr><td>Quantity <font color="red">*</font></td><td>:</td><td><%= f.text_field :quantity %> </td></tr>
+          <tr><td>Maintain Image Aspect Ratio<font color="red">*</font></td><td>:</td><td><%= f.radio_button 'aspect_ratio','yes'%> Yes &nbsp;&nbsp;&nbsp;&nbsp;<%= f.radio_button'aspect_ratio','no'%> No</td></tr>
+          <tr><td>Processed By <font color="red">*</font></td><td>:</td><td><%=  f.radio_button(:process_studio_id,'0', :checked =>"checked")%>HoldMyMemories
+  <%=  f.radio_button(:process_studio_id, params[:id]) %>Self</td></tr>
+          <tr><td colspan="3" align="center"><div id='blk' style='display:block;'>
+		  <input type="submit" name="sub" id="sub" value="ADD" onClick="javascript:document.getElementById('blk').style.display='none';">
+		  </div></td></tr>
+          <tr><td colspan="3"><font color="red">*</font> Indicates required field</td></tr>
+        </table>
+      <%= f.hidden_field :studio_id, :value=>"#{@studio_id}" %>
+      <% end %>
+    </td></tr>
+</table>

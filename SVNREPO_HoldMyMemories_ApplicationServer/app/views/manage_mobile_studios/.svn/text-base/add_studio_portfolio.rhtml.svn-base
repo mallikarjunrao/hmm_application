@@ -1,0 +1,262 @@
+<%= javascript_include_tag 'check_flash' %>
+<%= stylesheet_link_tag 'main' %>
+<%= stylesheet_link_tag 'hmmout' %>
+<script type="text/javascript">
+  function validateFileExtension(fld) {
+    if(!/(\.png|\.PNG)$/i.test(fld.value)) {
+      alert("Invalid file type.. Please Upload only transparent PNG image file!!");
+      fld.focus();
+      fld.value = '';
+      return false;
+    }
+  return true;
+}
+</script>
+
+
+<script type="text/javascript">
+
+
+    function add_more() {
+      var ni = document.getElementById('myDiv');
+      var numi = document.getElementById('theValue');
+      var num = (document.getElementById("theValue").value -1)+ 2;
+      numi.value = num;
+      var divIdName = num;
+      var txt = "<br>Upload Portfolio  Image * &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type='file' name='portfolio_image["+divIdName+"][]'  id='portfolio_image' multiple='' onChange='return validateFileExtension(this)' />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Portfolio Title/Name* &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type='text' name='title[]' id='title' size='25' />";
+      var table = document.getElementById('dvFile1');
+      var temp  = document.createElement("div");
+      temp.innerHTML =  txt;
+      table.appendChild(temp);
+    }
+
+function validate(f){
+  var num = (document.getElementById("theValue").value -1)+ 2;
+  var chkFlg = false;
+  var chkFlg1 = false;
+  for(var i=0; i < num; i++) {
+    if(f.elements[i].type=="file" && f.elements[i].value != "") {
+      chkFlg = true;
+    }
+  }
+  if(!chkFlg) {
+      alert('Please browse/choose at least one file');
+      return false;
+    }
+
+    for(var i=0; i < num; i++)
+    {
+      if(f.elements[i].type=="text" && f.elements[i].value != "")
+      {
+        chkFlg1 = true;
+      }
+     }
+      if(!chkFlg1) {
+        alert("Please enter the Title");
+        return false;
+      }
+       var i =1;
+          var cntf = 0;
+          var cntt = 0;
+          while(i <= num*2)
+          {
+             if(f.elements[i].type=="file" && f.elements[i].value != "")
+            {
+              cntf = cntf + 1;
+              if(!/(\.png|\.PNG)$/i.test(f.elements[i].value)) {
+            alert("Invalid file type.. Please Upload only transparent PNG image file!!");
+            return false;
+             }
+
+            }
+            i=i+2;
+          }
+          var i = 2
+          while(i <= num * 2)
+          {
+            if(f.elements[i].type=="text" && f.elements[i].value != "")
+            {
+              cntt = cntt + 1
+            }
+              i =i+2;
+          }
+
+          if (cntf > cntt)
+          {
+            alert("Please enter title for all  the portfolios ");
+            return false;
+          }
+          else if(cntt > cntf)
+          {
+            alert("Please select file for all porfolio title");
+            return false;
+          }
+ return true;
+}
+function check_terms()
+{
+  var num = (document.getElementById("theValue").value -1)+ 2;
+  var divIdName = num;
+  checked=false;
+  for(j=0;j<divIdName;j++)
+  {
+    var k=new String('j')
+     //alert(print_r(document.getElementsByName('portfolio_image[1][]')));
+    var len=document.getElementsByName('portfolio_image');
+
+    for(i=0;i<len.length;i++)
+    {
+      if(len[i].value!='')
+      {
+        checked=true;
+        break;
+      }
+    }
+    if(checked==false)
+    {
+      alert("Please Upload a PNG transparent About Us Logo");
+      //document.frm.portfolio_image.focus();
+      return false;
+    }
+
+    if(!/(\.png|\.PNG)$/i.test(document.frm.portfolio_image.value)) {
+      alert("Invalid file type.. Please Upload only transparent PNG image file!!");
+      document.frm.portfolio_image.focus();
+      return false;
+    }
+
+
+
+  }
+}
+
+</script>
+  <script type="text/javascript">
+        function uploading() {
+         var e=document.getElementById('loadingMessage');
+           e.style.display="block"
+            var e1=document.getElementById('loadingMessage_images');
+           e1.style.display="none"
+          return true;
+       }
+    </script>
+
+<table width="900"  border="0" cellspacing="0" cellpadding="0">
+  <tr><td valign="top">
+      <%= render :partial => 'links' %>
+    </td><td>
+
+<form name="frm" action="<%=request_content_url%>/manage_mobile_studios_content/create_studio_portfolio/?studio_id=<%=@employee.store_id%>" method="post" enctype="multipart/form-data" onsubmit="return uploading();">
+<input type="hidden" value="2" id="theValue" />
+    <table width="900" border="0" cellspacing="0" cellpadding="0" >
+      <tr><td valign="top" class="leftconthr"> <h3><font color="#ff6400">Create your iPhone App in 5 Easy Steps</h3></font></td></tr>
+   <tr>
+        <td colspan="4" align="left" valign="top" class="leftconthr"><h3><u>Step3: Upload Your Studio Portfolio</u></h3></td>
+      </tr>
+      <tr>
+        <td colspan="4" align="right" valign="top" class="leftconthr"><a href="/manage_mobile_studios/manage_studio_portfolios"><< Back</a>
+
+        </td>
+      </tr>
+      <tr>
+        <td colspan="4" align="center" valign="top" class="leftconthr">
+          <%if(params[:success]=='1')%>
+            <font color="#FF0000">Studio Portfolio Added Successfully</font>
+          <%end%>                            </td>
+      </tr>
+</table>
+<table width="93%" border="0" cellspacing="0" cellpadding="0" id="loadingMessage" align="center" style="display:none;">
+            <tr height="40"><td>
+                <img src="/images/ajax-loader.gif" /></td></tr><tr><td>Please wait until the images get uploaded...
+              </td></tr></table>
+<table width="780" border="0" cellspacing="0" cellpadding="0" id="loadingMessage_images">
+      <tr>
+        <td align="left" valign="top">&nbsp;</td>
+        <td align="left" valign="top">&nbsp;</td>
+        <td align="left" valign="top">&nbsp;</td>
+        <td align="left" valign="top">&nbsp;</td>
+      </tr><tr class="txt">
+        <td width="145" align="left" valign="top" class="whitecont">Upload Portfolio  Image * </td>
+
+        <td width="50" align="left" valign="top">
+          <input type="file" name="portfolio_image[0][]" id="portfolio_image" multiple="" onChange="return validateFileExtension(this)" />
+        </td>
+        <td width="140" align="left" valign="top" class="whitecont">Portfolio Title/Name* </td>
+         <td width="100" align="left" valign="top"><input type="text" name="title[]" id="title" size="25" /></td>
+      </tr>
+<tr>
+        <td align="left" valign="top">&nbsp;</td>
+        <td align="left" valign="top">&nbsp;</td>
+        <td align="left" valign="top">&nbsp;</td>
+        <td align="left" valign="top">&nbsp;</td>
+      </tr>
+<tr>
+        <td width="145" align="left" valign="top" class="whitecont">Upload Portfolio  Image * </td>
+
+        <td width="50" align="left" valign="top">
+          <input type="file" name="portfolio_image[1][]" id="portfolio_image" multiple="" onChange="return validateFileExtension(this)" />
+        </td>
+        <td width="140" align="left" valign="top" class="whitecont">Portfolio Title/Name* </td>
+         <td width="100" align="left" valign="top"><input type="text" name="title[]" id="title" size="25" /></td>
+      </tr>
+<tr>
+        <td align="left" valign="top">&nbsp;</td>
+        <td align="left" valign="top">&nbsp;</td>
+        <td align="left" valign="top">&nbsp;</td>
+        <td align="left" valign="top">&nbsp;</td>
+</tr>
+<tr class="txt">
+        <td width="145" align="left" valign="top" class="whitecont">Upload Portfolio  Image * </td>
+
+        <td width="50" align="left" valign="top">
+          <input type="file" name="portfolio_image[2][]" multiple="" id="portfolio_image" onChange="return validateFileExtension(this)" />
+        </td>
+        <td width="140" align="left" valign="top" class="whitecont">Portfolio Title/Name* </td>
+         <td width="100" align="left" valign="top"><input type="text" name="title[]" id="title" size="25" /></td>
+      </tr>
+      <tr class="txt"><td>&nbsp;</td></tr>
+<tr><td colspan="4"><table border="0" border="0" cellspacing="0" cellpadding="0" id="dvFile1"></table></td></tr>
+      <tr>
+        <td align="left" valign="top">&nbsp;</td>
+        <td align="left" valign="top">&nbsp;</td>
+        <td align="left" valign="top">&nbsp;</td>
+        <td align="left" valign="top">&nbsp;</td>
+      </tr>
+      <tr>
+        <td>
+          <input type="button" name="Add More" value="Add More" id="addmore" onclick="add_more();" />
+        </td>
+      </tr>
+      <tr>
+        <td align="left" valign="top">&nbsp;</td>
+        <td align="left" valign="top">&nbsp;</td>
+        <td align="left" valign="top">&nbsp;</td>
+        <td align="left" valign="top">&nbsp;</td>
+      </tr>
+      <tr>
+        <td align="left" valign="top">&nbsp;</td>
+        <td align="left" valign="top">&nbsp;</td>
+        <td align="left" valign="top">&nbsp;</td>
+        <td align="left" valign="top">&nbsp;</td>
+      </tr>
+      <tr>
+        <td align="left" valign="top">&nbsp;</td>
+        <td align="left" valign="top"> &nbsp;</td>
+        <td align="left" valign="top"><input type="submit" id="sub" name="sub" class="cmd-btn" value="Add" style="cursor:pointer;" onClick="return validate(frm);" /></td>
+        <td align="left" valign="top">
+
+
+        </td>
+      </tr>
+
+      <tr>
+        <td align="left" valign="top">&nbsp;</td>
+        <td align="left" valign="top">&nbsp;</td>
+        <td align="left" valign="top">&nbsp;</td>
+        <td align="left" valign="top">&nbsp;</td>
+      </tr>
+
+    </table>
+</form>
+ </td>
+</tr></table>

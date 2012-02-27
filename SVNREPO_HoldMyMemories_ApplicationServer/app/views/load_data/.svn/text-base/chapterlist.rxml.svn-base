@@ -1,0 +1,54 @@
+xml.instruct! :xml, :version=>"1.0"
+xml.root {
+  #chapters listing
+  xml.chapters{
+    xml.userid("#{@userid}")
+    for chapter_value in @results
+      xml.chapter{
+        xml.id("#{chapter_value.id}")
+        xml.access(chapter_value.e_access)
+        xml.name(chapter_value.v_tagname)
+        xml.icon(chapter_value.img_url+"/user_content/photos/icon_thumbnails/#{chapter_value.v_chapimage}")
+        xml.tags(chapter_value.v_chapter_tags)
+        xml.description(chapter_value.v_desc)
+        xml.defaulttag(chapter_value.default_tag)
+        xml.tagtype(chapter_value.tag_type)
+        subchaptercheck=SubChapter.count(:all,:conditions => "store_id is not null and tagid='#{chapter_value.id}'")
+#        if chapter_value.import_type != "default"
+#          xml.editable("false")
+        if (chapter_value.v_tagname.upcase).index('STUDIO') == nil && (chapter_value.v_tagname.upcase).index('STUDIOS') == nil && (chapter_value.v_tagname.upcase).index('SESSION') == nil && (chapter_value.v_tagname.upcase).index('SESSIONS') == nil
+          xml.editable("true")
+        else
+          xml.editable("false")
+        end
+        #      if(subchaptercheck > 0 || chapter_value.default_tag =="no")
+        #        xml.editable("false")
+        #      else
+        #        xml.editable("true")
+        #      end
+
+        #Blog Data Read
+        blogcount=Blog.count(:conditions => "blog_type_id='#{chapter_value.id}' and blog_type='chapter'")
+        if(blogcount>0)
+          blogdata=Blog.find(:first, :conditions => "blog_type_id='#{chapter_value.id}' and blog_type='chapter'")
+          xml.blog_status("yes")
+          xml.blog_id(blogdata.id)
+          xml.blog_date(blogdata.added_date)
+          xml.blog_description(blogdata.description)
+          xml.blog_title(blogdata.title)
+        else
+          xml.blog_status("no")
+        end
+
+
+
+
+        if (subchaptercheck > 0 and @flag==1)
+          xml.access_permission("reject")
+        else
+          xml.access_permission("approve")
+        end
+      }
+    end
+  }
+}

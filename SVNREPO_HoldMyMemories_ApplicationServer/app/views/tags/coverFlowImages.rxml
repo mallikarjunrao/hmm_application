@@ -1,0 +1,24 @@
+
+xml.instruct! :xml, :version=>"1.0"
+
+xml.userid(@chapterid)
+
+xml.contents{
+	i = 0
+ for content_subchap in @subchapters
+  xml.content{
+       if(content_subchap.v_image == "folder_img.png")
+		xml.icon(content_subchap.img_url + '/user_content/photos/big_thumb/noimage.jpg')
+	  else	
+        imageName  = content_subchap.v_image
+        imageName.slice!(-3..-1)
+        xml.icon(content_subchap.img_url + '/user_content/photos/flex_icon/'+imageName+"jpg" )
+      end
+      xml.name(content_subchap.sub_chapname)
+      xml.id(content_subchap.id)
+      i = i + 1
+	}
+  end
+      
+
+}

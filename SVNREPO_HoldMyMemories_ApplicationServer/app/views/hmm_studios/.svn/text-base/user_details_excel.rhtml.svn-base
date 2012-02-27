@@ -1,0 +1,55 @@
+<table width="900" border="0" cellspacing="0" cellpadding="0" >
+	
+    <tr>
+      <th  width="100%" align="left" valign="top" scope="col">	
+	  	<table border="1" bordercolor="#000000">
+		<tr valign='center' align='center'>
+          <th background="/images/body_hor.JPG"><font class='txt'>Cutomer Name</font></th>
+          
+          <th background="/images/body_hor.JPG"><font class='txt'>User Name</font></th>
+          <th background="/images/body_hor.JPG"><font class='txt'>Email Address</font></th>
+          <th background="/images/body_hor.JPG"><font class='txt'>Created date</font></th>
+          <th background="/images/body_hor.JPG"><font class='txt'>Account Type</font></th>
+          <th background="/images/body_hor.JPG"><font class='txt'>Studio Name</font></th>
+          <th background="/images/body_hor.JPG"><font class='txt'>Studio Group</font></th>
+        </tr>
+
+        <% 	odd_or_even = 0
+        i = 0
+        for colmn in @hmm_users
+          i = i + 1
+          odd_or_even = 1 - odd_or_even
+        %>
+
+          <tr class='ListLine<%= odd_or_even %>'>
+            <td align="center"><%=h colmn.v_fname%> <%=h colmn.v_lname%></td>
+            <td align="center"><%=h colmn.v_user_name%></td>
+            <td align="center"><%=h colmn.v_e_mail%></td>
+            <td align="center">
+              <% if colmn.d_created_date == nil || colmn.d_created_date == '' %>
+                    -
+              <%else%>
+                <%=h colmn.d_created_date.strftime("%m - %d - %Y")%>
+              <%end%>            </td>
+            <td align="center"><%=h colmn.account_type%></td>
+            <td align="center">
+              <%if (colmn.studio_name == nil || colmn.studio_name == '' )  %>
+                            Direct Customer
+              <%else%>
+               <%=colmn.studio_name %>
+              <%end%>            </td>
+              <td align="center">
+              <%if (colmn.hmm_franchise_studio == nil || colmn.hmm_franchise_studio == '' )  %>
+                    -       
+              <%else%>               
+                <%=colmn.hmm_franchise_studio%>
+              <%end%>            </td>
+            
+           
+        
+        <% end %>
+		
+		</table>
+	  </th>
+    </tr>
+</table>

@@ -1,0 +1,10 @@
+<%for i in @gal_name%>
+<h4>Add Comments for  <%=i.v_gallery_name%> Gallery </h4>
+<%end%>
+
+<% form_tag :action => 'create_jcmt' do %>
+  <%= render :partial => 'form' %>
+  <%= submit_tag "Create" %>
+<% end %>
+
+

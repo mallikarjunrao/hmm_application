@@ -1,0 +1,602 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+        <title>HoldMyMemories</title>
+        <link rel="SHORTCUT ICON" href="/images/common/favicon.ico" type="image/x-icon" />
+
+        <link href="hmm.css" rel="stylesheet" type="text/css" />
+        <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.2.6/jquery.min.js"></script>
+        <script type="text/javascript" src="fancyzoom.min.js"></script>
+        <script type="text/javascript" charset="utf-8">
+            $(document).ready(function() {
+                $('div.photo a').fancyZoom({scaleImg: true, closeOnClick: true});
+
+                $('#flash_box_link').fancyZoom();
+            });
+        </script>
+
+        <script type="text/javascript">
+            <!--
+            function MM_findObj(n, d) { //v4.01
+                var p,i,x;  if(!d) d=document; if((p=n.indexOf("?"))>0&&parent.frames.length) {
+                    d=parent.frames[n.substring(p+1)].document; n=n.substring(0,p);}
+                if(!(x=d[n])&&d.all) x=d.all[n]; for (i=0;!x&&i<d.forms.length;i++) x=d.forms[i][n];
+                for(i=0;!x&&d.layers&&i<d.layers.length;i++) x=MM_findObj(n,d.layers[i].document);
+                if(!x && d.getElementById) x=d.getElementById(n); return x;
+            }
+            function MM_swapImgRestore() { //v3.0
+                var i,x,a=document.MM_sr; for(i=0;a&&i<a.length&&(x=a[i])&&x.oSrc;i++) x.src=x.oSrc;
+
+            }
+            function MM_preloadImages() { //v3.0
+                var d=document; if(d.images){ if(!d.MM_p) d.MM_p=new Array();
+                    var i,j=d.MM_p.length,a=MM_preloadImages.arguments; for(i=0; i<a.length; i++)
+                        if (a[i].indexOf("#")!=0){ d.MM_p[j]=new Image; d.MM_p[j++].src=a[i];}}
+                }
+
+                function MM_swapImage() { //v3.0
+                    var i,j=0,x,a=MM_swapImage.arguments; document.MM_sr=new Array; for(i=0;i<(a.length-2);i+=3)
+                        if ((x=MM_findObj(a[i]))!=null){document.MM_sr[j++]=x; if(!x.oSrc) x.oSrc=x.src; x.src=a[i+2];}
+                }
+                //-->
+
+        </script>
+        <script type="text/javascript">
+                var comboopenflag;
+                function init() {
+                    var combo = document.getElementById('radius').value = "";
+                    comboopenflag = "off";
+                }
+                function showOptions() {
+                    if (comboopenflag != "on") {
+                        document.getElementById('combodiv').style.display = "block";
+                        comboopenflag = "on";
+                    } else if (comboopenflag == "on") {
+                        document.getElementById('combodiv').style.display = "none";
+                        comboopenflag = "off";
+                    }
+                }
+
+                function setOption(selection) {
+
+                    var combo = document.getElementById('radius').value = selection;
+                    document.getElementById('combodiv3').style.display = "none";
+                    comboopenflag = "off";
+                }
+
+
+                function handleLostFocus(){
+                    comboopenflag = "off";
+                    showOptions();
+                }
+
+                //drop down options
+                function showOptions3() {
+                    if (comboopenflag != "on") {
+                        document.getElementById('combodiv3').style.display = "block";
+                        comboopenflag = "on";
+                    } else if (comboopenflag == "on") {
+                        document.getElementById('combodiv3').style.display = "none";
+                        comboopenflag = "off";
+                    }
+                }
+
+                function setOption3(selection) {
+
+                    var combo = document.getElementById('gift').value = selection;
+                    document.getElementById('combodiv3').style.display = "none";
+                    comboopenflag = "off";
+                }
+
+                function handleLostFocus3(){
+                    comboopenflag = "off";
+                    showOptions3();
+                }
+        </script>
+        <script type='text/javascript'>
+                function hideCombo() {
+                    document.getElementById("bottom").style.display="none"
+                }
+
+                function zip_verify()
+                {
+
+                    if(document.getElementById('radius').value == ' Distance')
+                    {
+                        alert("Select a Distance");
+                        return false;
+                    }
+                    else
+                        return true;
+
+                }
+
+                function gift_verify()
+                {
+
+                    if(document.getElementById('gift').value == 'Select Gift Certificate')
+                    {
+                        alert("Select a Gift Certificate");
+                        return false;
+                    }
+                    else
+                        return true;
+
+                }
+
+        </script>
+        <script type="text/javascript">
+
+                // (C) 2002 www.CodeLifter.com
+                // http://www.codelifter.com
+                // Free for all users, but leave in this header.
+
+                // ==============================
+                // Set the following variables...
+                // ==============================
+
+                // Set the slideshow speed (in milliseconds)
+                var SlideShowSpeed = 10000;
+
+                // Set the duration of crossfade (in seconds)
+                var CrossFadeDuration = 3;
+
+                var Picture = new Array(); // don't change this
+                var Caption = new Array(); // don't change this
+
+                // Specify the image files...
+                // To add more images, just continue
+                // the pattern, adding to the array below.
+                // To use fewer images, remove lines
+                // starting at the end of the Picture array.
+                // Caution: The number of Pictures *must*
+                // equal the number of Captions!
+
+                Picture[1]  = 'new_images/memoriesmission.jpg';
+                Picture[2]  = 'new_images/memorieslifetime.jpg';
+                Picture[3]  = 'new_images/holdorganize.jpg';
+                Picture[4]  = 'new_images/timeshine.jpg';
+
+                // Specify the Captions...
+                // To add more captions, just continue
+                // the pattern, adding to the array below.
+                // To use fewer captions, remove lines
+                // starting at the end of the Caption array.
+                // Caution: The number of Captions *must*
+                // equal the number of Pictures!
+                Caption[1]  = 'new_images/memories_mission_def.jpg';
+                Caption[2]  = 'new_images/hold_organize_def.jpg';
+                Caption[3]  = 'new_images/hold_organize_def.jpg';
+                Caption[4]  = 'new_images/hold_organize_def.jpg';
+
+                // =====================================
+                // Do not edit anything below this line!
+                // =====================================
+
+                var tss;
+                var iss;
+                var jss = 1;
+                var pss = Picture.length-1;
+
+                var preLoad = new Array();
+                for (iss = 1; iss < pss+1; iss++){
+                    preLoad[iss] = new Image();
+                    preLoad[iss].src = Picture[iss];}
+
+                function runSlideShow(item){
+                    if (document.all){
+                        document.images.photoslider.style.filter="blendTrans(duration=2)";
+                        document.images.photoslider.style.filter="blendTrans(duration=CrossFadeDuration)";
+                        document.images.photoslider.filters.blendTrans.Apply();}
+                    if(item==0)
+                        document.images.photoslider.src = preLoad[jss].src;
+
+                    current_img = document.images.photoslider.src;
+                    temp_img = current_img.split('/');
+                    image_name = temp_img[temp_img.length-1]
+                    // alert(image_name);
+                    if (image_name=='memoriesmission.jpg' || image_name=='memoriesmission.jpg' ||  item=='1')
+                    {
+                        document.getElementById('Image11').src='new_images/memories_mission_ovr.jpg';
+                        document.getElementById('img1').onmouseout="";
+                        // alert('sdf');
+                    }else{
+                        document.getElementById('Image11').src='new_images/memories_mission_def.jpg';
+                        document.getElementById('img1').onmouseout= MM_swapImgRestore;
+                        //document.getElementById('Image11').setAttribute("onmouseout", "MM_swapImgRestore();");
+                    }
+                    if (image_name=='memorieslifetime.jpg' || image_name=='memorieslifetime.jpg' || item=='2')
+                    {
+                        document.getElementById('imgurl').href="/static/studios"
+
+                        document.getElementById('Image12').src='new_images/memories_lifetime_ovr.jpg';
+                        document.getElementById('img2').onmouseout="";
+
+                    }else{
+                        document.getElementById('Image12').src='new_images/memories_lifetime_def.jpg';
+                        document.getElementById('img2').onmouseout= MM_swapImgRestore;
+
+                    }
+                    if (image_name=='holdorganize.jpg' || image_name=='holdorganize.jpg' || item=='3')
+                    {
+                        document.getElementById('imgurl').href="/bob"
+                        document.getElementById('Image13').src='new_images/hold_organize_ovr.jpg';
+                        document.getElementById('img3').onmouseout="";
+                    }else{
+                        document.getElementById('Image13').src='new_images/hold_organize_def.jpg';
+                        document.getElementById('img3').onmouseout= MM_swapImgRestore;
+                    }
+                    if (image_name=='timeshine.jpg' || image_name=='timeshine.jpg' ||  item=='4')
+                    {
+                        document.getElementById('imgurl').href="/contests/select_contest"
+                        document.getElementById('Image14').src='new_images/time_shine_ovr.jpg';
+                        document.getElementById('img4').onmouseout='';
+                    }else{
+                        document.getElementById('Image14').src='new_images/time_shine_def.jpg';
+                        document.getElementById('img4').onmouseout= MM_swapImgRestore;
+                    }
+
+                    if (document.getElementById) document.getElementById("image");
+
+
+                    if (document.all) document.images.photoslider.filters.blendTrans.Play();
+                    jss = jss + 1;
+                    if (jss > (pss)) jss=1;
+                    tss = setTimeout('runSlideShow(0)', SlideShowSpeed);
+                    //alert(document.getElementById('Image12').src);
+                }
+
+                function showPopup() {
+                    var popup = window.open(this.href, "popup", "height=800,width=600");
+                    popup.focus();
+                    return false;
+                }
+
+
+        </script>
+        <script type="text/javascript" src="/javascripts/swfobject.js"></script>
+
+
+
+    </head>
+
+    <body onload="runSlideShow(0);MM_preloadImages('/new_images/register_ovr.jpg','/new_images/search_ovr.jpg','new_images/memories_mission_ovr.jpg','new_images/memories_lifetime_ovr.jpg','new_images/hold_organize_ovr.jpg','new_images/time_shine_ovr.jpg');">
+
+        <table width="100%" border="0" cellspacing="0" cellpadding="0">
+            <tr>
+                <td align="center" valign="top"><table width="947" border="0" align="center" cellpadding="0" cellspacing="0">
+                        <tr>
+                            <td width="479" height="68" align="left" valign="middle"><a href="/"><img src="new_images/logo.jpg" width="225" height="46" border="0" style="margin-left:25px;"/></a></td>
+                            <td width="468" align="right" valign="top" style="padding-top:7px;"><!--<a href="/hmm_studios/hmmstudio_signup" class="topmenu">Hmm Studio Signup</a> --><a href="/customers/authorise_verify" class="topmenu">Not Registered?</a> <a href="/user_account/login" class="topmenu">Log In</a></td>
+                        </tr>
+                        <tr>
+                            <td colspan="2"><table width="947" border="0" cellspacing="0" cellpadding="0">
+                                    <tr>
+                                        <td width="16" align="left" valign="top"><img src="new_images/topleft_curve.jpg" width="16" height="27" /></td>
+                                        <td width="223" align="center" valign="middle" background="new_images/topmid_curve.jpg">&nbsp;</td>
+                                        <td width="72" align="center" valign="middle" background="new_images/topmid_curve.jpg"><a href="#" class="mainmenu_textselected">Home</a></td>
+                                        <td width="1" align="center" valign="middle" background="new_images/topmid_curve.jpg"><img src="new_images/menu_div.jpg" width="1" height="27" /></td>
+                                        <td width="104" align="center" valign="middle" background="new_images/topmid_curve.jpg"><a href="/static/studios" class="mainmenu_text">HMM Studios</a></td>
+                                        <td width="1" align="center" valign="middle" background="new_images/topmid_curve.jpg"><img src="new_images/menu_div.jpg" width="1" height="27" /></td>
+                                        <td width="123" align="center" valign="middle" background="new_images/topmid_curve.jpg"><a href="/static/photos_videos" class="mainmenu_text">Photos & Videos</a></td>
+                                        <td width="1" align="center" valign="middle" background="new_images/topmid_curve.jpg"><img src="new_images/menu_div.jpg" width="1" height="27" /></td>
+                                        <td width="123" align="center" valign="middle" background="new_images/topmid_curve.jpg"><a href="/static/familysites" class="mainmenu_text">Family Websites</a></td>
+                                        <td width="1" align="center" valign="middle" background="new_images/topmid_curve.jpg"><img src="new_images/menu_div.jpg" width="1" height="27" /></td>
+                                        <!--                                        <td width="88" align="center" valign="middle" background="new_images/topmid_curve.jpg"><a href="http://blog.holdmymemories.com" class="mainmenu_text" target="_blank">Bob's Blog</a></td>-->
+                                        <td width="1" align="center" valign="middle" background="new_images/topmid_curve.jpg"><img src="new_images/menu_div.jpg" width="1" height="27" /></td>
+                                        <td width="76" align="center" valign="middle" background="new_images/topmid_curve.jpg"><a href="/contests/select_contest" class="mainmenu_text">Contests</a></td>
+                                        <td width="1" align="center" valign="middle" background="new_images/topmid_curve.jpg"><img src="new_images/menu_div.jpg" width="1" height="27" /></td>
+                                        <td width="76" align="center" valign="middle" background="new_images/topmid_curve.jpg"><a href="/user_account/faq" class="mainmenu_text">FAQ</a></td>
+                                        <td width="1" align="center" valign="middle" background="new_images/topmid_curve.jpg"><img src="new_images/menu_div.jpg" width="1" height="27" /></td>
+                                        <td width="100" align="center" valign="middle" background="new_images/topmid_curve.jpg" ><a href="/static/abouthmm" class="mainmenu_text">About HMM</a></td>
+                                        <td width="16" align="left" valign="top"><img src="new_images/topright_curve.jpg" width="16" height="27" /></td>
+                                    </tr>
+                                </table></td>
+                        </tr>
+                        <tr>
+                            <td colspan="2" align="left" valign="top"><table width="947" border="0" cellspacing="0" cellpadding="0">
+                                    <tr>
+                                        <td width="773" align="left" valign="top"><a name="imgurl" id="imgurl" href="/"><img src="new_images/memoriesmission.jpg" name="photoslider" id="photoslider" style="filter:revealTrans(duration=2,transition=23)" border=0></a></td>
+                                        <td width="177" align="left" valign="top"><table width="174" border="0" cellspacing="0" cellpadding="0">
+
+                                                <tr>
+                                                    <td align="left" valign="top"><a href="javascript:void(0);"   onmouseout="MM_swapImgRestore()" onmouseover="MM_swapImage('Image11','','new_images/memories_mission_ovr.jpg',1)" id="img1"><input type="image" src="new_images/memories_mission_ovr.jpg" name="Image11" width="174" height="43" border="0" id="Image11" onClick="javascript: clearTimeout(tss);jss=1;runSlideShow(0);document.getElementById('photoslider').src='new_images/memoriesmission.jpg';document.getElementById('imgurl').href='/';" style="outline:none"/></a></td>
+                                                </tr>
+                                                <tr>
+                                                    <td align="left" valign="top"><a href="javascript:void(0);" onmouseout="MM_swapImgRestore()" onmouseover="MM_swapImage('Image12','','new_images/memories_lifetime_ovr.jpg',1)" id="img2"><input type="image" src="new_images/memories_lifetime_def.jpg" name="Image12" width="174" height="43" border="0" id="Image12" onClick="javascript: clearTimeout(tss);jss=2;runSlideShow(0);document.getElementById('photoslider').src='new_images/memorieslifetime.jpg';document.getElementById('imgurl').href='/static/studios';" style="outline:none"/></a></td>
+                                                </tr>
+                                                <tr>
+                                                    <td align="left" valign="top"><a href="javascript:void(0);" onmouseout="MM_swapImgRestore()" onmouseover="MM_swapImage('Image13','','new_images/hold_organize_ovr.jpg',1)" id="img3"><input type="image" src="new_images/hold_organize_def.jpg" name="Image13" width="174" height="43" border="0" id="Image13" onClick="javascript:clearTimeout(tss);jss=3;runSlideShow(0);document.getElementById('photoslider').src='new_images/holdorganize.jpg';document.getElementById('imgurl').href='/bob';" style="outline:none"/></a></td>
+                                                </tr>
+                                                <tr>
+                                                    <td align="left" valign="top"><a href="javascript:void(0);" onmouseout="MM_swapImgRestore()" onmouseover="MM_swapImage('Image14','','new_images/time_shine_ovr.jpg',1)" id="img4"><input type="image" src="new_images/time_shine_def.jpg" name="Image14" width="174" height="43" border="0" id="Image14"  onClick="javascript: clearTimeout(tss);jss=4;runSlideShow(0);document.getElementById('photoslider').src='new_images/timeshine.jpg';document.getElementById('imgurl').href='/contests/select_contest';" style="outline:none"/></a></td>
+                                                </tr>
+                                                <tr>
+                                                    <td align="left" valign="top" class="wherebg">&nbsp;</td>
+                                                </tr>
+
+                                            </table></td>
+                                    </tr>
+                                </table></td>
+                        </tr>
+                        <tr>
+                            <td colspan="2" class="shadow">&nbsp;</td>
+                        </tr>
+                        <tr>
+                            <td colspan="2" align="left" valign="top"><table width="947" border="0" cellspacing="0" cellpadding="0">
+                                    <tr>
+                                        <td width="16" align="left" valign="top" bgcolor="#000000">&nbsp;</td>
+                                        <td width="305" align="left" valign="top" bgcolor="#000000"><table width="294" border="0" cellspacing="0" cellpadding="0">
+                                                <tr>
+                                                    <td width="179" align="left" valign="top"><a href="/bob" onmouseout="MM_swapImgRestore()" onmouseover="MM_swapImage('Image15','','new_images/visit_ovr.jpg',1)"><img src="new_images/visit_def.jpg" name="Image15" width="154" height="21" border="0" id="Image15" /></a></td>
+                                                    <td width="126" height="36" align="center" valign="top"><a href="/static/taketour" onmouseout="MM_swapImgRestore()" onmouseover="MM_swapImage('Image16','','new_images/taketour_ovr.jpg',1)"><img src="new_images/taketour_def.jpg" name="Image16" width="79" height="21" border="0" align="middle" id="Image16" /></a></td>
+                                                </tr>
+
+                                                <tr>
+                                                    <td colspan="2" align="left" valign="top" height="50"><div id="MiniHomePageMediaPlayer"></div></td>
+                                                </tr>
+                                            </table></td>
+                                        <td width="322" align="left" valign="top" bgcolor="#000000"><table width="290" border="0" cellspacing="0" cellpadding="0">
+                                                <tr>
+                                                    <td height="23" align="left" valign="top" class="grayheaderhome">Why Hold My Memories?</td>
+                                                </tr>
+                                                <tr>
+                                                    <td height="1" align="left" valign="top" bgcolor="#4b4949"></td>
+                                                </tr>
+                                                <tr>
+                                                    <td height="7" align="left" valign="top" class="grayfont"></td>
+                                                </tr>
+                                                <tr>
+                                                    <td align="left" valign="top" class="grayfont"><p>There are many social  networking sites out there; Facebook, MySpace, and LinkedIn to name a few. These  sites are great for connecting and &ldquo;<em>sharing  the moment</em>&rdquo;&mdash;letting your friends know what you are doing now.</p>
+                                                        <p>We are a little different;  HoldMyMemories.com is about <em>holding your  memories</em>. <br />
+                                                            <br />
+                                                            HoldMyMemories.com is also unique in that our network of HoldMyMemories.com  licensed studios can post images from your <em>professional  portrait sessions</em> to your family website.&nbsp;  Other sites can&rsquo;t do that! <span class="homeorangetext">Click <a href="#flash_box" id="flash_box_link" class="homeorangetextunderline">here</a> to view HoldMyMemories.com in the News!</span> Click <em><u><a href="http://holdmymemories.com/familywebsite/subchapters/bob?chapter_id=11?familyname=bob" target="_blank" class="grayfont">here</a></u></em> to see my family&rsquo;s portraits taken at a HoldMyMemories.com studio.</p>
+                                                        <p>We cherish our  memories!&nbsp; Get your free account and  start holding your family&rsquo;s memories today!</p></td>
+                                                </tr>
+                                                <tr>
+                                                    <td height="10" align="left" valign="top"></td>
+                                                </tr>
+                                                <tr>
+                                                    <td align="left" valign="top"><img src="new_images/signature.jpg" width="70" height="44" /></td>
+                                                </tr>
+
+
+
+
+
+
+                                            </table></td>
+                                        <td width="304" align="left" valign="top" bgcolor="#000000"><table width="256" border="0" cellspacing="0" cellpadding="0">
+                                                <tr>
+                                                    <td height="23" colspan="2" align="left" valign="top" class="grayheaderhome">How Do I Get Started?</td>
+                                                </tr>
+                                                <tr>
+                                                    <td height="1" colspan="2" align="left" valign="top" bgcolor="#4b4949"></td>
+                                                </tr>
+                                                <tr>
+                                                    <td height="7" colspan="2" align="left" valign="top" class="grayfont"></td>
+                                                </tr>
+                                                <tr>
+                                                    <td colspan="2" align="left" valign="top" class="grayfont">Enter your name and create your free account. </td>
+                                                </tr>
+                                                <tr>
+                                                    <td height="10" align="left" valign="middle" class="grayfont"></td>
+                                                    <td align="left" valign="middle" class="grayfont"></td>
+                                                </tr>
+                                                <tr>
+                                                    <td width="182" height="30" colspan="2" align="left" valign="middle" class="grayfont"><form name="frm" action="/customers/authorise_verify" method="post" >
+                                                            <table width="250" height="16" border="0" cellpadding="0" cellspacing="0">
+                                                                <tr>
+
+                                                                    <td width="70"><input type="text"  onclick="this.value=''" name="f_name" value="First"  id="f_name" class="textbox" style="width:70px;height:18px"/></td>
+                                                                    <td width="6">&nbsp;</td>
+                                                                    <td width="73" align="left" valign="top"><input name="l_name" onclick="this.value=''" type="text" class="textbox" id="l_name" value="Last"  style="width:70px;height:18px" /></td> <td width="6">&nbsp;</td>
+                                                                    <td width="70" align="left" valign="top"><input type="submit" align="middle" name="button2" id="button2" value="" class="registerbtn"/></td>
+                                                                </tr>
+                                                            </table></form></td>
+                                                </tr>
+                                                <tr>
+                                                    <td colspan="2" align="left" valign="top" class="grayfont">&nbsp;</td>
+                                                </tr>
+                                                <tr>
+                                                    <td colspan="2" align="left" valign="top" class="grayfont">&nbsp;</td>
+                                                </tr>
+                                                <tr>
+                                                    <td colspan="2" align="left" valign="top" class="grayfont">&nbsp;</td>
+                                                </tr>
+                                                <tr>
+                                                    <td height="23" colspan="2" align="left" valign="top" class="grayheaderhome">Find a Studio Near You</td>
+                                                </tr>
+                                                <tr>
+                                                    <td height="1" colspan="2" align="left" valign="top" bgcolor="#4b4949"></td>
+                                                </tr>
+                                                <tr>
+                                                    <td height="7" colspan="2" align="left" valign="top" class="grayfont"></td>
+                                                </tr>
+
+
+                                                <tr>
+                                                    <td colspan="2" align="left" valign="middle" class="grayfont">
+                                                        <form name="frm" action="/user_account/studios_list/" method="post" onSubmit="return zip_verify();" >
+                                                            <table width="305" border="0" cellspacing="0" cellpadding="0">
+                                                                <tr>
+                                                                    <td align="left" valign="top" colspan="6">Enter your zip code and select a distance to search for a Studio near you.</td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td width="86" align="left" valign="top">&nbsp;</td>
+                                                                    <td width="5">&nbsp;</td>
+
+                                                                    <td width="3" align="center" valign="top">&nbsp;</td>
+                                                                </tr>
+
+                                                                <tr>
+                                                                    <td colspan="4" align="left" valign="middle">
+
+                                                                        <table border="0" cellspacing="0" cellpadding="0">
+                                                                            <tr>
+                                                                                <td width="72" align="left" valign="middle"><input type="text" size="5"  name="zipcode" id="zipcode" value="Zip code" class="textbox" onclick="this.value=''" style="width:70px;height:18px"/></td>
+                                                                                <td width="6">&nbsp;</td>
+                                                                                <td width=""  align="left" valign="top"><div class="divcombobox">
+                                                                                        <input class="combo" onBlur="handleLostFocus()" type="text"  name="radius" id="radius" readonly="readonly" value="Distance" style="width:64px;height:18px" ><img src="new_images/dropdownimg.jpg" alt="Click to open combo box" width="21" height="22" border="0" class="arrow" onclick="showOptions()">
+                                                                                                <div id="combodiv">
+
+                                                                                                    <a class="option" href="javascript:void(0);" onclick="setOption('25 Miles')">25 Miles</a>
+                                                                                                    <a class="option" href="javascript:void(0);" onclick="setOption('50 Miles')">50 Miles</a>
+                                                                                                    <a class="option" href="javascript:void(0);" onclick="setOption('75 Miles')">75 Miles</a>
+                                                                                                    <a class="option" href="javascript:void(0);" onclick="setOption('100 Miles')">100 Miles</a>
+                                                                                                    <a class="option" href="javascript:void(0);" onclick="setOption('200 Miles')">200 Miles</a> </div></div></td>
+
+
+                                                                                                </tr>
+                                                                                                </table>
+                                                                                                </td>
+                                                                                                <td width="18" align="left">
+                                                                                                    <input type="submit"  align="middle" name="button" id="button" value="" class="searchbtn"/></td>
+                                                                                                </tr>
+                                                                                                </table>     </form>       </td>
+                                                                                                <td align="left" valign="middle" class="grayfont"></td>
+                                                                                                </tr>
+                                                                                                <tr>
+                                                                                                    <td align="right" valign="middle" class="grayfont"></td>
+                                                                                                    <td>&nbsp;</td>
+                                                                                                    <td width="1" align="left" valign="middle" class="grayfont"></td>
+                                                                                                </tr>
+                                                                                                <tr>
+                                                                                                    <td colspan="2" align="left" valign="top" class="grayfont">&nbsp;</td>
+                                                                                                </tr>
+                                                                                                <tr>
+                                                                                                    <td colspan="2" align="left" valign="top" class="grayfont">&nbsp;</td>
+                                                                                                </tr>
+                                                                                                <tr>
+                                                                                                    <td height="23" colspan="2" align="left" valign="top" class="grayheaderhome">Purchase a Gift Certificate</td>
+                                                                                                </tr>
+                                                                                                <tr>
+                                                                                                    <td height="1" colspan="2" align="left" valign="top" bgcolor="#4b4949"></td>
+                                                                                                </tr>
+                                                                                                <tr>
+                                                                                                    <td colspan="2" align="left" valign="middle" class="grayfont">
+                                                                                                        <form name="frm" action="/gift_coupons/get_gift_coupon/" method="get" onSubmit="return gift_verify();" >
+                                                                                                            <table width="305" border="0" cellspacing="0" cellpadding="0">
+                                                                                                                <tr>
+                                                                                                                    <td align="left" valign="top" colspan="7">&nbsp;</td>
+                                                                                                                </tr>
+
+
+                                                                                                                <tr>
+                                                                                                                    <td colspan="4" align="left" valign="middle" width="173">
+
+                                                                                                                        <table border="0" cellspacing="0" cellpadding="0">
+                                                                                                                            <tr>
+
+                                                                                                                                <td  align="left" valign="top" colspan="3"><!--<div class="divcombobox">
+                                                                                                                                          <input class="combo" onBlur="handleLostFocus3()" type="text"  name="gift" id="gift" readonly="readonly" value="Select Gift Certificate" style="width:64px;height:18px" ><img src="new_images/dropdownimg.jpg" alt="Click to open combo box" width="21" height="22" border="0" class="arrow" onclick="showOptions3()">
+                                                                                                                                                  <div id="combodiv3">
+
+                                                                                                                                                      <a class="option" href="javascript:void(0);" onclick="setOption3('Premium Account Membership')">Premium Account Membership</a>
+                                                                                                                                                      <a class="option" href="javascript:void(0);" onclick="setOption3('Family Website Account Membership')">Family Website Account Membership</a>
+                                                  </div></div>-->
+                                                                                                                                    <div class="divcomboboxgift">
+                                                                                                                                        <input class="combogift" onBlur="handleLostFocus3()" type="text"  name="gift" id="gift" readonly="readonly" value="Select Gift Certificate" style="width:148px;height:18px" ><img src="new_images/dropdownimg.jpg" alt="Click to open combo box" width="21" height="22" border="0" class="arrow" onclick="showOptions3()">
+                                                                                                                                                <div id="combodiv3">
+
+                                                                                                                                                    <a class="option" href="javascript:void(0);" onclick="setOption3('Premium Account Membership')">Premium Account Membership</a>
+                                                                                                                                                    <a class="option" href="javascript:void(0);" onclick="setOption3('Family Website Account Membership')">Family Website Account Membership</a> </div></div></td>
+                                                                                                                                                </tr>
+                                                                                                                                                </table>                                                                  </td>
+                                                                                                                                                <td width="67" align="left">
+                                                                                                                                                    <input type="submit"  align="middle" name="button" id="button" value="" class="contbtn"/> </td>
+                                                                                                                                                <td width="58" align="center" valign="middle" ><a href="/user_account/faq" class="getinfotext">Get More Information</a></td>
+                                                                                                                                                </tr>
+                                                                                                                                                </table>
+                                                                                                                                                </form>       </td>
+                                                                                                                                                <td align="left" valign="middle" class="grayfont"></td>
+                                                                                                                                                </tr>
+                                                                                                                                                <tr>
+                                                                                                                                                    <td height="10" align="left" valign="middle" class="grayfont"></td>
+                                                                                                                                                    <td align="left" valign="middle" class="grayfont"></td>
+                                                                                                                                                </tr>
+
+                                                                                                                                                <tr>
+                                                                                                                                                    <td colspan="2" align="left" valign="top" class="grayfont">&nbsp;</td>
+                                                                                                                                                </tr>
+                                                                                                                                                <tr>
+                                                                                                                                                    <td height="10" align="left" valign="middle" class="grayfont"></td>
+                                                                                                                                                    <td align="left" valign="middle" class="grayfont"></td>
+                                                                                                                                                </tr>
+
+                                                                                                                                                <tr>
+                                                                                                                                                    <td width="181" align="left" valign="middle" class="grayfont">&nbsp;</td>
+                                                                                                                                                    <td width="124" align="left" valign="middle" class="grayfont"></td>
+                                                                                                                                                </tr>
+                                                                                                                                                <tr>
+                                                                                                                                                    <td height="10" align="left" valign="middle" class="grayfont"></td>
+                                                                                                                                                    <td align="left" valign="middle" class="grayfont"></td>
+                                                                                                                                                </tr>
+                                                                                                                                                <tr>
+                                                                                                                                                    <td width="181" align="left" valign="middle" class="grayfont">&nbsp;</td>
+                                                                                                                                                    <td width="124" align="left" valign="middle" class="grayfont"></td>
+                                                                                                                                                </tr>
+
+
+                                                                                                                                                </table></td>
+                                                                                                                                                </tr>
+                                                                                                                                                <tr>
+                                                                                                                                                    <td align="left" valign="top" bgcolor="#000000">&nbsp;</td>
+                                                                                                                                                    <td align="left" valign="top" bgcolor="#000000">&nbsp;</td>
+                                                                                                                                                    <td align="left" valign="top" bgcolor="#000000">&nbsp;</td>
+                                                                                                                                                    <td align="left" valign="top" bgcolor="#000000">        </td>
+                                                                                                                                                </tr>
+                                                                                                                                                <tr>
+                                                                                                                                                    <td align="left" valign="top"><img src="new_images/bottom_black_curve.jpg" width="16" height="14" /></td>
+                                                                                                                                                    <td align="left" valign="top" bgcolor="#000000"></td>
+                                                                                                                                                    <td align="left" valign="top" bgcolor="#000000"></td>
+                                                                                                                                                    <td align="right" valign="top" bgcolor="#000000"><img src="new_images/bottom_black_curve_right.jpg" width="16" height="14" /></td>
+                                                                                                                                                </tr>
+                                                                                                                                                </table></td>
+                                                                                                                                                </tr>
+                                                                                                                                                <tr>
+                                                                                                                                                    <td colspan="2" align="left" valign="top">&nbsp;</td>
+                                                                                                                                                </tr>
+                                                                                                                                                </table></td>
+                                                                                                                                                </tr>
+                                                                                                                                                <tr>
+                                                                                                                                                    <td height="24" align="center" valign="middle" bgcolor="#000000"><table width="915" border="0" cellspacing="0" cellpadding="0">
+                                                                                                                                                            <tr>
+                                                                                                                                                                <td width="315" align="left" valign="middle" class="copyright">&copy; 2011 HoldMyMemories.com, LLC. All rights reserved. </td>
+                                                                                                                                                                <td width="600" align="left" valign="middle" class="grayfont"><a href="/contact_us/new" class="footermenu">Contact Us</a> | <a href="/static/abouthmm" class="footermenu">About HMM</a> | <a href="/user_account/faq" class="footermenu">FAQ</a> | <a href="/user_account/privacy_policy" class="footermenu">Privacy Policy</a> | <a href="/user_account/termsof_use" class="footermenu">End Users License Agreement</a></td>
+                                                                                                                                                            </tr>
+                                                                                                                                                        </table></td>
+                                                                                                                                                </tr>
+                                                                                                                                                </table>
+
+<!--                                                                                                                                                <div id="flash_box">
+                                                                                                                                                    <object width="480" height="385"><param name="movie" value="http://www.youtube.com/v/89pIb3iu_DE&hl=en_US&fs=1&rel=0"></param><param name="allowFullScreen" value="true"></param><param name="allowscriptaccess" value="always"><param name="wmode" value="transparent"></param><embed src="http://www.youtube.com/v/89pIb3iu_DE&hl=en_US&fs=1&rel=0" type="application/x-shockwave-flash" allowscriptaccess="always" allowfullscreen="true" width="480" height="385" ></embed></object>
+                                                                                                                                                </div>-->
+
+
+                                                                                                                                                <script type="text/javascript">
+                                                                                                                                                        var flashvars = {};
+                                                                                                                                                        var params = {bgcolor:'#000000',allowFullScreen:true,wmode:"transparent"};
+                                                                                                                                                        var attributes = {};
+                                                                                                                                                        url=document.URL;
+                                                                                                                                                        url=url.toLowerCase();
+                                                                                                                                                        if(url=="http://holdmymemories.com/" || url=="https://holdmymemories.com/" || url=="https://www.holdmymemories.com/" || url=="http://www.holdmymemories.com/" || url=="http://staging.holdmymemories.com/")
+                                                                                                                                                        {
+                                                                                                                                                            window.onload=swfobject.embedSWF("/MiniHomePageMediaPlayer.swf", "MiniHomePageMediaPlayer", "275", "250", "9.0.0","http://download.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=7,0,19,0", flashvars, params, attributes);
+                                                                                                                                                        }// runSlideShow(0);
+                                                                                                                                                </script>
+
+                                                                                                                                                <script type="text/javascript">
+                                                                                                                                                        var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+                                                                                                                                                        document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+                                                                                                                                                </script>
+                                                                                                                                                <script type="text/javascript">
+                                                                                                                                                        var pageTracker = _gat._getTracker("UA-5209348-1");
+                                                                                                                                                        pageTracker._trackPageview();
+                                                                                                                                                </script>
+
+
+
+                                                                                                                                                </body>
+                                                                                                                                                </html>

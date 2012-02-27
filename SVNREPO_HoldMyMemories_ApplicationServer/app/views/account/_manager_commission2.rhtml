@@ -1,0 +1,136 @@
+<div  id="managers">
+  <table align="center" border="0">
+    <tr>
+      <td colspan="8">
+        <%to_date=@todate.split('-')
+        from_date=@fromdate.split('-')
+        if to_date[1]==2.to_s
+          if to_date[2]==28.to_s
+            todate="#{to_date[0]}-#{to_date[1]}-31"
+          end
+        else
+          if to_date[2]>=30.to_s
+            todate="#{to_date[0]}-#{to_date[1]}-31"
+          end
+        end
+
+        if from_date[1]==2.to_s
+          if from_date[2]>=28.to_s
+            fromdate="#{from_date[0]}-#{from_date[1]}-31"
+          end
+        else
+          if from_date[2]>=30.to_s
+            fromdate="#{from_date[0]}-#{from_date[1]}-31"
+          end
+        end
+
+      %>
+        <font size="3" color="#ffffff">Manager Commission Report - <%=to_date[1]%>/<%=to_date[2]%>/<%=to_date[0]%> to <%=from_date[1]%>/<%=from_date[2]%>/<%=from_date[0]%></font>
+      </td>
+    </tr>
+    <tr>
+      <td colspan="8">
+        &nbsp;
+      </td>
+    </tr>
+    <tr>
+      <td  background="/images/body_hor.JPG">List of Managers</td>
+      <td  background="/images/body_hor.JPG">Managers Username</td>
+      <td  background="/images/body_hor.JPG">
+        <table>
+          <tr>
+            <td>Studio Employeename </td>
+            <td  background="/images/body_hor.JPG">-- Commission </td>
+            <td  background="/images/body_hor.JPG">-- Studio Name</td>
+          </tr>
+        </table>
+      </td>
+      <td  background="/images/body_hor.JPG">Total Studio Manager's Commission </td>
+      <td  background="/images/body_hor.JPG" colspan="2">Action </td>
+    </tr>
+    <%for j in @manager_commission%>
+      <%@store_emp_count = EmployeAccount.count(:all, :conditions => "store_id='#{j.store_id}'")%>
+      <tr class="<%= cycle('odd', 'even') -%>">
+        <td>
+          <a href="/account/studio_customers/<%=j.store_id%>?fromdate=<%=fromdate%>&todate=<%=todate%>"><%=j.employe_name%></a>
+        </td>
+        <td>
+          <%=j.employe_username%>
+        </td>
+        <td>
+          <table border="0" >
+            <%= deduct_commission = DeductManagerCommission.find(:all, :select => "sum(amount) as deduction", :conditions => "studio_manager_id=#{j.id} and deduction_date between '#{fromdate}' and '#{todate}' ")  %>
+            <%@commission = 0
+
+            hmm_users_studios =  HmmUser.find(:all,:select=>"a.studio_id,b.studio_name",:joins=>" as a, hmm_studios as b", :conditions => "a.emp_id='#{j.id}' and b.id=a.studio_id", :group =>"a.studio_id")
+            @studios="(0"
+            for studio in hmm_users_studios
+
+
+              @commision_emp = PaymentCount.count('DISTINCT a.uid', :joins => "as a, hmm_users as b", :conditions => "a.emp_id='#{j.id}' and a.uid=b.id and a.account_type='platinum_user' and (a.amount='$9.95' or a.amount='$49.95' or a.amount='$99.95') and  a.recieved_on between '#{fromdate}' and '#{todate}' and b.studio_id='#{studio.studio_id}' ")
+              logger.info "employee commission#{@commision_emp}"
+              @indivisul_employee_comission=@commision_emp * 2
+              @commission=@commission+@commision_emp
+              @studios="#{@studios}, #{studio.studio_id}"
+
+            %>
+
+            <tr><td width="25">&nbsp;</td><td width="100" ><a href="/account/studio_employee_customers_new/<%=j.id%>?fromdate=<%=fromdate%>&todate=<%=todate%>&store_id=<%=j.store_id%>&manager_id=<%=j.id%>"><u><%=j.employe_username%></u></a> </td><td width="25">&nbsp;</td><td width="50" ><a href="/account/studio_employee_customers_new/<%=j.id%>?fromdate=<%=fromdate%>&todate=<%=todate%>&store_id=<%=j.store_id%>&manager_id=<%=j.id%>"><u> $<%=@indivisul_employee_comission%></u></td><td width="5">&nbsp;</td><td width="100" > <%=studio.studio_name%> Studio</a></td></tr>
+            <%end
+            @studios="#{@studios} )" %>
+            <%@store_emp = EmployeAccount.find(:all, :conditions => "store_id in #{@studios} and emp_type!='store_manager'", :order => "store_id ")
+
+            for g in @store_emp %>
+              <%  hmm_users_studios =  HmmUser.find(:all,:select=>"a.studio_id,b.studio_name",:joins=>" as a, hmm_studios as b", :conditions => "a.emp_id='#{j.id}' and b.id=a.studio_id", :group =>"a.studio_id")
+
+              for studio in hmm_users_studios
+
+
+                  hmmuserfrom=HmmUser.find(:all,:select => "id as fromid", :conditions => "emp_id='#{j.id}' and studio_id=#{studio.studio_id}", :limit => "0,1")
+                  hmmuserto=HmmUser.find(:all,:select => "max(id) as toid", :conditions => "emp_id='#{j.id}' and studio_id=#{studio.studio_id}")
+                  hmmuserfromdate=HmmUser.find(hmmuserfrom[0].fromid)
+                  hmmusertodate=HmmUser.find(hmmuserto[0].toid)
+                  if(studio.studio_id==j.store_id)
+                    conditiondate=" and b.d_created_date between '#{j.employe_join_date.strftime("%Y-%m-%d")}' and '#{j.end_date.strftime("%Y-%m-%d")}'"
+                  else
+                    conditiondate=" and b.d_created_date between '#{hmmuserfromdate.d_created_date.strftime("%Y-%m-%d")}' and '#{hmmusertodate.d_created_date.strftime("%Y-%m-%d")}'"
+                  end
+
+
+                @commision_emp = PaymentCount.count('DISTINCT a.uid', :joins => "as a, hmm_users as b", :conditions => "a.emp_id='#{g.id}' and a.uid=b.id and a.account_type='platinum_user' and (a.amount='$9.95' or a.amount='$49.95' or a.amount='$99.95') and  a.recieved_on between '#{fromdate}' and '#{todate}' and b.studio_id='#{studio.studio_id}' #{conditiondate} ")
+                  logger.info( "a.emp_id='#{g.id}' and a.uid=b.id and a.account_type='platinum_user' and (a.amount='$9.95' or a.amount='$49.95' or a.amount='$99.95') and  a.recieved_on between '#{fromdate}' and '#{todate}' and b.studio_id='#{studio.studio_id}' #{conditiondate} ")
+                @commission=@commission+@commision_emp
+
+                @indivisul_employee_comission=@commision_emp * 2
+              %>
+                <tr><td width="25">&nbsp;</td><td width="100" ><a href="/account/studio_employee_customers_new/<%=g.id%>?fromdate=<%=fromdate%>&todate=<%=todate%>&store_id=<%=g.store_id%>&manager_id=<%=j.id%>"><u><%=g.employe_username%></u></a> </td><td width="25">&nbsp;</td><td width="50" ><a href="/account/studio_employee_customers_new/<%=g.id%>?fromdate=<%=fromdate%>&todate=<%=todate%>&store_id=<%=g.store_id%>&manager_id=<%=j.id%>"><u> $<%=@indivisul_employee_comission%></u></td><td width="5">&nbsp;</td><td width="100"> <%=studio.studio_name%> Studio</a></td></tr>
+              <%
+              end
+            end
+            logger.info("storecom#{j.store_id}:#{@commission}")
+            logger.info("empcount#{j.store_id}:#{@commision_emp}")
+            @commission_amt=@commission*2
+          %>
+
+          </table></td>
+        <td align="center" "<%=@store_emp_count%>">
+
+            <% @commission_amt = @commission_amt - deduct_commission[0].deduction.to_f %>
+        <%if @commission_amt == 0  %>
+          <%=@commission_amt%>
+        <%else%>
+
+          $<%=@commission_amt%>
+        <%end%>
+      </td><td><a href="/account/deduct_manager_commission/<%=j.id%>">Deduct Commmission</a></td>
+      <td><a href="/account/deducted_list/<%=j.id%>" target="_blank">Deduction  Details</a></td>
+    </tr>
+  <%end%>
+  <tr><td>&nbsp;</td></tr>
+  <tr>
+    <th>
+      <input type="button" value="Print Commission Report" name="print" onclick="printIt(document.getElementById('managers').innerHTML);return false" />
+    </th>
+  </tr>
+</table>
+</div>

@@ -1,0 +1,8 @@
+<% if(session[:employe])
+      action="/hmm_studios/studio_pending_requests_admin/"
+   else
+      action="/hmm_studios/market_pending_requests_admin/"
+   end
+%>
+<p align="center"> <font color="white" size="2" face="arial"><%=flash[:sucess_id]%></font></p>
+<p align="center"> <font color="white" size="2" face="arial"><a href="<%=action%>" >Click here to go back</a></font></p>

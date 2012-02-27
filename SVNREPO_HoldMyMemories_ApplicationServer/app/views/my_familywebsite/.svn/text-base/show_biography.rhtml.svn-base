@@ -1,0 +1,60 @@
+<table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top">
+    <td width="170"><%= render :partial => "my_familywebsite/leftnav", :locals => { :current => "biography"} %> </td>
+    <td>
+    <style>
+
+.textcolor {
+font-family:Arial, Helvetica, sans-serif;
+font-size: 14px;
+color: #ffffff;
+
+}
+
+.familyheading {
+	font-family:Arial, Helvetica, sans-serif;
+	font-size: 18px;
+color: #ffffff;
+
+}
+
+.familyborder{
+	border: thin solid #777777;
+}
+.familyborder_right{
+	border-right: thin solid #777777;
+}
+</style>
+    <div align="right" ><%= link_to 'Back', :action => 'manage_biography', :id => params[:id]  %></div>
+    <% for i in @family_members %>
+    <table width="100%" border="0" cellpadding="0" cellspacing="0" class="familyborder" >
+      <tr>
+        <td colspan="2" class="familyheading" bgcolor="#777777"><%=logged_in_hmm_user.v_fname.capitalize%>'s Family Member </td>
+      </tr>
+      <tr>
+        <td class="familyborder_right" >      
+        <img src="<%=i.img_url%>/hmmuser/family_members/thumbs/<%=h i.member_image %>" border="0">
+        </td>
+      
+      <td align="middle" valign="top" ><table width="100%" border="0" align="top" cellpadding="10" cellspacing="0">
+            <tr >
+              <td align="right" valign="top" class="textcolor"> Name : </td>
+              <td align="left" class="textcolor"><%=i.familymember_name.capitalize%> </td>
+            </tr>
+            <tr >
+              <td align="right" valign="top" class="textcolor"> Relation : </td>
+              <td align="left" class="textcolor"><%=i.relation.capitalize%> </td>
+            </tr>
+            <tr >
+              <td align="texttop" valign="top" class="textcolor"> Biography : </td>
+              <td align="top" class="textcolor"  style="text-align:justify"><%=i.biographie.capitalize%> </td>
+            </tr>
+          </table></td>
+      </tr>
+    </table>
+    </p>
+    <% end %>
+    
+    </td>
+  </tr>
+</table>

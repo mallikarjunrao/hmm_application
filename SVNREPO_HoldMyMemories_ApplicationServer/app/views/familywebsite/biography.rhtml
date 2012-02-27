@@ -1,0 +1,118 @@
+<table width="970" border="0" cellspacing="0" cellpadding="0">
+  <tr>
+    <td align="center" valign="top" class="tab-dots"><table width="970" border="0" cellspacing="0" cellpadding="0" id="tab_bgcolor_repeat">
+
+        <tr>
+          <td align="left" valign="top"><table width="100%" border="0" cellspacing="0" cellpadding="0">
+              <tr>
+                <td width="13" align="left" valign="top"></td>
+                <td width="944" align="left" valign="top"><table width="100%" border="0" cellspacing="0" cellpadding="0">
+                    <tr>
+                      <td height="10" align="left" valign="top"></td>
+                    </tr>
+                    <tr>
+                      <td height="35" align="left" valign="bottom" class="header-page">Biography</td>
+                    </tr>
+                    <tr>
+                      <td height="10" align="left" valign="top"></td>
+                    </tr>
+                    <tr>
+                      <td height="1" align="left" valign="top" bgcolor="#454545"></td>
+                    </tr>
+                    <tr>
+                      <td height="10" align="left" valign="top"></td>
+                    </tr>
+                    <tr>
+                      <td align="left" valign="top" class="content-trans-bg"><table width="100%" border="0" cellspacing="0" cellpadding="0">
+                          <tr>
+                            <td width="28" align="left" valign="top"></td>
+                            <td width="886" align="left" valign="top">
+                              <% if @family_website_owner.family_history %>
+                                <table width="100%" border="0" cellspacing="0" cellpadding="0">
+                                  <tr>
+                                    <td height="60" align="left" valign="middle" class="header-paragraph">The <%=h @family_website_owner.v_lname.capitalize%>&rsquo;s History</td>
+                                  </tr>
+                                  <tr>
+                                    <td align="left" valign="top" class="content"><%=h @family_website_owner.family_history %><br /></td>
+                                  </tr>
+                                  <tr>
+                                    <td align="left" valign="top">&nbsp;</td>
+                                  </tr>
+                                </table>
+                              <% end %>
+                            </td>
+                            <td width="28" align="left" valign="top"></td>
+                          </tr>
+                        </table></td>
+                    </tr>
+                    <tr>
+                      <td align="left" valign="top">&nbsp;</td>
+                    </tr>
+                    <% if @biographies && @biographies.length>0 %>
+                      <% for biography in @biographies %> <tr>
+                          <td align="left" valign="top" class="content-trans-bg"><table width="100%" border="0" cellspacing="0" cellpadding="0">
+                              <tr>
+                                <td align="left" valign="top"></td>
+                                <td align="left" valign="top">&nbsp;</td>
+                                <td align="left" valign="top"></td>
+                                <td align="left" valign="top">&nbsp;</td>
+                                <td align="left" valign="top"></td>
+                              </tr>
+                              <tr>
+                                <td width="28" align="left" valign="top"></td>
+                                <td width="163" align="left" valign="top"><table width="100%" border="0" cellspacing="0" cellpadding="0">
+                                    <tr>
+                                      <td align="left" valign="top"><a href="/familywebsite/subchapters/<%=params[:id]%>?chapter_id=<%=biography.chap_id%>"><img src="<%=biography.img_url%>/hmmuser/family_members/thumbs/<%=biography.member_image %>"  border="0" /></a></td>
+                                    </tr>
+                                    <tr>
+                                      <td align="center" valign="top">&nbsp;</td>
+                                    </tr>
+                                    <tr>
+                                      <td align="center" valign="middle" class="comment">
+                                        <a href="/familywebsite/subchapters/<%=params[:id]%>?chapter_id=<%=biography.chap_id%>">( View Chapter )</a>
+                                      </td>
+                                    </tr>
+                                  </table></td>
+                                <td width="20" align="left" valign="top"></td>
+                                <td width="703" align="left" valign="top"><table width="100%" border="0" cellspacing="0" cellpadding="0">
+                                    <tr>
+                                      <td height="35" align="left" valign="top" class="header-paragraph"><%=h biography.familymember_name %></td>
+                                    </tr>
+                                    <tr>
+                                      <td align="left" valign="top" class="content"><%=h biography.biographie %><br /></td>
+                                    </tr>
+                                    <tr>
+                                      <td align="left" valign="top">&nbsp;</td>
+                                    </tr>
+                                  </table></td>
+                                <td width="28" align="left" valign="top"></td>
+                              </tr>
+                              <tr>
+                                <td align="left" valign="top"></td>
+                                <td align="left" valign="top">&nbsp;</td>
+                                <td align="left" valign="top"></td>
+                                <td align="left" valign="top">&nbsp;</td>
+                                <td align="left" valign="top"></td>
+                              </tr>
+                            </table></td>
+                        </tr>
+                        <tr>
+                          <td align="left" valign="top">&nbsp;</td>
+                        </tr>
+                      <% end %>
+                    <% else %>
+                      <tr>
+                        <td align="center" valign="middle" class="content" height="300">Biography not found!</td>
+                      </tr>
+                    <% end %>
+                  </table></td>
+                <td width="13" align="left" valign="top"></td>
+              </tr>
+            </table></td>
+        </tr>
+      </table></td>
+  </tr>
+  <tr>
+    <td align="center" valign="top" class="tab-dots">&nbsp;</td>
+  </tr>
+</table>

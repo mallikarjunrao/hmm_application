@@ -1,0 +1,30 @@
+<mx:VBox xmlns:mx="http://www.adobe.com/2006/mxml" xmlns:renderers="renderers.*" width="100" height="100" 
+	horizontalGap="0" verticalGap="0" xmlns:fabulousFlex="fabulousFlex.*" horizontalAlign="center" verticalAlign="middle"
+	horizontalScrollPolicy="off" verticalScrollPolicy="off">
+    <mx:Script>
+    	<![CDATA[
+    		import vo.WebFileVO;
+    		import fabulousFlex.SquaresSpinnerPreloadingWindow;
+    		
+    		[Bindable]
+    		private var iconpath : String;
+    		[Bindable]
+    		private var nameval : String;
+    		
+    		override public function set data(value : Object) : void
+    		{
+    			super.data = value;
+    			
+    			iconpath = value.icon;
+    			nameval = value.name;
+    			
+    		}
+    	]]>
+    </mx:Script>
+
+    
+    <mx:Image id="img1" 
+        width="100%" height="100%" source="{iconpath}" toolTip="{nameval}"/>
+    
+        
+</mx:VBox>

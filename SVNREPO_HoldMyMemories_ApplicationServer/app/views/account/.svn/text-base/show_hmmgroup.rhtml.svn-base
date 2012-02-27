@@ -1,0 +1,75 @@
+<h2>Show Studio Owner/Company Details</h2>
+<table>
+	<tr>
+		<td colspan="3">&nbsp;</td>
+	</tr>
+	<tr>
+		<td align="right">
+			<label for="hmm_studiogroup_hmm_franchise_studio"> Studio Owner/Comapny Name *</label>
+		</td>
+		<td>&nbsp;</td>
+		<td>
+			<%= @hmm_studiogroup.hmm_franchise_studio  %>
+		</td>
+	</tr>
+    <tr>
+		<td colspan="3">&nbsp;</td>
+	</tr>
+    <tr>
+		<td align="right">
+			<label for="hmm_studiogroup_hmm_franchise_studio"> Studio Owner/Company Email *</label>
+		</td>
+		<td>&nbsp;</td>
+		<td>
+			<%= @hmm_studiogroup.contact_email  %>
+		</td>
+	</tr>
+	<tr>
+		<td colspan="3">&nbsp;</td>
+	</tr>
+	<tr>
+		<td align="right">
+			<label for="hmm_studiogroup_hmm_username">User Name *</label>
+		</td>
+		<td>&nbsp;</td>
+		<td>
+			<%= @hmm_studiogroup.studiogroup_username  %>
+		
+		</td>
+	</tr>
+	<tr>
+		<td colspan="3">&nbsp;</td>
+	</tr>
+	<tr>
+		<td align="right">
+			<label for="hmm_studiogroup_hmm_username">Password *</label>
+		</td>
+		<td>&nbsp;</td>
+		<td>
+			<%= @hmm_studiogroup.password  %>
+		</td>
+	</tr>
+    <tr>
+		<td colspan="3">&nbsp;</td>
+	</tr>
+	<tr>
+		<td align="right">
+			<label for="hmm_studiogroup_hmm_username">Created Date *</label>
+		</td>
+		<td>&nbsp;</td>
+		<td>
+			<%= @hmm_studiogroup.date_joined  %>
+		</td>
+	</tr>
+	
+	<tr>
+		<td colspan="3">&nbsp;</td>
+	</tr>
+	
+	<tr>
+		<td colspan="3">&nbsp;</td>
+	</tr>
+</table>
+
+<%= link_to 'Edit', :action => 'edit_hmmgroup', :id => @hmm_studiogroup %> |
+<%= link_to 'Back', :action => 'list_hmmgroup' %>

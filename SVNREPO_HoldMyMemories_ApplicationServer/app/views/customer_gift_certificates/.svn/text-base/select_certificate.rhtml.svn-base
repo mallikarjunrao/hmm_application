@@ -1,0 +1,308 @@
+<style type="text/css">
+  .orange-headlink {
+    font-family: Arial,Helvetica,sans-serif;
+    font-size: 16px;
+    color: #fe6809;
+    font-weight: bold;
+    text-decoration: none;
+  }
+  .smaltxt {
+    font-size: 11px;
+    text-decoration: none;
+    font-weight:normal;
+    color:#fe6809;
+  }
+
+
+  .sub-btn{
+    background:transparent;
+    background-image: url(/images/sub-btn.png);
+    height:24px;
+    width:94px;
+    border:none;
+    font-size:13px;
+    font-weight:bold;
+    color:#FFF;
+    cursor:pointer;
+  }
+  .sub-btn:hover{
+    background-image: url(/images/sub-btn-ovr.png);
+  }
+</style>
+
+<%hmmstudio=HmmStudio.find(:first,:select=>"img_url,studio_logo",:conditions=>"id=#{Base64.decode64(params[:id])}")%>
+<%img_link="#{hmmstudio.img_url}/user_content/studio_logos/#{hmmstudio.studio_logo}"%>
+<table border="0" cellpadding="0" cellspacing="0" align="center" width="900">
+  <tr>
+    <td align="center" class="whitext" height="60" colspan="2">
+      <b>Gift Certificates to your HoldMyMemories.com affiliated Studio!</b>
+    </td>
+  </tr>
+  <tr>
+    <td align="center">
+      <table style="width: 558px;">
+        <tr>
+          <td align="center" style="width: 200px;">
+            <div id="cert_img">
+              
+            </div>
+          </td>
+          <td id="studio_img" align="left" style="width: 300px;">
+            <img src="<%= img_link %>" border="0" width="232" height="132" />
+          </td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+</table>
+
+<form action="/customer_gift_certificates/select_certificate_processing" method="post" name="frm">
+  <table border="0" cellpadding="0" cellspacing="0" align="center" width="900">
+    <tr><td width="200"></td><td>
+        <table border="0" cellpadding="0" cellspacing="0" align="center" width="700" style="margin-top: 20px">
+          <tr><td class="whitext" height="60"  width="200" valign="top">Certificate Amount:</td><td align="left">
+              <select name="membership_term_id" id="membership_term_id"  onChange="refresh_select();">
+                <%
+                k=1
+                if params[:acc]=="HMM"
+                  for  membership_term  in @membership_terms%>
+                    <%if membership_term.certificate_name!=""%>
+                      <%cer_name=membership_term.certificate_name%>
+                    <%else%>
+                      <%cer_name="Certificate #{k}"%>
+                    <%end%>
+                    <option value="<%=membership_term.cid%>" ><%=cer_name%> - $<%=number_with_precision(Float(membership_term.certificate_price).round(2), :precision => 2)%></option>
+                    <%k=k+1
+                  end%>
+                <%else
+                  for  membership_term  in @membership_terms%>
+                    <option value="<%=membership_term.cid%>" ><%=membership_term.certificate_name%> - $<%=membership_term.total_price%></option>
+                    <%  k=k+1
+                  end
+                end%>
+              </select>
+              <br /><font size="2" color="white">--Select the drop down to view additional offers--</font></td>
+          </tr>
+
+          <tr><td class="whitext" height="60" width="200" >Description:</td><td class="whitext"><div id="desc" class="whitext"></div></td></tr>
+
+        </table>
+        <table border="0" cellpadding="0" cellspacing="0" align="center" width="700" style="margin-top: 20px">
+          <tr><td colspan="2" class="whitext"  height="30" align="center"> <b>Your Contact Information</b></td></tr>
+          <tr><td  class="whitext"  height="30" width="200"> Street Address:*</td><td><input type="text" name="street_address" id="street_address"  size="37"/></td></tr>
+          <tr><td  class="whitext"  height="30" width="200"> City:*</td><td><input type="text" name="city" id="city" size="37"/></td></tr>
+          <tr><td  class="whitext"  height="30" width="200"> State:*</td><td><select name="state" id="state">
+                <option value="">--Select--</option>
+                <%for state in @states%>
+                  <option value="<%=state.state%>"><%=state.abbreviation%></option>
+                <%end%>
+              </select> &nbsp;&nbsp;&nbsp;<span class="whitext">Zip Code*:</span><input type="text" name="zip" id="zip" size="10" /></td></tr>
+          <tr><td  class="whitext"  height="30" width="200">Telephone Number:*</td><td><input type="text" name="telephone" id="telephone" size="37" maxlength="13" onclick="javascript:getIt(this)" AUTOCOMPLETE = "off" /></td></tr>
+          <tr><td  class="whitext"  height="30">Email Address:*</td><td><input type="text" name="email" id="email" size="37"/></td></tr>
+        </table>
+
+        <table border="0" cellpadding="0" cellspacing="0" align="center" width="700">
+          <tr><td colspan="2" class="whitext"  height="30" align="center"> <b>Deliver Gift Certificate to</b></td></tr>
+          <tr><td  class="whitext"  height="30" width="200"> Email Address:*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td><td><input type="text" name="deliver_email" id="deliver_email" size="37" /></td></tr>
+          <input type="hidden" name="studio_id" value="<%=@stud_id%>" />
+          <input type="hidden" name="acc" value="<%=@acc%>" />
+          <tr><td colspan="2" class="whitext"  height="60" align="center"><input type="submit" name="Next" value="Next" class="sub-btn"/></td></tr>
+        </table>
+
+      </td></tr></table>
+</form>
+<script type="text/javascript">
+  function refresh_select(){
+    var cert_id = document.getElementById("membership_term_id").value;
+    var xmlhttp;
+    if (window.XMLHttpRequest)
+    {
+      xmlhttp=new XMLHttpRequest();
+    }
+    xmlhttp.onreadystatechange=function()
+    {
+      if (xmlhttp.readyState==4 && xmlhttp.status==200 || xmlhttp.status==304)
+      {
+        document.getElementById("desc").innerHTML = xmlhttp.responseText;
+      }
+    }
+    xmlhttp.open("GET","/customer_gift_certificates/get_description?acc=<%=@acc%>&&studio_id="+<%=@stud_id%>+"&&cert_id="+cert_id,true);
+    xmlhttp.send();
+
+    var xmlhttp2;
+    if (window.XMLHttpRequest)
+    {
+      xmlhttp2=new XMLHttpRequest();
+    }
+    xmlhttp2.onreadystatechange=function()
+    {
+      if (xmlhttp2.readyState==4 && xmlhttp2.status==200 || xmlhttp2.status==304)
+      {
+        if(xmlhttp2.responseText == "false")
+        {
+          document.getElementById("cert_img").innerHTML = ""
+          document.getElementById("studio_img").align = "left";
+        }
+        else
+        {
+          document.getElementById("studio_img").align = "right";
+          document.getElementById("cert_img").innerHTML = xmlhttp2.responseText;
+        }
+      }
+    }
+    xmlhttp2.open("GET","/customer_gift_certificates/update_cert_image?cert_id="+cert_id,true);
+    xmlhttp2.send();
+  }
+  function loadpage()
+  {
+    refresh_select();
+  }
+  window.onload = function() {
+    loadpage();
+  }
+</script>
+<%= javascript_include_tag 'livevalidation_prototype','livevalidation'%>
+<script type="text/javascript">
+  var f2 = new LiveValidation('membership_term_id');
+  var f4 = new LiveValidation('street_address');
+  var f5 = new LiveValidation('city');
+  var f3 = new LiveValidation('state');
+  var f6 = new LiveValidation('zip');
+  var f7 = new LiveValidation('telephone');
+  var f8 = new LiveValidation('email');
+  var f9 = new LiveValidation('deliver_email');
+
+  f2.add( Validate.Presence );
+  f4.add( Validate.Presence );
+  f3.add( Validate.Presence );
+  f5.add( Validate.Presence );
+  f6.add( Validate.Presence );
+  f6.add( Validate.Numericality);
+  f6.add( Validate.Length, { minimum: 5, maximum: 6} );
+  f7.add( Validate.Presence );
+  f8.add( Validate.Presence );
+  f9.add( Validate.Presence );
+  f8.add( Validate.Email );
+  f9.add( Validate.Email );
+
+
+  <!-- Begin
+  var n;
+  var p;
+  var p1;
+  function ValidatePhone(){
+    p=p1.value
+    if(p.length==3){
+      //d10=p.indexOf('(')
+      pp=p;
+      d4=p.indexOf('(')
+      d5=p.indexOf(')')
+      if(d4==-1){
+        pp="("+pp;
+      }
+      if(d5==-1){
+        pp=pp+")";
+      }
+      //pp="("+pp+")";
+      document.frm.telephone.value="";
+      document.frm.telephone.value=pp;
+    }
+    if(p.length>3){
+      d1=p.indexOf('(')
+      d2=p.indexOf(')')
+      if (d2==-1){
+        l30=p.length;
+        p30=p.substring(0,4);
+        //alert(p30);
+        p30=p30+")"
+        p31=p.substring(4,l30);
+        pp=p30+p31;
+        //alert(p31);
+        document.frm.telephone.value="";
+        document.frm.telephone.value=pp;
+      }
+    }
+    if(p.length>5){
+      p11=p.substring(d1+1,d2);
+      if(p11.length>3){
+        p12=p11;
+        l12=p12.length;
+        l15=p.length
+        //l12=l12-3
+        p13=p11.substring(0,3);
+        p14=p11.substring(3,l12);
+        p15=p.substring(d2+1,l15);
+        document.frm.telephone.value="";
+        pp="("+p13+")"+p14+p15;
+        document.frm.telephone.value=pp;
+        //obj1.value="";
+        //obj1.value=pp;
+      }
+      l16=p.length;
+      p16=p.substring(d2+1,l16);
+      l17=p16.length;
+      if(l17>3&&p16.indexOf('-')==-1){
+        p17=p.substring(d2+1,d2+4);
+        p18=p.substring(d2+4,l16);
+        p19=p.substring(0,d2+1);
+        //alert(p19);
+        pp=p19+p17+"-"+p18;
+        document.frm.telephone.value="";
+        document.frm.telephone.value=pp;
+        //obj1.value="";
+        //obj1.value=pp;
+      }
+    }
+    //}
+    setTimeout(ValidatePhone,100)
+  }
+  function getIt(m){
+    n=m.name;
+    //p1=document.forms[0].elements[n]
+    p1=m
+    ValidatePhone()
+  }
+  function testphone(obj1){
+    p=obj1.value
+    //alert(p)
+    p=p.replace("(","")
+    p=p.replace(")","")
+    p=p.replace("-","")
+    p=p.replace("-","")
+    //alert(isNaN(p))
+    if (isNaN(p)==true){
+      alert("Check phone");
+      return false;
+    }
+  }
+  //  End -->
+</script>
+<style type="text/css">
+  .LV_validation_message{
+    margin:0 0 0 5px;
+  }
+
+  .LV_valid {
+    color:#00CC00;
+  }
+
+  .LV_invalid {
+    color:#CC0000;
+  }
+
+  .LV_valid_field,
+  input.LV_valid_field:hover,
+  input.LV_valid_field:active,
+  textarea.LV_valid_field:hover,
+  textarea.LV_valid_field:active {
+    border: 1px solid #00CC00;
+  }
+
+  .LV_invalid_field,
+  input.LV_invalid_field:hover,
+  input.LV_invalid_field:active,
+  textarea.LV_invalid_field:hover,
+  textarea.LV_invalid_field:active {
+    border: 1px solid #CC0000;
+  }
+</style>

@@ -1,0 +1,34 @@
+
+xml.instruct! :xml, :version=>"1.0" 
+xml.images{
+  for gallery in @galleries
+    if(params[:id]=='bob' || params[:id]=='eveleth')
+      @content_server_url = "http://content.holdmymemories.com"
+    else
+      @content_server_url = gallery.img_url
+    end
+     @content_count=UserContent.count(:all, :conditions => " gallery_id=#{gallery.id} and status='active'") 
+   if(@content_count>0)    
+      xml.image{
+
+      if(gallery.v_gallery_image=='picture.png' || gallery.v_gallery_image=='audio.png' ||gallery.v_gallery_image=='video.png') 
+        xml.icon(@content_server_url + '/user_content/photos/icon_thumbnails/noimage.jpg')
+      else
+        imageName  = gallery.v_gallery_image
+        imageName.slice!(-3..-1)
+        xml.icon(@content_server_url + '/user_content/photos/flex_icon/'+imageName+"jpg" )
+     end
+     if(gallery.v_gallery_name == "" || gallery.v_gallery_name==nil)
+      xml.name("Gallery")
+     else
+      xml.name(gallery.v_gallery_name)
+     end
+
+      xml.navigate_path("#{@navigate_path+@family_name}?gallery_id=#{gallery.id}&app_type=#{@app_type}")
+      xml.type("image")
+      xml.response_type(@response_type)
+      xml.id(gallery.id)
+      }
+ end
+ end
+}

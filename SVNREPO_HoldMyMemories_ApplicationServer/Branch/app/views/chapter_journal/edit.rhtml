@@ -1,0 +1,29 @@
+
+<br>
+
+<%for @i in @chap_j 
+
+if(@i.v_chapimage == "folder_img.png")
+		imgpath=@i.img_url + '/user_content/photos/big_thumb/noimage.jpg'
+	  else	
+        imageName  = @i.v_chapimage
+        imageName.slice!(-3..-1)
+        imgpath=@i.img_url + '/user_content/photos/icon_thumbnails/'+imageName+'png'
+      end	
+
+
+%>
+<p align="left">
+	<table><tr><td valign="middle">
+	<font size=5 style=face="Arial, Helvetica, sans-serif">
+ 
+ 	<img src="<%=imgpath%>" width="80"/></td><td valign="middle"><font size=5 color="#ffffff" style=face="Arial, Helvetica, sans-serif">&nbsp;&nbsp;Edit journal entry for "<%= @i.v_tagname %>" <!--Chapter--></font></p>
+</td></tr></table>
+<%end%>
+
+<% form_tag :action => 'update', :id => @chapter_journal do %>
+  <%= render :partial => 'form' %>
+
+<% end %>
+
+

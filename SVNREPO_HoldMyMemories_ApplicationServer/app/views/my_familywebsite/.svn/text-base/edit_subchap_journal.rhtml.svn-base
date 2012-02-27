@@ -1,0 +1,17 @@
+<table width="100%" cellpadding="0" cellspacing="0" border="0">
+	<tr valign="top" >
+		<td width="170" valign="top" >
+			<%= render :partial => "my_familywebsite/leftnav", :locals => { :current => "journal"} %>
+		</td>
+		<td valign="top">
+
+
+<% form_tag :action => 'update_subchap_journal', :id => @sub_chap_journal do %>
+  <input type="text" name="familyname" id="familyname" value="<%=params[:id]%>">
+  <input type="text" name="jid" id="jid" value="<%=params[:jid]%>">
+  <%= render :partial => 'form_edit_subchap_journal' %>
+  
+  
+<% end %>
+
+</td></tr></table>

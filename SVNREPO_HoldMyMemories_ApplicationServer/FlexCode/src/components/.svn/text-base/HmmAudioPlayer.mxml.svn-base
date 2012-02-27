@@ -1,0 +1,206 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PlayerWithSlider xmlns="components.*" xmlns:mx="http://www.adobe.com/2006/mxml" creationComplete="handleCreationComplete()">
+
+<mx:Script>
+	<![CDATA[
+		import mx.controls.Label;
+		import mx.events.SliderEvent;
+		import mx.events.FlexEvent;
+		import mx.controls.Image;
+		
+		public var imageSource : String;
+		private var image : Image;
+		private var audioSource : String;
+		private var audioChannel : SoundChannel;
+		private var audio : Sound;
+		private var timer : Timer = new Timer(1000);
+		private var position : Number;
+		public var isPlaying : Boolean;
+		private var visualizer : Visualization;
+		[Bindable]
+        public var effects:Array = new Array();
+		private function handleCreationComplete() : void
+		{
+			//timer = new Timer(1000);
+			timer.addEventListener(TimerEvent.TIMER, handleTimerEvent);
+			fullscreen.visible = false;
+			//var label : Label = new Label();
+			//label.text = "This would be replaced by a visualizer";
+			//label.filters = [new GlowFilter()];
+			//label.setStyle("color", 0xffffff);
+			//this.addChild(label);
+			//label.x = (this.width - label.measuredWidth)/2;
+			//label.y = (this.height - label.measuredHeight)/2;
+			
+			effects.push(new Array("verticalBlur", verticalBlur));
+           effects.push(new Array("horizontalBlur", horizontalBlur));
+           effects.push(new Array("verticalScroll", verticalScroll));
+           effects.push(new Array("horizontalScroll", horizontalScroll));
+           effects.push(new Array("blueFade", blueFade));
+			
+			//Visualization id="example" type="wave" bars="32"  width="100%" height="50%">
+			visualizer = new Visualization();
+			visualizer.type = "wave";
+			visualizer.bars = 32;
+			visualizer.width = 478;
+			visualizer.height = 324;
+			visualizer.setStyle("audioLineColor", 0x0);
+			visualizer.setStyle("audioFillColor", 0xec6610);
+			visualizer.addEventListener("beforeVisualization", effects[0][1]);
+			visualizer.addEventListener("beforeVisualization", effects[1][1]);
+			visualizer.addEventListener("beforeVisualization", effects[3][1]);
+			visualizer.addEventListener("afterVisualization", effects[2][1]);
+			visualizer.addEventListener("afterVisualization", effects[1][1]);
+			visualizer.addEventListener("afterVisualization", effects[2][1]);
+			visualizer.channel = "stereo";
+			this.addChild(visualizer);
+			visualizer.x = 14;
+			visualizer.y = 28;
+			this.setChildIndex(visualizer, 0);
+		}
+		
+		private function blueFade( e:Event ):void {
+                   e.target.bitmapData.colorTransform( e.target.bitmapData.rect, new ColorTransform( 0.6, 0.8, 1, 0.9 ) );
+        }
+               
+        private function verticalBlur( e:Event ):void {
+           e.target.bitmapData.applyFilter( e.target.bitmapData, e.target.bitmapData.rect, new Point(0,0), new BlurFilter(0,15));
+        }
+       
+        private function horizontalBlur( e:Event ):void {
+           e.target.bitmapData.applyFilter( e.target.bitmapData, e.target.bitmapData.rect, new Point(0,0), new BlurFilter(15,0));
+        }
+       
+        private function verticalScroll( e:Event ):void {
+           e.target.bitmapData.scroll(0,5);
+        }
+       
+        private function horizontalScroll( e:Event ):void {
+           e.target.bitmapData.scroll(-5,0);
+        }
+		
+		private function handleTimerEvent(event : TimerEvent) : void
+		{
+			slider.value = audioChannel.position;
+			slider.maximum = audio.length;
+		}
+		
+		public function set source(src : String) : void
+		{
+			image = new Image();
+			image.percentHeight = 90;
+			image.percentWidth = 90;
+			image.addEventListener(FlexEvent.CREATION_COMPLETE, handleImageCreation);
+			image.addEventListener(Event.COMPLETE, handleLoadComplete);
+			this.addChild(image);
+			audioSource = src;
+			audio = new Sound(new URLRequest(audioSource));
+			audio.addEventListener(ProgressEvent.PROGRESS, handleAudioLoadProgress);
+			audioChannel = audio.play();
+			position = audioChannel.position;
+			
+			
+			audioChannel.stop();
+			isPlaying = false;
+		}
+		
+		private function handleAudioLoadProgress(event : ProgressEvent) : void
+		{
+			slider.width = (event.bytesLoaded/event.bytesTotal)*272;
+		}
+		
+		override protected function handlePlayPause(event:Event):void
+		{
+			if(isPlaying)
+			{
+				position = audioChannel.position;
+				audioChannel.stop();
+				timer.stop();
+				isPlaying = false;
+			}else
+			{
+				var trans : SoundTransform = new SoundTransform(volumeSlider.value*0.01);
+				audioChannel = audio.play(position, 0, trans);
+				isPlaying = true;
+				timer.start();
+			}
+		}
+		
+		private function handleLoadComplete(event : Event) : void
+		{
+			image.x = (this.width - image.width)/2;
+			image.y = (this.height - image.height)/2;
+		}
+		
+		private function handleImageCreation(event : Event) : void
+		{
+			image.source = imageSource;
+		}
+		
+		public function handleCloseClick():void
+		{
+			audioChannel.stop();
+			
+		}
+		
+		override protected function handleProgressChange(event:Event):void
+		{
+			audioChannel.stop(); 
+			var trans : SoundTransform = new SoundTransform(volumeSlider.value*0.01);
+			audioChannel = audio.play(slider.value,0,trans);
+			
+		}
+		
+		public function stop() : void
+		{
+			if(isPlaying)
+			{
+				position = audioChannel.position;
+				audioChannel.stop();
+				timer.stop();
+				isPlaying = false;
+			}else
+			{
+				var trans : SoundTransform = new SoundTransform(volumeSlider.value*0.01);
+				audioChannel = audio.play(position, 0, trans);
+				isPlaying = true;
+				timer.start();
+			}
+		}
+		
+		public function get playing() : Boolean
+		{
+			return isPlaying;
+		}
+		
+		public function playAudio() : void
+		{
+			if(isPlaying)
+			{
+				position = audioChannel.position;
+				audioChannel.stop();
+				timer.stop();
+				isPlaying = false;
+			}else
+			{
+				if(volumeSlider)
+					var val : Number = volumeSlider.value*0.01;
+				else
+					var val : Number = 0.5;
+				var trans : SoundTransform = new SoundTransform(val);
+				audioChannel = audio.play(position, 0, trans);
+				isPlaying = true;
+				timer.start();
+			}
+		}
+		
+		override protected function updateVolume(event:Event):void
+		{
+			var evt : SliderEvent = event as SliderEvent;
+			var trans : SoundTransform = new SoundTransform(evt.value*0.01);
+			audioChannel.soundTransform = trans;
+		}
+	]]>
+</mx:Script>
+	
+</PlayerWithSlider>

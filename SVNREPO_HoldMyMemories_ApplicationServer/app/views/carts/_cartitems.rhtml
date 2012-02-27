@@ -1,0 +1,322 @@
+<%  @orders = Array.new
+session[:grand_total] = 0
+@discount_count = 0 %>
+<% for cart_item in cart_items
+  items = cart_item[:items]
+  shipping_methods = cart_item[:shipping_methods]
+  studio_sales_tax = cart_item[:studio_sales_tax]
+  processed_by = cart_item[:processed_by]
+  studio_id = cart_item[:studio_id]
+  studio_state_id = cart_item[:studio_state_id]
+  shipping_state_id = cart_item[:shipping_state_id]
+%>
+  <script type="text/javascript">
+    function coupons(sid,sales_tax,subtotal,subtotal_digital,type){
+      if(type=='coupon')
+      {
+        if (document.getElementById('coupon'+sid).value == ''){
+          alert('Enter the Coupon Number');
+          document.getElementById('coupon'+sid).focus();
+        }else{
+          var ship_option = ""
+          if (document.getElementById('ship_option'+sid) != null)
+          {
+            ship_option=document.getElementById('ship_option'+sid).value;
+          }
+          var coupon_id = document.getElementById('coupon'+sid).value
+          new Ajax.Updater('studio_div'+sid, '/carts/get_discount?coupon_id='+coupon_id+'&studio_id='+sid+'&subtotal='+subtotal+'&subtotal_digital='+subtotal_digital+'&sales_tax='+sales_tax+'&ship_option='+ship_option+'&type=discount', {asynchronous:true, evalScripts:true});
+        }
+      }
+      else
+      { if(subtotal!=0)
+        {
+          ship_option=document.getElementById('ship_option'+sid).value;
+        }
+        var coupon_id = document.getElementById('couponid').value
+        new Ajax.Updater('studio_div'+sid, '/carts/get_discount?coupon_id='+coupon_id+'&studio_id='+sid+'&subtotal='+subtotal+'&subtotal_digital='+subtotal_digital+'&sales_tax='+sales_tax+'&ship_option='+ship_option+'&type=credit', {asynchronous:true, evalScripts:true});
+      }
+    }
+
+  </script>
+  <%if params[:v]=="v4"%>
+    <%link="?v=v4"%>
+    <%link1="&&v=v4"%>
+  <% else%>
+    <%link=""%>
+    <%link1=""%>
+  <%end%>
+  <table width="860" border="0" cellspacing="0" cellpadding="0" >
+    <tr>
+      <td width="860" align="center" valign="middle" colspan="3" height="40" class="content">  Order Processed by <%=  processed_by %> </td>
+    </tr>
+    <tr>
+      <td width="11" align="left" valign="top"><img src="/images/g_round1.jpg" width="11" height="11" /></td>
+      <td width="868" align="left" valign="top" background="/images/g_round2.jpg"></td>
+      <td width="11" align="left" valign="top"><img src="/images/g_round3.jpg" width="11" height="11" /></td>
+    </tr>
+    <tr>
+      <td align="left" valign="top" background="/images/c_round7.jpg"><img src="/images/g_round4.jpg" width="100%" height="25" /></td>
+      <td align="center" valign="top" background="/images/c_roundmid.jpg" bgcolor="#050505"><table width="838" border="0" cellspacing="0" cellpadding="0">
+          <tr>
+            <td width="150" height="25" align="left" valign="top" background="/images/g_round4.jpg" class="headers">Photo</td>
+            <td align="left" valign="top" background="/images/g_round4.jpg" class="headers">Quantity</td>
+            <td width="100" align="left" valign="top" background="/images/g_round4.jpg" class="headers">Unit Price</td>
+            <td width="100" align="left" valign="top" background="/images/g_round4.jpg" class="headers">Price</td>
+            <td width="100" align="left" valign="top" background="/images/g_round4.jpg" class="headers">Remove</td>
+          </tr>
+          <%  @total = 0
+          @subtotal = 0
+          @subtotal_digital = 0
+          digital_sizes=Carts.get_digital_downloads()
+          for item in items %>
+            <tr>
+              <td height="5" colspan="4" align="left" valign="top"></td>
+            </tr>
+            <tr>
+              <td height="90" align="left" valign="top" class="content"><span class="whitecont"><%=item.label%></span><br />
+                <img src="<%=item.itemurl%>/user_content/photos/order_prints/thumbnails/<%=item.print_image%>?time=<%=Time.now%>"/><br>
+                <br>
+              </td>
+              <td align="left" valign="top" class="content">
+                <form name="frm<%=item.id%>" action="/carts/update_cart/<%= params[:id] %><%=link%> " method="post">
+                  <table width="136" border="0" cellspacing="0" cellpadding="0">
+                    <% if (Integer(item.size_id) == Integer(high_resolution) || Integer(item.size_id) == Integer(low_resolution) || digital_sizes.include?(item.size_id.to_i))
+                      digital = true
+                    %>
+                      <tr><td><input type="text" name="qty" id="qty" class="Qtextbox" value="<%=item.qty%>" onKeyUp="valid(this);" maxlength="3" disabled/></td></tr>
+                    <% else
+                      digital = false
+                    %>
+                      <tr>
+                        <td><input type="text" name="qty" id="qty" class="Qtextbox" value="<%=item.qty%>" onKeyUp="valid(this);" maxlength="3"/>
+                          <input type="hidden" name="cid" value="<%=item.cid%>">
+                        </td>
+                        <td><input type="image" src="/images/update_btndef.jpg"  /></td>
+                      </tr>
+                    <% end %>
+                  </table>
+                </form>
+              </td>
+              <%
+              price=Cart.image_price(@family_website_owner.account_type,item.d_createddate,item.pricelt72,item.price)
+            %>
+              <%
+              @price=Float(price)*Integer(item.qty)
+              if digital == true
+                @subtotal_digital = Float(@subtotal_digital)+Float(@price.round(2))
+              else
+                @subtotal = Float(@subtotal)+Float(@price.round(2))
+              end
+            %>
+
+              <td align="left" valign="top" class="content">$<%=price %> </td>
+              <td align="left" valign="top" class="content"> $<%=number_with_precision(@price.round(2), :precision => 2)%></td>
+              <td align="left" valign="top" class="whitecontnormal"><a href="/carts/delete_item_cart/<%=params[:id]%>?did=<%=item.cid%><%=link1%>" onClick="javascript:return confirm('Are you sure to delete ?')"><img src="/images/delete.jpg" name="Image25" title="Remove from Cart" border="0" id="Image25" /></a></td>
+            </tr>
+            <tr>
+              <td height="5" colspan="4" align="left" valign="top"></td>
+            </tr>
+            <tr>
+              <td height="1" colspan="5" align="left" valign="top" bgcolor="#999999"></td>
+            </tr>
+          <% end
+          unless @subtotal == 0
+            if shipping_methods.length == 0
+              @shipping = Configuration.find(:first,:conditions =>"configuration_option='DEFAULT_SHIPPING'")
+              @shipping_price = Float(@shipping.configuration_value).round(2)
+              @total=Float(@subtotal)+@shipping_price
+            else
+              @shipping = ShippingMethod.find(:first,:joins=>"as a,shipping_prices as b",
+                :conditions=>"a.id=b.method_id and a.studio_id=#{studio_id} and b.method_id=#{shipping_methods[0].id} and b.start_price <= #{@subtotal} and b.end_price >= #{@subtotal}",
+                :select=>"b.ship_price")
+              @shipping_price = Float(@shipping.ship_price).round(2)
+              @total=Float(@subtotal)+@shipping_price
+            end
+          else
+            @shipping_price = 0
+          end
+
+          #if Integer(shipping_state_id) == studio_state_id
+          @sales_tax=(Float(studio_sales_tax/100))* (Float(@total) + Float(@subtotal_digital))
+          @total=Float(@total) + Float(@subtotal_digital) + Float(@sales_tax).round(2)
+          #else
+          #studio_sales_tax=0
+          #@sales_tax=nil
+          #@total=Float(@total) + Float(@subtotal_digital)
+          #end
+
+        %>
+          <tr>
+            <td height="10" colspan="5" align="left" valign="top"></td>
+          </tr>
+          <tr>
+            <td colspan="5" align="right" valign="top" class="leftconthr"><table width="838" border="0" cellspacing="0" cellpadding="0">
+                <tr>
+                  <td width="548">&nbsp;</td>
+                  <td width="290" align="right" valign="top">&nbsp;</td>
+                </tr>
+                <tr>
+                  <td align="left">
+
+                    <table width="289" border="0" cellspacing="0" cellpadding="0" id="valid_coupon<%=studio_id%>">
+                      <tr>
+                        <td width="11" align="left" valign="top"><img src="/images/c_round1.jpg" width="11" height="11" /></td>
+                        <td width="668" align="left" valign="top" background="/images/c_round2.jpg"></td>
+                        <td width="11" align="left" valign="top"><img src="/images/c_round3.jpg" width="11" height="11" /></td>
+                      </tr>
+                      <tr>
+                        <td align="left" valign="top" background="/images/c_round7.jpg"></td>
+                        <td align="left" valign="top" background="/images/c_roundmid.jpg" bgcolor="#050505" class="cont-white-title">
+                          <table width="289">
+                            <% unless shipping_methods.length == 0 || @subtotal == 0%>
+                              <tr>
+                                <td> <select id="ship_option<%=studio_id%>" name="ship_option<%=studio_id%>" onChange="new Ajax.Updater('studio_div<%=studio_id%>', '/carts/get_studio_shipping?studio_id='+<%=studio_id%>+'&subtotal='+<%=@subtotal%>+'&subtotal_digital='+<%=@subtotal_digital%>+'&sales_tax='+<%=studio_sales_tax%>+'&ship_option='+this.value, {asynchronous:true, evalScripts:true}); return false;">
+                                    <% for ship in shipping_methods%>
+                                      <option value="<%=ship.id%>"><%=ship.method_name%></option>
+                                    <%end%>
+                                  </select></td>
+                              </tr>
+                              <tr><td>&nbsp;</td></tr>
+                            <%end%>
+                            <tr>
+                              <td class="cont-white-title" >Enter the Coupon code :<br/><input type="text" name="coupon<%=studio_id%>" id="coupon<%=studio_id%>"  size="24"/>&nbsp;&nbsp;<input name="button" type="submit" class="cmd-btn" id="button" value="Redeem" onclick="return coupons(<%=studio_id%>,<%=studio_sales_tax%>,<%=@subtotal%>,<%=@subtotal_digital%>,'coupon');"><br />
+
+                                <% if studio_id.to_i== @family_website_owner.studio_id && userstudio== "Yes" %>
+                                  <%if @creditpt_count==1 && @creditpt.available_credits.to_f > 0%>
+                                    or<br /><input type="hidden" name="coupon<%=studio_id%>" id="couponid" value="<%=number_with_precision(@creditpt.available_credits, :precision => 2)%>"/>
+                                    <input  type="submit"  class="cmd-btn" id="button" value="Click here to use your $<%=number_with_precision(@creditpt.available_credits, :precision => 2)%> credit amount" onclick="return coupons(<%=studio_id%>,<%=studio_sales_tax%>,<%=@subtotal%>,<%=@subtotal_digital%>,'credit');" />
+                                  <%end%>
+                                <%end%>
+                                <% @discount_count =@discount_count + 1 %>
+                              </td>
+                            </tr>
+                          </table>
+
+
+                        </td>
+                        <td align="left" valign="top" background="/images/c_round8.jpg"></td>
+                      </tr>
+                      <tr>
+                        <td align="left" valign="top"><img src="/images/c_round4.jpg" width="11" height="11" /></td>
+                        <td align="left" valign="top" background="/images/c_round5.jpg"></td>
+                        <td align="left" valign="top"><img src="/images/c_round6.jpg" width="11" height="11" /></td>
+                      </tr>
+                    </table>
+                  </td>
+                  <td align="right" valign="top"><table width="289" border="0" cellspacing="0" cellpadding="0">
+                      <tr>
+                        <td width="11" align="left" valign="top"><img src="/images/c_round1.jpg" width="11" height="11" /></td>
+                        <td width="668" align="left" valign="top" background="/images/c_round2.jpg"></td>
+                        <td width="11" align="left" valign="top"><img src="/images/c_round3.jpg" width="11" height="11" /></td>
+                      </tr>
+                      <tr>
+                        <td align="left" valign="top" background="/images/c_round7.jpg"></td>
+                        <td align="center" valign="top" background="/images/c_roundmid.jpg" bgcolor="#050505" class="content"><div id="studio_div<%=studio_id%>">
+                            <table width="90%" border="0" cellspacing="0" cellpadding="0" class="content" >
+                              <% unless @subtotal == 0 %>
+                                <tr>
+                                  <td colspan="2" align="center">Order Prints </td>
+                                </tr>
+                                <tr>
+                                  <td align="left" valign="top">Subtotal :</td>
+                                  <td align="left" valign="top" >$<%= number_with_precision(@subtotal, :precision => 2) %>
+                                  </td>
+                                </tr>
+                              <% end %>
+                              <!-- Digital Download -->
+                              <% unless @subtotal_digital.to_i == 0 %>
+                                <tr>
+                                  <td colspan="2" align="center">Digital Download</td>
+                                </tr>
+                                <tr>
+                                  <td align="left" valign="top">Subtotal :</td>
+                                  <td align="left" valign="top" >$<%= number_with_precision(@subtotal_digital, :precision => 2) %>
+                                  </td>
+                                </tr>
+                              <% end %>
+                              <tr>
+                                <td align="left" valign="top" >&nbsp;</td>
+                                <td align="center" valign="top" >&nbsp;</td>
+                              </tr>
+                              <tr>
+                                <td align="left" valign="top" >&nbsp;</td>
+                                <td align="center" valign="top" >&nbsp;</td>
+                              </tr>
+                              <tr>
+                                <td align="left" valign="top" >Shipping :</td>
+                                <td align="left" valign="top" >$<%= number_with_precision(@shipping_price, :precision => 2) %>
+                                </td>
+                              </tr>
+                              <tr>
+                                <td align="left" valign="top" >&nbsp;</td>
+                                <td align="center" valign="top" >&nbsp;</td>
+                              </tr>
+                              <!-- Sales Tax -->
+                              <% unless @sales_tax == nil %>
+                                <tr>
+                                  <td align="left" valign="top" >Sales Tax (<%= number_with_precision(Float(studio_sales_tax), :precision => 2) %> % ) :</td>
+                                  <td align="left" valign="top" >$<%=  number_with_precision(@sales_tax.round(2), :precision => 2) %> </td>
+                                </tr>
+                                <tr>
+                                  <td align="left" valign="top" >&nbsp;</td>
+                                  <td align="center" valign="top">&nbsp;</td>
+                                </tr>
+                              <%end%>
+
+                              <tr>
+                                <td align="left" valign="top" >Total :</td>
+                                <td align="left" valign="top" >$<%= number_with_precision(@total, :precision => 2) %> </td>
+                              </tr>
+                              <tr>
+                                <td align="left" valign="top" >&nbsp;</td>
+                                <td align="center" valign="top" >&nbsp;</td>
+                              </tr>
+                              <tr>
+                                <td align="left" valign="top" >&nbsp;</td>
+                                <td align="left" valign="top" ></td>
+                              </tr>
+                            </table>
+                          </div></td>
+                        <td align="left" valign="top" background="/images/c_round8.jpg"></td>
+                      </tr>
+                      <tr>
+                        <td align="left" valign="top"><img src="/images/c_round4.jpg" width="11" height="11" /></td>
+                        <td align="left" valign="top" background="/images/c_round5.jpg"></td>
+                        <td align="left" valign="top"><img src="/images/c_round6.jpg" width="11" height="11" /></td>
+                      </tr>
+                    </table></td>
+                </tr>
+              </table></td>
+          </tr>
+        </table></td>
+      <td align="left" valign="top" background="/images/c_round8.jpg"><img src="/images/g_round4.jpg" width="100%" height="25" /></td>
+    </tr>
+    <tr>
+      <td align="left" valign="top"><img src="/images/c_round4.jpg" width="11" height="11" /></td>
+      <td align="left" valign="top" background="/images/c_round5.jpg"></td>
+      <td align="left" valign="top"><img src="/images/c_round6.jpg" width="11" height="11" /></td>
+    </tr>
+  </table><br/>
+  <%
+
+  order = Hash.new()
+  if @sales_tax == nil
+    @sales_tax=0.00
+    @sales_tax_rate =0
+  else
+    @sales_tax_rate =Float(studio_sales_tax)
+  end
+  if shipping_methods == nil
+    shipping_method=shipping_methods[0].method_name
+  else
+    shipping_method == nil
+  end
+  order ={:subtotal => @subtotal,:subtotal_digital => @subtotal_digital,:shipping_method => shipping_method, :shipping_price => @shipping_price, :sales_tax_rate => @sales_tax_rate,:sales_tax =>  @sales_tax.round(2), :total => @total, :studio_id => studio_id, :ecommerce_coupon_id => 0, :discount_price => 0.00, :free_shipping => "false"}
+  @orders.push(order)
+  #session[:cart_subtotal] = session[:cart_subtotal]+ @subtotal
+  #session[:cart_shippingprice] = session[:cart_shippingprice] + @shipping_price
+  session[:grand_total] = session[:grand_total] + @total
+end
+
+session[:orders]=@orders
+%>

@@ -1,0 +1,161 @@
+
+				 <script type="text/javascript">
+<!--
+function imageswap(element,div) {
+var i = document.getElementById(element).src;
+var temp = i.split("/");
+var source = temp[temp.length-1];
+
+	if(source=="arrow_down.PNG")
+	{
+		document.getElementById(element).src="/images/arrow_up.png";
+		document.getElementById(div).style.display="none";
+		
+	}
+	else if(source=="arrow_up.png")
+	{
+		document.getElementById(element).src="/images/arrow_down.PNG"
+		document.getElementById(div).style.display="block";
+	}
+  
+}
+/*
+function checkAll(){
+	for (var i=0;i<document.forms[0].elements.length;i++)
+	{
+		var e=document.forms[0].elements[i];
+		
+		if ((e.name != 'allbox') && (e.type=='checkbox'))
+		{
+			e.checked=document.forms[0].allbox.checked;
+		}
+	}
+}
+
+
+function checkAll(){
+	if (document.getElementById('CheckAll').checked == true)
+	{
+		//alert(i)
+		for (i = 1; i <=document.getElementById('len').value; i++) 
+		{
+			alert(i)
+			document.getElementById(i).checked = true;
+		}
+	}
+	else 
+	{
+		for (i = 1; i <=document.getElementById('len').value; i++) 
+		{
+			document.getElementById(i).checked = false;
+		}
+	}
+}*/
+
+//-->
+</script>				
+
+<style>
+	.text-color{
+		font-family: Verdana, Arial, Helvetica, sans-serif;
+		color: #ffffff;
+		border: thin solid #191919;
+		font-size:small;
+	}
+	.text-header{
+		font-family: Verdana, Arial, Helvetica, sans-serif;
+		font-size: larger;
+		color: #ffffff;
+		border: thin solid #191919;
+	}
+	.border-none{
+		border: thin solid #000000;
+	}
+</style>
+<form action="/chapter_journal/shareWorker/<%=params[:id]%>"?&<%=@jtype%>?&<%=@img%> method="post">
+	<input type="hidden" name="jtype" value="<%=@temp[1]%>" />
+	
+	<input type="hidden" value="<%=params[:id]%>" name="jid" />
+	
+	<table><tr><td>&nbsp;</td><td>&nbsp;</td></tr></table>
+	
+	<table border="2" width="800" align="center" class="border" cellpadding="4" cellspacing="4">
+		<tr>
+			<td class="text-header" align="center" height="100%"  width="500">
+				Friends and Family
+			</td>
+			<td align="left" valign="top" class="text-color" rowspan="4" colspan="0" height="100%" >
+				<table>
+					<tr>
+						<td valign="top" align="left" class="text-color">
+							<br>Message:<br><textarea name="message" id="message" value="message" cols="40" rows="6" class = "textbox-1"></textarea>
+						</td>
+					</tr>
+					<tr><td>&nbsp;</td></tr>
+					<tr>
+						<td colspan="0" align="center" valign="top" class="border-none">
+							<input type="image" src="/images/sharejournal_btn.jpg" value="share Journal" id="share" name="share Journal" width="110" height="25" border="0" >&nbsp;&nbsp; 
+							<a href="/chapter_journal/journals" border="0"> <img src="/images/cancel_btn.jpg"  value="Cancel" name="cancel" id="cancel" width="87" height="25" border="0"></a>
+						</td>
+					</tr>
+				</table>
+			</td>
+		</tr>
+		
+		<tr>
+			<td align="left" class="text-color" rowspan="2" valign="top" height="100%">
+				<table border="0" width="100%" cellpadding="0" cellspacing="0"  >
+					<tr>
+						<td>
+				<% fnf_group = FnfGroups.find(:all, :conditions => "uid=#{logged_in_hmm_user.id}")%>
+				<% for i in fnf_group 
+					temp  = i.fnf_category %>
+					<%@frd_cnt = FamilyFriend.count(:all, :conditions => "fnf_category = #{i.id} 
+											and status='accepted' 
+											and block_status='unblock' " )%>
+				<br>
+				
+				<a href="#" onclick="new Ajax.Updater('<%=i.id%>', '/chapter_journal/friendsList/<%=i.id%> '+status, {asynchronous:true, evalScripts:true, onLoading:function(request) {Effect.Appear('Loading<%=i.id%>');}}); return false;"><img src='/images/arrow_up.png' id='<%=i.fnf_category%>' border='0' onclick='imageswap("<%=i.fnf_category%>",<%=i.id%>);'  ></a>&nbsp;
+					<input type="checkbox" id="hmmGroup<%=i.id%>" name="hmmGroup[]" value="<%=i.id%>" onclick="
+					new Ajax.Updater('<%=i.id%>', 
+					'/chapter_journal/friendsList/<%=i.id%> '+this.checked, 
+					{asynchronous:true, evalScripts:true, onLoading:function(request) {Effect.Appear('Loading<%=i.id%>');}
+					}
+					);imageswap('<%=i.fnf_category%>',<%=i.id%>);return true;" >&nbsp;<%=i.fnf_category%>(<%=@frd_cnt%>)
+				
+				<div id="<%=i.id%>" style="display:inline;"></div>
+				<div id="Loading<%=i.id%>" style="display:none;">Loading...</div>
+				<%end%>
+				<input type="hidden" name="len" id="len" value="<%= i.id %>"/>
+				</td></tr></table>
+			<table border="0" cellpadding="0" cellspacing="0" >
+				<tr>
+					<td>
+						<% non_hmmcount = NonhmmUser.count_by_sql("SELECT count(*) FROM nonhmm_users where  v_email NOT IN(select v_e_mail from hmm_users) and uid=#{logged_in_hmm_user.id}")%>
+						
+							<a href="#" onclick="new Ajax.Updater('nonhmm', '/chapter_journal/nonhmm_friendslist/nonhmm '+document.getElementById('nonhmmCheckbox').checked, {asynchronous:true, evalScripts:true});imageswap('nonhmmArrow','nonhmm'); return false;"><img src='/images/arrow_up.png' id='nonhmmArrow' border='0' ></a>&nbsp;
+							<input type="checkbox" id="nonhmmCheckbox" name="nonhmm[]" onclick="new Ajax.Updater('nonhmm', '/chapter_journal/nonhmm_friendslist/nonhmm '+this.checked, {asynchronous:true, evalScripts:true});imageswap('nonhmmArrow','nonhmm'); return true;"> 
+						Non HMM(<%=non_hmmcount%>)
+						<div id="nonhmm" style="display:inline;"></div>
+						<div id="nonhmm<%=i.id%>" style="display:none;">Loading...</div>
+					</td>
+				</tr>
+			</table>
+			</td>
+			
+			
+		</tr>
+		<tr>
+		</tr>
+		<tr>
+			<td class="text-header" rowspan="0" align="left" valign="top" >
+				E-mail <input type="text" name="email" id="email" >
+				<br>
+				<p><font color="#f5dfa6" size="1">Please enter the email address of the person you would like to share with—if sending to multiple friends, please separate each address with a comma.</font></p>
+			</td>
+			
+		</tr>
+		
+		
+	</table>
+</form>

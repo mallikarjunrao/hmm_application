@@ -1,0 +1,211 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:VBox xmlns:mx="http://www.adobe.com/2006/mxml" width="100%" height="100%" show="handleShow()" horizontalAlign="center" verticalAlign="top"
+	verticalGap="0" creationComplete="handleCreationComplete()">
+	<mx:Text text="Choose the icon for your Gallery (Chapter and Subchapter icons may be chosen also)" color="0xf79646" fontSize="14"/>
+	<mx:Text text="(right click on an image below to set it as an icon)" fontSize="14" color="0xf79646"/>
+	<mx:TileList id="contentsTileList" verticalAlign="top" height="260" width="100%" borderStyle="none" borderThickness="0" columnWidth="130" 
+		rowHeight="130" backgroundColor="#111111" rollOverColor="#9C9C9C" verticalScrollBarStyleName="verticalScroleStyle" offscreenExtraRowsOrColumns="0" backgroundAlpha="0">
+		<mx:itemRenderer>renderers.FolderRenderer</mx:itemRenderer>
+		
+	</mx:TileList>
+	<mx:VBox width="100%" height="75" horizontalGap="0"  horizontalAlign="center">
+		<mx:LinkButton label="Click here to see what is an icon?" textDecoration="underline" color="0x4f81bd" 
+			useHandCursor="true" buttonMode="true"/>
+		<!--mx:Spacer height="15" width="100%"/-->
+		<mx:HBox width="100%" height="30">
+			<mx:HBox width="100%" horizontalAlign="left">
+				<mx:LinkButton label="Click here to Add More" fontSize="18" color="0x4f81bd" fontFamily="Arial" 
+					useHandCursor="true" buttonMode="true" textDecoration="none" click="handleAddMore()"/>	
+			</mx:HBox>
+			<mx:HBox width="100%" horizontalAlign="right">
+				<mx:LinkButton label="Click here to View Gallery" fontSize="18" color="0x4f81bd" fontFamily="Arial" 
+					useHandCursor="true" buttonMode="true" textDecoration="none" click="handleViewGallery()"/>		
+			</mx:HBox>
+		</mx:HBox>
+	</mx:VBox>
+	
+	<mx:Script>
+		<![CDATA[
+			import vo.WebFileVO;
+			import mx.core.Application;
+			import mx.controls.Alert;
+			import mx.managers.CursorManager;
+			import mx.rpc.events.ResultEvent;
+			import mx.rpc.events.FaultEvent;
+			import mx.rpc.http.HTTPService;
+			import mx.collections.ArrayCollection;
+			import model.WebFileSystemModel;
+			
+			[Bindable]
+			private var dataprovider : ArrayCollection;
+			private var proxyName : String;
+			
+			private function handleCreationComplete() : void
+			{
+				proxyName = this.parentApplication.proxyName;
+				contentsTileList.contextMenu  = new ContextMenu();
+				contentsTileList.contextMenu.hideBuiltInItems();
+				var item : ContextMenuItem = new ContextMenuItem("Set as Chapter Icon");
+				item.addEventListener(ContextMenuEvent.MENU_ITEM_SELECT, handleSetChapterIcon);
+				contentsTileList.contextMenu.customItems.push(item);
+				
+				item = new ContextMenuItem("Set as Sub Chapter Icon");
+				item.addEventListener(ContextMenuEvent.MENU_ITEM_SELECT, handleSetSubChapterIcon);
+				contentsTileList.contextMenu.customItems.push(item);
+				
+				item = new ContextMenuItem("Set Gallery Icon");
+				item.addEventListener(ContextMenuEvent.MENU_ITEM_SELECT, handleGalleryIcon);
+				contentsTileList.contextMenu.customItems.push(item);
+				
+			}
+			
+			private function handleViewGallery() : void
+			{
+				Application.application.normalizeBradCrumAndNextBack();
+				this.parentDocument.galleryViewStack.selectedIndex = 0;
+				
+			}
+			
+			private function handleAddMore() : void
+			{
+				this.parentDocument.addMore();
+			}
+			
+			private function handleGalleryIcon(event : ContextMenuEvent) : void
+			{
+				if(contentsTileList.selectedItem == null )
+				{
+					Alert.show("Please select an icon first");
+				}
+				else if((contentsTileList.selectedItem as WebFileVO).type == "audio")
+				{
+					Alert.show("Operation not permitted for audio gallery.", "Message");
+				}
+				else
+				{
+					var setThumbNail : HTTPService = new HTTPService();
+					setThumbNail.url = "/"+proxyName+"/manage_icon/set_gallery_icon/";
+					setThumbNail.addEventListener(ResultEvent.RESULT, handleGalleryIconResult);
+					setThumbNail.addEventListener(FaultEvent.FAULT, handleFault);
+					
+					var obj : Object = new Object;
+					obj.id = Application.application.currentGalleryId;
+					obj.itemId = contentsTileList.selectedItem.id;
+					setThumbNail.send(obj);
+					FadingNotifier.setBusyState();
+					CursorManager.setBusyCursor();
+				}
+			}
+		
+			private function handleGalleryIconResult(event : ResultEvent) : void
+			{
+				var url : String = this.parentDocument.galleryTileList.selectedItem.icon;
+				var exploded : Array = url.split("/");
+				if(exploded.length > 0)
+				{
+					exploded[exploded.length-2] = "icon_thumbnails";
+					exploded[exploded.length-1] = event.result;
+				}
+				//this.parentDocument.galleryTileList.selectedItem.icon = exploded.join("/");
+				Application.application.galleryIcon = exploded.join("/");
+				trace("icon updated");
+				FadingNotifier.removeBusyState();
+				CursorManager.removeBusyCursor();
+			}
+		
+		private function handleSetChapterIcon(event : ContextMenuEvent) : void
+		{
+			if(contentsTileList.selectedItem == null)
+			{
+				Alert.show("Please select an icon first");
+			}else
+			{
+				var setThumbNail : HTTPService = new HTTPService();
+				setThumbNail.url = "/"+proxyName+"/manage_icon/set_chapter_icon/";
+				setThumbNail.addEventListener(ResultEvent.RESULT, handleUpdateChapterIcon);
+				setThumbNail.addEventListener(FaultEvent.FAULT, handleFault);
+				
+				var obj : Object = new Object;
+				obj.id = Application.application.currentChapterId;
+				obj.itemId = contentsTileList.selectedItem.id;
+				setThumbNail.send(obj);
+				FadingNotifier.setBusyState();
+				CursorManager.setBusyCursor();
+			}
+		}
+		
+		private function handleUpdateChapterIcon(event : ResultEvent) : void
+		{
+			
+			var url : String = this.parentDocument.galleryTileList.selectedItem.icon;
+			var exploded : Array = url.split("/");
+			if(exploded.length > 0)
+			{
+				exploded[exploded.length-2] = "icon_thumbnails";
+				exploded[exploded.length-1] = event.result;
+			}
+			//Application.application.cu.icon = exploded.join("/");
+			Application.application.chapterIcon = exploded.join("/");
+			FadingNotifier.removeBusyState();
+			CursorManager.removeBusyCursor();
+			trace("icon updated");
+		}
+		
+		
+		private function handleSetSubChapterIcon(event : ContextMenuEvent) : void
+		{
+			if(contentsTileList.selectedItem == null)
+			{
+				Alert.show("Please select an icon first");
+			}else
+			{
+				var setThumbNail : HTTPService = new HTTPService();
+				setThumbNail.url = "/"+proxyName+"/manage_icon/set_subchapter_icon/";
+				setThumbNail.addEventListener(ResultEvent.RESULT, handleUpdateSubChapterIcon);
+				setThumbNail.addEventListener(FaultEvent.FAULT, handleFault);
+				
+				var obj : Object = new Object;
+				obj.id = Application.application.currentSubChapterId;
+				obj.itemId = contentsTileList.selectedItem.id;
+				setThumbNail.send(obj);
+				FadingNotifier.setBusyState();
+				CursorManager.setBusyCursor();
+			}
+		}
+		
+		private function handleUpdateSubChapterIcon(event : ResultEvent) : void
+		{
+			
+			var url : String = this.parentDocument.galleryTileList.selectedItem.icon;
+			var exploded : Array = url.split("/");
+			if(exploded.length > 0)
+			{
+				exploded[exploded.length-2] = "icon_thumbnails";
+				exploded[exploded.length-1] = event.result;
+			}
+			//this.parentDocument.galleryTileList.selectedItem.icon = exploded.join("/");
+			Application.application.subchapterIcon = exploded.join("/");
+			FadingNotifier.removeBusyState();
+			CursorManager.removeBusyCursor();
+			trace("icon updated");
+		}
+			
+		override public function set data(value:Object):void
+		{
+			dataprovider = value as ArrayCollection;
+		}
+			
+		private function handleShow() : void
+		{
+			contentsTileList.dataProvider = dataprovider;
+		}
+			
+		private function handleFault(event : FaultEvent) : void
+		{
+		
+			trace(event.toString());	
+		}
+			
+		]]>
+	</mx:Script>
+</mx:VBox>

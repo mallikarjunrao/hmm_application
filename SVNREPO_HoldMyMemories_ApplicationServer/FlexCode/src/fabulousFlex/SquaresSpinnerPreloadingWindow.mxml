@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:TitleWindow xmlns:mx="http://www.adobe.com/2006/mxml" 
+	layout="vertical" verticalGap="0" 
+	verticalAlign="middle" horizontalAlign="center" borderStyle="none" backgroundAlpha="0.0" borderThickness="0" borderThicknessBottom="0" borderThicknessLeft="0" borderThicknessRight="0" borderThicknessTop="0" headerHeight="0"
+	show="onShow(event)" hide="onHide(event)" creationComplete="init()" showCloseButton="false" xmlns:filters="flash.filters.*">
+	<mx:Metadata>
+	 	/** 
+				TitleWindow subclass that implements preloading
+				graphic display.
+				Spinner in sqaure pattern
+		**/
+	 </mx:Metadata>
+	<mx:Canvas id="cont"  borderStyle="none" horizontalScrollPolicy="off" verticalScrollPolicy="off" backgroundAlpha="0">
+		<mx:Canvas id="b1" width="8" height="8" backgroundColor="{_themeColor}" borderStyle="solid" borderColor="#ebebeb" x="0" y="0">
+		</mx:Canvas>
+		<mx:Canvas id="b2" width="8" height="8" backgroundColor="{_themeColor}" borderStyle="solid" borderColor="#ebebeb" x="10" y="0">
+		</mx:Canvas>
+		<mx:Canvas id="b4" width="8" height="8" backgroundColor="{_themeColor}" borderStyle="solid" borderColor="#ebebeb" x="20" y="0">
+		</mx:Canvas>
+		<mx:Canvas id="b5" width="8" height="8" backgroundColor="{_themeColor}" borderStyle="solid" borderColor="#ebebeb" x="20" y="10">
+		</mx:Canvas>
+		<mx:Canvas id="b7" width="8" height="8" backgroundColor="{_themeColor}" borderStyle="solid" borderColor="#ebebeb" x="20" y="20">
+		</mx:Canvas>
+		<mx:Canvas id="b6" width="8" height="8" backgroundColor="{_themeColor}" borderStyle="solid" borderColor="#ebebeb" x="10" y="20">
+		</mx:Canvas>
+		<mx:Canvas id="b3" width="8" height="8" backgroundColor="{_themeColor}" borderStyle="solid" borderColor="#ebebeb" x="0" y="20">
+		</mx:Canvas>
+		<mx:Canvas id="b0" width="8" height="8" backgroundColor="{_themeColor}" borderStyle="solid" borderColor="#ebebeb" x="0" y="10">
+		</mx:Canvas>
+	</mx:Canvas>
+	<mx:Script>
+		<![CDATA[
+			import mx.effects.easing.Linear;
+			import mx.effects.Glow;
+			import mx.effects.Sequence;
+			import mx.events.EffectEvent;
+			import mx.effects.Fade;
+			import mx.collections.ArrayCollection;
+			import mx.effects.easing.Bounce;
+			import mx.core.UIComponent;
+			import mx.effects.Move;
+			import mx.effects.Effect;
+			import mx.effects.easing.Circular;
+			
+			public static var spinColor:uint = 0xdd5194;
+			public static var themeColor:uint = 0xebebeb;
+			[Bindable]
+			private var _themeColor:uint;
+			private var _lastIndex:int = 0;
+			
+			private function init():void
+			{
+				//initialize themeColor from static member
+				_themeColor = themeColor;
+				 if(this.visible)
+				{
+					onShow(null);
+				} 
+			}
+			
+			private function onShow(event:Event):void
+			{
+				handleItemEffect(0);
+			}
+			
+			private function handleItemEffect(index:int):void
+			{
+				//create a sequence of "in" and "out" effect. 
+				var ui:UIComponent = UIComponent(cont.getChildAt(index));
+				var seq:Sequence = new Sequence();
+				var eff:Effect = getEffect();
+				eff.addEventListener(EffectEvent.EFFECT_END,onEffectEnd);
+				seq.addChild(eff);
+				eff = getUndoEffect();
+				eff.duration = eff.duration + 200; //for "snake" effect
+				seq.addChild(eff);
+				seq.play([ui]);
+			}
+
+			private function getEffect():Effect
+			{
+				var seq:Sequence = new Sequence();
+				var glow:Glow = new Glow();
+				glow.alphaFrom = 1;
+				glow.alphaTo = 0.3;
+				glow.blurXFrom = 0;
+				glow.blurXTo = 50;
+				glow.blurYFrom = 0;
+				glow.blurYTo = 50;
+				glow.color = spinColor;
+				glow.inner = true;
+			
+				return glow;
+			}
+			
+			private function getUndoEffect():Effect
+			{
+				var unglow:Glow = new Glow();
+				unglow.alphaFrom = 0.3;
+				unglow.alphaTo = 1;
+				unglow.blurXFrom = 50;
+				unglow.blurXTo = 0;
+				unglow.blurYFrom = 50;
+				unglow.blurYTo = 0;
+				unglow.color = spinColor;
+				unglow.inner = true;
+				return unglow;
+			}
+			
+			private function onEffectEnd(event:EffectEvent):void
+			{
+				//start effect on next child in child container
+				Effect(event.target).removeEventListener(EffectEvent.EFFECT_END,onEffectEnd);
+				_lastIndex++;
+				if(_lastIndex > cont.numChildren-1)
+					_lastIndex = 0;
+				handleItemEffect(_lastIndex);
+			}
+			
+			private function onHide(event:Event):void
+			{
+				reset();
+			}
+			
+			private function reset():void
+			{
+				//reset effects
+				 for each(var u:UIComponent in cont.getChildren())
+				{
+					var unglow:Effect = getUndoEffect();
+					unglow.duration = 0;
+					unglow.play([u]);
+					
+				} 
+				_lastIndex = 0;
+			}
+	
+			
+		]]>
+	</mx:Script>
+
+</mx:TitleWindow>

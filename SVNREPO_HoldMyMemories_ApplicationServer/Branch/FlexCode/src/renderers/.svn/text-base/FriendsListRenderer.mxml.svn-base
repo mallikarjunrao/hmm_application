@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:HBox xmlns:mx="http://www.adobe.com/2006/mxml" horizontalAlign="center" verticalAlign="middle"
+	horizontalScrollPolicy="off" verticalScrollPolicy="off">
+	<mx:Script>
+    	<![CDATA[
+    		import vo.GalleryVO;
+    		import vo.WebFileVO;
+    		import fabulousFlex.SquaresSpinnerPreloadingWindow;
+    		
+    		[Bindable]
+    		private var iconpath : String;
+    		[Bindable]
+    		private var nameval : String;
+    		
+    		override public function set data(value : Object) : void
+    		{
+    			super.data = value;
+    			iconpath = value.icon;
+    			nameval = value.name;
+    		}
+    	]]>
+    </mx:Script>
+
+    
+    <mx:Image id="img1" 
+        width="64" height="64" source="{iconpath}" />
+    <mx:Label text="{nameval}" color="#ffffff" truncateToFit="true"/>	
+</mx:HBox>

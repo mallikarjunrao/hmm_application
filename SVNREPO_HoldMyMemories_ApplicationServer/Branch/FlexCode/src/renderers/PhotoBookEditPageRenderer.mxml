@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:Canvas xmlns:mx="http://www.adobe.com/2006/mxml" height="100%" verticalScrollPolicy="off" horizontalScrollPolicy="off" width="100%" creationComplete="handleCreationComplete()" >
+ 	<mx:Style>
+ 		.imagestyle
+ 		{
+ 			horizontal-align:center;
+ 			vertical-align:middle;
+ 		}
+ 	</mx:Style>
+ 	<mx:Script>
+		<![CDATA[
+			import mx.controls.Image;
+			import mx.managers.DragManager;
+			import mx.core.DragSource;
+			
+			private var valueObj : Object;
+			private var image : Image = new Image();
+			private var sourceString : String;
+			private var bitmap : Bitmap;
+			
+			/* public function set bitmap(bit : Bitmap) : void
+			{
+				this.removeAllChildren();
+				image = new Image();
+				image.source = bit;
+				image.cacheAsBitmap = false;
+				image.height = 100;
+				image.width = 100;
+				image.maintainAspectRatio = true;
+				image.setStyle("horizontalCenter",0);
+				image.setStyle("verticalCenter",0);						
+				addChild(image);
+				
+			} */
+			
+			private function handleCreationComplete() : void
+			{
+				if(sourceString)
+				{
+				 	image.source = sourceString;
+				 	image.cacheAsBitmap = false;
+					image.height = 100;
+					image.width = 100;
+					image.maintainAspectRatio = true;
+					image.setStyle("horizontalCenter",0);
+					image.setStyle("verticalCenter",0);						
+					addChild(image);
+					image.x = 15;
+				}
+				else
+				{
+					image.source = bitmap;
+					image.cacheAsBitmap = false;
+					image.height = 100;
+					image.width = 100;
+					image.maintainAspectRatio = true;
+					image.setStyle("horizontalCenter",0);
+					image.setStyle("verticalCenter",0);						
+					addChild(image);
+				}
+							        
+			}
+			
+			override public function set data(value:Object):void
+			{
+				super.data = value;
+				if(value.hasOwnProperty("source"))
+					sourceString = value.source as String;
+				else
+				{
+				    bitmap = value.bitmap as Bitmap;
+				    bitmap.smoothing = true;
+				}    	
+				 
+			}
+			
+			override protected function updateDisplayList(unscaledWidth:Number, unscaledHeight:Number):void
+			{
+				/* if(valueObj)
+					this.source = valueObj.source; */
+			}
+			
+		]]>
+	</mx:Script>
+</mx:Canvas>

@@ -1,0 +1,91 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Hold My Memories -- SHARE YOUR MOMENTS</title>
+
+<style type="text/css">
+<!--
+.style1 {
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 12px;
+}
+.style4 {font-family: Arial, Helvetica, sans-serif; font-size: 12px; color: #000000; }
+.style7 {font-size: 11px}
+.style8 {
+	font-size: 14px;
+	font-family: Arial, Helvetica, sans-serif;
+	color: #000000;
+}
+.style10 {
+	font-size: 14px
+}
+-->
+</style>
+
+
+</head>
+
+<body>
+<table width="100%"   cellspacing="0" cellpadding="0">
+              <tr>
+                <th height="25" align="left" valign="top" scope="col"> <h4 class="style3 style8 style10"><%=@my_name %> would like to share a memory with you</h4></th>
+              </tr>
+            
+              
+              <tr>
+<<<<<<< .mine
+                <th align="left" valign="middle"  class="text-journal" scope="col" > <p class="style4"><br />
+                Message:<span class="style7"><%=@message.gsub("\n", "<br />\n")%></span></p>
+                 
+                  </th>
+				</tr>
+				<tr>
+                <td>&nbsp;</td>
+                </tr>
+				<tr>   
+      <!--th height="28" align="left" valign="top" bgcolor="#191919" scope="col">	</th-->
+      <th align="left" valign="middle" colspan="3" bgcolor="#191919" class="text-journal" scope="col">
+   	    <p><a href="http://www.holdmymemories.com/share/memories/<%=@shareunid%>"><font color="#CCCCCC"><b>click here to view <%=@my_name %>'s Memory</b></font></a></p>
+   	   </th>
+  </tr>
+	<tr>
+    <td>
+    &nbsp;</td> 
+    </tr>
+	<tr>
+      <!--th height="28" align="left" valign="top" bgcolor="#191919" scope="col">	</th-->
+      <th align="left" valign="middle" colspan="3" bgcolor="#191919" class="text-journal" scope="col">
+   		<a href="http://www.holdmymemories.com/customers/new"><font color="#CCCCCC"><b>Click here to sign up with your HoldMyMemories.com account and share your memories with friends!</b></font></a></th>
+    </tr>
+=======
+                <th align="left" valign="middle"  class="text-journal" scope="col" > <p class="style4"><br />
+                Message:<span class="style7"><%=@message.gsub("\n", "<br />\n")%></span></p>
+                 
+                  </th>
+				</tr>
+				<tr>
+                <td>&nbsp;</td>
+                </tr>
+				<tr>   
+      <!--th height="28" align="left" valign="top" bgcolor="#191919" scope="col">	</th-->
+      <th align="left" valign="middle" colspan="3" bgcolor="#191919" class="text-journal" scope="col">
+   	    <p><a href="http://www.holdmymemories.com/share/memories/<%=@shareunid%>"><font color="#CCCCCC"><b>click here to view <%=@my_name %>'s Memory</b></font></a></p>
+   	   </th>
+  </tr>
+	<tr>
+    <td>
+    &nbsp;</td> 
+    </tr>
+	<tr>
+      <!--th height="28" align="left" valign="top" bgcolor="#191919" scope="col">	</th-->
+      <th align="left" valign="middle" colspan="3" bgcolor="#191919" class="text-journal" scope="col">
+   		<a href="http://www.holdmymemories.com/customers/new"><font color="#CCCCCC"><b>Click here to sign up with HoldMyMemories.com and share your memories with friends!</b></font></a></th>
+    </tr>
+>>>>>>> .r4966
+</table>
+
+<p>Thank you!</p>
+<p>HoldMyMemories.com Team </p>
+</body>
+</html>

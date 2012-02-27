@@ -1,0 +1,84 @@
+<table border="1" cellpadding="0" cellspacing="0" bordercolor="#000000">
+  <%if(@ordcnt>0)%>
+    <tr>
+    <tr valign='center' align='center'>
+
+
+      <th background="/images/body_hor.JPG"><font class='txt'>Order Number</font></th>
+      <th background="/images/body_hor.JPG">
+        <font class='txt'>User Name</font></th>
+      <th background="/images/body_hor.JPG"><font class='txt'>
+                  Studio</font></th>
+      <th background="/images/body_hor.JPG"><font class='txt'>
+                  Studio Branch</font></th>
+      <th background="/images/body_hor.JPG"><font class='txt'>
+                  Sub total</font></th>
+      <th background="/images/body_hor.JPG"><font class='txt'>
+                  Sub total with Shipping</font></th>
+      <th background="/images/body_hor.JPG"><font class='txt'>
+                  Sales Tax </font></th>
+      <th background="/images/body_hor.JPG"><font class='txt'>
+          Discount Coupon </font></th>
+      <th background="/images/body_hor.JPG"><font class='txt'>
+          Credit Redemption </font></th>
+      <th background="/images/body_hor.JPG"><font class='txt'>
+                  Total Amount</font></th>
+      <th background="/images/body_hor.JPG"><font class='txt'>
+                  Status</font></th>
+      <th background="/images/body_hor.JPG"><font class='txt'>Ordered Date</font></th>
+    </tr>
+  </tr>
+
+  <% 	odd_or_even = 0
+  i = 0
+  for colmn in @order_details
+    i = i + 1
+    odd_or_even = 1 - odd_or_even
+  %>
+
+    <tr class='ListLine<%= odd_or_even %>'>
+
+
+
+      <td align="center"><%=colmn.order_number%></td>
+
+      <td align="center"><% if colmn.user_id %><% @user=HmmUser.find(colmn.user_id)%>
+
+        <%=@user.v_user_name %><%end%></td>
+
+      <td>
+        <%
+        if(colmn.process_studio_id==0)
+          studio_name='HMM'
+          studio_group_name=''
+        else
+          @sname=HmmStudio.find(:first,:conditions=>"id=#{colmn.process_studio_id}")
+          @sgroup=HmmStudiogroup.find(:first,:conditions=>"id=#{@sname.studio_groupid}")
+          studio_group_name=@sgroup.hmm_franchise_studio
+          studio_name=@sname.studio_branch
+        end	 %>
+        <%=studio_group_name %></td>
+      <td align="center">
+
+
+        <%=studio_name%></td>
+      <td align="center">
+        <% subtotal=Float(colmn.total_price)-Float(colmn.sales_tax)-Float(colmn.shipping_price) %>
+        $<%=subtotal%></td>
+      <td align="center">
+        <% subtotal_shipping=Float(colmn.total_price)-Float(colmn.sales_tax)%>
+        $<%=subtotal_shipping%></td>
+      <td align="center">$<%=h colmn.sales_tax%></td>
+      <td align="center"> $<% if  colmn.credit_point_amount.nil? %><%=h colmn.discount_price%><%else%>0.0<%end%></td>
+      <% if colmn.credit_point_amount %> <td align="center">$<%=h colmn.credit_point_amount%></td><%else%><td align="center">-</td><%end%>
+      <td align="center">$<%=h colmn.total_price%></td>
+      <td align="center"><%=h colmn.orders_status%></td>
+      <td align="center"><%=colmn.created_at.strftime("%m / %d / %Y %H:%M:%S") %></td>
+    </tr>
+
+  <% end %>
+<%end%>
+
+<input type="hidden" name="len" id="len" value="<%= i %>"/>
+<tr><td colspan=4> </td></tr>
+</table>

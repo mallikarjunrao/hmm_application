@@ -1,0 +1,134 @@
+<%= javascript_include_tag '/javascripts/themes/modalbox/prototype' %>
+<script type="text/javascript" src="/javascripts/themes/modalbox/scriptaculous.js?load=effects"></script>
+<script type="text/javascript" src="/javascripts/themes/modalbox/modalbox.js"></script>
+<%= stylesheet_link_tag '/stylesheets/themes/modalbox/modalbox' %>
+<style type = "text/css">
+  .text3{
+    font-family:Arial, Helvetica, sans-serif;
+    font-size:12px;
+    font-weight:normal;
+    color:#ffffff;
+  }
+</style>
+<table width="100%" border="0" cellspacing="0" cellpadding="0" align="center">
+
+  <tr>
+    <td height="35" align="left" valign="bottom" class="header-page">Video Contest</td>
+  </tr>
+  <tr>
+    <td height="10" align="left" valign="top"></td>
+  </tr>
+  <tr>
+    <td height="1" align="left" valign="top" bgcolor="#454545"></td>
+  </tr>
+  <tr>
+    <td height="10" align="left" valign="top"></td>
+  </tr>
+  <tr>
+    <td align="left" valign="top" class="content-trans-bg">
+      <table  align="left">
+        <tr>
+          <td>
+            <a href="/familymemory_contests/videomoment_vote/<%= params[:id] %>?p=<%= params[:p] %>"><h3>&nbsp;&nbsp;&lt;&lt;&nbsp;View All Entrants</h3></a>
+          </td>
+        </tr>
+      </table>
+      <table width="62%" align="center">
+        <tr><td>&nbsp;</td></tr>
+        <tr>
+          <td  align="center" ><img src=<%=@contest_details.video_logo%> border="0" > </td>
+        </tr>
+        <tr><td>&nbsp;</td></tr>
+        <tr>
+          <td align="center">
+            <input type="hidden" id="contentId" value="<%=@moment_details[0].img_url%>/user_content/videos/<%=@moment_details[0].v_filename%>.flv">
+            <input type="hidden" id="type" value="video">
+            <input type="hidden" id="proxyurl" value="<%=@moment_details[0].img_url%>">
+            <input type="hidden" id="swfName" value="/MediaPlayer">
+            <script src="/AC_OETags.js" language="JavaScript"></script>
+            <script src="DWConfiguration/ActiveContent/IncludeFiles/AC_RunActiveContent.js" type="text/javascript"></script>
+            <script type="text/javascript">
+              var galId = document.getElementById("contentId").value;
+              var flashName = document.getElementById("swfName").value;
+              var hmmtype = document.getElementById("type").value;
+              var proxyurl = document.getElementById("proxyurl").value;
+              AC_FL_RunContent( 'codebase','http://download.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=7,0,19,0',
+              'width','500',
+              'height','401',
+              'src', flashName,
+              'quality', 'high',
+              'pluginspage','http://www.macromedia.com/go/getflashplayer',
+              'movie',flashName,
+              'bgcolor','#000000',
+              'wmode','transparent',
+              'allowFullScreen','true',
+              'flashvars', 'hmmtype='+hmmtype+'&content='+galId+"&proxyurl="+proxyurl+"&hide_slideshow=1"
+            ); //end AC code
+            </script><noscript><object classid="clsid:D27CDB6E-AE6D-11cf-96B8-444553540000"codebase="http://download.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=7,0,19,0" width="500" height="401">
+                <param name="movie" value="/Chapter.swf" />
+                <param name="quality" value="high" />
+                <param name="FlashVars"  />
+                <embed src="/MediaPlayer.swf" quality="high" FlashVars=""  pluginspage="http://www.macromedia.com/go/getflashplayer" type="application/x-shockwave-flash" width="500" height="401"></embed>
+              </object></noscript>
+          </td>
+        </tr>
+        <tr><th>&nbsp;</th></tr>
+        <%if Date.today <=  @contest_details.vote_expire_date.to_date %>
+          <tr>
+            <td  align="center" valign="middle" colspan="3" >
+              <a href="/familymemory_contests/vote/<%=params[:id]%>?contest_id=<%=@contests_fname[0].id%>&&p=<%=params[:p]%>"  onclick="Modalbox.show(this.href, {title: 'My Image', width: 1000, height:650}); return false;">
+                <input name="button" type="button" class="cmd-btn" id="button" value="Vote" style="cursor:pointer;"/></a>
+            </td>
+          </tr>
+        <%end%>
+        <tr>
+          <th align="center"   class="text3">
+            <%=@contests_fname[0].first_name %>
+          </th>
+        </tr>
+        <tr>
+          <td  align="center" valign="middle" >
+          </td>
+        </tr>
+        <tr><th>&nbsp;</th></tr>
+        <%for @j in @journal %>
+          <tr>
+            <th align="center" valign="middle" scope="col"><span class="heading-journal">
+                <table width="600" class="border">
+                  <tr>
+                    <th align="left" bgcolor="#191919" colspan="2">
+                      <font size="3" color="#FFFFFF"> Journal</font>
+                    </th>
+                  </tr>
+                  <tr><th colspan="2">&nbsp;</th></tr>
+                  <tr>
+                    <th>&nbsp;&nbsp;</th>
+                    <th align="left" class="heading-journal"><span class="text3">
+
+                        <%= @j.title %> -
+                        <% ActiveSupport::CoreExtensions::Time::Conversions::DATE_FORMATS.merge!(
+                          :date => "%Y-%m-%d",
+                          :presentable_datetime => "%a %b %d, %Y %H:%M",
+                          :presentable_date => "%a %b %d, %Y")
+                        @created_date=@j.added_date%>
+                        <%= @created_date.to_s(:presentable_date) %></span></th>
+                  </tr>
+
+                  <tr><th colspan="2">&nbsp;</th></tr>
+                  <tr>
+                    <th>&nbsp;&nbsp;</th>
+                    <th align="left" class="text3">
+                      <%=@j.description.gsub("\n", "<br />\n") %>
+                    </th>
+                  </tr>
+                  <tr><th>&nbsp;</th></tr>
+                  <tr><th>&nbsp;</th></tr>
+                </table></span>
+            </th>
+          </tr>
+          <tr>
+            <th>&nbsp;
+            </th>
+          </tr>
+        <%end%>
+      </table></td></tr></table>

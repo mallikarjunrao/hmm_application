@@ -1,0 +1,31 @@
+ 
+<h1 align="center"><%= params[:pagetitle] %></h1><br/>
+
+<table>
+  <tr>
+    <th background="/images/body_hor.JPG">Studio Name</th>
+    <th background="/images/body_hor.JPG">Studio Branch</th>
+    <th background="/images/body_hor.JPG" colspan="3" align="center">Studio Address</th>
+  </tr>
+  <% unless @studios.nil? %>
+    <% @studios.each do |studio| %>
+      <tr>
+        <td>
+          <%= studio.studio_name %>
+        </td>
+        <td>
+          <%= studio.studio_branch %>
+        </td>
+        <td>
+          <%= studio.studio_address %>
+        </td>
+      </tr>
+    <% end %>
+  <% else %>
+      <tr>
+        <td>No studio found</td>
+      </tr>
+  <% end %>
+</table>
+
+<%= link_to "Back",:action=>"list_studios" %>

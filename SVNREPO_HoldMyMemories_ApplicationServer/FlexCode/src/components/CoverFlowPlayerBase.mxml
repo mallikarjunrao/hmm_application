@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:Canvas xmlns:mx="http://www.adobe.com/2006/mxml" borderStyle="solid" borderThickness="1" borderColor="#ffffff">
+	<mx:VideoDisplay id="video" width="100%" height="100%" source="{_src}"/>
+	<mx:Button label="Play" id="play" cornerRadius="0" x="{(this.width - play.width)/2}" y="{(this.height-play.height)/2}" click="{if(video.source != null) video.play();}"/>
+	<mx:Script>
+		<![CDATA[
+			[Bindable]
+			private var _src : String;
+			public function set source(src : String) : void
+			{
+				_src = src;
+			}
+			
+			public function get source() : String
+			{
+				return _src;
+			}
+		]]>
+	</mx:Script>
+</mx:Canvas>

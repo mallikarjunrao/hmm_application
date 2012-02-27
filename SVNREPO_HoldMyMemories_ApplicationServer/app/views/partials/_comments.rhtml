@@ -1,0 +1,40 @@
+<% if comments && comments.length>0 %>
+<table width="100%" border="0" cellspacing="0" cellpadding="0">
+  <tr>
+    <td class="content-trans-bg"><table width="100%" border="0" cellspacing="0" cellpadding="0">
+        <tr>
+          <td colspan="3" height="35" align="left" valign="middle" background="/images/common/tab_trans.png" class="headers">&nbsp;&nbsp;Comments</td>
+        </tr>
+         <tr>
+          <td height="10" colspan="3"  align="left" valign="top"></td>
+        </tr>
+        <% for comment in comments %>
+        <tr>
+          <td width="10"></td>
+          <td align="left" valign="top" class="content"><%= comment.comment %></td>
+          <td width="10"></td>
+        </tr>
+        <tr>
+          <td width="10"></td>
+          <td  align="right" valign="top" class="content"><% unless comment.commenter.blank? %><em>commented by <%= comment.commenter %></em><% end %></td>
+          <td width="10"></td>
+        </tr>
+        <tr>
+          <td height="10" colspan="3"  align="left" valign="top"></td>
+        </tr>
+        <tr>
+          <td width="10"></td>
+          <td height="1"   align="left" valign="top" bgcolor="#202020"></td>
+          <td width="10"></td>
+        </tr>
+        <tr>
+          <td height="10" colspan="3" align="left" valign="top"></td>
+        </tr>
+        <%  end %>
+      </table></td>
+  </tr>
+  <tr>
+    <td>&nbsp;</td>
+  </tr>
+</table>
+<% end %>

@@ -1,0 +1,10 @@
+<%= error_messages_for 'tip' %>
+
+<!--[form:tip]-->
+<p><label for="tip_title">Title</label><br/>
+<%= text_field 'tip', 'title'  %></p>
+
+<p><label for="tip_description">Description</label><br/>
+<%= text_area 'tip', 'description'  %></p>
+<!--[eoform:tip]-->
+

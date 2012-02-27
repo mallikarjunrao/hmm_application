@@ -1,0 +1,98 @@
+<script type="text/javascript">
+  function sel_studio(id)
+  {
+    window.location="/print_size_prices/franchise_list/"+id;
+
+  }
+
+</script>
+
+<table width="100%" cellpadding="0" cellspacing="0" border="0" style="padding-top: 10px;"  >
+  <tr><td align="left"><h2>Price List</h2></td></tr>
+  <tr><td align="right">&nbsp;</td></tr>
+
+  <tr><td align="right"><a href="/print_size_prices/franchise_add/<%= params[:id] %>">Add New Price</a></td></tr>
+  <tr><td align="right">&nbsp;</td></tr>
+  <tr><td align="left">
+    </td></tr>
+  <tr><td align="right">&nbsp;</td></tr>
+  <% if flash[:notice] %>
+    <tr><td align="center" style="color:red;"><%= flash[:notice] %></td></tr>
+    <tr><td align="right">&nbsp;</td></tr>
+  <%  end%>
+  <tr><td align="left" colspan="5">
+      Select Studio :<select name="studios" onChange="sel_studio(this.value)">
+        <% for studio in @studios %>
+          <option value="<%=studio.id%>"  <%if(Integer(params[:id])==Integer(studio.id))%>selected<%end%>><%=studio.studio_branch%></option>
+        <%end%>
+      </select>
+    </td></tr>
+  <tr><td align="left" colspan="5">
+      &nbsp;
+    </td></tr>
+  <tr><td>
+      <% if @prices!=nil && @prices.length>0 %>
+        <form name="frm" action="/print_size_prices/franchise_set_default_price/<%=params[:id]%>" method="post">
+          <table width="100%" cellpadding="0" cellspacing="0" border="0" height="500"  >
+            <tr><td align="left" valign="top">
+
+              </td></tr>
+            <tr><td align="left" valign="top">
+                <table border="0" cellpadding="5" cellspacing="1" width="500" align="center">
+                  <tr height="25" style="background-color: #cc5100;">
+                    <td align="center" width="10" ><font class='txt'>S.No</font></td>
+                    <td align="center" ><font class='txt'>Size Label</font></td>
+                    <td align="center" width="10" ><font class='txt' >Width (Inches)</font></td>
+                    <td align="center" width="10" ><font class='txt' >Height (Inches)</font></td>
+                    <td align="center" width="30" ><font class='txt' >Price</font></td>
+                    <td align="center" width="30" ><font class='txt' >Price within 72 Hours</font></td>
+                    <td align="center" width="10" ><font class='txt' >Processing Studio</font></td>
+                    <td align="center" width="10" ><font class='txt' >Quanity</font></td>
+                    <td align="center" width="10" ><font class='txt' >Maintain Aspect Ratio</font></td>
+                    <td align="center" width="10" ><font class='txt' >Default</font></td>
+                    <td  align="center" width="100" ><font class='txt' >Action</font></td>
+                  </tr>
+                  <%
+                  i = 0
+                  digital_sizes=Carts.get_digital_downloads()
+                  for price in @prices
+                    i=i+1 %>
+
+                    <tr height="20" class="<%= cycle('odd', 'even') %>">
+                      <td  ><%=  i %> </td>
+                      <td ><%= price.label %></td>
+                      <td  ><%= price.width %></td>
+                      <td  ><%= price.height %></td>
+                      <td  >$<%= price.amount %></td>
+                      <td  ><%if price.pricelt72.to_i > 0 %>$<%= price.pricelt72%><%end%></td>
+                      <td  >
+                        <% unless price.processing_studio.blank? %>
+                          <%= price.processing_studio %>
+                        <%  else %>
+                          HMM
+                        <% end %> </td>
+                      <td><%=price.quantity%></td>
+                      <td><%=price.aspect_ratio%></td>
+                      <td  >
+                        <% if((Integer(price.size_id)==Integer(high_resolution)) || (Integer(price.size_id)==Integer(low_resolution))  || digital_sizes.include?(price.size_id.to_i))
+                        else
+                        %>
+                          <input type="radio" name="price_id" value="<%=price.price_id%>" onClick="javascript:frm.submit();" <% if (price.default_size==true) %> checked <%end%> >
+                        <%end%>
+                      </td>
+                      <td ><%= link_to 'Edit', :action => 'franchise_edit', :id => price.price_id , :studio_id=>params[:id] %>&nbsp;&nbsp;<%= link_to 'Delete', {:action => 'franchise_delete', :id => price.price_id ,:studio_id=>params[:id]}, :confirm => 'Are you sure to delete this price?' %></td>
+                    </tr>
+                  <% end %>
+                </table>
+              </td></tr></table>
+        </form>
+      <% else %>
+        <table border="0" cellpadding="5" cellspacing="0" width="500" align="center" height="200">
+          <tr height="50" >
+            <td align="center" valign="middle" ><font class='txt' style="color: red;">Print sizes not found!</font></td>
+          </tr>
+        </table>
+      <% end %>
+
+    </td></tr>
+</table>

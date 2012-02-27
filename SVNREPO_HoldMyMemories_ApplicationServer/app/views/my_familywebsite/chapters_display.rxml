@@ -1,0 +1,97 @@
+
+xml.instruct! :xml, :version=>"1.0"
+xml.contents{
+  i=0
+  for photos in @results
+    xml.content{
+      #  user_content = UserContent.find(:all, :conditions => "tagid=#{photos.id} and status='active' " , :order => "id ASC")
+
+      #elsif (photos.v_chapimage == "image")
+      if(photos.v_chapimage == "folder_img.png" || photos.v_chapimage == "photo_album.png" ||
+            photos.v_chapimage == "speaker.jpg" || photos.v_chapimage == "videogallery.png" || photos.v_chapimage== "nil")
+        xml.icon(photos.img_url + '/user_content/photos/big_thumb/noimage.jpg')
+        xml.foldericon(photos.img_url+"/user_content/photos/icon_thumbnails/#{photos.v_chapimage}")
+        if (Integer(photos.length) > 0 && @family_website_version.to_i==3)
+          xml.navigateToUrl("/familywebsite_studio/home/#{@userid[0].family_name}")
+        else
+          xml.navigateToUrl("/familywebsite/subchapters/#{@userid[0].family_name}?chapter_id=#{photos.id}")
+        end
+      elsif(photos.v_chapimage == "folder_img_import.png")
+        xml.icon(photos.img_url + '/user_content/photos/big_thumb/imp-moments.jpg')
+        xml.foldericon(photos.img_url+"/user_content/photos/icon_thumbnails/#{photos.v_chapimage}")
+        if (Integer(photos.length) > 0 && @family_website_version.to_i==3)
+          xml.navigateToUrl("/familywebsite_studio/home/#{@userid[0].family_name}")
+        else
+          xml.navigateToUrl("/familywebsite/subchapters/#{@userid[0].family_name}?chapter_id=#{photos.id}")
+        end
+      else
+        imageName  = photos.v_chapimage
+        if(imageName == nil)
+        else
+          imageName.slice!(-3..-1)
+        end
+        if (Integer(photos.length) > 0 && @family_website_version.to_i==3)
+          xml.navigateToUrl("/familywebsite_studio/home/#{@userid[0].family_name}")
+        else
+          xml.navigateToUrl("/familywebsite/subchapters/#{@userid[0].family_name}?chapter_id=#{photos.id}")
+        end
+        xml.icon(photos.img_url + '/user_content/photos/flex_icon/'+imageName+"jpg" )
+        xml.foldericon(photos.img_url+"/user_content/photos/icon_thumbnails/#{imageName}png")
+      end
+
+      # xml.icon('/user_content/photos/flex_icon/noimage.jpg')
+      #elsif (photos.v_chapimage == "video")
+      #xml.icon('/user_content/videos/thumbnails/'+photos.v_chapimage+'.jpg' )
+      #elsif (photos.v_chapimage == "audio")
+      # xml.icon('/user_content/audios/speaker.jpg' )
+      # end
+      for status in @userid
+        if ((photos.v_tagname == "STUDIO SESSIONS" || photos.v_tagname == "studio sessions" || photos.v_tagname == "STUDIO SESSION"  || photos.v_tagname == "Studio session"  || photos.v_tagname == "studio session"  || photos.v_tagname == "Studio Sessions"  || photos.v_tagname == "Studio Session") and @flag==1)
+          xml.access_permission("reject")
+        else
+          xml.access_permission("approve")
+        end
+      end
+      xml.login_status(@loggedin)
+      xml.id(photos.id)
+      xml.name(photos.v_tagname)
+
+    }
+    if (Integer(photos.length) > 0)
+      xml.content{
+        xml.name("Upload Your Image")
+        xml.icon("http://content.holdmymemories.com/user_content/photos/flex_icon/addyourimages.jpg")
+        xml.type("upload")
+        xml.navigate(@pathurl.proxyname+'/manage_website/file_manager/'+ @user.family_name )
+        i=i+1
+      }
+      xml.content{
+        xml.name("Import Images")
+        xml.icon("http://content.holdmymemories.com/user_content/photos/flex_icon/import_images.png")
+        xml.type("import")
+        xml.response_type(@response_type)
+        xml.navigate_path(@pathurl.proxyname+'/manage_website/image_import/'+ @user.family_name )
+        xml.messsge("")
+        i=i+1
+      }
+    end
+  end
+  if(i==0)
+    xml.content{
+      xml.name("Upload Your Image")
+      xml.icon("http://content.holdmymemories.com/user_content/photos/flex_icon/addyourimages.jpg")
+      xml.type("upload")
+      xml.navigate(@pathurl.proxyname+'/manage_website/file_manager/'+ @user.family_name )
+    }
+    xml.content{
+      xml.name("Import Images")
+      xml.icon("http://content.holdmymemories.com/user_content/photos/flex_icon/import_images.png")
+      xml.type("import")
+      xml.response_type(@response_type)
+      xml.navigate_path(@pathurl.proxyname+'/manage_website/image_import/'+ @user.family_name )
+      xml.messsge("")
+      i=i+1
+    }
+  end
+}
+

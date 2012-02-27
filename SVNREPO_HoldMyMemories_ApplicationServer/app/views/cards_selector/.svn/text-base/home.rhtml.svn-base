@@ -1,0 +1,22 @@
+<%= javascript_include_tag "themes/swfobject" %>
+<table width="990" border="0" cellspacing="0" cellpadding="0" align="center">
+   <tr>
+    <td height="339" align="center" valign="top">
+      <div id="flash_content">
+        <h1>Get Flash Player</h1>
+        <p><a href="http://www.adobe.com/go/getflashplayer"><img src="http://www.adobe.com/images/shared/download_buttons/get_flash_player.gif" alt="Get Adobe Flash player" /></a></p>
+      </div>
+      <script type="text/javascript">
+        var flashvars = {};
+        flashvars.proxyurl = "<%= @path[0].content_path unless @path[0].nil? %>,<%= @path[1].content_path  unless @path[1].nil? %>";
+
+        flashvars.familyname = "<%=  params[:id] %>";
+        flashvars.user_id = "<%=  @userid.id %>";
+
+        var params = {};
+        params.wmode = "transparent";
+        swfobject.embedSWF("/flash/debug/CardSelector.swf?t=<%=Time.now%>", "flash_content", "755", "600", "9.0.0", "/expressInstall.swf",flashvars,params);
+      </script>
+    </td>
+  </tr>
+</table>

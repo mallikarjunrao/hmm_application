@@ -1,0 +1,243 @@
+<table width="100%">
+  <tr><td>
+      <form name="form2"  action="/manage_orders/orders_report/" method="post" onsubmit="return Check_Date(this.name);" >
+        <table bordercolor="#e5b467"  align="center" width="60%" border="10" cellpadding="4" cellspacing="4">
+          <tr  ><th background="/images/body_hor.JPG" colspan="4" align="center" style="backgrund:repeat;">Search by Ordered Date</th></tr>
+          <tr><td>From Date</td><td>
+              <select name="fmm">
+                <option value="">-Select-</option>
+                <option value="1">January</option>
+                <option value="2">February</option>
+                <option value="3">March</option>
+                <option value="4">April</option>
+                <option value="5">May</option>
+                <option value="6">June</option>
+                <option value="7">July</option>
+                <option value="8">August</option>
+                <option value="9">September</option>
+                <option value="10">October</option>
+                <option value="11">November</option>
+                <option value="12">December</option>
+              </select>
+              &nbsp;
+              <select name="fdd">
+                <option value="">-Select-</option>
+                <option value="1">1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+                <option value="4">4</option>
+                <option value="5">5</option>
+                <option value="6">6</option>
+                <option value="7">7</option>
+                <option value="8">8</option>
+                <option value="9">9</option>
+                <option value="10">10</option>
+                <option value="11">11</option>
+                <option value="12">12</option>
+                <option value="13">13</option>
+                <option value="14">14</option>
+                <option value="15">15</option>
+                <option value="16">16</option>
+                <option value="17">17</option>
+                <option value="18">18</option>
+                <option value="19">19</option>
+                <option value="20">20</option>
+                <option value="21">21</option>
+                <option value="22">22</option>
+                <option value="23">23</option>
+                <option value="24">24</option>
+                <option value="25">25</option>
+                <option value="26">26</option>
+                <option value="27">27</option>
+                <option value="28">28</option>
+                <option value="29">29</option>
+                <option value="30">30</option>
+                <option value="31">31</option>
+              </select>&nbsp;<select name="fyy">
+                <option value="">-Select-</option>
+                <option value="2005">2005</option>
+                <option value="2006">2006</option>
+                <option value="2008">2008</option>
+                <option value="2009">2009</option>
+                <option value="2010">2010</option>
+                <option value="2011">2011</option>
+                <option value="2012">2012</option>
+                <option value="2013">2013</option>
+                <option value="2014">2014</option>
+                <option value="2015">2015</option>
+              </select>
+              &nbsp;
+            </td></tr>
+          <tr><td>To Date</td><td><select name="tmm">
+                <option value="">-Select-</option>
+                <option value="1">January</option>
+                <option value="2">February</option>
+                <option value="3">March</option>
+                <option value="4">April</option>
+                <option value="5">May</option>
+                <option value="6">June</option>
+                <option value="7">July</option>
+                <option value="8">August</option>
+                <option value="9">September</option>
+                <option value="10">October</option>
+                <option value="11">November</option>
+                <option value="12">December</option>
+              </select>
+              &nbsp;
+              <select name="tdd">
+                <option value="">-Select-</option>
+                <option value="1">1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+                <option value="4">4</option>
+                <option value="5">5</option>
+                <option value="6">6</option>
+                <option value="7">7</option>
+                <option value="8">8</option>
+                <option value="9">9</option>
+                <option value="10">10</option>
+                <option value="11">11</option>
+                <option value="12">12</option>
+                <option value="13">13</option>
+                <option value="14">14</option>
+                <option value="15">15</option>
+                <option value="16">16</option>
+                <option value="17">17</option>
+                <option value="18">18</option>
+                <option value="19">19</option>
+                <option value="20">20</option>
+                <option value="21">21</option>
+                <option value="22">22</option>
+                <option value="23">23</option>
+                <option value="24">24</option>
+                <option value="25">25</option>
+                <option value="26">26</option>
+                <option value="27">27</option>
+                <option value="28">28</option>
+                <option value="29">29</option>
+                <option value="30">30</option>
+                <option value="31">31</option>
+              </select>&nbsp;<select name="tyy">
+                <option value="">-Select-</option>
+                <option value="2005">2005</option>
+                <option value="2006">2006</option>
+                <option value="2008">2008</option>
+                <option value="2009">2009</option>
+                <option value="2010">2010</option>
+                <option value="2011">2011</option>
+                <option value="2012">2012</option>
+                <option value="2013">2013</option>
+                <option value="2014">2014</option>
+                <option value="2015">2015</option>
+              </select>
+              &nbsp;</td></tr>
+          <tr><td align="center" colspan="4"><input type="submit" name="sub1" value="Search"/>&nbsp;&nbsp;<input type="button" name="viewall" value="View All" onClick="window.location='/manage_orders/orders_report/?c=1'"></td></tr>
+        </table>
+      </form></td></tr>
+  <% if (params[:fyy]!=nil && params[:fmm] !=nil && params[:fdd] !=nil && params[:tyy] !=nil && params[:tmm] !=nil && params[:tdd] !=nil) %>
+
+    <p align="center">Search Results From Date : <%=params[:fmm]%>-<%=params[:fdd]%>-<%=params[:fyy]%> To Date : <%=params[:tmm]%>-<%=params[:tdd]%>-<%=params[:tyy]%></p>
+  <% end%>
+  <p><a href="/manage_orders/orders_report_excel" target="_blank">(Click Here to Export Orders Report to Excel)</a>&nbsp;&nbsp;&nbsp;<br></p>
+  <h3><center>Orders Report</center></h3>
+  <%if(@ordcnt>0)%>
+    <tr><td>
+        <table width="90%">
+
+          <tr>
+          <tr valign='center' align='center'>
+
+
+            <th background="/images/body_hor.JPG"><font class='txt'><table> <tr><%= sort_header_tag('order_number', :text => "Order Number") %></tr></table></font></th>
+            <th background="/images/body_hor.JPG"><font class='txt'>
+                Purchased By</font></th>
+            <th background="/images/body_hor.JPG">
+
+              <font class='txt'><table> <tr><%= sort_header_tag('user_id', :text => "User Name") %></tr></table></font></th>
+            <th background="/images/body_hor.JPG"><font class='txt'>
+                Studio</font></th>
+            <th background="/images/body_hor.JPG"><font class='txt'>
+                Studio Branch</font></th>
+            <th background="/images/body_hor.JPG"><font class='txt'>
+                Sub total</font></th>
+            <th background="/images/body_hor.JPG"><font class='txt'>
+                Sub total with Shipping</font></th>
+            <th background="/images/body_hor.JPG"><font class='txt'>
+                Sales Tax </font></th>
+            <th background="/images/body_hor.JPG"><font class='txt'>
+                Discount Coupon </font></th>
+            <th background="/images/body_hor.JPG"><font class='txt'>
+                Credit Redemption </font></th>
+            <th background="/images/body_hor.JPG"><font class='txt'>
+                <table><tr><%= sort_header_tag('total_price', :text => "Total Amount") %></tr></table></font></th>
+            <th background="/images/body_hor.JPG"><font class='txt'>
+                <table><tr><%= sort_header_tag('orders_status', :text => "Status") %></tr></table></font></th>
+            <th background="/images/body_hor.JPG"><font class='txt'><table><tr><%= sort_header_tag('created_at', :text => "Ordered Date") %></tr></table></font></th>
+          </tr>
+    </tr>
+
+    <% 	odd_or_even = 0
+    i = 0
+    for colmn in @order_details
+      i = i + 1
+      odd_or_even = 1 - odd_or_even
+    %>
+
+      <tr class='ListLine<%= odd_or_even %>'>
+
+
+
+        <td align="center"><%=h colmn.order_number%></td>
+         <td align="center"><% if colmn.ordered_by.nil?  ||  colmn.ordered_by.blank? %>Owner<%else%>Visitor<%end%></td>
+        <td align="center"><% if colmn.user_id.nil?  ||  colmn.user_id.blank? %>
+            <%user=OrderRequest.find(colmn.visitor_id)%>
+            <% @user=HmmUser.find(user.owner_id)%>
+          <%else%>
+            <% @user=HmmUser.find(colmn.user_id)%>
+          <%end%> <%=@user.v_user_name %></td>
+
+        <td>
+          <%
+          if(colmn.process_studio_id==0)
+            studio_name='HMM'
+            studio_group_name=''
+          else
+            @sname=HmmStudio.find(:first,:conditions=>"id=#{colmn.process_studio_id}")
+            @sgroup=HmmStudiogroup.find(:first,:conditions=>"id=#{@sname.studio_groupid}")
+            studio_group_name=@sgroup.hmm_franchise_studio
+            studio_name=@sname.studio_branch
+          end	 %>
+          <%=studio_group_name %></td>
+        <td align="center">
+
+
+          <%=studio_name%></td>
+        <td align="center">
+          <% subtotal=Float(colmn.total_price)-Float(colmn.sales_tax)-Float(colmn.shipping_price) %>
+          $<%=subtotal%></td>
+        <td align="center">
+          <% subtotal_shipping=Float(colmn.total_price)-Float(colmn.sales_tax)%>
+          $<%=subtotal_shipping%></td>
+        <td align="center">$<%=h colmn.sales_tax%></td>
+        <td align="center"> $<% if  colmn.credit_point_amount.nil? %><%=h colmn.discount_price%><%else%>0.0<%end%></td>
+        <% if colmn.credit_point_amount %> <td align="center">$<%=h colmn.credit_point_amount%></td><%else%><td align="center">-</td><%end%>
+        <td align="center">$<%=h colmn.total_price%></td>
+        <td align="center"><%=h colmn.orders_status%></td>
+        <td align="center"><%=colmn.created_at.strftime("%m / %d / %Y %H:%M:%S") %></td>
+      </tr>
+
+    <% end %>
+    <input type="hidden" name="len" id="len" value="<%= i %>"/>
+    <tr><td colspan=4> </td></tr>
+  </table>
+  </td></tr>
+<%else%>
+  <tr><td>
+      <table width="90%">
+        <tr valign='center' align='center'>
+          <td colspan="16"><font class='txt'>No Records Found</th>
+        </tr>
+      </table></td></tr>
+<%end%>
+</table>
+<p><%=will_paginate @order_details%></p>

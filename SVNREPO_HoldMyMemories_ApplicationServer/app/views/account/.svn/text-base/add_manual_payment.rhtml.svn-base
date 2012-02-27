@@ -1,0 +1,295 @@
+<script type="text/javascript">
+  function check(i,cnt)
+  {
+
+
+    if (document.getElementById('branch'+i).value == 'select')
+    {
+      alert('Please select the branch to link the customer');
+      return false;
+    }
+    else
+    {
+      document.forms[cnt].action="/account/link_customer/"+i+"?branch="+document.getElementById('branch'+i).value;
+      //alert(document.forms[cnt].action);
+      document.forms[cnt].submit();
+    }
+
+  }
+
+  function chg(val)
+  {
+
+    if ( val=='USA') {
+      document.getElementById('pcode').style.display = 'block';
+      document.getElementById('cty').style.display = 'none';
+    }else{
+      document.getElementById('pcode').style.display = 'none';
+      document.getElementById('cty').style.display = 'block';
+    }
+
+  }
+  function verify()
+  {
+    if (document.getElementById('valid_period').value == 'select')
+    {
+      alert("Please select no of months");
+      document.getElementById('valid_period').focus();
+      return false;
+    }
+    else
+      if (document.getElementById('cupon_type').value == 'select')
+    {
+      alert("Please Select the cupon type!!");
+      document.getElementById('cupon_type').focus();
+      return false;
+    }
+  }
+
+</script>
+<style>
+
+</style>
+
+<form name="frm" action="/account/add_manual_payment" method="post" >
+
+
+  <table cellpadding="4" cellspacing="4" border="1" bordercolor="#e5b467" align="center" align="center">
+    <tr>
+      <td colspan="4" align="center" height="48">
+        <font size="4">Search User's </font>
+      </td>
+    </tr>
+    <tr>
+
+
+
+      <td>
+			Firstname
+      </td>
+      <td>
+
+        <input type="text" name="firstname" id="firstname" value="<%=@fname%>" size="20" class="textbox-signup" />
+
+      </td>
+      <td>
+			Lastname
+      </td>
+      <td>
+        <input type="text" name="lastname" id="lastname" value="<%=@lname%>" size="20" class="textbox-signup" />
+      </td>
+    </tr>
+    <tr>
+      <td width="90">
+			Username
+      </td>
+      <td>
+        <input type="text" name="username" id="username" value="<%=@uname%>" size="20" class="textbox-signup" />
+      </td>
+      <td width="90">
+			Email
+      </td>
+      <td>
+        <input type="text" name="email" id="email" value="<%=@email%>" size="20" class="textbox-signup" />
+        <input type="hidden" name="sort_key" value="id" />
+        <input type="hidden" name="sort_order" value="asc" />
+      </td>
+
+    </tr>
+
+    <tr>
+      <td>
+			Country
+      </td>
+      <td>
+        <select name="v_country" onchange='return chg(this.value)' class => "combobox1">
+          <%if @country=="USA"
+            @sel1="selected"
+          else
+            @sel2="selected"
+          end
+        %>
+
+
+          <option value="USA" <%=@sel1%>>USA</option>
+          <option value="Others" <%=@sel2%> >Others</option>
+      </td>
+
+      <td>
+        <label for="hmm_user_zip">
+          <div id='pcode' style='display:block;'>Postal Code </div>
+          <div id='cty' style='display:none;'>City/Province</div></lable></th>
+      </td>
+      <td>
+        <input type="text" name="zip" id="zip" value="<%=@zip%>" size="20" class="textbox-signup" />
+
+
+      </td>
+    </tr>
+    <tr>
+      <td>
+			Sort by
+      </td>
+      <td>
+        <%if @sort_key=="v_user_name"
+          @sel11="selected='selected'"
+        else
+          if @sort_key=="v_fname"
+            @sel12="selected='selected'"
+          else
+            if @sort_key=="e_sex"
+              @sel13="selected='selected'"
+            else
+              if @sort_key=="v_e_mail"
+                @sel14="selected='selected'"
+              else
+                if @sort_key=="e_user_status"
+                  @sel15="selected='selected'"
+
+                end
+              end
+            end
+          end
+        end
+        puts @sel12
+      %>
+        <select name="sort_key" onchange='return chg(this.value)' class => "combobox1">
+
+
+
+
+          <option value="v_user_name" <%=@sel11%>>User Name</option>
+          <option value="v_fname" <%=@sel12%>>First Name</option>
+          <option value="e_sex" <%=@sel13%>>Sex</option>
+          <option value="v_e_mail" <%=@sel14%>>Email Address</option>
+          <option value="e_user_status" <%=@sel15%>>Status</option>
+      </td>
+
+      <td>
+			Sort Order
+      </td>
+      <td>
+        <select name="sort_order" onchange='return chg(this.value)' class => "combobox1">
+          <%if @order==="asc"
+            @sel21="selected"
+          else
+            @sel22="selected"
+          end
+        %>
+
+
+
+          <option value="asc" <%=@sel21%>>ascending</option>
+          <option value="desc" <%=@sel22%>>Descending</option>
+
+      </td>
+    </tr>
+    
+    <tr>
+      <td>
+        Studio Branch
+      </td>
+      <td colspan="4" align="center">
+        <select name="studio_id" id="studio_id" class => "combobox1">
+          <option value="" <%if(params[:studio_id]=='')%>selected='selected'<%end%>>Select</option>
+          <% for studio in @studios %>
+            <option value="<%= studio.id %>" <%if @studio_selected == "#{studio.id}" %>selected='selected'<%end%>><%= studio.studio_branch %></option>
+          <% end %>
+        </select>
+      </td>
+    </tr>
+    <tr>
+      <td colspan="4" align="center">
+        <input type="image" name="sub" id="search" src="/images/search_over.jpg"  border="0" />
+      </td>
+    </tr>
+
+  </table>
+</form>
+
+ <%if !@hmm_users.nil? && !@hmm_users.blank?%>
+<table border="0">
+
+  <tr><td colspan="15"><h2>HoldMyMemories.com Users</h2> </td></tr>
+  <tr><th colspan="2"><font color="#f5dfa6"><%=flash[:unid_failed]%>
+        <%=flash[:unid_succes]%></font></th></tr>
+
+
+  <tr valign='center' align='center'>
+
+
+    <th background="/images/body_hor.JPG"><font class='txt'><table> <tr><%= sort_header_tag('v_fname', :text => "First Name") %></tr></table></font></th>
+    <th background="/images/body_hor.JPG"><font class='txt'><table> <tr><%= sort_header_tag('v_lname', :text => "Last Name") %></tr></table></font></th>
+    <th background="/images/body_hor.JPG"><font class='txt'><table> <tr><%= sort_header_tag('e_sex', :text => "sex") %></tr></table></font></th>
+    <th background="/images/body_hor.JPG"><font class='txt'><table> <tr><%= sort_header_tag('v_user_namea', :text => "User Name") %></tr></table></font></th>
+
+    <th background="/images/body_hor.JPG"><font class='txt'><table> <tr><%= sort_header_tag('v_e_maila', :text => "Email Address") %></tr></table></font></th>
+    <th background="/images/body_hor.JPG">Account type</th>
+    <th background="/images/body_hor.JPG"><font class='txt'><table> <tr><%= sort_header_tag('e_user_status', :text => "Status") %></tr></table></font></th>
+    <th background="/images/body_hor.JPG"><font class='txt'><table> <tr><th>Account Status</th></tr></table></font></th>
+    <th colspan=2 background="/images/body_hor.JPG"><font class='txt'>Actions</font></th>
+
+
+  </tr>
+
+  <%
+  cnt=0
+  odd_or_even = 0
+  i = 0
+  for colmn in @hmm_users
+    cnt=cnt+1
+    i = i + 1
+    odd_or_even = 1 - odd_or_even
+  %>
+
+    <tr class='ListLine<%= odd_or_even %>'>
+
+      <% hmmdet=HmmUser.find(:all,:conditions=>"id=#{colmn.id}")%>
+
+      <td align="center"><a class='ListLine<%= odd_or_even %>' href="/user_account/authenticate/?id=1&hmm_user[v_user_name]=<%=colmn.v_user_name%>&hmm_user[v_password]=<%=hmmdet[0]['v_password']%>" target="_blank"><%=h colmn.v_fname%></a></td>
+
+      <td align="center"><a class='ListLine<%= odd_or_even %>' href="/user_account/authenticate/?id=1&hmm_user[v_user_name]=<%=colmn.v_user_name%>&hmm_user[v_password]=<%=hmmdet[0]['v_password']%>" target="_blank"><%=h colmn.v_lname%></a></td>
+      <td align="center"><%=h colmn.e_sex%></td>
+      <td align="center"><%=h colmn.v_user_name%></td>
+
+      <td align="center"><%=h colmn.v_e_mail%></td>
+      <td align="center"><%=h colmn.account_type%></td>
+      <td align="center"><%if colmn.e_user_status=='blocked'%>
+          <font size="3" color="#ff0000"><b>
+              <%=h colmn.e_user_status.capitalize%></b></font>
+        <%else%>
+          <font size="3" color="#00bb00" ><b>
+              <%=h colmn.e_user_status.capitalize%></b></font>
+        <%end%>
+      </td>
+      <td align="center">
+        <% if colmn.account_expdate!=nil %>
+          <%  t = Time.now
+          dat=t.strftime("%Y-%m-%d")%>
+          <% if  colmn.account_expdate > dat.to_date %>
+            Active
+          <%else%>Inactive
+          <%end%>
+        <%else%>Inactive
+        <%end%></td>
+      <td><input type="button" name="upgrade_user" id="upgrade_user" onclick="window.open('/account/get_payment_date/<%=colmn.id%>')" value="Add Expiry Date" ></td>
+    </tr>
+
+  <% end %>
+  <input type="hidden" name="len" id="len" value="<%= i %>"/>
+  <tr><td>
+
+      <%=will_paginate @hmm_users%>
+    </td>
+  </tr>
+
+</table>
+
+
+ <%end%>
+
+
+
+
+
+<br />

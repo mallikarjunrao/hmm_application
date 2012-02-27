@@ -1,0 +1,144 @@
+<%= javascript_include_tag '/javascripts/themes/modalbox/prototype' %>
+<script type="text/javascript" src="/javascripts/themes/modalbox/scriptaculous.js?load=effects"></script>
+<script type="text/javascript" src="/javascripts/themes/modalbox/modalbox.js"></script>
+<%= stylesheet_link_tag '/stylesheets/themes/modalbox/modalbox' %>
+
+<table width="292" border="0" cellspacing="0" cellpadding="0" id="new_bgcolor">
+
+  <tr>
+    <td height="675" valign="middle"><table width="252" border="0" align="center" cellpadding="0" cellspacing="0" id="new_bg-border">
+
+        <tr>
+          <td height="635" valign="top" background="/images/familywebsite_v3/image-bg.png"><table width="212" border="0" align="center" cellpadding="0" cellspacing="0">
+              <tr>
+                <td>&nbsp;</td>
+              </tr>
+              <tr>
+                <td align="center" valign="middle"><table width="190" border="0" cellspacing="0" cellpadding="0">
+                    <tr>
+                      <td align="center"><a href="javascript:void(0);" title="Share this page with your Facebook friends" onClick="fbs_click()"><img src="/images/familywebsite_v3/icon1.png" width="60" height="75" border="0"/></a></td>
+                      <td align="center"><a href="javascript:void(0);" title="Share this page with your Myspace friends" onClick="GetThis()"><img src="/images/familywebsite_v3/icon2.png" width="60" height="75" border="0"/></a></td>
+                    </tr>
+                  </table>                         </td>
+              </tr>
+              <tr>
+                <td>&nbsp;</td>
+              </tr>
+              <tr>
+                <td align="center" valign="middle"><table width="190" border="0" cellspacing="0" cellpadding="0">
+                    <tr>
+                      <td align="center"> <a title="Post a link to this page on your Twitter account" href="javascript:GetThisTwitter('http://www.twitter.com/home?status=<%=  request.url %>')" ><img src="/images/familywebsite_v3/icon3.png" width="60" height="80" border="0"/></a></td>
+                        <td align="center">   <% if (params[:controller]!='manage_website' && params[:action]!='login' && params[:action]!='visitor_login')%>
+           <a title="Share This Page" href="/familywebsite/share/<%=params[:id]%>/?link=/familywebsite_studio/home/<%=params[:id]%>&id=<%=params[:id]%>" onClick="Modalbox.show(this.href, {title: this.title, width: 625}); return false;" >
+      <img src="/images/familywebsite_v3/icon9.png" width="60" height="80" border="0" title="Share This Page" /></a><%end%></td>
+
+                    </tr>
+                  </table></td>
+              </tr>
+              <tr>
+                <td>&nbsp;</td>
+              </tr>
+             <tr>
+                        <td align="center" valign="middle">
+                          <table width="190" border="0" cellspacing="0" cellpadding="0">
+                            <tr>
+                              <td height="70" align="center" valign="middle" class="buttons-bg"><a href="/contests/select_contest" class="buttons-new">Enter Contest</a></td>
+                            </tr>
+                          </table>
+                        </td>
+                      </tr>
+              
+              <tr>
+                <td>&nbsp;</td>
+              </tr>
+              <tr>
+                <td>&nbsp;</td>
+              </tr>
+              <tr>
+                <td>&nbsp;</td>
+              </tr>
+            </table></td>
+        </tr>
+
+      </table></td>
+  </tr>
+
+</table>
+<script type="text/javascript">
+
+ function GetThis()
+  {
+    if(password_check()){
+      share_counter('myspace');
+      T = 'Brought to you by HoldMyMemories';
+      C = '<img src="<%= @share_image %>"><br/>www.HoldMyMemories.com'
+      U = '<%= request.url %>'
+      L = '2'
+      var targetUrl = 'http://www.myspace.com/Modules/PostTo/Pages/?' + 't=' + encodeURIComponent(T)+ '&c=' + encodeURIComponent(C) + '&u=' + encodeURIComponent(U) + '&l=' + L;
+      window.open(targetUrl);
+    }
+  }
+
+   function GetThisTwitter(targetUrl)
+  {
+    if(password_check()){
+      share_counter('twitter');
+      window.open(targetUrl);
+    }
+    else return false;
+  }
+
+  function others(){
+    result= password_check();
+    if(result){
+      share_counter('other');
+      return addthis_sendto();
+    }else return false;
+  }
+
+  function password_check(){
+<% if @family_website_owner.password_required == 'yes' %>
+  <% if logged_in_hmm_user && logged_in_hmm_user.id == @family_website_owner.id %>
+        if(confirm('Your website is password protected.  Please note that once shared, you are giving the ability to others to navigate through your site without a password.'))
+        { return true;
+        }else
+        {return false;}
+  <%  else  %>
+        if(confirm("Your website is password protected. You must be logged in as the administrator to share with your social networking friends."))
+        {
+          document.redirectloginform.submit();
+          return false;
+        }else return false;
+  <% end %>
+<% end %>
+    return true;
+  }
+
+  function share_counter(type){
+    new Ajax.Request('/social_networkings/create/<%= @family_website_owner.id %>?type='+type);
+
+    new Ajax.Request('/social_networkings/create_sharecount/<%= @family_website_owner.id %>?type='+type);
+
+  }
+
+  function fbs_click() {
+    if(password_check()){
+      share_counter('facebook');
+<%
+count = request.url.scan("?").length
+if count>0
+  current_url = request.url+"&facebook=true"
+else
+  current_url = request.url+"?facebook=true"
+end
+%>
+      u='<%= current_url %>';
+      t='Brought to you by HoldMyMemories'
+      window.open('http://www.facebook.com/sharer.php?u='+encodeURIComponent(u)+'&t='+encodeURIComponent(t),'sharer','toolbar=0,status=0,width=626,height=436');
+
+
+
+      return false;
+    }
+  }
+</script>

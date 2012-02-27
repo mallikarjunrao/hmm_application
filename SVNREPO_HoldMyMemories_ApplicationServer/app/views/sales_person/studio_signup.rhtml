@@ -1,0 +1,830 @@
+<%= javascript_include_tag 'SpryAssets/SpryValidationRadio' %>
+<%= javascript_include_tag 'SpryAssets/SpryValidationPassword' %>
+<%= javascript_include_tag 'SpryAssets/SpryValidationConfirm' %>
+<%= stylesheet_link_tag 'SpryAssets/SpryValidationRadio' %>
+<%= stylesheet_link_tag 'SpryAssets/SpryValidationPassword' %>
+<%= stylesheet_link_tag 'SpryAssets/SpryValidationConfirm' %>
+
+ <%= stylesheet_link_tag 'SpryAssets/SpryValidationTextField' %>
+ <%= stylesheet_link_tag 'SpryAssets/SpryValidationRadio' %>
+ <%= stylesheet_link_tag 'SpryAssets/SpryValidationPassword' %>
+ <%= stylesheet_link_tag 'SpryAssets/SpryValidationConfirm' %>
+ <%= javascript_include_tag 'check_flash' %>
+<!-- Javascript Collection -->
+
+ <%= javascript_include_tag 'SpryAssets/SpryValidationTextField' %>
+ <%= javascript_include_tag 'SpryAssets/SpryValidationRadio' %>
+ <%= stylesheet_link_tag 'SpryAssets/SpryValidationTextarea' %>
+ <%= javascript_include_tag 'SpryAssets/SpryValidationTextarea' %>
+
+<%= stylesheet_link_tag 'main' %>
+<%= stylesheet_link_tag 'hmmout' %>
+<script type="text/javascript">
+ function validateFileExtension(fld) {
+	if(!/(\.png|\.PNG)$/i.test(fld.value)) {
+		alert("Invalid file type.. Please Upload only transparent PNG image file!!");
+		fld.focus();
+		return false;
+	}
+	return true;
+}
+
+
+function check_option()
+{
+	if(document.frm.studio_package.checked==true)
+	{
+		document.getElementById('dis_box').style.display='block';
+	}else{
+		document.getElementById('dis_box').style.display='none';
+	}
+	if(document.frm.credit_option[0].checked==true)
+	{
+		document.getElementById('show_box').style.display='block';
+	}else{
+		document.getElementById('show_box').style.display='none';
+	}
+
+
+}
+function chk(box)
+{
+if(box=='hide'){
+document.getElementById('myself').style.display='none';
+}else{
+document.getElementById('myself').style.display='block';
+
+}
+
+}
+
+function check_terms()
+{
+	if(document.frm.studio_logo.value=='')
+	{
+		alert("Please Upload a PNG transparent Studio Logo");
+		document.frm.studio_logo.focus();
+		return false;
+	}
+	if(!/(\.png|\.PNG)$/i.test(document.frm.studio_logo.value)) {
+		alert("Invalid file type.. Please Upload only transparent PNG image file!!");
+		document.frm.studio_logo.focus();
+		return false;
+	}
+	if(document.getElementById('myself').style.display=='block')
+	{
+		if(document.frm.tax_rate.value=='')
+		{
+			alert('Enter the Tax Rate');
+			document.frm.tax_rate.focus();
+			return false;
+		}
+		 if(document.frm.ship_method.value=='')
+		{
+			alert('Enter the ship method name');
+			document.frm.ship_method.focus();
+			return false;
+		}
+		if(document.frm.ship_price1.value=='')
+		{
+			alert('Enter the ship price value');
+			document.frm.ship_price1.focus();
+			return false;
+		}
+
+		if(document.frm.ship_price2.value=='')
+		{
+			alert('Enter the ship price value');
+			document.frm.ship_price2.focus();
+			return false;
+		}
+		if(document.frm.ship_price3.value=='')
+		{
+			alert('Enter the ship price value');
+			document.frm.ship_price3.focus();
+			return false;
+		}
+		if(document.frm.ship_price4.value=='')
+		{
+			alert('Enter the ship price value');
+			document.frm.ship_price4.focus();
+			return false;
+		}
+		if(document.frm.ship_price5.value=='')
+		{
+			alert('Enter the ship price value');
+			document.frm.ship_price5.focus();
+			return false;
+		}
+		if(document.frm.ship_price6.value=='')
+		{
+			alert('Enter the ship price value');
+			document.frm.ship_price6.focus();
+			return false;
+		}
+		if(document.frm.ship_price7.value=='')
+		{
+			alert('Enter the ship price value');
+			document.frm.ship_price7.focus();
+			return false;
+		}
+		if(document.frm.ship_price8.value=='')
+		{
+			alert('Enter the ship price value');
+			document.frm.ship_price8.focus();
+			return false;
+		}
+		if(document.frm.ship_price9.value=='')
+		{
+			alert('Enter the ship price value');
+			document.frm.ship_price9.focus();
+			return false;
+		}
+	}
+	if(document.frm.terms.checked==false)
+	{
+		alert("Please agree to the Terms & Conditions");
+		return false;
+	}
+}
+
+</script>
+ <form name="frm" action="<%=request_content_url%>/hmm_studios_content/submit_studio" method="post" enctype="multipart/form-data"  >
+ <fieldset>
+<table width="93%" border="0" cellspacing="0" cellpadding="0">
+                          <tr>
+                            <td colspan="4" align="left" valign="top" class="leftconthr"><h3> Studio Group Signup :</h3></td>
+                          </tr>
+ <tr>
+                            <td colspan="4" align="center" valign="top" class="leftconthr">
+                            <%if(params[:success]=='1')%>
+                            <font color="#FF0000">Studio Group was successfully Added</font>
+                            <%end%>
+                            </td>
+                          </tr>
+                          <tr>
+                            <td align="left" valign="top">&nbsp;</td>
+                            <td align="left" valign="top">&nbsp;</td>
+                            <td align="left" valign="top">&nbsp;</td>
+                            <td align="left" valign="top">&nbsp;</td>
+                          </tr>
+                          <tr>
+                            <td align="left" valign="top">&nbsp;</td>
+                            <td align="left" valign="top">&nbsp;</td>
+                            <td align="left" valign="top">&nbsp;</td>
+                            <td align="left" valign="top">&nbsp;</td>
+                          </tr>
+                          <tr>
+                            <td align="left" valign="top">&nbsp;</td>
+                            <td align="left" valign="top">&nbsp;</td>
+                            <td align="left" valign="top">&nbsp;</td>
+                            <td align="left" valign="top">&nbsp;</td>
+                          </tr>
+                          <tr>
+                            <td  align="left" valign="top">&nbsp;</td>
+                            <td align="left" valign="top"><span class="whitecont">Company Name *</span></td>
+                            <td align="left" valign="top" class="whitecont">:</td>
+                            <td  align="left" valign="top"><span id="sprytextfield20">
+            <input type="text" name="company_name" id="company_name" class="textbox-signup" value=""/>
+                              <br>
+                            <span class="textfieldRequiredMsg">Company Name is required.</span></span></td>
+    </tr>
+    <tr>
+                            <td align="left" valign="top" class="whitecont">&nbsp;</td>
+                            <td align="left" valign="top" class="whitecont">&nbsp;</td>
+                            <td align="left" valign="top" class="whitecont">&nbsp;</td>
+                            <td align="left" valign="top" class="whitecont">&nbsp;</td>
+                          </tr>
+    <tr>
+                            <td align="left" valign="top" class="whitecont">&nbsp;</td>
+                            <td align="left" valign="top" class="whitecont">Company Email  *</td>
+                            <td align="left" valign="top" class="whitecont">:</td>
+                            <td align="left" valign="top"> <span id="sprytextfield27"><input name="company_email" id="company_email" type="text" class="textbox-signup" value="">&nbsp;
+                              <span class="textfieldRequiredMsg"><br>E-mail Required</span><span class="textfieldInvalidFormatMsg"><br>Invalid E-mail</span></span></span></td>
+                          </tr>
+    <tr>
+                            <td align="left" valign="top" class="whitecont">&nbsp;</td>
+                            <td align="left" valign="top" class="whitecont">&nbsp;</td>
+                            <td align="left" valign="top" class="whitecont">&nbsp;</td>
+                            <td align="left" valign="top" class="whitecont">&nbsp;</td>
+                          </tr>
+						 <tr>
+                            <td  align="left" valign="top">&nbsp;</td>
+                            <td align="left" valign="top"><span class="whitecont">UserName *</span></td>
+                            <td align="left" valign="top" class="whitecont">:</td>
+                            <td  align="left" valign="top"><span id="sprytextfield28">
+            <input type="text" name="username" id="username" class="textbox-signup" value=""/>
+                              <br>
+                            <span class="textfieldRequiredMsg">UserName is required.</span></span>
+                            <%= observe_field :'username',
+                        :with       => "username",
+                        :frequency  => 0.25,
+                        :url        => {:action => :validate },
+                        :update     => :message
+                      %>
+					   <span id="message"></span>
+                            </td>
+    </tr>
+    <tr>
+                            <td align="left" valign="top" class="whitecont">&nbsp;</td>
+                            <td align="left" valign="top" class="whitecont">&nbsp;</td>
+                            <td align="left" valign="top" class="whitecont">&nbsp;</td>
+                            <td align="left" valign="top" class="whitecont">&nbsp;</td>
+                          </tr>
+     <tr>
+                            <td  align="left" valign="top">&nbsp;</td>
+                            <td align="left" valign="top"><span class="whitecont">Password *</span></td>
+                            <td align="left" valign="top" class="whitecont">:</td>
+                            <td  align="left" valign="top"><span id="sprytextfield29">
+            <input type="password" name="password" id="password" class="textbox-signup" value=""/>
+                              <br>
+                            <span class="textfieldRequiredMsg">Password is required.</span></span></td>
+    </tr>
+    <tr>
+                            <td align="left" valign="top" class="whitecont">&nbsp;</td>
+                            <td align="left" valign="top" class="whitecont">&nbsp;</td>
+                            <td align="left" valign="top" class="whitecont">&nbsp;</td>
+                            <td align="left" valign="top" class="whitecont">&nbsp;</td>
+                          </tr>
+	<tr>
+                            <td  align="left" valign="top">&nbsp;</td>
+                            <td align="left" valign="top"><span class="whitecont">Retype Password *</span></td>
+                            <td align="left" valign="top" class="whitecont">:</td>
+                            <td  align="left" valign="top"> <span class="" id="spryconfirm2">
+            <input type="password" name="confirm_password" id="confirm_password" class="textbox-signup" value=""/><br>
+                              <span class="confirmRequiredMsg">A value is required.</span> <span class="confirmInvalidMsg">The values don't match</span> </span></span>				</td>
+    </tr>
+                          <!--<tr>
+                            <td align="left" valign="top">&nbsp;</td>
+                            <td align="left" valign="top">&nbsp;</td>
+                            <td align="left" valign="top">&nbsp;</td>
+                            <td align="left" valign="top">&nbsp;</td>
+                          </tr>
+                          <tr>
+                            <td width="8%" align="left" valign="top">&nbsp;</td>
+                            <td width="25%" align="left" valign="top"><span class="whitecont">Studio Branch *</span></td>
+                            <td width="1%" align="left" valign="top">:</td>
+                            <td width="66%" align="left" valign="top"><span id="sprytextfield21">
+                              <input type="text" name="slname" id="slname" class="textbox-signup" value=""/><br>
+                              <span class="textfieldRequiredMsg">Studio Branch is required.</span></span></td>
+                          </tr>-->
+                          <tr>
+                            <td align="left" valign="top">&nbsp;</td>
+                            <td align="left" valign="top">&nbsp;</td>
+                            <td align="left" valign="top">&nbsp;</td>
+                            <td align="left" valign="top">&nbsp;</td>
+                          </tr>
+                          <tr>
+                            <td align="left" valign="top" class="whitecont">&nbsp;</td>
+                            <td align="left" valign="top" class="whitecont"><h3>Studio Profile</h3></td>
+                            <td align="left" valign="top" class="whitecont">&nbsp;</td>
+                            <td align="left" valign="top" class="whitecont">&nbsp;</td>
+                          </tr>
+                          <tr>
+                            <td align="left" valign="top">&nbsp;</td>
+                            <td align="left" valign="top">&nbsp;</td>
+                            <td align="left" valign="top">&nbsp;</td>
+                            <td align="left" valign="top">&nbsp;</td>
+                          </tr>
+                          <tr>
+                            <td width="12%" align="left" valign="top">&nbsp;</td>
+                            <td width="21%" align="left" valign="top"><span class="whitecont">Studio Name *</span></td>
+                            <td width="1%" align="left" valign="top" class="whitecont">:</td>
+                            <td width="66%" align="left" valign="top"><span id="sprytextfield30">
+      		 <input type="text" name="studio_name" id="studio_name" class="textbox-signup" value=""/>
+      		<br><span class="textfieldRequiredMsg">Studio Name is required.</span></span></td>
+    </tr>
+                          <tr>
+                            <td align="left" valign="top">&nbsp;</td>
+                            <td align="left" valign="top">&nbsp;</td>
+                            <td align="left" valign="top">&nbsp;</td>
+                            <td align="left" valign="top">&nbsp;</td>
+                          </tr>
+                          <tr>
+                            <td width="12%" align="left" valign="top">&nbsp;</td>
+                            <td width="21%" align="left" valign="top"><span class="whitecont">Street *</span></td>
+                            <td width="1%" align="left" valign="top" class="whitecont">:</td>
+                            <td width="66%" align="left" valign="top"><span id="sprytextfield23">
+      		 <input type="text" name="studio_address" id="studio_address" class="textbox-signup" value=""/>
+      		<br><span class="textfieldRequiredMsg">Street is required.</span></span></td>
+    </tr>
+
+                          <tr>
+                            <td align="left" valign="top" class="whitecont">&nbsp;</td>
+                            <td align="left" valign="top" class="whitecont">&nbsp;</td>
+                            <td align="left" valign="top" class="whitecont">&nbsp;</td>
+                            <td align="left" valign="top" class="whitecont">&nbsp;</td>
+                          </tr>
+                          <tr>
+                            <td align="left" valign="top" class="whitecont">&nbsp;</td>
+                            <td align="left" valign="top" class="whitecont">City *</td>
+                            <td align="left" valign="top" class="whitecont">:</td>
+                            <td align="left" valign="top" class="whitecont"><span id="sprytextfield3"><input type="text" name="city" id="city" class="textbox-signup" value=""/><br><span class="textfieldRequiredMsg">City is required.</span></span></td>
+                          </tr>
+                          <tr>
+                            <td align="left" valign="top" class="whitecont">&nbsp;</td>
+                            <td align="left" valign="top" class="whitecont">&nbsp;</td>
+                            <td align="left" valign="top" class="whitecont">&nbsp;</td>
+                            <td align="left" valign="top" class="whitecont">&nbsp;</td>
+                          </tr>
+                          <tr>
+                            <td align="left" valign="top" class="whitecont">&nbsp;</td>
+                            <td align="left" valign="top" class="whitecont">State *</td>
+                            <td align="left" valign="top" class="whitecont">:</td>
+                            <td align="left" valign="top" class="whitecont"><span id="sprytextfield4">
+				<select name="state_name" id="state_name">
+                <option value="">-Select-</option>
+                <% for k in @states_list %>
+                <option value="<%=k.id%>"><%=k.state%></option>
+                <%end%>
+                </select>
+                <br><span class="textfieldRequiredMsg">State/Province is required.</span></span></td>
+                          </tr>
+                          <tr>
+                            <td align="left" valign="top">&nbsp;</td>
+                            <td align="left" valign="top">&nbsp;</td>
+                            <td align="left" valign="top">&nbsp;</td>
+                            <td align="left" valign="top">&nbsp;</td>
+                          </tr>
+
+                          <tr>
+                            <td align="left" valign="top" class="whitecont">&nbsp;</td>
+                            <td align="left" valign="top" class="whitecont">Zip *</td>
+                            <td align="left" valign="top" class="whitecont">:</td>
+                            <td align="left" valign="top"><span id="sprytextfield25"><input type="text" name="zip" id="zip" class="textbox-signup" value=""/><br><span class="textfieldRequiredMsg">Zipcode is required.</span></span></td>
+                          </tr>
+                          <tr>
+                            <td align="left" valign="top" class="whitecont">&nbsp;</td>
+                            <td align="left" valign="top" class="whitecont">&nbsp;</td>
+                            <td align="left" valign="top">&nbsp;</td>
+                            <td align="left" valign="top">&nbsp;</td>
+                          </tr>
+                          <tr>
+                            <td align="left" valign="top" class="whitecont">&nbsp;</td>
+                            <td align="left" valign="top" class="whitecont">Country *</td>
+                            <td align="left" valign="top" class="whitecont">:</td>
+                            <td align="left" valign="top"><input name="country" id="country" value="United States" class="textbox-signup" readonly></td>
+                          </tr>
+                          <tr>
+                            <td align="left" valign="top">&nbsp;</td>
+                            <td align="left" valign="top">&nbsp;</td>
+                            <td align="left" valign="top">&nbsp;</td>
+                            <td align="left" valign="top">&nbsp;</td>
+                          </tr>
+						  <tr>
+                            <td align="left" valign="top" class="whitecont">&nbsp;</td>
+                            <td align="left" valign="top" class="whitecont">Studio Website  *</td>
+                            <td align="left" valign="top" class="whitecont">:</td>
+                            <td align="left" valign="top"> <span id="sprytextfield2"><input name="studio_website" id="studio_website" type="text" class="textbox-signup" value="">&nbsp;<br>
+                              <span class="textfieldRequiredMsg">Studio Website is required.</span></span></td>
+                          </tr>
+                           <tr>
+                            <td align="left" valign="top">&nbsp;</td>
+                            <td align="left" valign="top">&nbsp;</td>
+                            <td align="left" valign="top">&nbsp;</td>
+                            <td align="left" valign="top">&nbsp;</td>
+                          </tr>
+                          <tr>
+                            <td align="left" valign="top" class="whitecont">&nbsp;</td>
+                            <td align="left" valign="top" class="whitecont">Studio Phone Number *</td>
+                            <td align="left" valign="top" class="whitecont">:</td>
+                            <td align="left" valign="top"> <span id="sprytextfield26"><input name="studio_phone" id="studio_phone" type="text" class="textbox-signup" value="">&nbsp;<br> <font size="1" color="green">Example: 555-555-5555   or 5555555555</font><br>
+                              <span class="textfieldRequiredMsg">Studio Phone Number is required.</span></span></td>
+                          </tr>
+                          <tr>
+                            <td align="left" valign="top">&nbsp;</td>
+                            <td align="left" valign="top">&nbsp;</td>
+                            <td align="left" valign="top">&nbsp;</td>
+                            <td align="left" valign="top">&nbsp;</td>
+                          </tr>
+                          <tr>
+                            <td align="left" valign="top" class="whitecont">&nbsp;</td>
+                            <td align="left" valign="top" class="whitecont">Contact Name  *</td>
+                            <td align="left" valign="top" class="whitecont">:</td>
+                            <td align="left" valign="top"> <span id="sprytextfield13"><input name="contact_name" id="contact_name" type="text" class="textbox-signup" value="">&nbsp;<br>
+                              <span class="textfieldRequiredMsg">Contact Name is required.</span></span></td>
+                          </tr>
+                          <tr>
+                            <td align="left" valign="top">&nbsp;</td>
+                            <td align="left" valign="top">&nbsp;</td>
+                            <td align="left" valign="top">&nbsp;</td>
+                            <td align="left" valign="top">&nbsp;</td>
+                          </tr>
+                          <tr>
+                            <td align="left" valign="top" class="whitecont">&nbsp;</td>
+                            <td align="left" valign="top" class="whitecont">Contact Email  *</td>
+                            <td align="left" valign="top" class="whitecont">:</td>
+                            <td align="left" valign="top"> <span id="sprytextfield27"><input name="contact_email" id="contact_email" type="text" class="textbox-signup" value="">&nbsp;
+                              <span class="textfieldRequiredMsg"><br>E-mail Required</span><span class="textfieldInvalidFormatMsg"><br>Invalid E-mail</span></span></span></td>
+                          </tr>
+                          <tr>
+                            <td align="left" valign="top">&nbsp;</td>
+                            <td align="left" valign="top">&nbsp;</td>
+                            <td align="left" valign="top">&nbsp;</td>
+                            <td align="left" valign="top">&nbsp;</td>
+                          </tr>
+                          <tr>
+                            <td align="left" valign="top" class="whitecont">&nbsp;</td>
+                            <td align="left" valign="top" class="whitecont">Contact Phone Number  *</td>
+                            <td align="left" valign="top" class="whitecont">:</td>
+                            <td align="left" valign="top"> <span id="sprytextfield6"><input name="contact_phone" id="contact_phone" type="text" class="textbox-signup" value="">&nbsp;<br> <font size="1" color="green">Example: 555-555-5555   or 5555555555</font><br>
+                              <span class="textfieldRequiredMsg">Contact Phone Number is required.</span></span></td>
+                          </tr>
+                          <tr>
+                            <td align="left" valign="top">&nbsp;</td>
+                            <td align="left" valign="top">&nbsp;</td>
+                            <td align="left" valign="top">&nbsp;</td>
+                            <td align="left" valign="top">&nbsp;</td>
+                          </tr>
+                          <tr>
+                            <td align="left" valign="top" class="whitecont">&nbsp;</td>
+                            <td align="left" valign="top" class="whitecont">Studio Tax ID Number  *</td>
+                            <td align="left" valign="top" class="whitecont">:</td>
+                            <td align="left" valign="top"> <span id="sprytextfield14"><input name="studio_taxnumber" id="studio_taxnumber" type="text" class="textbox-signup" value="">&nbsp;<br>
+                              <span class="textfieldRequiredMsg">Studio Tax ID Number is required.</span></span></td>
+                          </tr>
+                          <tr>
+                            <td align="left" valign="top">&nbsp;</td>
+                            <td align="left" valign="top">&nbsp;</td>
+                            <td align="left" valign="top">&nbsp;</td>
+                       <td align="left" valign="top">&nbsp;</td>
+                          </tr>
+                          <tr>
+                            <td align="left" valign="top" class="whitecont">&nbsp;</td>
+                            <td align="left" valign="top" class="whitecont">Upload Studio Logo </td>
+                            <td align="left" valign="top" class="whitecont">:</td>
+                            <td align="left" valign="top"><input type="file" name="studio_logo" onChange="return validateFileExtension(this)"><br />							 (Please upload a PNG transparent image) <br>
+							</td>
+                          </tr>
+                          <tr>
+                            <td align="left" valign="top">&nbsp;</td>
+                            <td align="left" valign="top">&nbsp;</td>
+                            <td align="left" valign="top">&nbsp;</td>
+                            <td align="left" valign="top">&nbsp;</td>
+                          </tr>
+                          <tr>
+                            <td align="left" valign="top" class="whitecont">&nbsp;</td>
+                            <td align="left" valign="top" class="whitecont" colspan="2">What types of sessions does your studio photograph </td>
+
+                            <td align="left" valign="top">&nbsp;
+							</td>
+                          </tr>
+                          <tr>
+                            <td align="left" valign="top" class="whitecont">&nbsp;</td>
+                            <td align="left" valign="top">&nbsp;
+							</td><td align="left" valign="top" class="whitecont"></td>
+                            <td align="left" valign="top" class="whitecont"><input type="checkbox" name="children" value="yes">Children</td>
+
+                          </tr>
+                          <tr>
+                            <td align="left" valign="top" class="whitecont">&nbsp;</td>
+                            <td align="left" valign="top">&nbsp;
+							</td><td align="left" valign="top" class="whitecont"></td>
+                            <td align="left" valign="top" class="whitecont"><input type="checkbox" name="family" value="yes">Family</td>
+
+                          </tr>
+                          <tr>
+                            <td align="left" valign="top" class="whitecont">&nbsp;</td>
+                            <td align="left" valign="top">&nbsp;
+							</td><td align="left" valign="top" class="whitecont"></td>
+                            <td align="left" valign="top" class="whitecont"><input type="checkbox" name="maternity" value="yes">Maternity</td>
+
+                          </tr>
+                          <tr>
+                            <td align="left" valign="top" class="whitecont">&nbsp;</td>
+                            <td align="left" valign="top">&nbsp;
+							</td><td align="left" valign="top" class="whitecont"></td>
+                            <td align="left" valign="top" class="whitecont"><input type="checkbox" name="glamour" value="yes">Glamour</td>
+
+                          </tr>
+                          <tr>
+                            <td align="left" valign="top" class="whitecont">&nbsp;</td>
+                            <td align="left" valign="top">&nbsp;
+							</td><td align="left" valign="top" class="whitecont"></td>
+                            <td align="left" valign="top" class="whitecont"><input type="checkbox" name="high_school_seniors" value="yes">High School Seniors</td>
+
+                          </tr>
+                          <tr>
+                            <td align="left" valign="top" class="whitecont">&nbsp;</td>
+                            <td align="left" valign="top">&nbsp;
+							</td><td align="left" valign="top" class="whitecont"></td>
+                            <td align="left" valign="top" class="whitecont"><input type="checkbox" name="bridal" value="yes">Bridal</td>
+
+                          </tr>
+                          <tr>
+                            <td align="left" valign="top" class="whitecont">&nbsp;</td>
+                            <td align="left" valign="top">&nbsp;
+							</td><td align="left" valign="top" class="whitecont"></td>
+                            <td align="left" valign="top" class="whitecont"><input type="checkbox" name="weddings" value="yes">Weddings</td>
+
+                          </tr>
+                          <tr>
+                            <td align="left" valign="top" class="whitecont">&nbsp;</td>
+                            <td align="left" valign="top">&nbsp;
+							</td><td align="left" valign="top" class="whitecont"></td>
+                            <td align="left" valign="top" class="whitecont">Other <input type="text" name="other_session" value="" class="textbox-signup" ></td>
+
+                          </tr>
+                          <tr>
+                            <td align="left" valign="top">&nbsp;</td>
+                            <td align="left" valign="top">&nbsp;</td>
+                            <td align="left" valign="top">&nbsp;</td>
+                            <td align="left" valign="top">&nbsp;</td>
+                          </tr>
+                           <tr>
+                            <td align="left" valign="top" class="whitecont">&nbsp;</td>
+                            <td align="left" valign="top" class="whitecont" colspan="2">Would you like to watermark your images when they are uploaded?</td>
+
+                            <td align="left" valign="top" class="whitecont"><input type="radio" name="watermark" value="yes">Yes&nbsp;&nbsp;&nbsp;<input type="radio" name="watermark" value="no" checked>No</td>
+                          </tr>
+                          <tr>
+                            <td align="left" valign="top">&nbsp;</td>
+                            <td align="left" valign="top">&nbsp;</td>
+                            <td align="left" valign="top">&nbsp;</td>
+                            <td align="left" valign="top">&nbsp;</td>
+                          </tr>
+                          <tr>
+                            <td align="left" valign="top" class="whitecont">&nbsp;</td>
+                            <td align="left" valign="top" class="whitecont" colspan="2">HMM Studio Benefits</td>
+
+                            <td align="left" valign="top">&nbsp;
+							</td>
+                          </tr>
+                          <tr>
+                            <td align="left" valign="top" class="whitecont">&nbsp;</td>
+                            <td align="left" valign="top">&nbsp;
+							</td><td align="left" valign="top" class="whitecont"></td>
+                            <td align="left" valign="top" class="whitecont"><input type="checkbox" name="free_sessions" value="yes">Free Sessions</td>
+
+                          </tr>
+                          <tr>
+                            <td align="left" valign="top" class="whitecont">&nbsp;</td>
+                            <td align="left" valign="top">&nbsp;
+							</td><td align="left" valign="top" class="whitecont"></td>
+                            <td align="left" valign="top" class="whitecont"><input type="checkbox" name="studio_package" value="yes" onClick="return check_option();">Studio package discounts &nbsp;&nbsp;&nbsp;<div id="dis_box" style="display:none">Percentage Discount<input type="text" name="dis_percentage">%</div></td>
+
+                          </tr>
+                          <tr>
+                            <td align="left" valign="top" class="whitecont">&nbsp;</td>
+                            <td align="left" valign="top">&nbsp;
+							</td><td align="left" valign="top" class="whitecont"></td>
+                            <td align="left" valign="top" class="whitecont"><input type="checkbox" name="free_print" value="yes">Free 8x10 Print with session</td>
+
+                          </tr>
+                          <tr>
+                            <td align="left" valign="top" class="whitecont">&nbsp;</td>
+                            <td align="left" valign="top">&nbsp;
+							</td><td align="left" valign="top" class="whitecont"></td>
+                            <td align="left" valign="top" class="whitecont"><input type="checkbox" name="free_video" value="yes">Free Video created from your portrait session</td>
+
+                          </tr>
+                          <tr>
+                            <td align="left" valign="top" class="whitecont">&nbsp;</td>
+                            <td align="left" valign="top">&nbsp;
+							</td><td align="left" valign="top" class="whitecont"></td>
+                            <td align="left" valign="top" class="whitecont"><input type="checkbox" name="free_card" value="yes">
+                            One dozen free Holiday Cards with October or November session</td>
+
+                          </tr>
+                           <tr>
+                            <td align="left" valign="top" class="whitecont">&nbsp;</td>
+                            <td align="left" valign="top">&nbsp;
+							</td><td align="left" valign="top" class="whitecont"></td>
+                            <td align="left" valign="top" class="whitecont">Other
+                              <input type="text" name="other_benefit" value="" class="textbox-signup" ></td>
+
+                          </tr>
+                            <tr>
+                            <td align="left" valign="top">&nbsp;</td>
+                            <td align="left" valign="top">&nbsp;</td>
+                            <td align="left" valign="top">&nbsp;</td>
+                            <td align="left" valign="top">&nbsp;</td>
+                          </tr>
+                          <tr>
+                            <td align="left" valign="top" class="whitecont">&nbsp;</td>
+                            <td align="left" valign="top" class="whitecont" colspan="2">Will your studio be participating in the loyalty/credit program?  <a href="#">(click for more info)</a></td>
+
+                            <td align="left" valign="top">&nbsp;
+							</td>
+                          </tr>
+                          <tr>
+                            <td align="left" valign="top" class="whitecont">&nbsp;</td>
+                            <td align="left" valign="top">&nbsp;
+							</td><td align="left" valign="top" class="whitecont"></td>
+                            <td align="left" valign="top" class="whitecont"><input type="radio" name="credit_option" value="yes" onClick="return check_option();">Yes&nbsp;&nbsp;&nbsp;<div id="show_box" style="display:none">Credit Percentage<input type="text" name="credit_percentage">% <br />Would you like to give the user online credit redemption? : <input type="radio" name="online_credit_redemption" value="Yes" />Yes &nbsp; <input type="radio" name="online_credit_redemption" value="No" checked/>No<br /><br /></div></td>
+
+
+                          </tr>
+                          <tr>
+                            <td align="left" valign="top" class="whitecont">&nbsp;</td>
+                            <td align="left" valign="top">&nbsp;
+							</td><td align="left" valign="top" class="whitecont"></td>
+                            <td align="left" valign="top" class="whitecont"><input type="radio" name="credit_option" value="no" checked onClick="return check_option();">No</td>
+
+                          </tr>
+                          <tr>
+                            <td align="left" valign="top">&nbsp;</td>
+                            <td align="left" valign="top">&nbsp;</td>
+                            <td align="left" valign="top">&nbsp;</td>
+                            <td align="left" valign="top">&nbsp;</td>
+                          </tr>
+                           <tr>
+                            <td align="left" valign="top" class="whitecont">&nbsp;</td>
+                            <td align="left" valign="top" class="whitecont"><h3>Studio Details</h3></td>
+                            <td align="left" valign="top" class="whitecont">&nbsp;</td>
+                            <td align="left" valign="top" class="whitecont">&nbsp;</td>
+                          </tr>
+                           <tr>
+                            <td align="left" valign="top">&nbsp;</td>
+                            <td align="left" valign="top">&nbsp;</td>
+                            <td align="left" valign="top">&nbsp;</td>
+                            <td align="left" valign="top">&nbsp;</td>
+                          </tr>
+                           <tr>
+                            <td align="left" valign="top" class="whitecont">&nbsp;</td>
+                            <td align="left" valign="top" class="whitecont" colspan="2">Print Order</td>
+
+                            <td align="left" valign="top" class="whitecont"><input type="radio" name="print_order" id="print_order" value="hmm" checked onClick="return chk('hide');"/> HMM &nbsp;&nbsp;&nbsp; <input type="radio" name="print_order" id="print_order" value="myself" onClick="return chk('show');"/> MYSELF</td>
+                          </tr>
+                          <tr>
+                            <td align="left" valign="top">&nbsp;</td>
+                            <td align="left" valign="top">&nbsp;</td>
+                            <td align="left" valign="top">&nbsp;</td>
+                            <td align="left" valign="top">&nbsp;</td>
+                          </tr>
+                          <tr>
+                            <td align="left" valign="top">&nbsp;</td>
+                            <td align="left" valign="top" colspan="4">
+
+                            <table id="myself" style="display:none;">
+<tr><td>Tax Rate</td><td>:</td><td><input type="text" name="tax_rate" id="tax_rate" value="" /> %</td></tr>
+<tr><td colspan="3">&nbsp;</td></tr>
+<tr><td><label>Shipping Method Name</label></td><td>:</td><td><input type="text" name="ship_method" ></td></tr>
+<tr>
+<tr><td colspan="3">&nbsp;</td></tr>
+<td width="28%">Start Value</td>
+<td width="2%">&nbsp;</td>
+<td width="37%">End Value</td>
+<td width="33%">Ship Price</td>
+</tr>
+<tr>
+<td>$0.00 <input type="hidden" name="start_value1" value="0.00"></td>
+<td>-</td>
+<td>$49.98<input type="hidden" name="end_value1" value="49.98"></td><td><input type="text" name="ship_price1"></td>
+</tr>
+<tr>
+<td>$49.99 <input type="hidden" name="start_value2" value="49.99"></td>
+<td>-</td>
+<td>$99.98<input type="hidden" name="end_value2" value="99.98"></td><td><input type="text" name="ship_price2"></td>
+</tr>
+<tr>
+<td>$99.99 <input type="hidden" name="start_value3" value="99.99"></td>
+<td>-</td>
+<td>$149.98<input type="hidden" name="end_value3" value="149.98"></td><td><input type="text" name="ship_price3"></td>
+</tr>
+<tr>
+<td>$149.99 <input type="hidden" name="start_value4" value="149.99"></td>
+<td>-</td>
+<td>$199.98<input type="hidden" name="end_value4" value="199.98"></td><td><input type="text" name="ship_price4"></td>
+</tr>
+<tr>
+<td>$199.99 <input type="hidden" name="start_value5" value="199.99"></td>
+<td>-</td>
+<td>$249.98<input type="hidden" name="end_value5" value="249.98"></td><td><input type="text" name="ship_price5"></td>
+</tr>
+<tr>
+<td>$249.99 <input type="hidden" name="start_value6" value="249.99"></td>
+<td>-</td>
+<td>$299.98<input type="hidden" name="end_value6" value="299.98"></td><td><input type="text" name="ship_price6"></td>
+</tr>
+<tr>
+<td>$299.99 <input type="hidden" name="start_value7" value="299.99"></td>
+<td>-</td>
+<td>$349.98<input type="hidden" name="end_value7" value="349.98"></td><td><input type="text" name="ship_price7"></td>
+</tr>
+<tr>
+<td>$349.99 <input type="hidden" name="start_value8" value="349.99"></td>
+<td>-</td>
+<td>$399.98<input type="hidden" name="end_value8" value="399.98"></td><td><input type="text" name="ship_price8"></td>
+</tr>
+<tr>
+<td>$399.99<input type="hidden" name="start_value9" value="399.99"></td>
+<td>-</td>
+<td>+<input type="hidden" name="end_value9" value="10000.00"></td><td><input type="text" name="ship_price9"></td>
+</tr>
+
+
+<tr>
+</table></td>
+                          </tr>
+                          <tr>
+                            <td align="left" valign="top">&nbsp;</td>
+                            <td align="left" valign="top">&nbsp;</td>
+                            <td align="left" valign="top">&nbsp;</td>
+                            <td align="left" valign="top">&nbsp;</td>
+                          </tr>
+                          <tr>
+                            <td align="left" valign="top" class="whitecont">&nbsp;</td>
+                            <td align="left" valign="top" colspan="3" class="whitecont">&nbsp;<input type="checkbox" name="terms">I agree to the HMM Studio Licensing Terms and Conditions.
+							</td>
+                          </tr>
+                           <tr>
+                            <td align="left" valign="top">&nbsp;</td>
+                            <td align="left" valign="top">&nbsp;</td>
+                            <td align="left" valign="top">&nbsp;</td>
+                            <td align="left" valign="top">&nbsp;</td>
+                          </tr>
+                          <tr>
+                            <td align="left" valign="top">&nbsp;</td>
+                            <td align="left" valign="top">&nbsp;</td>
+                            <td align="left" valign="top">&nbsp;</td>
+                            <td align="left" valign="top"><!--<input type="submit" name="sub" value="Submit" onClick="return check_terms();">-->
+                             <input type="submit" id="sub" name="sub" class="cmd-btn" value="Submit" style="cursor:pointer;" onClick="return check_terms();">
+                            </td>
+                          </tr>
+                          <!--<tr>
+                            <td align="left" valign="top" class="whitecont">&nbsp;</td>
+                            <td align="left" valign="top" class="whitecont">Email  *</td>
+                            <td align="left" valign="top">:</td>
+                            <td align="left" valign="top"><span id="sprytextfield27">
+                	<input name="semail" id="semail" type="text" class="textbox-signup" value=""><br><span class="textfieldRequiredMsg">Email is Required.</span><span class="textfieldInvalidFormatMsg">Invalid format.</span>
+</span> </td>
+                          </tr>-->
+                          <tr>
+                            <td align="left" valign="top">&nbsp;</td>
+                            <td align="left" valign="top">&nbsp;</td>
+                            <td align="left" valign="top">&nbsp;</td>
+                            <td align="left" valign="top">&nbsp;</td>
+                          </tr>
+
+                        </table>
+                        </fieldset>
+      </form>
+	  <script type="text/javascript">
+
+var sprytextfield1 = new Spry.Widget.ValidationTextField("sprytextfield1", "none", {validateOn:["blur"],hint:'First Name',isRequired:true});
+var sprytextfield2 = new Spry.Widget.ValidationTextField("sprytextfield2", "none", {validateOn:["blur"]});
+var sprytextfield3 = new Spry.Widget.ValidationTextField("sprytextfield3", "none", {validateOn:["blur"]});
+var sprytextfield4 = new Spry.Widget.ValidationTextField("sprytextfield4", "none", {validateOn:["blur"]});
+var sprytextfield5 = new Spry.Widget.ValidationTextField("sprytextfield5", "none", {validateOn:["blur"]});
+var sprytextfield6 = new Spry.Widget.ValidationTextField("sprytextfield6", "none", {validateOn:["blur"]});
+
+
+var sprytextfield10 = new Spry.Widget.ValidationTextField("sprytextfield10", "none", {validateOn:["blur"]});
+var sprytextfield11 = new Spry.Widget.ValidationTextField("sprytextfield11", "none", {validateOn:["blur"]});
+var sprytextfield12 = new Spry.Widget.ValidationTextField("sprytextfield12", "none", {validateOn:["blur"]});
+var sprytextfield13 = new Spry.Widget.ValidationTextField("sprytextfield13", "none", {validateOn:["blur"]});
+var sprytextfield14 = new Spry.Widget.ValidationTextField("sprytextfield14", "none", {validateOn:["blur"]});
+var sprytextfield15 = new Spry.Widget.ValidationTextField("sprytextfield15", "none", {validateOn:["blur"]});
+
+
+var sprytextfield9 = new Spry.Widget.ValidationTextField("sprytextfield9", "integer", {validateOn:["blur"], minChars:2});
+
+var sprytextfield8 = new Spry.Widget.ValidationTextField("sprytextfield8", "email", {validateOn:["blur"]});
+
+var cc_visafield = new Spry.Widget.ValidationTextField("cc_visafield", "credit_card", {validateOn:["blur", "change"]});
+
+
+var sprytextfield20 = new Spry.Widget.ValidationTextField("sprytextfield20", "none", {validateOn:["blur"]});
+var sprytextfield21 = new Spry.Widget.ValidationTextField("sprytextfield21", "none", {validateOn:["blur"]});
+var sprytextfield22 = new Spry.Widget.ValidationTextField("sprytextfield22", "none", {validateOn:["blur"]});
+var sprytextfield23 = new Spry.Widget.ValidationTextField("sprytextfield23", "none", {validateOn:["blur"]});
+var sprytextfield24 = new Spry.Widget.ValidationTextField("sprytextfield24", "none", {validateOn:["blur"]});
+var sprytextfield25 = new Spry.Widget.ValidationTextField("sprytextfield25", "none", {validateOn:["blur"]});
+var sprytextfield26 = new Spry.Widget.ValidationTextField("sprytextfield26", "none", {validateOn:["blur"]});
+var sprytextfield27 = new Spry.Widget.ValidationTextField("sprytextfield27", "email", {validateOn:["blur"]});
+var sprytextfield28 = new Spry.Widget.ValidationTextField("sprytextfield28", "none", {validateOn:["blur"]});
+var sprytextfield29 = new Spry.Widget.ValidationTextField("sprytextfield29", "none", {validateOn:["blur"]});
+var sprytextfield30 = new Spry.Widget.ValidationTextField("sprytextfield30", "none", {validateOn:["blur"]});
+var sprytextfield37 = new Spry.Widget.ValidationTextField("sprytextfield37", "email", {validateOn:["blur"]});
+
+
+
+var sprypassword29 = new Spry.Widget.ValidationPassword("sprytextfield29",{validateOn:["blur", "submit"]});
+var spryconf1 = new Spry.Widget.ValidationConfirm("spryconfirm2", "sprytextfield29", {validateOn: ['blur', "submit"]});
+
+
+function arboption()
+        {
+           //alert("dqwdqwdw")
+           if(document.getElementById('arb').checked==true)
+           {
+             document.getElementById('show_arb').style.display='block'
+             document.getElementById('arb_res').value='1'
+
+           }
+           else
+           {
+             document.getElementById('show_arb').style.display='none'
+             document.getElementById('arb_res').value='0'
+           }
+        }
+
+
+</script>
+<script type="text/javascript">
+	<!--
+		var comments1 = new Spry.Widget.ValidationTextarea("comments1", {validateOn:["blur"]});
+
+	//-->
+</script>

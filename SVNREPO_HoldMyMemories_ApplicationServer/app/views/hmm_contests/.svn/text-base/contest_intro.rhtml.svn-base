@@ -1,0 +1,168 @@
+<style type = "text/css">
+.heading2{
+	font-family:Arial, Helvetica, sans-serif;
+	font-size:18px;
+	font-weight:normal;
+	color:#ff6400;
+}
+
+.text3{
+	font-family:Arial, Helvetica, sans-serif;
+	font-size:12px;
+	font-weight:normal;
+	color:#ffffff;
+}
+body {
+	background-color: #000000;
+}
+.style5 {color: #FFFFFF}
+.style6 {color: #B1ABE7}
+.style7 {color: #66CDCC}
+.style8 {color: #B0ACE7}
+.style9 {color: #65CCCB}
+.style10 {color: #65CDCC}
+body,td,th {
+	color: #FFFFFF;
+}
+
+</style>
+
+<table width="890" align="center"  border="0" cellspacing="0" cellpadding="0">
+            <tr>
+              <th height="20" align="center" valign="top" class="text1" scope="col"></th>
+            </tr>
+            <tr>
+
+            </tr>
+            <tr>
+              <th height="20" align="center" valign="top" scope="col"></th>
+            </tr>   
+                      
+            <tr>
+              <th align="center" valign="top" scope="col"  width="930"><table width="100%" align="center" border="0" cellspacing="0" cellpadding="0">
+
+                  <tr>
+                    <th width="11" align="left" valign="top" scope="col"></th>
+                    <th width="434" height="30" align="left" valign="top" scope="col"></th>
+                    <th width="20" height="30" align="left" valign="top" scope="col"></th>
+                    <th height="30" align="left" valign="top" scope="col"></th>
+                  </tr>
+                  <tr>
+                    <th align="left" valign="top" scope="col">&nbsp;</th>
+                    
+                </tr><% 
+                	j=0
+                for i in @contestintro %>
+                  <tr>
+                    <th align="left" valign="top" scope="col"></th>
+                    <th height="30" align="center" valign="top" style="line-height:21px;" scope="col" colspan="3"><table width="402" border="0" cellspacing="0" cellpadding="0">
+                      <tr>
+                        <td align="left" valign="top" height="12"><img src="/images/contests_TopCur_img.jpg" width="402" height="12" /></td>
+                      </tr>
+                      <tr >
+                        <th align="left" valign="top" background="/images/contests_mid_img.jpg">
+                       <p><%=i.contest_type%></p>                        
+                        <table width="100%" border="0" cellspacing="0" cellpadding="0">
+                            <tr>
+                              <th width="10" align="center" valign="top" ></td>
+                              <th align="center" valign="top"><img src="<%=i.img_url%>/contest_logos/<%=i.logo%>" width="286" height="123"/></td>
+                            </tr>
+
+                            <tr>
+                              <th align="center" valign="top" class="yellow_txt"></td>
+                              <th height="30" align="center" valign="top" class="yellow_txt">Presented by</td>
+                            </tr>
+                            <tr>
+                              <th align="center" valign="top"></td>
+                              <th align="center" valign="top"><table align="center" width="100%" border="0" cellspacing="0" cellpadding="0">
+                                  <tr>
+                                    <th align="center" valign="top"><img src="<%=i.img_url%>/presentedby_logos/<%=i.presented_by%>" width="127" height="33" /></td>
+                                    <!--th align="center" valign="middle" class="text3">and</td>
+                                    <th width="170" align="left" valign="top"><img src="/images/studio_121.jpg" width="109" height="35" align="top" /></td-->
+                                  </tr>
+                                </table></td>
+                            </tr>
+
+                            <tr>
+                              <th align="left" valign="top"></td>
+                              <th align="left" valign="top">&nbsp;</td>
+                            </tr>
+                            <tr>
+                              <th align="left" valign="top" class="text3" ></td>
+                              <th align="left" valign="top" class="cont" ><%=i.description%>
+</td>
+                              </tr>
+                            <tr>
+                              <th align="left" valign="top" height="29"></td>
+                          <th align="left" valign="top" height="29">&nbsp;</td>                          </tr>
+                            <tr>
+                              <th align="left" valign="top" class="text1" ></td>
+                              <th align="left" valign="top" class="text1" height="26" >PRIZE WINNER RECEIVES:</tr>
+                            <tr>
+                              <th align="left" valign="top" class="yellow_txt"></td>
+                              <th align="left" valign="top" class="yellow_txt"><%=i.prizes%>
+                              </tr>
+                            <tr>
+                              <th align="left" valign="top"></td>
+                              <th height="21" align="left" valign="top">Contest Rules:</td>                          </tr>
+                            <tr>
+                              <th align="left" valign="top" class="cont2"  ></td>
+                              <th align="left" valign="top" class="cont"  > <%=i.rules%></tr>
+                            
+                            <tr>
+                              <th align="left" valign="top"></td>
+                              <th height="86" align="left" valign="top" class="cont2" style="padding-left:30px;">&nbsp;
+                                &nbsp; 
+                                &nbsp;</td>
+                            </tr>
+                                                      <tr>
+                              <td align="left" valign="top"></td>
+                              <td align="center" valign="top"><a href="/hmm_contests/contest_terms_conditions/<%=i.id%>"> <img src="/images/contest-click-to-enter.png" border="0" /></a></td>
+                            </tr>
+                            <tr>
+                              <td align="left" valign="top"></td>
+                              <td align="center" valign="top">&nbsp;</td>
+                            </tr>
+                            <tr>
+                              <td align="left" valign="top"></td>
+                              <td align="center" valign="top"><a href="/contestants/contest_entries/?contest_id=<%=i.id%>"><img src="/images/contest-view-and-vote.png" border="0" /></a></td>
+                            </tr>
+                            <tr>
+                              <td align="left" valign="top"></td>
+                              <td align="center" valign="top">&nbsp;</td>
+                            </tr>
+                            <tr>
+                              <td align="left" valign="top"></td>
+                              <td align="center" valign="top"><a href="/contests/previous_contest"><img src="/images/contest-view-previous-contest-winners.png" border="0" /></a></td>
+                          </tr>
+
+
+                            <tr>
+                              <th align="left" valign="top"></td>
+                              <th align="center" valign="top" height="24">&nbsp;</td>
+                            </tr>
+
+                        </table>
+                       </td>
+                      </tr>
+                      <tr>
+                        <th align="left" valign="top"><img src="/images/contests_BtmCur_img.jpg" width="402" height="12" /></td>
+                      </tr>
+                    </table>
+                   
+                   <%if j==2
+              	j=0
+              	j=j+1 %>
+                   </th></tr>
+                   <%else
+                   j=j+1
+                   %>
+                   </th>
+                   <%end%>                   
+                   <%end%>
+                       
+
+                    </table></th>
+                  </tr>
+              </table>
+            

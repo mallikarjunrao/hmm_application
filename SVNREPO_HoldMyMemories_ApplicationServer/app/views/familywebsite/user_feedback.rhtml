@@ -1,0 +1,33 @@
+<html>
+  <%= javascript_include_tag 'livevalidation_prototype','livevalidation'%>
+  <style type="text/css">
+    .sub-btn{
+      background:transparent;
+      background-image: url(/images/sub-btn.png);
+      height:24px;
+      width:94px;
+      border:none;
+      font-size:13px;
+      font-weight:bold;
+      color:#FFF;
+      cursor:pointer;
+    }
+    .sub-btn:hover{
+      background-image: url(/images/sub-btn-ovr.png);
+    }
+  </style>
+  <body style="background-color:#FDFDFD;">
+      <table border="0" cellpadding="0" cellspacing="0"  align="center" id="form">
+        <tr><td colspan="2" align="center" height="50" class="headers"><h3>Submit Your Feedback</h3></td></tr>
+        <tr><td class="headers" height="50" valign="middle">Name <span class="thummbimg_title">*</span>:</td><td><input id="name" class="contact" name="name"/></td></tr>
+        <tr><td class="headers" height="50"  valign="middle">Email <span class="thummbimg_title">*</span>:</td><td><input id="email" class="contact" name="email" /></td></tr>
+        <tr><td class="headers" height="50"  valign="middle">Message <span class="thummbimg_title">*</span>:</td><td><textarea id="message" name="message" class="message" rows="5" cols="30" ></textarea></td></tr>
+        <tr><td  height="50" valign="middle" align="left"><input  type="submit" name="Send" value="Send" class="sub-btn" onclick="feedback_click();table_close();"/></td><td align="right"><input  type="submit" name="Close"   value="Close" class="sub-btn" onClick="Modalbox.hide(); return false;"/></td></tr>
+        <tr><td colspan="2" align="center" valign="baseline">Please feel free to get in touch, we value your feedback.</td></tr>
+      </table>
+      <table border="0" cellpadding="0" cellspacing="0" width="400" align="center" id="form_comp" style="display: none">
+        <tr><td class="headers" align="center" height="200" width="400">Thank you for your message.</td></tr>
+        <tr><td align="right"><input  type="submit" name="Close"   value="Close" class="sub-btn" onClick="Modalbox.hide(); return false;"/></td></tr>
+      </table>
+  </body>
+</html>

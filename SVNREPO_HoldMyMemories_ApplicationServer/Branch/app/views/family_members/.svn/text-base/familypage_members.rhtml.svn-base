@@ -1,0 +1,137 @@
+<style>
+
+.familyheading {
+font-family:Arial, Helvetica, sans-serif;
+
+color: #ffffff;
+
+
+}
+.border10 {
+	border-top: none;
+	border-bottom: none;
+}
+.border11 {
+	border-bottom: none;
+}
+
+.notetext{
+	font-family: "Book Antiqua";
+	font-size: 12px;
+	color: #888888;
+}
+</style>
+
+<%session[:sharepath]='fnf'%>
+<% session[:friend]=''%>
+<table border="0">
+<tr>
+  <th width="0" align="left" valign="top" scope="col"></th>
+  <th width="510" align="left" valign="top" scope="col">
+  	<table width="100%" border="0" cellspacing="0" cellpadding="0">
+    <tr>
+      <th width="140" height="22" align="left" valign="top" scope="col">
+      	
+      	<a href="/customers/edit_profile/<%=logged_in_hmm_user.id%>" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('Image22','','/images/manage-profile_over.jpg',1)">
+      	<img src="/images/manage-profile_def.jpg" name="Image22" width="140" height="22" border="0" id="Image22" /></a>
+	  </th>
+      
+	  
+      
+	  <th width="206" align="left" valign="top" scope="col">
+	  
+	  	<a href="/customers/FnF_Request" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('Image24','','/images/manage-fndsandfmly_over.jpg',1)">
+	  		<img src="/images/manage-fndsandfmly_def.jpg" name="Image24" width="206" height="22" border="0" id="Image24" /></a>
+			</th>
+      
+	  <th width="164" align="left" valign="top" scope="col">
+	  	<a href="/chapter_comment/allcmt_list/" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('Image25','','/images/manage-comments_over.jpg',1)">
+	  	<img src="/images/manage-comments_def.jpg" name="Image25" width="164" height="22" border="0" id="Image25" /></a>	  </th>
+		
+		<th width="164" align="left" valign="top" scope="col">
+	  	<a href="/share_moments/manageShare/" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('Image26','','/images/manage-share_over.jpg',1)">
+	  	<img src="/images/manage-share_def.jpg" name="Image26" width="140" height="22" border="0" id="Image26" /></a>	  
+		</th>
+		
+		<th width="206" align="left" valign="top" scope="col">
+			<img src="/images/mang_family_web_over.jpg" name="Image27" width="206" height="22" border="0" id="Image27" /></a>
+	  	
+		</th>
+		
+    </tr>
+  </table></th>
+  <th width="390" align="left" valign="top" scope="col"></th>
+</tr>
+</table>
+
+<div align="right"><a href="/<%=logged_in_hmm_user.family_name%>" target="_blank"><img src="/images/pre_family_website.jpg" border="0" /></a></div>
+
+<table width="100%" border="1" bordercolor="#333333" cellpadding="0" cellspacing="0">
+	<br><br>
+		<font color="#f5dfa6"><%=flash[:notice_step2succes]%></font>
+		<%@family_membercount = FamilyMember.count(:all, :conditions => "uid=#{logged_in_hmm_user.id}")
+			@familymember = FamilyMember.find(:all, :conditions => "uid=#{logged_in_hmm_user.id}")%>
+	<% if @family_membercount > 0%>
+	<tr>
+		<th colspan="4" bgcolor="#333333">
+			<font size=4 >Family Members</font>
+		</th>
+	</tr>
+	<tr>
+	<%	j=0
+		n=0
+	for l in @familymember
+		j=j+1
+
+		if(j>=5)
+		j=1 %>
+		</tr><tr><th height="20" ></th></tr>
+		<%end%>
+	
+		
+		<th >
+			<table border="0" >
+				<tr>
+					<td align="center" valign="middle" height="165" width="222">
+						<a href="/family_members/edit_familymember/<%=l.id%>"><img src="<%=l.img_url%>/hmmuser/family_members/thumbs/<%=l.member_image %>" border="0"></a>
+					</td>
+				</tr>
+				<tr >
+					<td align="baseline" bgcolor="#333333" ><a href="/family_members/edit_familymember/<%=l.id%>"><%=l.familymember_name%></a></td>
+				</tr>
+			</table>
+			
+			
+			
+			
+		</th>
+		
+	
+	<% n=n+1 %>	
+	<%end%>
+	<%end%>
+	<tr>
+	
+		<th bgcolor="#333333" colspan="4" >
+			<% if @family_membercount > 0%>
+			<font size=4>Would you like to add more family members</font>
+			<%else%>
+			<font size=4>Would you like to create Chapters for your family members</font>
+			
+			<%end%>
+		</th>
+	</tr>
+	<tr><td class="border10" colspan="4" >&nbsp;</td></tr>
+	<tr>
+		<td class="border10" colspan="4" align="center">
+			<a href="/family_members/familypage_step3" ><img src="/images/yes_btn.jpg" name="yes" value="yes" id="yes" border="0"></a>
+			&nbsp;
+			<a href="/family_members/list" ><img src="/images/no_btn.jpg" name="no" value="no" id="no" border="0"></a>
+			
+			<br><br>
+			<a href="/family_members/familypage_step2" ><img src="/images/yes_btn_arrow.jpg" name="yes" value="yes" id="yes" border="0"></a>
+			
+		</td>
+	</tr>
+	
+</table>

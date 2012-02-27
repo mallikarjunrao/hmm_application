@@ -1,0 +1,32 @@
+  <div id="flash_content">
+          <h1>Get Flash Player</h1>
+          <p><a href="http://www.adobe.com/go/getflashplayer"><img src="http://www.adobe.com/images/shared/download_buttons/get_flash_player.gif" alt="Get Adobe Flash player" /></a></p>
+        </div>
+
+        <script type="text/javascript">
+          var flashvars = {};
+          flashvars.proxyurl = "<%= @path %>,http://content1.holdmymemories.com,http://content.holdmymemories.com";
+          flashvars.user_id ="<%= @family_website_owner.id %>";
+          flashvars.familyName = "<%=  params[:id] %>";
+  <%if params[:subchapter_id]%>
+      flashvars.key = "subchapter_id";
+      flashvars.gallery_id = "<%= @first_img.sub_chapid %>";
+  <%else%>
+      flashvars.key = "gallery_id";
+      flashvars.gallery_id = "<%= @first_img.gallery_id %>";
+  <%end%>
+    flashvars.website_type = "familywebsite_v4";
+    flashvars.domainName="<%=@path1[0].proxyname%>";
+  <%if params[:searchval]%>
+      flashvars.search ="<%=params[:searchval]%>";
+  <%else%>
+      flashvars.studio_session="true";
+  <%end%>
+    flashvars.app_url= "<%=@app_url_view%>";
+    flashvars.data_type = "image";
+    var params = {};
+    params.wmode = "transparent";
+    params.allowFullScreen = true
+    //swfobject.embedSWF("/flash/debug/HomepageCoverflowV4.swf", "flash_content", "90%", "500", "9.0.0", "/expressInstall.swf",flashvars,params);
+    swfobject.embedSWF("/flash/debug/CarouselV4.swf", "flash_content", "90%", "500", "9.0.0", "/expressInstall.swf",flashvars,params);
+        </script>

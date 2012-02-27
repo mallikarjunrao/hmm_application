@@ -1,0 +1,43 @@
+<font color="#ffffff">
+<table width="100%" border="0" cellspacing="0" cellpadding="0">
+  <tr><td  class="content-trans-bg" align="center" width="60%"><table border="0" width="60%">
+        <tr>
+          <td align="center"> Enter into </td></tr></font>
+        <tr>
+          <td  align="center" >
+            <% contest =  @contest_details%>
+            <% if params[:type]== "enter" %>
+              <a href="/familymemory_contests/manage_terms_conditions/<%= params[:id]%>?p=<%= params[:p]%>&&contest=photo"> <img src=<%= contest.photo_logo %> border="0" /></a>
+            <%elsif params[:type]== "view_vote" %>
+              <a id="test2" href="/familymemory_contests/moments_vote/<%= params[:id]%>?p=<%= params[:p]%>"> <img src=<%= contest.photo_logo %> border="0"></a>
+              <%end%>
+          </td>
+        </tr>
+        <%if contest.video_logo!='' %>
+          <tr height="30">
+            <td></td>
+          </tr>
+          <tr>
+            <td align="center" > Enter into </td></tr>
+          <tr>
+            <td  align="center" >
+              <% if params[:website_type] == "familywebsite" %>
+                <% if params[:type]== "enter" %>
+                  <a  href="/familymemory_contests/manage_terms_conditions/<%= params[:id]%>?p=<%= params[:p]%>&&contest=memorable"> <img  src=<%= contest.video_logo %> border="0"></a>
+                <%elsif params[:type]== "view_vote" %>
+                  <a  href="/familymemory_contests/videomoment_vote/<%= params[:id]%>?p=<%= params[:p]%>"> <img src=<%= contest.video_logo %> border="0"></a>
+                <%end%>
+
+              <%else%>
+                <% if params[:type]== "enter" %>
+                  <a  href="/familywebsite_contest/<%= params[:id] %>/contest_terms_conditions/<%= params[:contest_id] %>/video"> <img  src=<%= contest.video_logo %> border="0"></a>
+                <%elsif params[:type]== "view_vote" %>
+                  <a  href="/familymemory_contests/videomoment_vote/<%= params[:id]%>?p=<%= params[:p]%>"> <img src=<%= contest.video_logo %> border="0"></a>
+                <%end%>
+              <%end%>
+            </td>
+          </tr>
+        <%end%>
+      </table>
+    </td></tr></table>
+</font>

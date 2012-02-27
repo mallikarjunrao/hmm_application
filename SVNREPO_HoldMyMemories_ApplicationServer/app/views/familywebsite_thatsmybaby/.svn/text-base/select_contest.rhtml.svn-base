@@ -1,0 +1,48 @@
+<%= javascript_include_tag 'modalbox/prototype' %>
+<script type="text/javascript" src="/javascripts/modalbox/scriptaculous.js?load=effects"></script>
+<script type="text/javascript" src="/javascripts/modalbox/modalbox.js"></script>
+<%= stylesheet_link_tag 'modalbox/modalbox' %>
+<table width="840" border="0" align="center" cellpadding="0" cellspacing="0">
+  <tr><td height="30"></td></tr>
+  <tr>
+    <td align="left" valign="top"><table width="840" border="0" align="center" cellpadding="0" cellspacing="0">
+      <tr>
+        <td width="840" colspan="3" align="right" valign="top"><img src="/images/cute_kids_contest/our-current-contest.png" width="840" height="66" border="0"/></td>
+      </tr>
+      <tr>
+        <td colspan="3" valign="top"><table width="840" border="0" align="center" cellpadding="0" cellspacing="0">
+          <tr>
+            <td width="15" align="left" valign="top" background="/images/cute_kids_contest/leftbg.png">&nbsp;</td>
+            <td width="405" align="center" valign="middle" bgcolor="#111111"><a href="/familywebsite_kidscontests/intro/<%=params[:id]%>"><img src="/images/cute_kids_contest/CuteKidsLogo.png" width="364" height="139" border="0"/></a></td>
+            <td width="405" align="left" valign="top" bgcolor="#111111"><a href="/<%=familywebsite_controller_name%>/intro/<%=params[:id]%>"><img src="/images/glamour_contest/all-glammed-up-logo.png" width="370" height="223" border="0"/></a></td>
+            <td width="15" align="left" valign="top" background="/images/cute_kids_contest/right-bg.png">&nbsp;</td>
+          </tr>
+        </table></td>
+      </tr>
+      <tr>
+        <td colspan="3" valign="top"><img src="/images/cute_kids_contest/bottom-curve.png" width="840" height="23" /></td>
+      </tr>
+
+    </table></td>
+  </tr>
+  <tr>
+    <td height="25" align="left" valign="top">&nbsp;</td>
+  </tr>
+  <tr>
+    <td align="center" valign="top"><a href="/familywebsite_kidscontests/specific_rules/<%=params[:id]%>"  onclick="Modalbox.show(this.href, {title:'My Image', width:400, height:520});return false;"><img src="/images/cute_kids_contest/rules-regulations1.png" width="298" height="48"  border="0"/></a></td>
+  </tr>
+  <tr>
+    <td height="25" align="left" valign="top">&nbsp;</td>
+  </tr>
+  <tr>
+    <td align="center" valign="top"><a href="/familywebsite_kidscontests/manage_previous_contest/<%=params[:id]%>"><img src="/images/cute_kids_contest/previous-contest-winners.png" width="298" height="48" border="0"/></a></td>
+  </tr>
+  <tr>
+    <td align="left" valign="top">&nbsp;</td>
+  </tr>
+  <tr>
+    <td align="left" valign="top">&nbsp;</td>
+  </tr>
+</table>
+
+<map name="Map" id="Map"><area shape="rect" coords="256,1,581,56" href="#" /></map>

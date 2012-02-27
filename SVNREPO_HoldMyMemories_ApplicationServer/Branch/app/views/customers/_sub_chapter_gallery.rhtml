@@ -1,0 +1,296 @@
+  
+<table align="center" width="899" border="0" cellspacing="0" cellpadding="0">
+            <input type="hidden" name="order" value="<%=@params[:order]%>" />
+			
+<tr><td valign="middle">
+	
+	<table align="left">
+		
+		<tr>
+		
+			<%= sort_header_tag('d_gallery_date', :text => "<img  src='/images/date_sort.gif'   border='0'/>") %>
+
+<%= sort_header_tag('v_gallery_name', :text => "<img  src='/images/name_sort.gif'   border='0'/>") %>
+</tr></table>
+	
+</td>
+<td align="right">
+	<% if session[:friend]!='' 
+				else
+%>
+			 <%if (@subchap_cnt < 1 || @subchap_cnt == "") %>
+                    <a href='/sub_chap_journal/new/<%=params[:id]%>'><img src="/images/journal-this_btn.jpg" align="absmiddle" valign="right"  border='0'></a></span>
+                  <%else if @subchap_cnt >= 1 %>
+                  <% for @i in @sub_chapter_journal %>
+                  <a href='/sub_chap_journal/edit/<%=@i.id%>'>
+                  	<img src="/images/journal-this_btn.jpg" align="absmiddle" valign="right"  border='0'></a></span><%end%><%end%><%end%><%end%>
+			
+			
+			<a href="/galleries/gallery_coverflow/<%=params[:id]%>"><img src="/images/photoflowicon.jpg" border="0"></a>
+	
+</td>
+</tr>
+
+    
+    
+    <tr>
+        <% @sub_chap = SubChapter.find(:all, :conditions => "id=#{params[:id]}")
+             for @i in @sub_chap 
+		@subname=@i.sub_chapname;
+	%><th height="10" colspan="2" align="left"><h3></h3></th>
+             <%end%></tr>
+             
+             
+     
+      <th height="128" align="left" valign="top" scope="col" colspan="4">
+        <table width="99%" border="0"  cellspacing="0" align="left" cellpadding="0">
+        <tr>
+           <th height="4" colspan="10" align="left" valign="top" scope="col" ></th>
+        </tr>
+                <% 
+                    j=0	
+                    if @countcheck == 0 %>
+                    <p>No items found...</p>
+                <% else %>
+                   <% @sub_chapters_gallerie.each do |@sub_chapter|
+					
+					@sub_chapter_count=UserContent.count(:all, :conditions => " gallery_id=#{@sub_chapter.id} and status='active'")	
+                   
+                   
+                %>
+                <% if j == 0 %>
+                <tr>
+                     <th height="9"  align="left" valign="top" scope="col">&nbsp;&nbsp;&nbsp;&nbsp;</th><th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th><th></th><th></th><th></th>
+                    </tr><tr>
+                <% else if j >= 3 
+                j=0
+                    
+                %>
+                </tr>
+                    <tr>
+                       
+                <tr>
+                <% end %>	
+                <% end %>
+                <%if @sub_chapter_count > 0 %>
+                <th width="1" align="left" valign="top" scope="col"><% j=j+1%></th>
+                
+				<th width="20" align="left" valign="top" scope="col" ><a href='/customers/chapter_gallery/<%= @sub_chapter.id %>' >
+					<img src="<%= @sub_chapter.img_url %>/user_content/photos/icon_thumbnails/<%= @sub_chapter.v_gallery_image %>" border="5" style="border-color:#000000;"  /></a></th>
+                <th width="10" align="left" valign="top" scope="col">&nbsp;</th>
+                <th width="200" align="left" valign="top" scope="col">
+                    <table width="100%" border="0" cellspacing="0" cellpadding="0">
+                        <tr>
+                            <th height="13" align="left" valign="top" scope="col"></th>
+                        </tr>
+                        <tr>
+                          <th height="21" align="left" valign="top" class="chapindex-text" scope="col"><%= @sub_chapter.v_gallery_name %></th>
+                        </tr>
+                        
+                        <tr>
+                          <th align="left" valign="top" class="chapindex-text2" scope="col">last updated <br>
+                          <%=@sub_chapter.d_gallery_date.strftime("%a %b #{@sub_chapter.d_gallery_date.day.ordinalize} %Y   %I:%M %p") %></th>
+                        </tr>
+                  </table>			 </th><%end%>
+       <% end %></tr>	  
+        </table></th>
+
+      </tr>
+      <tr>
+      
+        <th valign="bottom" scope="col" align="center" colspan="10">
+    <% if @sub_chapters_galleries_pages.page_count > 1 %>
+    &nbsp;
+	<font size="3"><%= link_to('Previous', {:params => params.merge('page' => @sub_chapters_galleries_pages.current.previous)}) if @sub_chapters_galleries_pages.current.previous %> &nbsp;&nbsp;&nbsp;</font>
+			<% for page in @sub_chapters_galleries_pages -%>
+			<font size="3"><%= link_to_unless((params[:page].to_i == page.number),
+				 page.number, :page => page) %></font> 
+			<% end -%>
+			<font size="3">&nbsp;&nbsp;&nbsp;&nbsp;<%= link_to('Next', {:params => params.merge('page' => @sub_chapters_galleries_pages.current.next)}) if @sub_chapters_galleries_pages.current.next %></font>
+    <% end %></th>
+      </tr>
+      <tr>
+      
+        <th valign="middle" scope="col" align="center" colspan="10" height="50">
+        	<br>
+				<font color="#f5dfa6"><%=  flash[:notice_scc_add]%></font>
+					<font color="#f5dfa6"><%=  flash[:notice_sca]%></font>
+					<font color="#f5dfa6"><%=  flash[:notice_scr]%></font>
+					<font color="#f5dfa6"><%=  flash[:notice_scd]%></font>
+					 <font color="#f5dfa6"><%=  flash[:notice_cca]%></font>
+			<br>
+				<% if session[:friend]=='' || session[:friend]==nil%>
+		<%else%>
+	
+			<%= link_to_remote("Add Comments for Sub Chapter: "+" &nbsp; \""+@subname+"\"", :update =>"me", 
+            :url => {:controller => :subchap_comment, :action => :new, :id_journal => '0', :id=> params[:id]} ,:layout => false  ) %>
+    
+            &nbsp;&nbsp;&nbsp;<%end%>
+    	<% @subchap_comment_count = SubchapComment.count(:all,:conditions => "subchap_id=#{params[:id]}") %>
+        <% if @subchap_comment_count >0 %>
+		<%= link_to_remote("View Comments for Sub Chapter:  "+" &nbsp; \""+@subname+"\"", :update =>"me", 
+            :url => {:controller => :subchap_comment, :action => :comnt_list, :id => 0, :subchap_id => params[:id] } ,:layout => false  ) %>
+		<%end%>
+		</th>
+      
+	  </tr>
+      <tr>
+        
+        <th valign="bottom" scope="col" align="center" colspan="5" height="10" ><div id="me"></div></th>
+      </tr>
+    </table>
+      
+         <% end %>
+      
+       <%    @sub_chap_journal_count = SubChapJournal.count(:all,:conditions => "sub_chap_id=#{params[:id]}")
+ %>
+	  <%if @sub_chap_journal_count>0%>
+	   <table width="88%" border="0" class="border" cellspacing="0" cellpadding="0">
+            <tr>
+             
+              <th align="left" valign="top" scope="col">
+                <table width="100%" border="0"  align="center" cellpadding="0" cellspacing="0" >
+                
+                <tr>
+                  <th width="22" height="32" align="center" valign="top" bgcolor="#191919" scope="col">&nbsp;</th>
+                  <th align="right" valign="middle" bgcolor="#191919" scope="col" ><span class="btmtxt">Journal
+                              &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                              &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+              
+			    
+                  <% for @i in @sub_chapter_journal %>
+                 <%if session[:friend]==nil || session[:friend]=='' %> <a href='/sub_chap_journal/destroying/<%=@i.id%>'>
+                  	<font size="2">Delete</font></a><%end%>&nbsp;&nbsp;</th>
+                  
+                  <th width="22" align="left" valign="top" bgcolor="#191919" scope="col">&nbsp;</th>
+                </tr>
+                
+                <tr>
+                  <th height="32" align="left" valign="top" scope="col">&nbsp;</th>
+                  <th align="left" valign="middle" scope="col"><span class="heading-journal"><%= @i.journal_title %> &nbsp;&nbsp;
+                    <% ActiveSupport::CoreExtensions::Time::Conversions::DATE_FORMATS.merge!(
+                        :date => "%Y-%m-%d",
+                        :presentable_datetime => "%a %b %d, %Y %H:%M",
+                        :presentable_date => "%a %b %d, %Y") 
+                        @created_date=@i.created_on%>  
+    
+                  <%=@created_date.to_s()%></span></th>
+    
+                    
+                  <th align="left" valign="top" scope="col">&nbsp;</th>
+                </tr>
+                <tr>
+                  <th height="65" align="left" valign="top" scope="col">&nbsp;</th>
+                  <th align="left" valign="top" class="text-journal" scope="col"><%= @i.subchap_journal.gsub("\n", "<br />\n") %></th>
+                  <th align="left" valign="top" scope="col">&nbsp;</th>
+                </tr>
+			
+<!-- comments to be viewed once approved-->					
+<tr>
+	<th>&nbsp;</th>
+	<th>
+		<% @tag_cnt = SubchapComment.count(:joins => "as a , sub_chap_journals as c " , :conditions => "c.sub_chap_id=#{params[:id]} and c.id=a.subchap_jid and a.e_approval = 'approve'") %>
+	<% if @tag_cnt != 0 %>
+		<table width="100%" border="1" bordercolor="#191919" cellspacing="0" cellpadding="3">
+    <tr bordercolor="#000000">
+      <th align="left" valign="middle" bgcolor="#191919" scope="col" colspan="3"><span class="btmtxt"><%if session[:friend]==''%>Approved <%end%> Journal Comments</th>
+     
+
+    </tr>
+	
+	
+	
+	<%	@tag_c = SubchapComment.find_by_sql("select a.*,b.*,c.*, a.id as cid from subchap_comments as a , hmm_users as b, sub_chap_journals as c where c.sub_chap_id=#{params[:id]} and c.id=a.subchap_jid and a.uid=b.id and a.e_approval = 'approve' ORDER BY a.id DESC")
+		
+	for j in @tag_c %>
+
+	<tr bordercolor="#000000">
+      <th height="6" align="left" valign="top" scope="col">&nbsp;</th>
+      <th align="left" valign="top" class="text-journal" scope="col"><span class="style1">Commented By</span>  </th>
+      <th width="540" align="left" valign="top" scope="col"><%= j.v_fname%></th>
+    </tr>
+	
+	<tr bordercolor="#000000">
+      <th height="6" align="left" valign="top" scope="col">&nbsp;</th>
+      <th align="left" valign="top" class="text-journal" scope="col"><span class="style1">Comment</span> </th>
+      <th width="540" align="left" valign="top" scope="col"> <%= j.v_comments.gsub("\n", "<br />\n")  %></th>
+    </tr>
+	
+    <tr bordercolor="#000000">
+      <th align="right" colspan="3" valign="middle" bgcolor="#191919" class="text-journal" scope="col">
+       		
+		<% if session[:friend]!='' 
+				else
+%>	<a href='/subchap_comment/comt_destroy/<%= j.cid %>'>Delete</a> <%end%>
+		
+	  </th>
+	 
+    </tr>
+     <%end%>
+</table>
+
+
+</th>
+</tr><%end%>
+<tr>
+	<th>&nbsp;</th>
+</tr>
+<!-- comments to be viewed once approved-->		
+
+			
+			<font color="#f5dfa6"><%=  flash[:notice_sjc]%></font>
+            <font color="#f5dfa6"><%=  flash[:notice_sce]%></font>
+                <tr>
+                  <th height="28" align="left" valign="top" bgcolor="#191919" scope="col">&nbsp;</th>
+                   <th align="right" valign="middle" bgcolor="#191919" class="text-journal" scope="col">
+       	<% if session[:friend]=='' || session[:friend]==nil%>
+		<%else%>
+	             
+        <%= link_to_remote("Add Comments", :update =>"me2", 
+            :url => {:controller => :subchap_comment, :action => :new, :id=> params[:id] , :id_journal => @i.id } ,:layout => false  ) %>
+    
+            &nbsp;&nbsp;&nbsp;<%end%>
+    	<% comnt_sub=SubchapComment.find_by_sql("select count(*) as cnt from subchap_comments  where subchap_id=#{params[:id]} and e_approval='pending' and subchap_jid!=''")           
+  				for cmt_sub in comnt_sub
+   				count_sub=cmt_sub['cnt']
+  				end
+		%> 
+        <% if session[:friend]==''%>
+        <%= link_to_remote("View Comments"+" ("+count_sub+")", :update =>"me2", 
+            :url => {:controller => :subchap_comment, :action => :comnt_list, :id => @i.id } ,:layout => false  ) %>
+    <%end%>
+    
+                
+                  <th align="left" valign="top" bgcolor="#191919" scope="col">&nbsp;</th>
+                </tr>
+				
+				<tr>
+				<td colspan="2">
+					<font color="#f5dfa6"><%=  flash[:notice_scc_add]%></font>
+					<font color="#f5dfa6"><%=  flash[:notice_sca]%></font>
+					<font color="#f5dfa6"><%=  flash[:notice_scr]%></font>
+					<font color="#f5dfa6"><%=  flash[:notice_scd]%></font>
+				</td>
+			</tr>
+			
+                <tr>
+                  <th height="65" align="left" valign="top" scope="col">&nbsp;</th>
+                  <th align="center" valign="top" class="text-journal" scope="col"><div id="me2"></div></th>
+                  <th align="left" valign="top" scope="col">&nbsp;</th>
+                </tr>
+                <%end%>
+            
+              </table></th>
+              
+         
+              
+              
+            </tr>
+    </table>
+	<%end%>
+  

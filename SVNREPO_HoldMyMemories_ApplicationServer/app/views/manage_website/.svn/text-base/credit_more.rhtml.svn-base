@@ -1,0 +1,25 @@
+<table border="0" width="750">
+  <tr>
+    <td height="30"></td>
+  </tr>
+  <tr>
+    <td  align="center"><img src="<%=@studio_groups.img_url%>/user_content/studio_logos/<%=@studio_groups.logo%>" alt="logo" width="200"> </td>
+  </tr>
+  <tr>
+    <td height="50">&nbsp;</td>
+  </tr>
+  <tr>
+    <td  align="center" class="content-white"><font size="3">
+    <% if @studio_groups.credit_system =="Dollars" %>
+      <%=@percentage%> % of your subscription payment is applied each month as credit towards a purchase at <%=@studio_groups.hmm_franchise_studio%>.</font>
+    <%else%>
+    You have earned <%=@creditpt.available_credits.round%> membership points that may be redeemed for products or services at <%=@studio_groups.hmm_franchise_studio%>.<br/> Please contact the studio for more details.
+    <%end%>
+ </td></tr>
+  <tr>
+    <td height="30">&nbsp;</td>
+  </tr>
+  <tr>
+    <td  align="center"><input type="Reset" value="Close" class="nyroModalClose"  /></td>
+  </tr>
+</table>

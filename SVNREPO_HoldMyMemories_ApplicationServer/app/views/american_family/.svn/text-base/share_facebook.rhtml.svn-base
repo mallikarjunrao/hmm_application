@@ -1,0 +1,57 @@
+<%if @momentinfo.e_filetype=="video" %>
+    <% url= "http://www.holdmymemories.com/american_family/momentdetails/#{@momentinfo.id}" %>
+  	<% logo = video_contest_image %>
+  <%else%>
+
+
+  <% url= "http://www.holdmymemories.com/american_family/momentdetails/#{@momentinfo.id}"
+
+%>
+<% logo = photo_contest_image%>
+<% session[:vote_url] = url %>
+  <%end%>
+<table border="0" >
+  <tr><td valign="top">
+
+<font color="white" face="arial">Share it with  <a href="javascript:void(0);" title="Invite your facebok friends." onClick="fbs_click();window.open('http://www.facebook.com/sharer.php?u=<%= CGI.escape("#{url}") %>&t=<%= CGI.escape("Brought to you by HoldMyMemories.com") %>','sharer','toolbar=0,status=0,width=626,height=436');"><img src="/images/common/facebookhmmlogo.jpg"  height="15" border="0"/>&nbsp;<a href="#" onClick="fbs_click_myspace();document.getElementById('myspacepostto').submit();return false;">
+
+</a><iframe src="http://www.facebook.com/plugins/like.php?href=http%3A%2F%2Fwww.facebook.com%2FHoldMyMemories&amp;layout=standard&amp;show_faces=true&amp;width=450&amp;action=like&amp;colorscheme=light&amp;height=80" scrolling="no" frameborder="0" style="border:none; overflow:hidden; width:450px; height:80px;" allowTransparency="true"></iframe>
+
+    </td>
+    </tr>
+    <%#*<tr><td valign="top"><font color="white" face="arial">Like Facebook Hold My Memories Application</font>%>
+    <%#*<iframe  src="http://www.facebook.com/plugins/like.php?href=http%3A%2F%2Fapps.facebook.com%2Fhold-my-memories%2F&amp;layout=box_count&amp;show_faces=true&amp;action=like&amp;colorscheme=light&amp;" scrolling="no" frameborder="0" style="border:none; overflow:hidden; width:80px; height:65px;" allowTransparency="true" onclick="redirrect()"></iframe>%>
+      <%#*</td></tr>%>
+    <tr>
+    <td>
+
+       <img src="<%=@momentinfo.img_url%>/user_content/photos/journal_thumb/<%= @momentinfo.v_filename%>" border="0">
+    </td>
+    <tr>
+            <td align="center" valign="top"><font color="white" size="2" ><b><%=@continfo.first_name %></b></font></td>
+          </tr>
+  </tr>
+  <tr><td>
+
+      <input type="hidden" name="t" value="Hi friends!!" />
+<input type="hidden" name="c" value="Please vote for this contest entry by clicking on the above given link: Thank you." />
+<input type="hidden" name="u" value="<%=url%>" />
+<input type="hidden" name="l" value="2" />
+<% require "cgi" %>
+
+    </td>
+    </tr>
+</table>
+
+<script type="text/javascript">
+ function fbs_click() {
+     new Ajax.Request("/american_family/create_sharecount/<%=params[:cid] %>?from=facebook");
+
+      return false;
+    }
+    function fbs_click_myspace()
+    {
+      new Ajax.Request("/american_family/create_sharecount/<%=@continfo.id %>?from=myspace");
+      return false;
+    }
+  </script>

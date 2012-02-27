@@ -1,0 +1,68 @@
+<form name="myform"  onsubmit="return confirmation();" action='<%= url_for(:action => "deleteSelection") %>' method='POST'>
+<br><br>
+<style>
+
+</style>
+
+
+
+<table>
+	<h2>User Login an Logout Details</h2>
+  <tr>
+  <tr valign='center' align='center'>
+  	
+  	 <th background="/images/body_hor.JPG"><input type="checkbox"  name="CheckAll" id="CheckAll" value="Check All"
+onClick="javascript:checkAll();"></th>
+   <th background="/images/body_hor.JPG"><font class='txt'>IP Address</font></th>
+	<th background="/images/body_hor.JPG"><font class='txt'>User ID</font></th>
+	<th background="/images/body_hor.JPG"><font class='txt'>User Name</font></th>
+	<th background="/images/body_hor.JPG"><font class='txt'>Date & Time</font></th>
+	<th background="/images/body_hor.JPG"><font class='txt'>LogIn Status</font></th>
+	<th background="/images/body_hor.JPG"><font class='txt'>LogOut Status</font></th>
+
+	<th colspan=3 background="/images/body_hor.JPG"><font class='txt'>Actions</font></th>
+	
+
+  </tr>
+  </tr>
+  
+<% 	odd_or_even = 0 
+	i = 0
+	for colmn in @user_sessionss
+	 i = i + 1
+	odd_or_even = 1 - odd_or_even
+ %>
+ 
+ <tr class='ListLine<%= odd_or_even %>'>
+  	
+    <td>
+	<input type="checkbox" id="colmn_<%=i.to_s%>"  name="colmn_<%=i.to_s%>" value="<%=colmn.id%>" /></td>
+	
+	<td><%=h colmn.i_ip_add%></td>
+	
+	<td><%=h colmn.uid%></td>
+	<td><%=h colmn.v_user_name%></td>
+	<td><%=h colmn.d_date_time%></td>
+	<td><%=h colmn.e_logged_in%></td>
+  	<td><%=h colmn.e_logged_out%></td>
+    
+
+    <td>	<%= link_to_remote("Show",
+:update => 'content', :url => {:controller =>:user_sessions , :action => :show ,  :id => colmn.id } ) %></td>
+    <td><%= link_to_remote("Edit",
+:update => 'content', :url => {:controller =>:user_sessions , :action => :edit ,  :id => colmn.id } ) %></td>
+    <td><%= link_to_remote("Delete",
+:update => 'content', :url => {:controller =>:user_sessions , :action => :destroy ,  :id => colmn.id } , :confirm => "Are you sure?" , :method => :post ) %></td></td>
+  </tr>
+  
+<% end %>
+<input type="hidden" name="len" id="len" value="<%= i %>"/>
+ <tr><td colspan=4><input  type='submit'  value='DELETE SELECTED' /> </td></tr>
+</table>
+
+<%= link_to 'Previous page', { :page => @user_sessions_pages.current.previous } if @user_sessions_pages.current.previous %>
+<%= link_to 'Next page', { :page => @user_sessions_pages.current.next } if @user_sessions_pages.current.next %> 
+
+<br />
+
+<%= link_to 'New user_sessions', :action => 'new' %>

@@ -1,0 +1,21 @@
+<%= stylesheet_link_tag 'SpryAssets/SpryValidationTextField' %>
+<%= javascript_include_tag 'SpryAssets/SpryValidationTextField' %>
+
+<h2 >Owner Login</h2>
+<p><%= error_messages_for :account %></p>
+<% form_for :hmm_studiogroup, :url => {:action => 'authenticate_franchise_admin'} do |f| -%>
+<font color="red"><%=flash[:error]%></font>
+<font color="#f5dfa6"><%=flash[:emp_create]%></font> 
+<font color="#f5dfa6"><%=flash[:notice_emp]%></font> 
+<p>User name:<br /><span id="sprytextfield1"><span id="sprytextfield1"><%= f.text_field :studiogroup_username, :size => 30 %><span class="textfieldRequiredMsg"><br>User Name is required.</br></span></span></p>
+<p>Password:<br /><span id="password"><span id="password"><%= f.password_field :password, :size => 30 %><span class="textfieldRequiredMsg"><br>Password is required.</br></span></span></p>
+
+<%= submit_tag 'Login' %>
+<% end %>
+
+<script type="text/javascript">
+<!--
+var sprytextfield1 = new Spry.Widget.ValidationTextField("sprytextfield1", "none", {validateOn:["blur"]});
+var password = new Spry.Widget.ValidationTextField("password", "none", {validateOn: ["blur"]});
+//-->
+</script>

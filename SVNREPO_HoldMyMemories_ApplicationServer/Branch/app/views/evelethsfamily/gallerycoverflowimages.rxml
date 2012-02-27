@@ -1,0 +1,22 @@
+
+xml.instruct! :xml, :version=>"1.0" 
+xml.subchapterid(@subchapterid)
+xml.contents{
+  for gallery in @galleries
+     @content_count=UserContent.count(:all, :conditions => " gallery_id=#{gallery.id} and status='active'") 
+   if(@content_count>0)    
+      xml.content{
+
+      if(gallery.v_gallery_image=='picture.png' || gallery.v_gallery_image=='audio.png' ||gallery.v_gallery_image=='video.png') 
+        xml.icon('/user_content/photos/icon_thumbnails/noimage.jpg') 
+      else
+        imageName  = gallery.v_gallery_image
+        imageName.slice!(-3..-1)
+        xml.icon('/user_content/photos/flex_icon/'+imageName+"jpg" )
+     end
+      xml.name(gallery.v_gallery_name)
+      xml.id(gallery.id)
+      }
+ end
+ end
+}

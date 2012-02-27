@@ -1,0 +1,74 @@
+<script language="javascript">
+  
+  function goprint()
+  {
+      document.getElementById('prn').style.display="none";
+      window.print();
+      
+  }
+  
+</script>
+
+<p align="right">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<div id="prn"><input type="button" value="Print this receipt" name="print" onclick="goprint()" />  </div></p>
+
+<h1>List of Employees</h1>
+
+<table width="100%" border="1" cellpadding="0" cellspacing="0">
+  <tr align="left" >
+  
+  <td ><%= sort_header_tag('employe_id', :text => "Employee Id", :style => "font-size:11px; color:#000000; text-decoration:none;") %></td>
+	<td ><%= sort_header_tag('employe_name', :text => "Employee Name" , :style => "font-size:11px; color:#000000; text-decoration:none;") %></td>
+        <td ><%= sort_header_tag('password', :text => "Employee User name", :style => "font-size:11px; color:#000000; text-decoration:none;") %></td>
+        <td ><%= sort_header_tag('emp_type', :text => "Employee Password", :style => "font-size:11px; color:#000000; text-decoration:none;") %></td>
+        <td ><%= sort_header_tag('branch', :text => "Studio Name", :style => "font-size:11px; color:#000000; text-decoration:none;") %></td>
+	<td ><%= sort_header_tag('emp_type', :text => "Designation", :style => "font-size:11px; color:#000000; text-decoration:none;") %></td>
+	
+        <td ><%= sort_header_tag('address', :text => "Address", :style => "font-size:11px; color:#000000; text-decoration:none;") %></td>
+	<td ><%= sort_header_tag('e_mail', :text => "E-mail", :style => "font-size:11px; color:#000000; text-decoration:none;") %></td>
+	<td ><%= sort_header_tag('phone_no', :text => "Phone No", :style => "font-size:11px; color:#000000; text-decoration:none;") %></td>
+        <td  style = "font-size:11px; color:blue; text-decoration:none;" ><b>Customers Count</b></td>
+	<td ><%= sort_header_tag('status', :text => "Status", :style => "font-size:11px; color:#000000; text-decoration:none;") %></td>
+        
+	
+ 
+  </tr>
+  
+<% for i in @employe_accounts %>
+   
+  <tr align="left"   class="<%= cycle('odd', 'even') -%>">
+  
+    <td colspan="3" style = "font-size:11px; color:#000000; text-decoration:none;"><%=i.employe_id %></td>
+	<td colspan="2" style = "font-size:11px; color:#000000; text-decoration:none;"><%=i.employe_name %></td>
+        <td colspan="2" style = "font-size:11px; color:#000000; text-decoration:none;"><%=i.employe_username %></td>
+        <td colspan="2" style = "font-size:11px; color:#000000; text-decoration:none;"><%=i.password %></td>
+	<td colspan="2" style = "font-size:11px; color:#000000; text-decoration:none;"><%=i.branch %>&nbsp;</td>
+        <td colspan="2" style = "font-size:11px; color:#000000; text-decoration:none;"><%=i.emp_type %></td>
+        
+	<td colspan="2" style = "font-size:11px; color:#000000; text-decoration:none;"><%=i.address.gsub("\n", "<br />\n") %></td>
+	<td colspan="2" style = "font-size:11px; color:#000000; text-decoration:none;"><%=i.e_mail %></td>
+	<td style = "font-size:11px; color:#000000; text-decoration:none;" ><%=i.phone_no %></td>
+	<%hmm_reg_count = HmmUser.count(:all, :conditions => "emp_id = #{i.id}")%>
+	
+	<%if hmm_reg_count == 0%>
+	<td style = "font-size:11px; color:#000000; text-decoration:none;" >NIL</td>
+	<%else%>
+	<td  style = "font-size:11px; color:#000000; text-decoration:none;"><%=hmm_reg_count %></td>
+	<%end%>
+	<%if i.status == 'block'%>
+	<td colspan="2" style = "font-size:11px; color:#000000; text-decoration:none;"><font color="red">Blocked</td>
+	<%else if i.status == 'unblock'%>
+	<td colspan="2" style = "font-size:11px; color:#000000; text-decoration:none;"><font color="#66ff00">Unblocked</td>
+	<%end%>
+	<%end%>
+    
+  </tr>
+
+<% end %>
+
+</table>
+
+<%= link_to 'Previous page', { :page => @employe_account_pages.current.previous } if @employe_account_pages.current.previous %>
+<%= link_to 'Next page', { :page => @employe_account_pages.current.next } if @employe_account_pages.current.next %> 
+
+<br />
+

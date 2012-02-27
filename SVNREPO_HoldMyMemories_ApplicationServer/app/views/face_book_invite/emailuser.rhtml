@@ -1,0 +1,119 @@
+
+
+<script type="text/javascript">
+
+
+    function emailus(type){
+
+      var ajax = new Ajax();
+      ajax.responseType =type;
+      ajax.ondone = function(data) {
+        document.getElementById('main_content').setInnerFBML(data);
+      }
+      ajax.onerror = function() {
+        new Dialog().showMessage('Error!','Ajax failed for some reason. Please try again.');
+      }
+     ajax.post('<%=@path.proxyname%>/face_book_invite/emailus/?facebook_profile_id='+<%=@family_website_owner.facebook_profile_id%>);
+  }
+
+    function emailmsg(type){
+        var name = document.getElementById('name').getValue();
+        var email = document.getElementById('email').getValue();
+        var message = document.getElementById('message').getValue();
+        //new Dialog().showMessage('name = '+name+'email = '+email+'message = '+message);
+        //return false;
+
+
+        if (name == '' ){
+          new Dialog().showMessage('Error!','Enter Your Name');
+          return false;
+        }else if( email == ''){
+          new Dialog().showMessage('Error!','Enter Your Email-Id');
+          return false;
+        }else if( message == ''){
+              new Dialog().showMessage('Error!','Enter Your Message');
+              return false;
+       }else{
+
+              var ajax = new Ajax();
+              ajax.responseType =type;
+              ajax.ondone = function(data) {
+                document.getElementById('main_content').setInnerFBML(data);
+              }
+              ajax.onerror = function() {
+                new Dialog().showMessage('Error!','Ajax failed for some reason. Please try again.');
+              }
+              ajax.post('<%=@path.proxyname%>/face_book_invite/emailmsg/?facebook_profile_id='+<%=@family_website_owner.facebook_profile_id%>+'&name='+name+'&email='+email+'&message='+message );
+
+            }
+    }
+
+    function emailuser(type){
+
+          var ajax = new Ajax();
+          ajax.responseType =type;
+          ajax.ondone = function(data) {
+            document.getElementById('main_content').setInnerFBML(data);
+          }
+          ajax.onerror = function() {
+            new Dialog().showMessage('Error!','Ajax failed for some reason. Please try again.');
+          }
+         ajax.post('<%=@path.proxyname%>/face_book_invite/emailuser/?facebook_profile_id='+<%=@family_website_owner.facebook_profile_id%>);
+      }
+
+</script>
+ 
+<div id="main_content">
+  <table width="100%" align="right" cellpadding="10" cellspacing="10">
+        <tr><td width="<%=@app_width%>" align="right"  class="content" height="20">  ( <a  href="#" onclick="emailus(Ajax.FBML); return false;">Back to email</a> ) </td></tr>
+        <tr>
+            <td height="19"></td>
+        </tr>
+  
+
+          <table width="100%" align="center" cellpadding="10" cellspacing="10">
+              <tr>
+                <td height="5" align="left" valign="top" class="whitecont">Your Name <span class="content-white">*</span></td>
+              </tr>
+              <tr>
+                <td align="left" valign="top"><label>
+                    <input name="name" type="text"  id="name" />
+                  </label></td>
+              </tr>
+              <tr>
+                <td height="5" align="left" valign="top" class="whitecont">Your Email Address<span class="content-white">*</span></td>
+              </tr>
+              <tr>
+                <td align="left" valign="top"><input name="email"  type="text"  id="email" /></td>
+              </tr>
+              <tr>
+                <td height="5" align="left" valign="top" class="whitecont">Message <span class="content-white">*</span></td>
+              </tr>
+              <tr>
+                <td align="left" valign="top"><label>
+                    <textarea name="message" cols="35" rows="5" id="message" ></textarea>
+                  </label></td>
+              </tr>
+              <!--  <tr>
+                  <td height="5" align="left" valign="top" class="content">
+          <%#= show_simple_captcha( :image_style => 'distorted_black', :distortion => "medium")%></td>
+                    <br/>
+                <font color="red"><%#=flash[:msg]%></font></td>
+                </tr>-->
+              <tr>
+                <td align="left" valign="top"><label>
+                     <a href="#" > <input name="button" type="submit" class="cmd-btn" id="button" value="Send"  onclick="emailmsg(Ajax.FBML); return false;" /></a>
+                    <!--<input name="button" type="submit" class="cmd-btn" id="button" value="Send" />-->
+                    &nbsp; </label>
+                  <label>
+                    <a href="#" > <input name="button" type="submit" class="cmd-btn" id="button" value="Reset"  onclick="emailuser(Ajax.FBML); return false;" /></a>
+                    <!--<a href="#" ><input name="reset" type="reset" class="cmd-btn" id="reset" value="Reset" /></a>-->
+                  </label>
+                </td>
+              </tr>
+            </table>
+
+
+        </table>
+</div>
+

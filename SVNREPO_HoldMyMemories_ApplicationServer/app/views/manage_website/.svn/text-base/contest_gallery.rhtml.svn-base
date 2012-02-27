@@ -1,0 +1,176 @@
+<link href="/stylesheets/main.css" media="screen" rel="Stylesheet" type="text/css" />
+<link href="/stylesheets/hmm.css" media="screen" rel="Stylesheet" type="text/css" />
+<link href="/stylesheets/mystyle_black_left.css" rel="stylesheet" type="text/css" />
+<%= stylesheet_link_tag 'hmmout' %>
+
+
+<table width="970" border="0" cellspacing="0" cellpadding="0" id="tab_bgcolor_repeat">
+  
+  <tr>
+    <td align="left" valign="top"><table width="100%" border="0" cellspacing="0" cellpadding="0">
+        <tr>
+          <td width="13" align="left" valign="top"></td>
+          <td width="944" align="left" valign="top"><table width="100%" border="0" cellspacing="0" cellpadding="0">
+              <tr>
+                <td height="10" align="left" valign="top"></td>
+              </tr>
+              <tr>
+                <td height="35" align="left" valign="bottom" class="header-page">Manage My Site</td>
+              </tr>
+              <tr>
+                <td height="10" align="left" valign="top"></td>
+              </tr>
+              <tr>
+                <td height="1" align="left" valign="top" bgcolor="#454545"></td>
+              </tr>
+              <tr>
+                <td height="10" align="left" valign="top"></td>
+              </tr>
+              <tr>
+                <td align="left" valign="top"><table width="100%" border="0" cellspacing="0" cellpadding="0">
+                    <tr>
+                      <td width="173" align="left" valign="top" id="tab_bgcolor_repeat">
+                        <%= render :partial => "partials/manage_website_menu", :locals => { :current_item => "#{@current_item}"} %>
+                      </td>
+                      <td width="17" align="left" valign="top"></td>
+                      <td width="754" align="left" valign="top"><table width="100%" border="0" cellspacing="0" cellpadding="0">
+                          <tr>
+                            <td class="content-trans-bg">
+<%@subchap_check = SubChapter.count(:all, :conditions => "id=#{params[:subchapid]} and uid=#{logged_in_hmm_user.id}")
+    if @subchap_check == 1%>
+	
+          <table align="left" width="640" border="0" cellspacing="0" cellpadding="0">
+            <input type="hidden" name="order" value="<%=params[:order]%>" />
+			<input type="hidden" name="order" value="<%=params[:id]%>" />
+<tr><td width="280" valign="middle">
+	
+	<table align="left">
+		
+		<tr>
+		
+			<%= sort_header_tag('d_gallery_date', :text => "<img  src='/images/date1_sort.gif'   border='0'/>") %>
+
+<%= sort_header_tag('v_gallery_name', :text => "<img  src='/images/name1_sort.gif'   border='0'/>") %>
+</tr></table>
+	
+</td>
+
+</tr>
+
+    
+    
+    <tr>
+        <% @sub_chap = SubChapter.find(:all, :conditions => "id=#{params[:subchapid]}")
+             for @i in @sub_chap 
+		@subname=@i.sub_chapname;
+	%><th height="10" colspan="2" align="left"><h3></h3></th>
+             <%end%></tr>
+             
+             
+     
+      <th height="128" align="left" valign="top" scope="col" colspan="4">
+        <table width="99%" border="0"  cellspacing="0" align="left" cellpadding="0">
+        <tr>
+           <th height="4" colspan="10" align="left" valign="top" scope="col" ></th>
+        </tr>
+                <% 
+                    j=0	
+                    if @total == 0 %>
+                    <p>No items found...</p>
+                <% else %>
+                   <% @sub_chapters_gallerie.each do |@sub_chapter|
+					
+					@sub_chapter_count=UserContent.count(:all, :conditions => " gallery_id=#{@sub_chapter.id} and status='active'")	
+                   
+                   
+                %>
+                <% if j == 0 %>
+                <tr>
+                     <th height="9"  align="left" valign="top" scope="col">&nbsp;&nbsp;&nbsp;&nbsp;</th><th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th><th></th><th></th><th></th>
+              </tr><tr>
+                <% else if j >= 3 
+                j=0
+                    
+                %>
+                </tr>
+                    <tr>
+                       
+                <tr>
+                <% end %>	
+                <% end %>
+				
+               
+                <th width="1" align="left" valign="top" scope="col"><% j=j+1%></th>
+                
+				<th width="20" align="left" valign="top" scope="col" >
+					<a href='/manage_website/contest_moments/<%=params[:id]%>?moment_id=<%= @sub_chapter.id %>' >
+						<img src="<%=@sub_chapter.img_url%>/user_content/photos/icon_thumbnails/<%= @sub_chapter.v_gallery_image %>" border="0"  /></a></th>
+                <th width="10" align="left" valign="top" scope="col">&nbsp;</th>
+                <th width="200" align="left" valign="top" scope="col" style="padding-right:30px;">
+                    <table width="100%" border="0" cellspacing="0" cellpadding="0">
+                        <tr>
+                            <th height="13" align="left" valign="top" scope="col"></th>
+                        </tr>
+                        <tr>
+                          <th height="21" align="left" valign="top" class="chapindex-text" scope="col"><%= @sub_chapter.v_gallery_name %></th>
+                        </tr>
+                        
+                        <tr>
+                          <th align="left" valign="top" class="content-white" scope="col">last updated <br>
+                           <%=@sub_chapter.d_gallery_date.strftime("%a %b #{@sub_chapter.d_gallery_date.day.ordinalize} %Y   %I:%M %p") %></th>
+                        </tr>
+                  </table>			 </th><%end%>
+       </tr>	  
+        </table></th>
+
+      </tr>
+      <tr>
+      
+        <th valign="bottom" scope="col" align="center" colspan="10">
+        	<%=will_paginate @sub_chapters_gallerie%></th>
+      </tr>
+      <tr>
+      
+        <th valign="middle" scope="col" align="center" colspan="10" height="50">&nbsp;
+        	
+		</th>
+      
+	  </tr>
+      <tr>
+        
+        <th valign="bottom" scope="col" align="center" colspan="5" height="10" >&nbsp;</th>
+      </tr>
+    </table>
+      
+         <% end %>
+ 
+  <%else%>
+  <p>No Records Found</p>
+  <%end%>
+ </td>
+                          </tr>
+                          <tr>
+                            <td>&nbsp;</td>
+                          </tr>
+                        </table></td>
+                    </tr>
+                    <tr>
+                      <td align="left" valign="top">&nbsp;</td>
+                      <td align="left" valign="top"></td>
+                      <td align="left" valign="top">&nbsp;</td>
+                    </tr>
+                  </table></td>
+              </tr>
+
+            </table></td>
+          <td width="13" align="left" valign="top"></td>
+        </tr>
+      </table></td>
+  </tr>
+
+</table>

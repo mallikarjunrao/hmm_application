@@ -1,0 +1,60 @@
+
+<script language="JavaScript">
+	function check(){
+		
+		if (document.getElementById('notes').value == '')
+		{
+			document.getElementById('notes').focus();
+            alert("Please enter Notes");
+            return false;
+		}
+		
+	
+	}
+	
+</script>
+
+<h2>Notes </h2>
+<form action="/account/reassign_notes" method="post" onSubmit="return check();">
+<input type="hidden" name="user_id" value="<%=params[:id]%>">
+
+<table>
+	<tr align="center">
+		<td>
+			<%= error_messages_for 'hmm_studiogroup' %>
+<div>&nbsp;&nbsp;&nbsp;&nbsp;<font color="red"><%= flash[:notice] %></font></div>
+<!--[form:hmm_studiogroup]-->
+<table>
+	<tr>
+		<td colspan="3">&nbsp;</td>
+	</tr>
+	<tr>
+		<td align="right">
+			<label for="hmm_studiogroup_hmm_franchise_studio"> Note *</label>
+		</td>
+		<td>&nbsp;</td>
+		<td>
+			<textarea name="notes" id="notes" rows="10" cols="50"></textarea>
+		</td>
+	</tr>
+   <tr>
+		<td colspan="3">&nbsp;</td>
+	</tr>
+	<tr>
+		<td colspan="3" align='center'><input type="submit" name="sub" value="Submit"></td>
+	</tr>
+	
+	
+</table>
+
+
+
+<!--[eoform:hmm_studiogroup]-->
+		</td>
+	</tr>
+	
+</table>
+  
+ 
+</form>
+

@@ -1,0 +1,93 @@
+<script type="text/javascript">
+  function validateFileExtension(fld) {
+    if(!/(\.png|\.PNG)$/i.test(fld.value)) {
+      alert("Invalid file type.. Please Upload only transparent PNG image file!!");
+      fld.focus();
+      fld.value = '';
+      return false;
+    }
+    return true;
+  }
+</script>
+
+<script type="text/javascript">
+  function add_more() {
+    var ni = document.getElementById('myDiv');
+    var numi = document.getElementById('theValue');
+    var num = (document.getElementById("theValue").value -1)+ 2;
+    numi.value = num;
+    var divIdName = num;
+    var txt = "<br>Upload Portfolio  Image * &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type='file' name='portfolio_image["+divIdName+"][]'  id='portfolio_image' multiple='' onChange='return validateFileExtension(this)' />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Portfolio Title/Name* &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type='text' name='title[]' id='title' size='25' />";
+    var table = document.getElementById('dvFile1');
+    var temp  = document.createElement("div");
+    temp.innerHTML =  txt;
+    table.appendChild(temp);
+  }
+  
+  function uploading() {
+    var e=document.getElementById('loadingMessage');
+    e.style.display="block"
+    var e1=document.getElementById('loadingMessage_images');
+    e1.style.display="none"
+    return true;
+  }
+  function delete_files(file_id){
+    var item = document.getElementById('fileList').querySelector('li:nth-of-type('+file_id+')');
+    var input = document.getElementById('portfolio_image');
+    var list = document.getElementById('fileList')
+        list.removeChild(item);
+  }
+
+function display_files(){
+  var input = document.getElementById('portfolio_image');
+  var list = document.getElementById('fileList');
+    
+  <%#*while (list.hasChildNodes()) {%>
+    <%#*list.removeChild();%>
+  <%#*}%>
+
+  for (var x = 0; x < input.files.length; x++) {
+    //add to list
+    var li = document.createElement('li');
+<%#*var imgname = input.files[x].replace(/\\/g,"/");%>
+<%#*imgname = imgname.replace(/\’/g,"\\’");%>
+<%#*var content = "<img src=\"" + String(imgname) + "\" border=\"0\" height=\"150\" weight=\"150\">";%>
+    li.innerHTML = input.files[x].name +"&nbsp;<input type='button' id="+x+" value='Delete' onclick='delete_files(this.id);'>";
+<%#*alert('File ' + (x + 1) + ':  ' + input.files[x].name);%>
+    list.appendChild(li);
+  }
+    
+}
+</script>
+<form name="frm" action="<%=request_content_url%>/uploads/upload_image/?chapter_type=event&event_id=158390&user_id=41737" method="post" enctype="multipart/form-data" onsubmit="return uploading();">
+  <table width="93%" border="0" cellspacing="0" cellpadding="0" id="loadingMessage" align="center" style="display:none;">
+    <tr height="40"><td>
+        <img src="/images/ajax-loader.gif" /></td></tr><tr><td><font color="#000000">Please wait until the images get uploaded...</font>
+      </td></tr></table>
+
+  <table width="780" border="0" cellspacing="0" cellpadding="0" id="loadingMessage_images">
+    <tr>
+      <td align="left" valign="top">&nbsp;</td>
+      <td align="left" valign="top">&nbsp;</td>
+      <td align="left" valign="top">&nbsp;</td>
+      <td align="left" valign="top">&nbsp;</td>
+    </tr><tr class="txt">
+      <td width="145" align="left" valign="top" class="whitecont">Upload Image</td>
+
+      <td width="50" align="left" valign="top">
+        <input type="file" name="upload_images[]" id="portfolio_image" multiple=""/>
+
+      </td>
+<%#*<td width="140" align="left" valign="top" class="whitecont">Portfolio Title/Name* </td>%>
+<%#*<td width="100" align="left" valign="top"><input type="text" name="title[]" id="title" size="25" /></td>%>
+    </tr>
+    <tr><td width="50" align="left" valign="top"><div id="fileList" style="color:#FFFFFF"></div></td></tr>
+    <tr>
+<%#*<td align="left" valign="top">&nbsp;</td>%>
+<%#*<td align="left" valign="top">&nbsp;</td>%>
+<%#*<td align="left" valign="top">&nbsp;</td>%>
+<%#*<td align="left" valign="top">&nbsp;</td>%>
+      <td><input type="submit" id="sub" name="sub" class="cmd-btn" value="Add" style="cursor:pointer;" onClick="return validate(frm);" /></td>
+    </tr>
+  </table>
+</form>

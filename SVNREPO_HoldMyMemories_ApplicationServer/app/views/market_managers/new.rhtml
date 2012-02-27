@@ -1,0 +1,33 @@
+<script type="text/javascript">
+	function verify()
+	{
+		if (document.getElementById('manager_branche[]').value == '')
+		{
+			alert("Please Select the Branch!!");
+			document.getElementById('manager_branche[]').focus();
+			return false;
+		}
+		
+		else
+		if (document.getElementById('valid_username').value == 'false') 
+		{
+			document.getElementById('employe_username').focus();
+			return false;
+		}
+		if (document.getElementById('valid_empid').value == 'false') 
+		{
+			document.getElementById('employe_id').focus();
+			return false;
+		}
+	}
+</script>
+
+<h1>Add market manager</h1>
+<form action="/market_managers/create" method="post" onsubmit="return verify();">
+
+  <%= render :partial => 'form' %>
+  <center><%= submit_tag "Create" %></center>
+
+</form>
+
+<%= link_to 'Back', :action => 'list' %>

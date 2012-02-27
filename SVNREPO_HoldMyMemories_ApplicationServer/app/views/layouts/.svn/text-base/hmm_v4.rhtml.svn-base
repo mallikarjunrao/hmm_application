@@ -1,0 +1,162 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>HoldMyMemories</title>
+<%#*<link href="/stylesheets/hmm_iphone.css" rel="stylesheet" type="text/css" />%>
+    <%= javascript_include_tag :defaults%>
+    <link rel="SHORTCUT ICON" href="/images/common/favicon.ico" type="image/x-icon" />
+    <link href="/stylesheets/main.css" media="screen" rel="Stylesheet" type="text/css" />
+    <link href="/webpage/css/style.css" rel="stylesheet" type="text/css" />
+    <link href="/stylesheets/hmm.css" media="screen" rel="Stylesheet" type="text/css" />
+    <%= stylesheet_link_tag 'hmmout' %>
+<%#*<link href="/hmm.css" rel="stylesheet" type="text/css" />%>
+
+
+    <script type="text/javascript">
+      fullurl=document.URL;
+      url=fullurl.split("/");
+      for(i=0;i<=url.length;i++)
+      {
+        if(url[i])
+        {
+          url[i]=url[i].toUpperCase();
+          if((url[i].indexOf("%3CSCRIPT%3E") >= 0) || (url[i].indexOf("%3C/SCRIPT%3E") >= 0) || (url[i].indexOf("%3C/SCRIP%3E") >= 0) || (url[i].indexOf("%3CSCRIP") >= 0) ||(url[i].indexOf("JAVASCRIPT:ALERT") >= 0))
+          {
+            window.location="/contests/error_page"
+          }
+        }
+      }
+    </script>
+    <script type="text/javascript">
+      function fbs_click(id) {
+
+        new Ajax.Request("/contests/create_sharecount/"+id+"?from=facebook");
+
+        return false;
+      }
+      function fbs_click_myspace(id)
+      {
+
+        new Ajax.Request("/contests/create_sharecount/"+id+"?from=myspace");
+        return false;
+      }
+    </script>
+    <script type="text/javascript">
+      <!--
+      function MM_preloadImages() { //v3.0
+        var d=document; if(d.images){ if(!d.MM_p) d.MM_p=new Array();
+          var i,j=d.MM_p.length,a=MM_preloadImages.arguments; for(i=0; i<a.length; i++)
+            if (a[i].indexOf("#")!=0){ d.MM_p[j]=new Image; d.MM_p[j++].src=a[i];}}
+        }
+        //-->
+    </script>
+    <script type="text/javascript" src="/js/swfobject.js"></script>
+    <style type="text/css">
+      .cmd-btn {
+        font-family:Verdana, Arial, Helvetica, sans-serif;
+        font-size:12px;
+        font-weight:bold;
+        color:#c3c3c3;
+        background-image:url(/new_images/cmd-btn.gif);
+        background-repeat:repeat-x;
+        height:21px;
+        padding:0px 15px 0px 15px;
+        border: 1px solid #635e59;
+      }
+      .current{
+        font-family:Arial, Helvetica, sans-serif;
+        font-size:12px;
+        color:#ff6100;
+        font-weight:bold;
+        text-decoration:none;
+      }
+      .content-trans-bg {
+        background-image: url("/images/themes/love_maroon/cont-trans-bg.png");
+        background-repeat: repeat;
+        border: 0px solid #202020;
+      }
+      th {
+        color: #000000;
+        font-family: Arial;
+        font-size: 12px;
+      }
+    </style>
+
+    <%if @contest_image %>
+      <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+      <meta name="title" content="<%=@contest_title%>" />
+      <meta name="description" content="<%=@contest_description%>" />
+      <link rel="image_src" href="<%= @contest_image %>" />
+    <%end%>
+
+  </head>
+
+
+  <body>
+    <table width="1000" border="0" align="center" cellpadding="0" cellspacing="0">
+      <tr>
+        <td width="800" valign="top"><table width="100%" border="0" cellspacing="0" cellpadding="0">
+            <tr>
+              <td>&nbsp;</td>
+            </tr>
+            <tr>
+              <td class="TopMenu2"><a href="/pages/index/index">Home</a></td>
+            </tr>
+            <tr>
+              <td height="155">&nbsp;</td>
+            </tr>
+            <tr>
+              <td style="padding: 15px;">
+                <%= yield %>
+              </td>
+            </tr>
+            <tr>
+              <td height="100">&nbsp;</td>
+            </tr>
+            <tr>
+              <td class="ftrMenu"> <span>&copy; 2011 HoldMyMemories.com, LLC</span><a href="/static/abouthmm">About HMM</a> <a href="#">Press</a><a href="/user_account/faq">FAQ</a><a href="#">Join Us</a><a href="/user_account/privacy_policy">Privacy Policy</a><a href="/user_account/termsof_use">License Agreement</a><a href="/contact_us/new">Contact Us</a></td>
+            </tr>
+          </table></td>
+        <td width="200" align="right" valign="top"><table width="200" border="0" cellspacing="0" cellpadding="0">
+            <tr>
+              <td>&nbsp;</td>
+            </tr>
+            <tr>
+              <td class="TopMenu"><a href="/customers/authorise_verify">Register</a>      <span><a href="/user_account/login">Log In</a></span></td>
+            </tr>
+            <tr>
+              <td height="200">&nbsp;</td>
+            </tr>
+            <tr>
+              <td style="color: #010101;
+                  font-size: 13px;
+                  line-height: 17px;
+                  text-decoration: none;">...because some memories I want to hold for my family, not post for my friends.</td>
+            </tr>
+            <tr>
+              <td height="60" align="left" valign="middle" class="reg">Register Today!</td>
+            </tr>
+            <tr>
+              <td height="4" class="brd"></td>
+            </tr>
+            <tr>
+              <td align="left" class="disC">
+                <a href="/pages/index/index">Why <span class="orgTxt">HoldMyMemories</span>?</a>
+                <a href="/pages/find_studio/index">Find a Studio</a><br/>
+                <a href="/pages/search_your_memories/index">Search Your Memories</a>
+                <a href="/pages/social_media_features/index" class="gryTxt">Social Media Features</a>
+                <a href="/pages/app_features/index" class="gryTxt">iPhone App Features</a>
+                <a href="/pages/contest/index" class="gryTxt">Contests</a></span></td>
+            </tr>
+            <tr>
+              <td height="255" class="disC">&nbsp;</td>
+            </tr>
+            <tr>
+              <td class="disC"><a href="http://itunes.apple.com/us/app/holdmymemories/id398282766?mt=8"><img src="/images/icon-apps.png" border="0" /></a></td>
+            </tr>
+          </table></td>
+      </tr>
+    </table>
+  </body>
+</html>

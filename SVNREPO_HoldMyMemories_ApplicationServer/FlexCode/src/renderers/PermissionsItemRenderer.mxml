@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:HBox xmlns:mx="http://www.adobe.com/2006/mxml">
+	<mx:CheckBox id="allow" change="handleAllowChecked(event)"/>
+	<mx:Label id="username" />
+	<mx:Script>
+		<![CDATA[
+			
+			private function handleAllowChecked(event : Event) : void
+			{
+				data.allowed = true;
+			}
+			
+			override public function set data(value : Object) : void
+			{
+				super.data = value;
+				allow.selected = data.allowed;
+				username.text = data.username;
+			}
+			
+			
+		]]>
+	</mx:Script>
+</mx:HBox>

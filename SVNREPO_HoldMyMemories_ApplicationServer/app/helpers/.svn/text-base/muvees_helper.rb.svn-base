@@ -1,0 +1,2 @@
+module MuveesHelper
+end

@@ -1,0 +1,108 @@
+<%if(@norecords=="") %>
+<script src="/AC_OETags.js" language="javascript"></script>
+<%session['redirect']='111'%> 
+<table border="0" width="820">
+		<tr>
+			<td colspan="2" align="left"><font size="3" color="#cccccc"><%=@fname%>'s Shared Memories</font>
+			</td>
+		</tr>
+		
+        <tr>
+        	<td colspan="2">
+		<input type="hidden" id="galleryId" value="<%=@galleryUrl%>">
+		<input type="hidden" id="swfName" value="/<%=@swfName%>">
+		<input type="hidden" id="shareId" value="<%=params[:id]%>">
+		<input type="hidden" name="buttonVisible" id="buttonVisible" value="<%=@buttonVisibility%>">
+		<script language="JavaScript" type="text/javascript">
+		var galId = document.getElementById("galleryId").value;
+		var flashName = document.getElementById("swfName").value;
+		var backId = document.getElementById("shareId").value;
+		var visibility = document.getElementById("buttonVisible").value;
+		AC_FL_RunContent( 'codebase','http://download.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=7,0,19,0','width','810','height','450','src',flashName,
+		'quality','high','pluginspage','http://www.macromedia.com/go/getflashplayer','movie',flashName,
+		'flashvars', 'serverUrl='+galId+'&navigateTo=/myphotos/photo_journal/'+'&backid='+backId+'&buttonsVisible='+visibility,"allowFullscreen", "true" ); //end AC code
+		</script><noscript><object classid="clsid:D27CDB6E-AE6D-11cf-96B8-444553540000" codebase="http://download.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=7,0,19,0" width="810" height="450">
+		</object></noscript>
+			</td>
+		</tr>
+</table>
+
+<table width="100%" border="0"><tr><td align="center">
+	<tr>
+		<%if flash[:notice_pcc] %>
+		<td><font color="#f5dfa6"><%=flash[:notice_pcc]%><%for i in @presenter_name%>&nbsp;<%=i.v_fname%></font> 
+		</td>
+		<%end%>
+	</tr>
+	<%end%>
+	<tr><td align="center">
+	<%= link_to_remote("Add Comments", :update =>"me", 
+		:url => {:controller => :share_comments, :action => :new, :id=> params[:id]}, :layout => false  ) %>
+		&nbsp;&nbsp;&nbsp;
+		<%= link_to_remote("View Comments", :update =>"me", 
+		:url => {:controller => :share_comments, :action => :share_comnt, :id=> params[:id] }, :layout => false  ) %>
+	
+</td></tr>
+<tr><td align="center"> <div id="me"></div> </td></tr></table>
+
+
+<%else if session[:hmm_user] %>
+
+<script src="/AC_OETags.js" language="javascript"></script>
+<table border="0" width="820">
+		<tr><td colspan="2" align="left"><font size="3" color="#cccccc"><%=@fname%>'s Shared Memories</font></td></tr>
+        <tr><td colspan="2">
+		
+		<input type="hidden" id="galleryId" value="<%=@galleryUrl%>">
+		<input type="hidden" id="swfName" value="/<%=@swfName%>">
+		<input type="hidden" id="shareId" value="<%=params[:id]%>">
+		<input type="hidden" name="buttonVisible" id="buttonVisible" value="<%=@buttonVisibility%>">
+		<script language="JavaScript" type="text/javascript">
+	var galId = document.getElementById("galleryId").value;
+		var flashName = document.getElementById("swfName").value;
+		var backId = document.getElementById("shareId").value;
+		var visibility = document.getElementById("buttonVisible").value;
+		AC_FL_RunContent( 'codebase','http://download.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=7,0,19,0','width','810','height','450','src',flashName,
+		'quality','high','pluginspage','http://www.macromedia.com/go/getflashplayer','movie',flashName,
+		'flashvars', 'serverUrl='+galId+'&navigateTo=/myphotos/photo_journal/'+'&backid='+backId+'&buttonsVisible='+visibility,"allowFullscreen", "true" ); //end AC code
+		</script><noscript><object classid="clsid:D27CDB6E-AE6D-11cf-96B8-444553540000" codebase="http://download.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=7,0,19,0" width="810" height="450">
+		
+		
+		</object></noscript>
+		</td>
+		</tr>
+	</table>
+        
+        <br><br>
+          <table width="100%" border="0"><tr><td align="center">
+	<tr>
+		<%if flash[:notice_pcc] %>
+		<td><font color="#f5dfa6"><%=flash[:notice_pcc]%><%for i in @presenter_name%>&nbsp;<%=i.v_fname%></font> 
+		</td>
+		<%end%>
+	</tr>
+	<%end%>
+	<tr><td align="center">
+	<%= link_to_remote("Add Comments", :update =>"me", 
+		:url => {:controller => :share_comments, :action => :new, :id=> params[:id]}, :layout => false  ) %>
+		&nbsp;&nbsp;&nbsp;
+		<%= link_to_remote("View Comments", :update =>"me", 
+		:url => {:controller => :share_comments, :action => :share_comnt, :id=> params[:id] }, :layout => false  ) %>
+	
+</td></tr>
+<tr><td align="center"> <div id="me"></div> </td></tr></table>
+		
+<%else%>
+ <table class="border" width="100%" align="center"><tr><td align="center" >
+		  <font color="#f5dfa6">Sorry! You does not have a permission to view these "Shared memories"	 </font>
+			
+			</td></tr></table>
+                        
+                        
+                        
+<%end%>
+<%end%>
+
+
+
+

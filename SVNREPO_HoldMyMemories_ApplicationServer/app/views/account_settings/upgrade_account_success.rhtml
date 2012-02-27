@@ -1,0 +1,62 @@
+  <table width="970" border="0" cellspacing="0" cellpadding="0">
+    <tr>
+      <td align="center" valign="top" class="tab-dots"><table width="970" border="0" cellspacing="0" cellpadding="0" id="tab_bgcolor_repeat">
+          <tr>
+            <td align="left" valign="top"><table width="100%" border="0" cellspacing="0" cellpadding="0">
+                <tr>
+                  <td width="13" align="left" valign="top"></td>
+                  <td width="944" align="left" valign="top"><table width="100%" border="0" cellspacing="0" cellpadding="0">
+                      <tr>
+                        <td height="10" align="left" valign="top"></td>
+                      </tr>
+                      <tr>
+                        <td height="35" align="left" valign="bottom" class="header-page">Upgrade Account</td>
+                      </tr>
+                      <tr>
+                        <td height="10" align="left" valign="top"></td>
+                      </tr>
+                      <tr>
+                        <td height="1" align="left" valign="top" bgcolor="#454545"></td>
+                      </tr>
+                      <tr>
+                        <td height="10" align="left" valign="top">&nbsp;</td>
+                      </tr>                  
+                      <tr>
+                        <td height="10" align="center" valign="top" class="error-message">
+                          <% if  flash[:sucess_id]%>
+                          <p align="center" ><%=flash[:sucess_id]%></p> <br>
+                           <br> <p align="center" ><a href="http://www.holdmymemories.com/customers/generate_receipt/<%=logged_in_hmm_user.unid%>" target="_blank"><font size="2" color="white" face="arial"><u>Click here to download your Subscription Receipt.</u></font></a><br></p>
+                          <%end%>
+                          <%if params[:msg]=='payment_req' %>
+                          <p align="center"><br><br><font face="arial" size="3" color="white">Sorry, your credit card information needs to be updated as we are not able to successfully charge your credit card.</font>
+                          <br><a href="/account_settings/familywebsite_option/<%=params[:id]%>?acc_type=<%=params[:acc_type]%>"><input type="button" name="but" value="No I do not wish to update credit card info!" onclick="window.location='/account_settings/familywebsite_option/<%=params[:id]%>?acc_type=<%=params[:acc_type]%>'" /></a><br>
+                          </p>
+                          <%end%>
+                            <%if flash[:error] %>
+                          <%end%>
+                          <%if flash[:error_code] %>
+                          <%end%>
+                          <%if flash[:sucess]%>
+                          <p align="center"><font face="arial" size="3" color="white"><%=flash[:sucess]%> </font></p>
+                          <%end%>
+                            <%if @family_website_owner.unid.nil?%>
+                          <%else%>
+                          <%end%>
+                        </td>
+                      </tr>
+                       <tr>
+                        <td height="10" align="left" valign="top">&nbsp;</td>
+                      </tr>
+                      
+                      <tr>
+                        <td align="left" valign="top">&nbsp;</td>
+                      </tr>
+                    </table></td>
+                  <td width="13" align="left" valign="top"></td>
+                </tr>
+              </table></td>
+          </tr>
+        </table></td>
+    </tr>
+  </table>
+

@@ -1,0 +1,26 @@
+
+<link rel="stylesheet" title="Standard" href="/stylesheets/styles.css" type="text/css" media="screen" />
+
+<script language="JavaScript" type="text/javascript" src="/javascripts/contentflow.js"></script>
+<script tyle="text/javascript">
+  var cf = new ContentFlow('contentFlow', {reflectionColor: "#000000"});
+</script>
+<div class="maincontent">
+  <!-- ===== FLOW ===== -->
+  <div id="contentFlow" class="ContentFlow">
+    <!-- should be place before flow so that contained images will be loaded first -->
+    <div class="loadIndicator"><div class="indicator"></div></div>
+
+    <div class="flow">
+      <% for studio_portfolio in @studio_portfolios %>
+        <div class="item">
+          <img class="content" src="<%=studio_portfolio.img_url%>/user_content/photos/coverflow/<%=studio_portfolio.v_filename%>"  />
+          <div class="caption"><%=studio_portfolio.v_filename%></div> </div><%end%>
+    </div>
+    <div class="globalCaption"></div>
+    <div class="scrollbar">
+      <div class="slider"><div class="position"></div></div>
+    </div>
+
+  </div>
+</div>

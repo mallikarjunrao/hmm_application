@@ -1,0 +1,39 @@
+<style type="text/css">
+<!--
+.style1 {
+	color: #ECE9D8;
+	font-weight: bold;
+}
+-->
+</style>
+<form name="frm" action="vote_request" method="post">
+	<table border="0" class="border">
+		<tr><td colspan="3"><font color="#ffffff" >Please select the check box next to your friends email address to invite them for voting on this video.</font></td></tr>
+		<tr><td bgcolor="#333333"><span class="style1"><font color="##ffffff" size="2"  >Select</font></span></td>
+		<td bgcolor="#333333"><span class="style1"><font color="#ffffff" size="2" >Email Address</span>
+		<td bgcolor="#333333"><span class="style1"><font color="#ffffff" size="2" >Name</span></td>
+		</tr>
+		<% 
+			j=0
+			for i in @emails_list %>
+				<tr bgcolor="#000000">
+					<td><input type="checkbox" name="email_id[]" id="email_id[]" value="<%=i%>" /></td>
+					<td><font color="#ffffff" size="2" ><%=i%></font></td>
+					<td><font color="#ffffff" size="2" ><%=@email_names[j]%></font></td>
+				</tr>
+			<%
+			 	j=j+1	
+			end%>
+			<tr><td>&nbsp;</td></tr>
+			<% message = "Hi Friends,\n\nPlease vote for the contest entry  given in the below given link with this email \n\nThank You, " %>
+		<tr><td colspan="3"><table border="0">
+		<tr><td valign="top"><font color="#ffffff" size="2" >Message to your friend: </font></td><td><textarea id="message" name="message" cols="50" rows="6" ><%=message%></textarea> </td></tr>	
+		<tr><td valign="top"><font color="#ffffff" size="2" >Contest entry link: </td><td><a href="<%=session[:vote_url]%>" target="_blank"><%=session[:vote_url]%></a> </font></td></tr>	
+		<tr><td>&nbsp;</td></tr>
+		<tr><td>&nbsp;</td><td><input type="submit" name="sub" value="Invite To Vote" /></td></tr></table>
+		</td></tr>
+		<tr><td>&nbsp;</td></tr>
+		
+		
+	</table>
+</form>

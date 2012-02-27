@@ -1,0 +1,53 @@
+
+xml.instruct! :xml, :version=>"1.0"
+xml.contents{
+	for content in @contents
+    xml.content{
+      full_desc=content.v_desc
+      if !full_desc.nil?
+        full_desc=full_desc.gsub(/\s+/, "")
+        full_desc=full_desc.upcase
+        if full_desc.match(/^ENTERDESCRIPTION/) || content.v_desc.blank?
+          descs=Blog.find(:first,:select=>"description",:conditions=>"blog_type_id=#{content.id}")
+          if descs.nil?
+            desc=''
+          else
+            desc=descs.description
+          end
+        else
+          desc=content.v_desc
+        end
+      end
+      if content.e_filetype=="image"
+        xml.icon(content.img_url + "/user_content/photos/coverflow/"+content.v_filename)
+        xml.thumbnails(content.img_url + "/user_content/photos/small_thumb/"+content.v_filename)
+        xml.large_image(content.img_url + "/user_content/photos/journal_thumb/"+content.v_filename)
+        xml.name(content.v_tagphoto)
+        xml.small_image(content.img_url + "/user_content/photos/big_thumb/"+content.v_filename)
+        xml.id(content.id)
+        xml.hmmtype(content.e_filetype)
+      elsif content.e_filetype=="video"
+        xml.icon(content.img_url + "/user_content/videos/thumbnails/"+content.v_filename+".jpg")
+        xml.thumbnails(content.img_url + "/user_content/videos/thumbnails/"+content.v_filename+".jpg")
+        xml.large_image(content.img_url + "/user_content/videos/thumbnails/"+content.v_filename+".jpg")
+        xml.small_image(content.img_url + "/user_content/videos/thumbnails/"+content.v_filename+".jpg")
+        xml.name(content.v_tagphoto)
+        xml.id(content.id)
+        xml.video_url(content.img_url + "/user_content/videos/"+content.v_filename+".flv")
+        xml.hmmtype(content.e_filetype)
+      end
+      if !desc.nil? && !desc.blank?
+        xml.description(desc.gsub('&quot;',"'"))
+      else
+        xml.description(desc)
+      end
+      xml.facebook_share_url("http://facebook.com/sharer.php?u=http://www.holdmymemories.com/family_memory/gallery_details/#{params[:id]}?moment_id=#{content.id}")
+      xml.twitter_share_url("http://twitter.com/share?url=http://www.holdmymemories.com/family_memory/gallery_details/#{params[:id]}?moment_id=#{content.id}&&familyname=#{params[:id]}")
+      xml.myspace_share_url("http://myspace.com/Modules/PostTo/Pages?u=http://www.holdmymemories.com/family_memory/gallery_details/#{params[:id]}?moment_id=#{content.id}&&familyname=#{params[:id]}&t=#{content.v_filename}")
+      xml.email_share_url("/family_memory/share_by_email/#{params[:id]}?v=v4&moment_id=#{content.id}&link=/family_memory/gallery_details/#{params[:id]}?moment_id=#{content.id}&id=#{params[:id]}")
+      xml.facebook_send_url("https://www.facebook.com/dialog/send?app_id=322824824425061&name=Brought to you by HoldMyMemories.com&link=http://www.holdmymemories.com/family_memory/gallery_details/#{params[:id]}?moment_id=#{content.id}&redirect_uri=http://www.holdmymemories.com/family_memory/gallery_details/#{params[:id]}?moment_id=#{content.id}")
+    }
+  end
+
+
+}

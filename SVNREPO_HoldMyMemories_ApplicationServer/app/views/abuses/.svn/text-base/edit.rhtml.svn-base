@@ -1,0 +1,17 @@
+<h1>Editing abuse</h1>
+
+<%= error_messages_for :abuse %>
+
+<% form_for(:abuse, :url => abuse_path(@abuse), :html => { :method => :put }) do |f| %>
+  <p>
+    <b>Comment</b><br />
+    <%= f.text_field :comment %>
+  </p>
+
+  <p>
+    <%= submit_tag "Update" %>
+  </p>
+<% end %>
+
+<%= link_to 'Show', abuse_path(@abuse) %> |
+<%= link_to 'Back', abuses_path %>

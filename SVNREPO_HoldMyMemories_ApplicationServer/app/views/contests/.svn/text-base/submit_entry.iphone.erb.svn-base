@@ -1,0 +1,248 @@
+<% if flash[:result] == 'false' %>
+  <script type="text/javascript">
+    window.onload = alert('Contestant name already present!!');
+  </script>
+<% elsif flash[:result] == 'submited' %>
+  <script type="text/javascript">
+    window.onload = alert('Already submitted this moment!!');
+  </script>
+<% end %>
+<% session[:result] = nil %>
+<script type="text/javascript">
+  function verify()
+  {
+    if (document.getElementById('contest_first_name').value == "")
+    {
+      alert('Please enter Contestant Name!!');
+      return false;
+    }
+    if (document.getElementById('journal_v_title').value == "")
+    {
+      alert('Please enter the title!!');
+      return false;
+    }
+    if (document.getElementById('journal_v_image_comment').value == "")
+    {
+      alert('Please enter the description!!');
+      return false;
+    }
+ 
+    if(document.getElementById('terms').checked == false)
+    {
+      document.getElementById('terms').focus();
+      alert("You must agree to the rules to proceed")
+      return false;
+    }
+     if("<%= params[:contest_id] %>" == "15" && "<%= params[:moment_type] %>" == "image")
+    {
+      if (document.getElementById("age_groups").value == "")
+      {
+        alert("Select the age group");
+        return false;
+      }
+    }
+ 
+  }
+
+
+</script>
+
+<table border="0" align="center" cellpadding="0" cellspacing="0" width="100%">
+  <tr><td height="25" align="center" colspan="3"></td></tr>
+  <%if @user_data.e_filetype=="video"%>
+    <script src="/javascripts/video_player/video.js" type="text/javascript" charset="utf-8"></script>
+
+    <script type="text/javascript">
+      // Must come after the video.js library
+
+      // Add VideoJS to all video tags on the page when the DOM is ready
+      VideoJS.setupAllWhenReady();
+
+      /* ============= OR ============ */
+
+      // Setup and store a reference to the player(s).
+      // Must happen after the DOM is loaded
+      // You can use any library's DOM Ready method instead of VideoJS.DOMReady
+
+      /*
+      VideoJS.DOMReady(function(){
+
+        // Using the video's ID or element
+        var myPlayer = VideoJS.setup("example_video_1");
+
+        // OR using an array of video elements/IDs
+        // Note: It returns an array of players
+        var myManyPlayers = VideoJS.setup(["example_video_1", "example_video_2", video3Element]);
+
+        // OR all videos on the page
+        var myManyPlayers = VideoJS.setup("All");
+
+        // After you have references to your players you can...(example)
+        myPlayer.play(); // Starts playing the video for this player.
+      });
+       */
+
+      /* ========= SETTING OPTIONS ========= */
+
+      // Set options when setting up the videos. The defaults are shown here.
+
+      /*
+      VideoJS.setupAllWhenReady({
+        controlsBelow: false, // Display control bar below video instead of in front of
+        controlsHiding: true, // Hide controls when mouse is not over the video
+        defaultVolume: 0.85, // Will be overridden by user's last volume if available
+        flashVersion: 9, // Required flash version for fallback
+        linksHiding: true // Hide download links when video is supported
+      });
+       */
+
+      // Or as the second option of VideoJS.setup
+
+      /*
+      VideoJS.DOMReady(function(){
+        var myPlayer = VideoJS.setup("example_video_1", {
+          // Same options
+        });
+      });
+       */
+
+    </script>
+
+    <!-- Include the VideoJS Stylesheet -->
+    <link rel="stylesheet" href="video-js.css" type="text/css" media="screen" title="Video JS"/>
+    <tr>
+      <td align="center" colspan="3">
+          <div class="video-js-box">
+            <!-- Using the Video for Everybody Embed Code http://camendesign.com/code/video_for_everybody -->
+          <video id="example_video_1" class="video-js" width="300" height="264" controls="controls" preload="auto" poster="<%=@user_data.img_url%>/user_content/videos/thumbnails/<%=@user_data.v_filename%>.jpg">
+            <source src="<%=@user_data.img_url%>/user_content/videos/iphone/<%=@user_data.v_filename%>.flv" type='video/mp4; codecs="avc1.42E01E, mp4a.40.2"' />
+              </video>
+          </div>
+      </td>
+    </tr>
+
+  <%else%>
+    <tr><td align="center" colspan="3"><img src="<%=@user_data.img_url%>/user_content/photos/coverflow/<%=@user_data.v_filename%>" width="70%"/></td></tr>
+  <%end%>
+  <form action="/contests/select_contestmoment" method="post">
+    <input type="hidden" name="momentid" value="<%=@moment_id%>" />
+    <input type="hidden" name="type" value="<%=@user_data.e_filetype%>" />
+    <input type="hidden" name="user_id" value="<%=@user_id%>" />
+    <input type="hidden" name="contest_phase" value="phase<%=@contest_details.id%>" />
+    <%if params[:moment_type] == "video"%>
+      <input type="hidden" name="contest_title" value="<%=@contest_details.name%> Video Contest" />
+    <%else%>
+      <input type="hidden" name="contest_title" value="<%=@contest_details.name%> Photo Contest" />
+    <%end%>
+    <% if @journal %>
+      <%
+      title = @journal.v_title ? @journal.v_title : ""
+      desc = @journal.v_image_comment ? @journal.v_image_comment : ""
+    %>
+      <input type="hidden" name="journal" value="edited" />
+    <% else %>
+      <input type="hidden" name="journal" value="no" />
+    <% end %>
+    <tr>
+    <table align="center" width="100%">
+      <tr>
+        <td align="left" width="35%" valign="center" scope="col">
+          <font color="#ffffff" size="3" >Contestant Name: </font></td>
+        <td align="right" width="65%" scope="col"><textarea cols="28" rows="1" name="fname" id="contest_first_name" class ="textbox-journals" style="height: 18px;"></textarea>
+          <!--<%= observe_field :'first_name',
+            :with       => "firstname",
+            :frequency  => 0.25,
+            :url        => {:action => :validate_babyname, :id=>@moment_type },
+            :update     => :message_baby
+        %>
+                                               <span id="message_baby"></span >-->
+        </td>
+      </tr>
+    </table>
+    </tr>
+    <tr>
+      <th colspan="2">
+        &nbsp;
+      </th>
+    </tr>
+    <tr>
+    <table align="center">
+      <td align="center" colspan="2">
+        <font color="#ffffff" size="3">Tell us a little bit about this entry (this information will be included with your entry):</font>
+      </td>
+    </table>
+    </tr>
+    <tr>
+      <th colspan="2">
+        &nbsp;
+      </th>
+    </tr>
+    <tr>
+    <table align="center" width="100%">
+      <tr>
+        <td align="left" width="35%" valign="top" scope="col"><font color="#ffffff" size="3" >Title: </font></td>
+        <td align="right" width="65%" scope="col"><span id="sprytextfield1"><span id="sprytextfield1"><textarea style="height: 18px;" cols="28" rows="1" name="title" id="journal_v_title" class ="textbox-journals"><%= title %></textarea><span style="color:grey"><br>Title is required.</br></span></span></span></td>
+      </tr>
+    </table>
+    </tr>
+    <tr>
+      <th>&nbsp;</th>
+    </tr>
+    <%if params[:contest_id]="15" && @moment_type == "image"  %>
+   <tr>
+    <table align="center" width="100%">
+      <tr>
+        <td align="left" valign="top" scope="col"><font color="#ffffff" size="3" >Age Group </font></td>
+        <td align="right" scope="col"><span id="sprytextfield2"><select name="age_groups" id="age_groups">
+              <option value="">---</option>
+              <option value="0-2">0-2</option>
+              <option value="3-5">3-5</option>
+              <option value="6-9">6-9</option>
+              <option value="10-17">10-17</option>
+            </select></span></td>
+      </tr>
+    </table>
+    </tr>
+    <%end%>
+    <tr>
+    <table align="center" width="100%">
+      <tr>
+        <td align="left" valign="center" scope="col"><font color="#ffffff" size="3" >Date: </font></td>
+        <td align="right" scope="col"><%= date_select("date", "date_selected", :order => [:month, :day, :year]) %></td>
+      </tr>
+    </table>
+    </tr>
+    <tr>
+      <th>&nbsp;</th>
+    </tr>
+    <tr>
+    <table align="center" width="100%">
+      <tr>
+        <td align="left" valign="top" scope="col"><font color="#ffffff" size="3" >Description: </font></td>
+        <td align="right" scope="col"><span id="sprytextfield2"><span id="sprytextfield2"><textarea name="journal_desc" cols="28" rows="5" id="journal_v_image_comment" class="textbox-journal"><%= desc %></textarea><span style="color:grey"><br>Description is required.</br></span></span></span></td>
+      </tr>
+    </table>
+    </tr>
+    <tr>
+    <table align="center">
+      <tr>
+        <td height="12" colspan="2" valign="top" scope="col" >
+          <br /> <input type="checkbox" name="terms" id="terms" value="1"  />
+          <font color="#ffffff" size="2">I agree to the <a href="/static/rules" target="_blank"><u>
+                <font color="#FFFFFF">Rules</font></u></a> of <%=@contest_details.name%> <%if params[:moment_type] == "video"%>Video Contest<% else %> Photo Contest <% end %></font>
+        </td>
+      </tr>
+    </table>
+    </tr>
+    <tr>
+    <table align="center">
+      <tr>
+        <td height="12" colspan="9" align="center" valign="top" scope="col" class="signedtxtwhite" colspan="3" >
+          <!--<input type='image' src="/images/submit_btn.jpg" width="87" height="24" border="0" onclick="return verify();" />-->
+          <input type="submit" id="regsubmit" class="whiteButton" value="Submit" style="cursor:pointer;" onclick="return verify();"/>
+        </td>
+      </tr>
+    </table>
+    </tr>
+  </form>
+</table>

@@ -1,0 +1,38 @@
+<table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top">
+    <td width="170"><%= render :partial => "leftnav", :locals => { :current => "biography"} %> </td>
+    <td>
+    	
+		<script type="text/javascript">
+function relations_det(){
+	
+	if (document.getElementById('relation').value == 'select')
+		{
+			alert("please select a relation for your family member")
+			document.getElementById('relation').focus();
+		return false;
+		}
+		if (document.getElementById('chapter').value == 'default') 
+				{
+					alert("please select a chapter");
+					document.getElementById('chapter').focus();
+					return false;
+				}
+		
+		return true;
+}	
+</script>
+<style>
+	.title_text{
+		font-family:"Arial";
+		color:#ffffff;
+		font-size:x-large;
+	}
+</style>	
+<p align="left" class="title_text">Edit Family Member Details</p>
+<%=@family_member%>
+<% form_tag ("#{request_content_url}/familywebsite_setup/update_familymember/#{@family_member.id}",{:multipart => true}) do %>
+  <%= render :partial => 'form_edit' %>
+  
+<% end %>
+    </td></tr></table>

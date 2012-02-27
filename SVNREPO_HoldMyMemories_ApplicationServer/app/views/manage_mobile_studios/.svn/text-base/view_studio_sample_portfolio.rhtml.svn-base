@@ -1,0 +1,87 @@
+<%= javascript_include_tag 'themes/formcheck/core' %>
+<%= javascript_include_tag 'themes/formcheck/more' %>
+<%= javascript_include_tag 'themes/formcheck/en' %>
+<%= javascript_include_tag 'themes/formcheck/formcheck' %>
+<%= stylesheet_link_tag 'themes/formcheck/formcheck'%>
+<%= javascript_include_tag 'themes/fancyzoom/FancyZoom' %>
+<%= javascript_include_tag 'themes/fancyzoom/FancyZoomHTML' %>
+<style type="text/css">
+  .defcol{
+
+    background-color:#999900;
+
+  }
+</style>
+<table width="900"  border="0" cellspacing="0" cellpadding="0">
+  <tr><td valign="top">
+      <%= render :partial => 'links' %>
+    </td><td>
+
+      <table align="center" cellpadding="1" cellspacing="1" border="0" width="700" >
+        <tr><td valign="top" class="leftconthr"> <h3><font color="#ff6400">Create your iPhone App in 5 Easy Steps</font></h3></td></tr>
+        <tr><td class="leftconthr"><h3><u>Step3: Upload Your Studio Portfolio</u></h3></td></tr>
+        <tr><td><p><font color="#FF0000"><%=flash[:notice] %></font></p></td></tr>
+        <tr>
+          <td colspan="4" align="left" valign="top" class="leftconthr">
+             <%if(params[:success_add]=='1')%>
+            <font color="#FF0000">Sample Image Successfully Updated</font>
+            <%end%>
+            <%if(params[:success]=='1')%>
+              <font color="#FF0000">Studio Portfolio Added Successfully</font>
+            <%end%>                            </td>
+        </tr>
+         <% if @studio!=nil && @studio.length>0 %>
+        <tr>
+          <th height="21" align="left" valign="top"  scope="col" ><div align="left"><u><%= link_to 'Add Images', :action => 'view_studio_portfolio', :id => @studio[0].id,:name => @studio[0].category_name %></u></div></th>
+        </tr>
+      </table>
+      <table align="center" cellpadding="1" cellspacing="1" border="0" width="700" >
+
+        <% j=0 %>
+       
+          <% for studio in @studio %>
+
+            <% if j == 0 %> <tr>
+              <% elsif j >= 3 %>
+                <% j=0 %>
+              </tr>
+              <tr>
+                <th height="30" colspan="10" align="left" valign="top" scope="col"></th>
+              </tr>
+            <% end %>
+
+
+
+            <th width="29" align="left" valign="top" scope="col"><% j=j+1%>&nbsp;&nbsp;&nbsp;</th>
+            <th width="73" align="center" valign="top" scope="col" ><% if(studio.category_image!='') %>
+
+                <a href="<%=studio.img_url%>/user_content/studio_portfolio_images/<%=studio.category_image%>"  class="content-white" ><img src="<%=studio.img_url%>/user_content/studio_portfolio_images/<%=studio.category_image%>" border="0" width="100" height="100"/>
+                </a><%else%>
+                No Image
+              <%end%>
+              <br><br>
+              <div align="left"><%= link_to 'Delete Image', { :action => 'delete_portfolio_sample', :id => studio.id,:name=>studio.category_name }, :confirm => 'Are you sure?', :method => :post %></div>
+            </th>
+
+
+            <th height="21" align="left" valign="top"  scope="col" ></th>
+            </th>
+
+
+
+          <% end %>
+        <% end %>
+      </table>
+
+    </td>
+  </tr>
+</table>
+<p><%=will_paginate @studio%></p>
+
+<script type="text/javascript">
+  window.addEvent('domready', function(){
+    new FormCheck('frm');
+    setupZoom();
+  });
+
+</script>

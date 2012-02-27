@@ -1,0 +1,66 @@
+<link rel="stylesheet" type="text/css" href="/javascripts/image_slider/styles.css" />
+
+<script language="javascript" type="text/javascript" src="/javascripts/image_slider/mootools-1.2-core.js"></script>
+<script language="javascript" type="text/javascript" src="/javascripts/image_slider/mootools-1.2-more.js"></script>
+<script language="javascript" type="text/javascript" src="/javascripts/image_slider/SlideItMoo.js"></script>
+<script language="javascript" type="text/javascript">
+  window.addEvent('domready', function(){
+    /* thumbnails example , links only */
+
+
+    /* thumbnails example , div containers */
+    new SlideItMoo({itemsVisible:5, // the number of thumbnails that are visible
+      currentElement: 0, // the current element. starts from 0. If you want to start the display with a specific thumbnail, change this
+      thumbsContainer: 'thumbs2',
+      elementScrolled: 'thumb_container2',
+      overallContainer: 'gallery_container2'});
+
+
+  });
+</script>
+<tr>
+  <td><img src="<%=@img.img_url%>/user_content/photos/journal_thumb/<%=@img.v_filename%>" width="750" height="515"/></td>
+</tr>
+<tr>
+  <td><table width="100%" border="0" cellspacing="0" cellpadding="0" class="date">
+      <tr>
+        <td width="50%" height="22" align="left" valign="middle">January 10, 1995</td>
+        <td width="50%" align="right" valign="middle">January 10, 1995</td>
+      </tr>
+    </table></td>
+</tr>
+<tr>
+  <td height="35">&nbsp;</td>
+</tr>
+<tr>
+  <td>
+    <table width="100%" border="0" cellspacing="0" cellpadding="0" class="date">
+      <tr><td>
+          <div id="container">
+
+            <div id="gallery_container2">
+              <div id="thumb_container2">
+                <div id="thumbs2">
+                  <% for img in @imgs %>
+                    <div class="thumbnail">
+                      <a href="/family_memory/moment_details/<%=params[:id]%>?image_id=<%=img.id%>&&gallery_id=<%=params[:gallery_id]%>" rel="lightbox[galerie]" >
+                        <img src="<%=img.img_url%>/user_content/photos/big_thumb/<%=img.v_filename%>" height="100" style="text-decoration: none"/></a>
+                      Nam porta tellus ac urna<br/>
+                      
+                    </div>
+                  <%end%>
+                </div>
+              </div>
+            </div>
+          </div>
+        </td>  </tr>
+    </table> </td>
+</tr>
+<tr>
+  <td height="35">&nbsp;</td>
+</tr>
+<tr>
+  <td height="55" align="left" valign="top"><ul id="menu">
+      <li class="studioSessions"><a href="#" title="Studio Sessions"></a></li>
+    </ul></td>
+</tr>

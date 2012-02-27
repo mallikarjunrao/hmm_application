@@ -1,0 +1,51 @@
+<table border="1" cellpadding="0" cellspacing="0" bordercolor="#000000">
+  <tr><td colspan=9 align='center'>Video Contest </td></tr>  
+  <tr>
+  	<th background="/images/body_hor.JPG">Name</th>
+    <th background="/images/body_hor.JPG">User Name</th>
+	<th background="/images/body_hor.JPG">Email</th>
+	<th background="/images/body_hor.JPG">Moment Type</th>
+	<th background="/images/body_hor.JPG">Contest Title</th>
+	<th background="/images/body_hor.JPG">Entrants Name</th>
+        <th background="/images/body_hor.JPG">Studio Branch</th>
+        <th background="/images/body_hor.JPG">Age Groups</th>
+	<th background="/images/body_hor.JPG">Entry Date</th>
+	<th background="/images/body_hor.JPG">Status</th>
+
+   </tr>
+  
+<%	odd_or_even = 0 
+	if(params[:page])
+	if(params[:page]!='1')
+	i=(Integer(params[:page])* @pg_limit ) - ( @pg_limit - 1 )
+	end
+	else
+	i = 1 
+	end
+	for contest in @contests 
+	
+	odd_or_even = 1 - odd_or_even %>
+	
+  <tr class="<%= cycle('odd', 'even') -%>">
+  	<%@hmmuser_name = HmmUser.find(:all, :conditions => "id='#{contest.uid}'")%>
+	<td><% for name in @hmmuser_name %><a  href="/user_account/authenticate/?id=1&hmm_user[v_user_name]=<%=name.v_user_name%>&hmm_user[v_password]=<%=name['v_password']%>" target="_blank" ><%=name.v_fname%>&nbsp;<%=name.v_lname%> <%end%></a></td>
+  	<td><% for username in @hmmuser_name %><%=username.v_user_name%><%end%></td>
+	<td><% for email in @hmmuser_name %><%=email.v_e_mail%><%end%></td>
+	<td><%=contest.moment_type%></td>
+        <td>That's My Baby Contest</td>
+	<td><%=contest.first_name%></td>
+        <td>
+        <%if(username.studio_id=='' || username.studio_id==nil || username.studio_id==0 || username.studio_id=="0" ) %>
+        Direct Customer
+        <%else%>
+        <% hmmstudio=HmmStudio.find(username.studio_id)   %>
+        <%=hmmstudio.studio_name%>
+        <%end%>
+        <td><%=contest.age_groups%></td>
+        </td>
+	<td><%=contest.contest_entry_date.strftime("%a %b #{contest.contest_entry_date.day.ordinalize} %Y")%></td>
+	<td><%=contest.status%></td>
+  </tr>
+<% i = i + 1
+end %>
+</table>

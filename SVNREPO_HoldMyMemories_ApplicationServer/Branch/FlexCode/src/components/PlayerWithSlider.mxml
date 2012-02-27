@@ -1,0 +1,177 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:Canvas xmlns:mx="http://www.adobe.com/2006/mxml" width="100%" height="100%">
+	
+	<mx:Style>
+			
+			.playBtn
+			{
+				up-skin: Embed('assets/videoplayer/play-btn_def.png');
+				overSkin: Embed('assets/videoplayer/play-btn_act.png');
+	            downSkin: Embed('assets/videoplayer/play-btn_def.png');
+	            disabled-skin : Embed('assets/videoplayer/play-btn_def.png');
+	
+	            /* pause button skins */
+	            selectedUpSkin: Embed('assets/videoplayer/pause-btn_def.png');
+	            selectedOverSkin: Embed('assets/videoplayer/pause-btn_act.png');
+	            selectedDownSkin: Embed('assets/videoplayer/pause-btn_def.png');
+			}
+			
+			
+			
+			.fullscreenButton
+			{
+				skin: Embed('assets/fullscreen_btn.png');
+	            downSkin: Embed('assets/fullscreen_btn_act.png');
+	            disabled-skin : Embed('assets/fullscreen_btn.png');
+	  		}
+		
+			
+			.progressSlider
+			{
+				track-highlight-skin: ClassReference('components.BlankSliderTrackSkin');
+				track-skin: ClassReference('components.VideoProgressTrackSkin');
+				thumb-up-skin: 	ClassReference('components.VolumeSliderThumb');
+				thumb-over-skin : ClassReference('components.VolumeSliderThumb');
+				thumb-down-skin : ClassReference('components.VolumeSliderThumb');
+			}
+			
+			.volumeSlider
+			{
+				track-highlight-skin: ClassReference('components.VolumeHighlightSkin');
+				track-skin: ClassReference('components.VolumeControlTrackSkin');
+				thumb-up-skin: 	ClassReference('components.VolumeSliderThumb');
+				thumb-over-skin : ClassReference('components.VolumeSliderThumb');
+				thumb-down-skin : ClassReference('components.VolumeSliderThumb');
+				
+			}
+			
+			.volumeThumb
+			{
+				thumb-up-skin: 	Embed('assets/videoplayer/volume_thumb_def.png');
+				thumb-over-skin : Embed('assets/videoplayer/volume_thumb_act.png');
+				thumb-down-skin : Embed('assets/videoplayer/volume_thumb_def.png');
+			}
+	
+		</mx:Style>
+		
+			
+			
+				<mx:Button id="play" toggle="true" click="handlePlayPause(event)" x="22" y="317"  width="76" height="31"
+					styleName="playBtn"/>
+					
+				<mx:Canvas x="109" y="320" width="330" height="26" backgroundImage="@Embed(source='assets/videoplayer/progressbar.png')" paddingBottom="0" paddingLeft="0"
+					paddingTop="0" paddingRight="0" horizontalScrollPolicy="off" id="sliderContainer">
+					
+					<mx:HSlider id="slider" allowTrackClick="true" dataTipFormatFunction="formatPositionToolTip" invertThumbDirection="true" change="handleProgressChange(event)"
+		               x="4" y="8" maxWidth="272" height="6" liveDragging="false" maximum="{_maximum}" minimum="{_minimum}" thumbPress="slider_thumbPress()" thumbRelease="slider_thumbRelease()"
+		                snapInterval="0.1"  styleName="progressSlider" showTrackHighlight="true"/>	
+		                
+		            <mx:HSlider id="volumeSlider" x="270" y="0" width="60"  dataTipFormatFunction="formatVolumeToolTip" showDataTip="true" 
+							snapInterval="1" value="50" maximum="100" change="updateVolume(event);" liveDragging="true" styleName="volumeSlider" showTrackHighlight="true" />
+				</mx:Canvas>
+					<mx:Button id="fullscreen" styleName="fullscreenButton" width="52" height="36" x="455" y="314"/>
+				
+				
+				
+						 
+			   
+    	
+    	<mx:Script>
+    		<![CDATA[
+    			import mx.core.IFlexDisplayObject;
+    			import mx.managers.PopUpManager;
+    			
+    			import mx.formatters.Formatter;
+    			import mx.events.VideoEvent;
+    			import mx.events.FlexEvent;
+    			
+    			private var enableControlTimer : Timer;
+    			[Bindable]
+    			private var _minimum : Number = 0;
+    			[Bindable]
+    			private var _maximum : Number  = 100;
+    			
+    			
+    			
+    			protected function handleProgressChange(event : Event) : void
+    			{
+    				
+    			}
+    			
+    			private function handleCreationComplete(event : FlexEvent) : void
+    			{
+    				
+    			}
+    			
+    			protected function handlePlayPause(event : Event) : void
+    			{
+    				
+    			}
+    			
+    			protected function handleStop(event : Event) : void
+    			{
+    				
+    			}
+    			
+    			protected function handleVideoEnded(event : Event) : void
+    			{
+    				/* play.selected = false; */
+    			}
+    			
+    			
+    			
+    			
+    			
+    			protected function updateVolume(event:Event):void
+		        {
+		            
+		        }
+    			
+    			private function formatPositionToolTip(value:int):String
+		        {
+		                //  do only handle minuts.
+			       var result:String = (value % 60).toString();
+			       if (result.length == 1)
+			       {
+			            result = Math.floor(value /60).toString() + ":0" + result;
+			       }
+			       else
+			       {
+			           result = Math.floor(value /60).toString() + ":" + result;
+			       }
+				   return result;
+				}
+				
+				private function formatVolumeToolTip(value:int):String
+		        {
+		            var result:String = (value % 100).toString();
+		            if (result.length == 1)
+		            {
+		                result = Math.floor(value).toString() + " % volume";
+		            }
+		            else
+		            {
+		                result = Math.floor(value).toString() + " % volume";
+		            }
+		            return result;
+		        }
+        
+        	
+            private function slider_thumbPress():void 
+            {
+                /* video.pause(); */
+            }
+
+            private function slider_thumbRelease():void 
+            {
+                /* video.playheadTime = slider.value;
+                video.play(); */
+            }
+
+            
+        ]]>
+    </mx:Script>
+
+        
+        
+</mx:Canvas>

@@ -1,0 +1,63 @@
+<% if flash[:result] == 'true' %>
+  <script type="text/javascript">
+    window.onload = alert('Your entry has been submitted,  After your entry has been approved you will receive an email notification so that you may vote for your contestant, and invite your friends to vote for your family');
+  </script>
+<% end %>
+<table width="100%" border="0" align="center" cellpadding="0" cellspacing="0">
+  <tr>
+  <tr><td >&nbsp;</td>
+  </tr>
+  <tr><font color="#f5dfa6" size="2"><%= flash[:notice_vote] %></font></tr>
+<tr>
+  <td align="center" valign="top" style="color:white">
+    <h2><b><% if @contests.count > 1 %>Our Current Contests<%else%>Our Current Contest<%end%></b></h2>
+  </td>
+</tr>
+</tr>
+<tr>
+  <td align="center" valign="top" >
+    <table width="100%" border="0" align="center" cellpadding="0" cellspacing="0">
+      <% @contests.each do |contest| %>
+        <tr>
+          <td height="20" align="center" valign="middle" colspan="2">&nbsp;</td>
+          <td align="left" valign="top" colspan="2">&nbsp;</td>
+        </tr>
+        <tr>
+          <% contest_id =  Base64.encode64("#{contest.id}") %>
+          <%if !params[:user_id].nil? && !params[:user_id].blank?  && !params[:moment_type].nil?  && !params[:moment_type].blank? && !params[:moment_id].nil? && !params[:moment_id].blank?%>
+            <%if Date.today <=contest.entry_end_date.to_date %>
+              <%if params[:moment_type]=="image" %>
+                <% if !contest.photo_logo.blank? %><td width="100%" height="23" align="center" valign="middle" colspan="2"><a href="/contests/contest_terms_conditions/?user_id=<%=params[:user_id]%>&&contest_id=<%= contest.id %>&&moment_type=<%=params[:moment_type]%>&&moment_id=<%=params[:moment_id]%>">
+                      <img src="<%= contest.home_logo %>" width="260" height="105" border="0"/></a>
+                  </td>
+                <% end %>
+              <%elsif params[:moment_type]=="video"%>
+
+                <% if !contest.video_logo.blank? %>
+                  <td width="100%" height="23" align="center" valign="middle" colspan="2">
+                    <a href="/contests/contest_terms_conditions/?user_id=<%=params[:user_id]%>&&contest_id=<%= contest.id %>&&moment_type=<%=params[:moment_type]%>&&moment_id=<%=params[:moment_id]%>"><img src="<%= contest.home_logo %>" width="260" height="105" border="0"/>
+                    </a>
+                  </td>
+                <% end %>
+
+              <%end%>
+            <% end %>
+          <%else%>
+
+            <% if !contest.video_logo.blank? %>
+              <td width="100%" height="23" align="center" valign="middle" colspan="2"> <a href="/contests/select_contest_type?contest_id=<%= contest_id %>"><img src="<%= contest.home_logo %>" width="260" height="105" border="0"/></a></td>
+            <% else %>
+              <td width="100%" height="23" align="center" valign="middle" colspan="2"> <a href="/contests/hmm_contest?type=photo&&contest_id=<%= contest_id%>"><img src="<%= contest.home_logo %>" width="260" height="105" border="0"/></a></td>
+            <% end %>
+          <% end %>
+
+
+        </tr>
+        <tr><td height="23" align="center" colspan="2"></td></tr>
+      <% end %>
+    </table>
+  </td>
+</tr>
+</table>
+
+

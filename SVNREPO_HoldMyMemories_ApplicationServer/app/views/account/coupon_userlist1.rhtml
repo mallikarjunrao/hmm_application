@@ -1,0 +1,238 @@
+<br><br>
+<script type="text/javascript">
+	function chg(val)
+	{
+		
+		if ( val=='USA') {
+			document.getElementById('pcode').style.display = 'block';
+			document.getElementById('cty').style.display = 'none';
+		}else{
+			document.getElementById('pcode').style.display = 'none';
+			document.getElementById('cty').style.display = 'block';
+		}
+		
+	}
+	
+	function verify()
+	{
+		
+		if(document.frm.coupon.value=='')
+		{
+			alert('Enter Coupon Number');
+			document.frm.coupon.focus();
+			return false;
+		}
+		
+		if(document.frm.coupon2.value=='')
+		{
+			alert('Enter Coupon Number 2');
+			document.frm.coupon2.focus();
+			return false;
+		}
+		
+	}
+</script>
+<style>
+
+</style>
+
+<form name="frm" action="/account/coupon_userlist1" method="post" onSubmit="return verify();">
+
+	
+	<table cellpadding="4" cellspacing="4" border="1" bordercolor="#e5b467" align="center">
+	<table cellpadding="4" cellspacing="4" border="1" bordercolor="#e5b467" align="center">
+	<tr>
+		<td align="center" colspan="4" height="48">
+			<font size="4">Search Users </font>
+		</td>
+	</tr>
+	
+	<!--<tr>
+		<td>
+			Firstname
+		</td>
+		<td>
+			<input type="text" name="firstname" id="firstname" value="<%=@fname%>" size="20" class="textbox-signup" />
+		</td>
+	
+		
+			<td>
+			Lastname
+		</td>
+		<td>
+			<input type="text" name="lastname" id="lastname" value="<%=@lastname%>" size="20" class="textbox-signup" />
+		</td>
+		
+	</tr>-->
+	<!--<tr>
+		<td width="90">
+			Username
+		</td>
+		<td>
+				<input type="text" name="username" id="username" value="<%=@uname%>" size="20" class="textbox-signup" />
+			<input type="hidden" name="sort_key" value="id" />
+			<input type="hidden" name="sort_order" value="asc" />
+		</td>
+		<td width="90">
+			Account Type
+		</td>
+		<td>
+			<select name="account_type" id="account_type" class => "combobox1">
+			<option value="Select" selected='selected'>Select</option>
+			<option value="free_user" >free_user</option>
+			<option value="familyws_user" >Family Website User</option>
+			<option value="platinum_user" >premium_user</option>
+		</td>
+	</tr>-->
+	<tr>
+	
+			<td width="90">
+			Coupon Number Range
+		</td>
+		<td>
+				<input type="text" name="coupon" id="coupon" value="<%=session[:coupon]%>" size="20" class="textbox-signup" />
+			
+		</td>
+        <td align="center">
+			To
+		</td>
+		<td>
+				<input type="text" name="coupon2" id="coupon2" value="<%=session[:coupon2]%>" size="20" class="textbox-signup" />
+			
+		</td>
+	
+	</tr>
+    
+	<!--<tr>
+		<td>
+			Country
+		</td>
+		<td>
+			<select name="v_country" onchange='return chg(this.value)' class => "combobox1">
+				<option value="USA" selected='selected'>USA</option>
+				<option value="Others" >Others</option>
+		</td>
+	
+		<td>
+			<label for="hmm_user_zip">
+			<div id='pcode' style='display:block;'>Postal Code </div>
+			<div id='cty' style='display:none;'>City/Province</div></lable></th>
+		</td>
+		<td>
+			<input type="text" name="zip" id="zip" size="20" class="textbox-signup" />
+			
+		</td>
+	</tr>-->
+	
+	<tr>
+		<td colspan="4" align="center">
+		<input type="image" name="sub" id="search" src="/images/search_over.jpg"  border="0" />
+		</td>
+	</tr>
+
+</table>
+
+</form>
+<table border="0">
+	
+	<tr><td colspan="15"><h3><br>
+	  HoldMyMemories Coupon Users</h3> </td></tr>
+  <tr>
+
+ </td></tr>
+
+  <tr valign='center' align='center'>
+  	
+  	 
+   <th background="/images/body_hor.JPG"><font class='txt'><table> <tr><th><%= sort_header_tag('v_fname', :text => "First Name") %></th></tr></table></font></th>
+	<th background="/images/body_hor.JPG"><font class='txt'><table> <tr><th><%= sort_header_tag('v_lname', :text => "Last Name") %></th></tr></table></font></th>
+	<th background="/images/body_hor.JPG"><font class='txt'><table> <tr><th><%= sort_header_tag('e_sex', :text => "sex") %></th></tr></table></font></th>
+	<th background="/images/body_hor.JPG"><font class='txt'><table> <tr><th><%= sort_header_tag('v_user_name', :text => "User Name") %></th></tr></table></font></th>
+	
+	<th background="/images/body_hor.JPG"><font class='txt'><table> <tr><th><%= sort_header_tag('v_e_mail', :text => "Email Address") %></th></tr></table></font></th>
+	<th background="/images/body_hor.JPG"><font class='txt'><table> <tr><th><%= sort_header_tag('d_created_date', :text => "Created date") %></th></tr></table></font></th>
+	<th background="/images/body_hor.JPG"><font class='txt'><table> <tr><th><%= sort_header_tag('account_expdate', :text => "next recurring charge date") %></th></tr></table></font></th>
+	<th background="/images/body_hor.JPG"><font class='txt'><table> <tr><th><%= sort_header_tag('account_type', :text => "payment type") %></th></tr></table></font></th>
+	<th background="/images/body_hor.JPG"><font class='txt'><table> <tr><th>Branch</th></tr></table></font></th>
+    <th background="/images/body_hor.JPG"><font class='txt'><table> <tr><%= sort_header_tag('cupon_no', :text => "Coupon Number") %></tr></table></font></th>
+	<th background="/images/body_hor.JPG"><font class='txt'><table> <tr><%= sort_header_tag('e_user_status', :text => "Status") %></th></tr></table></font></th>
+	  </tr>
+
+<% 	odd_or_even = 0 
+	i = 0
+	for colmn in @hmm_users
+	 i = i + 1
+	odd_or_even = 1 - odd_or_even
+ %>
+
+  <tr class='ListLine<%= odd_or_even %>'>
+  	<% hmmdet=HmmUser.find(:all,:conditions=>"id=#{colmn.id}")%>
+		<td align="center"><%=h colmn.v_fname%></td>
+	
+	<td align="center"><%=h colmn.v_lname%></td>
+
+   
+	
+	<td><%=h colmn.e_sex%></td>
+	<td><%=h colmn.v_user_name%></td>
+	
+  	<td><%=h colmn.v_e_mail%></td>
+	<td align="center"><%=h colmn.d_created_date.strftime("%m - %d - %Y")%></td>
+	<%if (colmn.account_expdate == '' || colmn.account_expdate == nil) %>
+	<td align="center">&nbsp;</td>
+	<%else%>
+	<td align="center"><%=h colmn.account_expdate.strftime("%m - %d - %Y")%></td>
+	<%end%>
+	<td align="center"><%=h colmn.account_type%></td>
+	<td align="center">
+		<%if (colmn.emp_id == nil || colmn.emp_id == '' )  %>
+			Direct Customer
+		<%else%>
+		<%@branch = EmployeAccount.find(:all, :conditions => "id = '#{colmn.emp_id}'")%>
+			<%for k in @branch%>
+				<%@branch_name = HmmStudio.find(:all, :conditions => "id = '#{k.store_id}'")%>
+					<%for c in @branch_name%>
+						<%if (c.studio_name == '' || c.studio_name == nil)%>
+						<%else%>
+						<%=c.studio_name.gsub(/_/, ' ')%>
+						<%end%>
+					<%end%>
+			<%end%>
+		<%end%>	</td>
+        <td><%=h colmn.cupon_no%></td>
+    <td><%=h colmn.e_user_status%></td>
+
+  </tr>
+ 
+<% end %>
+<input type="hidden" name="len" id="len" value="<%= i %>"/>
+
+<tr><td colspan="4">
+	<%=will_paginate @hmm_users   %> </td>
+</tr>
+</table>
+
+
+
+
+
+<table cellpadding="0" cellspacing="0" width="80%" border="1" bordercolor="#e5b467" align="center">
+	<tr>
+		<td colspan="2" align="center" valign="middle">
+			<h3>Coupon Users Report</h3>
+		</td>
+	</tr>
+	<tr>
+		<td colspan="2">
+			<center>
+			No Coupon Users&nbsp;&nbsp; :&nbsp; <%=@hmmuser_blockcnt%> <br>
+			</br>
+			&nbsp;&nbsp;
+			</center>
+			<br></br>
+		</td>
+	</tr>
+</table>
+
+
+<br />

@@ -1,0 +1,523 @@
+<link rel="stylesheet" href="/stylesheets/nyroModal.css" type="text/css" media="screen" />
+<%#*<link rel="stylesheet" href="/stylesheets/themes/classic.css" type="text/css" media="screen" />%>
+<style type="text/css">
+  div#scrollbar {
+    display:none; /* hide from incapable */
+  }
+
+  .jeip-saving {
+    /*background-image: url( 'http://josephscott.org/wp-content/js-org/jeip/ajax-loader.gif' );*/
+    background-repeat: no-repeat;
+    background-position: left;
+    background-color: #903;
+    color: #fff;
+    font-size: 20px;
+<%#*padding: 3px 20px 3px 20px;%>
+  }
+
+  .jeip-mouseover, .jeip-editfield {
+    background-color: #ffff99;
+    padding: 0px;
+  }
+
+  .jeip-savebutton {
+    background-color: #6c0;
+    color: #fff;
+  }
+
+  .jeip-cancelbutton {
+    background-color: #ccc;
+    color: #fff;
+  }
+
+</style>
+<script src="/javascripts/image_slider/js/dw_event.js" type="text/javascript"></script>
+<script src="/javascripts/image_slider/js/dw_scroll.js" type="text/javascript"></script>
+<script src="/javascripts/image_slider/js/dw_scrollbar.js" type="text/javascript"></script>
+<script src="/javascripts/image_slider/js/scroll_controls.js" type="text/javascript"></script>
+<script src="/javascripts/jeip.js" type="text/javascript"></script>
+<script type="text/javascript"  src="/javascripts/JSCal2-1.9/src/js/jscal2.js"></script>
+<script type="text/javascript"  src="/javascripts/JSCal2-1.9/src/js/lang/en.js"></script>
+<link rel="stylesheet" type="text/css" href="/javascripts/JSCal2-1.9/src/css/jscal2.css" />
+<link rel="stylesheet" type="text/css" href="/javascripts/JSCal2-1.9/src/css/border-radius.css" />
+<link rel="stylesheet" type="text/css" href="/javascripts/JSCal2-1.9/src/css/steel/steel.css" />
+<%= javascript_include_tag 'prototype' %>
+
+<script type="text/javascript">
+
+  function init_dw_Scroll() {
+    var wndo = new dw_scrollObj('wn', 'lyr1');
+    wndo.setUpScrollbar("dragBar", "track", "v", 1, 1);
+    wndo.setUpScrollControls('scrollbar');
+  }
+
+  // if code supported, link in the style sheet and call the init function onload
+  if ( dw_scrollObj.isSupported() ) {
+    dw_writeStyleSheet('/javascripts/image_slider/js/scrollbar_demo.css')
+    dw_Event.add( window, 'load', init_dw_Scroll);
+  }
+
+
+</script>
+<script type="text/javascript" src="/javascripts/jquery.nyroModal-1.5.2.pack.js"></script>
+
+<script type="text/javascript">
+  function check_comment()
+  {
+    var desc = document.getElementById('desc').value;//.replace(/^\s+|\s+$/g, '');
+    var titl = document.getElementById('titl').value;//.replace(/^\s+|\s+$/g, '');
+    var chk = document.getElementById('make_blog1').value;
+    var regex = /\S/;
+    //var title_match = title.match(/\S/);
+    var allow = false;
+    if ( chk == "unchecked")
+    {
+      if (regex.test(desc) == true && desc != "Comment on this moment"){
+        allow = true;
+      }
+      else
+      {
+        alert("Complete the comment form!");
+        allow = false;
+      }
+    }
+
+    if (chk == "checked")
+    {
+      if(typeof (document.getElementById('titl').value) != "undefined" && regex.test(document.getElementById('titl').value) == true)
+      {
+        if(regex.test(desc) == true && desc != "Comment on this moment"){
+          allow = true;
+        }
+        else {
+          allow = false;
+          alert("Complete the blog comment form!");
+        }
+      }
+      else
+      {
+        alert("Complete the blog comment form!");
+        allow = false;
+      }
+    }
+    return allow;
+  }
+
+  function check_user_comment(){
+    var cmt_name = document.getElementById('comment_name').value;
+    var cmt_content = document.getElementById('comment_content').value;
+    //var capcha = document.getElementById('captcha').value;
+    var regex = /\S/;
+    var allow = false;
+    var Pop = jQuery.noConflict();
+    if(regex.test(cmt_content) == true && cmt_content != "Comment on this moment"){
+      allow = true;
+      if(regex.test(cmt_name) == true && cmt_name != "Your name"){
+        allow = true;
+      }
+      else {
+        allow = false;
+        alert("Enter your name!");
+      }
+    }
+    else {
+      allow = false;
+      alert("Enter your comment!");
+    }
+    if(allow){
+      var Com = jQuery.noConflict();
+      Com(document).ready(function(){
+        function preloadImg(image) {
+          var img = new Image();
+          img.src = image;
+        }
+        preloadImg('/images/ajaxLoader.gif');
+        Com.nyroModalManual({
+          url: '/family_memory/comment_popup/<%= params[:id] %>?moment_id=<%= first_img.id %>&gallery_id=<%= params[:gallery_id] %>&redirect_url=<%=request.url%>&moment_comment[v_comment]='+cmt_content+'&moment_comment[v_name]='+cmt_name+'&popup=true'
+          //modal:true
+        });
+        Com.nyroModalSettings({
+          minWidth: 300,
+          minHeight: 210,
+          autoSizable: true,
+          css: {
+            content: {
+              background: '#002841',
+              overflow: 'auto'
+            },
+            wrapper: {
+              background: '#002841',
+              width: '344px'
+            },
+            contentWrapper:{
+              background: '#002841',
+              width: '344px'
+            }
+          }
+        });
+      });
+    }
+  }
+  window.setTimeout(ttl_msg, 10000);
+  function ttl_msg(){
+    document.getElementById("msg5").style.display = "none";
+    document.getElementById("msg6").style.display = "none";
+  }
+</script>
+<script language="javascript">
+  function like_a_radio(oBox) {
+    var el, i = 0, f = oBox.form;
+    while (el = f[i++]) if (el.id == oBox.id) el.checked = (el == oBox && el.checked);
+  }
+
+  function close_msg(){
+    var img = document.getElementById("msg1");
+    var content = document.getElementById("content_date");
+    if (content.style.display == "display")
+    {
+      img.style.display = "block";
+    }
+    else
+    {
+      img.style.display = "none";
+    }
+  };
+
+</script>
+<table width="279" border="0" cellspacing="0" cellpadding="0">
+  <tr>
+
+    <td align="left" class="img">
+      <div class="sprite comBgTop" style="height: 11px">
+
+      </div>
+
+    </td>
+  </tr>
+  <%if !flash[:notice_com].nil? %>
+    <tr id="msg5">
+      <td align="center" width="273" class="content combg">
+        <div style="height: 28px; width: 279px; padding-right: 12px;">
+          <%=flash[:notice_com]%>
+        </div>
+      </td>
+    </tr>
+    <% flash[:notice_com] = params[:alert_msg] = ""%>
+  <% elsif params[:set_icon]
+    if params[:set_icon] == "instant"
+      text = "Successfully set as album cover!"
+    elsif params[:set_icon] == "popup"
+      text = "Successfully created new album!"
+    end
+  %>
+    <tr id="msg6">
+      <td align="center" width="273" class="content combg">
+        <div style="height: 28px; width: 279px; padding-right: 12px;">
+          <%= text %>
+        </div>
+      </td>
+    </tr>
+  <%end%>
+  <tr>
+    <td class="combg">
+      <div class="msgHead" style="height: 48px; width: 279px;">
+        <table width="100%">
+          <tr>
+            <td class="msgHead" align="left">
+              <% if session[:hmm_user] && logged_in_hmm_user.id == @family_website_owner.id %>
+                <%sub_chap=SubChapter.find(first_img.sub_chapid)%>
+                <% if(sub_chap.store_id==nil || sub_chap.store_id=="")%>
+                  &nbsp;<b><%= first_img.v_tagname %></b>&nbsp;
+                  <a href="/family_memory/change_album/<%= params[:id] %>?moment_id=<%= first_img.id %>&gallery_id=<%= params[:gallery_id] %>&redirect_url=<%=request.url%>" class="nyroModal">
+                    (Edit Album)
+                  </a><br>
+                <% else %>
+                  &nbsp;<b><%= first_img.v_tagname %></b>&nbsp;
+                  <br>
+                <% end %>
+              <% else %>
+                &nbsp;<b><%= first_img.v_tagname %></b>&nbsp;
+                <br>
+              <% end %>
+              <% first_img_date= first_img.d_momentdate.to_date%>
+            </td>
+          </tr>
+          <tr>
+            <td valign="top" align="left" class="msgHead" height="17" colspan="2" >
+              <% if session[:hmm_user] && logged_in_hmm_user.id == @family_website_owner.id %>
+                <%sub_chap=SubChapter.find(first_img.sub_chapid)%>
+                <% if(sub_chap.store_id==nil || sub_chap.store_id=="")%>
+                  &nbsp;<b id="content_date" title="Click date to edit" onclick="close_msg();"><%= first_img_date.strftime("%B %d, %Y") %></b>&nbsp;<a id="msg1" href="#" onclick="close_msg();" title="Click date to edit">
+                    (Edit)
+                  </a>
+                <% else %>
+                  &nbsp;<b><%= first_img_date.strftime("%B %d, %Y") %></b>
+                <% end %>
+              <% else %>
+                &nbsp;<b><%= first_img_date.strftime("%B %d, %Y") %></b>
+              <% end %>
+            </td>
+          </tr>
+        </table>
+      </div>
+      <script type="text/javascript">
+        var ed = jQuery.noConflict();
+        ed( "#content_date" ).eip( "/family_memory/edit_content_date/<%= params[:id] %>?cont_id=<%= first_img.id %>", {
+          form_type: "text",
+          save_on_enter: true,
+          cancel_on_esc: true,
+          form_buttons: ""
+          //saving_text: ""
+          //saving: ""
+        } );
+      </script>
+      <% if session[:hmm_user] && logged_in_hmm_user.id == @family_website_owner.id %>
+        <form name="emailusform" id="blogform" action="/family_memory/create_moment_newblog_entry/<%= params[:id]%>?moment_id=<%= first_img.id %>" method="post" onsubmit="return check_comment();">
+          <table width="100%" border="0" cellspacing="0" cellpadding="0" class="panel">
+            <tr>
+              <td width="95%" align="center"><textarea name="desc" wrap="virtual" class="comTxtArea" id="desc"  onblur="if(this.value=='') { this.value='Comment on this moment'; }" onfocus="if(this.value == 'Comment on this moment') { this.value = ''; }">Comment on this moment</textarea></td>
+              <td width="3%"><input type="hidden" name="redirect_url" value="<%=request.url%>" />
+                <input type="hidden" name="gallery_id" id="gallery_id" value="<%= params[:gallery_id] %>" />
+                <input type="hidden" name="user_content_id" value="<%=  first_img.id %>" />
+              </td>
+            </tr>
+            <tr >
+              <td width="100%" colspan="2" class="msgHead" align="left" style="padding-left: 9px;">
+                Post to blog <input type="checkbox" name="make_blog" id="make_blog1" value="unchecked" onclick="toggleshow(this,'titles')" /></td>
+            </tr>
+            <tr>
+              <td id="titles" style="display: none; padding-left: 9px;" width="100%" colspan="2" class="msgHead" align="left">Title : <input type="text" name="title"  id="titl"  /></td>
+            </tr>
+            <tr>
+              <td width="100%" colspan="2">&nbsp;</td>
+            </tr>
+            <tr>
+              <td width="100%" align="left" class="msgHead" style="padding-left: 9px;" colspan="2">Apply to:&nbsp;
+                <% if first_img.e_filetype=='video'  %>
+                  <input type="radio" id="apply_to" name="apply_to" value="video" checked="yes" onclick="like_a_radio(this);" />Video&nbsp;&nbsp;&nbsp;&nbsp;
+                <% else %>
+                  <input type="radio" id="apply_to" name="apply_to" value="image" checked="yes" onclick="like_a_radio(this);" />Image&nbsp;&nbsp;&nbsp;&nbsp;
+                <% end %>
+                <input type="radio" id="apply_to" name="apply_to" value="album" onclick="like_a_radio(this);" />Album
+              </td>
+            </tr>
+            <tr>
+              <td width="100%" colspan="2">&nbsp;</td>
+            </tr>
+            <tr>
+              <td width="100%" colspan="2" class="msgHead" style="padding-left: 9px;" align="left">Make:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                <input type="radio" id="access" name="access" value="public" checked="checked" onclick="like_a_radio(this);" />Public&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                <input type="radio" id="access" name="access" value="private" onclick="like_a_radio(this);" />Private
+              </td>
+            </tr>
+            <tr>
+              <td height="45" colspan="2" align="center" class="img" valign="bottom"><input type="submit" class="contactBtn" name="post" value="Post" onclick="return check_comment();"/></td>
+            </tr>
+          </table>
+        </form>
+
+      <% else %>
+
+        <table width="100%" border="0" cellpadding="0" cellspacing="0" class="panel">
+          <tr>
+            <td width="95%" align="center">
+              <textarea id="comment_content"  name="moment_comment[v_comment]" wrap="virtual" class="comTxtArea" id="desc"  onblur="if(this.value=='') { this.value='Comment on this moment'; }" onfocus="if(this.value == 'Comment on this moment') { this.value = ''; }">Comment on this moment</textarea><br/>
+              <input type="text" size="18" id="comment_name"  class="comTxtArea" name="moment_comment[v_name]" style="height: 26px;" value="Your name" onblur="if(this.value=='') { this.value='Your name'; }" onfocus="if(this.value == 'Your name') { this.value = ''; }"/></td>
+            <td width="3%"><input type="hidden" name="redirect_url" value="<%=request.url%>" />
+              <input type="hidden" name="gallery_id" id="gallery_id" value="<%= params[:gallery_id] %>" />
+              <input type="hidden" name="user_content_id" value="<%=  first_img.id %>" />
+            </td>
+          </tr>
+          <tr><td > <input type="hidden" name="moment_comment[user_content_id]" value="<%= first_img.id %>" /><input type="hidden" name="redirect_url" value="<%=request.url%>" /></td></tr>
+
+          <tr>
+            <td align="center" valign="top"  colspan="2" align="center">
+              <a href="#">
+                <input type="button" class="contactBtn" value="Post" onclick="check_user_comment();" />
+              </a>
+            </td>
+          </tr>
+        </table>
+      <% end %>
+
+      <table class="comments" width="91%" border="0" cellspacing="0" cellpadding="0" height="300px">
+        <tr><td><div id="wn">
+              <div id="lyr1" >
+                <table border="0" style="background-image: url(/images/themes/classic/tab_trans1.png); background-repeat: repeat;">
+                  <tbody>
+                    <tr>
+                      <td valign="top" align="center" class="msgHead" height="20"></td></tr>
+                    <% if !first_img.nil?
+                      desc = first_img.v_desc.gsub(/\s+/, "")
+                      desc = desc.upcase
+                    end
+                    if !gal_blog.nil?
+                      gal_blog_desc = gal_blog.description.gsub(/\s+/, "")
+                      gal_blog_desc = gal_blog_desc.upcase
+                    end
+                  %>
+                    <% if !first_img.v_desc.blank? && first_img.v_desc != "" && !desc.match(/^ENTERDESCRIPTION/) %>
+                      <tr>
+                        <td width="100%">
+                          <table width="100%">
+                            <td valign="top" align="left" class="msgHead" height="20" colspan="2" ><b>Description</b></td>
+                            <td align="right" class="msgSmall"><%= first_img.d_createddate.strftime("%b %d, %Y") %></td>
+                          </table>
+                        </td>
+                      </tr>
+                    <% end %>
+                    <%if !first_img.v_desc.blank? && first_img.v_desc != "" && !desc.match(/^ENTERDESCRIPTION/) %>
+                      <tr><td align="left" class="msgSmall">  <%= first_img.v_desc.gsub("\n", "<br />\n") %></td></tr>
+                      <tr><td align="right" class="msgSmall" height="10"></td></tr>
+                      <tr>
+                        <td colspan="2" align="center"><img src="/images/family_memory/images/com-dvd.jpg" border="0" /></td>
+                      </tr>
+                      <tr><td align="right" class="msgSmall" height="10"></td></tr>
+                    <%end%>
+                    <% if !blog.nil? %>
+                      <tr>
+                        <td width="100%">
+                          <table width="100%">
+                            <td valign="top" align="left" class="msgHead" height="20" colspan="2" ><b>Photo Blog Entry</b></td>
+                            <td align="right" class="msgSmall"><%= blog.added_date.strftime("%b %d, %Y") %></td>
+                          </table>
+                        </td>
+                      </tr>
+                    <% end %>
+                    <%if !blog.nil?%>
+                      <% desc=blog.description %>
+                      <tr><td align="left" class="msgSmall">  <%=desc.gsub("\n", "<br />\n") %></td></tr>
+                      <tr><td align="right" class="msgSmall" height="10"></td></tr>
+                      <tr>
+                        <td colspan="2" align="center"><img src="/images/family_memory/images/com-dvd.jpg" border="0" /></td>
+                      </tr>
+                      <tr><td align="right" class="msgSmall" height="10"></td></tr>
+                    <%end%>
+                    <% if !gal_blog.nil? && gal_blog.description != "" && !gal_blog_desc.match(/^ENTERDESCRIPTION/)%>
+                      <tr>
+                        <td width="100%">
+                          <table width="100%">
+                            <td valign="top" align="left" class="msgHead" height="20" colspan="2" ><b>Gallery Blog Entry</b></td>
+                            <td align="right" class="msgSmall"><%= gal_blog.added_date.strftime("%b %d, %Y") %></td>
+                          </table>
+                        </td>
+                      </tr>
+                    <% end %>
+                    <%if !gal_blog.nil? && gal_blog.description != "" && !gal_blog_desc.match(/^ENTERDESCRIPTION/)%>
+                      <% desc=gal_blog.description %>
+                      <tr><td align="left" class="msgSmall">  <%=desc.gsub("\n", "<br />\n") %></td></tr>
+                      <tr><td align="right" class="msgSmall" height="10"></td></tr>
+                      <tr>
+                        <td colspan="2" align="center"><img src="/images/family_memory/images/com-dvd.jpg" border="0" /></td>
+                      </tr>
+                      <tr><td align="right" class="msgSmall" height="10"></td></tr>
+                    <%end%>
+
+                    <% if (!gallery_comments.nil? && gallery_comments.length>0)%>
+                      <tr><td align="left" class="msgHead" height="30" width="100%" ><b>Album Comments </b></td></tr>
+                    <%end%>
+                    <% if !gallery_comments.nil? && gallery_comments.length>0
+                      for gal_comment in gallery_comments%>
+                        <tr><td width="100%"><table width="100%">
+                              <tr><td align="left" class="msgHead">From <%=gal_comment.commenter%></td>
+                                <td align="right" class="msgSmall"><%=gal_comment.commented_date.to_date.strftime("%b %d, %Y")%></td></tr>
+                            </table>
+                          </td>
+                        </tr>
+                        <tr><td align="left" class="msgSmall"> <%=gal_comment.comment%></td></tr>
+                        <tr><td align="right" class="msgSmall" height="10"></td></tr>
+                      <%end%>
+                      <tr>
+                        <td colspan="2" align="center"><img src="/images/family_memory/images/com-dvd.jpg" border="0" /></td>
+                      </tr>
+                      <tr><td align="right" class="msgSmall" height="10"></td></tr>
+                    <%end%>
+                    <% if (!blogcomments.nil? && blogcomments.length>0)%>
+                      <tr><td align="left" class="msgHead" height="30" width="100%" ><b>Blog Comments  </b></td></tr>
+                    <%end%>
+                    <% if !blogcomments.nil? && blogcomments.length>0
+                      for blogcomment in blogcomments%>
+                        <tr><td width="100%"><table width="100%">
+                              <tr><td align="left" class="msgHead">From <%=blogcomment.name%></td>
+                                <td align="right" class="msgSmall"><%=blogcomment.created_at.strftime("%b %d, %Y")%></td></tr>
+                            </table>
+                          </td>
+                        </tr>
+                        <tr><td align="left" class="msgSmall"> <%=blogcomment.comment%></td></tr>
+                        <tr><td align="right" class="msgSmall" height="10"></td></tr>
+                      <%end%>
+                      <tr>
+                        <td colspan="2" align="center"><img src="/images/family_memory/images/com-dvd.jpg" border="0" /></td>
+                      </tr>
+                      <tr><td align="right" class="msgSmall" height="10"></td></tr>
+                    <%end%>
+                    <% if (!comments.nil? && comments.length>0)%>
+                      <tr><td align="left" class="msgHead" height="30" width="100%" ><b>Photo Comments  </b></td></tr>
+                    <%end%>
+                    <% if !comments.nil? && comments.length>0
+                      for comment in comments%>
+                        <tr><td width="100%"><table width="100%">
+                              <tr><td align="left" class="msgHead">From <%=comment.commenter%></td>
+                                <td align="right" class="msgSmall"><%=comment.commented_date.to_date.strftime("%b %d, %Y")%></td></tr>
+                            </table>
+                          </td>
+                        </tr>
+                        <tr><td align="left" class="msgSmall"> <%=comment.comment%></td></tr>
+                        <tr><td align="right" class="msgSmall" height="10"></td></tr>
+                      <%end%>
+                      <tr>
+                        <td colspan="2" align="center"><img src="/images/family_memory/images/com-dvd.jpg" border="0" /></td>
+                      </tr>
+                    <%end%>
+                  </tbody>
+                </table>
+              </div>
+            </div></td>
+          <td><div id="scrollbar" class="comments">
+              <div id="up"><a class="mouseover_up" href=""><img src="/javascripts/image_slider/js/btn-up.gif" width="11" height="11" alt="" border="0" /></a></div>
+              <div id="track">
+                <div id="dragBar"></div>
+              </div>
+              <div id="down"><a class="mouseover_down" href=""><img src="/javascripts/image_slider/js/btn-dn.gif" width="11" height="11" alt="" border="0" /></a></div>
+            </div></td>
+        </tr>
+      </table>
+      <table id="table-header" width="100%" border="0" cellspacing="0" cellpadding="0" class="blog">
+        <% if !comment_present %>
+          <tr>
+            <td height="45" colspan="2" align="center" valign="bottom" class="img"><input type="submit" class="postBtn" id="blog_btn" name="post" value="Show All Comments" /></td>
+          </tr>
+        <% else %>
+
+        <% end %>
+
+        <% if session[:hmm_user] %>
+          <%if logged_in_hmm_user.id==@family_website_owner.id%>
+            <tr>
+              <td align="right" valign="bottom" >
+                <table>
+                  <tr>
+                    <td width="31">&nbsp;</td>
+                    <td  width="165" align="right"><a href="/family_memory/logout/<%=params[:id]%>" title="Logout" >Logout</a></td><td width="11">&nbsp;</td>
+                  </tr>
+                </table></td>
+            </tr>
+          <%else%>
+            <tr>
+              <td  align="right" valign="bottom"  align="right" ><table><tr><td width="31">&nbsp;</td><td  width="165" align="right"><a href="/family_memory/login_popup/<%= params[:id] %>?url=<%=request.url%>" title="Login" class="nyroModal">Login</a></td><td width="11">&nbsp;</td></tr></table></td>
+            </tr>
+          <%end%>
+        <%else%>
+          <tr>
+            <td align="right" valign="bottom" ><table><tr><td width="31">&nbsp;</td><td  width="165" align="right"><a href="/family_memory/login_popup/<%= params[:id] %>?url=<%=request.url%>" title="Login" class="nyroModal">Login</a></td><td width="11">&nbsp;</td></tr></table></td>
+          </tr>
+        <%end%>
+
+      </table>
+
+    </td></tr>
+
+  <tr>
+    <td class="img" align="left"><img src="/images/family_memory/images/transaprent.png" class="sprite comBgBtm"/></td>
+  </tr>
+</table>

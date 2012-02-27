@@ -1,0 +1,2 @@
+module JournalsVideosHelper
+end

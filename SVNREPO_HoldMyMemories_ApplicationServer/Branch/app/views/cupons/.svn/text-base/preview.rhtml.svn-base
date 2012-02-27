@@ -1,0 +1,134 @@
+<script language="javascript">
+  
+  
+function printIt(target) { 
+document.getElementById('prn').style.display="none";
+  winId=window.open('','printwin','width=810,height=400'); 
+  winId.document.write(target); 
+  winId.document.close(); 
+  winId.focus(); 
+  if (window.print) winId.print(); 
+} 
+</script>
+
+
+<table width="810" border="0">
+	
+	<tr>
+		<th>
+			<div id="div1" >
+				<table width="800" border="0">
+					
+	<tr>
+		<td width="200">&nbsp;</td>
+		<td width="200">&nbsp;</td>
+		<td>&nbsp;</td>
+		<td width="400">&nbsp;</td>
+	</tr>
+	
+	<tr>
+		<td colspan="4" align="center"><font size="3">HoldMyMemories Free Coupon</font></td>
+		
+	</tr>
+	<tr>
+		<td width="200">&nbsp;</td>
+		<td>&nbsp;</td>
+		<td>&nbsp;</td>
+		<td>&nbsp;</td>
+	</tr>
+	<tr>
+		<td colspan="3" align="left">Coupon No : <%=@cupon.unid%> </td>
+	</tr>
+	<tr>
+		<td width="200">&nbsp;</td>
+		<td>&nbsp;</td>
+		<td>&nbsp;</td>
+		<td>&nbsp;</td>
+	</tr>
+	<tr>
+		<td width="200">&nbsp;</td>
+		<td align="left">Coupon Type</td>
+		<td>&nbsp;</td>
+		<td align="left"><%=@cupon.cupon_type.capitalize%></td>
+	</tr>
+	<tr>
+		<td width="200">&nbsp;</td>
+		<td>&nbsp;</td>
+		<td>&nbsp;</td>
+		<td>&nbsp;</td>
+	</tr>
+	<tr>
+		<td width="200">&nbsp;</td>
+		<td align="left">Coupon Validity Period</td>
+		<td>&nbsp;</td>
+		<td align="left"><%=@cupon.valid_period%> Months</td>
+	</tr>
+	<tr>
+		<td width="200">&nbsp;</td>
+		<td>&nbsp;</td>
+		<td>&nbsp;</td>
+		<td>&nbsp;</td>
+	</tr>
+	<tr>
+		<td width="200">&nbsp;</td>
+		<td align="left">Coupon Start Date</td>
+		<td>&nbsp;</td>
+		
+		<td align="left"><%=@cupon.start_date.strftime("%a %b #{@cupon.start_date.day.ordinalize} %Y ") %></td>
+	</tr>
+	<tr>
+		<td width="200">&nbsp;</td>
+		<td>&nbsp;</td>
+		<td>&nbsp;</td>
+		<td>&nbsp;</td>
+	</tr>
+	<tr>
+		<td width="200">&nbsp;</td>
+		<td align="left">Coupon Expire Date</td>
+		<td>&nbsp;</td>
+		
+		<td align="left"><%=@cupon.expire_date.strftime("%a %b #{@cupon.expire_date.day.ordinalize} %Y ") %></td>
+	</tr>
+	<tr>
+		<td width="200">&nbsp;</td>
+		<td>&nbsp;</td>
+		<td>&nbsp;</td>
+		<td>&nbsp;</td>
+	</tr>
+	
+	<tr>
+		<td colspan="4">Note: coupon issued is valid from the date of activated to the valid period or the expire date of this offer<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+							  The coupon can be used only once.</td>
+	</tr>
+	<tr>
+		<td width="200">&nbsp;</td>
+		<td>&nbsp;</td>
+		<td>&nbsp;</td>
+		<td>&nbsp;</td>
+	</tr>
+
+	</table>
+		</div>
+			</th>
+				</tr>
+	<tr>
+		<td height="5" colspan="4" align="center"><div id="prn"><input type="button" value="Print this coupon" name="print" onclick="printIt(document.getElementById('div1').innerHTML);return false" />
+		<input type="button" value="edit this coupon" name="edit" id="edit" onclick="javascript:window.location.href='/cupons/edit/<%=@cupon.id%>'" /></div>
+		
+		</td>
+	</tr>
+	<tr>
+		<td width="200">&nbsp;</td>
+		<td>&nbsp;</td>
+		<td>&nbsp;</td>
+		<td>&nbsp;</td>
+	</tr>
+	
+	<tr>
+		<td align="left"></td>
+		<td>&nbsp;</td>
+		<td>&nbsp;</td>
+		<td>&nbsp;</td>
+	</tr>
+</table>

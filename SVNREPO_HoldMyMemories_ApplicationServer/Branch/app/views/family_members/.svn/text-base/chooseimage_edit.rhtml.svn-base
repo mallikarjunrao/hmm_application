@@ -1,0 +1,14 @@
+<table>
+	<input type="hidden" value="<%=params[:id]%>" name="count" />
+	<%k=params[:id]%>
+	<tr>
+		<td class="textcolor" align="right" valign="top">
+   &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+   <label for="family_member_member_image">Photo</label>
+  </td>
+  <td>&nbsp;&nbsp;&nbsp;</td>
+  <td align="left" valign="top">
+   <%=  file_field  'family_member', 'member_image'  %>
+  </td>
+	</tr>
+</table>

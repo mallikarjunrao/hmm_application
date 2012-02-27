@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:VBox xmlns:mx="http://www.adobe.com/2006/mxml" width="100%" height="100%" verticalScrollPolicy="off" 
+	implements="components.IWizardComponent" backgroundColor="0">
+	<mx:Label text="Please select a image for video icon !!! " fontSize="13" fontFamily="arial" fontWeight="bold"/>
+	<mx:TileList columnCount="4" id="selectedImagelist" width="100%" height="90%" rowHeight="90" columnWidth="90" iconField="icon" 
+				 backgroundColor="0x0" itemRenderer="renderers.SimpleImageRenderer" color="#ffffff" backgroundAlpha="0" creationComplete="handleCreationComplete()"/>
+	<mx:Script>
+		<![CDATA[
+			import mx.controls.Alert;
+			import model.SlideShowCreatorModel;
+			public function getComponentData() : Object
+			{
+				 if(selectedImagelist.selectedItem)
+				{ 
+					var imagePath : String = selectedImagelist.selectedItem.icon;
+					var explodedPath : Array = imagePath.split("/");
+					return explodedPath[explodedPath.length-1];
+				 }
+				 
+				else
+				{
+					//Alert.show("Please select a image for video icon !!!");
+					return null;
+				}	 
+				
+			}
+			
+			public function finalizeComponent() : void
+			{
+				
+			}
+			
+			public function validateComponentData() : Boolean
+			{
+				if(selectedImagelist.selectedItem)
+				 return true;
+				else
+				{
+					Alert.show("Please select a image for video icon !!!");
+					return false;
+				}
+			}
+			
+			private function handleCreationComplete() : void
+			{
+				selectedImagelist.dataProvider = SlideShowCreatorModel.getInstance().getSelectedImages;
+			}
+		]]>
+	</mx:Script>
+</mx:VBox>

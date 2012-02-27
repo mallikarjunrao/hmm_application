@@ -1,0 +1,358 @@
+<script src="http://static.ak.connect.facebook.com/js/api_lib/v0.4/FeatureLoader.js.php" type="text/javascript"></script>
+<script type="text/javascript">
+  //<![CDATA[
+  Event.observe(window,'load', function() {
+    FB_RequireFeatures(["XFBML"], function() {
+      FB.init('d80336b76a20a40f1917ba14968f5ced','/xd_receiver.html',  { permsToRequestOnConnect : 'email' });
+
+    });
+  });
+
+  //]]>
+</script>
+
+<style type = "text/css">
+  .text3{
+    font-family:Arial, Helvetica, sans-serif;
+    font-size:12px;
+    font-weight:normal;
+    color:#ffffff;
+  }
+
+  .boxgrid{
+<%#*width: 577px;%>
+<%#*height: 600px;%>
+    margin:10px;
+    float:left;
+    background:#000000;
+    border: solid 2px #8399AF;
+    overflow: hidden;
+    position: relative;
+  }
+  .boxgrid img{
+<%#*position: absolute;%>
+    top: 0;
+    left: 0;
+    border: 0;
+  }
+
+  .boxcaption{
+    float: left;
+    position: absolute;
+    background: #000;
+    height: 200px;
+    width: 100%;
+    opacity: .5;
+    /* For IE 5-7 */
+    filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=50);
+    /* For IE 8 */
+    -MS-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=50)";
+  }
+
+  .captionfull .boxcaption {
+    top: 100%;
+    left: 0;
+  }
+  .caption .boxcaption {
+    top: 100%;
+    left: 0;
+  }
+
+  .addfwd {
+    display: block;
+<%#*position: absolute;%>
+    cursor: pointer;
+    width: 35px;
+    height: 154px;
+<%#*top: 0px;%>
+<%#*right: 0px;%>
+<%#*background: url(/images/family_memory/right-arrow.png) no-repeat center;%>
+  }
+
+  .addbkwd {
+    display: block;
+<%#*position: absolute;%>
+    cursor: pointer;
+    width: 35px;
+    height: 154px;
+<%#*top: 0px;%>
+    left: 0px;
+<%#*background: url(/images/family_memory/left-arrow.png) no-repeat center;%>
+  }
+</style>
+<script src="http://www.google.com/jsapi" type="text/javascript"></script>
+<script type="text/javascript">
+  google.load("jquery", "1.4.2");
+</script>
+
+<%= javascript_include_tag 'modalbox/prototype' %>
+<script type="text/javascript" src="/javascripts/modalbox/scriptaculous.js?load=effects"></script>
+<script type="text/javascript" src="/javascripts/modalbox/modalbox.js"></script>
+<%= stylesheet_link_tag 'modalbox/modalbox' %>
+<script language="javascript" type="text/javascript" src="/javascripts/themes/nyromodal/jquery-1.3.2.min.js"></script>
+<script type="text/javascript">
+
+  function resize_image_vote( img )
+  {
+    //var img = document.getElementById( id );
+
+    var normal_width = "551";
+    var normal_height = "498";
+
+    // img.removeAttribute( "width" );
+    //img.removeAttribute( "height" );
+    //alert("RealWidth="+img.width+" Real Height="+img.height);
+    var real_width = img.width;
+    var real_height = img.height;
+
+    var ratio = real_height / real_width;
+    if(real_width >= normal_width && ratio <= 1)
+    {
+      real_width = normal_width;
+      real_height = real_width * ratio;
+      img.height = real_height;
+      img.width = real_width;
+    }
+    else if(real_height >= normal_height)
+    {
+      real_height = normal_height;
+      real_width = real_height / ratio;
+      img.height = real_height;
+      img.width = real_width;
+    }
+  }
+
+  function resize_div( img )
+  {
+    var grid_div = document.getElementById("boxgrid");
+    // var caption_div = document.getElementById("boxcaption");
+    grid_div.width = img.width;
+    grid_div.height = img.height;
+    var show_slide = jQuery.noConflict();
+    var image_ht = img.height;
+    show_slide('.boxgrid.caption').hover(function(){
+      show_slide(".cover", this).stop().animate({top:image_ht - 150},{queue:false,duration:160});
+    }, function() {
+      show_slide(".cover", this).stop().animate({top:image_ht},{queue:false,duration:160});
+    });
+    //caption_div.style.top = img.height - 40;
+  }
+
+  function show_img(img)
+  {
+    var show_slide = jQuery.noConflict();
+    var image_ht = img.height;
+    show_slide(".cover", this).stop().animate({top:image_ht - 150},{queue:false,duration:160});
+  }
+  function hide_img(img)
+  {
+    var show_slide = jQuery.noConflict();
+    var image_ht = img.height;
+    show_slide(".cover", this).stop().animate({top:image_ht},{queue:false,duration:160});
+  }
+</script>
+
+<table width="900" border="0" align="center" cellpadding="0" cellspacing="0">
+
+  <tr><td>&nbsp;</td></tr>
+  <tr>
+    <td align="left">  <a href="/contests/moments_vote?contest_id=<%= params[:contest_id] %>" class="ContSearBtn" style="width: 110px"><< &nbsp;View All Entries</a></td>
+  </tr>
+
+  <tr>
+    <th>
+      <font color="#f5dfa6" size="2"><%= flash[:notice_vote]%>  <% if  flash[:notice_vote] %> <br><br><a href="http://www.holdmymemories.com/customers/authorise_verify"><u><font color="#FFFFFF">Click here</font></u></a> to sign up for your FREE HoldMyMemories.com account.<%end%><br></font>
+      <!--font color="#f5dfa6" size="3">< % if  flash[:notice_invite1] % > You have successfully Invited your friends to vote!! < %end% ></font-->		</th>
+    <th>&nbsp;</th>
+  </tr>
+
+  <tr>
+    <td  align="center" ><img src=<%= @contest_details.photo_logo %> border="0"   ></td>
+  </tr>
+  <tr><td>&nbsp;</td></tr>
+  <tr>
+    <td align="right" class="content-trans-logo">
+      <table width="65%" border="0" align="center" cellpadding="0" cellspacing="0">
+
+        <tr><td>&nbsp;</td></tr>
+        <tr>
+          <th align="left">
+            <div id="previous" class="addbkwd"><img id="previous_img" src="/images/family_memory/left-arrow.png" onclick="update_moment(<%= @previous %>);" style="display:inline;"/></div>
+          </th>
+          <th>
+          </th>
+          <th align="center">
+            <div class="boxgrid caption" id="boxgrid">
+              <img id="moment_image" src="<%= @moment_details[0].img_url %>/user_content/photos/journal_thumb/<%= @moment_details[0].v_filename %>" onmouseover="show_img(this);" onmouseout="hide_img(this);" onload="resize_div(this);">
+              <div class="cover boxcaption" id="boxcaption">
+                <b><h3 id="contestant_name">Contestant: <%= @contests_fname[0].first_name %></h3>
+                  <h3 id="entry_date"><%=@contests_fname[0].contest_entry_date.strftime("Submitted: %m/%d/%Y") %></h3>
+                  <h2 id="votes">Votes: <%=@contests_fname[0].votes %></h2></b>
+                <br/>
+              </div>
+            </div>
+          </th>
+          <th>
+            <div id="next" class="addfwd"><img id="next_img" src="/images/family_memory/right-arrow.png" onclick="update_moment(<%= @next %>);" style="display:inline;"/></div>
+          </th>
+        </tr>
+        <tr>
+          <td align="center" height="10" colspan="3">
+          </td>
+        </tr>
+        <tr> <td id="contestant_name2" align="center" class="text3 content-trans-logo" style="font-size:14px;" colspan="3">
+            <%= @contests_fname[0].first_name %>
+          </td></tr>
+        <%if Date.today <= @contest_details.vote_expire_date.to_date %>
+          <tr>
+            <td  align="center" valign="middle" colspan="3">
+              <a id="vote_link" href="/contests/vote?contest_id=<%= params[:contest_id] %>&entry_id=<%=@contests_fname[0].id%>"  onclick="Modalbox.show(this.href, {title: 'My Image', width: 1000, height:900}); return false;" class="ContSearBtn" style="width:100px;">Vote by Email</a>
+            </td>
+          </tr>
+          <tr>
+            <td  align="center" class="text3" style="color:#ff6600;" colspan="3">Or</td></tr>
+          <tr>
+            <td id="fb_vote" align="center" valign="middle" class="text3" colspan="3">
+              <%= fb_login_button('window.location =\''+ url_for(:controller => 'user_account', :action => 'facebook_vote', :type => 'momentdetails', :id =>@moment_details[0].id) + '\'') %>
+            </td>
+          </tr>
+        <%end%>
+
+        <tr><th>&nbsp;</th></tr>
+        <tr>
+          <th align="center" valign="middle" scope="col" colspan="3">
+            <table>
+              <div id="journal">
+              </div>
+            </table>
+          </th>
+        </tr>
+      </table>
+    </td>
+  </tr>
+  <tr><th>&nbsp;</th></tr> <tr><th>&nbsp;</th></tr>
+
+</table>
+<script type="text/javascript">
+  window.onload = update_moment(<%= @initial_position %>)
+  function update_moment(nav_id)
+  {
+    var xmlhttp;
+    if (navigator.appName == "Microsoft Internet Explorer"){
+      if (window.ActiveXObject) {
+        xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
+      }
+    }
+    else
+    {
+      if (window.XMLHttpRequest)
+      {
+        xmlhttp = new XMLHttpRequest();
+      }
+    }
+    xmlhttp.open("GET","/contests/momentdetails?navigate_id="+nav_id+"&contest_id=<%= params[:contest_id] %>&send_partial=true&rand="+Math.random(),true);
+    xmlhttp.send();
+    xmlhttp.onreadystatechange=function()
+    {
+      if (xmlhttp.readyState==4 && xmlhttp.responseText && (xmlhttp.status==200 || xmlhttp.status==304))
+      {
+        var Aj = jQuery.noConflict();
+        Aj(document).ready(function(){
+          Aj("#journal").html(xmlhttp.responseText);
+        });
+        update_moment1(nav_id);
+        update_moment2(nav_id);
+      }
+    }
+
+  };
+  function update_moment1(nav_id)
+  {
+    var xmlhttp2;
+    if (navigator.appName == "Microsoft Internet Explorer"){
+      if (window.ActiveXObject) {
+        xmlhttp2 = new ActiveXObject("Microsoft.XMLHTTP");
+      }
+    }
+    else
+    {
+      if (window.XMLHttpRequest)
+      {
+        xmlhttp2 = new XMLHttpRequest();
+      }
+    }
+    xmlhttp2.open("GET","/contests/momentdetails?navigate_id="+nav_id+"&contest_id=<%= params[:contest_id] %>&rand="+Math.random(),true);
+    xmlhttp2.send();
+    xmlhttp2.onreadystatechange=function()
+    {
+      if (xmlhttp2.readyState==4 && xmlhttp2.responseText && (xmlhttp2.status==200 || xmlhttp.status==304))
+      {
+        var Aj2 = jQuery.noConflict();
+        var response = xmlhttp2.responseText;
+        var parsedJSON = eval('('+response+')');
+        var previous_link = "<img id='previous_img' src='/images/family_memory/left-arrow.png' onclick='update_moment("+parsedJSON.previous+");' style='display:inline;'/>";
+        var next_link = "<img id='next_img' src='/images/family_memory/right-arrow.png' onclick='update_moment("+parsedJSON.next+");' style='display:inline;'/>";
+        if(parsedJSON.previous == "last")
+        {
+          document.getElementById("previous_img").style.display = "none";
+          previous_link = "<img id='previous_img' onclick='update_moment(false);' style='display:inline;'/>";
+        }
+        else{
+          document.getElementById("previous_img").style.display = "inline";
+        }
+        if(parsedJSON.next == "last")
+        {
+          document.getElementById("next_img").style.display = "none";
+          next_link = "<img id='next_img' onclick='update_moment(false);' style='display:inline;'/>";
+        }
+        else{
+          document.getElementById("next_img").style.display = "inline";
+        }
+
+        var image_link = parsedJSON.img_url+"/user_content/photos/journal_thumb/"+parsedJSON.file_name;
+        var image = "<img id='moment_image' src='"+image_link+"' onmouseover='show_img(this);' onmouseout='hide_img(this);'/>";
+        var img_obj = document.getElementById("moment_image");
+        resize_div(img_obj);
+        Aj2(document).ready(function(){
+          Aj2("#contestant_name2").html(parsedJSON.contestant_name);
+          Aj2("#contestant_name").html(parsedJSON.contestant_name);
+          Aj2("#entry_date").html(parsedJSON.entry_date);
+          Aj2("#votes").html(parsedJSON.votes);
+          Aj2("#previous").html(previous_link);
+          Aj2("#next").html(next_link);
+          Aj2("#boxgrid").html(image);
+        });
+        document.getElementById("vote_link").href = parsedJSON.vote_link;
+      }
+    }
+  };
+  function update_moment2(nav_id)
+  {
+    var xmlhttp;
+    if (navigator.appName == "Microsoft Internet Explorer"){
+      if (window.ActiveXObject) {
+        xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
+      }
+    }
+    else
+    {
+      if (window.XMLHttpRequest)
+      {
+        xmlhttp = new XMLHttpRequest();
+      }
+    }
+    xmlhttp.open("GET","/contests/momentdetails?navigate_id="+nav_id+"&contest_id=<%= params[:contest_id] %>&fb_partial=true&rand="+Math.random(),true);
+    xmlhttp.send();
+    xmlhttp.onreadystatechange=function()
+    {
+      if (xmlhttp.readyState==4 && xmlhttp.responseText && (xmlhttp.status==200 || xmlhttp.status==304))
+      {
+        var Aj = jQuery.noConflict();
+        Aj(document).ready(function(){
+          Aj("#fb_vote").html(xmlhttp.responseText);
+        });
+      }
+    }
+
+  };
+</script>

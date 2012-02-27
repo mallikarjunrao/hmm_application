@@ -1,0 +1,8 @@
+<% for column in BookSession.content_columns %>
+<p>
+  <b><%= column.human_name %>:</b> <%=h @book_session.send(column.name) %>
+</p>
+<% end %>
+
+<%= link_to 'Edit', :action => 'edit', :id => @book_session %> |
+<%= link_to 'Back', :action => 'list' %>

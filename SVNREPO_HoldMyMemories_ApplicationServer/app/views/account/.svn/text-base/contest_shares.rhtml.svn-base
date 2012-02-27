@@ -1,0 +1,21 @@
+<h1>Listing Contest Share Counts</h1>
+<table border="0" align="center">
+  <form action="/account/contest_shares" method="post">
+  <tr><td>Contest Name:</td><td><select name="contest_phase">
+        <option value="All" selected='selected'>All</option>
+        <%for contest in @contests%>
+          <option value="<%=contest.contest_phase%>" <% if  @phase=="#{contest.contest_phase}"%>selected <%end%> ><%=contest.name%></option>
+        <%end%>
+      </select></td></tr>
+  <tr><td height="20"></td></tr>
+  <tr><td></td><td><input type="submit" name="Submit" value="Submit" /></td></tr>
+    <tr><td height="50"></td></tr>
+  </form>
+</table>
+<table cellpadding="2" cellspacing="2" align="center">
+  <tr><th background="/images/body_hor.JPG">Share Type</th><th background="/images/body_hor.JPG">Counts</th></tr>
+  <tr bgcolor="#666666"><td height="10">Email</td><td><a href="/account/contest_share_info?type=email&&phase=<%=@phase%>"><%=@email%></a></td></tr>
+  <tr bgcolor="#999999"><td height="10">Facebook</td><td><a href="/account/contest_share_info?type=facebook&&phase=<%=@phase%>"><%=@facebook%></a></td></tr>
+  <tr bgcolor="#999999"><td height="10">MySpace</td><td><a href="/account/contest_share_info?type=myspace&&phase=<%=@phase%>"><%=@myspace%></a></td></tr>
+
+</table>

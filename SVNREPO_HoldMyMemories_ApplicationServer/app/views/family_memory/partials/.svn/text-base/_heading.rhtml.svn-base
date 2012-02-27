@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<script type="text/javascript" src="/jquery.selectbox-0.1.3/js/jquery-1.5.1.min.js"></script>
+<script type="text/javascript" src="/jquery.selectbox-0.1.3/js/jquery.selectbox-0.1.3.js"></script>
+<script type="text/javascript">
+  function change_loc(loc)
+  {
+    if(loc == "memory_lane")
+    {
+      window.location='/family_memory/home/<%=params[:id]%>';
+    }
+    else
+    {
+      window.location='/familywebsite/home?id=<%=params[:id]%>&version=4';
+    }
+  }
+</script>
+<%if @family_website_owner.studio_id.to_i==0%>
+  <%img_link="/images/family_memory/images/logo.png"%>
+<%else%>
+  <%hmmstudio=HmmStudio.find(:first,:select=>"img_url,studio_logo",:conditions=>"id=#{@family_website_owner.studio_id}")%>
+  <%img_link="#{hmmstudio.img_url}/user_content/studio_logos/#{hmmstudio.studio_logo}"%>
+<%end%>
+<tr>
+  <td>
+    <table width="100%">
+      <td width="20%"></td>
+      <td align="center">
+        <img src="<%=img_link%>" border="0" />
+      </td>
+      <td align="left" width="20%" valign="bottom">
+        <form method="post" action="" id="Items">
+          <select name="country_id" id="country_id" onchange="change_loc(this.value)">
+            <option value="memory_lane" <% if params[:controller]=='family_memory' %> selected <% end %>>Memory Lane</option>
+            <option value="family_website" <% if params[:controller]=='familywebsite' %> selected <% end %>>Family Website</option>
+          </select>
+        </form>
+      </td>
+    </table>
+  </td>
+</tr>
+<script type="text/javascript">
+  //<![CDATA[
+  var Ddown = jQuery.noConflict();
+  Ddown(function () {
+    Ddown("#country_id").selectbox();
+    Ddown("html").live('mousedown', function(e) {
+      e.stopPropagation();
+      Ddown("select").selectbox('close');
+    });
+    Ddown('.sbHolder, .sbSelector').mousedown(function(event){
+      event.stopPropagation();
+    });
+  });
+  //]]>
+</script>

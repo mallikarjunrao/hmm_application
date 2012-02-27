@@ -1,0 +1,13 @@
+<h2 align="center">Order Request Approval</h2>
+<% if flash[:notice] %>
+  <div style="color:#008000;"><%= flash[:notice]  %></div>
+<% end %>
+<h3>Order Requested By : <%= @order.requested_by %></h3><br/>
+<h3>Order Requested To : <%= @owner.v_fname %></h3><br/>
+<%= form_tag :action=>"approve_status",:id=>@order_request_status.id %>
+<h3>Do You want to Approve???</h3><br/>
+<select name="selected_value">
+  <option value="approved">Approve</option>
+  <option value="pending">Reject</option>
+</select>
+<%= submit_tag "Submit" %>

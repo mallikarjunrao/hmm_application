@@ -1,0 +1,109 @@
+   <%= javascript_include_tag 'prototype' %>
+ <%= javascript_include_tag 'scriptaculous' %>
+  <%= javascript_include_tag 'SpryAssets/SpryValidationTextField' %>
+ <%= stylesheet_link_tag 'SpryAssets/SpryValidationTextField' %>
+ <%= stylesheet_link_tag 'main' %>
+<%= stylesheet_link_tag 'hmmout' %> 
+ <%= stylesheet_link_tag 'hmm' %> 
+<script language="JavaScript"> 
+function verify()
+	{ 
+		if (document.getElementById('v_e_mail').value == "") {
+			
+			document.getElementById('v_e_mail').focus();
+			alert("Please enter your email address")
+			flag = 1;
+			return false;
+		}
+		if (document.getElementById('valid_email').value == 'false') 
+        {
+            
+            document.getElementById('v_e_mail').focus();
+            alert("Invalid email address")
+            flag=1;
+            return false;
+	}
+	}
+</script>	
+<form name="emailform" action="/customers/email_save/<%=logged_in_hmm_user.id%>" method="post" onsubmit="return verify()">
+	<table widtd="890">
+		<tr>
+			<td>
+				&nbsp;
+			</td>
+		</tr>
+		<tr>
+			<td width="890" align="center">
+				<h3>Please Update your E-mail ID to proceed</h3>
+				<h5>You can enter the same e-mail id which you had provided while sign up</h5>
+			</td>
+		</tr>
+		<tr>
+			<td>
+				&nbsp;
+			</td>
+		</tr>
+		<tr>
+			<td align="center">
+				<table>
+					<tr>
+                      <td height="0" align="left" valign="top" scope="col">&nbsp;</td>
+                      <td align="right" valign="top" class="contsignup" scope="col"><label for="hmm_user_e_mail">E-mail *</label></td>
+                      <td align="left" valign="top" scope="col">&nbsp;</td>
+                      <td align="left" valign="middle" scope="col"><table widtd="100%" border="0" cellspacing="0" cellpadding="0">
+                        <tr>
+                        
+                           <td  align="left" valign="top" scope="col">
+                           	<span id="sprytextfield11"><span id="sprytextfield11">
+                           		<%= text_field 'hmm_user', 'v_e_mail', :size => 20, :class => "textbox-signup", :id => 'v_e_mail'  %>
+								<%= observe_field   :'v_e_mail',                       
+                        				:with       => "email",              
+                        				:frequency  => 0.25,                    
+                        				:url        => {:action => :validate_email  }, 
+                        				:update     => :message_email                 
+                      				%>
+								 <span id="message_email"></span>
+								<span class="textfieldRequiredMsg"><br>E-mail Required</span><span class="textfieldInvalidFormatMsg"><br>Invalid E-mail</span></span></span></td>
+
+                        </tr>
+                      </table></td>
+                      <td align="left" valign="top" scope="col">&nbsp;</td>
+                    </tr>		
+				</table>
+			</td>
+		</tr>
+		<tr>
+			<td>
+				&nbsp;
+			</td>
+		</tr>
+		<tr>
+			<td align="center">
+				<input type="submit" name="sub1" id="sub1" value="submit" />
+			</td>
+		</tr>
+		<tr>
+			<td>
+				&nbsp;
+			</td>
+		</tr>
+		<tr>
+			<td>
+				&nbsp;
+			</td>
+		</tr>
+		<tr>
+			<td>
+				&nbsp;
+			</td>
+		</tr>
+		<tr>
+			<td>
+				&nbsp;
+			</td>
+		</tr>
+	</table>
+</form>
+<script type="text/javascript">
+var sprytextfield11 = new Spry.Widget.ValidationTextField("sprytextfield11", "email", {validateOn:["blur", "submit"]});
+</script>

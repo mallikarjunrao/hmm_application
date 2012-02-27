@@ -1,0 +1,207 @@
+<style type="text/css">
+<!--
+.style1 {
+	font-family: Arial, Helvetica, sans-serif;
+	font-weight: bold;
+	font-size: 12px;
+	color:#e36500;
+}
+.style4 {
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 14px;
+	color: #FFFFFF;
+}
+.style5 {
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 12px;
+	color: #FFFFFF;
+}
+-->
+</style>
+
+
+
+<table width="88%" border="0" height="30" cellspacing="0" cellpadding="10" style="border-left:1px solid #191919; border-right:1px solid #191919;">
+  
+	
+	<tr >
+     
+      <th colspan="3" align="left" valign="middle" id="table_bar_bg" class="style4" scope="col"><span class="btmtxt">
+      	<font color="#ffffff">
+      <% if(params[:id]=='0') %> 
+      <%else%>  
+      <%end %>
+      Journal Comments 
+      </font>     </th>
+</tr>
+	<input type="hidden" value="<%= params[:id] %>" name="tag_id" />
+	<input type="hidden" value="<%= params[:redirect] %>" name="redirect" />
+	
+		<% if session[:friend]!='' 
+			e_approval=" and e_approval = 'approve'"
+				end
+%>
+			<%  
+if(session[:friend]!='')
+	uid1=session[:friend]
+else
+	uid1=logged_in_hmm_user.id
+end
+@id1=0
+for @i in @tagid
+
+@id1=@id1+1
+@id="#{@id1}"
+comment=@i.comment
+approvepath=""
+rejectpath=""
+replypath=""
+%>	
+	
+    
+	<% if (@i.ctype!='guest_comment' && @i.ctype!='shareJournal') %>
+				<% 
+				    params[:id]=@i.master_id
+					tag=@table.find(@i.master_id)
+					type1=@mode
+					status=tag.status
+					
+					name="fefwefwe"
+					if(@table==Galleries)
+						e_access=tag.e_gallery_acess
+					else
+						uid=tag.uid
+						e_access=tag.e_access
+				 	end
+
+					
+						username=@i.name	
+					
+					@i.ctype=@mode
+				
+					if @i.e_approval=="pending" 
+						approvepath="/#{@path_controller}_approve_jcmt/#{@i.id}/?jc=1&familyname=#{params[:familyname]}"
+						rejectpath="/#{@path_controller}_reject_jcmt/#{@i.id}/?jc=1&familyname=#{params[:familyname]}"
+					else
+						deletepath="/#{@path_controller}_destroy_jcmt/#{@i.id}/?jc=1&familyname=#{params[:familyname]}"
+						replypath="/#{@path_controller}_reply_jcomnt/#{@i.id}/?jc=1&familyname=#{params[:familyname]}"
+					end 
+					table="chapter_comments"
+%>
+				
+				<%else%>
+					<% if (@i.ctype=='shareJournal') %>
+						<% params[:id]=@i.master_id
+					  	   shareJ=ShareJournal.find(params[:id])
+		    			   type1="Shared Journal"
+						   @i.ctype="Shared Journal"
+						   status='pending'
+						   name=shareJ.unid
+						   uid=shareJ.presenter_id	
+						   e_access='public'
+						   tag_name=''
+						sub_name=''
+						gal_name=''
+						journal_id=shareJ.jid
+						 
+						journaltype=shareJ.jtype
+						
+						
+						if(journaltype=='photo')
+							journalphoto=JournalsPhoto.find(journal_id)	
+							usercontentid=journalphoto.user_content_id
+							usercontent=UserContent.find(usercontentid)
+							filetype=usercontent.e_filetype
+							img=usercontent.v_filename
+							if (filetype == 'image')
+								if(img == "folder_img.png")
+									imgpath='/user_content/photos/icon_thumbnails/folder_img.png'
+								else	
+									imageName = img
+									imageName.slice!(-3..-1)					
+									imgpath="/user_content/photos/small_thumb/#{imageName}"+"jpg"
+								end
+							else 
+								if (usercontent.e_filetype == 'video')
+									imageName = img
+									imgpath="/user_content/videos/thumbnails/#{imageName}"+".jpg"
+								else 
+									if (usercontent.e_filetype == 'audio')
+										imgpath="/user_content/audios/speaker.jpg"
+									else
+										imgpath="/user_content/photos/icon_thumbnails/noimage1.jpg"
+									end 
+								end
+							end
+						end
+						
+						path="/share_journals/shareJournal_view/#{shareJ.id}"
+						
+						username=@i.name
+						
+						if @i.e_approval=="pending" 
+							approvepath="/manage_site/share_journalcomments_approve_cmt/#{@i.id}/?jc=1&familyname=#{params[:familyname]}"
+							rejectpath="/manage_site/share_journalcomments_reject_cmt/#{@i.id}/?jc=1&familyname=#{params[:familyname]}"
+						else
+							deletepath="/manage_site/share_journalcomments_destroy_cmt/#{@i.id}/?jc=1&familyname=#{params[:familyname]}"
+							replypath="/manage_site/share_journalcomments_reply_comnt/#{@i.id}/?jc=1&familyname=#{params[:familyname]}"
+						end 
+						table="share_journalcomments"
+						
+%>	
+		<%else%>
+        	<% 
+			
+			if @i.e_approval=="pending" 
+			 		approvepath="/manage_site/guest_comments_approve_jcmt/#{@i.id}/?jc=1&familyname=#{params[:familyname]}"
+			 		rejectpath="/manage_site/guest_comments_reject_jcmt/#{@i.id}/?jc=1&familyname=#{params[:familyname]}"
+				else
+					deletepath="/manage_site/guest_comments_destroy_jcmt/#{@i.id}/?jc=1&familyname=#{params[:familyname]}"
+					replypath="/manage_site/guest_comments_reply_jcomnt/#{@i.id}/?jc=1&familyname=#{params[:familyname]}"
+				end 
+				table="chapter_comments"
+			
+			%>
+		
+		<%end%>
+	
+	<%end%>
+		
+		
+	<tr bordercolor="#000000">
+      
+      <th width="16%" align="left" valign="top" class="text-journal" scope="col"><span class="commenthr"><font color="#ffffff"> Commented By&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span> </font> </th>
+      <th width="84%" colspan="2" align="left" valign="top" scope="col"  class="commentcont"><%= @i.name %></th>
+    </tr>
+	
+	<tr bordercolor="#000000">
+      
+      <th align="left" valign="top" class="text-journal" scope="col" ><span class="commenthr">Description&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span> </th>
+      <th align="left" valign="top" scope="col" class="commentcont"><%= @i.comment.gsub("\n", "<br />\n") %></th>
+    </tr>
+	
+	<tr>
+      <th colspan="2" align="left" valign="middle" id="table_bar_bg" class="text-journal style5" scope="col">
+       		<% if session[:friend]!='' %>
+			&nbsp;
+			<%
+				else
+%>
+			
+			<% if @i.e_approval=="pending" %>
+			 <a href='<%=approvepath%>'>Approve</a>&nbsp;&nbsp;&nbsp;
+			<a href='<%= rejectpath %>'>Reject</a> 
+			<%else%>
+			<a href='<%= deletepath %>' onclick="if(confirm('Do you want to delete this Journal?')){return true; } else return false;">Delete</a>&nbsp;&nbsp;&nbsp;
+			
+			
+			<br><br>
+			<div id=<%=@i.id%>></div>
+			<% end %>	 <% end %> 
+			</th>
+    </tr>
+
+  <%end%>   
+</table>
+<p></p>
+<p></p>

@@ -1,0 +1,18 @@
+xml.instruct! :xml, :version=>"1.0"
+xml.shares{
+   if(@sharelist != nil)
+     for @sharedetails in @sharelist
+       xml.share{
+         xml.presenterid(@sharedetails.presenter_id)
+         xml.emaillist(@sharedetails.email_list)
+         @createdDate = Time.parse(@sharedetails.created_date.to_s)
+         xml.createddate(String(@createdDate.month)+"/"+String(@createdDate.day)+"/"+String(@createdDate.year))
+         @expiryDate = Time.parse(@sharedetails.expiry_date.to_s)
+         xml.expirydate(String(@expiryDate.month)+"/"+String(@expiryDate.day)+"/"+String(@expiryDate.year))
+         xml.message(@sharedetails.message)
+         xml.id(@sharedetails.id)
+         xml.icon(@sharedetails.img_url+@sharedetails.icon)
+       }
+     end 
+   end 
+}

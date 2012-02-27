@@ -1,0 +1,32 @@
+<h1>Manage Studio Sales Tax</h1>
+
+
+<script type="text/javascript">
+function validate()
+{
+	if(document.getElementById('tax_rate').value=='')
+	{
+		alert("Tax Rate is required");
+		document.getElementById('tax_rate').focus();
+		return false;
+	}
+	
+}
+</script>
+
+
+
+<form name="frm" action="/hmm_studios/update_studiosalestax/<%=params[:id]%>" method="post" onsubmit="return validate();">
+
+<!--[form:product]-->
+<p><font color="red"><%=flash[:salesnotice]%></font>
+
+<p>
+<table>
+<tr><td>Tax Rate</td><td>:</td><td><input type="text" name="tax_rate" id="tax_rate" value="<%=@hmmstudios.tax_rate%>" /> %</td></tr>
+<tr><td></td><td></td><td><input type="submit" name="sub" value="Update" /></td></tr>
+</table>
+</p>
+</form>
+<br>
+

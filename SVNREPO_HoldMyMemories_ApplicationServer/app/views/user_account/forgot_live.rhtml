@@ -1,0 +1,73 @@
+
+<%= javascript_include_tag "prototype" %>
+
+<table width="100%" ><tr><td>
+
+   
+<% else if @results.empty? %>
+  <center>
+    <font color="#f5dfa6" face="Arial, Helvetica, sans-serif">In-valid User Name
+      Please Enter The Correct User Name</font>
+</center>
+<% else %>
+  <center>
+    <font color="#f5dfa6" face="Arial, Helvetica, sans-serif">Valid User Name</font>
+  </center>
+<% end %>
+</td></tr>
+
+<tr><td>
+
+<%= start_form_tag({:action=> "forgot_password"}, { :onSubmit => "Element.show('acc_authetication1.gif');" }) %>
+
+<table border="0" width="100%">
+	 <%if @results.empty? %>
+	 <%else%>
+<tr>
+	<td width="44" align="left" valign="top" scope="col">&nbsp;</td>
+		<td width="527" align="right"><font color="#FFFFFF" face="Arial, Helvetica, sans-serif">
+		  Your Account Security Question Is 
+		</font></td>
+		<td align="left" width=614><font color=#e36500 face="Arial, Helvetica, sans-serif">
+			<% for i in @results 
+				@id=i.id
+%>
+			
+			&nbsp;&nbsp;<%= i.v_security_q %>
+			<%end%>
+		</font>		</td>
+		<td width="16" align="left" valign="top" scope="col">&nbsp;</td>
+  </tr>
+	
+	<tr>
+		<td width="44" align="left" valign="top" scope="col">&nbsp;</td>
+		<td align="right">
+			<font color="#ffffff" face="Arial, Helvetica, sans-serif">&nbsp;&nbsp;Enter Account Security Answer </font>		</td>
+		<td align="left">
+		 <%= text_field_tag :search_answer %></td>
+		<td width="16" align="left" valign="top" scope="col">&nbsp;</td>
+	</tr>
+	<td width="44" align="left" valign="top" scope="col">&nbsp;</td>
+	</tr>
+	
+	<tr>
+		<td colspan="4" align="center">
+			&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+			<img alt="acc_authetication1.gif" id="acc_authetication1.gif" src="/images/acc_authetication1.gif" style="display:none;" height="29" width="178" /></td>
+		<td width="6"></td>
+	</tr>
+	<%end%>
+</table>
+</td></tr></table>
+	<%= end_form_tag%>
+
+<%= observe_field(:search_answer,
+				:frequency => 0.25,
+				:update => :search_hit,
+				:loading => "Element.show('acc_authetication1.gif')",
+                :complete => "Element.hide('acc_authetication1.gif')",
+				:url => { :action => :forgot_security_q, :id=> @id})%>
+				  
+				  <div id="search_hit"></div>
+
+				  

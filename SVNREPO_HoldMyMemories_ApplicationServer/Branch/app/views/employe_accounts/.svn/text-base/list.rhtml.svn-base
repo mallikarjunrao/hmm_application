@@ -1,0 +1,57 @@
+<p align="left"><a href="/employe_accounts/list_print" target="_blank">Click here</a> to get the list of employees with print option.</p> 
+<h1>List of Employees</h1>
+
+<table>
+  <tr>
+  
+    <th background="/images/body_hor.JPG"><font class='txt'>Employee Id</font></th>
+	<th background="/images/body_hor.JPG"><font class='txt'>Employee Name</font></th>
+	<th background="/images/body_hor.JPG"><font class='txt'>Designation</font></th>
+	<th background="/images/body_hor.JPG"><font class='txt'>Address</font></th>
+	<th background="/images/body_hor.JPG"><font class='txt'>E-mail</font></th>
+	<th background="/images/body_hor.JPG"><font class='txt'>Phone No</font></th>
+	<th background="/images/body_hor.JPG"><font class='txt'>Customer Count</font></th>
+	<th background="/images/body_hor.JPG"><font class='txt'>Status</font></th>
+	<th background="/images/body_hor.JPG" colspan="2" align="center"><font class='txt'>Actions</font></th>
+ 
+  </tr>
+  
+<% for i in @employe_accounts %>
+  <tr class="<%= cycle('odd', 'even') -%>">
+  
+    <td><%=i.employe_id %></td>
+	<td><%=i.employe_name %></td>
+	<td><%=i.emp_type %></td>
+	<td><%=i.address.gsub("\n", "<br />\n") %></td>
+	<td><%=i.e_mail %></td>
+	<td><%=i.phone_no %></td>
+	<%hmm_reg_count = HmmUser.count(:all, :conditions => "emp_id = #{i.id}")%>
+	
+	<%if hmm_reg_count == 0%>
+	<td>NIL</td>
+	<%else%>
+	<td><%=hmm_reg_count %></td>
+	<%end%>
+	<%if i.status == 'block'%>
+	<td><font color="red">Blocked</font></td>
+	<%else if i.status == 'unblock'%>
+	<td><font color="#66ff00">Unblocked</font></td>
+	<%end%>
+	<%end%>
+    
+    <td><%= link_to 'Edit', :action => 'edit_admin', :id => i.id %></td>
+	<%if i.status == 'block'%>
+    <td><%= link_to 'Enable Account', { :action => 'unblock', :id => i.id }, :confirm => 'Are you sure?', :method => :post %></td>
+	<%else%>
+	<td><%= link_to 'Disable Account', { :action => 'destroy', :id => i.id }, :confirm => 'Are you sure?', :method => :post %></td>
+	<%end%>
+  </tr>
+<% end %>
+</table>
+
+<%= link_to 'Previous page', { :page => @employe_account_pages.current.previous } if @employe_account_pages.current.previous %>
+<%= link_to 'Next page', { :page => @employe_account_pages.current.next } if @employe_account_pages.current.next %> 
+
+<br />
+
+

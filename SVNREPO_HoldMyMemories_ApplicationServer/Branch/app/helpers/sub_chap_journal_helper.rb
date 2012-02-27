@@ -1,0 +1,2 @@
+module SubChapJournalHelper
+end

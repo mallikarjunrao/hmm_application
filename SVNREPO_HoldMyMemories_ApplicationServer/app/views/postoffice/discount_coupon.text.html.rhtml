@@ -1,0 +1,188 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Something Special</title>
+<% @paths=ContentPath.find(:first,:conditions=>"status='active'") %>
+<style type="text/css">
+body{
+	margin:0px;
+	padding:0px;
+	}
+
+
+</style>
+</head>
+
+<body>
+<table width="573" border="0" align="center" cellpadding="0" cellspacing="0">
+  <tr>
+    <td width="577" height="212" colspan="3" align="center" valign="bottom" background="http://staging.holdmymemories.com/discount_images/somethingspecial1.jpg"><table width="400" border="0" cellspacing="0" cellpadding="0">
+      <tr>
+        <td height="95" align="left" valign="top">&nbsp;</td>
+      </tr>
+      <tr>
+        <td height="115" align="center" valign="top"><table width="378" border="0" cellspacing="0" cellpadding="0" >
+          <tr>
+            <td align="center" valign="top" style="font-family:Century Gothic, Arial, Verdana;
+	font-size:22px;
+	color:#FFFFFF;
+	font-weight:normal;
+	text-decoration:none;">From</td>
+          </tr>
+          <tr>
+            <td align="center" valign="top" style="font-family:Century Gothic, Arial, Verdana;
+	font-size:34px;
+	color:#FFFFFF;
+	font-weight:bold;
+	text-decoration:none;
+	text-transform:uppercase;"><%= @studio_name%></td>
+          </tr>
+          <tr>
+            <td align="center" valign="top" style="font-family:Century Gothic, Arial, Verdana;
+	font-size:20px;
+	color:#FFFFFF;
+	font-weight:bold;
+	text-decoration:none;
+	text-transform:uppercase;"><%= @studio_branch%></td>
+          </tr>
+          </table></td>
+      </tr>
+    </table></td>
+  </tr>
+  <tr>
+    <td colspan="3" align="center" valign="top"  background="http://staging.holdmymemories.com/discount_images/bg.jpg"><table width="378" border="0" cellspacing="0" cellpadding="0">
+      <tr>
+        <td height="32" align="center" valign="middle" style="font-family:Century Gothic, Arial, Verdana;font-size:17px;color:#000000;font-weight:bold;text-decoration:none;text-transform:uppercase;">YOU GET :
+</td>
+      </tr>
+      <tr>
+        <% if @discount_amount=="FREE" || @discount_amount=="free" %>
+        <td height="33" align="center" valign="top" style="font-family:Century Gothic, Arial, Verdana;
+	font-size:20px;
+	color:#ff8a00;
+	letter-spacing:1px;
+	text-decoration:none;
+	text-transform:uppercase;">A <span style="font-family:Century Gothic, Arial, Verdana;
+	font-size:23px;
+	color:#000000;
+	text-decoration:none;
+	text-transform:uppercase;">FREE&nbsp;<%=@size_label%></span>WHEN </td>
+<%else%>
+        <td height="33" align="center" valign="top" style="font-family:Century Gothic, Arial, Verdana;
+	font-size:20px;
+	color:#ff8a00;
+	letter-spacing:1px;
+	text-decoration:none;
+	text-transform:uppercase;"><span style="font-family:Century Gothic, Arial, Verdana;
+	font-size:23px;
+	color:#000000;
+	text-decoration:none;
+	text-transform:uppercase;">
+<%=@discount_amount%> $ </span> OFF YOUR ORDER WHEN </td>
+       <%end%>
+      </tr>
+      <tr>
+        <td height="33" align="center" valign="middle" style="font-family:Century Gothic, Arial, Verdana;
+	font-size:20px;
+	color:#ff8a00;
+	letter-spacing:1px;
+	text-decoration:none;
+	text-transform:uppercase;">YOU PURCHASE A <%=@size_label%>
+</td>
+      </tr>
+      <tr>
+        <td height="33" align="center" valign="middle" style="font-family:Century Gothic, Arial, Verdana;
+	font-size:20px;
+	color:#ff8a00;
+	letter-spacing:1px;
+	text-decoration:none;
+	text-transform:uppercase;">BETWEEN NOW AND <%=@end_date%></td>
+      </tr>
+      <tr>
+        <td height="12" align="center" valign="top" ></td>
+      </tr>
+      <tr>
+        <td height="21" align="center" valign="top" background="http://staging.holdmymemories.com/discount_images/div.jpg">&nbsp;</td>
+      </tr>
+      <tr>
+        <td height="12" align="center" valign="top" ></td>
+      </tr>
+      <tr>
+        <td height="33" align="center" valign="middle" style="font-family:Century Gothic, Arial, Verdana;
+	font-size:16px;
+	color:#ff8a00;
+	text-decoration:none;
+	text-transform:uppercase;">ENTER THIS CODE AT CHECKOUT TO REDEEM:</td>
+      </tr>
+      <tr>
+        <td align="center" valign="top" style="font-family:Century Gothic, Arial, Verdana;
+	font-size:32px;
+	color:#000000;
+	text-decoration:none;"><%=@coupon_id%></td>
+      </tr>
+      <tr>
+        <td height="12" align="center" valign="top" ></td>
+      </tr>
+      <tr>
+        <td height="21" align="center" valign="top" background="http://staging.holdmymemories.com/discount_images/div.jpg">&nbsp;</td>
+      </tr>
+      <tr>
+        <td height="12" align="center" valign="top" ></td>
+      </tr>
+      <tr>
+        <td align="center" valign="top" style="font-family:Century Gothic, Arial, Verdana;
+	font-size:32px;
+	color:#000000;
+	text-decoration:none;">CLICK <a href="http://staging.holdmymemories.com/familywebsite/login/<%=@family_name%>?redirect_url=/order_prints/gallery_list/<%=@family_name%>" style="font-family:Century Gothic, Arial, Verdana;
+	font-size:22px;
+	color:#000000;
+	text-decoration:none;
+	text-transform:uppercase;">HERE</a> TO LOG IN.</td>
+      </tr>
+      <tr>
+        <td height="10" align="center" valign="top"></td>
+      </tr>
+      <tr>
+        <td align="center" valign="top" style="font-family:Century Gothic, Arial, Verdana;
+	font-size:32px;
+	color:#000000;
+	text-decoration:none;">CLICK <a href="http://staging.holdmymemories.com/order_prints/gallery_list/<%=@family_name%>" style="font-family:Century Gothic, Arial, Verdana;
+	font-size:22px;
+	color:#000000;
+	text-decoration:none;
+	text-transform:uppercase;">HERE</a> TO ORDER.</td>
+      </tr>
+      <tr>
+        <td align="center" valign="top"><img src="http://staging.holdmymemories.com/discount_images/logo.jpg" width="371" height="97" /></td>
+      </tr>
+      <tr>
+        <td align="center" valign="top"><a href="http://staging.holdmymemories.com/user_account/unsubscribe/<%=  Base64.encode64(@userid.to_s)%>&&<%=  Base64.encode64(@cpnid.to_s)%>" style="font-family:Century Gothic, Arial, Verdana;
+	font-size:11px;
+	color:#929292;
+	text-decoration:none;
+	text-transform:uppercase;">CLICK HERE TO UNSUBSCRIBE</a>.</td>
+      </tr>
+      <tr>
+        <td align="center" valign="top" style="font-family:Century Gothic, Arial, Verdana;
+	font-size:11px;
+	color:#929292;
+	text-decoration:none;
+	text-transform:uppercase;"><span style="font-family:Century Gothic, Arial, Verdana;
+	font-size:16px;
+	color:#929292;
+	text-decoration:none;
+	text-transform:uppercase;"><%=@studioaddress[0..3]%></span> <%=@studioaddress[4..(@studioaddress.length)-1]%> <span style="font-family:Century Gothic, Arial, Verdana;
+	font-size:16px;
+	color:#929292;
+	text-decoration:none;
+	text-transform:uppercase;"><%=@studio_phone%></span></td>
+      </tr>
+      <tr>
+        <td height="10" align="center" valign="top"></td>
+      </tr>
+    </table></td>
+  </tr>
+</table>
+</body>
+</html>

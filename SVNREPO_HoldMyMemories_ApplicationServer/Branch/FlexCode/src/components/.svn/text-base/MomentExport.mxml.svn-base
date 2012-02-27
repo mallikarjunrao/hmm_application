@@ -1,0 +1,452 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:HBox xmlns:mx="http://www.adobe.com/2006/mxml" width="100%" height="100%" creationComplete="handleCreationComplete()" fontFamily="Arial" color="0xffffff" 
+	backgroundColor="0" verticalScrollPolicy="off" horizontalScrollPolicy="off">
+	<mx:VBox width="100%" height="100%" creationPolicy="all" verticalGap="{verticalgap}" borderStyle="inset">
+		<mx:VBox  height="100%" horizontalScrollPolicy="off" width="100%">
+				<mx:Label text="User Groups" fontWeight="bold" fontSize="15" color="0xFFFFFF"/> 
+				<mx:Tree id="friendsList" width="100%" height="100%" itemRenderer="renderers.FriendsTreeItemRenderer" labelFunction="treeLabel"
+													backgroundAlpha="0.7" borderThickness="0" color="#ffffff" backgroundColor="0" fontFamily="Arial" rowCount="2" />		
+			</mx:VBox>
+	</mx:VBox>
+	<mx:VBox width="100%" height="100%"  creationPolicy="all"  borderStyle="inset" verticalGap="0">
+		<mx:HBox width="100%" id="emailContainer" visible="{isEmailVisible}">
+					<mx:Label color="white" text="E-mail id:" visible="{isEmailVisible}"/>
+					<mx:TextInput id="emailId"  width="100%" color="0xFFFFFF" visible="{isEmailVisible}" backgroundColor="0" borderColor="0xFFFFFF"/>	
+		</mx:HBox>
+				<mx:Label  id="emailText" text="Note: You can have multiple Email-Ids separated by a comma." fontFamily="Arial" color="0xFFFFFF" 
+					fontSize="13" visible="{isEmailVisible}" />
+
+	<mx:HRule strokeColor="0xFFFFFF"  width="100%"/>
+           <mx:Label text="Message :" color="#ffffff" fontFamily="Arial"/>
+		   <mx:TextArea id="message" width="100%" height="100%" fontFamily="Arial" backgroundColor="0" fontSize="13" color="#ffffff" editable="true"/>
+		  
+	<mx:HBox width="100%" horizontalAlign="center" >
+			<mx:Button id="okButton" label="Ok" click="handleOk()"  styleName="lastButtonStyle"/>
+			<mx:Button label="Cancel" click="handleCancelClicked()" styleName="lastButtonStyle"/>
+		   </mx:HBox>	
+		 </mx:VBox>
+		 <mx:TextInput id="hiddenValidator" width="0" visible="false" height="0"/>
+	<mx:EmailValidator source="{hiddenValidator}" property="text" id="validator" 
+       trigger="{hiddenValidator}" triggerEvent="change" invalid="handleInvalidEmail()"/>
+       <mx:Script>
+       	<![CDATA[
+       		import model.HmmChaptersModel;
+       		import mx.utils.StringUtil;
+			import renderers.FriendsTreeItemRenderer;
+			
+			import events.SlideShowEvent;
+			import vo.GroupsVO;
+			import vo.FriendsVO;
+			import mx.validators.EmailValidator;
+			import mx.events.ValidationResultEvent;
+			import mx.events.VideoEvent;
+			import mx.controls.videoClasses.VideoError;
+			import mx.messaging.messages.HTTPRequestMessage;
+			import mx.controls.Alert;
+			import mx.managers.CursorManager;
+			import model.HmmFriendsModel;
+			import mx.rpc.events.ResultEvent;
+			import mx.rpc.events.FaultEvent;
+			import mx.rpc.http.HTTPService;
+			import mx.collections.XMLListCollection;
+			import mx.managers.PopUpManager;
+			import vo.WebFileVO;
+			import vo.GalleryVO;
+			import vo.SubChapterVO;
+			import vo.BaseVO;
+			import vo.ChapterVO;
+			import mx.collections.ArrayCollection;
+			
+			private var shareIds : String;
+			private var dataSet : XML = <list></list>;
+			private var type : String;
+			public var serviceUrl : String;
+			private var _isExport : Boolean = false;
+			public var successMessage : String;
+			private var emailCount : int;
+			private var validatedCount : int;
+			public var selectedItem : WebFileVO;
+			//private var validator : EmailValidator;
+			private var invalidEmails : Array = [];
+			private var dataSetFriends : XML = <list></list>;	
+			[Bindable]
+			private var selectedData : ArrayCollection = new ArrayCollection();	
+			[Bindable]
+			private	var isEmailVisible : Boolean = true;
+			[Bindable]
+			private var verticalgap : int = 5;
+			private function handleOk() : void
+			{
+				if(!_isExport)
+				{
+			
+					if(emailId.text != "")
+					{
+						var ids : Array = emailId.text.split(",");
+						for(var i : int = 0; i < ids.length; i++)
+						   ids[i] = StringUtil.trim(ids[i]);
+					}	
+					else
+						var ids : Array = []; 
+					emailCount = ids.length;
+					validatedCount = 0;
+	    			for(var i : int = 0; i < ids.length; i++)
+	    			{
+	    				var currentEmailId : String = ids[i];
+	    				//var reg : RegExp = /\s/;
+	    				//currentEmailId = currentEmailId.replace(reg, );
+	    				hiddenValidator.text = currentEmailId;
+	    				validator.validate(currentEmailId);
+	    			}	
+	    			if(emailContainer.visible)
+	    			{
+		    			if(invalidEmails.length > 0)
+		    			{
+		    				var wrongEmail : String = invalidEmails.join(",");
+		    				Alert.show("Invalid Emailids: "+wrongEmail);	
+		    				invalidEmails = [];
+		    				return;
+		    			}
+		    			
+	    			} 
+	    			
+	    		}
+	    		handleOkClicked(null); 
+			}
+			public function set isExport(val : Boolean) : void
+			{
+				_isExport = val;
+				if(_isExport)
+				{
+					emailContainer.visible = false;
+					emailContainer.height = 0;
+					//friendsStack.selectedIndex = 0;
+					emailText.height = 0;
+					//emailId.visible = false;
+					isEmailVisible = false;
+					//friendsContainer.verticalGap = 0;
+					verticalgap = 0;
+					//okButton.addEventListener(MouseEvent.CLICK, handleOkClicked);
+					//validator.source = new TextInput();
+				}else
+				{    
+				    emailContainer.visible = true;
+					//bfriendsStack.selectedIndex = 0;	
+					isEmailVisible = true;
+					//validator.addEventListener(ValidationResultEvent.INVALID, handleInvalidEmail)
+					validator.addEventListener(ValidationResultEvent.VALID, handleAllValid);
+				}
+			}
+			private function handleAllValid(event : Event) : void
+			{
+				validatedCount++;
+				/* if(validatedCount == emailCount)
+					handleOkClicked(null); */
+			}
+			
+			private function handleOkClicked(event : Event) : void
+			{
+				if(_isExport && selectedData.length == 0)
+				{
+					Alert.show("Please select a friend first.");
+					return;
+				}
+				else if(selectedData.length == 0 && emailId.text == "")
+				{
+					Alert.show("Please select a friend first or enter friends email address");
+					return;
+				}
+				
+				var selected : String = dataSet.node.@select;
+				if(selected == "false")
+				{
+					Alert.show("Please select the top item first");
+					return;
+				}
+				var service : HTTPService = new HTTPService();
+				service.url = serviceUrl;
+				service.method = HTTPRequestMessage.POST_METHOD;
+				service.addEventListener(FaultEvent.FAULT, handleOkFault);
+				service.addEventListener(ResultEvent.RESULT, handleOkResult);
+				var obj : Object = new Object();
+				if(_isExport)
+				{
+					var exportToString : String;
+					for(var i : int = 0 ; i < selectedData.length; i++)
+					{
+					   if(exportToString == null)
+					    exportToString = selectedData[i].id;
+					   else
+					    exportToString += "," + selectedData[i].id;
+					}
+					obj.exportTo = exportToString;//friendsList.selectedItem.id;
+					dataSet.@message = message.text;
+					createExportList();
+					obj.exportedId = dataSet.toXMLString();
+					obj.exportedType = type;	
+				}else
+				{
+					
+					obj.shareids = selectedItem.id;
+					obj.message = message.text;
+					var friendsEmails : Array = [];
+					for(var i : int = 0; i < selectedData.length; i++)
+					{
+						var friend : FriendsVO = selectedData[i] as FriendsVO;
+						friendsEmails.push(friend.email); 
+					}
+					var concatedEmail : String = friendsEmails.join(",");
+					if(emailId.text != "")
+					{
+						var emailArray : Array = emailId.text.split(",");
+						for(var i : int = 0; i< emailArray.length; i++)
+						   emailArray[i] = StringUtil.trim(emailArray[i]);
+						obj.email = emailArray.join(",")+","+concatedEmail;
+						//obj.email = emailId.text+","+concatedEmail;	
+					}
+						
+					else
+					obj.email = concatedEmail;
+					obj.sharetype = "moment";
+					obj.mid = selectedItem.id;
+				}
+					
+				obj.id = HmmChaptersModel.getInstance().userId;
+				service.send(obj);
+				CursorManager.setBusyCursor();
+				FadingNotifier.setBusyState();
+				validatedCount = 0;
+			}
+			
+			private function handleOkFault(event : FaultEvent) : void
+			{
+				CursorManager.removeBusyCursor();
+				FadingNotifier.removeBusyState();
+				Alert.show("Sorry unable share your moment! \n Please try again.");
+			}
+			
+			private function  createExportList() : void
+			{
+				var node : XML = <node></node>;
+				node.@type = "content";
+				node.@hmmtype = selectedItem.type;
+				var contentNode : XML = <node/>;
+				contentNode.@label = selectedItem.name;
+				contentNode.@icon = selectedItem.icon;
+				contentNode.@id = selectedItem.id;
+				contentNode.@type = "content";
+				contentNode.@hmmtype = selectedItem.type;
+				contentNode.@select = true;
+				node.appendChild(contentNode);
+				dataSet.appendChild(node); 
+			}
+			public function createShareXml() : XML
+			{
+				var shareXML : XML = <contents></contents>
+				shareXML.@message = message.text;
+				addContent(dataSet.children(), shareXML);
+				return shareXML;
+				
+			}
+			private function addContent(list : XMLList, targetXML : XML) : void
+			{
+				var item:XML;
+				var contentNode = <content/>;
+			    if(selectedItem.type == "image")
+		        {
+		         	var contentValue : String = selectedItem.icon;
+		            var contentExploded : Array = contentValue.split("/");
+		            for(var i : int = 0; i < contentExploded.length; i++)
+			        {
+			        	if(contentExploded[i] == "big_thumb")
+			            {
+			             	contentExploded[i] = "coverflow";
+			                break;
+			             }
+			         }
+			         contentValue = contentExploded.join("/");
+			         contentNode.@icon = contentValue;	
+		          }
+		          else if(selectedItem.type == "audio")
+		          {
+		           	contentNode.@icon = "/user_content/audios/speaker.jpg";
+		            contentNode.@path = selectedItem.icon;
+		          }
+		          else
+		          {
+		           	contentNode.@icon = selectedItem.icon;
+		          }
+		          contentNode.@name = selectedItem.name;
+				  contentNode.@id = selectedItem.id;
+				  contentNode.@hmmtype = selectedItem.type;
+				  targetXML.appendChild(contentNode);
+					
+			}
+			private function handleOkResult(event : ResultEvent) : void
+			{
+				FadingNotifier.removeBusyState();	
+				CursorManager.removeBusyCursor();
+				PopUpManager.removePopUp(this);
+				Alert.show(successMessage);
+				HmmFriendsModel.getInstance().clearModel();
+			}
+       		private function handleCreationComplete() : void
+			{
+				 this.addEventListener("change", handleDataUpdated);
+				if(!HmmFriendsModel.getInstance().initialized)
+				{
+					//Alert.show("Http Request");
+					HmmFriendsModel.getInstance().clearModel();
+					var service : HTTPService = new HTTPService();
+					service.url = "/friends_family/getFriendsList/";
+					service.addEventListener(FaultEvent.FAULT, handleFault);
+					service.addEventListener(ResultEvent.RESULT, handleResult);
+					var urlVar : URLVariables = new URLVariables();
+					if(_isExport)
+						urlVar.share =  "export";
+					else
+					  	urlVar.share = "share";
+					service.send(urlVar);	
+					CursorManager.setBusyCursor();
+				}
+				else
+				{
+					treeDataFriends = HmmFriendsModel.getInstance().friendsData as ArrayCollection;
+				} 
+				this.addEventListener(SlideShowEvent.CHECKBOXCHECKED,handleCheckBoxChecked);
+				this.addEventListener(SlideShowEvent.CHECKBOXUNCHECKED,handleCheckBoxUnChecked);
+			}
+			private function handleCheckBoxChecked(event : SlideShowEvent) : void
+			{
+				if(event.data.@type == "friend")
+				{
+				  var friend : FriendsVO = new FriendsVO();
+				  friend.name =	event.data.@label;
+				  friend.icon =	event.data.@icon;
+				  friend.id = event.data.@id; 
+				  friend.email = event.data.@email;
+				  selectedData.addItem(friend);
+				}
+				if(event.data.@type == "group")
+				{
+					var xmlData : XML  =  XML(event.data);
+					var xmlList : XMLList = xmlData.children();
+					 for(var i : int = 0; i < xmlList.length(); i++)
+					{
+						var friend : FriendsVO = new FriendsVO();
+				  		friend.name =	xmlList[i].@label;
+				  		friend.icon =	xmlList[i].@icon;
+				  		friend.id = xmlList[i].@id; 
+				  		friend.email = xmlList[i].@email;
+				  		selectedData.addItem(friend);
+					} 
+					
+					
+				}
+			}
+			
+			
+			private function handleCheckBoxUnChecked(event : SlideShowEvent) : void
+			{
+				if(event.data.@type == "friend")
+				{
+					for(var i : int = 0; i < selectedData.length; i++)
+					{
+						if(event.data.@id == selectedData[i].id)
+						 selectedData.removeItemAt(i); 
+					}
+				}
+				if(event.data.@type == "group")
+				{
+					var xmlData : XML  =  XML(event.data);
+					var xmlList : XMLList = xmlData.children();
+					 for(var i : int = 0; i < xmlList.length(); i++)
+					{
+						for(var j : int = 0; j < selectedData.length; j++)
+							if(xmlList[i].@id == selectedData[j].id)
+						 		selectedData.removeItemAt(j);
+					} 
+				}
+			}
+			private function treeLabel(item:Object):String {
+                var node:XML = XML(item);
+               
+                    return item.@label;
+            }
+			
+			private function handleResult(event : ResultEvent) : void 
+			{
+				
+				
+				if(event.result.root)
+				{
+					HmmFriendsModel.getInstance().friendsData = event.result.root;
+					treeDataFriends = HmmFriendsModel.getInstance().friendsData as ArrayCollection;
+				}
+				CursorManager.removeBusyCursor();
+			} 
+			
+			private function handleFault(event : FaultEvent) : void
+			{
+				trace(event.fault.toString());
+				Alert.show(event.fault.toString());
+				CursorManager.removeBusyCursor();
+				FadingNotifier.removeBusyState();
+			}
+			public function set treeData (value : BaseVO) : void
+			{
+				
+			}
+			
+			private function handleCancelClicked() : void
+			{
+				PopUpManager.removePopUp(this);
+			}
+			private function handleInvalidEmail() : void
+			{
+				invalidEmails.push(hiddenValidator.text);
+			}
+			private function handleDataUpdated(event : Event) : void
+			{
+				//tree.dataProvider = tree.dataProvider;
+			}
+			 public function set treeDataFriends(dataProvider : ArrayCollection) : void
+			{
+				dataSetFriends = <list></list>;
+				
+                for(var i : int = 0; i < dataProvider.length; i++)
+				{
+					
+						var group : GroupsVO = dataProvider[i] as GroupsVO;
+						var friends : Array = group.friends;//chapter.subchapters;
+						var newNode:XML = <node></node>;
+                		newNode.@label = group.name;
+                		newNode.@type = "group";
+						if(friends)
+						{
+							for(var j : int = 0; j < friends.length; j++)
+							{
+								var friend : FriendsVO = friends[j] as FriendsVO;
+								var subNode : XML = <node></node>;
+								subNode.@label = friend.name;
+								subNode.@icon = friend.icon;
+								subNode.@id = friend.id;
+								subNode.@email = friend.email;
+								subNode.@select = false;
+								subNode.@type = "friend";
+								
+								newNode.appendChild(subNode);
+							}
+							dataSetFriends.appendChild(newNode);
+						}
+						
+						type = "tags";	
+				}
+				
+				//randomWalk.dataProvider = dataSet;
+				friendsList.dataProvider = new XMLListCollection(dataSetFriends.node);
+				trace(dataSet);
+			} 
+       	]]>
+       </mx:Script>
+</mx:HBox>

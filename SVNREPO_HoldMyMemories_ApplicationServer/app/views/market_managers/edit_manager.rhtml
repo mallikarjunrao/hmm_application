@@ -1,0 +1,6 @@
+<h1>Edit My Profile</h1>
+
+<% form_tag :action => 'manager_update', :id => @market_manager do %>
+  <%= render :partial => 'edit_managerform' %>
+ <center> <%= submit_tag 'Edit' %></center>
+<% end %>

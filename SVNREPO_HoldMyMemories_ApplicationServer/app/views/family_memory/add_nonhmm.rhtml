@@ -1,0 +1,175 @@
+  <%  @studio_header = HmmStudio.find(@family_website_owner.studio_id)
+  if @studio_header.studio_groupid==pp_studio_group
+
+
+    bgcolor="rightBarMdl"
+
+  else
+
+
+    bgcolor=""
+
+  end %>
+
+
+<table width="100%" border="0" cellspacing="0" cellpadding="0" >
+  <tr>
+    <td width="23%">&nbsp;</td>
+    <td width="77%">
+       <%  @studio_header = HmmStudio.find(@family_website_owner.studio_id)
+  if @studio_header.studio_groupid==pp_studio_group %>
+      <% else %>
+  <img src="/images/family_memory/hmm-logo.png" /></td>
+    <% end %>
+  </tr>
+</table>
+<form name="frm" action="/family_memory/add_nonhmmWorker/<%=params[:id]%>">
+  <script type="text/javascript">
+    function checkform ( form )
+    {
+      // see http://www.thesitewizard.com/archive/validation.shtml
+      // for an explanation of this script and how to use it on your
+      // own website
+
+      // ** START **
+      if (form.nonhmm.value == "") {
+        alert( "Please enter your email address." );
+        form.email.focus();
+        return false ;
+      }
+      // ** END **
+      return true ;
+    }
+
+
+
+  </script>
+  <%= javascript_include_tag 'SpryAssets/SpryValidationTextField' %>
+  <%= stylesheet_link_tag 'SpryAssets/SpryValidationTextField' %>
+  <font color="#f5dfa6"><%= flash[:share_familypage]%></font>
+  <%=@k%><br>
+  <%  @studio_header = HmmStudio.find(@family_website_owner.studio_id)
+  if @studio_header.studio_groupid==pp_studio_group
+
+    msghead = "msgHead_blog"
+    postbtn = "cmnBtnB cmnBtnMar"
+    class1="header-page"
+    class2=""
+    content_white="content-white_pp"
+  else
+
+    msghead = "msgHead"
+    postbtn = "loginBig"
+    class1="matrix cmnTxt"
+    class2="rightBarMdl"
+    content_white="content-white"
+  end %>
+  <table width="100%" border="0" cellspacing="0" cellpadding="0" id="tab_bgcolor_repeat" class="content-trans-bg">
+    <tr>
+      <td height="50" align="left" valign="top"></td>
+    </tr>
+    <tr>
+      <td align="left" valign="top">
+        <table border="0" cellspacing="0" cellpadding="0">
+          <tr>
+            <td align="center" width="10" >
+
+
+            </td>
+            <td align="center" class="header-paragraph">
+			Add to Address Book<br><br>
+            </td>
+          </tr>
+          <script type="text/javascript">
+            function changeproperty(element,status)
+            {
+              if(status==false)
+              {
+
+                document.getElementById(element).value = '';
+                document.getElementById(element).disabled = true;
+              }else if(status==true)
+                document.getElementById(element).disabled = false;
+            }
+          </script>
+          <%= @count%>
+
+          <%
+
+          i=0
+          for k in @frindsEmail
+            @friendscheck1 = NonhmmUser.count(:all, :conditions => "uid='#{logged_in_hmm_user.id}' and v_email='#{k}'")
+            if @friendscheck1 != 1
+            %>
+
+              <tr>
+                <td align="center" width="10"  >
+                  <input type="checkbox" name="nonhmm_email[]" id="nonhmm_email" value="<%=k%>" checked="checked" onclick="changeproperty('nonhmm_name<%=i%>',this.checked);"/>
+                </td>
+                <td align="left" class="side-heading">
+                  <font color="#" >&nbsp;<%=k%></font>
+                </td>
+
+              </tr>
+              <tr>
+                <td >&nbsp</td>
+                <td  align="left" class="content">
+                  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Name
+                  <span id="sprytextfield<%=i%>">
+                    <input type="text" name="nonhmm_name[]" id="nonhmm_name<%=i%>" class="textbox-signup" />
+                    <span class="textfieldRequiredMsg">Name is required.</br></span></span>
+                </td>
+              </tr>
+
+            <%else%>
+
+            <%end%>
+            <tr>
+              <td class="border4">&nbsp;</td>
+              <td class="border_botm">&nbsp;</td></tr>
+
+            <%
+
+
+            i=i+1
+          end%>
+          <%  @studio_header = HmmStudio.find(@family_website_owner.studio_id)
+          if @studio_header.studio_groupid==pp_studio_group %>
+
+
+            <tr>
+              <td colspan="2" align="center" height="40" valign="middle">
+                &nbsp;&nbsp;<input type='image' class="cmnBtnB cmnBtnMar" value="Add">
+                &nbsp;&nbsp;<a href="/family_memory/home/<%=params[:id]%>">
+                  <div class="cmnBtnB cmnBtnMar" id="close" >Close</div></a>
+              </td>
+            </tr>
+
+
+          <% else %>
+
+
+
+            <tr>
+              <td colspan="2" align="center" height="40" valign="middle">
+                &nbsp;&nbsp;<input type='image' src='/images/add_cont.jpg' value="Add">
+                &nbsp;&nbsp;<a href="/family_memory/home/<%=params[:id]%>" ><img src='/images/cancel.jpg' value='close' id='close' border="0" ></a>
+              </td>
+            <% end %>
+          </tr>
+        </table>
+      </td>
+    </tr>
+  </table>
+
+</form>
+<script type="text/javascript">
+
+  for (j = 0; j <= 15; j++) {
+    var sprytextfieldj = new Spry.Widget.ValidationTextField("sprytextfield"+j, "none", {
+      validateOn: ["blur", "submit"]
+    });
+  }
+
+</script>
+

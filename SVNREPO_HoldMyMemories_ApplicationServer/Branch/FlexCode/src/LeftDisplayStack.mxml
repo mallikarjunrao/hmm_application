@@ -1,0 +1,294 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:Application 
+	xmlns:mx="http://www.adobe.com/2006/mxml" 
+	xmlns:flex="org.papervision3d.flex.*"
+	layout="absolute"
+	frameRate="60"
+	applicationComplete="initPV3D()" width="100%" height="100%"
+	 backgroundColor="0x0" preloader="custompreloader.PreloaderGlassLoading" initialize="handleInitialize()">
+	<mx:HTTPService id="dataService" url="/customers/chapters_list" result="handleDataResult(event)" fault="handleFault(event)"/>
+	<mx:Script>
+		<![CDATA[
+			import custompreloader.PreloaderGlassLoading;
+			import custompreloader.PreloaderHourGlass;
+			import mx.controls.Alert;
+			import flash.net.navigateToURL;
+			//import components.ExternalJsJournal;
+			import vo.BaseVO;
+			import vo.SubChapterVO;
+			import vo.ChapterVO;
+			import mx.managers.PopUpManager;
+			import mx.core.IFlexDisplayObject;
+			import components.ExportControl;
+			import model.HmmChaptersModel;
+			import events.CoverFlowEvent;
+			import mx.collections.ArrayCollection;
+			import mx.rpc.events.FaultEvent;
+			import mx.rpc.events.ResultEvent;
+			import hmm.StackCoverFlowLeft;
+			import hmm.StackCoverFlow;
+			import mx.controls.Image;
+			import org.papervision3d.examples.PlaneRendering;
+			import org.papervision3d.examples.FocusApp;
+			private var navigateToUrl : String;
+			private var focusApp:StackCoverFlowLeft;
+			private var itemNameDictionary : Dictionary;
+			private var subChapterId : int;
+			//private var extInterface : ExternalJsJournal;
+			
+			private function handleInitialize() : void
+			{	
+				if(Application.application.parameters.hasOwnProperty("proxyurls"))
+				{
+					var proxyurls : String = Application.application.parameters.proxyurls;
+					var urls : Array = proxyurls.split(",");
+					for(var i : int = 0; i < urls.length; i++)
+					{
+						Security.loadPolicyFile(urls[i]+"/crossdomain.xml");
+					}
+				}
+			}
+			
+			private function initPV3D():void
+			{
+				var serverUrl:String = Application.application.parameters.serverUrl;
+				var buttonsVisible : String = Application.application.parameters.buttonsVisible;
+				if(buttonsVisible == "false")
+					buttonBox.visible = false;
+				service.url = serverUrl;
+				if(serverUrl)
+				{
+					var explodedUrl : Array = serverUrl.split("/");
+					subChapterId = int(explodedUrl[explodedUrl.length-1]);	
+				}
+				
+				//service.url = "test.xml";
+				itemNameDictionary = new Dictionary();
+				navigateToUrl = Application.application.parameters.navigateToUrl;
+				service.send();
+				
+				//focusApp.bitmapAssets = bitmaps;
+				
+			}
+			
+			private function handleResult(event : ResultEvent) : void
+			{
+				trace(event.toString());
+				var bitmaps : Array = new Array();
+				if(event.result.contents && event.result.contents.content is ArrayCollection)
+				{
+					var result : ArrayCollection = event.result.contents.content as ArrayCollection;
+					for(var i : int =0; i<result.length; i++)
+					{
+						var obj : Object = new Object();
+						if(result[i].hasOwnProperty("icon"))
+							obj.icon = result[i].icon.toString();
+						if(result[i].hasOwnProperty("name"))
+							obj.name = result[i].name;
+						if(result[i].hasOwnProperty("id"))
+							obj.id = result[i].id.toString();
+						
+						bitmaps.push(obj);
+					}	
+				}else
+				{
+					if(event.result.contents)
+					{
+						obj = new Object();
+						
+						obj.name = event.result.contents.content.name.toString();
+						obj.id = event.result.contents.content.id.toString();
+						obj.icon = event.result.contents.content.icon.toString();
+						bitmaps.push(obj);
+					}else
+					{
+						Alert.show("The user has not made any sub chapters public");
+					}
+				}
+				
+				//Here our logic resides.
+				
+				focusApp = new StackCoverFlowLeft(paperCanvas.canvas, bitmaps, 75, 0, 150, true);
+				focusApp.addEventListener(Event.CHANGE, handleSelectionChanged);
+				focusApp.addEventListener(CoverFlowEvent.NAVIGATE_TO, handleNavigateTo);
+				focusApp.dataField = "icon";
+				focusApp.labelField = "name"
+				focusApp.init();
+				dataService.send();
+				
+			}
+			
+			private function handleDataResult(event : ResultEvent) : void
+			{
+				buttonBox.enabled = true;
+				var myModel : HmmChaptersModel = new HmmChaptersModel();
+				myModel.data = event.result.root;
+				//subChapterId = event.result.subchapterid;
+				//myModel.attachEventListeners(menu);
+				//service.send(event.result.root);
+				HmmChaptersModel.setInstance(myModel);
+				
+			}
+			
+			private function handleNavigateTo(event : CoverFlowEvent) : void
+			{
+				var urlstr : String = navigateToUrl+event.extra.id;
+				var urlreq : URLRequest = new URLRequest( urlstr);
+				navigateToURL(urlreq, "_self");
+			}
+			
+			private function handleSelectionChanged(event : CoverFlowEvent) : void
+			{
+				itemName.text = event.extra as String;
+			}
+			
+			private function handleFault(event : FaultEvent) : void
+			{
+				
+				 trace(event.toString());
+			}
+			
+			private function handleToggleFullscreen() : void
+			{
+				if(stage["displayState"]=="normal"){
+				    stage["displayState"]="fullScreen";
+				    stage.scaleMode = StageScaleMode.NO_SCALE;
+				  }else{
+				    stage["displayState"]="normal";
+				    
+				  }
+			}
+			
+			private function handleShare() : void
+			{
+				
+				var popUp : IFlexDisplayObject = PopUpManager.createPopUp(Application.application as DisplayObject, ExportControl, true);
+				var ctrl : ExportControl = popUp as ExportControl;
+				//ctrl.title = "Share with a friend.";
+				ctrl.successMessage = "Share was successful. Your friends would receive an email in this regard.";
+				ctrl.serviceUrl = "/share/addShare/";
+				ctrl.isExport = false;
+				var ac : ArrayCollection = HmmChaptersModel.getInstance().folderList;
+				var breakOut : Boolean = false;
+				for(var i : int = 0; i < ac.length; i++)
+				{
+					if(breakOut)
+						break;
+					var chapter : ChapterVO = ac[i] as ChapterVO;
+					for(var j : int = 0; j<  chapter.subchapters.length; j++)
+					{
+						var sub : SubChapterVO = chapter.subchapters[j] as SubChapterVO;
+						if(sub.id == subChapterId)
+						{
+							breakOut = true;
+							break;
+						}
+					}
+				}
+				ctrl.treeData = sub as BaseVO;
+				popUp.width = 655;//Application.application.stage.width*2/3;
+				popUp.height = 340;//Application.application.stage.height*2/3;
+				//Alert.show("Width"+ Application.application.stage.width+ "  Height" +Application.application.stage.height); 
+				PopUpManager.centerPopUp(popUp);
+				
+				
+				
+			}
+			
+			private function handleExport() : void
+			{
+				var popUp : IFlexDisplayObject = PopUpManager.createPopUp(Application.application as DisplayObject, ExportControl, true);
+				var ctrl : ExportControl = popUp as ExportControl;
+				//ctrl.title = "Export to a friend.";
+				ctrl.successMessage = "Export was successful. Your friends would receive an email in this regard.";
+				ctrl.serviceUrl = "/export/exporter/";
+				ctrl.isExport = true;
+				var ac : ArrayCollection = HmmChaptersModel.getInstance().folderList;
+				var breakOut : Boolean = false;
+				for(var i : int = 0; i < ac.length; i++)
+				{
+					if(breakOut)
+						break;
+					var chapter : ChapterVO = ac[i] as ChapterVO;
+					for(var j : int = 0; j<  chapter.subchapters.length; j++)
+					{
+						var sub : SubChapterVO = chapter.subchapters[j] as SubChapterVO;
+						if(sub.id == subChapterId)
+						{
+							breakOut = true;
+							break;
+						}	
+					}
+				}
+				ctrl.treeData = sub as BaseVO;
+				/* popUp.width = Application.application.stage.width*2/3;
+				popUp.height = Application.application.stage.height; */
+				popUp.width = 655;//Application.application.stage.width*2/3;
+				popUp.height = 340;//Application.application.stage.height*2/3;
+				//Alert.show("Width"+ Application.application.stage.width+ "  Height" +Application.application.stage.height); 
+				PopUpManager.centerPopUp(popUp);
+			}
+			
+			private function handleJournal() : void
+			{
+				var req : URLRequest = new URLRequest("/sub_chap_journal/new/"+subChapterId);
+				navigateToURL(req, "_self");
+			}
+			
+			
+		]]>
+	</mx:Script>
+	
+		<mx:Style>
+			.lastButtonStyle
+			{
+				fillColors: #000000, #000000, #000000, #cccccc;
+				corner-radius : 0;
+				selection-color : #ff6633;
+				color : #Ffffff;
+				theme-color : #ff6633;
+			}
+			
+			Alert {
+		    corner-radius: 8;
+		    header-height: 27;
+		    header-colors: #999999, #000000;
+		    background-color: #000000;
+		    color: #ffffff;
+		    border-thickness: 4;
+		    border-color: #000000;
+		    panel-border-style: roundCorners;
+		    shadow-distance: 4;
+		    shadow-direction: bottom;
+		    button-style-name: "firstButtonStyle";
+		  }
+		  Tree
+			{
+				
+				disclosureClosedIcon: ClassReference("Tree_disclosureClosedIcon");
+				disclosureOpenIcon: ClassReference("Tree_disclosureOpenIcon");
+				
+			}
+		</mx:Style>
+		<mx:HTTPService id="service" result="handleResult(event)" fault="handleFault(event)"/>
+		<!--Canvas3D canvas property should be used as the container for the scene-->
+		<mx:VBox width="100%" height="100%" backgroundColor="0">
+			<mx:HBox id="buttonBox"  enabled="true"  horizontalAlign="left">
+				<mx:Button id="journal" click="handleJournal()" label="Journal this" styleName="lastButtonStyle"  visible="true" />
+			</mx:HBox>	
+			
+			<flex:Canvas3D id="paperCanvas"
+				backgroundColor="#000000"
+				backgroundAlpha="1"
+				width="100%" 
+				height="100%"/>
+		</mx:VBox>		
+		<mx:Label color="#ffffff" id="itemName" filters="{[new GlowFilter()]}" fontFamily="Arial" 
+			fontSize="24" x="{(this.width-itemName.width)/2}" y="{(this.height-itemName.height- 10)}"/>
+	<!--mx:VBox id="buttonBox" x="{paperCanvas.width- buttonBox.width}" enabled="false" y="{paperCanvas.height - buttonBox.height}">
+		<mx:Button id="journal" click="handleJournal()" label="Journal this" styleName="lastButtonStyle"  visible="true" width="100%"/>
+		
+		<mx:Button id="export" click="handleExport()" label="Export" styleName="lastButtonStyle"  visible="true" width="100%"/>
+	</mx:VBox-->		
+	   		
+</mx:Application>

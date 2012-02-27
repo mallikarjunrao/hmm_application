@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:HBox xmlns:mx="http://www.adobe.com/2006/mxml" width="100" height="100">
+
+	<mx:Script>
+		<![CDATA[
+			import events.FBEvent;
+			import com.facebook.events.FacebookEvent;
+
+				private function handleChange(event:Event):void{
+					
+				dispatchEvent(new FBEvent("FBcustomEvent", true, true));
+			}
+		]]>
+	</mx:Script>
+	
+	<mx:Image  id="img" source="{data.src_small}" width="70" height="80" />
+	<mx:CheckBox id="photoCheckBox" change="handleChange(event)"/>
+</mx:HBox>

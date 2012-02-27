@@ -1,0 +1,55 @@
+
+#slideshow {
+	margin:0 auto;
+	width:751px;
+	height:522px;
+	background:transparent url(/webpage/imgs_new/iphone-img.png) no-repeat 0 0;
+	position:relative;
+}
+#slideshow #slidesContainer {
+  margin:0 auto;
+  width:470px;
+  height:345px;
+  overflow:auto; /* allow scrollbar */
+  position:relative;
+}
+#slideshow #slidesContainer .slide {
+  margin-top:40px;
+  margin-bottom:0;
+  width:470px; /* reduce by 20 pixels of #slidesContainer to avoid horizontal scroll */
+  height:300px;
+}
+
+/** 
+ * Slideshow controls style rules.
+ */
+.control {
+  display:block;
+  width:61px;
+  height:250px;
+  text-indent:-10000px;
+  position:absolute;
+  cursor: pointer;
+  z-index:1;
+}
+#leftControl {
+  top:60px;
+  left:127px;
+  width:61px;
+  height:250px;
+
+}
+#leftControl:hover {
+  background:transparent url(/webpage/imgs/control_left-ovr.png) no-repeat 0 0;
+}
+#rightControl {
+  top:60px;
+  right:130px;
+  width:61px;
+  height:250px;
+
+}
+#rightControl:hover {
+  background:transparent url(/webpage/imgs/control_right-ovr.png) no-repeat 0 0;
+}
+

@@ -1,0 +1,19 @@
+
+
+
+<br></br>
+<b><font size=1 face=arial color=#dddddd ><center><h2>Welcome To HoldMyMemories.com</h2></center></font></b>
+<font color="#f5dfa6"><%=flash[:update_profile]%></font>
+<font color="#f5dfa6"><%=flash[:emp_add]%></font>
+<br>
+<%if @gotskils_contest_pending > 0%>
+<p>There are <%=@gotskils_contest_pending%> new Got skils contest entries, Please review these entries.. <a href="/account/review_gotskils"> Click Here</a></p>
+<br><%end%>
+<%if @cutekid_contest_pending > 0%>
+<p>There are <%=@cutekid_contest_pending%> new Cute Kid contest entries, Please review these entries.. <a href="/account/review_cutekid"> Click Here</a></p>
+<br>
+<%end%>
+<p>You have  <%=@hmm_user_requests%>  pending subscription cancellation requests from the Family Website / Premium Users. <a href="/account/pending_requests_admin">Click here </a> to process these requests.</p>
+<br>
+<p>You have  <%=@hmm_user_requests1%>  Failed ARB subscriptions of your customers. <a href="/account/cancelled_list_failed_admin">Click here </a> to contact your customers to reactivate their HoldMyMemories.com account Subscription.</p>
+

@@ -1,0 +1,56 @@
+<%= error_messages_for 'advertisement_detail' %>
+
+<!--[form:advertisement_detail]-->
+<!--<p><label for="advertisement_detail_advid">Adv Id</label><br/>
+<%= text_field 'advertisement_detail', 'advid'  %></p>-->
+
+<!--collection_select('insertablename','insertfieldname',@array,'value','name')-->
+<p><label for="advertisement_detail_v_adtitle">Advertiser Name</label><br/>
+<%= collection_select("advertisement_detail", "advid" , @advertiser_details, "id", "v_username")  %></p>
+
+<!--<p><label for="advertisement_detail">Advertiser Name</label><br/>
+<select name='advertisement_detail.advid'>
+	<% for colmn in @advertiser_details %>
+    <option value='<%=h colmn.id %>'><%=h colmn.v_username %></option>
+	<% end %>
+  </select>
+</p>-->
+
+<p><label for="advertisement_detail_v_adtitle">Ad Title</label><br/>
+<span id="sprytextfield1"><span id="sprytextfield1"><%= text_field 'advertisement_detail', 'v_adtitle' %><span class="textfieldRequiredMsg">Ad Title is required.</span></span></span></p>
+
+<p><label for="advertisement_detail_v_adlink">Ad Link</label><br/>
+<span id="sprytextfield1"><span id="sprytextfield2"><%= text_field 'advertisement_detail', 'v_adlink'  %> <span class="textfieldRequiredMsg">Ad Link is required.</span></span></span></p>
+
+<p><label for="advertisement_detail_v_adtag">Ad Tag</label><br/>
+<span id="sprytextfield1"><span id="sprytextfield3"><%= text_field 'advertisement_detail', 'v_adtag'  %><span class="textfieldRequiredMsg">Ad Tag is required.</span></span></span></p>
+
+<p><label for="advertisement_detail_v_filename">Ad Filename</label><br/>
+<span id="sprytextfield1"><span id="sprytextfield4"><%= file_field 'advertisement_detail', 'v_filename' %><span class="textfieldRequiredMsg">Upload Ad Filename is required.</span></span></span></p>
+
+<p><label for="advertisement_detail_i_imgwidth">Image Width</label><br/>
+<span id="sprytextfield1"><span id="sprytextfield5"><%= text_field 'advertisement_detail', 'i_imgwidth'  %><span class="textfieldRequiredMsg">Image Width is required.</span></span></span></p>
+
+<p><label for="advertisement_detail_i_imgheight">Image Height</label><br/>
+<span id="sprytextfield1"><span id="sprytextfield6"><%= text_field 'advertisement_detail', 'i_imgheight'  %><span class="textfieldRequiredMsg">Image Height is required.</span></span></span></p>
+
+<p><label for="advertisement_detail_i_imgx">Image X</label><br/>
+<span id="sprytextfield1"><span id="sprytextfield7"><%= text_field 'advertisement_detail', 'i_imgx'  %><span class="textfieldRequiredMsg">Image X is required.</span></span></span></p>
+
+<p><label for="advertisement_detail_i_imgy">Image Y</label><br/>
+<span id="sprytextfield1"><span id="sprytextfield8"><%= text_field 'advertisement_detail', 'i_imgy'  %><span class="textfieldRequiredMsg">Image Y is required.</span></span></span></p>
+<script type="text/javascript">
+<!--
+var sprytextfield1 = new Spry.Widget.ValidationTextField("sprytextfield1", "none", {validateOn:["blur"]});
+var sprytextfield2 = new Spry.Widget.ValidationTextField("sprytextfield2", "none", {validateOn:["blur"]});
+var sprytextfield3 = new Spry.Widget.ValidationTextField("sprytextfield3", "none", {validateOn:["blur"]});
+var sprytextfield4 = new Spry.Widget.ValidationTextField("sprytextfield4", "none", {validateOn:["blur"]});
+var sprytextfield5 = new Spry.Widget.ValidationTextField("sprytextfield5", "none", {validateOn:["blur"]});
+var sprytextfield6 = new Spry.Widget.ValidationTextField("sprytextfield6", "none", {validateOn:["blur"]});
+var sprytextfield7 = new Spry.Widget.ValidationTextField("sprytextfield7", "none", {validateOn:["blur"]});
+var sprytextfield8 = new Spry.Widget.ValidationTextField("sprytextfield8", "none", {validateOn:["blur"]});
+//-->
+</script>
+
+<!--[eoform:advertisement_detail]-->
+

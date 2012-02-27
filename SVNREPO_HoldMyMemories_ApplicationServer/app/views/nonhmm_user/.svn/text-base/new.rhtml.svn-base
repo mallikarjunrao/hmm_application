@@ -1,0 +1,13 @@
+
+
+<%= javascript_include_tag 'SpryAssets/SpryValidationTextField' %>
+<%= stylesheet_link_tag 'SpryAssets/SpryValidationTextField' %>
+
+<% form_tag :action => 'create' do %>
+  <%= render :partial => 'form' %>
+  <center><input value="Add Friend" type="submit" id="regsubmit"></center>  
+<% end %>		 
+<script type="text/javascript">
+var sprytextfield1 = new Spry.Widget.ValidationTextField("sprytextfield1", "none", {validateOn:["blur"]});
+var sprytextfield11 = new Spry.Widget.ValidationTextField("sprytextfield11", "email", {validateOn:["blur"]});
+</script>

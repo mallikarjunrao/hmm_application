@@ -1,0 +1,93 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>HoldMyMemories Billing Details</title>
+<link href="/stylesheets/hmm.css" media="screen" rel="Stylesheet" type="text/css" /> 
+</head>
+
+<body bgcolor="#000000">
+<style>
+	.text1{
+	font-family:Arial, Helvetica, sans-serif;
+	font-size:16px;
+	font-weight:bold;
+	color:#c6c6c6;
+}
+.text2{
+	font-family:Arial, Helvetica, sans-serif;
+	font-size:12px;
+	font-weight:bold;
+	color:#ffffff;
+}
+</style>
+
+
+
+<table align="center" >
+	<tr>
+		<td>
+			&nbsp;	
+		</td>
+	</tr>
+	<tr>
+		<td align="center" class="text1">
+			HoldMyMemories Billing Details
+		</td>
+	</tr>
+	<tr>
+		<td>
+			&nbsp;
+		</td>
+	</tr>
+	<tr>
+		<td>
+			<table class="border" border="1" >
+				<tr>
+					<td class="text1">
+						Sl No
+					</td>
+					<td class="text1">
+						product
+					</td>
+					<td class="text1">
+						Number of Moments
+					</td>
+					<td class="text1">
+						Quantity
+					</td>
+					<td class="text1">
+						Price
+					</td>
+					<td class="text1">
+						Amount
+					</td>
+				</tr>
+				<%i=1%>
+				<%for @cart in @cart_detals%>
+				
+				<tr>
+					<td class="text2"><%=i%></td>
+					<td class="text2">
+						<%@product = Product.find(:all, :conditions => "id='#{@cart.product_id}'")%>
+						<%=@product[0]['product_name']%>
+					</td>
+					<td class="text2"><%=@cart.no_of_moments%></td>
+					<td class="text2"><%=@cart.no_of_copies%></td>
+					<td class="text2">$<%=@product[0]['price']%></td>
+					<%@copies = (@cart.no_of_moments * @cart.no_of_copies)
+					  @amt = (@copies * @product[0]['price']) %>
+					<td class="text2">$<%=@amt%></td>
+				</tr>
+				<%i=i+1%>
+				<%end%>
+				<tr>
+					<td colspan="5" align="right" class="text2">Total Amount &nbsp;&nbsp;</td>
+					<td class="text2">$<%=@amount%></td>
+				</tr>
+			</table>
+		</td>
+	</tr>
+</table>
+</body>
+</html>

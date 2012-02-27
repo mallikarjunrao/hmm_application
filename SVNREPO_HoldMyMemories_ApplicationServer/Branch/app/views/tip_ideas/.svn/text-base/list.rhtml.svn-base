@@ -1,0 +1,27 @@
+<h1>Listing tip_ideas</h1>
+
+<table>
+  <tr>
+  <% for column in TipIdea.content_columns %>
+    <th><%= column.human_name %></th>
+  <% end %>
+  </tr>
+  
+<% for tip_idea in @tip_ideas %>
+  <tr>
+  <% for column in TipIdea.content_columns %>
+    <td><%=h tip_idea.send(column.name) %></td>
+  <% end %>
+    <td><%= link_to 'Show', :action => 'show', :id => tip_idea %></td>
+    <td><%= link_to 'Edit', :action => 'edit', :id => tip_idea %></td>
+    <td><%= link_to 'Destroy', { :action => 'destroy', :id => tip_idea }, :confirm => 'Are you sure?', :method => :post %></td>
+  </tr>
+<% end %>
+</table>
+
+<%= link_to 'Previous page', { :page => @tip_idea_pages.current.previous } if @tip_idea_pages.current.previous %>
+<%= link_to 'Next page', { :page => @tip_idea_pages.current.next } if @tip_idea_pages.current.next %> 
+
+<br />
+
+<%= link_to 'New tip_idea', :action => 'new' %>

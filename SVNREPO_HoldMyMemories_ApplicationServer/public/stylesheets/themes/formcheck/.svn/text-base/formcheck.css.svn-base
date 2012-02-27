@@ -1,0 +1,227 @@
+/* FormCheck tipbox */
+
+/* tipbox :
+	table : 
+		tl		: top left
+		t		: top
+		tr		: top right
+		l 		: left
+		r		: right
+		bl		: bottom left
+		b		: bottom (with mark)
+		br		: bottom right
+		c		: center
+	components : 
+		a.close	: close button
+		err		: errors div
+		p		: error line
+*/
+
+.fc-tbx .tl{
+	background: url('/images/common/formcheck/tl.png') no-repeat;
+}
+.fc-tbx .t{
+	background: url('/images/common/formcheck/t.png') repeat-x;
+	height: 16px;
+}
+.fc-tbx .tr{
+	background: url('/images/common/formcheck/tr.png') no-repeat;
+}
+.fc-tbx .l{
+	background: url('/images/common/formcheck/l.png') repeat-y;
+	width : 16px;
+}
+.fc-tbx .r{
+	background: url('/images/common/formcheck/r.png') repeat-y;
+	width: 16px;
+}
+.fc-tbx .bl{
+	background: url('/images/common/formcheck/bl.png') no-repeat;
+}
+.fc-tbx .b{
+	background: url('/images/common/formcheck/b.png') no-repeat;
+	height: 25px;
+}
+.fc-tbx .br{
+	background: url('/images/common/formcheck/br.png') no-repeat;
+}
+.fc-tbx .c{
+	background: url('/images/common/formcheck/c.png') repeat;
+}
+.fc-tbx a.close {
+	float: right;
+	background: url('/images/common/formcheck/close.png') no-repeat;
+	position: relative;
+	margin-left: 5px;
+	display: block;
+	width: 10px;
+	height: 10px;
+	cursor: pointer;
+}
+.fc-tbx .err {
+	float: left;
+}
+.fc-tbx p {
+	width : auto;
+	display: block;
+	font-size: 10px;
+	font-family: tahoma, verdana, "sans-serif";
+	margin : 0;
+	padding : 0;
+	border : 0;
+	color : #FFF;
+}
+
+.ajax_loader {
+	background : url(/images/common/formcheck/ajax-loader.gif) no-repeat center;
+	width : 200px;
+	height : 150px;
+}
+
+
+/* FormCheck validation div */
+
+.fc-error {
+	border : 1px solid #888;
+	margin-top : 5px;
+	background-color : #EAEAEA;
+}
+.fc-error p {
+	margin : 5px;
+	color : #A00;
+}
+
+
+ .AccordionTitle, .AccordionContent, .AccordionContainer
+  {
+    position:relative;
+    width:800px;
+    background-repeat: repeat;
+    background-position:left top;
+    padding-top: 20px;
+    padding-right: 20px;
+    padding-bottom: 20px;
+  }
+
+  .AccordionTitle
+  {
+    height:20px;
+    overflow:hidden;
+    cursor:pointer;
+    font-family:Arial;
+    font-size:8pt;
+    font-weight:bold;
+    vertical-align:middle;
+    text-align:center;
+    background-repeat:repeat-x;
+    display:table-cell;
+    
+    background : url('/images/email_back.png') no-repeat center;
+    -moz-user-select:none;
+  }
+
+  .AccordionContent
+  {
+    height:0px;
+    overflow:auto;
+    display:none;
+  }
+
+ 
+  .hover1
+  {
+      font-family:Arial, Helvetica, sans-serif;
+    font-size:12pt;
+    font-weight:bold;
+
+    text-align:center;
+    text-decoration:none;
+    color:#ffffff;
+
+}
+
+ .hover1:hover
+  {
+     font-family:Arial, Helvetica, sans-serif;
+    font-size:12pt;
+    font-weight:bold;
+   
+    text-align:center;
+    text-decoration:none;
+     color:#000000;
+
+}
+
+.cmd-btn_email {
+	font-family:Arial, Helvetica, sans-serif;
+	font-size:12px;
+	font-weight:normal;
+	
+        text-align:center;
+	font-weight:bold;
+	background-image:url(/images/themes/classic/nav_cmd_btn_mid1.png);
+	background-repeat:repeat-x;
+	background-position: left top;
+	border-top-width: 0px;
+	border-right-width: 0px;
+	border-bottom-width: 0px;
+	border-left-width: 0px;
+	padding:0 8px 0 8px;
+	height:24px;
+         width:450px;
+        
+}
+
+.headers_email{
+	font-family:Arial, Helvetica, sans-serif;
+	font-size:14px;
+	font-weight:bold;
+	color:#fff;
+        text-align:left;
+	background-image:url(/images/common/tab_trans.png);
+	background-repeat:repeat-x;
+	background-position:left top;
+        width: 610px;
+        height: 30px;
+        padding-top: 15px;
+        padding-left: 20px;z
+
+}
+
+.headers_email:hover{
+	font-family:Arial, Helvetica, sans-serif;
+	font-size:14px;
+	font-weight:bold;
+	color:#fff;
+        text-align:left;
+        text-decoration: underline;
+	background-image:url(/images/common/tab_trans.png);
+	background-repeat:repeat-x;
+	background-position:left top;
+        width: 610px;
+        height: 30px;
+        padding-top: 15px;
+        padding-left: 20px;
+
+}
+.headers_email-hr-link{
+	font-family:Arial, Helvetica, sans-serif;
+	font-size:14px;
+	font-weight:bold;
+	color:#fff;
+         padding-top  : 5px;
+        text-align:left;
+
+}
+
+.headers_email-hr-link:hover{
+	font-family:Arial, Helvetica, sans-serif;
+	font-size:14px;
+	font-weight:bold;
+	color:#fff;
+        text-align:left;
+        padding-top:  5px;
+
+        text-decoration: underline;
+
+}

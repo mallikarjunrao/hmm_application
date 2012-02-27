@@ -1,0 +1,124 @@
+<script language="javascript">
+  
+  function goprint()
+  {
+      document.getElementById('prn').style.display="none";
+      window.print();
+      
+  }
+  
+</script>
+
+<%
+    @invoicenumber = @hmm_user['invoicenumber']
+    @subnumber = @hmm_user['subscriptionnumber']
+    @customer_name = @hmm_user['v_fname'] + ' ' + @hmm_user['v_lname']
+    @months = @hmm_user['months']
+    @amount = @hmm_user['amount']
+    @cdate = @hmm_user['account_expdate']
+    daydate=@cdate.strftime("%d")
+    
+   strlength=daydate.length 
+   last_letter=daydate.slice(strlength-1, (strlength))
+   if(last_letter == '2')
+     sub='nd'
+   else
+     if(last_letter == '3')  
+     sub='rd'
+     else
+       sub='th'
+    end
+    end
+    if( @hmm_user.account_type=='platinum_user') 
+                 @account_type = "Premium Account"
+                  if(@hmm_user.months=="6")
+                      mon="six months"
+                      amt = "$49.95"
+                    else
+                      if(@hmm_user.months=="12")
+                      mon="one year"  
+                      amt = "$99.95"
+                      else
+                        amt = "$9.95"
+                    end
+                  end
+                    message="After #{mon} your membership will renew at $9.95 per month, charged on
+                    the #{daydate}<sup>#{sub}</sup> day of every month."
+                else
+                  if( @hmm_user.account_type=='familyws_user')
+                    @account_type = "Family Website Account"  
+                    if(@hmm_user.months=="6")
+                      mon="one year"
+                      amt = "$24.95"
+                    else
+                      if(@hmm_user.months=="12")
+                        mon="twelve" 
+                        amt = "$49.95"
+                      else 
+                        amt = "$4.95"
+                      end
+                    
+                    message="After #{mon} your membership will renew at $4.95 per month, charged on
+                    the #{daydate}<sup>#{sub}</sup> day of every month."
+  
+    end        
+                 end
+                end  
+            
+
+    
+%>
+<p align="right">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<div id="prn"><input type="button" value="Print this receipt" name="print" onclick="goprint()" />  </div></p>
+
+<table align="center" width="60%" cellpadding="3" cellspacing="3" >
+  <tr><td align="center" colspan="2" > <b> HoldMyMemories.com Subscription Invoice </b> </td></tr>
+<tr><td align="center" colspan="2">____________________________________________________________________________________</td></tr>
+<tr><td align="right">Invoice Number :</td><td><%= @invoicenumber%></td></tr>
+<tr><td align="right">Subscription Number : </td><td align="left"><%= @subnumber%></td></tr>
+<tr><td align="right">Cutomers Name: </td><td align="left"><%= @customer_name%></td></tr>
+<tr><td align="right">Account type: </td><td align="left"><%=@account_type%></td></tr>
+<% if  @subnumber == "One time payment"%>
+<tr><td align="right">Payment Method </td><td align="left">One payment occured successfully</td></tr>
+<tr><td align="right">Amount Recieved : </td><td align="left"> <%=amt%> </td></tr>
+<tr><td align="right">Subscription Interval : </td><td align="left"> Nil</td></tr>
+<tr><td align="right">Subscription Amount : </td><td align="left"> Nil </td></tr>
+<%else%>
+<tr><td align="right">Subscription Interval: </td><td align="left"><%if @hmm_user['months'] == '1'%>Payments occur on the  <%=daydate%><sup><%=sub%></sup> of <br> every month.
+
+<%else%>
+<p><%=message%></p>
+<%end%> </td></tr>
+<tr><td align="right">Subscription Amount : </td><td align="left"> <%= @amount%> </td></tr>
+<tr><td align="center" colspan="2"></td></tr>
+<%end%>
+<tr><td align="center" colspan="2" > <b> HoldMyMemories.com Account Details </b></td></tr>
+<tr><td align="center" colspan="2">____________________________________________________________________________________</td></tr>
+<tr><td align="right">User name : </td><td align="left"><%= @hmm_user['v_user_name']%></td></tr>
+<tr><td align="right">Password  : </td><td align="left"><%=@hmm_user['v_password']%></td></tr>
+<tr><td align="center" colspan="2"></td></tr>
+
+<tr><td align="center" colspan="2" > <b> Your HoldMyMemories.com Family Website Details</b></td></tr>
+<tr><td align="center" colspan="2">____________________________________________________________________________________</td></tr>
+<% if @hmm_user['family_name']=='' || @hmm_user['family_name']== nil %>
+<tr><td align="center" colspan="2" >  You have not created your Family website yet. Please login to your account to begin creating your family website!</td></tr>
+<%else%>
+    <tr><td align="right" >Family Website Link : </td><td align="left"><a href="http://www.holdmymemories.com/<%= @hmm_user['family_name']%>" target="_blank">http://www.HoldMyMemories.com/<%= @hmm_user['family_name']%></a></td></tr>
+ 
+
+<% if(@hmm_user['password_required'] == 'yes') %>
+    <tr><td align="right"> Password : </td><td align="left"><%=@hmm_user['familywebsite_password']%></td></tr>
+<%end%>
+<%end%>
+</table>
+
+
+
+<br>
+  
+<p align="left">Thank you for becoming a member of HoldMyMemories.com, the place to hold, organize and share your Family's Memories. <br> Should you have any questions regarding your account, please contact your local HoldMyMemories.com Studio.</p>
+<br>
+
+
+<p>Thank you, </p>
+<p>Your HoldMyMemories.com Team   </div></p>
+

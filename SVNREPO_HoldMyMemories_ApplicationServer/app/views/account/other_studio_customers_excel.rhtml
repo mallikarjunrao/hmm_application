@@ -1,0 +1,86 @@
+<p><font color="red" face="arial" size="2"><%=flash[:notice]%></font></p>
+
+<%if @customer_count > 0%>
+  <table>
+    <%@studio = HmmStudio.find(params[:id])%>
+    <tr>
+      <td colspan="7">
+                          Customers of studio <%=@studio.studio_branch%>
+      </td>
+    </tr>
+
+    <tr>
+      <td  background="/images/body_hor.JPG"><font class='txt'><table> <tr><th><%= sort_header_tag('a.id', :text => "Id") %></th></tr></table></font></td>
+      <td  background="/images/body_hor.JPG"><font class='txt'><table> <tr><th><%= sort_header_tag('v_fname', :text => "First Name") %></th></tr></table></font></td>
+      <td  background="/images/body_hor.JPG"><font class='txt'><table> <tr><th><%= sort_header_tag('v_lname', :text => "Last Name") %></th></tr></table></font></td>
+      <td  background="/images/body_hor.JPG"><font class='txt'><table> <tr><th><%= sort_header_tag('v_user_name', :text => "User Name") %></th></tr></table></font></td>
+      <td  background="/images/body_hor.JPG"><font class='txt'><table> <tr><th><%= sort_header_tag('payment_recieved_on', :text => "Amount Received on") %></th></tr></table></font></td>
+      <td  background="/images/body_hor.JPG"><font class='txt'><table> <tr><th><%= sort_header_tag('subscriptionnumber', :text => "ARB subscription Number") %></th></tr></table></font></td>
+      <td  background="/images/body_hor.JPG"><font class='txt'><table> <tr><th><%= sort_header_tag('substatus', :text => "Current ARB subscription status on #{Time.now.strftime("%m - %d - %Y")}") %></th></tr></table></font></td>
+      <td  background="/images/body_hor.JPG">Studio Commission</td>
+      <td  background="/images/body_hor.JPG">Sales Person</td>
+    
+    </tr>
+    <%for i in @customers%>
+      <% if i.amount=='' || i.amount==nil || i.amount == 'NULL'
+      else
+      %>
+
+        <tr  class="<%= cycle('odd', 'even') -%>">
+          <td>
+            <%=i.uid%>
+          </td>
+          <td>
+            <%=i.v_fname%>
+          </td>
+          <td>
+            <%=i.v_lname%>
+          </td>
+          <td>
+            <%=i.v_user_name%>
+          </td>
+          <td>
+
+
+            <%=i.payment_recieved_on%>
+
+
+          </td>
+
+
+          <td>
+            <%=i.subscriptionnumber%>
+          </td>
+          <td>
+            <% if(i.cancel_status == 'approved')  %>
+                                        Subscription Cancelled
+            <%else%>
+                                    Subscription Active
+            <%end%>
+          </td>
+
+          <td>
+                                      $<%=i.commission%>.00
+          </td>
+          <td>
+            <%=i.membership_sold_by%>
+          </td>
+          
+         
+        </tr>
+      <%end%>
+    <%end%>
+    <tr><td>
+      </td>
+    </tr>
+  </table>
+<%else%>
+  <table>
+    <tr>
+      <td>
+                          There are no customers for the Month : <%=params[:date]%>
+      </td>
+    </tr>
+  </table>
+
+<%end%>

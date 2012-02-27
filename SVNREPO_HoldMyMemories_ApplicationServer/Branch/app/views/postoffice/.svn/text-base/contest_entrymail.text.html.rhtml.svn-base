@@ -1,0 +1,17 @@
+<p>Hello <i>Bob</i>, </p>
+
+<p>HoldMyMemories.com Contest entry notification... </p>
+<p>Sent on: <%=Time.now %></p>
+<p>Contest entry by: <%= @fname%></p>
+<p>User name: <%= @user_name%></p>
+<p>Email address: <%= @email%></p>
+<p>Entrant name: <%=@entrant_name%></p>
+<p> <img src="http://12.156.60.97/user_content/videos/thumbnails/<%=@video_thumb%>.jpg" border="0"></p>
+<p><a href="/account/login" ><font color="#000000">Please Login to admin section to approve the contest entry</font><a/></p>
+
+<br>
+
+
+<p>Thank-you,</p>
+
+<p>HoldMyMemories.com</p>

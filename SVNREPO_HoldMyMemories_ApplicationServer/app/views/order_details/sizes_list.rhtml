@@ -1,0 +1,33 @@
+<table>
+<tr><td colspan="3"><h2>Moment Details</h2></td></tr>	
+</table>
+<table align="center">
+	
+<%		@moment = UserContent.find(:all, :conditions => "id=#{params[:mid]}")
+    %> 
+<tr align="center"><td colspan="3"><%for moments in @moment%>
+		
+				<img src="<%= moments.img_url %>/user_content/photos/big_thumb/<%= moments.v_filename%>" width="90" border="5" style="border-color:#000000;"  /><br>
+				
+	<font class="cont"><%=moments.v_tagname%><br></font>
+    <%end%></td></tr>	
+</table>
+<table>
+<tr><td colspan="3"><h2>Size & Price Details</h2></td></tr>	
+</table>
+<% for pid in @m %>
+<fieldset>
+<table align="left">
+<% @pres=ProductDetail.find(pid) %>
+<tr><% @pdet=Product.find(@pres.product_id) %>
+<tr><td>Size</td><td>:</td><td><%=@pdet.product_name%></td></tr>
+<tr><td>Price (each)</td><td>:</td><td>$ <%=@pdet.price %></td></tr>
+<tr><td>Number of Moments</td><td>:</td><td><%=@pres.no_of_moments%></td></tr>
+<tr><td>Number of Copies</td><td>:</td><td><%=@pres.no_of_copies%></td></tr>
+<tr><td>Total Price</td><td>:</td><td>$ <%=@pres.product_price%></td></tr>
+</table>
+</fieldset>
+<br><br>
+<%end%>
+<%= link_to 'Go Back', :action => 'list' %>
+</table>

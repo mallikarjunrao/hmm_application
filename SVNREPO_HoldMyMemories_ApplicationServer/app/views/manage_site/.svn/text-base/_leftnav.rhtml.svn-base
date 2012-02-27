@@ -1,0 +1,35 @@
+<table width="150" border="0" cellspacing="0" cellpadding="0">
+  <tr>
+    <td height="26" align="left" valign="middle" class="leftconthr" background="/images/left_conthr_bg.jpg">&nbsp;&nbsp;Manage Website</td>
+  </tr>
+  <tr>
+    <td align="left" valign="top" background="/images/left_cont_bg2.jpg" id="leftcontbg2"><table width="100%" border="0" cellpadding="0" cellspacing="0"  id="leftcontbg">
+        <tr>
+          <td height="100" align="left" valign="top" class="leftcont">
+          	<div class="vertimenubox">
+              <div class="whitetext"><a href="/manage_site/advance_upload/<%=params[:id]%>" <% if (current=='upload')%>class="orangetext"<% else %>class="whitetext"<% end %>>File Manager</a></div>
+			 <!-- <div class="whitetext"><a href="/manage_site/drag_drop/<%=params[:id]%>" <% if (current=='drag_drop')%>class="orangetext"<% else %>class="whitetext"<% end %>>Rearrange/Organize Site</a></div>-->
+			  <div class="whitetext"><a href="/manage_site/fnf_index/<%=params[:id]%>" <% if (current=='address_book')%>class="orangetext"<% else %>class="whitetext"<% end %>>Address Book</a></div>
+			  <!--<div class="whitetext"><a href="/manage_site/slideshowTemplates/<%=params[:id]%>" <% if (current=='create')%>class="orangetext"<% else %>class="whitetext"<% end %>>Create Slideshow</a></div>-->
+			  <div class="whitetext"><a href="/manage_site/edit_profile/<%=params[:id]%>" <% if (current=='edit_profile')%>class="orangetext"<% else %>class="whitetext"<% end %>>Edit Profile</a></div>
+			  <div class="whitetext"><a href="/mysite_security/account_settings/<%=params[:id]%>" <% if (current=='account_setting')%>class="orangetext"<% else %>class="whitetext"<% end %>>Account Settings</a></div>
+			  <div class="whitetext"><a href="/manage_site/manage_biography/<%=params[:id]%>" <% if (current=='biography')%>class="orangetext"<% else %>class="whitetext"<% end %>>Family&nbsp;Biographies</a></div>
+			  <div class="whitetext"><a href="/manage_site/manage_biography?id=<%=params[:id]%>&journals=yes" <% if (current=='journal')%>class="orangetext"<% else %>class="whitetext"<% end %>>Manage Journal</a></div>
+			  <div class="whitetext"><a href="/manage_site/comments_list/<%=params[:id]%>" <% if (current=='comments')%>class="orangetext"<% else %>class="whitetext"<% end %>>Manage Comments</a></div>
+			  <div class="whitetext"><a href="/manage_site/edit_familyname/<%=params[:id]%>" <% if (current=='family_name')%>class="orangetext"<% else %>class="whitetext"<% end %>>Edit Website Address</a></div>
+			  <div class="whitetext"><a href="/mysite_security/password_settings/<%=params[:id]%>" <% if (current=='passwords')%>class="orangetext"<% else %>class="whitetext"<% end %>>Password Settings</a></div>
+			  <div class="whitetext"><a href="/manage_site/edit_family_header/<%=params[:id]%>" <% if (current=='header')%>class="orangetext"<% else %>class="whitetext"<% end %>>Edit Website Header</a></div>
+			  <!--<div class="whitetext"><a href="/manage_site/select_themes/<%=params[:id]%>" <% if (current=='themes')%>class="orangetext"<% else %>class="whitetext"<% end %>>Themes</a></div>-->
+			   <div class="whitetext"><a href="/manage_site/hmm_contest/<%=params[:id]%>" <% if (current=='contest')%>class="orangetext"<% else %>class="whitetext"<% end %>>Contest</a></div>
+                         <!--  <div class="whitetext"><a href="/photobook/photobook/" <% if (current=='contest')%>class="orangetext"<% else %>class="whitetext"<% end %>>Photo Book</a></div>-->
+			  <div class="whitetext"><a href="/manage_site/mysite_logout/<%=params[:id]%>" <% if (current=='logout')%>class="orangetext"<% else %>class="whitetext"<% end %>>Logout</a></div>
+			</div>
+			</td>
+          <td width="13" align="left" valign="top"></td>
+        </tr>
+    </table></td>
+  </tr>
+  <tr>
+    <td height="60" align="left" valign="top" background="/images/search_bg.jpg"></td>
+  </tr>
+</table>

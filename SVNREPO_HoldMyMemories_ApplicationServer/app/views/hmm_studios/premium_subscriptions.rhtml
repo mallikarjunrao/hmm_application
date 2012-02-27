@@ -1,0 +1,177 @@
+
+<h1>Number of Premium Subscriptions </h1>
+<font color="red" size="3"><%=flash[:notice]%></font>
+<form name="frm" onsubmit="return check();" >
+<table><tr><td colspan="2"></td></tr>
+
+  <tr><td>From date: </td><td><select name="from_month" id="from_month">
+
+                <option value="01" <%if params[:from_month]=="01"%>selected <%end%>>January</option>
+                <option value="02" <%if params[:from_month]=="02"%>selected <%end%>>February</option>
+                <option value="03" <%if params[:from_month]=="03"%>selected <%end%>>March</option>
+                <option value="04" <%if params[:from_month]=="04"%>selected <%end%>>April</option>
+                <option value="05" <%if params[:from_month]=="05"%>selected <%end%>>May</option>
+                <option value="06" <%if params[:from_month]=="06"%>selected <%end%>>June</option>
+                <option value="07" <%if params[:from_month]=="07"%>selected <%end%>>July</option>
+                <option value="08" <%if params[:from_month]=="08"%>selected <%end%>>August</option>
+                <option value="09" <%if params[:from_month]=="09"%>selected <%end%>>September</option>
+                <option value="10" <%if params[:from_month]=="10"%>selected <%end%>>October</option>
+                <option value="11" <%if params[:from_month]=="11"%>selected <%end%>>November</option>
+                <option value="12" <%if params[:from_month]=="12"%>selected <%end%>>December</option>
+              </select>
+              &nbsp;
+              <select name="from_day" id="from_day">
+
+                <option value="01" <%if params[:from_day]=="01"%>selected <%end%>>01</option>
+                <option value="02" <%if params[:from_day]=="02"%>selected <%end%>>02</option>
+                <option value="03" <%if params[:from_day]=="03"%>selected <%end%>>03</option>
+                <option value="04" <%if params[:from_day]=="04"%>selected <%end%>>04</option>
+                <option value="05" <%if params[:from_day]=="05"%>selected <%end%>>05</option>
+                <option value="06" <%if params[:from_day]=="06"%>selected <%end%>>06</option>
+                <option value="07" <%if params[:from_day]=="07"%>selected <%end%>>07</option>
+                <option value="08" <%if params[:from_day]=="08"%>selected <%end%>>08</option>
+                <option value="09" <%if params[:from_day]=="09"%>selected <%end%>>09</option>
+                <option value="10" <%if params[:from_day]=="10"%>selected <%end%>>10</option>
+                <option value="11" <%if params[:from_day]=="11"%>selected <%end%>>11</option>
+                <option value="12" <%if params[:from_day]=="12"%>selected <%end%>>12</option>
+                <option value="13" <%if params[:from_day]=="13"%>selected <%end%>>13</option>
+                <option value="14" <%if params[:from_day]=="14"%>selected <%end%>>14</option>
+                <option value="15" <%if params[:from_day]=="15"%>selected <%end%>>15</option>
+                <option value="16" <%if params[:from_day]=="16"%>selected <%end%>>16</option>
+                <option value="17" <%if params[:from_day]=="17"%>selected <%end%>>17</option>
+                <option value="18" <%if params[:from_day]=="18"%>selected <%end%>>18</option>
+                <option value="19" <%if params[:from_day]=="19"%>selected <%end%>>19</option>
+                <option value="20" <%if params[:from_day]=="20"%>selected <%end%>>20</option>
+                <option value="21" <%if params[:from_day]=="21"%>selected <%end%>>21</option>
+                <option value="22" <%if params[:from_day]=="22"%>selected <%end%>>22</option>
+                <option value="23" <%if params[:from_day]=="23"%>selected <%end%>>23</option>
+                <option value="24" <%if params[:from_day]=="24"%>selected <%end%>>24</option>
+                <option value="25" <%if params[:from_day]=="25"%>selected <%end%>>25</option>
+                <option value="26" <%if params[:from_day]=="26"%>selected <%end%>>26</option>
+                <option value="27" <%if params[:from_day]=="27"%>selected <%end%>>27</option>
+                <option value="28" <%if params[:from_day]=="28"%>selected <%end%>>28</option>
+                <option value="29" <%if params[:from_day]=="29"%>selected <%end%>>29</option>
+                <option value="30" <%if params[:from_day]=="30"%>selected <%end%>>30</option>
+                <option value="31" <%if params[:from_day]=="31"%>selected <%end%>>31</option>
+              </select>
+              &nbsp;
+              <select name="from_year" id="from_year">
+
+                <option value="2006" <%if params[:from_year]=="2006"%>selected <%end%>>2006</option>
+                <option value="2007" <%if params[:from_year]=="2007"%>selected <%end%>>2007</option>
+                <option value="2008" <%if params[:from_year]=="2008"%>selected <%end%>>2008</option>
+                <option value="2009" <%if params[:from_year]=="2009"%>selected <%end%>>2009</option>
+                <option value="2010" <%if params[:from_year]=="2010"%>selected <%end%>>2010</option>
+                <option value="2011" <%if params[:from_year]=="2011"%>selected <%end%>>2011</option>
+                <option value="2012" <%if params[:from_year]=="2012"%>selected <%end%>>2012</option>
+              </select></td></tr>
+  <tr><td>&nbsp;</td></tr>
+  <tr><td>To date: </td><td><select name="to_month" id="to_month">
+
+                <option value="01" <%if params[:to_month]=="01"%>selected <%end%>>January</option>
+                <option value="02" <%if params[:to_month]=="02"%>selected <%end%>>February</option>
+                <option value="03" <%if params[:to_month]=="03"%>selected <%end%>>March</option>
+                <option value="04" <%if params[:to_month]=="04"%>selected <%end%>>April</option>
+                <option value="05" <%if params[:to_month]=="05"%>selected <%end%>>May</option>
+                <option value="06" <%if params[:to_month]=="06"%>selected <%end%>>June</option>
+                <option value="07" <%if params[:to_month]=="07"%>selected <%end%>>July</option>
+                <option value="08" <%if params[:to_month]=="08"%>selected <%end%>>August</option>
+                <option value="09" <%if params[:to_month]=="09"%>selected <%end%>>September</option>
+                <option value="10" <%if params[:to_month]=="10"%>selected <%end%>>October</option>
+                <option value="11" <%if params[:to_month]=="11"%>selected <%end%>>November</option>
+                <option value="12" <%if params[:to_month]=="12"%>selected <%end%>>December</option>
+              </select>
+              &nbsp;
+              <select name="to_day" id="to_day">
+
+                <option value="01" <%if params[:to_day]=="01"%>selected <%end%>>01</option>
+                <option value="02" <%if params[:to_day]=="02"%>selected <%end%>>02</option>
+                <option value="03" <%if params[:to_day]=="03"%>selected <%end%>>03</option>
+                <option value="04" <%if params[:to_day]=="04"%>selected <%end%>>04</option>
+                <option value="05" <%if params[:to_day]=="05"%>selected <%end%>>05</option>
+                <option value="06" <%if params[:to_day]=="06"%>selected <%end%>>06</option>
+                <option value="07" <%if params[:to_day]=="07"%>selected <%end%>>07</option>
+                <option value="08" <%if params[:to_day]=="08"%>selected <%end%>>08</option>
+                <option value="09" <%if params[:to_day]=="09"%>selected <%end%>>09</option>
+                <option value="10" <%if params[:to_day]=="10"%>selected <%end%>>10</option>
+                <option value="11" <%if params[:to_day]=="11"%>selected <%end%>>11</option>
+                <option value="12" <%if params[:to_day]=="12"%>selected <%end%>>12</option>
+                <option value="13" <%if params[:to_day]=="13"%>selected <%end%>>13</option>
+                <option value="14" <%if params[:to_day]=="14"%>selected <%end%>>14</option>
+                <option value="15" <%if params[:to_day]=="15"%>selected <%end%>>15</option>
+                <option value="16" <%if params[:to_day]=="16"%>selected <%end%>>16</option>
+                <option value="17" <%if params[:to_day]=="17"%>selected <%end%>>17</option>
+                <option value="18" <%if params[:to_day]=="18"%>selected <%end%>>18</option>
+                <option value="19" <%if params[:to_day]=="19"%>selected <%end%>>19</option>
+                <option value="20" <%if params[:to_day]=="20"%>selected <%end%>>20</option>
+                <option value="21" <%if params[:to_day]=="21"%>selected <%end%>>21</option>
+                <option value="22" <%if params[:to_day]=="22"%>selected <%end%>>22</option>
+                <option value="23" <%if params[:to_day]=="23"%>selected <%end%>>23</option>
+                <option value="24" <%if params[:to_day]=="24"%>selected <%end%>>24</option>
+                <option value="25" <%if params[:to_day]=="25"%>selected <%end%>>25</option>
+                <option value="26" <%if params[:to_day]=="26"%>selected <%end%>>26</option>
+                <option value="27" <%if params[:to_day]=="27"%>selected <%end%>>27</option>
+                <option value="28" <%if params[:to_day]=="28"%>selected <%end%>>28</option>
+                <option value="29" <%if params[:to_day]=="29"%>selected <%end%>>29</option>
+                <option value="30" <%if params[:to_day]=="30"%>selected <%end%>>30</option>
+                <option value="31" <%if params[:to_day]=="31"%>selected <%end%>>31</option>
+              </select>
+              &nbsp;
+              <select name="to_year" id="to_year">
+                <%
+                beginyr=Time.now.strftime("%Y").to_i - 4
+                endyr=Time.now.strftime("%Y").to_i + 2
+                i= beginyr
+                while i < endyr %>
+                  <option value="<%=i%>" <%if params[:to_year]=="#{i}"%> selected <%end%> ><%=i%></option>
+                  <% i = i + 1 %>
+                <%end%>
+              </select></td></tr>
+  <tr><td>&nbsp;</td></tr>
+  <tr><td></td><td><input type="submit" name="sub" value="Get Report" id="sub" onclick="return validate();"/></td></tr>
+  <tr><td>&nbsp;</td></tr>
+</table>
+</form>
+<table>
+  <tr>
+    <th background="/images/body_hor.JPG"><table><tr><th><%= sort_header_tag('studio_name', :text => "Studio name") %></th></tr></table></th>
+    <th background="/images/body_hor.JPG">Number Of Platinum Users</th>
+     <th background="/images/body_hor.JPG">Number Of 1 Month</th>
+      <th background="/images/body_hor.JPG">Number Of 6 Month</th>
+       <th background="/images/body_hor.JPG">Number Of 12 Month</th>
+        <th background="/images/body_hor.JPG">% of 1 Month</th>
+         <th background="/images/body_hor.JPG">% of 6 Month</th>
+         <th background="/images/body_hor.JPG">% of 12 Month</th>
+   
+  </tr>
+
+<% for subscription in @subscriptions  %>
+  <tr class="<%= cycle('odd', 'even') %>">
+    <td><%=subscription.studio_name %></td>
+    <% stats=HmmStudio.premium_users_statistic_info(@date_period,subscription.id) %>
+   <td align="center"><a href="/hmm_studios/premium_subscriptions_info?studio_id=<%=subscription.id%>&dateperiod=<%=@date_period%>"><%= premium_users=HmmStudio.premium_users_info(@date_period,subscription.id) %></a></td>
+    <td align="center"><a href="/hmm_studios/premium_subscriptions_stats_info?studio_id=<%=subscription.id%>&dateperiod=<%=@date_period%>&months=1"> <%=stats[0] %> </a></td>
+    <td align="center"><a href="/hmm_studios/premium_subscriptions_stats_info?studio_id=<%=subscription.id%>&dateperiod=<%=@date_period%>&months=6"> <%=stats[1] %> </a></td>
+    <td align="center"><a href="/hmm_studios/premium_subscriptions_stats_info?studio_id=<%=subscription.id%>&dateperiod=<%=@date_period%>&months=12"> <%=stats[2] %> </a></td>
+    <%  if stats[0]==0 || premium_users==0  %>
+     <td align="center">0</td>
+     <%else%>
+    <td align="center"><%= Float((Float(stats[0]) / Float(premium_users)) *100).round(2) %></td>
+    <%end%>
+    <%  if stats[1]==0 || premium_users==0  %>
+    <td align="center">0</td>
+    <%else%>
+    <td align="center"><%= Float((Float(stats[1]) / Float(premium_users))  *100).round(2) %></td>
+    <%end%>
+    <%  if stats[2]==0 || premium_users==0  %>
+    <td align="center">0</td>
+    <%else%>
+    <td align="center"><%=  Float((Float(stats[2])  / Float(premium_users))  * 100).round(2) %></td>
+    <%end%>
+   </tr>
+
+<% end %>
+</table>
+
+	<%=will_paginate @subscriptions%>
+

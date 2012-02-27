@@ -1,0 +1,231 @@
+<font color="#ff0000"><%=flash[:share_familypage]%></font>
+<% if  flash[:share_unsuccefull]%>
+  <br><font color="#ff0000"><%=flash[:share_unsuccefull]%></font>
+<%end%>
+<%= javascript_include_tag 'modalbox/prototype' %>
+<script type="text/javascript" src="/javascripts/modalbox/scriptaculous.js?load=effects"></script>
+<script type="text/javascript" src="/javascripts/modalbox/modalbox.js"></script>
+<%= stylesheet_link_tag 'modalbox/modalbox' %>
+<% session['redirect'] = '11' %>
+<input type="hidden" name="family_name" id="family_name" value="<%=params[:familyname]%>" />
+<% if(params[:modal] == '1')%>
+  <script language='javascript'>
+    var familyname = document.getElementById('family_name').value;
+    Modalbox.show('/my_familywebsite/share?link=/'+familyname+'&error=Invalid Capcha Please try again!!', {title: '<br><font color="#ff0000">Share this Page with your friends!</font>',  width:625})
+  </script>
+<%end%>
+<table width="100%" border="0" cellspacing="0" cellpadding="0">
+  <tr>
+    <td>
+      <table width="100%">
+        <tr>
+          <th width="88%"  align="left" valign="middle" class="" scope="col"><font size=4 face="Arial, Helvetica, sans-serif" color="#eeeeee"> <% @gal = Galleries.find(:all, :conditions => "id=#{params[:id]}")
+              for @i in @gal
+                @gal_name=@i.v_gallery_name%>
+                <font size="3">&nbsp;&nbsp;&nbsp; </font></font>
+          <%end%>          </th>
+          <th width="10%" align="left" >
+            <a href="/my_familywebsite/content_grid_view/<%=params[:familyname]%>?gallery_id=<%=params[:id]%>" class="orangelinkswitch">Grid View<!-- img src="/images/gridicon1.jpg" border="0" -->
+            </a><br><br>
+            <a href="/my_familywebsite/gallery_fisheye/<%=params[:id]%>?familyname=<%=params[:familyname]%>" class="orangelinkswitch">Coverflow View<!--img src="/images/gridicon3.jpg" border="0"-->
+            </a>
+          </th>
+        </tr>
+      </table>
+    </td>
+  </tr>
+  <tr><td align="left">
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+      <font color="#ff0000"><%=flash[:notice_gjc]%>
+      <%=flash[:notice_gju]%></font>
+    </td></tr>
+  <tr><td align="center">
+      <input type="hidden" id="galleryUrl" value="<%=@galleryUrl%>">
+      <input type="hidden" id="swfName" value="/<%=@swfName%>">
+      <input type="hidden" id="galleryIdVal" value="<%=@galleryId%>">
+      <input type="hidden" id="proxyurls" value="<%=@proxyurls%>"/>
+      <input type="hidden" name="buttonVisible" id="buttonVisible" value="<%=@buttonVisibility%>">
+      <input type="hidden" id="familynam" value="<%=params[:familyname]%>"/>
+      <%
+      if (@userid[0]['themes'] == 'myfamilywebsite' or @userid[0]['themes'] == 'familywebsite_pink_bottom' or @userid[0]['themes'] == 'familywebsite_white_bottom')
+
+        cwidth=898
+        cheight=700
+
+      else
+
+        cwidth=898
+        cheight=700
+
+      end
+    %>
+      <script src="/AC_OETags.js" language="JavaScript"></script>
+      <script src="DWConfiguration/ActiveContent/IncludeFiles/AC_RunActiveContent.js" type="text/javascript"></script>
+      <script type="text/javascript">
+        var visibility = document.getElementById("buttonVisible").value;
+        var proxyurls = document.getElementById("proxyurls").value;';'
+        var galUrl = document.getElementById("galleryUrl").value;
+        var flashName = document.getElementById("swfName").value;
+        var familynam = document.getElementById("familynam").value;
+        if(flashName == 'Chapter')
+
+        var galleryIdValue = document.getElementById("galleryIdVal").value;
+
+      AC_FL_RunContent( 'codebase','http://download.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=7,0,19,0',
+      'width','1000',
+      'height','680',
+      'src',flashName,
+      'quality','high',
+      'wmode','transparent',
+      'pluginspage','http://www.macromedia.com/go/getflashplayer',
+      'movie',flashName,
+
+      'flashvars', 'serverUrl='+galUrl+'&navigateTo=/my_familywebsite/moment_page/'+'&backid='+galleryIdValue+'&buttonsVisible='+visibility+'&galleryid='+galleryIdValue+'&proxyurls='+proxyurls+'&familyname='+familynam); //end AC code
+
+      </script>
+      <noscript>
+        <object classid="clsid:D27CDB6E-AE6D-11cf-96B8-444553540000" codebase="http://download.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=7,0,19,0" width="<%=cwidth%>" height="<%=cheight%>">
+          <param name="movie" value="/Chapter.swf" />
+          <param name="quality" value="high" />
+          <param name="FlashVars"  />
+          <embed src="/Chapter.swf" quality="high" FlashVars=""  pluginspage="http://www.macromedia.com/go/getflashplayer" type="application/x-shockwave-flash" width="<%=cwidth%>" height="<%=cheight%>"></embed>
+        </object>
+      </noscript>
+    </td></tr></table>
+
+
+
+
+
+
+<!-- Journal Code for gallery -->
+<table width='800'>
+  <tr><td align="center" >
+      <%if session[:hmm_user] && logged_in_hmm_user.family_name == params[:familyname] %><a href="/manage_content/new_galjournal/<%=params[:id]%>?familyname=<%=params[:familyname]%>" class="journal_txt_link">Journal this</a><%else%>
+    <tr><td colspan="3" align="center">
+        <font color="white" face="arial" size="2"><u><%#= link_to_remote("<span class='commentcont'>Add Comment</span>", :update =>"add_comment",
+  :url => {:controller => :my_familywebsite, :action => :new_gallery_comment, :id=> params[:id] , :familyname => params[:familyname]} ,:layout => false  ) %></u>
+          &nbsp; <%  @subchapter_comment_count = GalleryComment.count(:all,:conditions => "gallery_id=#{params[:id]} and (gallery_jid='0' or gallery_jid='')  and e_approval='approve'")
+          if @subchapter_comment_count > 0 %>
+
+            <u><%= link_to_remote("<span class='commentcont'>View Comments</span>", :update =>"add_comment",
+              :url => {:controller => :my_familywebsite, :action => :view_gallery_comments, :gallery_id => params[:id], :jid => 0, :familyname => params[:familyname]  } ,:layout => false  ) %></u>
+          <%end%>
+        </font>
+        <p align="center"><font color="#ff0000"><%=flash[:notice_cc]%></font>
+          <font color="#ff0000"><%=flash[:notice_gca]%></font>
+          <font color="#ff0000"><%=flash[:notice_gcr]%></font>
+          <font color="#ff0000"><%=flash[:notice_gcd]%></font></p>
+        <p>
+        <div id="add_comment"></div>
+        </p>
+
+      </td></tr>
+
+  <%end%>&nbsp;&nbsp;
+  <font color="#ff0000"><%= flash[:notice_gcc]%></font>
+</td></tr>
+</table>
+
+
+
+
+
+<%@gallery_journal_count = GalleryJournal.count(:all, :conditions =>" galerry_id=#{params[:id]}")
+if(@gallery_journal_count>0)
+%>
+  <table width="800" border="0" class="border" align="center" cellspacing="0" cellpadding="0">
+    <tr>
+      <th width="783" height="295" align="left" valign="top" scope="col">
+        <table width="100%" border="0" cellspacing="0" cellpadding="4" id="table_br">
+          <tr>
+            <td height="32" align="left" valign="middle" id="table_bar_bg" scope="col" colspan="2" class="btmtxt"><span class="btmtxt">Journal</span>
+
+
+          <% for @i in @gallery_journal %>              </tr>
+
+            <tr>
+              <th width="20" height="32" align="left" valign="top" scope="col">&nbsp;</th>
+              <th align="left" valign="middle" scope="col"><span class="commenthr"><%= @i.v_title%> &nbsp;&nbsp;
+
+                <%=@i.d_created_on.strftime("%a %b %d, %Y")%></span></th>
+            </tr>
+            <tr>
+              <th height="65" align="left" valign="top" scope="col">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th>
+              <th align="left" valign="top" class="commentcont" scope="col"><%= @i.v_journal.gsub("\n", "<br />\n") %></th>
+            </tr>
+            <tr>
+
+              <th height="100" align="left" valign="top" scope="col">&nbsp;</th>
+              <th align="right">
+                <% if session[:hmm_user]
+                else %>
+                  <div id="show_comment" style="display:none" >
+                    <table >
+                      <tr>
+                        <td valign="top">&nbsp;							</td>
+                        <td>
+                          <form name="frm1" action="/gallery_comment/gallery_cmt">
+                            <input type="hidden" value="<%= params[:id]%>" name="gallery_id" />
+                            <input type="hidden" value="<%= @i.id%>" name="gallery_jid" />
+                            <input type="hidden" value="<%=request.request_uri%>" name="re_send" id="re_send"/>
+                            <table>
+                              <tr>
+                                <td>
+                                  <textarea class='textbox-1' cols='40' id='gallery_comment_j_v_comment' name='gallery_comment[v_comment]' rows='2'>Type your comments here...</textarea>										</td>
+                              </tr>
+                              <tr>
+                                <td>
+
+                                  <table>
+                                    <tr>
+                                      <td>
+                                        <input type="submit" value="Create" name="Create" id="Create">													</td>
+                                    </tr>
+                                  </table>										</td>
+                              </tr>
+                            </table>
+                          </form>							</td>
+
+                      </tr>
+                    </table>
+                  </div>				</th>
+              <%end%>
+            </tr>
+
+
+            <font color="#ff0000"><%=  flash[:notice_gjc]%></font>
+            <font color="#ff0000"><%=  flash[:notice_gju]%></font>
+
+
+
+
+
+          <%end%>
+        </table></th>
+
+
+    </tr>
+
+  </table>
+
+
+<%end%>
+
+<script type="text/javascript">
+
+
+function call_cntbx()
+{
+  if(document.getElementById('show_comment').style.display=='none')
+  {
+    document.getElementById('show_comment').style.display = 'block';
+  }else{
+
+    document.getElementById('show_comment').style.display = 'none';
+  }
+
+}
+
+</script>

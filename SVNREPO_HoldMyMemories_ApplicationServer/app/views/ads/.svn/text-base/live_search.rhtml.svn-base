@@ -1,0 +1,45 @@
+
+<h3>Advertisements</h3>
+
+<%= javascript_include_tag "prototype" %>
+<% if @results.empty? %>
+  <font color="#ffffff">'<%=h @phrase %>' not found!</font>
+<% else %>
+  <font color="#ffffff">'<%=h @phrase %>' found <b><%= @number_match %></b> time(s)!</font>
+<% end %>
+<table>
+   <tr>
+
+    <th>Advertiser Name</th>
+	<th>Ad Title</th>
+	<th>Ad Link</th>
+	<th>Ad Tag</th>
+	<th>Ad Filename</th>
+	
+	<th colspan="3"  align="center">Action</th>
+  
+  </tr>
+  
+<% odd_or_even = 0 
+for colmn in @results 
+odd_or_even = 1 - odd_or_even
+%>
+  <tr class='ListLine<%= odd_or_even %>'>
+  
+    <td><%=h colmn.advid %></td>
+	<td><%=h colmn.v_adtitle %></td>
+	<td><a href='<%=h colmn.v_adlink %>'><%=h colmn.v_adlink %></a></td>
+	<td><%=h colmn.v_adtag %></td>
+	<td><%=h colmn.v_filename %></td>
+  
+    <td><%= link_to 'Show', :action => 'show', :id => colmn.id %></td>
+    <td><%= link_to 'Edit', :action => 'edit', :id => colmn.id %></td>
+    <td><%= link_to 'Destroy', { :action => 'destroy', :id => colmn.id }, :confirm => 'Are you sure?', :method => :post %></td>
+  </tr>
+  <% end %>
+</table>
+
+
+<br />
+
+<%= link_to 'Add Advertisement', :action => 'new' %>

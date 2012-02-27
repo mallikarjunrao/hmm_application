@@ -1,0 +1,197 @@
+
+
+<%= javascript_include_tag 'popup.js' %>
+<%= stylesheet_link_tag 'popup.css' %>
+
+<script language="JavaScript">
+  function verify(){
+    if (document.getElementById('valid').value == 'false') {
+      document.getElementById('family_name').focus();
+      return false;
+    }
+			
+    else
+      return true;
+			
+		
+  }
+
+  function verify_editwarning(){
+	
+    if (document.getElementById('valid').value == 'false') {
+      document.getElementById('family_name').focus();
+      return false;
+    }
+	
+    else {
+      var res = editwarning();
+      if (res == true) {
+        return true;
+      }
+      else {
+        return false;
+      }
+    }
+  }
+
+  function editwarning(){
+		
+    if(confirm('Are you sure you want to edit family name? You may have to share your new family webisite URL with your family and friends!!')){return true; } else return false;
+  }
+</script>
+<style type="text/css">
+
+  .welcometxt {
+    font-family:Arial, Verdana, Helvetica, sans-serif;
+    font-size: 11px;
+    font-weight: bold;
+    color: #FF6A00;
+  }
+  h1
+  {
+    font-size: 100%;
+    color: #ff0000;
+    line-height: 1.5em;
+  }
+  #contpadding{
+    padding-left:10px;
+  }
+
+  .yellowtextsmall
+  {
+    font-family: Arial,Helvetica,sans-serif;
+    font-size: 12px;
+    font-weight: normal;
+    color: #d9c99f;
+  }
+
+  .video_link_txt
+  {
+    font-family: Arial,Helvetica,sans-serif;
+    font-size: 12px;
+    font-weight: bold;
+    text-decoration: none;
+    color: #ffffff;
+  }
+
+  #borderbox{
+    border:1px solid #fff;
+    padding:3px;
+  }
+
+  .urltextname{
+    font-family: Arial,Verdana, Helvetica, sans-serif;
+    font-size: 11px;
+    font-weight: bold;
+    color: #000;
+    padding-left:3px;
+  }
+
+  .cont
+  {
+    font-family: Arial,Helvetica,sans-serif;
+    font-size: 13px;
+    font-weight: normal;
+    color: #8d8d8d;
+  }
+
+  .text-journal
+  {
+    font-family: Arial,Helvetica,sans-serif;
+    font-size: 13px;
+    font-weight: normal;
+    color: #ffffff;
+  }
+</style>
+
+
+
+<%session[:sharepath]='fnf'%>
+<% session[:friend]=''%>
+<table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr>
+    <td width="170" valign="top" valign="top" align="left">
+      <%= render :partial => "leftnav", :locals => { :current => "family_name"} %>
+    </td>
+    <td width="680" valign="top">
+
+
+      <% form_tag :action => 'step1_update', :id => params[:id] do %>
+
+        <table width="724" border="0" cellspacing="0" cellpadding="0">
+          <tr><td colspan="2" align="center" height="30" valign="middle">	<font color="#f5dfa6"><%=flash[:notice_step1fail]%></font>
+              <font color="#f5dfa6"><%=flash[:notice_step1succes]%></font>
+            </td></tr>
+          <tr>
+            <td width="478" align="left" valign="middle" class="welcometxt">&nbsp;</td>
+            <td width="246" rowspan="2" align="left" valign="top"><table width="238" border="0" cellspacing="0" cellpadding="0" id="borderbox">
+                <tr>
+                  <td align="center" valign="top"><table width="235" border="0" cellspacing="0" cellpadding="0">
+                      <tr>
+                        <td height="22" colspan="2" align="left" valign="middle" bgcolor="#d9c99f" class="urltextname">Holdmymemories URL Example</td>
+                      </tr>
+                      <tr>
+                        <td width="186" align="left" valign="middle" class="cont">I chose:</td>
+                        <td width="49" height="45" rowspan="2" align="center" valign="middle"><img src="/images/bob_photo.jpg" width="41" height="39" /></td>
+                      </tr>
+                      <tr>
+                        <td align="left" valign="middle" class="cont"><a href="http://www.holdmymemories.com/bob" target="_blank" class="cont">http://www.holdmymemories.com/bob</a>&nbsp;</td>
+                      </tr>
+                    </table></td>
+                </tr>
+              </table></td>
+          </tr>
+          <tr>
+            <td align="left" valign="top" class="yellowtextsmall">
+              <table width="437" border="0" cellspacing="0" cellpadding="0">
+                <tr>
+                  <td width="190" align="right" valign="middle">
+                    Your family name is: </td>
+                  <td width="247" align="left" valign="middle">&nbsp;<strong class="welcometxt"><%=params[:id]%></strong></td>
+                </tr>
+
+              </table>
+              <br />
+              To make it easier for people to find you, you can choose a family website URL. Your family website URL is unique to you.                      <br />
+              <br />
+              Think of your family website as your &quot;family address on the internet&quot;-- you can give your family website URL to anyone so they can find you on Holdmymemories.                     <br />
+              <br />
+              <span class="welcometxt"><strong>Pick Your Holdmymemories URL:</strong></span><br />
+              <center><%= error_messages_for 'hmm_user' %></center><br/>
+              http://www.holdmymemories.com/<span id="sprytextfieldfname" name="sprytextfieldfname"> <%= text_field "hmm_user", "family_name", :id =>'family_name', :onkeyup => "escapeSpecialCharacters('family_name')", :class => "textbox-journals", :size => 20%> <%= observe_field :'family_name',
+                  :with       => "familyname",
+                  :frequency  => 0.25,
+                  :url        => {:action => :validate_familyname },
+                  :update     => :message_family %> <span id="message_family"></span> <span class="textfieldRequiredMsg"><br>
+                  Family Name is required.</span></span>                     <br /><br />
+              <center>
+                <%if @check_familyname > 0%>
+                  <input type='image' src="/images/save_btn_ovr.gif" width="142" height="24" value="Create" onClick="return verify_editwarning();" />
+                <%else%>
+                  <input type='image' src="/images/save_btn_ovr.gif" width="142" height="24" value="Create" onClick="return verify();" />
+              <%end%>	</center>
+            </td>
+          </tr>
+        </table>
+      <%end%>
+    </td>
+  </tr>
+</table>
+<script type="text/javascript">
+  <!--
+  var sprytextfieldfname = new Spry.Widget.ValidationTextField("sprytextfieldfname", "none", {validateOn:["blur"]});
+
+  //-->
+</script>
+
+<script type="text/javascript">
+  function escapeSpecialCharacters(field)
+  {
+    var name = document.getElementById(field).value;
+    name =  name.replace(/[^a-zA-Z0-9]+/g,'');
+    document.getElementById('family_name').value=name;
+  }
+
+
+
+</script>

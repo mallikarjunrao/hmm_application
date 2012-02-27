@@ -1,0 +1,29 @@
+<h2>Contest logos list</h2><br/>
+<table border="1" width="650">
+  <%if(params[:success]=='1')%>
+    <tr>
+      <td colspan="4" align="center" valign="top" class="leftconthr">
+         <font color="#FF0000">Contest Logo Updated</font>
+      </td>
+    </tr>
+  <%end%>
+    
+  <tr>
+    <th background="/images/body_hor.JPG">Contest Logo</th>
+    <th background="/images/body_hor.JPG">Contest Name</th>
+    <th background="/images/body_hor.JPG">Contest Type</th>
+  </tr>
+
+  <% @contest_logo_details.each do |contest_logo_detail| %>
+  <%# contest = ContestDetail.find(contest_logo_detail.contest_deatails_id) %>
+    <tr>
+      <td><% if contest_logo_detail.logo!=nil %><img src="<%=  contest_logo_detail.img_url %>/user_content/contest_logos/<%= contest_logo_detail.logo %>"  style="vertical-align: middle;margin-top: -1.5px;" height="131" border="0" /><% end %></td>
+      <td style="color:#DDDDDD;"><%= ContestDetail.find(contest_logo_detail.contest_details_id).name %></td>
+      <td style="color:#DDDDDD;"><%= contest_logo_detail.contest_type %></td>
+      <td style="color:#DDDDDD;"><%= link_to 'Edit',:action=>"edit",:id=>contest_logo_detail.id %></td>
+    </tr>
+  <% end  %>
+</table>
+<p><%= link_to 'New Logo',:action=>"new" %></p>
+
+<%= will_paginate @contest_logo_details %>

@@ -1,0 +1,142 @@
+
+<script language="JavaScript">
+	function check(){
+		
+		if (document.getElementById('hmm_studiogroup_hmm_franchise_studio').value == '')
+		{
+			document.getElementById('hmm_studiogroup_hmm_franchise_studio').focus();
+            alert("Please enter Hmm Franchise Name");
+            return false;
+		}
+		if (document.getElementById('studiogroup_username').value == '')
+		{
+			document.getElementById('studiogroup_username').focus();
+            alert("Please enter Hmm studiogroup User Name");
+            return false;
+		}
+		if (document.getElementById('password').value == '')
+		{
+			document.getElementById('password').focus();
+            alert("Please enter Hmm studiogroup Password");
+            return false;
+		}
+		
+		if (document.getElementById('confirm_password').value == '')
+		{
+			document.getElementById('confirm_password').focus();
+            alert("Please enter Confirm Password");
+            return false;
+		}
+	
+		if (document.getElementById('confirm_password').value != document.getElementById('password').value)
+		{
+			document.getElementById('confirm_password').focus();
+            alert("Password and Confirm Password should match");
+            return false;
+		}
+	
+	}
+	
+</script>
+
+<h2>Add New Hmm Studio Group</h2>
+<form action="/hmm_studiogroups/create" method="post" onsubmit="return check();">
+
+<table>
+	<tr align="center">
+		<td>
+			<%= error_messages_for 'hmm_studiogroup' %>
+<div>&nbsp;&nbsp;&nbsp;&nbsp;<font color="red"><%= flash[:notice] %></font></div>
+<!--[form:hmm_studiogroup]-->
+<table>
+	<tr>
+		<td colspan="3">&nbsp;</td>
+	</tr>
+	<tr>
+		<td align="right">
+			<label for="hmm_studiogroup_hmm_franchise_studio">Hmm Franchise Studio Name *</label>
+		</td>
+		<td>&nbsp;</td>
+		<td>
+			<%= text_field 'hmm_studiogroup', 'hmm_franchise_studio' , :id=>'hmm_studiogroup_hmm_franchise_studio'  %>
+		</td>
+	</tr>
+	<tr>
+		<td colspan="3">&nbsp;</td>
+	</tr>
+	<tr>
+		<td align="right">
+			<label for="hmm_studiogroup_hmm_username">User Name *</label>
+		</td>
+		<td>&nbsp;</td>
+		<td>
+			<%= text_field 'hmm_studiogroup', 'studiogroup_username' , :id=>'studiogroup_username' %>
+		
+		<%= observe_field :'studiogroup_username',                         
+                        :with       => "studiogroup_username",              
+                        :url        => {:action => :validate }, 
+                        :update     => :message                 
+                      %>
+								 <span id="message"></span>
+		
+		</td>
+	</tr>
+	<tr>
+		<td colspan="3">&nbsp;</td>
+	</tr>
+	<tr>
+		<td align="right">
+			<label for="hmm_studiogroup_hmm_username">Password *</label>
+		</td>
+		<td>&nbsp;</td>
+		<td>
+			<%= password_field 'hmm_studiogroup', 'password' , :id=>'password'  %>
+		</td>
+	</tr>
+	<tr>
+		<td colspan="3">&nbsp;</td>
+	</tr>
+	<tr>
+		<td align="right">
+			<label for="hmm_studiogroup_hmm_username">Confirm Password *</label>
+		</td>
+		<td>&nbsp;</td>
+		<td>
+			<%= password_field 'confirm', 'password'  , :id=>'confirm_password' %>
+		</td>
+	</tr>
+	<tr>
+		<td colspan="3">&nbsp;</td>
+	</tr>
+	<tr>
+		<td align="right">
+			<label for="hmm_studiogroup_date_joined">Date joined</label>
+		</td>
+		<td>&nbsp;</td>
+		<td>
+			<%= date_select 'hmm_studiogroup', 'date_joined'  %>
+		</td>
+	</tr>
+	<tr>
+		<td colspan="3">&nbsp;</td>
+	</tr>
+</table>
+
+
+
+<!--[eoform:hmm_studiogroup]-->
+
+
+		</td>
+	</tr>
+	<tr>
+		<td align="center">
+			 <%= submit_tag "Create" %>			
+		</td>
+	</tr>
+</table>
+  
+ 
+</form>
+
+<%= link_to 'Back', :action => 'list' %>

@@ -1,0 +1,2 @@
+<% partial_name = ContestDetail.find(params[:contest_id]).name.humanize.tableize.split.join("").singularize %>
+<%= render :partial => "partials/#{partial_name.gsub("'",'')}",:locals => { :contest_phase => params[:contest_id], :website_type => "fontpage",:topentries_photo_0_to_2 => @topentries_photo_0_to_2, :topentries_video_0_to_2 => @topentries_video_0_to_2, :topentries_photo => @topentries_photo, :topentries_video => @topentries_video} %>

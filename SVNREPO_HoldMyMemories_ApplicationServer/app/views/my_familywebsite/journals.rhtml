@@ -1,0 +1,448 @@
+<table width="100%" cellpadding="3" cellspacing="3" class="border"> <tr><td width="80%">
+
+
+<%
+familyname= params[:id]
+@userid = HmmUser.find(:all, :conditions => "(family_name='#{familyname}' || alt_family_name='#{familyname}')")
+
+
+						e_approved="and e_approval='approve'"
+
+
+						approved="and status='accepted'"
+					%>
+<%= javascript_include_tag 'modalbox/prototype' %>
+<script type="text/javascript" src="/javascripts/modalbox/scriptaculous.js?load=effects"></script>
+<script type="text/javascript" src="/javascripts/modalbox/modalbox.js"></script>
+<%= stylesheet_link_tag 'modalbox/modalbox' %>
+
+ <%session['redirect']='13'%>
+ <font color="#FF0000"><%=flash[:share_familypage]%></font>
+ <font color="#FF0000"><%=flash[:share_unsuccefull]%></font>
+<table width="100%" border="0" align="center" cellspacing="0" cellpadding="0">
+           <!-- add new friends code to add one users types emails -->
+			<font color="#FF0000"><%= flash[:notice_guest]%></font>
+		  	<font color="#FF0000"><%= flash[:notice_gcc_jadd]%></font>
+		    <font color="#FF0000"><%= flash[:notice_pc_jadd]%></font>
+			<font color="#FF0000"><%= flash[:share_journal]%></font>
+	<%if @total!=0 %>
+	<tr>
+        	<th colspan="2" align="left" valign="top" scope="col">
+
+        	</th>
+			<th align="right">
+				<%if @page==0 %>
+
+			<% if @nonext==1%>
+			<%else%>
+			<%= link_to_remote("<span class='comment'>Next >> </span>",
+				:update => 'content1', :url => { :controller => :my_familywebsite, :action =>:journals, :page => @nextpage} ) %>
+			<%end%>
+			<%else%>
+
+			<%= link_to_remote("<span class='comment'>  << Previous </span>",
+				:update => 'content1', :url => { :controller => :my_familywebsite, :action =>:journals, :page => @previouspage} ) %>
+			&nbsp;&nbsp;&nbsp;
+			<% if @nonext==1%>
+			<%else%>
+			<%= link_to_remote("<span class='comment'>Next >> </span>",
+				:update => 'content1', :url => { :controller => :my_familywebsite, :action =>:journals, :page => @nextpage} ) %>
+			<%end%>
+
+			<%end%>&nbsp;&nbsp;&nbsp;<span class='comment'>(Pages <%= @page+1 %> of <%=@numberofpages+1%>)</span>
+
+			</th>
+        </tr>
+		<%end%>
+<% @id1=0
+	for @i in @tagid
+	@id1=@id1+1
+	@id="#{@id1}" %>
+
+<% if (@i.jtype=='chapter') %>
+				<%
+					tag=Tag.find(@i.master_id)
+					type1="Chapter"
+					status=tag.status
+					name=tag.v_tagname
+					uid=tag.uid
+					e_access=tag.e_access
+					if(tag.v_chapimage == "folder_img.png")
+		imgpath='/user_content/photos/big_thumb/noimage.jpg'
+	  else
+        imageName  = tag.v_chapimage
+        imageName.slice!(-3..-1)
+        imgpath="#{@i.img_url}/user_content/photos/flex_icon/"+imageName+"jpg"
+      end
+		deletepath="/chapter_journal/"
+%>
+<%else%>
+<% if (@i.jtype=='subchap') %>
+				<%
+					subchap=SubChapter.find(@i.master_id)
+					type1="Sub Chapter"
+					name=subchap.sub_chapname
+					status=subchap.status
+					uid=subchap.uid
+					e_access=subchap.e_access
+	if(subchap.v_image == "folder_img.png")
+		imgpath='/user_content/photos/big_thumb/noimage.jpg'
+	  else
+        imageName  = subchap.v_image
+        imageName.slice!(-3..-1)
+        imgpath="#{@i.img_url}/user_content/photos/flex_icon/"+imageName+"jpg"
+      end
+deletepath="/sub_chap_journal/"
+%>
+				<%else%>
+<% if (@i.jtype=='gallery') %>
+				<%
+					gal=Galleries.find(@i.master_id)
+					type1="Gallery"
+					name=gal.v_gallery_name
+					status=gal.status
+
+					subchap1=SubChapter.find(gal.subchapter_id)
+					uid=subchap1.uid
+					e_access=gal.e_gallery_acess
+
+				 if(gal.v_gallery_image=='picture.png' || gal.v_gallery_image=='audio.png' ||gal.v_gallery_image=='video.png')
+        			imgpath='/user_content/photos/big_thumb/noimage.jpg'
+     			 else
+        			imageName  = gal.v_gallery_image
+        			imageName.slice!(-3..-1)
+        			 imgpath="#{@i.img_url}/user_content/photos/flex_icon/"+imageName+"jpg"
+    			 end
+
+	deletepath="/gallery_journal/"
+
+			%>
+				<%else%>
+<% if (@i.jtype=='photo') %>
+				<%
+					photo=UserContent.find(@i.master_id)
+					type1="Moment"
+					status=photo.status
+					name=photo.v_tagphoto
+					uid=photo.uid
+					e_access=photo.e_access
+
+
+
+					deletepath="/journals_photos/"
+
+%>
+        <%else%>
+<% if (@i.jtype=='text') %>
+				<%
+					hmmuser=HmmUser.find(@i.master_id)
+					type1="text"
+					status="active"
+					name=hmmuser.v_myimage
+					uid=hmmuser.id
+					e_access="public"
+                                        imgpath="#{hmmuser.img_url}/hmmuser/photos/thumb/#{name}"
+
+
+					deletepath="/journals_text/"
+
+%>
+ <%end%>
+<%end%>
+<%end%>
+<%end%>
+<%end%>
+
+		<tr >
+              <th  height="26" colspan="3" align="left" valign="middle" bgcolor="#333333"  id="table_bar_bg" scope="col">
+           	</th>
+
+  		</tr>
+		<tr >
+              <th width="192" height="10" align="left" valign="top"  scope="col">&nbsp;</th>
+               <th width="24">&nbsp;</th>
+   		  <th align="left" valign="middle" scope="col"></th>
+  		</tr>
+
+        <tr>
+            <th height="65" align="center"  valign="top" scope="col" >
+             	<% if (@i.jtype=='chapter') %>
+				<%
+					tag=Tag.find(@i.master_id)%>
+				<a href="/my_familywebsite/subchapters/<%=tag.id%>?familyname=<%=familyname%>"><img src="<%=imgpath%>" border='0' width="192" onMouseDown="callme(this.id);" onContextMenu="return false;"/>	</a>
+			<%else%>
+			<% if (@i.jtype=='subchap') %>
+				<%
+					subchap=SubChapter.find(@i.master_id)%>
+				<a href="/my_familywebsite/gallery/<%=subchap.id%>?familyname=<%=familyname%>"><img src="<%=imgpath%>"  border='0' width="192" onMouseDown="callme(this.id);" onContextMenu="return false;"/></a>
+			<%else%>
+			<% if (@i.jtype=='gallery') %>
+				<%
+					gal=Galleries.find(@i.master_id)%>
+				<a href="/my_familywebsite/gallery_fisheye/<%=gal.id%>?familyname=<%=familyname%>">
+						<img src="<%=imgpath%>" border='0' width="192" onMouseDown="callme(this.id);" onContextMenu="return false;"/></a>
+
+					</a>
+			<%else%>
+                                        <% if (@i.jtype=='text') %>
+
+
+						<img src="<%=imgpath%>" border='0' /></a>
+
+
+			<%else%>
+
+			<% if (@i.jtype=='photo') %>
+				<a href="/my_familywebsite/moment_page/<%=@i.master_id%>?familyname=<%=familyname%>">
+				<% if (photo.e_filetype == 'image') %>
+					<img src="<%=@i.img_url%>/user_content/photos/big_thumb/<%=photo.v_filename%>" border='0' width="192" onMouseDown="callme(this.id);" onContextMenu="return false;"/>
+				<%else%>
+				<% if (photo.e_filetype == 'video' || photo.e_filetype == 'swf') %>
+					<img src="<%=@i.img_url%>/user_content/videos/thumbnails/<%=photo.v_filename%>.jpg" border='0' width="192"/>
+				<%else%>
+				<% if (photo.e_filetype == 'audio') %>
+					<img src="/user_content/audios/speaker.jpg" border='0' width="192"/>
+
+				<%end%><%end%><%end%>
+				</a>
+					<%else%>
+				<img src="/user_content/photos/icon_thumbnails/noimage.jpg" border='0' width="192"/>
+
+				<%end%><%end%><%end%><%end%><%end%>
+			</th>
+            <th>&nbsp;</th>
+            <th align="left" valign="top" class="text-journal" scope="col" bordercolor="#191919">
+              <span class="commenthr">
+
+				<%= @i.title %>&nbsp;&nbsp;
+				<% ActiveSupport::CoreExtensions::Time::Conversions::DATE_FORMATS.merge!(
+    				:date => "%Y-%m-%d",
+    				:presentable_datetime => "%a %b %d, %Y %H:%M",
+    				:presentable_date => "%a %b %d, %Y")
+					@created_date=@i.d_created_at%>
+
+				<%=@created_date.to_s(:presentable_date)%></span>
+              <br><br>
+			  <span class="commentcont">
+				<%= @i.descr.gsub("\n", "<br />\n") %>
+                </span>
+                <br><br><br><br>
+
+                <br>
+
+                <table width="100%" border="0" cellspacing="8" cellpadding="0">
+                 <tr>
+                     <td  align="right" valign="bottom" >
+
+             <%	if (@i.jtype=='chapter')%>
+		 		<% comnt_chap=ChapterComment.find_by_sql("select count(*) as cnt from chapter_comments  where tag_jid=#{@i.id} #{e_approved}  ")
+  					for cmt_chap in comnt_chap
+   					count_chap=cmt_chap['cnt']
+  					end
+					share_cmt = ShareJournalcomment.find_by_sql("select count(*) as cnt1 from share_journalcomments where journal_id=#{@i.id} and journal_type='chapter' #{approved}  #{approved}")
+					for cmt_share in share_cmt
+   					count_share=cmt_share['cnt1']
+  					end
+					guestcout = GuestComment.count(:all, :conditions => "journal_id=#{@i.id} and journal_type='chapter' and  status='approve' " )
+
+
+					%>
+
+				<% total_cnt = Integer(count_share) + Integer(count_chap) + guestcout %>
+
+
+
+                <% if guestcout > 0 %>
+               <%= link_to_remote("<span class='comment'> View Comments</span>", :update =>@i.jtype+@id,
+					:url => {:controller => :chapter_comment, :action => :jcomment_list, :tag_id => tag.id, :id => @i.id, :familyname => @familyname, :id_journal => @i.id, :mode => 'chapter' } ,:layout => false  ) %>  &nbsp;&nbsp;&nbsp;&nbsp;
+               <%end%>
+
+
+
+				 <% if session[:hmm_user] %><%else%><%= link_to_remote("<span class='comment'>Add Comment</span>", :update =>@i.jtype+@id,
+					:url => {:controller => :guest_comments, :action => :new, :id=> tag.id , :id_journal => @i.id, :jtype => "chapter", :familyname => @familyname } ,:layout => false  ) %>
+				<%end%>
+
+
+
+			<% else if (@i.jtype=='subchap') %>
+
+				<% comnt_sub=SubchapComment.find_by_sql("select count(*) as cnt from subchap_comments  where subchap_jid=#{@i.id} #{e_approved}    ")
+
+  				for cmt_sub in comnt_sub
+   				count_sub=cmt_sub['cnt']
+  				end
+
+				share_cmt = ShareJournalcomment.find_by_sql("select count(*) as cnt1 from share_journalcomments where journal_id=#{@i.id} and journal_type='sub-chapter' #{approved} ")
+					for cmt_share in share_cmt
+   					count_share=cmt_share['cnt1']
+  					end
+
+				guestcout = GuestComment.count(:all, :conditions => "journal_id=#{@i.id} and journal_type='sub-chapter' and status='approve'" )
+				total_cnt=Integer(count_sub) + guestcout + Integer(count_share)
+
+				%>
+
+                <% if guestcout > 0 %>
+                 <%= link_to_remote("<span class='comment'>View Comments</span>", :update =>@i.jtype+@id,
+					:url => {:controller => :chapter_comment, :action => :jcomment_list, :tag_id => tag.id, :id => @i.id, :familyname => @familyname, :id_journal => @i.id, :mode => 'chapter' } ,:layout => false  ) %>    &nbsp;&nbsp;&nbsp;&nbsp;
+              <%end%>
+
+			 <% if session[:hmm_user] %><%else%>
+	  <%= link_to_remote("<span class='comment'>Add Comment</span>", :update =>@i.jtype+@id,
+            :url => {:controller => :guest_comments, :action => :new, :id=> subchap.id , :id_journal => @i.id, :jtype => "sub-chapter", :familyname => @familyname } ,:layout => false  ) %>
+
+        <%end%>
+
+
+	<%else if (@i.jtype=='gallery') %>
+		<% comnt_gal=GalleryComment.find_by_sql("select count(*) as cnt from gallery_comments  where gallery_jid=#{@i.id} #{e_approved}  ")
+  				for cmt_gal in comnt_gal
+   				count_gal=cmt_gal['cnt']
+  				end
+				share_cmt = ShareJournalcomment.find_by_sql("select count(*) as cnt1 from share_journalcomments where journal_id=#{@i.id} and journal_type='gallery' #{approved} ")
+					for cmt_share in share_cmt
+   					count_share=cmt_share['cnt1']
+  					end
+
+				guestcout = GuestComment.count(:all, :conditions => "journal_id=#{@i.id} and journal_type='gallery' and status='approve'" )
+				total_comment=Integer(count_gal) + guestcout + Integer(count_share)
+				%>
+
+                 <%if guestcout > 0%>
+		         <%= link_to_remote("<span class='comment'>View Comments</span>", :update =>@i.jtype+@id,
+		:url => {:controller => :chapter_comment, :action => :jcomment_list, :id => @i.id, :id_journal => @i.id, :familyname => @familyname, :mode => 'gallery' }, :layout => false  ) %> &nbsp;&nbsp;&nbsp;&nbsp;
+        	   <%end%>
+		  <% if session[:hmm_user] %><%else%><%= link_to_remote("<span class='comment'>Add Comment</span>", :update =>@i.jtype+@id,
+		:url => {:controller => :guest_comments, :action => :new, :id=> gal.id , :id_journal => @i.id, :jtype => "gallery", :familyname => @familyname  }, :layout => false  ) %>
+	<%end%>
+
+                <%else if (@i.jtype=='text') %>
+		<%
+                                hmmuser=HmmUser.find(@i.master_id)
+
+					uid=hmmuser.id
+				share_cmt = ShareJournalcomment.find_by_sql("select count(*) as cnt1 from share_journalcomments where journal_id=#{@i.id} and journal_type='text' #{approved} ")
+					for cmt_share in share_cmt
+   					count_share=cmt_share['cnt1']
+  					end
+
+				guestcout = GuestComment.count(:all, :conditions => "journal_id=#{@i.id} and journal_type='text' and status='approve'" )
+				total_comment=Integer(guestcout) + Integer(count_share)
+				%>
+
+                 <%if guestcout > 0%>
+		         <%= link_to_remote("<span class='comment'>View Comments</span>", :update =>@i.jtype+@id,
+		:url => {:controller => :chapter_comment, :action => :jcomment_list, :id => @i.id, :id_journal => uid, :familyname => @familyname, :mode => 'text' }, :layout => false  ) %> &nbsp;&nbsp;&nbsp;&nbsp;
+        	   <%end%>
+		  <% if session[:hmm_user] %><%else%><%= link_to_remote("<span class='comment'>Add Comment</span>", :update =>@i.jtype+@id,
+		:url => {:controller => :guest_comments, :action => :new, :id=> @i.id , :id_journal => @i.id, :jtype => "text", :familyname => @familyname  }, :layout => false  ) %>
+	<%end%>
+
+	<%else if(@i.jtype=='photo')%>
+
+		<% comnt_photo=PhotoComment.find_by_sql("select count(*) as cnt from photo_comments  where   journal_id =#{@i.id} and e_approved='approve' ")
+  				for cmt_photo in comnt_photo
+   				count_photo=cmt_photo['cnt']
+  				end
+				share_cmt = ShareJournalcomment.find_by_sql("select count(*) as cnt1 from share_journalcomments where journal_id=#{@i.id} and journal_type='photo' #{approved} ")
+					for cmt_share in share_cmt
+   					count_share=cmt_share['cnt1']
+  					end
+					guestcout = GuestComment.count(:all, :conditions => "journal_id=#{@i.id} and journal_type='photo' and status='approve'" )
+					%>
+
+			<% total_cnt_pic = Integer(count_share) + Integer(count_photo) + guestcout %>
+		    <% if guestcout > 0 %>
+             <%= link_to_remote("<span class='comment'>View Comments</span>",:update =>@i.jtype+@id,
+:url => {:controller => :chapter_comment, :action => :jcomment_list, :id => @i.id, :id_journal => @i.id, :familyname => @familyname, :mode => 'photo' }, :layout => false  ) %> &nbsp;&nbsp;&nbsp;&nbsp;
+            <%end%>
+	  <% if session[:hmm_user] %><%else%><%= link_to_remote("<span class='comment'>Add Comment</span>", :update =>@i.jtype+@id,
+:url => {:controller => :guest_comments , :action => :new, :id=> photo.id , :id_journal => @i.id, :jtype => "photo" , :familyname => @familyname }  ) %>
+
+  <%end%>
+
+
+	<%end%><%end%><%end%><%end%><%end%>
+
+					<%@jtype = @i.jtype%>
+	&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+	<%if session[:hmm_user]%>
+	<a href="/my_familywebsite/share_journal/<%=@i.id%>&<%=@jtype%>?familyname=<%=@familyname%>" class="comment">Share this blog entry.</a>
+
+	<%end%>
+
+&nbsp;&nbsp;					</td>
+
+                 </tr>
+                        </table>
+
+						<table border="0" width="100%"><tr><td colspan="4" align="right">
+						<div id=<%=@i.jtype+@id%>></div></td></tr></table>
+          <%end%>
+		  </th>
+		  </tr>
+		 </table>
+   <%if @total==0 %>
+		  <table  width="100%" align="center"><tr><td align="center" >
+		  		<font color="#ffffff" face="Arial"><b>No journals found.</b>
+<br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br></font>
+
+			</td></tr></table>
+			<%else%>
+		  <table  width="100%" align="right"><tr><td align="right" >
+
+			<%if @page==0 %>
+
+			<% if @nonext==1%>
+			<%else%>
+			<%= link_to_remote("<span class='comment'>Next >> </span>",
+				:update => 'content1', :url => { :controller => :my_familywebsite, :action =>:journals, :page => @nextpage} ) %>
+			<%end%>
+			<%else%>
+
+			<%= link_to_remote("<span class='comment'>  << Previous </span>",
+				:update => 'content1', :url => { :controller => :my_familywebsite, :action =>:journals, :page => @previouspage} ) %>
+			&nbsp;&nbsp;&nbsp;
+			<% if @nonext==1%>
+			<%else%>
+			<%= link_to_remote("<span class='comment'>Next >> </span>",
+				:update => 'content1', :url => { :controller => :my_familywebsite, :action =>:journals, :page => @nextpage} ) %>
+			<%end%>
+
+			<%end%>&nbsp;&nbsp;&nbsp; <span class='comment'>(Pages <%= @page+1 %> of <%=@numberofpages+1%>)</span>
+			<br><br>
+			</td></tr></table>
+          <%end%>
+<table  width="100%" align="right">
+        <tr><td align="right" >&nbsp;</td></tr>
+        <tr><td align="right" ><%= render :partial => "sharesocialnetwork" %></td></tr>
+        <tr><td align="right" >&nbsp;</td></tr>
+      </table>
+
+</td><td valign="top" width="80%" >
+<table border="0" width="100%"><tr><td >
+<table border="0" class="border" width="80%"><tr><td align="center" colspan="2"><table border="0" class="border" align="center" width="100%"><tr><td align="center"><font color="white" face="arial" size="2">Select Category</font></a>
+</td></tr></table></td></tr><tr><td width="13%">&nbsp;</td><td width="87%"><font color="white" face="arial" size="2"><a href="/my_familywebsite/journals/<%=params[:id]%>"><font color="white" face="arial" size="2">Show All</font></a></td></tr><tr><td width="13%">&nbsp;</td><td> <a href="/my_familywebsite/journals/<%=params[:id]%>?category=chapter"><font color="white" face="arial" size="2">Chapters</font></a></td></tr><tr><td width="13%">&nbsp;</td><td><a href="/my_familywebsite/journals/<%=params[:id]%>?category=subchapter"><font color="white" face="arial" size="2">Sub Chapters</font></a></td></tr><tr><td width="13%">&nbsp;</td><td><a href="/my_familywebsite/journals/<%=params[:id]%>?category=gallery"><font color="white" face="arial" size="2">Galleries</font></a></td></tr><tr><td width="13%">&nbsp;</td><td><a href="/my_familywebsite/journals/<%=params[:id]%>?category=image"><font color="white" face="arial" size="2">Images</font></a></td></tr><tr><td width="13%">&nbsp;</td><td><a href="/my_familywebsite/journals/<%=params[:id]%>?category=video"><font color="white" face="arial" size="2">Video</font></a></td></tr><tr><td width="13%">&nbsp;</td><td><a href="/my_familywebsite/journals/<%=params[:id]%>?category=audio"><font color="white" face="arial" size="2">Audio</font></a></td></tr><tr><td width="13%">&nbsp;</td><td><a href="/my_familywebsite/journals/<%=params[:id]%>?category=text"><font color="white" face="arial" size="2">Text</font></a>
+</td></tr>
+<tr><td align="center" colspan="2">
+ <% if session[:hmm_user] %>
+    <% if logged_in_hmm_user.family_name == params[:id] %>
+<table border="0" class="border" width="100%"><tr><td align="center"><font color="white" face="arial" size="2"><a href="/manage_content/new_textblog/?familyname=<%=params[:id]%>"><font color="white" face="arial" size="2">Add New Text Blog</font></a>
+</td></tr></table>
+  <%end%> <%end%>
+
+  </td></tr>
+  <tr><td align="center" colspan="2"><table border="0" class="border" align="center" width="100%"><tr><td align="center"><font color="white" face="arial" size="2">Sort by Date</font></a>
+</td></tr></table></td></tr><tr><td width="13%">&nbsp;</td><td width="87%"><font color="white" face="arial" size="2"><a href="/my_familywebsite/journals/<%=params[:id]%>?category=<%=params[:category]%>&order=asc"><font color="white" face="arial" size="2">Accending</font></a></td></tr><tr><td width="13%">&nbsp;</td><td> <a href="/my_familywebsite/journals/<%=params[:id]%>?category=<%=params[:category]%>&order=desc"><font color="white" face="arial" size="2">Descending</font></a></td></tr>
+</table>
+</td>
+</tr>
+
+</table>
+</td></tr></table>
+
+
+
+
+

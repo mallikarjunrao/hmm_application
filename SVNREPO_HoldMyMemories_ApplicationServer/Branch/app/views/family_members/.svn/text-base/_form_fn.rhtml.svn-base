@@ -1,0 +1,231 @@
+
+<%= javascript_include_tag 'SpryAssets/SpryValidationPassword' %>
+<%= javascript_include_tag 'SpryAssets/SpryValidationConfirm' %>
+
+<%= stylesheet_link_tag 'SpryAssets/SpryValidationPassword' %>
+<%= stylesheet_link_tag 'SpryAssets/SpryValidationConfirm' %>
+<%= javascript_include_tag 'modalbox/prototype' %>
+<script type="text/javascript" src="/javascripts/modalbox/scriptaculous.js?load=effects"></script>
+<script type="text/javascript" src="/javascripts/modalbox/modalbox.js"></script>
+<%= stylesheet_link_tag 'modalbox/modalbox' %>
+<%= stylesheet_link_tag 'SpryAssets/SpryValidationTextField' %>
+<%= javascript_include_tag 'SpryAssets/SpryValidationTextField' %>
+<script >
+	function validate()
+	{
+		
+		if (document.getElementById('valid').value=='false')
+		{
+				
+			return false;
+		}
+		else
+		{
+			return true;
+		}
+	}
+</script>
+<input type="hidden" name="valid" id="valid" value="<%=@valid%>"/>	
+<table width="100%" border="0" cellspacing="0" cellpadding="0">
+	<tr>
+  		<th width="1" height="1" align="left" valign="top" bgcolor="#404040" scope="col"></th>
+  		<th width="825" align="left" valign="top" bgcolor="#404040" scope="col"></th>
+  		<th width="1" align="left" valign="top" bgcolor="#404040" scope="col"></th>
+	</tr>
+	<%@rec = HmmUsers.find(:all, :conditions => "id=#{logged_in_hmm_user.id}")%>
+	<% for i in @rec %>
+	<tr>
+  		<th width="1" align="left" valign="top" bgcolor="#404040" scope="col"></th>
+  		<th align="left" valign="top" bgcolor="#111111" scope="col">
+  			<table width="100%" border="0" cellspacing="0" cellpadding="0">
+    		<tr>
+      			<th width="678" align="left" valign="top" scope="col">
+      			<table width="100%" border="0" cellspacing="0" cellpadding="0">
+        		<tr>
+         			<th width="19" align="left" valign="top" scope="col">&nbsp;</th>
+          			<th width="281" align="left" valign="top" scope="col">
+          			<table width="100%" border="0" cellspacing="0" cellpadding="0">
+            		<tr>
+              			<th colspan="2" height="60" align="left" valign="middle" scope="col">
+              				<font color="#f5dfa6"><%=flash[:notice_update]%></font>
+              			<table width="100%" border="0" cellspacing="0" cellpadding="0">
+                		<tr>
+                  			<th width="134" height="29" align="left" valign="middle" class="contmanagepage" scope="col">Family Name:</th>
+                  			<th width="13" align="left" valign="top" scope="col" rowspan="2"><center><%= error_messages_for 'hmm_user' %></center></th>
+                  			<th width="134" align="left" valign="middle" class="contmanagepage" scope="col"></th>
+                 		</tr>
+                		<tr>
+                  			<th align="left" valign="top" scope="col">
+                  			<span id="sprytextfield1">
+                  			<%= text_field "hmm_user", "family_name", :id =>'family_name', :onclick => "disabled", :class => "textbox-signup-managepage-small", :size => 20 %>
+							<%= observe_field :'family_name',                         
+                        						:with       => "familyname",              
+                        						:frequency  => 0.25,                    
+                        						:url        => {:action => :validate_familyname }, 
+                        						:update     => :message_family %>
+												
+											
+							
+								 <span id="message_family"></span>
+							<span class="textfieldRequiredMsg"><br>Family Name is required.</br></span></span>
+							</th>
+                 			<th align="left" valign="top" scope="col">&nbsp;</th>
+                 			<th align="left" valign="top" scope="col">
+                  			</th>
+                		</tr>
+						</table>
+						</th>
+            		</tr>
+            		<tr>
+              			<th height="15" colspan="2" align="left" valign="top" class="warningtxt-mngpage" scope="col">Family Name is Displayed on your family website.</th>
+            		</tr>
+            		</table>
+					</th>
+            	</tr>
+           		
+				<tr>
+            		<th width="19" align="left" valign="top" scope="col">&nbsp;</th>
+              		<th colspan="2" align="left" valign="top" scope="col">
+              		<table width="100%" border="0" cellspacing="0" cellpadding="0">
+                 	<tr>
+              			<th height="39" align="left" valign="middle" class="contmanagepage" scope="col">
+              			
+						Would You like to have password security for your family website  
+                          &nbsp;&nbsp;<br>
+							Yes <input type="radio" name="familypassword" id="familypassword" value="yes" <%if i.password_required=="yes"%> checked="checked" <%end%> onclick="new Ajax.Updater('family_password','/family_members/edit_familypassword/', 
+					{asynchronous:true, evalScripts:true, onLoading:function(request) {Effect.Appear('fnf');}}); return true;">
+							No <input type="radio" name="familypassword" id="familypassword" value="no" <%if i.password_required=="no"%> checked="checked" <%end%> onclick="new Ajax.Updater('family_password','/family_members/nofamily_password/',
+					{asynchronous:true, evalScripts:true, onLoading:function(request) {Effect.Appear('fnf');}}); return true;">
+						</th>
+            		</tr>
+					<tr>
+              			<th align="left" valign="top" scope="col">
+              			<div id="family_password"></div>
+						</th>
+            		</tr>
+              		</table>
+					</th>
+            	</tr>
+					
+            	<tr>
+            		<th width="19" align="left" valign="top" scope="col">&nbsp;</th>
+              		<th colspan="2" align="left" valign="top" scope="col">
+              		<table width="100%" border="0" cellspacing="0" cellpadding="0">
+                 	<tr>
+              			<th height="39" align="left" valign="middle" class="contmanagepage" scope="col">Upload Family Image:</th>
+            		</tr>
+					<tr>
+              			<th height="20" align="left" valign="top" scope="col">
+              			<%= file_field 'hmm_user', 'family_pic', :size => 30, :class => "textlinkbox-signup" %>
+						</br>&nbsp;&nbsp;
+						<a href="/family_members/familyimage_preview"  onclick="Modalbox.show(this.href, {title: 'My Image', width: 550}); return false;">
+						Preview </a>
+						</th>
+            		</tr>
+              		</table>
+					</th>
+            	</tr>
+           		<tr>
+					<th width="19" align="left" valign="top" scope="col">&nbsp;</th>
+					<th height="29" colspan="2" align="left" valign="middle" class="contmanagepage" scope="col">
+            		About Family: 
+            		</th>
+				</tr>
+			
+				<tr>
+					<th width="19" align="left" valign="top" scope="col">&nbsp;</th>
+					<th colspan="2" align="left" valign="top" scope="col">
+					<span id="sprytextfield11"><span id="sprytextfield11">
+                           	<%= text_area 'hmm_user', 'about_family', :rows =>"6", :cols=>"40",  :class => "textarea-mngpage"  %>
+					<span class="textfieldRequiredMsg">E-mail Required</span><span class="textfieldInvalidFormatMsg">Invalid E-mail</span></span></span>
+					</th>
+				</tr>
+			
+				<tr>
+					<th width="19" align="left" valign="top" scope="col">&nbsp;</th>
+					<th height="29" colspan="2" align="left" valign="middle" class="contmanagepage" scope="col">
+            		Family History : 
+            		</th>
+				</tr>
+			 	<tr>
+			 		<th width="19" align="left" valign="top" scope="col">&nbsp;</th>
+					<th colspan="2" align="left" valign="top" scope="col">
+            		<span id="sprytextfield12"><span id="sprytextfield12">
+                           	<%= text_area 'hmm_user', 'family_history', :rows =>"6", :cols=>"40",  :class => "textarea-mngpage"  %>
+					<span class="textfieldRequiredMsg">About family is Required</span><span class="textfieldInvalidFormatMsg">Invalid E-mail</span></span></span>
+            		</th>
+				</tr>
+				<tr>
+              		<th height="62" colspan="2" align="center" valign="top" scope="col">
+              			</br><input type='image' src="/images/save-changes-btn.jpg" width="124" height="26" value="Create" onclick="return validate();" /></th>
+            	</tr>
+				
+        	</table>
+			</th>
+			
+			<th width="232" align="left" valign="top" scope="col">
+      	<table width="100%" border="0" cellspacing="0" cellpadding="0">
+        <tr>
+          <th width="1" align="left" valign="top" bgcolor="#404040" scope="col"></th>
+          <th height="69" align="center" valign="middle" bgcolor="#000000" class="text-journal" scope="col">
+          	<a href='/customers/chg_password/<%=i.id%>'>Account Settings</a><br/>
+           <a href="/tags/coverflow">View My Chapters</a><br/>
+		   <a href="/family_members/list/<%=logged_in_hmm_user.id%>">View Family Members</a>
+		   </th>
+        </tr>
+		<%for i in @rec%>
+		<tr>
+			<th width="1" align="left" valign="top" bgcolor="#404040" scope="col"></th>
+			<th align="center" valign="middle" bgcolor="#000000" class="text-journal" scope="col" >
+				<a href="/family_members/familyimage_preview"  onclick="Modalbox.show(this.href, {title: 'My Image', width: 550}); return false;">
+				<img src="/hmmuser/familyphotos/thumbs/<%=logged_in_hmm_user.family_pic%>" border="0">
+				<br>Preview </a>
+			</th>
+		</tr>
+		<%end%>
+		<tr><th width="1" align="left" valign="top" bgcolor="#404040" scope="col"></th>
+			<th align="center" valign="middle" bgcolor="#000000" class="text-journal" scope="col" >&nbsp;</th></tr>
+        <tr>
+          <th align="left" valign="top"  scope="col"></th>
+          <th height="1" align="left" valign="top"  scope="col"></br>
+          	
+          </th>
+		  
+        </tr>
+	
+      </table></th>
+	  
+		</tr>
+		
+		</table>
+		</th>
+		 <th align="left" valign="top" bgcolor="#404040" scope="col"></th>
+		</tr>
+			<tr>
+  <th height="1" align="left" valign="top" bgcolor="#404040" scope="col"></th>
+  <th align="left" valign="top" bgcolor="#404040" scope="col"></th>
+  <th align="left" valign="top" bgcolor="#404040" scope="col"></th>
+</tr>
+</table>
+<%end%>
+
+<script type="text/javascript">
+var sprytextfield1 = new Spry.Widget.ValidationTextField("sprytextfield1", "none", {validateOn:["blur"]});
+var sprytextfield2 = new Spry.Widget.ValidationTextField("sprytextfield2", "none", {validateOn:["blur"]});
+var sprytextfield3 = new Spry.Widget.ValidationTextField("sprytextfield3", "none", {validateOn:["blur"]});
+var sprytextfield4 = new Spry.Widget.ValidationTextField("sprytextfield4", "none", {validateOn:["blur"]});
+var sprytextfield5 = new Spry.Widget.ValidationTextField("sprytextfield5", "none", {validateOn:["blur"]});
+var sprytextfield6 = new Spry.Widget.ValidationTextField("sprytextfield6", "none", {validateOn:["blur"]});
+var sprytextfield7 = new Spry.Widget.ValidationTextField("sprytextfield7", "none", {validateOn:["blur"]});
+var sprytextfield8 = new Spry.Widget.ValidationTextField("sprytextfield8", "none", {validateOn:["blur"]});
+var sprytextfield9 = new Spry.Widget.ValidationTextField("sprytextfield9", "none", {validateOn:["blur"]});
+var sprytextfield10 = new Spry.Widget.ValidationTextField("sprytextfield10", "none", {validateOn:["blur"]});
+var sprytextfield11 = new Spry.Widget.ValidationTextField("sprytextfield11", "email", {validateOn:["blur"]});
+var sprytextfield12 = new Spry.Widget.ValidationTextField("sprytextfield12", "none", {validateOn:["blur"]});
+var sprytextfield13 = new Spry.Widget.ValidationTextField("sprytextfield13", "none", {validateOn:["blur"]});
+var sprytextfield14 = new Spry.Widget.ValidationTextField("sprytextfield14", "none", {validateOn:["blur"]});
+var sprytextfield15 = new Spry.Widget.ValidationTextField("sprytextfield15", "none", {validateOn:["blur"]});
+var sprytextfield16 = new Spry.Widget.ValidationTextField("sprytextfield16", "none", {validateOn:["blur"]});
+</script>
+
+

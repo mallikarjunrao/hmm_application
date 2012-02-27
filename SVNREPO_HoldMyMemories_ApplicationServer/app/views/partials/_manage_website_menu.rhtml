@@ -1,0 +1,45 @@
+<table width="173" border="0" cellspacing="0" cellpadding="0" >
+  <tr>
+    <td align="left" valign="top" class="tab-dots"><table width="100%" border="0" cellspacing="0" cellpadding="0">
+        <tr>
+          <td width="25" align="left" valign="middle" background="/images/common/tab_trans.png" ></td>
+          <td height="35" colspan="2" align="left" valign="middle" background="/images/common/tab_trans.png" class="headers" style="padding-left:5px;">Manage Website</td>
+        </tr>
+        <tr>
+          <td align="left" valign="top">&nbsp;</td>
+          <td width="227" align="left" valign="top"><table width="100%" border="0" cellspacing="0" cellpadding="0">
+              <tr>
+                <td align="left" valign="top" >
+                  <ul id="navlist2">
+                    <li><a href="/manage_website/home/<%= params[:id] %>" <% if current_item == nil || current_item == "home" %>  id="current"<% end %>>Home</a></li>
+                    <li><a href="/manage_website/edit_profile/<%= params[:id] %>" >Customize Site</a></li>
+                    <li style="padding-left:15px;"><a href="/manage_website/edit_profile/<%= params[:id] %>" <% if current_item != nil && current_item == "edit_profile" %>  id="current"<% end %>>Edit Profile</a></li>
+                    <li style="padding-left:15px;"><a href="/manage_website/website_header/<%= params[:id] %>" <% if current_item != nil && current_item == "website header" %>  id="current"<% end %>>Edit Header</a></li>
+                    <li style="padding-left:15px;"><a href="/manage_website/themes/<%= params[:id] %>" <% if current_item != nil && current_item == "themes" %>  id="current"<% end %>>Edit Theme</a></li>
+                    <li style="padding-left:15px;"><a href="/manage_website/website_address/<%= params[:id]%>" <% if current_item != nil && current_item == "edit website address" %>  id="current"<% end %>>Edit URL</a></li>
+                    <li style="padding-left:15px;"><a href="/biography/family_biographies/<%= params[:id] %>" <% if current_item != nil && current_item == "biography" %>  id="current"<% end %>>Edit Family Bios</a></li>
+                    <li><a href="/blog/manage_blog_details/<%= params[:id] %>" >Site Management</a></li>
+                    <li style="padding-left:15px;"><a href="/blog/manage_bloglist_details/<%= params[:id] %>" <% if current_item != nil && current_item == "manage_blog" %> id="current"<% end %>>Manage Blog</a></li>
+                    <li style="padding-left:15px;"><a href="/familywebsite_comments/view/<%= params[:id] %>" <% if current_item != nil && current_item == "comments" %> id="current"<% end %>>Manage Comments</a></li>
+                    <li style="padding-left:15px;"><a href="/manage_address_book/list/<%= params[:id] %>" <% if current_item != nil && current_item == "address book" %>  id="current"<% end %>>Manage Address Book</a></li>
+                    <li style="padding-left:15px;"><a href="/manage_website/password_settings/<%= params[:id] %>" <% if current_item != nil && current_item == "password settings" %>  id="current"<% end %>>Manage Password Settings</a></li>
+                    <li><a href="/manage_website/file_manager/<%= params[:id] %>"  >File Management</a></li>
+                    <li style="padding-left:15px;"><a href="/manage_website/file_manager/<%= params[:id] %>" <% if current_item != nil && current_item == "file manager" %>  id="current"<% end %>>Upload Files</a></li>
+                      <li style="padding-left:15px;"><a href="/manage_website/image_import/<%= params[:id] %>" <% if current_item != nil && current_item == "imageimport" %>  id="current"<% end %>>Image Import</a></li>
+                         <li style="padding-left:15px;"><a href="/manage_website/organize/<%= params[:id] %>" <% if current_item != nil && current_item == "organize" %>  id="current"<% end %>>Reorganize Files</a></li>
+                    <li style="padding-left:15px;"><a href="/manage_website/create_slideshow/<%= params[:id] %>" <% if current_item != nil && current_item == "create slideshow" %>  id="current"<% end %>>Create Slideshow</a></li>
+                    <li><a href="/account_settings/home/<%= params[:id] %>" <% if current_item != nil && current_item == "account_settings" %> id="current"<% end %>>Account Settings</a></li>
+                  </ul></td>
+              </tr>
+              <tr>
+                <td align="left" valign="top">&nbsp;</td>
+              </tr>
+            </table></td>
+        </tr>
+      </table></td>
+  </tr>
+  <tr>
+    <td align="left" valign="top">&nbsp;</td>
+  </tr>
+</table>
+<% @hide_float_menu = true  %>

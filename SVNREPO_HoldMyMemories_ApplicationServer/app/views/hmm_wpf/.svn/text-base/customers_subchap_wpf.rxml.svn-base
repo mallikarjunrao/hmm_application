@@ -1,0 +1,22 @@
+xml.instruct! :xml, :version=>"1.0"
+xml.SubChapters{
+   
+     for subchapter123 in @results
+       xml.SubChapter{
+          xml.id(subchapter123.id)
+            xml.tagid(subchapter123.tagid)
+            xml.access(subchapter123.e_access)
+            xml.name(subchapter123.sub_chapname)
+            xml.icon(subchapter123.img_url + "/user_content/photos/icon_thumbnails/#{subchapter123.v_image}")
+            xml.tags(subchapter123.v_subchapter_tags)
+            xml.description(subchapter123.v_desc)
+            
+            user_details = HmmUser.find_by_sql("select v_password as paswrd, v_user_name as username  from hmm_users where id='#{subchapter123.uid}'")
+                   for user in user_details
+                     xml.username(user.username)
+                     xml.pass(user.paswrd)
+                   end
+       }
+    
+   end 
+}

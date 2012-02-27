@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:Application xmlns:mx="http://www.adobe.com/2006/mxml" 
+	layout="vertical" 
+	backgroundColor="0x000000"
+	frameRate="60"
+	creationComplete="initPV3D()" 
+	xmlns:components="com.cubicleman.components.*"
+	 viewSourceURL="srcview/index.html">
+	
+	<mx:Script>
+		<![CDATA[
+			
+			private var myUrls:Array;
+			
+			private function initPV3D():void
+			{
+				myUrls = new Array();
+				var st:String = 'images/dw.gif';
+				myUrls.push(st);	
+				st = 'images/fl.gif';
+				myUrls.push(st);
+				st = 'images/fw.gif';
+				myUrls.push(st);	
+				st = 'images/fx.gif';	
+				myUrls.push(st);
+				st = 'images/il.gif';	
+				myUrls.push(st);
+				st = 'images/in.gif';	
+				myUrls.push(st);
+				st = 'images/ph.gif';	
+				myUrls.push(st);
+				 
+				paperCanvas.dataProvider = myUrls;
+			}
+			
+			private function previous( event : MouseEvent ) : void	{
+				paperCanvas.moveLeft();
+			}
+
+			private function next( event : MouseEvent ) : void	{
+				paperCanvas.moveRight();
+			}
+			
+			private function doTest() : void	{
+				myUrls = new Array();
+				var st:String = 'images/CHelp.png';
+				myUrls.push(st);	
+				st = 'images/help_.png';
+				myUrls.push(st);
+				st = 'images/help_index.png';
+				myUrls.push(st);	
+				st = 'images/Help.png';	
+				myUrls.push(st);
+				st = 'images/kblackbox.png';	
+				myUrls.push(st);
+				st = 'images/khelpcenter.png';	
+				myUrls.push(st);
+				st = 'images/os-support.png';	
+				myUrls.push(st);
+				 
+				paperCanvas.dataProvider = myUrls;
+			}
+		]]>
+	</mx:Script>
+	<mx:HBox verticalAlign="middle">
+		<!--Canvas3D canvas property should be used as the container for the scene-->
+		<mx:Image source="images/previous.png"
+			buttonMode="true" 
+			click="previous( event )" 
+			mouseOver="event.target.alpha=0.5"
+			mouseOut="event.target.alpha=1" />
+		<components:CarouselRoundAbout id="paperCanvas"
+			backgroundColor="#000000"
+			backgroundAlpha="1"
+			width="300" 
+			height="200"
+			radius="600" />	
+		<mx:Image source="images/next.png"
+			buttonMode="true" 
+			click="next( event )" 
+			mouseOver="event.target.alpha=0.5"
+			mouseOut="event.target.alpha=1" />
+	
+	</mx:HBox>
+	 <mx:Button label="Switch Images" click="doTest()" />
+</mx:Application>

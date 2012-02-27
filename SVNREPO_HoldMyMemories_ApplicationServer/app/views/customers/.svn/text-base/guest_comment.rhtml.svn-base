@@ -1,0 +1,30 @@
+<table width="100%" border="0" cellspacing="0" cellpadding="0">
+    <tr>
+      <th width="22" height="32" align="left" valign="top" bgcolor="#191919" scope="col">&nbsp;</th>
+      <th align="left" valign="middle" bgcolor="#191919" scope="col"><span class="btmtxt">Comments for Journals</span></th>
+      <th width="22" align="left" valign="top" bgcolor="#191919" scope="col">&nbsp;</th>
+    </tr>
+	<% for i in @comment %>
+    <tr>
+      <th height="32" align="left" valign="top" scope="col">&nbsp;</th>
+      <th align="left" valign="middle" scope="col"><span class="heading-journal">Commented By: <%= i.v_name %></span></th>
+      <th align="left" valign="top" scope="col"></th>
+    </tr>
+		
+    <tr>
+      <th height="65" align="left" valign="top" scope="col">&nbsp;</th>
+      <th align="left" valign="top" class="text-journal" scope="col">Description: <%= i.v_comment %></th>
+      <th align="left" valign="top" scope="col"></th>
+    </tr>
+    <tr>
+      <th height="28" align="left" valign="middle" bgcolor="#191919" scope="col" colspan='5'>
+      	&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+		<a href='/customers/add_comment/<%= i.id %>'>Approve</a>&nbsp;&nbsp;&nbsp;
+			<a href='/customers/reject_comment/ <%= i.id %>'>Reject</a></th>
+      <th align="right" valign="middle" bgcolor="#191919" class="text-journal" scope="col">
+       		
+			<a href='/customers/abuse_rept/<%= i.id %>'>Send Abuse Report!!</a>&nbsp;</th>
+	  <th align="left" valign="top" bgcolor="#191919" scope="col">&nbsp;</th>
+    </tr>
+	<%end%>
+</table>

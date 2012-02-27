@@ -1,0 +1,16 @@
+xml.instruct! :xml, :version=>"1.0" 
+xml.contents{
+	i = 0
+	
+  for content in @contents
+  xml.content{
+      xml.icon("/user_content/photos/small_thumb/"+content.v_filename)
+      xml.name(content.v_tagphoto)
+      xml.type(content.e_filetype)
+      xml.id(content.id)
+	}
+  end
+      
+
+}
+

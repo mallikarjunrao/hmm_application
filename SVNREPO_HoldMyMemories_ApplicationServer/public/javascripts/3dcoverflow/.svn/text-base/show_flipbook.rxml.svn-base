@@ -1,0 +1,96 @@
+xml.instruct! :xml, :version=>"1.0"
+xml.photbook {
+xml.images {
+  photobook_pages=PhotobookPage.find(:all,:conditions =>"photobook_id=#{@photobook.id}")
+  i=0
+  for photobook_page in photobook_pages
+    xml.img{
+      xml.pageid(photobook_page.id)
+      photobook_images = PhotobookImage.find(:all, :conditions => "photobook_page_id=#{photobook_page.id}")
+      # photobook_images_last = PhotobookImage.find(:all, :conditions => "photobook_page_id=#{photobook_page.id}",:order=> 'id desc')
+      content_url=ContentPath.find(:first,:conditions=>"status='active'")
+      for photobook_image in photobook_images
+        if(photobook_image.image_type=='image')
+         usercont_details=UserContent.find(photobook_image.usercontent_id)
+         imgpath=usercont_details.img_url + "/user_content/photos/journal_thumb/#{usercont_details.v_filename}"
+         elsif (photobook_image.image_type=='text')
+           imgpath=photobook_image.image_path
+        elsif (photobook_image.image_type=='background') && i==0
+         imgpath= photobook_image.image_path
+         i=i+1
+         elsif (photobook_image.image_type=='background') && i > 0
+          imgpath= content_url.content_path + "/user_content/photobook_backgrounds/#{photobook_image.image_path}"
+         elsif (photobook_image.image_type=='border')
+           imgpath= photobook_image.image_path
+        end
+        
+       xml.childImage("","usercontent_id" => photobook_image.usercontent_id, "rotation" => photobook_image.rotation ,"x" => photobook_image.x, "y" => photobook_image.y, "width" => photobook_image.width, "height" => photobook_image.height, "file" => imgpath, "id" => photobook_image.id, "type" => photobook_image.image_type, "tint" => photobook_image.tint, "crop_x" => photobook_image.crop_x, "crop_y" => photobook_image.crop_y, "crop_height" => photobook_image.crop_height, "crop_width" => photobook_image.crop_width, "image_type" => photobook_image.image_type, "order" => photobook_image.order, "templateid" => photobook_image.photobook_template_id)
+      end
+    #  xml.templateImage(photobook_images_last[0].photobook_template_id)
+     # xml.backgroundImage("", "file" => "#{photobook_page.background_image}")
+      #xml.photobook("","file" => "#{photobook_page.page_image}")
+    }
+  end
+  #xml.title("","file"=>"#{@photobook.titleimage}");
+}
+
+xml.backgrounds {
+  for photobook_background in @backgrounds
+    xml.background_id(photobook_background.id)
+    xml.background_image("#{request_content_url}/user_content/photobook_backgrounds/#{photobook_background.background_image}")
+  end
+}
+
+xml.stickers {
+  for photobook_sticker in @stickers
+    xml.sticker_id(photobook_sticker.id)
+    xml.sticker_image("#{request_content_url}/user_content/photobook_stickers/#{photobook_sticker.sticker_image}")
+  end
+}
+
+
+  xml.page{
+    templates=PhotobookTemplate.find(:all,:order =>'id asc')
+    for template in templates
+      xml.templates{
+        xml.id(template.id)
+        xml.name(template.name)
+        xml.image_name(template.image)
+        xml.number_of_images(template.number_of_images)
+        xml.background_image(template.background_image)
+        xml.width(template.width)
+        xml.height(template.height)
+        @images=PhotobookTemplateImage.find(:all,:conditions =>"photobook_template_id=#{template.id}")
+        for image in @images
+          xml.image{
+            xml.id(image.id)
+            xml.image_count(image.image_count)
+            xml.desired_height(image.desired_height)
+            xml.desired_width(image.desired_width)
+            xml.x_shift(image.x_shift)
+            xml.y_shift(image.y_shift)
+            xml.x_scale(image.x_scale)
+            xml.y_scale(image.y_scale)
+            xml.rotation(image.rotation)
+            xml.scale_to_fit(image.scale_to_fit)
+           }
+        end
+      }
+    end
+  }
+
+
+xml.borders {
+  for photobook_border in @borders
+    xml.border_id(photobook_border.id)
+    xml.border_image("#{request_content_url}/FlipBook/borders/#{photobook_border.border_image}")
+  end
+}
+xml.width(@photobook.width)
+xml.height(@photobook.height)
+if(@photobook_audio!='' && @photobook_audio!=nil)
+xml.audio_url("#{@photobook_audio.audio_url}#{@photobook_audio.audio_file}")
+xml.audio_name(@photobook_audio.audio_file)
+end
+
+}

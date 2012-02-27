@@ -1,0 +1,59 @@
+
+<!--< %= session[:hmm_user].inspect %>
+
+ownerid < %=@family_website_owner.id %>-->
+<%= javascript_include_tag "themes/swfobject" %>
+<table width="990" border="0" cellspacing="0" cellpadding="0" align="center">
+  <tr>
+    <td align="center" valign="top">
+    <font color="#e75e16"><%=flash[:share_familypage]%></font>
+	<font color="#ff0000"><%=flash[:share_unsuccefull]%></font>
+    </td>
+  </tr>
+  <tr>
+    <td height="339" align="center" valign="top">
+      <div id="flash_content">
+        <h1>Get Flash Player</h1>
+        <p><a href="http://www.adobe.com/go/getflashplayer"><img src="http://www.adobe.com/images/shared/download_buttons/get_flash_player.gif" alt="Get Adobe Flash player" /></a></p>
+      </div>
+      <script type="text/javascript">
+        var flashvars = {};
+        flashvars.serverUrl = "/my_familywebsite/chapters_display/<%= @family_website_owner.id %>";
+        flashvars.navigateToUrl = "/familywebsite/subchapters/<%=  params[:id] %>?chapter_id=";
+        flashvars.proxyurls = "<%= @content_server_url %>";
+        flashvars.user_id ="<%= @family_website_owner.id %>";
+      
+        flashvars.familyname = "<%=  params[:id] %>";
+
+        var params = {};
+        params.wmode = "transparent";
+        swfobject.embedSWF("/Chapter.swf?v=2", "flash_content", "954", "300", "9.0.0", "/expressInstall.swf",flashvars,params);
+      </script>
+    </td>
+  </tr>
+  <tr>
+    <td align="center" valign="top"><table width="954" border="0" cellspacing="0" cellpadding="0">
+        <tr>
+          <td align="center" valign="top" class="tab-dots"><%= render :partial => "partials/recentmoments",  :collection => "#{@recent_moments}" %></td>
+        </tr>
+      </table></td>
+  </tr>
+  <tr>
+    <td height="19"></td>
+  </tr>
+  <tr>
+    <td align="center" valign="top"><table width="954" border="0" cellspacing="0" cellpadding="0">
+        <tr>
+          <td width="477" align="left" valign="top" class="tab-dots"><%= render :partial => "partials/aboutme", :locals => { :content => "#{@family_website_owner.about_family}"} %></td>
+          <td width="477" align="right" valign="top" class="tab-dots"><%= render :partial => "partials/homepagelinks", :locals => { :link1 => "#{@family_website_owner.v_link1}",:link2 => "#{@family_website_owner.v_link2}",:link3 => "#{@family_website_owner.v_link3}"} %></td>
+        </tr>
+      </table></td>
+  </tr>
+  <tr>
+    <td height="19"></td>
+  </tr>
+
+  <tr>
+    <td align="center" valign="bottom">&nbsp;</td>
+  </tr>
+</table>

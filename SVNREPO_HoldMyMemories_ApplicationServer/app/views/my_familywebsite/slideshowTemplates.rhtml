@@ -1,0 +1,40 @@
+
+
+
+<table align="top" border="0" width="475" height="">
+	<tr>
+		<td width="170" valign="top" >
+			<%= render :partial => "my_familywebsite/leftnav", :locals => { :current => "create"} %>
+		</td>
+		<td width="713" align="top"  valign="top">
+		<script src="/AC_OETags.js" language="javascript"></script>
+		<input type="hidden" name="swffile" id="swffile" value="<%=params[:id]%>"/>
+		
+		<script language="JavaScript" type="text/javascript">
+			var swffilename=document.getElementById('swffile').value;
+			//alert(document.getElementById('swffile').value);
+			AC_FL_RunContent( 'codebase','http://download.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=7,0,19,0',
+						'width','750',
+						'height','336',
+						'src','/SlideShowCreator',
+						'quality','high',
+						'pluginspage','http://www.macromedia.com/go/getflashplayer',
+						'movie','/SlideShowCreator',
+						'bgcolor','#000000' ); //end AC code
+		</script>
+		<noscript>
+			<object classid="clsid:D27CDB6E-AE6D-11cf-96B8-444553540000" codebase="http://download.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=7,0,19,0" width="898" height="450">
+			</object>
+		</noscript>	
+</td></tr>
+<tr>
+	<td>
+		&nbsp;
+	</td>
+</tr>
+
+
+
+</table>
+
+

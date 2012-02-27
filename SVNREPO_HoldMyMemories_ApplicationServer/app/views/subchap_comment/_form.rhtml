@@ -1,0 +1,10 @@
+
+<%= error_messages_for 'subchap_comment' %>
+
+
+<input type="hidden" value="<%=params[:id]%>" name="subchap_id" />
+<input type="hidden" value="<%=params[:id_journal]%>" name="subchap_j_id" />
+
+
+<p><label for="subchap_comment_v_comments"></label><br/>
+<%=text_area 'subchap_comment', 'v_comments', :rows =>"10", :cols=>"40", :class => "textbox-1" %></p>

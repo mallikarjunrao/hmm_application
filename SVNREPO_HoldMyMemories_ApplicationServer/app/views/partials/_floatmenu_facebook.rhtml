@@ -1,0 +1,23 @@
+<table width="<%=@app_width%>" border="0" cellspacing="0" cellpadding="0" align="center">
+  <tr>
+    <td width="123" align="left" valign="middle"><img src="<%=@image_path%>/footerlogo.png" width="123" height="30" /></td>
+    <td width="118" align="left" valign="middle" class="content-white">&nbsp;</td>
+    <td align="left" valign="middle">&nbsp;</td>
+    <td align="right" valign="middle"><div align="right">
+        <%if (@family_website_owner.id == 4 && @family_website_owner.alt_family_name.downcase=="bob")%>
+          <a href="<%=@path.proxyname%>/static/studios" target="_blank"><img src="<%=@path.proxyname%>/images/bookurstudiosession.jpg" width="157" height="26" border="0" ></a>
+        <%else%>
+          <% if ((@family_website_owner.studio_id).to_i == 0 )%>
+            <a href="<%=@path.proxyname%>/book_sessions/create_booksession/<%=  @family_website_owner.family_name %>" target="_blank"><img src="<%=@path.proxyname%>/images/bookurappoint.png" width="237" height="26" border="0" ></a>
+          <%else%>
+            <%  @hmm_studios = HmmStudio.find(:first, :conditions => "id='#{@family_website_owner.studio_id}'")
+            unless @hmm_studios.studio_button_logo == "" || @hmm_studios.studio_button_logo == nil %>
+              <a href="<%=@path.proxyname%>/my_familywebsite/book_session/<%=@family_website_owner.family_name%>/?studio_id=<%=@family_website_owner.studio_id%>" target="_blank"><img src="<%=request_content_url%>/user_content/studio_button_logos/<%=@hmm_studios.studio_button_logo%>" width="207" height="26" border="0" ></a>
+            <%else%>
+              <a href="<%=@path.proxyname%>/my_familywebsite/book_session/<%=@family_website_owner.family_name%>/?studio_id=<%=@family_website_owner.studio_id%>" target="_blank"><img src="<%=request_content_url%>/user_content/studio_button_logos/button_default_top_logo_white.png" width="207" height="26" border="0" ></a>
+            <%  end %>
+          <%  end %>
+        <%  end %>
+      </div></td>
+  </tr>
+</table>

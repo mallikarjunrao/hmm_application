@@ -1,0 +1,369 @@
+<link href="holdmymemories.com/stylesheets/main.css" media="screen" rel="Stylesheet" type="text/css" />
+<script type="text/javascript">window.print();</script>
+<table width="100%" cellpadding="0" cellspacing="0">
+  <tr>
+    <td width="100%" align="center"><table width="970" border="0" cellspacing="0" cellpadding="0" id="tab_bgcolor_repeat">
+        <tr>
+          <td align="left" valign="top"><table width="100%" border="0" cellspacing="0" cellpadding="0">
+              <tr>
+                <td width="13" align="left" valign="top"></td>
+                <td width="944" align="left" valign="top"><table width="100%" border="0" cellspacing="0" cellpadding="0">
+                    <tr>
+                      <td height="10" align="left" valign="top"></td>
+                    </tr>
+                    <tr>
+                      <td height="35" align="left" valign="bottom" class="header-page">Order Receipt</td>
+                    </tr>
+                    <tr>
+                      <td height="10" align="left" valign="top"></td>
+                    </tr>
+                    <tr>
+                      <td height="1" align="left" valign="top" bgcolor="#454545"></td>
+                    </tr>
+                    <tr>
+                      <td height="10" align="left" valign="top"></td>
+                    </tr>
+                    <tr>
+                      <td align="left" valign="top" class="content-trans-bg"><table width="100%" border="0" cellspacing="0" cellpadding="0">
+                          <tr>
+                            <td width="30" height="30" align="left" valign="top">&nbsp;</td>
+                            <td width="882" align="left" valign="top">&nbsp;</td>
+                            <td width="30" align="left" valign="top">&nbsp;</td>
+                          </tr>
+                          <tr>
+                            <td align="left" valign="top">&nbsp;</td>
+                            <td align="left" valign="top" class="content-trans-bg"><table width="100%" border="0" cellspacing="0" cellpadding="0">
+                                <tr>
+                                  <td height="20" colspan="3" align="left" valign="top"></td>
+                                </tr>
+                                <tr>
+                                  <td height="20" colspan="3" align="left" valign="top">&nbsp;</td>
+                                </tr>
+                                <tr>
+                                  <td align="left" valign="top"></td>
+                                  <td align="center" valign="top" class="content">&nbsp;</td>
+                                  <td align="left" valign="top"></td>
+                                </tr>
+                                <tr>
+                                  <td align="left" valign="top"></td>
+                                  <td align="left" valign="top">&nbsp;</td>
+                                  <td align="left" valign="top"></td>
+                                </tr>
+                                <tr>
+                                  <td align="left" valign="top"></td>
+                                  <td align="left" valign="top"><a href="http://www.holdmymemories.com" ><img src="http://www.holdmymemories.com/images/email_logo.gif" width="177" height="48" alt="Logo" border="0" /></a></td>
+                                  <td align="left" valign="top"></td>
+                                </tr>
+                                <tr>
+                                  <td align="left" valign="top"></td>
+                                  <td align="left" valign="top">&nbsp;</td>
+                                  <td align="left" valign="top"></td>
+                                </tr>
+                                <% if @order!=nil &&  @order.length > 0 %>
+                                  <%
+                                  grand_total=0
+                                  @order_details = @order[:order_details]
+                                  @order_products = @order[:order_products]
+                                  @processed_by = @order[:processed_by]
+                                  @a = 0
+                                  @b = 0
+                                  digital = false
+                                %>
+                                  <tr>
+                                    <td align="left" valign="top"></td>
+                                    <td align="left" valign="top"><table width="400" border="0" cellspacing="0" cellpadding="0" class="content-trans-bg">
+                                        <tr>
+                                          <td height="20" colspan="3" align="left" valign="top"></td>
+                                        </tr>
+                                        <tr>
+                                          <td width="20" align="left" valign="top"></td>
+                                          <td width="360" align="left" valign="top"><table width="360" border="0" cellspacing="0" cellpadding="0">
+                                              <tr>
+                                                <td width="310" height="30" align="left" valign="middle" class="cont-white-title">Order: <%=@order_details.order_number%></td>
+                                                <td width="50" align="left" valign="middle" class="cont-white-title">&nbsp;</td>
+                                              </tr>
+                                              <tr>
+                                                <td width="310" height="30" align="left" valign="middle" class="cont-white-title">Processed by: <%=@processed_by%></td>
+                                                <td width="50" align="left" valign="middle" class="cont-white-title">&nbsp;</td>
+                                              </tr>
+                                              <tr>
+                                                <td width="310" height="30" align="left" valign="middle" class="cont-white-title">Date: <%=@order_details.created_at.strftime("%m / %d / %Y")%> </td>
+                                                <td width="50" align="left" valign="middle" class="cont-white-title">&nbsp;</td>
+                                              </tr>
+                                              <tr>
+                                                <td colspan="2" align="left" valign="top">&nbsp;</td>
+                                              </tr>
+                                              <tr>
+                                                <td colspan="2" align="left" valign="top" class="content"><strong>Bill To:</strong></td>
+                                              </tr>
+                                              <tr>
+                                                <td colspan="2" align="left" valign="top"><table width="100%" border="0" cellspacing="0" cellpadding="0">
+                                                    <tr>
+                                                      <td height="10" colspan="3" align="left" valign="top"></td>
+                                                    </tr>
+                                                    <tr>
+                                                      <td width="100" align="left" valign="top" class="content"><strong>Name</strong></td>
+                                                      <td width="10" align="left" valign="top" class="content"><strong>:</strong></td>
+                                                      <td width="159" align="left" valign="top" class="content"><%=@order_details.billing_lname%> <%=@order_details.billing_name%></td>
+                                                    </tr>
+                                                    <tr>
+                                                      <td align="left" valign="top" class="content"><strong>Address</strong></td>
+                                                      <td align="left" valign="top" class="content"><strong>:</strong></td>
+                                                      <td align="left" valign="top" class="content"><%=@order_details.billing_address%>,<br>
+                                                        <%=@order_details.billing_city%>,
+                                                        <% @state=State.find(@order_details.billing_state) %>
+                                                        <%=@state.state%>,<%=@order_details.billing_zip%>, <br/>
+                                                        <%=@order_details.billing_country%>.</td>
+                                                    </tr>
+                                                    <tr>
+                                                      <td align="left" valign="top" class="content"><strong>Phone Number</strong></td>
+                                                      <td align="left" valign="top" class="content"><strong>:</strong></td>
+                                                      <td align="left" valign="top" class="content"><%=@order_details.billing_phone%></td>
+                                                    </tr>
+                                                    <tr>
+                                                      <td align="left" valign="top" class="content"><strong>Email</strong></td>
+                                                      <td align="left" valign="top" class="content"><strong>:</strong></td>
+                                                      <td align="left" valign="top" class="content"><%=@order_details.billing_email%></td>
+                                                    </tr>
+                                                  </table></td>
+                                              </tr>
+                                              <tr>
+                                                <td colspan="2" align="left" valign="top">&nbsp;</td>
+                                              </tr>
+                                              <tr>
+                                                <td colspan="2" align="left" valign="top" class="content"><strong>Ship To:</strong></td>
+                                              </tr>
+                                              <tr>
+                                                <td colspan="2" align="left" valign="top"><table width="100%" border="0" cellspacing="0" cellpadding="0">
+                                                    <tr>
+                                                      <td height="10" colspan="3" align="left" valign="top"></td>
+                                                    </tr>
+                                                    <tr>
+                                                      <td width="100" align="left" valign="top" class="content"><strong>Name</strong></td>
+                                                      <td width="10" align="left" valign="top" class="content"><strong>:</strong></td>
+                                                      <td width="159" align="left" valign="top" class="content"><%=@order_details.shipping_lname%> <%=@order_details.shipping_name%></td>
+                                                    </tr>
+                                                    <tr>
+                                                      <td align="left" valign="top" class="content"><strong>Address</strong></td>
+                                                      <td align="left" valign="top" class="content"><strong>:</strong></td>
+                                                      <td align="left" valign="top" class="content"><%=@order_details.shipping_address%>,<br>
+                                                        <%=@order_details.shipping_city%>,
+                                                        <% @state2=State.find(@order_details.shipping_state) %>
+                                                        <%=@state2.state%>,<%=@order_details.shipping_zip%><br>
+                                                        <%=@order_details.shipping_country%>.</td>
+                                                    </tr>
+                                                    <tr>
+                                                      <td align="left" valign="top" class="content"><strong>Phone Number</strong></td>
+                                                      <td align="left" valign="top" class="content"><strong>:</strong></td>
+                                                      <td align="left" valign="top" class="content"><%=@order_details.shipping_phone%></td>
+                                                    </tr>
+                                                    <tr>
+                                                      <td align="left" valign="top" class="content"><strong>Email</strong></td>
+                                                      <td align="left" valign="top" class="content"><strong>:</strong></td>
+                                                      <td align="left" valign="top" class="content"><%=@order_details.shipping_email%></td>
+                                                    </tr>
+                                                  </table></td>
+                                              </tr>
+                                              <tr>
+                                                <td colspan="2" align="left" valign="top">&nbsp;</td>
+                                              </tr>
+                                            </table></td>
+                                          <td width="20" align="left" valign="top"></td>
+                                        </tr>
+                                        <tr>
+                                          <td height="20" colspan="3" align="left" valign="top"></td>
+                                        </tr>
+                                      </table></td>
+                                    <td align="left" valign="top"></td>
+                                  </tr>
+                                  <tr>
+                                    <td height="20" colspan="3" align="left" valign="top">&nbsp;</td>
+                                  </tr>
+                                  <tr>
+                                    <td align="left" valign="top"></td>
+                                    <td align="left" valign="top"><table width="788" border="0" cellspacing="0" cellpadding="0">
+                                        <tr>
+                                          <td width="20" align="left" valign="top" background="/images/g_round4.jpg"></td>
+                                          <td width="358" height="25" align="left" valign="top" background="/images/g_round4.jpg" class="headers">Photo</td>
+                                          <td width="100" align="center" valign="top" background="/images/g_round4.jpg" class="headers">Print</td>
+                                          <td width="100" align="center" valign="top" background="/images/g_round4.jpg" class="headers">Copies</td>
+                                          <td width="100" align="center" valign="top" background="/images/g_round4.jpg" class="headers">Unit Price</td>
+                                          <td width="110" align="center" valign="top" background="/images/g_round4.jpg" class="headers">Price</td>
+                                          <td width="110" align="center" valign="top" background="/images/g_round4.jpg" class="headers">Session Uploaded Date</td>
+                                        </tr>
+                                        <tr>
+                                          <td height="15" colspan="6" align="left" valign="top"></td>
+                                        </tr>
+                                        <%
+                                        for products in @order_products %>
+                                          <tr>
+                                            <td width="20" align="left" valign="top"></td>
+                                            <td height="90" align="left" valign="middle" class="content"><table width="257" border="0" cellspacing="1" cellpadding="1">
+                                                <tr>
+                                                  <td width="47" align="left" valign="middle"><img src="<%=products.img_url%>/user_content/photos/order_prints/thumbnails/<%=products.print_image%>?time=<%=Time.now%>" width="100" height="100" /></td>
+                                                  <td align="left" valign="middle" class="content">&nbsp;
+                                                    <%@photo=UserContent.find(products.user_content_id)%>
+                                                    <%=@photo.v_tagphoto%> </td>
+                                                </tr>
+                                                <%@print=PrintSizePrice.find(:first, :joins =>"INNER JOIN print_sizes on print_size_prices.print_size_id = print_sizes.id",
+                                                  :conditions =>"print_size_prices.id=#{products.size_id}",:select=>"print_sizes.label as name,print_sizes.id as size_id ")%>
+                                              </table></td>
+                                            <td align="center" valign="middle" class="content"><%=@print.name%></td>
+                                            <td align="center" valign="middle" class="content"><%=products.quantity%></td>
+                                            <td align="center" valign="middle" class="content"> $ <%= number_with_precision(Float(products.price), :precision => 2) %></td>
+                                            <td align="center" valign="middle" class="content">$
+                                              <%
+                                              @total_amount=(Float(products.price)*Integer(products.quantity))
+                                            %>
+                                              <%=number_with_precision(Float(@total_amount), :precision => 2)%>
+                                              <%
+                                              if products.order_type == "digital"
+                                                @b=Float(@b)+Float(@total_amount)
+                                                digital = true
+                                              else
+                                                @a=Float(@a)+Float(@total_amount)
+                                              end
+                                            %>
+                                            </td>
+                                            <td align="center" valign="middle" class="content"><%=@photo.d_createddate.strftime("%m/%d/%Y")%></td>
+                                          </tr>
+                                          <tr>
+                                            <td height="5" colspan="6" align="left" valign="top"></td>
+                                          </tr>
+                                          <tr>
+                                            <td height="1" colspan="6" align="left" valign="top" bgcolor="#999999"></td>
+                                          </tr>
+                                          <tr>
+                                            <td height="5" colspan="6" align="left" valign="top"></td>
+                                          </tr>
+                                        <%end%>
+                                        <tr>
+                                          <td height="10" colspan="6" align="left" valign="top"></td>
+                                        </tr>
+                                        <tr>
+                                          <td colspan="6" align="right" valign="top" class="leftconthr"><table width="800" border="0" cellspacing="0" cellpadding="0">
+                                              <tr>
+                                                <td align="left">&nbsp;</td>
+                                                <td align="right" valign="top"><table width="300" border="0" cellspacing="0" cellpadding="0">
+                                                    <% unless @a.to_f == 0 %>
+                                                      <tr>
+                                                        <td colspan="2" align="center">Order Prints</td>
+                                                      </tr>
+                                                      <tr>
+                                                        <td width="200" align="left" valign="top"><span class="whitecont">Subtotal :</span></td>
+                                                        <td width="100" align="center" valign="top" class="whitecontnormal">$<%=number_with_precision(@a, :precision => 2)%> </td>
+                                                      </tr>
+                                                    <%end%>
+                                                    <!-- Digital Download -->
+                                                    <% if digital == true %>
+                                                      <tr>
+                                                        <td colspan="2" align="center">Digital Download</td>
+                                                      </tr>
+                                                      <tr>
+                                                        <td align="left" valign="top"><span class="whitecont">Subtotal :</span></td>
+                                                        <td align="center" valign="top" class="whitecontnormal">$<%= number_with_precision(@b, :precision => 2) %> </td>
+                                                      </tr>
+                                                    <% end %>
+                                                    <tr>
+                                                      <td align="left" valign="top" class="whitecont">&nbsp;</td>
+                                                      <td align="center" valign="top" class="whitecontnormal">&nbsp;</td>
+                                                    </tr>
+                                                    <% unless @order_details.credit_point_amount.nil? %>
+                                                      <tr>
+                                                        <td align="left" valign="top" class="whitecont">Credit Redemption $<%= Float(@order_details.credit_point_amount) %>: </td>
+                                                        <td align="center" valign="top" class="whitecontnormal">-$<%=number_with_precision(@order_details.credit_point_amount, :precision => 2)%></td>
+                                                      </tr>
+                                                    <% end %>
+                                                    <tr>
+                                                      <td align="left" valign="top" class="whitecont">&nbsp;</td>
+                                                      <td align="center" valign="top" class="whitecontnormal">&nbsp;</td>
+                                                    </tr>
+                                                    <tr>
+                                                      <td align="left" valign="top" class="whitecont">Shipping :
+                                                        <% if @order_details.free_shipping == "true" %>
+                                                          <br>
+                                                          (Free Shipping)
+                                                        <%end%></td>
+                                                      <td align="center" valign="top" class="whitecontnormal">$<%=  number_with_precision(@order_details.shipping_price, :precision => 2)  %></td>
+                                                    </tr>
+                                                    <td align="left" valign="top" class="whitecont">&nbsp;</td>
+                                                    <td align="center" valign="top" class="whitecontnormal">&nbsp;</td>
+
+                                                      <% if @order_details.credit_point_amount.nil? %>
+                                                      <% unless @order_details.discount_price == 0.00 %>
+                                                        <tr>
+                                                          <td align='left' valign='top' class='whitecont'>Discount :</td>
+                                                          <td align='center' valign='top' class='whitecontnormal'>-$<%=number_with_precision(Float((@order_details.discount_price).round(2)), :precision => 2)%> </td>
+                                                        </tr>
+                                                        <tr>
+                                                          <td align="left" valign="top" class="whitecont">&nbsp;</td>
+                                                          <td align="center" valign="top" class="whitecontnormal">&nbsp;</td>
+                                                        </tr>
+                                                      <%end%>
+                                                    <% end %>
+                                                    <% if(@order_details.sales_tax!=0.00)%>
+                                                      <tr>
+                                                        <td align="left" valign="top" class="whitecont">Sales Tax (<%= @order_details.tax_rate%> %) : </td>
+                                                        <td align="center" valign="top" class="whitecontnormal">$ <%=  number_with_precision(@order_details.sales_tax, :precision => 2)%> </td>
+                                                      </tr>
+                                                      <tr>
+                                                        <td align="left" valign="top" class="whitecont">&nbsp;</td>
+                                                        <td align="center" valign="top" class="whitecontnormal">&nbsp;</td>
+                                                      </tr>
+                                                    <%end%>
+
+                                                    <tr>
+                                                      <td align="left" valign="top" class="whitecont">Total :</td>
+                                                      <td align="center" valign="top" class="whitecontnormal">$<%=number_with_precision(@order_details.total_price, :precision => 2)%> </td>
+                                                    </tr>
+                                                    <tr>
+                                                      <td align="left" valign="top" class="whitecont">&nbsp;</td>
+                                                      <td align="center" valign="top" class="whitecontnormal">&nbsp;</td>
+                                                    </tr>
+                                                    <% if @order_details.credit_point_amount.to_f > 0 %>
+                                                      <tr>
+                                                        <td align='left' valign='top'class="whitecont" >Remaining Credits :</td>
+                                                        <td align='center' valign='top' class="whitecontnormal"><%= CreditPoint.find_by_user_id(@order_details.user_id).available_credits %></td>
+                                                      </tr>
+                                                    <% end %>
+                                                    <tr>
+                                                      <td align="left" valign="top" class="whitecont">&nbsp;</td>
+                                                      <td align="left" valign="top" class="whitecontnormal">&nbsp;</td>
+                                                    </tr>
+                                                  </table></td>
+                                              </tr>
+                                            </table></td>
+                                        </tr>
+                                      </table></td>
+                                    <td align="left" valign="top"></td>
+                                  </tr>
+                                  <tr>
+                                    <td align="left" valign="top"></td>
+                                    <td align="left" valign="top">&nbsp;</td>
+                                    <td align="left" valign="top"></td>
+                                  </tr>
+                                  <%  grand_total = grand_total+@order_details.total_price
+                                end %>
+                                <tr>
+                                  <td align="left" valign="top">&nbsp;</td>
+                                  <td align="left" valign="top">&nbsp;</td>
+                                  <td align="left" valign="top">&nbsp;</td>
+                                </tr>
+                              </table></td>
+                            <td align="left" valign="top">&nbsp;</td>
+                          </tr>
+                          <tr>
+                            <td align="left" valign="top">&nbsp;</td>
+                            <td align="left" valign="top">&nbsp;</td>
+                            <td align="left" valign="top">&nbsp;</td>
+                          </tr>
+                        </table></td>
+                    </tr>
+                  </table></td>
+                <td width="13" align="left" valign="top"></td>
+              </tr>
+            </table></td>
+        </tr>
+      </table></td>
+  </tr>
+</table>

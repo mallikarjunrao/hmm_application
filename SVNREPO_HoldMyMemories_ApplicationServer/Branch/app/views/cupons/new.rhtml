@@ -1,0 +1,41 @@
+<script type="text/javascript">
+	function verify()
+	{
+		if (document.getElementById('valid_period').value == 'select')
+		{
+			alert("Please select no of months");
+			document.getElementById('valid_period').focus();
+			return false;
+		}
+		else 
+		if (document.getElementById('cupon_type').value == 'select')
+		{
+			alert("Please Select the cupon type!!");
+			document.getElementById('cupon_type').focus();
+			return false;
+		}
+		
+		
+		
+	}
+</script>
+
+
+<% form_tag :action => 'create' do %>
+<table width="600">
+	<tr><td colspan="2">&nbsp;</td></tr>
+	<tr><td colspan="2"><h2><center>New Coupon</center></h2></td></tr> 
+	<tr>
+		<td width="200"></td>
+		<td>
+			<%= render :partial => 'form' %>
+		</td>
+	</tr>
+  <tr>
+		<td align="center" colspan="2"><%= submit_tag "Submit" , :onclick => "return verify();"%></td>
+	</tr>
+</table>
+ 
+<% end %>
+
+

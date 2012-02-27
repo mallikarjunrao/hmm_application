@@ -1,0 +1,706 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:Application xmlns:mx="http://www.adobe.com/2006/mxml" layout="vertical" 
+	xmlns:book="com.rubenswieringa.book.*" creationComplete="handleCreationComplete()" 
+	verticalGap="0" paddingTop="0" width="100%" height="100%" backgroundAlpha="0">
+	<mx:Style source="assets/style/book.css" />
+	<mx:Text text="Drag the image using mouse to change position of the image" visible="{edit}" color="0xFFFFFF" fontWeight="bold"/>
+	<mx:ViewStack id="bookViewStack" width="800" height="530">
+		<mx:Canvas width="800" height="530" id="flipBookContainer">
+		<!--book:Book id="book"  width="800" height="530" autoFlipDuration="500" easing="0.7" regionSize="150"
+		 hardCover="true" flipOnClick="true">
+			<book:Page>
+				<mx:VBox  id="title" width="400" height="530" backgroundColor="gray" 
+					horizontalAlign="center" verticalAlign="middle"/>
+			</book:Page>
+			<book:Page />
+			<book:Page/>
+			<book:Page>
+				<mx:Canvas width="400" height="530" backgroundColor="gray"/>
+			</book:Page>
+		</book:Book-->
+		</mx:Canvas>
+		<mx:HBox width="100%" height="100%" id="editedContainer" horizontalGap="50">
+		    <mx:VBox width="150" height="100%">
+		    	<mx:Button id="savepage" label="Save Page" click="handleSavePage()"/>
+				<mx:Button id="preview" label="Preview PhotoBook" click="previewPhotoBook()"/>
+				<mx:Button id="deletepage" label="Delete Page"/>
+		    	<mx:Accordion id="accordian" width="150" height="100%">
+					<mx:VBox width="100%" height="100%" label="Deleted Photos">
+						<mx:TileList  width="100%" height="100%" columnCount="1" columnWidth="100" rowHeight="100" dataProvider="{deletedListCollection}" 
+							id="deletedList" itemRenderer="renderers.DeletedListItemRenderer" allowDragSelection="true" dragEnabled="true"
+							dragStart="handleDragStart(event)" />	
+					</mx:VBox>
+					<mx:VBox width="100%" height="100%" label="Added photos">
+						<mx:TileList width="100%" height="100%" columnCount="1" columnWidth="100" rowHeight="100"   dataProvider="{UnusedListCollection}"
+						id="unUsedList" itemRenderer="renderers.DeletedListItemRenderer" allowDragSelection="true" dragEnabled="true"
+						dragStart="handleDragStart(event)"/>
+					</mx:VBox>
+				</mx:Accordion>
+		    </mx:VBox>
+			<mx:Canvas width="400" height="100%" backgroundColor="0xFFFFFF" id="editPageContainer" creationComplete="editPageContainerComplete()"/>
+			
+			<mx:VBox width="150" height="100%">
+		    	<mx:Button label="Add Photos" click="handleAddPhotos()" visible="{edit}"/>
+		    	<mx:Button id="addpage" label="Add New Page"/>
+				<mx:Accordion id="accordianright" width="150" height="100%">
+					<mx:VBox width="100%" height="100%" label="Stickers">
+						<!--mx:TileList  width="100%" height="100%" columnCount="1" columnWidth="100" rowHeight="100" dataProvider="{deletedListCollection}" 
+							id="deletedList" itemRenderer="renderers.DeletedListItemRenderer" allowDragSelection="true" dragEnabled="true"
+							dragStart="handleDragStart(event)" /-->	
+					</mx:VBox>
+					<mx:VBox width="100%" height="100%" label="Backgrounds">
+						<!--mx:TileList width="100%" height="100%" columnCount="1" columnWidth="100" rowHeight="100"   dataProvider="{UnusedListCollection}"
+						id="unUsedList" itemRenderer="renderers.DeletedListItemRenderer" allowDragSelection="true" dragEnabled="true"
+						dragStart="handleDragStart(event)"/-->
+					</mx:VBox>
+				</mx:Accordion>
+		    </mx:VBox>
+		</mx:HBox>
+	</mx:ViewStack>
+	<mx:HBox width="100%" horizontalAlign="center" horizontalGap="0">
+		<mx:Button label="Back to Photo Book Creation" click="handleBackClick()" visible="{!edit}"/>
+		<mx:Button label="Edit" click="handleSaveEditClick()" visible="{!edit}"/>	
+	</mx:HBox>
+	<mx:ViewStack id="imageHolderStack" width="100%" height="100%" visible="{edit}">
+	<mx:VBox width="100%" height="100%" label="Pages" id="pageListContainer">
+		<!--mx:HorizontalList width="100%" height="100%" columnWidth="100" rowHeight="100" id="photobookpages" 
+			itemRenderer="renderers.PhotoBookEditPageRenderer" horizontalCenter="0" verticalCenter="0" itemClick="handleChangeEditedPage()"/-->
+	</mx:VBox>
+	</mx:ViewStack>
+		
+		
+	<mx:Style> 
+		.vboxstyle
+		{
+			horizontal-align: center;
+			vertical-align: middle;
+			background-color: gray;
+		}
+		
+		.canvasstyle
+		{
+		   border-style:outset;
+		   border-color: #FFFFFF;
+		   border-thickness: 10;
+		}
+		.imagestyle
+		{
+			border-style:outset;
+			border-thickness: 5;
+			border-color: #FFadeF;
+		}
+		
+		Accordion 
+		{
+		 borderStyle: none;
+		 dropShadowEnabled: false;
+		 headerStyleName: "myaccordionHeader";
+		}
+				
+		.myaccordionHeader 
+		{
+			textAlign: center;
+		}
+
+        .vboxstyle
+        {
+        	background-color:gray;
+        	horizontal-align:center;
+        	vertical-align:middle;
+        }
+
+		
+		
+	</mx:Style>
+		<mx:Script>
+			<![CDATA[
+				import components.FadingNotifier;
+				import mx.containers.Tile;
+				import com.adobe.crypto.MD5;
+				import com.adobe.images.JPGEncoder;
+				import mx.utils.Base64Encoder;
+				import mx.utils.Base64Decoder;
+				import mx.graphics.codec.IImageEncoder;
+				import mx.graphics.codec.JPEGEncoder;
+				import mx.events.ResizeEvent;
+				import model.PageModel;
+				import PhotoBookComponents.FlexMatrixTransformer;
+				import PhotoBookComponents.SmoothImage;
+				import mx.events.ListEvent;
+				import mx.controls.HorizontalList;
+				import com.rubenswieringa.book.Book;
+				import renderers.PhotoBookEditPageRenderer;
+				import mx.graphics.ImageSnapshot;
+				import PhotoBookComponents.AddImages;
+				import mx.managers.PopUpManager;
+				import mx.core.IFlexDisplayObject;
+				import model.PhotoBookModel;
+				import vo.ImageVo;
+				import PhotoBookComponents.ResizableCanvas;
+				import mx.containers.Canvas;
+				import mx.containers.Canvas;
+				import com.rubenswieringa.book.Page;
+				import com.rubenswieringa.book.Page;
+				import mx.controls.List;
+				import mx.collections.ArrayCollection;
+				import events.ImageEvent;
+				import com.rubenswieringa.book.HmmPage;
+				import mx.core.DragSource;
+				import mx.managers.DragManager;
+				import mx.events.DragEvent;
+				import mx.controls.Alert;
+				import mx.core.UIComponent;
+				import mx.containers.Canvas;
+				import flash.net.navigateToURL;
+				import mx.containers.VBox;
+				import mx.controls.Image;
+				import com.rubenswieringa.book.Page;
+				import mx.collections.ArrayCollection;
+				import mx.rpc.events.FaultEvent;
+				import mx.rpc.events.ResultEvent;
+				import mx.rpc.http.HTTPService;
+				
+				private var seletedImage : ResizableCanvas;
+				private var previousDegree : Number = 0;
+				[Bindable]
+				private var saveEditLabel : String = "Edit";
+				[Bindable]
+				public var edit : Boolean = false;
+				[Bindable]
+				private var deletedListCollection : ArrayCollection;
+				private var pageCollection : ArrayCollection = new ArrayCollection();
+				private var pageDictionary : Dictionary;
+				public var resultImages : String;
+				[Bindable]
+				private var UnusedListCollection : ArrayCollection = new ArrayCollection();
+				private var photoBookPagesArr : ArrayCollection;
+				private var book : Book;
+				private var title : VBox;
+				private var horizontalPageList : HorizontalList;
+				
+				private var editedPage : Canvas;
+				private var editedPagesCollection : ArrayCollection;
+				private var editedPageIndex : int = 0;
+				
+				private function handleAddPhotos() : void
+				{
+					 var popUp : IFlexDisplayObject = PopUpManager.createPopUp(this,AddImages,true) as IFlexDisplayObject;
+					 PopUpManager.centerPopUp(popUp);
+					 popUp.addEventListener("addimages",handleAddImages);
+				}
+				
+				private function handleSavePage() : void
+				{
+					FadingNotifier.setBusyState();
+					cursorManager.setBusyCursor();
+					dispatchEvent(new ImageEvent(ImageEvent.REMOVEIMAGEHANDLE));
+					var pageObject : Object = new Object();
+					var page : PageModel = PhotoBookModel.getInstance().photoBookImages[editedPageIndex] as PageModel;
+					pageObject.background = page.backgroundImage.file;
+					pageObject.photoBookPagePath = page.photoBookPage.file;
+					var filepath : Array = page.photoBookPage.file.split("/");
+					pageObject.oldphotoBookPage = filepath[filepath.length - 1]
+					filepath[filepath.length -1] = MD5.hash(new Date().toString()).toString() + ".jpg";
+					pageObject.file = filepath[filepath.length - 1];
+					page.photoBookPage.file = filepath.join("/"); 
+                    for(var i : int = 0; i < page.images.length; i++)
+					{
+						if(pageObject.hasOwnProperty("images"))
+						{
+							pageObject.images += "&";
+						}
+						else
+						 pageObject.images = "";
+						 
+						var imagevo : ImageVo = page.images[i] as ImageVo;
+						var posX : Number = Math.round(imagevo.transformPosition.x);
+						var posY : Number = Math.round(imagevo.transformPosition.y);
+						 
+						pageObject.images +=  imagevo.path + "$"+ imagevo.file+ "$" + imagevo.width + "$" + imagevo.height + "$" + imagevo.rotation + "$" + posX + "$" + posY + "$" + imagevo.index + "$" + imagevo.matrix.a + "$" + imagevo.matrix.b + "$" + imagevo.matrix.c + "$" + imagevo.matrix.d + "$" + imagevo.matrix.tx + "$" + imagevo.matrix.ty; 
+					} 
+					/* var imagesnap : ImageSnapshot  = ImageSnapshot.captureImage(editedPage,300,JPGEncoder as IImageEncoder);
+					var encode64 : Base64Encoder = new Base64Encoder();
+					encode64.encodeBytes(imagesnap.data);
+					pageObject.imagesnapshot = encode64.flush(); */
+				    
+					var modelXml : XML = PhotoBookModel.getInstance().modelXml;
+					pageObject.photobookdata = modelXml.toString();
+					var httpCall : HTTPService =  new HTTPService();
+					httpCall.url = "/photobook/savepage";
+					httpCall.addEventListener(ResultEvent.RESULT,handlePageSaveResult);
+					httpCall.addEventListener(FaultEvent.FAULT,handlePageSaveFault);
+					httpCall.method = "POST";
+					httpCall.send(pageObject);
+					var bitmapdata : BitmapData = ImageSnapshot.captureBitmapData(editedPage);
+					photoBookPagesArr.removeItemAt(editedPageIndex);
+					var obj : Object = new Object();
+					obj.bitmap = new Bitmap(bitmapdata);
+					photoBookPagesArr.addItemAt(obj,editedPageIndex);
+					pageListContainer.removeAllChildren();
+					horizontalPageList = null;
+					horizontalPageList = new HorizontalList();
+					horizontalPageList.addEventListener(ListEvent.ITEM_CLICK,handleChangeEditedPage);
+					horizontalPageList.itemRenderer = new ClassFactory(renderers.PhotoBookEditPageRenderer);
+					horizontalPageList.width = pageListContainer.width;
+					horizontalPageList.height = pageListContainer.height;
+					horizontalPageList.columnWidth = 100;
+					horizontalPageList.rowHeight = 100;
+					horizontalPageList.dataProvider = photoBookPagesArr;
+					pageListContainer.addChild(horizontalPageList);
+					
+				}
+				
+				private function handlePageSaveResult(event : ResultEvent) : void
+				{
+					
+					cursorManager.removeBusyCursor();
+					FadingNotifier.removeBusyState();
+					Alert.show("Page saved");
+				}
+				
+				private function handlePageSaveFault(event : FaultEvent) : void
+				{
+					cursorManager.removeBusyCursor();
+					FadingNotifier.removeBusyState();
+					Alert.show(event.fault.message);
+				}
+				
+				private function handleAddImages(event : Event) : void
+				{
+					
+				//	Alert.show(resultImages);
+					var imagesPath : Array = resultImages.split("$");
+					for(var i : int = 0; i < imagesPath.length; i++)
+					{
+						var splitresult : Array = imagesPath[i].toString().split("&");
+						var obj : Object = new Object();
+						obj.source = splitresult[0];
+						obj.path = splitresult[1];
+						UnusedListCollection.addItem(obj);
+					}
+					//imageHolderStack.selectedIndex = 1;
+				}
+				
+				
+				private function handleBackClick() : void
+				{
+					navigateToURL(new URLRequest("/photobook/photobook"),"_self");
+				}
+				
+				private function handleSaveEditClick() : void
+				{
+					if(saveEditLabel == "Edit")
+					{
+						book.flipOnClick = false;
+						book.hover = false;
+						edit = true;
+						saveEditLabel = "Save";
+						photoBookPagesArr = new ArrayCollection();
+						editPages();
+						bookViewStack.selectedIndex = 1;
+					}
+					/* else
+					{
+						dispatchEvent(new ImageEvent(ImageEvent.BRODCASTIMAGEHANDLE,"")); 
+						PhotoBookModel.getInstance().isEditable = false;
+						edit = false;
+						saveEditLabel = "Edit";
+						var modelXml : XML = PhotoBookModel.getInstance().modelXml;
+						var serviceCall : HTTPService = new HTTPService();
+						serviceCall.url = "/photobook/savephotobook/";
+						//serviceCall.destination = "/photobook/savephotobook/";
+						serviceCall.method = "POST";
+						serviceCall.addEventListener(ResultEvent.RESULT,handleSaveResult);
+						serviceCall.addEventListener(FaultEvent.FAULT,handleSaveFault);
+						var obj : Object = new Object();
+						//serviceCall.
+						obj.photobookdata = modelXml.toString();
+						serviceCall.send(obj);
+						cursorManager.setBusyCursor();
+						for(var i = 0; i < pageCollection.length; i++)
+						{
+							(pageCollection[i] as Page).hard = false;
+						}
+						resetPhotoBook();
+						bookViewStack.selectedIndex = 0;
+					} */
+				}
+				
+				private function previewPhotoBook() : void
+				{
+					resetPhotoBook();
+					PhotoBookModel.getInstance().isEditable = false;
+					edit = false;
+					saveEditLabel = "Edit";
+					bookViewStack.selectedIndex = 0;
+				}
+				
+				private function editPages() : void
+				{
+					pageListContainer.removeAllChildren();
+					horizontalPageList = null;
+					horizontalPageList = new HorizontalList();
+					horizontalPageList.addEventListener(ListEvent.ITEM_CLICK,handleChangeEditedPage);
+					horizontalPageList.itemRenderer = new ClassFactory(renderers.PhotoBookEditPageRenderer);
+					horizontalPageList.width = pageListContainer.width;
+					horizontalPageList.height = pageListContainer.height;
+					horizontalPageList.columnWidth = 100;
+					horizontalPageList.rowHeight = 100;
+					editedPagesCollection = new ArrayCollection();
+					photoBookPagesArr = new ArrayCollection();
+					var pages : ArrayCollection = PhotoBookModel.getInstance().photoBookImages; 
+					for(var i : int = 0; i < pages.length;  i++)
+					{
+					    var obj : Object = new Object();
+						obj.source = (pages[i] as PageModel).photoBookPage.file;
+						photoBookPagesArr.addItem(obj);
+						var page : Page = new Page();
+						page.hideFoldGradient();
+						pageCollection.addItem(page);
+						var canvas : Canvas = new Canvas();
+						canvas.height = 530;
+						canvas.width = 400;
+						var imagevo : ImageVo = (pages[i] as PageModel).backgroundImage;
+						var image : Image = new Image();
+						image.source = imagevo.file;
+						image.height = 530;
+						image.width = 400;
+						canvas.addChild(image);
+						canvas.name = i.toString();
+						canvas.horizontalScrollPolicy = "off";
+						canvas.verticalScrollPolicy = "off";
+						canvas.addEventListener(ImageEvent.DELETE,handleDeleteImage);
+						canvas.addEventListener(ImageEvent.BRODCASTIMAGEHANDLE,handleBroadcastImageHandle);
+					    canvas.addEventListener(DragEvent.DRAG_DROP,dragDropHandlerCanvas);
+					    canvas.addEventListener(DragEvent.DRAG_ENTER,dragEnterHandlerCanvas);
+						var images : ArrayCollection = pages[i].images;
+						for(var j : int = 0; j < images.length; j++)
+						{
+							var imagevo : ImageVo = images[j] as ImageVo;
+							var smootimage : ResizableCanvas = new ResizableCanvas();
+							smootimage.name = i+"$"+j;
+							(images[j]as ImageVo).name = smootimage.name;
+							smootimage.source = imagevo.file;
+							smootimage.width = imagevo.width;
+							smootimage.height = imagevo.height;
+							smootimage.angle = imagevo.rotation;
+							smootimage.x = imagevo.position.x;
+							smootimage.y = imagevo.position.y;
+							smootimage.imageWidth = imagevo.width;
+							smootimage.imageHeight = imagevo.height;
+						    smootimage.addEventListener(MouseEvent.CLICK,handleSetSelecteImage);
+							smootimage.addEventListener(ImageEvent.ROTATION,handleUpdateRotation);
+							smootimage.addEventListener(ImageEvent.SIZE,handleUpdateSize);
+						//	smootimage.addEventListener(MouseEvent.MOUSE_MOVE,mouseMoveHandler);
+							smootimage.addEventListener(ImageEvent.POSITION,handleUpdatePosition);
+							smootimage.updateMatrix();
+						//	DragComponent.getInstance().attachDragFunctinality(smootimage,canvas);
+							var rec : Rectangle = new Rectangle(0,0,smootimage.width,smootimage.height);
+							canvas.clipContent = true;
+							canvas.addChild(smootimage);
+						}
+						editedPagesCollection.addItem(canvas); 
+					}
+					var edpage : Canvas = editedPagesCollection[editedPageIndex] as Canvas;
+					editedPage  = edpage;
+					horizontalPageList.dataProvider = photoBookPagesArr;
+					pageListContainer.addChild(horizontalPageList);
+					
+				}
+				
+				private function editPageContainerComplete() : void
+				{
+				   if(editedPage)
+				   	editPageContainer.addChild(editedPage);
+				}
+				
+				private function handleChangeEditedPage(event : ListEvent) : void
+				{
+					if(editedPageIndex != horizontalPageList.selectedIndex)
+					{
+						editedPageIndex = horizontalPageList.selectedIndex;
+						var page : Canvas = editedPagesCollection[editedPageIndex] as Canvas;
+						editedPage  = page;
+						editPageContainer.removeAllChildren();
+						editPageContainerComplete();
+					}
+					
+				}
+				
+				private function handleSaveResult(result : ResultEvent) : void
+				{
+					cursorManager.removeBusyCursor();
+					Alert.show("Photo book saved");
+				}
+				
+				private function handleSaveFault(fault : FaultEvent) : void
+				{
+					cursorManager.removeBusyCursor();
+					Alert.show(fault.fault.faultString);
+					//Alert.show("Unable to save photo book ! \n Try again");
+				}
+				
+				
+				
+				private function handleCreationComplete() : void
+				{
+					var httpservice : HTTPService = new HTTPService();
+					httpservice.url = "/flipbookxml.xml";
+					httpservice.addEventListener(ResultEvent.RESULT,handleResult);
+					httpservice.addEventListener(FaultEvent.FAULT,handleFault);
+					httpservice.send(new Date());
+					cursorManager.setBusyCursor();
+					//this.addEventListener(UpdatePositionRotationEvent.POSITION,handleUpdatePosition);
+					//this.addEventListener(UpdatePositionRotationEvent.ROTATION,handleUpdateRotation);
+					
+					deletedListCollection = new ArrayCollection();
+					
+				}
+				
+				private function handleBroadcastImageHandle(event : ImageEvent) : void
+				{
+					dispatchEvent(new ImageEvent(ImageEvent.BRODCASTIMAGEHANDLE,event.name));
+				}
+				
+				private function handleUpdateSize(event : ImageEvent) : void
+				{
+					PhotoBookModel.getInstance().updateMatrix(event.name,event.matrix);
+					PhotoBookModel.getInstance().updateRotation(event.name,event.angle);
+					PhotoBookModel.getInstance().updatePosition(event.name,new Point(event.positionXY.x,event.positionXY.y),event.transformPosition);
+					PhotoBookModel.getInstance().updateSize(event.name,event.child.imageWidth,event.child.imageHeight);
+				}
+				
+				
+				private function handleUpdatePosition(event : ImageEvent) : void
+				{
+					PhotoBookModel.getInstance().updateMatrix(event.name,event.matrix);
+					PhotoBookModel.getInstance().updateRotation(event.name,event.angle);
+					PhotoBookModel.getInstance().updatePosition(event.name,new Point(event.positionXY.x,event.positionXY.y),event.transformPosition);
+					PhotoBookModel.getInstance().updateSize(event.name,event.child.imageWidth,event.child.imageHeight);
+				}
+				
+				private function handleUpdateRotation(event : ImageEvent) : void
+				{
+					PhotoBookModel.getInstance().updateMatrix(event.name,event.matrix);
+					PhotoBookModel.getInstance().updateRotation(event.name,event.angle);
+					PhotoBookModel.getInstance().updatePosition(event.name,new Point(event.positionXY.x,event.positionXY.y),event.transformPosition);
+					PhotoBookModel.getInstance().updateSize(event.name,event.child.imageWidth,event.child.imageHeight);
+				}
+				
+				private function handleSetSelecteImage(event : MouseEvent) : void
+				{
+					
+					seletedImage = event.currentTarget as ResizableCanvas;
+					var indexString : Array = seletedImage.name.split("$");
+				//	previousDegree = PhotoBookModel.getInstance().getRotation(indexString[1],indexString[0]);
+				//	roateImage.value = previousDegree;
+				}
+				
+				private function handleResult(event : ResultEvent) : void
+				{
+					PhotoBookModel.getInstance().model = event.result.images;
+					title = new VBox();
+					title.width = 400;
+					title.height = 530;
+					title.styleName = "vboxstyle";
+					var titleImage : Image = new Image();
+					titleImage.source = event.result.images.title.file;
+					titleImage.maintainAspectRatio = true;
+					titleImage.width = 400;
+					title.addChild(titleImage);
+					itemrenderer = PhotoBookModel.getInstance().photoBookImages;
+					cursorManager.removeBusyCursor();
+				}
+				
+				private function resetPhotoBook() : void
+				{
+					itemrenderer = PhotoBookModel.getInstance().photoBookImages;
+				}
+				
+				
+				// The dragEnter event handler for the Canvas container
+            // functioning as the drop target.
+            private function dragEnterHandlerCanvas(event:DragEvent):void {
+             // if (event.dragSource.hasFormat("img"))
+                DragManager.acceptDragDrop(Canvas(event.currentTarget));
+            }
+            
+                       
+            // The dragDrop event handler for the Canvas container
+            // sets the Image control's position by 
+            // "dropping" it in its new location.
+            private function dragDropHandlerCanvas(event:DragEvent):void 
+            {
+              var itemsArray:Array;
+              	if (event.dragSource.hasFormat("items"))
+	            {
+	              	
+	                // Explicitly handle the dragDrop event.            
+	                event.preventDefault();
+	
+	               
+	                // Get drop target.
+	                var dropTarget : Canvas = Canvas(event.currentTarget);
+	                
+	                // Get the dragged item from the drag initiator.
+	                // The List control always writes an Array 
+	                // to the dragSource object,
+	                // even if there is only one item being dragged.
+	               itemsArray  = event.dragSource.dataForFormat("items") as Array;
+	               var position : Point = dropTarget.globalToLocal(new Point(mouseX,mouseY));
+	               var smootimage : ResizableCanvas = new ResizableCanvas();
+				   smootimage.name = dropTarget.name+"$"+"12";
+				   smootimage.source = itemsArray[0].source;
+				   smootimage.x = position.x - 100;
+				   smootimage.y = position.y - 100;
+				   smootimage.angle = 0;
+				   smootimage.imageWidth = 0;
+				   smootimage.imageHeight = 0;
+				   smootimage.addEventListener(MouseEvent.CLICK,handleSetSelecteImage);
+				   smootimage.addEventListener(ImageEvent.ROTATION,handleUpdateRotation);
+				   smootimage.addEventListener(ImageEvent.SIZE,handleUpdateSize);
+				   //smootimage.addEventListener(MouseEvent.MOUSE_MOVE,mouseMoveHandler);
+				   dropTarget.addChild(smootimage);
+				   var imagevo : ImageVo  = new ImageVo();
+				   imagevo.background = false;
+				   imagevo.path = itemsArray[0].path;
+				   imagevo.file = itemsArray[0].source;
+				   imagevo.height = 0;
+				   imagevo.width = 0;
+				   imagevo.rotation = 0;
+				   imagevo.parentIndex = parseInt(dropTarget.name,10);
+				   imagevo.position = new Point(smootimage.x, smootimage.y);
+				   PhotoBookModel.getInstance().addItem(parseInt(dropTarget.name,10),imagevo);
+				   for(var i : int = 0; i < deletedListCollection.length; i++)
+				   {
+				   		if(deletedListCollection[i].source == itemsArray[0].source)
+				   		{
+				   			deletedListCollection.removeItemAt(i);
+				   			break;
+				   		}
+				   }
+	              }
+	       }
+            
+            private function handleDragStart(event : DragEvent) : void
+            {
+            	
+            }
+
+				
+				private function set itemrenderer(pages : ArrayCollection) : void
+				{
+					flipBookContainer.removeAllChildren();
+					book = null;
+					book = new Book();
+					book.autoFlipDuration = 500;
+					book.easing = 0.7;
+					book.regionSize = 150;
+		 			book.hardCover = true;
+		 			book.flipOnClick = true;
+					book.width = 800;
+					book.height = 530;
+					var page1 : Page = new Page();
+					page1.addChild(title);
+					book.addChild(page1);
+					book.addChild(new Page());
+					book.addChild(new Page());
+					var vbox : VBox = new VBox();
+					vbox.width = 400;
+					vbox.height = 530;
+					vbox.styleName = "vboxstyle";
+					var pagelast : Page = new Page();
+					pagelast.addChild(vbox);
+					book.addChild(pagelast); 
+					pageCollection = new ArrayCollection();
+					for(var i : int = 0; i < pages.length; i++)
+					{
+						var page : Page = new Page();
+						//page.hideFoldGradient();
+						pageCollection.addItem(page);
+						var canvas : Canvas = new Canvas();
+						canvas.height = 530;
+						canvas.width = 400;
+						page.addChild(canvas);
+						var imagevo : ImageVo = (pages[i].photoBookPage) as ImageVo;
+						var image : Image = new Image();
+						image.source = imagevo.file;
+						image.height = 530;
+						image.width = 400;
+						canvas.addChild(image);
+						canvas.name = i.toString();
+						canvas.horizontalScrollPolicy = "off";
+						canvas.verticalScrollPolicy = "off";
+						/* canvas.addEventListener(ImageEvent.DELETE,handleDeleteImage);
+						canvas.addEventListener(ImageEvent.BRODCASTIMAGEHANDLE,handleBroadcastImageHandle);
+					  canvas.addEventListener(DragEvent.DRAG_DROP,dragDropHandlerCanvas);
+					    canvas.addEventListener(DragEvent.DRAG_ENTER,dragEnterHandlerCanvas);
+						var images : ArrayCollection = pages[i].images;
+						for(var j : int = 0; j < images.length; j++)
+						{
+							var imagevo : ImageVo = images[j] as ImageVo;
+							var smootimage : ResizableCanvas = new ResizableCanvas();
+							smootimage.name = i+"$"+j;
+							(images[j]as ImageVo).name = smootimage.name;
+							smootimage.source = imagevo.file;
+							smootimage.width = imagevo.width;
+							smootimage.height = imagevo.height;
+							smootimage.x = imagevo.position.x;
+							smootimage.y = imagevo.position.y;
+							smootimage.angle = imagevo.rotation;
+							smootimage.imageWidth = imagevo.width;
+							smootimage.imageHeight = imagevo.height;
+						    smootimage.addEventListener(MouseEvent.CLICK,handleSetSelecteImage);
+							smootimage.addEventListener(ImageEvent.ROTATION,handleUpdateRotation);
+							smootimage.addEventListener(ImageEvent.SIZE,handleUpdateSize);
+						//	smootimage.addEventListener(MouseEvent.MOUSE_MOVE,mouseMoveHandler);
+							smootimage.addEventListener(ImageEvent.POSITION,handleUpdatePosition);
+						//	DragComponent.getInstance().attachDragFunctinality(smootimage,canvas);
+							var rec : Rectangle = new Rectangle(0,0,smootimage.width,smootimage.height);
+							canvas.clipContent = true;
+							canvas.addChild(smootimage);
+						} */
+						book.addChildAt(page, i+2);
+					}
+					
+					if(pages.length % 2 != 0)
+					{
+						var page : Page = new Page();
+						 var vbox : VBox = new VBox();
+						 vbox.width = 400;
+						 vbox.height = 530;
+						 vbox.styleName = "vboxstyle";
+						 page.addChild(vbox);
+						book.addChildAt(page, pages.length + 2);
+					}
+					flipBookContainer.addChild(book);
+					book.openAt = 0;
+					
+				}
+				
+				private function handleImageComplete(event : Event) : void
+				{
+					var image : SmoothImage = event.currentTarget as SmoothImage;
+					image.width = image.contentWidth;
+					image.height = image.contentHeight;
+				}
+				
+				private function handleDeleteImage(event : ImageEvent) : void
+				{
+					var imageCanvas : ResizableCanvas = event.child;
+					var indexArray : Array = imageCanvas.name.split("$");
+					PhotoBookModel.getInstance().deleteItem(indexArray[0],imageCanvas.name.toString());
+					var obj : Object = new Object();
+					obj.source = imageCanvas.source;
+					deletedListCollection.addItem(obj);
+				}
+				
+				private function handleFault(event : FaultEvent) : void
+				{
+					cursorManager.removeBusyCursor();
+				}
+				
+				
+			]]>
+		</mx:Script>
+</mx:Application>

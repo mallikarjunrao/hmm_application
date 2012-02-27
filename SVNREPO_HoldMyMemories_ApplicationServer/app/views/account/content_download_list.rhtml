@@ -1,0 +1,53 @@
+<%= javascript_include_tag 'modalbox/prototype' %>
+<script type="text/javascript" src="/javascripts/modalbox/scriptaculous.js?load=effects"></script>
+<script type="text/javascript" src="/javascripts/modalbox/modalbox.js"></script>
+<%= stylesheet_link_tag 'modalbox/modalbox' %>
+
+<table align="center" cellpadding="0" cellspacing="0" border="0">
+        <% if @countcheck > 0 %>
+          <% j=0 %>
+          <% @galleries.each do |@gallery|
+            subchapter=SubChapter.find(@gallery.subchapter_id)
+            tag=Tag.find(subchapter.tagid)
+            tagname=tag.v_tagname.to_s.strip
+
+            subchapname=subchapter.sub_chapname.to_s.strip
+            galname=@gallery.v_gallery_name.to_s.strip
+          %>
+            <% if j == 0 %> <tr>
+              <% elsif j >= 3 %>
+                <% j=0 %>
+              </tr>
+              <tr>
+                <th height="30" colspan="10" align="left" valign="top" scope="col"></th>
+              </tr>
+              <tr>
+              <% end %>
+              <th width="29" align="left" valign="top" scope="col"><% j=j+1%>&nbsp;&nbsp;&nbsp;</th>
+              <th width="73" align="left" valign="top" scope="col" ><a href='/account/download_user_content/<%=@gallery.id%>'  onclick="Modalbox.show(this.href, {title:'My Image', width:460, height:450});return false;"><img width="80" src="<%= @gallery.img_url %>/user_content/photos/icon_thumbnails/<%if(tag.tag_type=="chapter")%><%=@gallery.v_gallery_image%><%else%><%=tag.v_chapimage%><%end%>" border="0"  /></a>
+                <br>
+              <th width="10" align="left" valign="top" scope="col">&nbsp;</th>
+              <th width="139" align="left" valign="top" scope="col">
+                <table width="100%" border="0" cellspacing="0" cellpadding="0">
+                  <tr>
+                    <th height="13" align="left" valign="top" scope="col"></th>
+                  </tr>
+                  <tr>
+                    <th height="21" align="left" valign="top"  scope="col"><a href='/account/download_user_content/<%=@gallery.id%>'  onclick="Modalbox.show(this.href, {title:'My Image', width:460, height:450});return false;"><span class="content-white"><% if (tag.tag_type=="chapter") %><%= galname %><%else%><%=tag.v_tagname%><%end%></span></a></th>
+                  </tr>
+                  <tr>
+                    <th height="21" align="left" valign="top"  scope="col"> <% if (tag.tag_type=="chapter") %> Chapter name: <%=tagname%> <%else%>Album Type= <%=tag.tag_type%> album<%end%></th>
+                  </tr>
+                   <tr>
+             <th align="left" class="content" valign="top"  scope="col"><% if (tag.tag_type=="chapter") %>Subchapter Name: <%=subchapname%><%end%></th>
+             </tr>
+
+                </table>	 </th>
+
+            <% end %>
+          <% else %>
+              <span class="header-paragraph">
+            No galleries found...
+            </span>
+          <% end %>
+      </table>

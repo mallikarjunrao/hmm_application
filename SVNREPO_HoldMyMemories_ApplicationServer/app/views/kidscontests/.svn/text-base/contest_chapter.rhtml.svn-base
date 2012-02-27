@@ -1,0 +1,118 @@
+<%session[:friend]='' %>
+<form name="frm" action="">
+<table align="center" width="100%" border="0" cellspacing="0" cellpadding="0">
+	<input type="hidden" name="order" value="<%=@params[:order]%>" />
+	<tr><td>&nbsp;<%=session[:contests_type]%></td></tr>
+
+	<tr>
+		<td valign="top"> 
+		<table align="left" border="0">
+			<tr>
+				<th>
+				<%= sort_header_tag('d_updateddate', :text => "<img  src='/images/date1_sort.gif'   border='0'/>") %>
+				<%= sort_header_tag('v_tagname', :text => "<img  src='/images/name1_sort.gif'   border='0'/>") %>
+				</th>
+				<th>&nbsp;&nbsp;</th>
+				<th>
+					<font color="#e36500" size="2">Please choose the moment you wish to enter into the contest by navigating to the appropriate gallery.</font> 
+					<br> <font color="#ffffff" size="2">If you wish to upload a moment to enter the contest please </font><a href="/myphotos/choose_upload">click here</a></font>
+				</th>
+			</tr>
+		</table>
+		</td>
+		<td height="50" align="right" valign="top">&nbsp;</td>	
+	</tr>
+	<% @hmmuser = HmmUser.find(:all, :conditions => "id=#{logged_in_hmm_user.id}")
+		 for @i in @hmmuser %>
+<tr><th colspan="2" height="40" valign="top" align="left"><font size="3">&nbsp;&nbsp;&nbsp; <%if (@friend.id!='')%> <%=@friend.v_fname%><%else%><%= @i.v_fname %><%end%>'s&nbsp;Chapters</font></th>
+<%end%></tr>
+  <tr>
+  
+  <th width="900" height="128" align="left" valign="top" scope="col" colspan="3">
+	<table width="100%" border="0"  cellspacing="0" align="left" cellpadding="0">
+	<tr>
+       <th height="4" colspan="10" align="left" valign="top" scope="col" ></th><th width="1"></th>
+      <td>
+        
+      </td>
+
+       <th width="30"></th>
+       <th width=""></th>
+       <th width=""></th>
+    </tr>
+	     puts @tags;
+      		<% 
+				j=0	
+				if @total == 0 %>
+				<p>No items found...</p>
+			<% else %>
+ 			   <% @tags.each do |@tag|
+			   
+			   
+			%>
+			<% if j == 0 %>
+			<tr>
+				
+			<% else if j >= 3 
+			j=0
+				
+			%>
+			</tr>
+				<tr>
+                        <th height="30" colspan="10" align="left" valign="top" scope="col"></th>
+          </tr>
+			<tr>
+			<% end %>	
+			<% end %>
+			</form>
+            <th width="29" align="left" valign="top" scope="col"><% j=j+1%>&nbsp;&nbsp;&nbsp;</th>
+            <th width="73" align="left" valign="top" scope="col" ><a href='/kidscontests/contest_sub_chapter/<%= @tag.id %>' >
+            	<img src="<%=@tag.img_url%>/user_content/photos/icon_thumbnails/<%= @tag.v_chapimage %>" border="5" style="border-color:#000000;"  /></a></th>
+			
+            <th width="10" align="left" valign="top" scope="col">&nbsp;</th>
+            <th width="139" align="left" valign="top" scope="col">
+            	<table width="100%" border="0" cellspacing="0" cellpadding="0">
+                	<tr>
+                		<th height="13" align="left" valign="top" scope="col"></th>
+                	</tr>
+                	<tr>
+               		  <th height="21" align="left" valign="top"  scope="col"><%= @tag.v_tagname %></th>
+                 	</tr>
+					
+                    <tr>
+                 	  <th align="left" class="chapindex-text2" valign="top"  scope="col">last updated <br>
+					  
+
+					  <%= @tag.d_updateddate.strftime("%a %b #{@tag.d_updateddate.day.ordinalize} %Y,   %I:%M %p") %></th>
+                    </tr>
+              </table>	 </th>
+   <% end %></tr>	  
+    </table></th>
+  </tr>
+  
+  
+  
+  <tr>
+    <th valign="bottom" scope="col" align="center" colspan="10" height="30">
+<% if @tags_pages.page_count > 1 %>
+
+<font size="3"><%= link_to('Previous', {:params => params.merge('page' => @tags_pages.current.previous)}) if @tags_pages.current.previous %> <!--%= ' | ' if @tags_pages.current.previous and @tags_pages.current.next %--></font>
+			&nbsp;<% for page in @tags_pages -%>
+			<font size="3"><%= link_to_unless((params[:page].to_i == page.number),
+				 page.number, :page => page) %></font> 
+			<% end -%>
+			<font size="3">&nbsp;&nbsp;&nbsp;<%= link_to('Next', {:params => params.merge('page' => @tags_pages.current.next)}) if @tags_pages.current.next %></font>
+<% end %></th>
+  </tr>
+ 
+  <tr>
+    <td align="right" colspan="2">&nbsp;</td>
+  </tr>
+</table>
+<%end%>
+
+<script language="JavaScript">
+	
+	
+	
+</script>

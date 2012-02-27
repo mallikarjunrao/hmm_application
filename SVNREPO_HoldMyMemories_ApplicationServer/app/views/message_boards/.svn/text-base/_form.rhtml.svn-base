@@ -1,0 +1,25 @@
+<%= error_messages_for 'message_board' %>
+
+<!--[form:message_board]-->
+<p><label for="message_board_title">Title</label><br/>
+<%= text_field 'message_board', 'title'  %></p>
+
+<p><label for="message_board_message">Message</label><br/>
+<%= text_area 'message_board', 'message'  %></p>
+
+<p><label for="message_board_guest_name">Guest name</label><br/>
+<%= text_field 'message_board', 'guest_name'  %></p>
+
+<p><label for="message_board_guest_image">Guest image</label><br/>
+<%= text_field 'message_board', 'guest_image'  %></p>
+
+<p><label for="message_board_created_at">Created at</label><br/>
+<%= datetime_select 'message_board', 'created_at'  %></p>
+
+<p><label for="message_board_reply">Reply</label><br/>
+<%= text_area 'message_board', 'reply'  %></p>
+
+<p><label for="message_board_status">Status</label><br/>
+<%= text_field 'message_board', 'status'  %></p>
+<!--[eoform:message_board]-->
+

@@ -1,0 +1,124 @@
+<style type="text/css">
+
+  .loginBig{
+    background:transparent;
+    background:url(/images/family_memory/input-big.png);
+    border:none;
+    height:35px;
+    width:140px;
+    font-size:12px;
+    color:#87a3b5;
+  }
+  .loginBig:hover{
+    background:url(/images/family_memory/input-big-ovr.png);
+  }
+</style>
+ <%  @studio_header = HmmStudio.find(@family_website_owner.studio_id)
+  if @studio_header.studio_groupid==pp_studio_group
+    
+    msghead = "msgHead_blog"
+    postbtn = "cmnBtnB cmnBtnMar"
+    color="#000000"
+  else
+     color="#7B9BAF"
+     msghead = "msgHead"
+    postbtn = "loginBig"
+  end %>
+<% unless flash[:message].blank?%>
+  <table align="center" cellpadding="4" cellspacing="4">
+    <tr ><td height="200" valign="middle" class="msgSmall" align="center" style="color:<%= color %>; "><%= flash[:message] %><br/><br/><br/><a href="#" class="nyroModalClose">( close )</a></td></tr>
+  </table>
+  <% flash[:message] = ""
+else %>
+  <form name="add_comment" id="commentform" action="/family_memory/addblog_comment/<%=params[:id]%>" class="nyroModal" method="post">
+    <input type="hidden" name="blog_id" value="<%=params[:blog_id]%>" />
+    <table width="100%" border="0" cellspacing="0" cellpadding="0" style="color:#000000 ">
+      <tr>
+        <td width="30" align="left" valign="top">&nbsp;</td>
+        <td width="400" align="left" valign="top"><table width="100%" border="0" cellspacing="0" cellpadding="0">
+            <tr>
+              <td align="left" valign="top">&nbsp;</td>
+            </tr>
+            <% if session[:hmm_user].nil? %>
+              <% nonhmm_user = true %>
+              <tr>
+                <td height="25" align="left" valign="top" class="<%= msghead  %> ">Name <span class="content-white">*</span></td>
+              </tr>
+              <tr>
+                <td align="left" valign="top"><label>
+                    <input name="name" type="text" class="form-field" id="comment_name" />
+                  </label></td>
+              </tr>
+            <% end %>
+            <tr>
+              <td align="left" valign="top">&nbsp;</td>
+            </tr>
+            <tr>
+              <td height="25" align="left" valign="top" class="<%= msghead  %>">Comment <span class="content-white">*</span></td>
+            </tr>
+            <tr>
+              <td align="left" valign="top"><label>
+                  <textarea name="comment" cols="45" rows="5" class="cmt-field" id="comment_content"></textarea>
+                </label></td>
+            </tr>
+            <% if session[:hmm_user].nil? %>
+              <tr>
+                <td align="left" valign="top">&nbsp;</td>
+              </tr>
+              <tr>
+                <td height="25" align="left" valign="top" class="content"><%= recaptcha_tags :ajax=> true %><br/><font color="red"><%=flash[:error]%></font></td>
+              </tr>
+            <% end %>
+            <tr>
+              <td align="left" valign="top">&nbsp;</td>
+            </tr>
+            <tr>
+              <td align="center" valign="top"><label>
+                  <input type="submit" name="add_comment_bt" class="<%= postbtn %> " value="Add Comment" onClick="return check()"/>
+                  &nbsp;
+                  <input type="button" class="nyroModalClose <%= postbtn %> "  value="Cancel" />
+                </label></td>
+            </tr>
+            <tr>
+              <td align="left" valign="top">&nbsp;</td>
+            </tr>
+          </table></td>
+      </tr>
+    </table>
+  </form>
+  <script type="text/javascript">
+    function check()
+    {
+  <% if session[:hmm_user].nil? %>
+      if(document.getElementById('comment_name').value=='' )
+      {
+        alert('Please enter your name!');
+        document.getElementById('comment_name').focus();
+        return false;
+      }
+  <%end%>
+    if(document.getElementById('comment_content').value=='')
+    {
+      alert('Please enter your comment!');
+      document.getElementById('comment_content').focus();
+      return false;
+    }
+  <% if session[:hmm_user].nil? %>
+      if(document.getElementById('recaptcha_response_field').value=='' )
+      {
+        alert('Please enter the code!');
+        document.getElementById('recaptcha_response_field').focus();
+        return false;
+      }
+  <%end%>
+    
+      
+  }
+
+  function close_modal()
+  {
+    $j.nyroModalRemove();
+    //window.location.reload();
+  }
+  </script>
+<% end %>

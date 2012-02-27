@@ -1,0 +1,73 @@
+<h1>New Size & Price</h1>
+
+
+<script type="text/javascript">
+function validate()
+{
+	if(document.getElementById('name').value=='')
+	{
+		alert("Size is required");
+		document.getElementById('name').focus();
+		return false;
+	}
+	if(document.getElementById('height').value=='')
+	{
+		alert("Height is required");
+		document.getElementById('height').focus();
+		return false;
+	}
+	if(document.getElementById('height').value>20)
+	{
+		alert("Height should be in inches and not more than 20");
+		document.getElementById('height').focus();
+		return false;
+	}
+	if(document.getElementById('width').value=='')
+	{
+		alert("Width is required");
+		document.getElementById('width').focus();
+		return false;
+	}
+	if(document.getElementById('width').value>20)
+	{
+		alert("Width should be in inches and not more than 20");
+		document.getElementById('height').focus();
+		return false;
+	}
+	if(document.getElementById('dpi').value=='')
+	{
+		alert("DPI is required");
+		document.getElementById('dpi').focus();
+		return false;
+	}
+	if(document.getElementById('price').value=='')
+	{
+		alert("Price is required");
+		document.getElementById('price').focus();
+		return false;
+	}
+}
+</script>
+
+
+
+<form name="frm" action="/products/create_company" method="post" onsubmit="return validate();">
+ <%= error_messages_for 'product' %>
+<%
+@companylist=HmmStudio.find(:all)
+
+%>
+<!--[form:product]-->
+<p>
+<table>
+<tr><td>Size</td><td>:</td><td><input type="text" name="name" id="name" value="" /></td></tr>
+<tr><td>Height</td><td>:</td><td><input type="text" name="height" id="height" value="" maxlength="5"/> Inches</td></tr>
+<tr><td>Width</td><td>:</td><td><input type="text" name="width" id="width" value="" maxlength="5"/> Inches</td></tr>
+<tr><td>DPI</td><td>:</td><td><input type="text" name="dpi" id="dpi" value="" /></td></tr>
+<tr><td>Price</td><td>:</td><td><input type="text" name="price" id="price" value="" /></td></tr>
+<tr><td></td><td></td><td><input type="submit" name="sub" value="Add" /></td></tr>
+</table>
+</p>
+</form>
+<br>
+<%= link_to 'Back', :action => 'list' %>

@@ -1,0 +1,12 @@
+<br><h1>New tag</h1></br>
+
+<% form_tag :action => 'create' do %>
+  <%= render :partial => 'form' %>
+  <%= submit_tag "Create" %>
+<% end %>
+
+<%= link_to_remote("Back",
+:update => 'content', :url => {:controller =>:tags , :action => :index } ) %>
+
+
+

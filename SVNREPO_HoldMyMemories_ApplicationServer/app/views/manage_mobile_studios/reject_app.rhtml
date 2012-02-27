@@ -1,0 +1,19 @@
+<script type="text/javascript">
+ function check()
+ {
+   if(document.getElementById('reject_reason').value=='')
+     {
+       alert("Please enter the reason");
+       return false;
+     }
+     return true;
+ }
+</script>
+<form name="reject" action="/manage_mobile_studios/reject_app" >
+<table border="0" width="600">
+   <tr><td height="20">Reason for Rejecting iPhone App</td><td><textarea name="reject_reason" id="reject_reason" rows="5" cols="40"></textarea></td></tr>
+  <input type="hidden" name="id" value="<%=@studio.id%>" />
+  <tr><td height="20"></td></tr>
+  <tr><td></td><td><input type="submit" name="submit" value="Submit" onclick="return check();"/></td></tr>
+</table>
+</form>

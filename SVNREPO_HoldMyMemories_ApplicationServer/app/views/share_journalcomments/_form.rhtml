@@ -1,0 +1,36 @@
+<%= error_messages_for 'share_journalcomment' %>
+
+<!--[form:share_journalcomment]-->
+<input type="hidden" value="<%=params[:id]%>" name="shareid" />
+<input type="hidden" value="<%=params[:id_journal]%>" name="journalid" />
+<input type="hidden" value="<%=params[:type_journal]%>" name="journaltype" />
+<input type="hidden" value="<%=params[:redirect_id]%>" name="re_directid" />
+
+<table border="0" cellpadding="0" cellspacing="0">
+	<tr>
+		<td align="left">
+			<label for="share_journalcomment_name"><font color="#FFFFFF"> Name</font></label>
+		</td>
+		<td align="left">
+			<%= text_field 'share_journalcomment', 'name', :class => "textbox-journals"  %>
+		</td>
+	</tr>
+	<tr><td>&nbsp;</td><td>&nbsp;</td></tr>
+	<tr>
+		<td align="left" valign="top">
+			<label for="share_journalcomment_comment"><font color="#FFFFFF"> Comment&nbsp;&nbsp;</font></label>
+		</td>
+		<td>
+			<%= text_area 'share_journalcomment', 'comment', :cols => "40", :rows => "10", :class => "textbox-1"  %>
+		</td>
+	</tr>
+</table>
+<br/>
+
+
+<br/>
+
+
+
+<!--[eoform:share_journalcomment]-->
+

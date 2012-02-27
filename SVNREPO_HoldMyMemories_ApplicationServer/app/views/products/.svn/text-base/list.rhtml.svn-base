@@ -1,0 +1,93 @@
+<h1>Prices & Sizes List</h1>
+<script type="text/javascript">
+	function fnd(id)
+	{
+
+		window.location='/products/list/'+id
+
+
+	}
+
+
+</script>
+<style type="text/css">
+.defcol{
+
+background-color:#999900;
+
+}
+</style>
+<table width="222">
+<tr>
+  	<th width="27" bgcolor="#999900">&nbsp;</th>
+  	<th width="183" colspan="4"><font class='txt'>Indicates Default Size</th>
+  </tr>
+
+</table>
+<table>
+  <tr>
+    <td><%
+@companylist=HmmStudio.find(:all)
+%>
+        <!--[form:product]-->
+        <p><font color="red"><%=flash[:notice]%></font></p>
+        <p>
+          <label for="product_company_name">Company</label>
+          <br/>
+          <select name="store_id" onchange="return fnd(this.value);">
+            <option value="0" <% if(params[:id] == '0') %> selected="selected" <%end%>>HMM</option>
+            <% for cid in  @companylist %>
+            <option value="<%=cid.id%>" <% if(Integer(params[:id]) == Integer(cid.id)) %> selected="selected" <%end%>><%=cid.studio_branch%></option>
+            <%end%>
+          </select>
+    </td>
+  </tr>
+  <% if(@ptotcount>0) %>
+  <form name="frm" action="/products/set_default" method="post">
+    <tr>
+      <td>&nbsp;</td>
+    </tr>
+    <tr>
+      <th background="/images/body_hor.JPG" ><font class='txt'>Size</font></th>
+      <th background="/images/body_hor.JPG" ><font class='txt'>Price</font></th>
+      <th background="/images/body_hor.JPG" ><font class='txt'>Studio Type</font></th>
+      <th background="/images/body_hor.JPG" ><font class='txt'>Default</font></th>
+      <th background="/images/body_hor.JPG" colspan="3"><font class='txt'>Action</font></th>
+    </tr>
+    <% for sz in @products %>
+    <% if (sz.default_size ==false) %>
+    <tr class="<%= cycle('odd', 'even') %>">
+      <%else%>
+    <tr class="defcol">
+      <%end%>
+      <td><%= sz.name %></td>
+      <td>$<%= sz.price %></td>
+      <td><%= sz.studio_type %></td>
+      <td align="center"><input type="radio" name="id" value="<%=sz.id%>" onClick="javascript:form.submit();" <% if (sz.default_size==true) %> checked <%end%> >
+          <% if(params[:id])
+       sid=params[:id]
+       else
+       sid=0
+       end
+    %>
+          <input type="hidden" name="sid" value="<%=sid%>">
+      </td>
+      <td><%= link_to 'Edit', :action => 'edit', :id => sz.id %></td>
+      <td><%= link_to 'Delete', { :action => 'destroy', :id => sz.id }, :confirm => 'Are you sure?', :method => :post %></td>
+    </tr>
+    <% end %>
+  </form>
+  <%else%>
+  <tr>
+    <th colspan="5" align="center"><font class='txt'>No Records Found</font></th>
+  </tr>
+  <%end%>
+</table>
+<br />
+<%if(params[:id])
+sid=params[:id]
+else
+sid=0
+end
+%>
+<%= link_to 'New Size & Price', :action => 'new' , :studio_id=>sid %>

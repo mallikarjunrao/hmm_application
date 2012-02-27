@@ -1,0 +1,347 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:Application xmlns:mx="http://www.adobe.com/2006/mxml" layout="vertical" verticalAlign="top" width="100%" height="100%" 
+	xmlns:components="components.*"	backgroundColor="0x0" backgroundAlpha="1" 
+	creationComplete="handleCreationComplete()" modalTransparencyColor="0x0" modalTransparency="0.0" 
+	modalTransparencyBlur="0" preloader="custompreloader.PreloaderHourGlass" styleName="applicationstyle">
+	<components:HomePageVideoPlayer width="100%" id="videoplayer" creationComplete="handlePlayerComplete()"/>
+	<mx:HBox width="100%" id="hbox" horizontalAlign="center" verticalAlign="middle">
+		<mx:Button id="playpreviousvideo" styleName="playpevious" click="handlePlayPrevious()" enabled="{selectedVideoIndex}"/>
+		<!--mx:Button id="skip" styleName="skip" click="handleSkip()"/-->
+		<mx:Button id="playnextvideo" styleName="playnext" click="handlePlayNext()"/>
+	</mx:HBox>
+	<mx:Style>                
+		
+		.applicationstyle
+		{
+			border-color:  #4c4c4c; 
+			border-style:inset;
+			border-thickness:1;
+			padding-bottom:5;
+			padding-left:5;
+			padding-right:5;
+			padding-top:5;
+		}
+		
+		.applicationstylenone
+		{
+			border-color:0;
+			border-style:none;
+			border-thickness:0;
+			padding-bottom:0;
+			padding-left:0;
+			padding-right:0;
+			padding-top:0;
+		}
+		
+		.stop
+		{
+			upSkin: Embed("assets/stop_video.png");
+            overSkin: Embed("assets/stop_video_over.png");
+            downSkin: Embed("assets/stop_video.png");
+
+		}
+		
+		.skip
+		{
+			
+			upSkin: Embed("assets/skip.png");
+            overSkin: Embed("assets/skip_over.png");
+            downSkin: Embed("assets/skip.png");
+			
+		}
+		
+		.playnext
+		{
+			
+			upSkin: Embed("assets/play_next_video.png");
+            overSkin: Embed("assets/play_next_video_over.png");
+            downSkin: Embed("assets/play_next_video.png");
+			
+		}
+		
+		.playpevious
+		{
+			upSkin: Embed("assets/play_previous_video.png");
+            overSkin: Embed("assets/play_previous_video_over.png");
+            downSkin: Embed("assets/play_previous_video.png");
+            disabled-skin : Embed("assets/play_previous_video.png");
+		}
+	</mx:Style>
+	<mx:Script>
+		<![CDATA[
+			import mx.controls.Alert;
+			import mx.collections.ArrayCollection;
+			import mx.rpc.events.FaultEvent;
+			import mx.rpc.events.ResultEvent;
+			import mx.rpc.http.HTTPService;
+			import custompreloader.PreloaderHourGlass;
+			import mx.core.IDataRenderer;
+			import components.StandAloneVideoPlayer;
+			import components.HmmAudioPlayer;
+			import components.HmmVideoPlayer;
+			import mx.managers.PopUpManager;
+			import mx.core.IFlexDisplayObject;
+			[Bindable]
+			private var selectedChild : int;
+			private var player : IFlexDisplayObject;
+			private var hboxHeight : Number;
+			private var hboxWidth : Number;
+			private var videos : ArrayCollection;
+			[Bindable]
+			private var selectedVideoIndex : int = 0;
+			[Bindable]
+			private var previouslyViewed:Boolean = false;
+			private var playMiniBob : Boolean = false;
+			private var isHomePagePlayer : Boolean = false;
+			[Bindable]
+			private var ifRefresh : Boolean = false;
+			private var introPlayed : Boolean = true;
+			
+			
+			private function handlePlayerComplete() : void
+			{
+				//obj.icon = "/879_incredible_martial_artfootball.flv";
+				
+				/* videoplayer.video.source = "/879_incredible_martial_artfootball.flv";
+			    videoplayer.video.load();
+			    videoplayer.play.selected = true;
+			    videoplayer.video.play();  */
+			    
+			}
+			
+			private function handleFullScreen(event : Event) : void
+			{
+				hboxHeight = hbox.height;
+				hboxWidth = hbox.width;
+				hbox.width = 0;
+				hbox.height = 0;
+				this.styleName = "applicationstylenone";
+			}
+			
+			private function handleNormalScreen(event : Event) : void
+			{
+				hbox.width = hboxWidth;
+				hbox.height = hboxHeight;
+				this.styleName = "applicationstyle";
+			}
+			
+			private function handleCreationComplete() : void
+			{
+				trace(Application.application.parameters.showbutton)
+				 if(Application.application.parameters.hasOwnProperty("showbutton"))
+				{ 
+					if(Application.application.parameters.showbutton == "false")
+					{
+						hbox.visible = false;
+						hbox.height = 0;
+						hbox.width = 0;
+						videoplayer.video.addEventListener(Event.COMPLETE,handleVideoComplete);
+					}
+					
+				}
+				if(Application.application.parameters.hasOwnProperty("videopath"))
+				{
+					
+				    videoplayer.video.source = Application.application.parameters.videopath;
+			    	videoplayer.video.removeEventListener(Event.COMPLETE,handleVideoComplete);
+			    	videoplayer.video.addEventListener(Event.COMPLETE,handleCallJavaScriptFun);
+			    	videoplayer.video.load();
+			    	var time : Timer = new Timer(2000,1)
+			    	time.addEventListener(TimerEvent.TIMER,playTakeaTour);
+			    	time.start();
+			    	
+				}
+				else if(Application.application.parameters.hasOwnProperty("xmlpath"))
+				{
+					if(hbox.height !=0)
+					 playMiniBob=false;
+					 var service : HTTPService = new HTTPService();
+					service.url = "/photosandvideos.xml";
+					service.addEventListener(ResultEvent.RESULT,handleVideoResult);
+					service.addEventListener(FaultEvent.FAULT,handleFault);
+					service.send();
+				} 
+				else
+				{   
+					isHomePagePlayer = true;
+					playMiniBob = true;
+					var service : HTTPService = new HTTPService();
+					service.url = "/homepagevideos.xml";
+					service.addEventListener(ResultEvent.RESULT,handleVideoResult);
+					service.addEventListener(FaultEvent.FAULT,handleFault);
+					service.send();
+				}
+				
+   			}
+   			
+   			private function handleCallJavaScriptFun(event : Event) : void
+   			{
+   				ExternalInterface.call("showlink");
+   			}
+            
+            private function playTakeaTour(event : TimerEvent) : void
+            {
+            	videoplayer.play.selected = true;
+			   videoplayer.video.play();
+            }
+			
+			
+			private function handleVideoResult(event : ResultEvent) : void
+			{
+				videos = event.result.videos.video as ArrayCollection;
+				/* selectedVideoIndex = Math.floor(Math.random() * (videos.length - 1)) + 1; */
+			 if(isHomePagePlayer)
+			{
+				selectedVideoIndex = Index;
+				videoplayer.video.source = videos[selectedVideoIndex].file;
+		        videoplayer.video.load();
+			    videoplayer.play.selected = true;
+			    videoplayer.video.autoRewind = false;
+			    videoplayer.video.play();
+			    videoplayer.video.addEventListener(Event.COMPLETE,handleVideoComplete);
+			 } 
+			 else 
+			 {
+			 	videoplayer.video.source = videos[selectedVideoIndex].file;
+			    videoplayer.video.load();
+			    videoplayer.play.selected = true;
+			    videoplayer.video.play();
+			    videoplayer.video.addEventListener(Event.COMPLETE,handleVideoComplete);
+			 }
+			}
+			
+			private function handleFault(event : FaultEvent) : void
+			{
+				
+			}
+			
+			private function handleStopVideo() : void
+			{
+				videoplayer.video.stop();
+				videoplayer.play.selected = false;
+			}
+			
+			private function handleSkip() : void
+			{
+				
+			}
+			
+			private function handlePlayNext() : void
+			{
+				/* if(selectedVideoIndex < videos.length - 1)
+				  selectedVideoIndex++;
+				else*/
+				if(selectedVideoIndex < videos.length - 1)
+				 selectedVideoIndex++;
+				else
+				 selectedVideoIndex = 0;     
+				videoplayer.video.source = videos[selectedVideoIndex].file;
+			    videoplayer.video.load();
+			    videoplayer.play.selected = true;
+			    videoplayer.video.play();
+			    
+			}
+			
+			private function handlePlayPrevious() : void
+			{
+				if(selectedVideoIndex > 0 )
+				  selectedVideoIndex--;
+				else
+				  selectedVideoIndex = videos.length - 1;
+				    
+				videoplayer.video.source = videos[selectedVideoIndex].file;
+			    videoplayer.video.load();
+			    videoplayer.play.selected = true;
+			    videoplayer.video.play();	
+			}
+			
+			private function handleVideoComplete(event : Event) : void
+			{
+			  if(introPlayed && playMiniBob)
+			  { 
+				
+			  	var timer1 : Timer = new Timer(0,1);
+			  	timer1.addEventListener(TimerEvent.TIMER,handlePlayOnTimer);
+			  	timer1.start(); 
+			  	
+			  }
+			  else
+			  {     
+			  	  	var timer : Timer = new Timer(2000,1);
+			  		timer.addEventListener(TimerEvent.TIMER,handlePlayOnTimer);
+			  		timer.start();
+			  }
+			  }
+			  
+			  private function get Index(): int
+			  {
+			  	var selectVideo :SharedObject = SharedObject.getLocal("selectVideo");
+			  	var index : int;
+			  	trace(selectVideo.data.index); 
+			  	if(selectVideo.data.index ==null)
+			  	{
+			  		index =0;
+			  		selectVideo.data.index = index; 	 
+              	    selectVideo.flush();
+			  	}
+			  	else
+			  	{
+			  		index = selectVideo.data.index; 
+			  		if(index == 0)
+			  		{
+			  			index = 2;
+			  		}
+			  		else if(index == 2)
+			  		    index = 3;
+			  		else 
+			  		  index = 0;
+			  		  
+			  		selectVideo.data.index = index; 	 
+              	     selectVideo.flush();
+			  		
+			  	}
+			  	return index;
+			  } 
+			  	   
+				   
+			
+			
+			private function handlePlayOnTimer(event : TimerEvent) : void
+			{
+			   
+			   if(introPlayed && playMiniBob)
+			   {
+			   		introPlayed = false;
+			   		playMiniBob = false;
+			   		if(selectedVideoIndex == 0)
+			   		  selectedVideoIndex = 1;
+			   		videoplayer.video.source = videos[1].file;
+				    videoplayer.video.load();
+				    videoplayer.video.play();
+				    videoplayer.play.selected = true;
+				    videoplayer.video.autoRewind = false;
+			   			
+			   }
+			   else
+			   {
+					if(selectedVideoIndex == videos.length - 1)
+					{
+						selectedVideoIndex = 0;
+					}
+					else
+					{
+						selectedVideoIndex++; 
+					}
+					
+					videoplayer.video.source = videos[selectedVideoIndex].file;
+				    videoplayer.video.load();
+				    videoplayer.video.bufferTime = 1000;
+				    videoplayer.video.play();
+				    videoplayer.play.selected = true;
+				    videoplayer.video.autoRewind = false;
+			  }
+			}
+			
+		]]>
+	</mx:Script>
+</mx:Application>    

@@ -1,0 +1,400 @@
+<table>
+	<tr>
+		<td>
+			&nbsp;	
+		</td>
+	</tr>
+	<tr>
+		<td colspan="23">
+			<font size="4"> Family Website Member Details</font>
+		</td>
+	</tr>
+	<tr>
+		<td colspan="23">
+			<a href="/hmm_reporting/familywebsite_excel_report/<%=params[:id]%>?ids=<%=params[:ids]%>&page=<%=params[:page]%>">Click here to generate report in Excel sheet</a>
+		</td>
+	</tr>
+	<tr>
+		<td>
+			&nbsp;	
+		</td>
+	</tr>
+	<tr valign='center' align='center'>
+  	
+  	<td bgcolor="#770000">Name</td> 
+   	<td bgcolor="#770000">User Name </td>
+	<td bgcolor="#770000">E-mail</td>
+	<td bgcolor="#770000">Signed Up Date</td>
+	<td bgcolor="#770000">Status</td>
+	
+	<td bgcolor="#770000">Months Active</td>
+	<td bgcolor="#770000">No Of Admin logins</td>
+	<td bgcolor="#770000">Last Admin Login Date</td>
+	<td bgcolor="#770000">No of Site Visit</td>
+	<td bgcolor="#770000">Last time site visited</td>
+	<td bgcolor="#770000">Subscription Amount Paid</td>
+	<td bgcolor="#770000">Next Payment Due Date</td>
+	<td bgcolor="#770000">Total subscriptions collected from client</td>
+	<td bgcolor="#770000">No of Studio Sessions</td>
+	<td bgcolor="#770000">No of Chapters</td>
+	<td bgcolor="#770000">No Of Sub-Chapters</td>
+	<td bgcolor="#770000">No Of Galleries</td>
+	<td bgcolor="#770000">No Of Photos</td>
+	<td bgcolor="#770000">No Of Videos</td>
+	<td bgcolor="#770000">No Of Audios</td>
+	<td bgcolor="#770000">No Of Family Members</td>
+	<td bgcolor="#770000">No Of shares</td>
+	<td bgcolor="#770000">No Of Social Networking links</td>
+	<td bgcolor="#770000">No Of comments/Number approved</td>
+	<td bgcolor="#770000">No Of Journal Entries</td>
+	<td bgcolor="#770000">No in address book/friend</td>
+	<td bgcolor="#770000">Originating studio</td>
+    </tr>
+  <%for premium in @hmm_users_premium%>
+  	<tr class="<%= cycle('odd', 'even') -%>">
+  		<td align="center">
+  			<%if(params[:id]=='managers')%>
+			<%=premium.v_fname%>
+			<%else%>
+  			<%=premium.fname%>
+			<%end%>
+  		</td>
+		<td align="center">
+			<%if(params[:id]=='managers')%>
+			<%=premium.v_user_name%>
+			<%else%>
+  			<%=premium.username%>
+			<%end%>
+  		</td>
+		<td align="center">
+			<%if(params[:id]=='managers')%>
+			<%=premium.v_e_mail%>
+			<%else%>
+  			<%=premium.email%>
+			<%end%>
+  		</td>
+		<td align="center">
+			<%if(params[:id]=='managers')%>
+			<%=premium.d_created_date%>
+			<%else%>
+  			<%=premium.created_date%>
+			<%end%>
+  		</td>
+		<td align="center">
+  			<%if(params[:id]=='managers')%>
+			<%=premium.e_user_status.capitalize%>
+			<%else%>
+			<%=premium.status.capitalize%>
+			<%end%>
+  		</td>
+		<td align="center">
+  			<%=premium.months%>
+  		</td>
+		
+		<td align="center">
+  			<%if(params[:id]=='managers')%>
+			<% @no_of_logins = UserSessions.count(:all, :conditions => "uid='#{premium.id}'")%>
+			<%else%>
+  			<% @no_of_logins = UserSessions.count(:all, :conditions => "uid='#{premium.userid}'")%>
+			<%end%>
+			<%=@no_of_logins%>
+  		</td>
+		<td align="center">
+  			<%if(params[:id]=='managers')%>
+			<% @last_login = UserSessions.find(:all, :conditions => "uid='#{premium.id}' ", :order => "id DESC", :limit => "0,1")%>
+			<%else%>
+  			<% @last_login = UserSessions.find(:all, :conditions => "uid='#{premium.userid}'", :order => "id DESC", :limit => "0,1")%>
+			<%end%>
+			<%if @no_of_logins == 0%>
+				Nil
+			<%else%>
+				<%for lst_login in @last_login%>
+					<%=lst_login.d_date_time.strftime("%m - %d - %Y")%> 
+				<%end%>
+			<%end%>
+  		</td>
+		
+		<td align="center">
+  			<%if(params[:id]=='managers')%>
+			<% @no_of_visits = FamilywebsiteVisit.count(:all, :conditions => "uid='#{premium.id}'")%>
+			<%else%>
+  			<% @no_of_visits = FamilywebsiteVisit.count(:all, :conditions => "uid='#{premium.userid}'")%>
+			<%end%>
+			<%=@no_of_visits%>
+  		</td>
+		<td align="center">
+  			<%if(params[:id]=='managers')%>
+			<% @date_of_visits = FamilywebsiteVisit.find(:all, :conditions => "uid='#{premium.id}'", :order => "id DESC", :limit => "0,1")%>
+			<%else%>
+  			<% @date_of_visits = FamilywebsiteVisit.find(:all, :conditions => "uid='#{premium.userid}'", :order => "id DESC", :limit => "0,1")%>
+			<%end%>
+			<%if @no_of_visits == 0%>
+				Nil
+			<%else%>
+				<%for last_vist in @date_of_visits%>
+					<%=last_vist.visit_date.strftime("%m - %d - %Y")%> 
+				<%end%>
+			<%end%>
+  		</td>
+		
+		<td align="center">
+  			<%if(params[:id]=='managers')%>
+			<%=premium.amount%>
+			<%else%>
+			<%=premium.amount%>
+			<%end%>
+  		</td>
+		<td align="center">
+  			<%if(params[:id]=='managers')%>
+			<%if premium.account_expdate == '' || premium.account_expdate == nil%>
+			Nil
+			<%else%>
+			<%=premium.account_expdate.strftime("%m - %d - %Y")%>
+			<%end%>
+			<%else%>
+			<%if premium.account_expdate == '' || premium.account_expdate == nil%>
+			Nil
+			<%else%>
+			<%=premium.account_expdate.strftime("%m - %d - %Y")%>
+			<%end%>
+			<%end%>
+  		</td>
+		<td align="center">
+			<%if(params[:id]=='managers')%>
+			<% @payment_count = PaymentCount.count(:all, :conditions => "uid='#{premium.id}'")%>
+			<%else%>
+  			<% @payment_count = PaymentCount.count(:all, :conditions => "uid='#{premium.userid}'")%>
+			<%end%>
+			<%=@payment_count%>
+		</td>
+		<td align="center">
+  			<%if(params[:id]=='managers')%>
+			<% @studio_session = SubChapter.count(:all, :joins => "as b, tags as a", :conditions => "a.uid='#{premium.id}' and a.v_tagname = 'STUDIO SESSIONS' and a.id=b.tagid  ")%>
+			<%else%>
+  			<% @studio_session = SubChapter.count(:all, :joins => "as b, tags as a", :conditions => "a.uid='#{premium.userid}' and a.v_tagname = 'STUDIO SESSIONS' and a.id=b.tagid ")%>
+			<%end%>
+			<%=@studio_session%>
+  		</td>
+		<td align="center">
+			<%if(params[:id]=='managers')%>
+			<% @tag = Tag.count(:all, :conditions => "uid='#{premium.id}'")%>
+			<%else%>
+  			<% @tag = Tag.count(:all, :conditions => "uid='#{premium.userid}'")%>
+			<%end%>
+			<%=@tag%>
+		</td>
+		<td align="center">
+			<%if(params[:id]=='managers')%>
+			<% @subchap = SubChapter.count(:all, :conditions => "uid='#{premium.id}'")%>
+			<%else%>
+  			<% @subchap = SubChapter.count(:all, :conditions => "uid='#{premium.userid}'")%>
+			<%end%>
+			<%=@subchap%>
+  		</td>
+		<td align="center">
+			<%if(params[:id]=='managers')%>
+			<% @gal = SubChapter.count(:all, :joins => "as a, galleries as b", :conditions => "a.uid='#{premium.id}' and a.id=b.subchapter_id")%>
+			<%else%>
+  			<% @gal = SubChapter.count(:all, :joins => "as a, galleries as b", :conditions => "a.uid='#{premium.userid}' and a.id=b.subchapter_id")%>
+			<%end%>
+			<%=@gal%>
+  		</td>
+		<td align="center">
+  			<%if(params[:id]=='managers')%>
+			<% @img = UserContent.count(:all, :conditions => "uid='#{premium.id}' and e_filetype='image' and status = 'active'")%>
+			<%else%>
+			<% @img = UserContent.count(:all, :conditions => "uid='#{premium.userid}' and e_filetype='image' and status = 'active'")%>
+			<%end%>
+			<%=@img%>
+  		</td>
+		<td align="center">
+  			<%if(params[:id]=='managers')%>
+			<% @video = UserContent.count(:all, :conditions => "uid='#{premium.id}' and e_filetype='video' and status = 'active'")%>
+			<%else%>
+			<% @video = UserContent.count(:all, :conditions => "uid='#{premium.userid}' and e_filetype='video' and status = 'active'")%>
+			<%end%>
+			<%=@video%>
+  		</td>
+		<td align="center">
+  			<%if(params[:id]=='managers')%>
+			<% @audio = UserContent.count(:all, :conditions => "uid='#{premium.id}' and e_filetype='audio' and status = 'active'")%>
+			<%else%>
+			<% @audio = UserContent.count(:all, :conditions => "uid='#{premium.userid}' and e_filetype='audio' and status = 'active'")%>
+			<%end%>
+			<%=@audio%>
+  		</td>
+		<td align="center">
+  			<%if(params[:id]=='managers')%>
+			<% @family_members = FamilyMember.count(:all, :conditions => "uid='#{premium.id}'")%>
+			<%else%>
+			<% @family_members = FamilyMember.count(:all, :conditions => "uid='#{premium.userid}'")%>
+			<%end%>
+			<%=@family_members%>
+  		</td>
+		<td align="center">
+			<%if(params[:id]=='managers')%>
+			<%	@share_cnt = Share.count(:all, :conditions => "presenter_id = '#{premium.id}'")
+    			@sharemoment_cnt = ShareMoment.count(:all, :conditions => "presenter_id = '#{premium.id}' ")
+  				@totalshare_cnt = (@share_cnt+@sharemoment_cnt) %>
+			<%else%>
+			<%	@share_cnt = Share.count(:all, :conditions => "presenter_id = '#{premium.userid}'")
+    			@sharemoment_cnt = ShareMoment.count(:all, :conditions => "presenter_id = '#{premium.userid}' ")
+  				@totalshare_cnt = (@share_cnt+@sharemoment_cnt) %>
+			<%end%>
+			<%=@totalshare_cnt%>
+  		</td>
+		<td align="center">
+  			<%if(params[:id]=='managers')%>
+			<% @socialnet_count = SocialNetworking.sum("facebook_count + myspace_count + twitter_count + other_count", :conditions => "uid='#{premium.id}'")%>
+			<%else%>
+			<% @socialnet_count = SocialNetworking.sum("facebook_count + myspace_count + twitter_count + other_count", :conditions => "uid='#{premium.userid}'")%>
+			<%end%>
+			<%if @socialnet_count == nil%>
+			Nil
+			<%else%>
+			<%=@socialnet_count%>
+			<%end%>
+  		</td>
+		<td align="center">
+  			<%if(params[:id]=='managers')%>
+			<%  tagcout_approve = Tag.find_by_sql(" select count(*) as cnt from chapter_comments  as a,tags as t where a.tag_id=t.id and t.uid=#{premium.id} and a.e_approval = 'approve'")
+				subcount_approve = SubChapter.find_by_sql("select count(*) as cnt from subchap_comments as b, sub_chapters as s where s.uid=#{premium.id} and b.subchap_id=s.id and  b.e_approval='approve'")
+				galcount_approve = Galleries.find_by_sql("select count(*) as cnt from gallery_comments as c, galleries as g, sub_chapters as s1 where s1.uid=#{premium.id} and c.gallery_id=g.id and g.subchapter_id=s1.id and c.e_approval='approve'")
+  				usercontentcount_approve = UserContent.find_by_sql("select count(*) as cnt from photo_comments   as d, user_contents as u where d.user_content_id=u.id and u.uid=#{premium.id} and d.e_approved='approve'")
+    			sharecount_approve = Share.find_by_sql("select count(*) as cnt from share_comments as d,shares as u where d.share_id =u.id and u.presenter_id=#{premium.id} and d.e_approved='approved'")
+				sharejournalcnt_approve = ShareJournal.find_by_sql("select count(*) as cnt from share_journalcomments as d,share_journals as u where d.shareid = u.id and u.presenter_id=#{premium.id} and d.status='accepted'")
+				guestmessagecount_approve = MessageBoard.count(:all, :conditions => "uid=#{premium.id}")
+   				guestcommentcount_approve = GuestComment.find_by_sql("select count(*) as cnt from guest_comments where uid=#{premium.id} and status='approve'")
+  
+				guestcommentcnt_approve=Integer(guestcommentcount_approve[0].cnt)
+				galcnt_approve=Integer(galcount_approve[0].cnt)
+				tagcnt_approve=Integer(tagcout_approve[0].cnt)
+				subcnt_approve=Integer(subcount_approve[0].cnt)
+				usercontentcnt_approve=Integer(usercontentcount_approve[0].cnt)
+				sharecnt_approve=Integer(sharecount_approve[0].cnt)
+				sharejournalcnt_approve=Integer(sharejournalcnt_approve[0].cnt)
+  
+  				@total_approve=tagcnt_approve + subcnt_approve + galcnt_approve + usercontentcnt_approve +sharecnt_approve +sharejournalcnt_approve +guestcommentcnt_approve + guestmessagecount_approve 
+
+
+				tagcout = Tag.find_by_sql(" select count(*) as cnt from chapter_comments  as a,tags as t where a.tag_id=t.id and t.uid=#{premium.id} ")
+				subcount = SubChapter.find_by_sql("select count(*) as cnt from subchap_comments as b, sub_chapters as s where s.uid=#{premium.id} and b.subchap_id=s.id ")
+				galcount = Galleries.find_by_sql("select count(*) as cnt from gallery_comments as c, galleries as g, sub_chapters as s1 where s1.uid=#{premium.id} and c.gallery_id=g.id and g.subchapter_id=s1.id ")
+  				usercontentcount = UserContent.find_by_sql("select count(*) as cnt from photo_comments   as d, user_contents as u where d.user_content_id=u.id and u.uid=#{premium.id}")
+    			sharecount = Share.find_by_sql("select count(*) as cnt from share_comments as d,shares as u where d.share_id =u.id and u.presenter_id=#{premium.id}")
+				sharejournalcnt = ShareJournal.find_by_sql("select count(*) as cnt from share_journalcomments as d,share_journals as u where d.shareid = u.id and u.presenter_id=#{premium.id}")
+				guestmessagecount = MessageBoard.count(:all, :conditions => "uid=#{premium.id}")
+   				guestcommentcount = GuestComment.find_by_sql("select count(*) as cnt from guest_comments where uid=#{premium.id}")
+  
+				guestcommentcnt=Integer(guestcommentcount[0].cnt)
+				galcnt=Integer(galcount[0].cnt)
+				tagcnt=Integer(tagcout[0].cnt)
+				subcnt=Integer(subcount[0].cnt)
+				usercontentcnt=Integer(usercontentcount[0].cnt)
+				sharecnt=Integer(sharecount[0].cnt)
+				sharejournalcnt=Integer(sharejournalcnt[0].cnt)
+  
+  				@total=tagcnt+subcnt+galcnt+usercontentcnt+sharecnt+sharejournalcnt+guestcommentcnt+guestmessagecount %>
+			<%else%>
+			<%  tagcout_approve = Tag.find_by_sql(" select count(*) as cnt from chapter_comments  as a,tags as t where a.tag_id=t.id and t.uid=#{premium.userid} and a.e_approval = 'approve'")
+				subcount_approve = SubChapter.find_by_sql("select count(*) as cnt from subchap_comments as b, sub_chapters as s where s.uid=#{premium.userid} and b.subchap_id=s.id and  b.e_approval='approve'")
+				galcount_approve = Galleries.find_by_sql("select count(*) as cnt from gallery_comments as c, galleries as g, sub_chapters as s1 where s1.uid=#{premium.userid} and c.gallery_id=g.id and g.subchapter_id=s1.id and c.e_approval='approve'")
+  				usercontentcount_approve = UserContent.find_by_sql("select count(*) as cnt from photo_comments   as d, user_contents as u where d.user_content_id=u.id and u.uid=#{premium.userid} and d.e_approved='approve'")
+    			sharecount_approve = Share.find_by_sql("select count(*) as cnt from share_comments as d,shares as u where d.share_id =u.id and u.presenter_id=#{premium.userid} and d.e_approved='approved'")
+				sharejournalcnt_approve = ShareJournal.find_by_sql("select count(*) as cnt from share_journalcomments as d,share_journals as u where d.shareid = u.id and u.presenter_id=#{premium.userid} and d.status='accepted'")
+				guestmessagecount_approve = MessageBoard.count(:all, :conditions => "uid=#{premium.userid}")
+   				guestcommentcount_approve = GuestComment.find_by_sql("select count(*) as cnt from guest_comments where uid=#{premium.userid} and status='approve'")
+  
+				guestcommentcnt_approve=Integer(guestcommentcount_approve[0].cnt)
+				galcnt_approve=Integer(galcount_approve[0].cnt)
+				tagcnt_approve=Integer(tagcout_approve[0].cnt)
+				subcnt_approve=Integer(subcount_approve[0].cnt)
+				usercontentcnt_approve=Integer(usercontentcount_approve[0].cnt)
+				sharecnt_approve=Integer(sharecount_approve[0].cnt)
+				sharejournalcnt_approve=Integer(sharejournalcnt_approve[0].cnt)
+  
+  				@total_approve=tagcnt_approve + subcnt_approve + galcnt_approve + usercontentcnt_approve +sharecnt_approve +sharejournalcnt_approve +guestcommentcnt_approve + guestmessagecount_approve 
+
+				tagcout = Tag.find_by_sql(" select count(*) as cnt from chapter_comments  as a,tags as t where a.tag_id=t.id and t.uid=#{premium.userid} ")
+				subcount = SubChapter.find_by_sql("select count(*) as cnt from subchap_comments as b, sub_chapters as s where s.uid=#{premium.userid} and b.subchap_id=s.id ")
+				galcount = Galleries.find_by_sql("select count(*) as cnt from gallery_comments as c, galleries as g, sub_chapters as s1 where s1.uid=#{premium.userid} and c.gallery_id=g.id and g.subchapter_id=s1.id ")
+  				usercontentcount = UserContent.find_by_sql("select count(*) as cnt from photo_comments   as d, user_contents as u where d.user_content_id=u.id and u.uid=#{premium.userid}")
+    			sharecount = Share.find_by_sql("select count(*) as cnt from share_comments as d,shares as u where d.share_id =u.id and u.presenter_id=#{premium.userid}")
+				sharejournalcnt = ShareJournal.find_by_sql("select count(*) as cnt from share_journalcomments as d,share_journals as u where d.shareid = u.id and u.presenter_id=#{premium.userid}")
+				guestmessagecount = MessageBoard.count(:all, :conditions => "uid=#{premium.userid}")
+   				guestcommentcount = GuestComment.find_by_sql("select count(*) as cnt from guest_comments where uid=#{premium.userid}")
+  
+				guestcommentcnt=Integer(guestcommentcount[0].cnt)
+				galcnt=Integer(galcount[0].cnt)
+				tagcnt=Integer(tagcout[0].cnt)
+				subcnt=Integer(subcount[0].cnt)
+				usercontentcnt=Integer(usercontentcount[0].cnt)
+				sharecnt=Integer(sharecount[0].cnt)
+				sharejournalcnt=Integer(sharejournalcnt[0].cnt)
+  
+  				@total=tagcnt+subcnt+galcnt+usercontentcnt+sharecnt+sharejournalcnt+guestcommentcnt+guestmessagecount %>
+			<%end%>
+			<%=@total %> / <%= @total_approve%>
+  		</td>
+		
+		
+		<td align="center">
+  			<%if(params[:id]=='managers')%>
+			<%  tagcout = Tag.find_by_sql(" select count(*) as cnt from chapter_journals as a,tags as t where a.tag_id=t.id and t.uid=#{premium.id} and t.status='active' ") 
+				subcount = SubChapter.find_by_sql("select count(*) as cnt from sub_chap_journals  as b, sub_chapters as s where s.uid=#{premium.id} and b.sub_chap_id=s.id  and s.status='active' ")
+  				galcount = Galleries.find_by_sql("select  count(*) as cnt from gallery_journals   as c,  galleries as g, sub_chapters as s1 where s1.uid=#{premium.id} and c.galerry_id=g.id and g.subchapter_id=s1.id and g.status='active' ")
+  				usercontentcount = UserContent.find_by_sql("select count(*) as cnt from journals_photos   as d, user_contents as u where d.user_content_id=u.id and u.uid=#{premium.id} and u.status='active' ")
+
+				galcnt=Integer(galcount[0].cnt)
+				tagcnt=Integer(tagcout[0].cnt)
+				subcnt=Integer(subcount[0].cnt)
+				usercontentcnt=Integer(usercontentcount[0].cnt)
+  
+				@total_journal=tagcnt+subcnt+galcnt+usercontentcnt%>
+			<%else%>
+			<%  tagcout = Tag.find_by_sql(" select count(*) as cnt from chapter_journals as a,tags as t where a.tag_id=t.id and t.uid=#{premium.userid} and t.status='active' ") 
+				subcount = SubChapter.find_by_sql("select count(*) as cnt from sub_chap_journals  as b, sub_chapters as s where s.uid=#{premium.userid} and b.sub_chap_id=s.id  and s.status='active' ")
+				galcount = Galleries.find_by_sql("select  count(*) as cnt from gallery_journals   as c,  galleries as g, sub_chapters as s1 where s1.uid=#{premium.userid} and c.galerry_id=g.id and g.subchapter_id=s1.id and g.status='active' ")
+ 				usercontentcount = UserContent.find_by_sql("select count(*) as cnt from journals_photos   as d, user_contents as u where d.user_content_id=u.id and u.uid=#{premium.userid} and u.status='active' ")
+
+				galcnt=Integer(galcount[0].cnt)
+				tagcnt=Integer(tagcout[0].cnt)
+				subcnt=Integer(subcount[0].cnt)
+				usercontentcnt=Integer(usercontentcount[0].cnt)
+  
+				@total_journal=tagcnt+subcnt+galcnt+usercontentcnt%>
+			<%end%>
+			<%=@total_journal %> 
+  		</td>
+		
+		<td align="center">
+  			<%if(params[:id]=='managers')%>
+			<% @address_book = NonhmmUser.count(:all, :conditions => "uid='#{premium.id}'")%>
+			<%else%>
+			<% @address_book = NonhmmUser.count(:all, :conditions => "uid='#{premium.userid}'")%>
+			<%end%>
+			<%=@address_book%>
+  		</td>
+		<td align="center">
+			<%if(params[:id]=='company')%>
+  			<%=premium.studio_name%>
+			<%elsif(params[:id]=='studio')%>
+			 <% @studio_name = HmmUser.find(:all, :joins => "as a, employe_accounts as b, hmm_studios as c", :select => "c.studio_name as studio_name", :conditions => "a.id='#{premium.userid}' and a.emp_id=b.id and b.store_id=c.id")%>
+			 <%for name in @studio_name%>
+			 	<%=name.studio_name%>
+			 <%end%>
+			 <%else%>
+			  <% @studio_name = HmmUser.find(:all, :joins => "as a, employe_accounts as b, hmm_studios as c", :select => "c.studio_name as studio_name", :conditions => "a.id='#{premium.id}' and a.emp_id=b.id and b.store_id=c.id")%>
+			 <%for name in @studio_name%>
+			 	<%=name.studio_name%>
+			 <%end%>
+			<%end%>
+  		</td>
+  	</tr>
+  <%end%>
+  <tr>
+  	<td colspan="8">
+  		<%=will_paginate @hmm_users_premium%>
+  	</td>
+  </tr>
+</table>

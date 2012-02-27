@@ -1,0 +1,264 @@
+
+<p align="left">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+<% @shipping_details=ShippingInformation.find(:all,:conditions=>"user_id='#{session[:hmm_user]}'")
+
+%>
+
+</p>
+<%= stylesheet_link_tag 'popup.css' %>
+<%= stylesheet_link_tag 'SpryAssets/SpryValidationRadio' %>
+ <%= stylesheet_link_tag 'main' %>
+<%= stylesheet_link_tag 'hmmout' %>
+ <%= stylesheet_link_tag 'hmm' %>
+ <%= stylesheet_link_tag 'SpryAssets/SpryValidationTextField' %>
+ <%= stylesheet_link_tag 'SpryAssets/SpryValidationRadio' %>
+ <%= javascript_include_tag 'scriptaculous' %>
+<%= javascript_include_tag 'popup.js' %>
+ <%= javascript_include_tag 'AC_OETags' %>
+ <%= javascript_include_tag 'SpryAssets/SpryValidationTextField' %>
+
+<style type="text/css">
+<!--
+.style3 {color: #999999}
+-->
+</style>
+<script type="text/javascript">
+function numbersonly(e, decimal) {
+var key;
+var keychar;
+
+if (window.event) {
+   key = window.event.keyCode;
+}
+else if (e) {
+   key = e.which;
+}
+else {
+   return true;
+}
+keychar = String.fromCharCode(key);
+
+if ((key==null) || (key==0) || (key==8) ||  (key==9) || (key==13) || (key==27) ) {
+   return true;
+}
+else if ((("0123456789").indexOf(keychar) > -1)) {
+   return true;
+}
+else if (decimal && (keychar == ".")) { 
+  return true;
+}
+else
+   return false;
+}
+
+</script>
+<script type="text/javascript">
+
+
+
+        function go()
+        {
+            document.frm1.submit();
+
+        }
+
+        function verify()
+        {
+			
+			 if(document.getElementById('title').value == "")
+                {
+                    alert("Please enter the Title")
+                    document.getElementById('title').focus();
+                    return false;
+                }
+           if(document.getElementById('start_range').value == "")
+                {
+                    alert("Please enter the Start Range")
+                    document.getElementById('start_range').focus();
+                    return false;
+                }
+				
+           if(document.getElementById('end_range').value == "")
+                {
+                    alert("Please enter the End Range")
+                    document.getElementById('end_range').focus();
+                    return false;
+                }
+             
+
+
+        }
+
+        function televerify()
+        {
+
+                 /*   var Phone=document.getElementById('stelephone')
+
+                    if ((Phone.value==null)||(Phone.value=="")){
+                            alert("Please Enter your Phone Number")
+                            Phone.focus()
+                            return false
+                    }
+                    if (checkInternationalPhone(Phone.value)==false){
+                            alert("Please Enter a Valid Phone Number")
+                            Phone.value=""
+                            Phone.focus()
+                            return false
+                    }
+
+                    var Phone=document.getElementById('telephone')
+
+                    if ((Phone.value==null)||(Phone.value=="")){
+                            alert("Please Enter your Phone Number")
+                            Phone.focus()
+                            return false
+                    }
+                    if (checkInternationalPhone(Phone.value)==false){
+                            alert("Please Enter a Valid Phone Number")
+                            Phone.value=""
+                            Phone.focus()
+                            return false
+                    }
+		    return true
+
+*/
+                }
+
+	</script>
+
+
+      <script language = "Javascript">
+/**
+ * DHTML phone number validation script. Courtesy of SmartWebby.com (http://www.smartwebby.com/dhtml/)
+ */
+
+// Declaring required variables
+var digits = "0123456789";
+// non-digit characters which are allowed in phone numbers
+var phoneNumberDelimiters = "()- ";
+// characters which are allowed in international phone numbers
+// (a leading + is OK)
+var validWorldPhoneChars = phoneNumberDelimiters + "+";
+// Minimum no of digits in an international phone no.
+var minDigitsInIPhoneNumber = 10;
+
+function isInteger(s)
+{   var i;
+    for (i = 0; i < s.length; i++)
+    {
+        // Check that current character is number.
+        var c = s.charAt(i);
+        if (((c < "0") || (c > "9"))) return false;
+    }
+    // All characters are numbers.
+    return true;
+}
+function trim(s)
+{   var i;
+    var returnString = "";
+    // Search through string's characters one by one.
+    // If character is not a whitespace, append to returnString.
+    for (i = 0; i < s.length; i++)
+    {
+        // Check that current character isn't whitespace.
+        var c = s.charAt(i);
+        if (c != " ") returnString += c;
+    }
+    return returnString;
+}
+function stripCharsInBag(s, bag)
+{   var i;
+    var returnString = "";
+    // Search through string's characters one by one.
+    // If character is not in bag, append to returnString.
+    for (i = 0; i < s.length; i++)
+    {
+        // Check that current character isn't whitespace.
+        var c = s.charAt(i);
+        if (bag.indexOf(c) == -1) returnString += c;
+    }
+    return returnString;
+}
+
+function checkInternationalPhone(strPhone){
+var bracket=3
+strPhone=trim(strPhone)
+if(strPhone.indexOf("+")>1) return false
+if(strPhone.indexOf("-")!=-1)bracket=bracket+1
+if(strPhone.indexOf("(")!=-1 && strPhone.indexOf("(")>bracket)return false
+var brchr=strPhone.indexOf("(")
+if(strPhone.indexOf("(")!=-1 && strPhone.charAt(brchr+2)!=")")return false
+if(strPhone.indexOf("(")==-1 && strPhone.indexOf(")")!=-1)return false
+s=stripCharsInBag(strPhone,validWorldPhoneChars);
+return (isInteger(s) && s.length >= minDigitsInIPhoneNumber);
+}
+
+function ValidateForm(){
+	var Phone=document.frmSample.txtPhone
+
+	if ((Phone.value==null)||(Phone.value=="")){
+		alert("Please Enter your Phone Number")
+		Phone.focus()
+		return false
+	}
+      if (checkInternationalPhone(Phone.value)==false){
+		alert("Please Enter a Valid Phone Number")
+		Phone.value=""
+		Phone.focus()
+		return false
+	}
+	return true
+ }
+
+
+
+</script>
+
+<style type = "text/css">
+.info_text{
+	color:#999999;
+	font-family:Arial;
+	font-size: 20px;
+}
+
+.click_text{
+	color:#999999;
+	font-family:Arial;
+	font-size: 24px;
+	text-decoration:none;
+}
+
+.main{
+	color:#ffffff;
+	font-family:Arial;
+	font-size: 12px;
+	text-decoration:none;
+}
+</style>
+
+<form name="frm" action="/hmm_studiogroups/gen_promocode/" method="post" onSubmit="return verify()"   >
+<table align="center" width="500"  border="1" cellpadding="0" cellspacing="0" bordercolor="#000000">
+  <tr>
+   <th background="/images/body_hor.JPG">Discount Code</th>
+   <th background="/images/body_hor.JPG"  align="center">Amount</th>
+  <th background="/images/body_hor.JPG"  align="center">Used</th>
+  <th background="/images/body_hor.JPG"  align="center">Created Date</th>
+  </tr>
+
+<% for promo_code in @promocodes %>
+  <tr class="<%= cycle('odd', 'even') -%>">
+  <td><%=promo_code.promocode %></td>
+  <td><%=promo_code.amt %></td>
+   <td><%
+   if(promo_code.used==0)
+   
+    %>
+    no
+    <%else%>
+    yes
+    <%end%>
+    </td>
+    <td><%=promo_code.created_at %></td>
+   </tr>
+<% end %>
+</table>

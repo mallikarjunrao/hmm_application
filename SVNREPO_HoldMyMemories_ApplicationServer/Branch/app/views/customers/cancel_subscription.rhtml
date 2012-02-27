@@ -1,0 +1,280 @@
+<%= stylesheet_link_tag 'popup.css' %>
+<%= javascript_include_tag 'SpryAssets/SpryValidationRadio' %>
+<%= javascript_include_tag 'SpryAssets/SpryValidationPassword' %>
+<%= javascript_include_tag 'SpryAssets/SpryValidationConfirm' %>
+<%= stylesheet_link_tag 'SpryAssets/SpryValidationRadio' %>
+<%= stylesheet_link_tag 'SpryAssets/SpryValidationPassword' %>
+<%= stylesheet_link_tag 'SpryAssets/SpryValidationConfirm' %>
+ <%= stylesheet_link_tag 'main' %>
+<%= stylesheet_link_tag 'hmmout' %> 
+ <%= stylesheet_link_tag 'hmm' %> 
+ <%= stylesheet_link_tag 'SpryAssets/SpryValidationTextField' %>
+ <%= stylesheet_link_tag 'SpryAssets/SpryValidationRadio' %>
+ <%= stylesheet_link_tag 'SpryAssets/SpryValidationPassword' %>
+ <%= stylesheet_link_tag 'SpryAssets/SpryValidationConfirm' %>
+ <%= javascript_include_tag 'check_flash' %>
+
+ <%= javascript_include_tag 'SpryAssets/SpryValidationTextField' %>
+ <%= javascript_include_tag 'SpryAssets/SpryValidationRadio' %>
+
+ <%= javascript_include_tag 'info_access' %>
+ <%= javascript_include_tag 'prototype' %>
+ <%= javascript_include_tag 'scriptaculous' %>
+
+<%= javascript_include_tag 'effects' %>
+<%= javascript_include_tag 'popup.js' %>
+ <%= javascript_include_tag 'AC_OETags' %>
+ <%= javascript_include_tag 'SpryAssets/SpryValidationPassword' %>
+ <%= javascript_include_tag 'SpryAssets/SpryValidationConfirm' %>
+
+<style type="text/css">
+<!--
+.style3 {color: #999999}
+-->
+</style>
+
+
+
+<script type="text/javascript">
+        
+    
+	
+        function go()
+        {
+            document.frm1.submit();
+            
+        }
+        
+        function verify()
+        {
+            if(document.getElementById('reason').value == "")
+                {
+                    alert("street Address is a required feild")
+                    document.getElementById('reason').focus();
+                    return false;
+                }
+            
+            return true;                
+
+                
+        }
+        
+        function televerify()
+        {
+                   
+                    var Phone=document.getElementById('telephone')
+	
+                    if ((Phone.value==null)||(Phone.value=="")){
+                            alert("Please Enter your Phone Number")
+                            Phone.focus()
+                            return false
+                    }
+                    if (checkInternationalPhone(Phone.value)==false){
+                            alert("Please Enter a Valid Phone Number")
+                            Phone.value=""
+                            Phone.focus()
+                            return false
+                    }
+                    return true
+                   
+                   
+                }
+	
+	</script>
+        
+        
+      <script language = "Javascript">
+/**
+ * DHTML phone number validation script. Courtesy of SmartWebby.com (http://www.smartwebby.com/dhtml/)
+ */
+
+// Declaring required variables
+var digits = "0123456789";
+// non-digit characters which are allowed in phone numbers
+var phoneNumberDelimiters = "()- ";
+// characters which are allowed in international phone numbers
+// (a leading + is OK)
+var validWorldPhoneChars = phoneNumberDelimiters + "+";
+// Minimum no of digits in an international phone no.
+var minDigitsInIPhoneNumber = 10;
+
+function isInteger(s)
+{   var i;
+    for (i = 0; i < s.length; i++)
+    {   
+        // Check that current character is number.
+        var c = s.charAt(i);
+        if (((c < "0") || (c > "9"))) return false;
+    }
+    // All characters are numbers.
+    return true;
+}
+function trim(s)
+{   var i;
+    var returnString = "";
+    // Search through string's characters one by one.
+    // If character is not a whitespace, append to returnString.
+    for (i = 0; i < s.length; i++)
+    {   
+        // Check that current character isn't whitespace.
+        var c = s.charAt(i);
+        if (c != " ") returnString += c;
+    }
+    return returnString;
+}
+function stripCharsInBag(s, bag)
+{   var i;
+    var returnString = "";
+    // Search through string's characters one by one.
+    // If character is not in bag, append to returnString.
+    for (i = 0; i < s.length; i++)
+    {   
+        // Check that current character isn't whitespace.
+        var c = s.charAt(i);
+        if (bag.indexOf(c) == -1) returnString += c;
+    }
+    return returnString;
+}
+
+function checkInternationalPhone(strPhone){
+var bracket=3
+strPhone=trim(strPhone)
+if(strPhone.indexOf("+")>1) return false
+if(strPhone.indexOf("-")!=-1)bracket=bracket+1
+if(strPhone.indexOf("(")!=-1 && strPhone.indexOf("(")>bracket)return false
+var brchr=strPhone.indexOf("(")
+if(strPhone.indexOf("(")!=-1 && strPhone.charAt(brchr+2)!=")")return false
+if(strPhone.indexOf("(")==-1 && strPhone.indexOf(")")!=-1)return false
+s=stripCharsInBag(strPhone,validWorldPhoneChars);
+return (isInteger(s) && s.length >= minDigitsInIPhoneNumber);
+}
+
+function ValidateForm(){
+	var Phone=document.frmSample.txtPhone
+	
+	if ((Phone.value==null)||(Phone.value=="")){
+		alert("Please Enter your Phone Number")
+		Phone.focus()
+		return false
+	}
+	if (checkInternationalPhone(Phone.value)==false){
+		alert("Please Enter a Valid Phone Number")
+		Phone.value=""
+		Phone.focus()
+		return false
+	}
+	return true
+ }
+</script> 
+
+<style type = "text/css">
+.info_text{
+	color:#999999;
+	font-family:Arial;
+	font-size: 20px;
+}
+
+.click_text{
+	color:#999999;
+	font-family:Arial;
+	font-size: 24px;
+	text-decoration:none;
+}
+</style>
+
+<form name="frm" action="/customers/cancel_sub" method="post" onsubmit="return verify()"   >
+
+  <table width="890" border="0" align="center">
+    <tbody>
+      
+   
+    <tr>
+       <td class="main"><b><center>
+             <font color="white">Cancel Subscription</font>
+       </center>
+       
+       </b></td>
+      </tr>
+      
+<tr align="center">
+  <td class="main"><font color="white" size="2">Please let us know the reason for the cancellation of your Subscription.</font><b>
+         <center>
+       </center>
+       
+       
+       </b></td>
+      </tr>
+
+      <tr>
+        <td><table class="infoBox" border="0" cellpadding="2" cellspacing="1" width="100%">
+          <tbody><tr class="infoBoxContents">
+            <td><table border="0" cellpadding="2" cellspacing="2" width="100%">
+              <tbody><tr>
+                  <td width="40%" align="right" valign="top" class="main"><font color="white">Reason for cancellation*</font></td>
+                <td class="main" align="left">
+                	
+					<textarea name="reason" cols="50" rows="3" id="reason" type="text"></textarea>				</td>
+
+              </tr>
+            </tbody></table></td>
+          </tr>
+        </tbody></table></td>
+      </tr>
+      <tr>
+      	<td>&nbsp;</td>
+      </tr>
+      <tr>
+        <td><table class="infoBox" border="0" cellpadding="2" cellspacing="1" width="100%">
+          <tbody><tr class="infoBoxContents">
+            <td><table border="0" cellpadding="2" cellspacing="2" width="100%">
+              <tbody>
+                <tr>
+<td class="main" align="right" width="40%" valign="top">&nbsp;</td>
+                <td width="50" align="left" class="main">
+                  
+                  <input type="submit" name="sub1"  value="Submit"/>            </td>
+              </tr>
+            </tbody></table></td>
+          </tr>
+        </tbody></table></td>
+      </tr>
+    </tbody>
+  </table>
+  
+
+     
+       <input type="hidden" name="arb_res" id="arb_res" value="1" />
+       <input type="hidden" name="end_date" id="end_date" value="" />
+       <input type="hidden" name="start_date"  id="start_date" value='<%=Time.now.strftime("%Y-%m-%d") %>' />
+       
+        
+</form>
+<script type="text/javascript">
+    new Popup('info','infolink');
+	
+  </script>
+<script type="text/javascript">
+<!--
+var sprytextfield3 = new Spry.Widget.ValidationTextField("sprytextfield3", "none", {validateOn:["blur"]});
+
+
+-->
+
+function arboption()
+        {
+           //alert("dqwdqwdw")
+           if(document.getElementById('arb').checked==true)
+           {
+             document.getElementById('show_arb').style.display='block'
+             document.getElementById('arb_res').value='1'
+
+           }
+           else
+           {
+             document.getElementById('show_arb').style.display='none'
+             document.getElementById('arb_res').value='0'
+           }      
+        }
+        
+ 
+</script>

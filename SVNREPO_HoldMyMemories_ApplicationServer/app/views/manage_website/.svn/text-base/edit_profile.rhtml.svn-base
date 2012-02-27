@@ -1,0 +1,764 @@
+<%= javascript_include_tag 'themes/formcheck/core' %><%= javascript_include_tag 'themes/formcheck/more' %><%= javascript_include_tag 'themes/formcheck/en' %><%= javascript_include_tag 'themes/formcheck/formcheck' %><%= stylesheet_link_tag 'themes/formcheck/formcheck'%><%= javascript_include_tag 'themes/fancyzoom/FancyZoom' %><%= javascript_include_tag 'themes/fancyzoom/FancyZoomHTML' %>
+<script type="text/javascript">
+  function chg(val)
+  {
+
+    if (document.getElementById('pcode').style.display == 'none' && document.getElementById('cty').style.display == 'block' && val=='USA') {
+      document.getElementById('pcode').style.display = 'block';
+      document.getElementById('cty').style.display = 'none';
+    }else{
+      document.getElementById('pcode').style.display = 'none';
+      document.getElementById('cty').style.display = 'block';
+    }
+
+  }
+  function validateFileExtension(fld) {
+    if(!/(\.bmp|\.gif|\.jpg|\.jpeg)$/i.test(fld.value)) {
+      alert("Invalid file type.. Please enter only image files!!");
+      fld.focus();
+      return false;
+    }
+    return true;
+  }
+
+</script>
+
+
+  <table width="970" border="0" cellspacing="0" cellpadding="0" id="tab_bgcolor_repeat">
+    <tr>
+      <td align="left" valign="top"><table width="100%" border="0" cellspacing="0" cellpadding="0">
+          <tr>
+            <td width="13" align="left" valign="top"></td>
+            <td width="944" align="left" valign="top"><table width="100%" border="0" cellspacing="0" cellpadding="0">
+                <tr>
+                  <td height="10" align="left" valign="top"></td>
+                </tr>
+                <tr>
+                  <td height="35" align="left" valign="bottom" class="header-page">Manage My Site</td>
+                </tr>
+                <tr>
+                  <td height="10" align="left" valign="top"></td>
+                </tr>
+                <tr>
+                  <td height="1" align="left" valign="top" bgcolor="#454545"></td>
+                </tr>
+                <tr>
+                  <td height="10" align="left" valign="top"></td>
+                </tr>
+                <tr>
+                  <td align="left" valign="top"><table width="100%" border="0" cellspacing="0" cellpadding="0">
+                      <tr>
+                        <td width="173" align="left" valign="top" class="content-trans-bg"><%= render :partial => "partials/manage_website_menu", :locals => { :current_item => "#{@current_item}"} %></td>
+                        <td width="17" align="left" valign="top"></td>
+                        <td width="754" align="left" valign="top"><table width="100%" border="0" cellspacing="0" cellpadding="0">
+                            <tr>
+                              <td class="content-trans-bg"><table width="100%" border="0" cellspacing="0" cellpadding="0">
+                                  <tr>
+                                    <td height="10" colspan="3" align="left" valign="top"></td>
+                                  </tr>
+                                  <tr>
+                                    <td width="20" align="left" valign="top"></td>
+                                    <td align="left" valign="top">
+									<form name="editfrm"  id="editfrm" action="<%= @content_server_url %>/manage_hmm_account/update_profile_mysite/" method="post" enctype="multipart/form-data">
+  <input type="hidden" name="familyname"  id="familyname" value="<%=params[:id]%>" />
+  <input type="hidden" name="hmmid"  id="hmmid" value="<%=logged_in_hmm_user.id%>" />
+									<table width="100%" border="0" cellspacing="0" cellpadding="0">
+                                        <tr>
+                                          <td align="left" valign="top" class="side-heading"><table width="100%" border="0" cellspacing="0" cellpadding="0">
+                                            <tr>
+                                              <td align="center" valign="top" class="content-white"><font color="#f5dfa6"><%= flash[:notice]%></font></td>
+                                              <td width="80" align="right" valign="top" class="side-heading">( <a href="/manage_website/home/<%= params[:id] %>">BACK</a> )</td>
+                                            </tr>
+                                          </table>
+                                          </td>
+                                        </tr>
+                                        <tr>
+                                          <td align="left" valign="top" class="header-paragraph">Edit Profile:</td>
+                                        </tr>
+                                        <tr>
+                                          <td align="left" valign="top">&nbsp;</td>
+                                        </tr>
+                                        <tr>
+                                          <td align="left" valign="top"><table width="100%" border="0" cellspacing="0" cellpadding="0">
+                                              <tr>
+                                                <td width="316" align="left" valign="top" class="content-trans-bg"><table width="100%" border="0" cellspacing="0" cellpadding="0">
+                                                    <tr>
+                                                      <td width="20" align="left" valign="top">&nbsp;</td>
+                                                      <td width="140" height="25" align="left" valign="middle" class="content-white">First Name:</td>
+                                                      <td width="154" align="left" valign="middle" class="content-white">Last Name:</td>
+                                                    </tr>
+                                                    <tr>
+                                                      <td align="left" valign="top">&nbsp;</td>
+                                                      <td height="25" align="left" valign="top"><input id="hmm_user_v_fname" maxlength="25" name="hmm_user[v_fname]" type="text" value="<%=@hmm_user.v_fname%>" class="validate['required']"/>
+                                                      </td>
+                                                      <td height="25" align="left" valign="top"><input id="hmm_user_v_lname" name="hmm_user[v_lname]" type="text" value="<%=@hmm_user.v_lname%>" class="validate['required']"/></td>
+                                                    </tr>
+                                                    <tr>
+                                                      <td align="left" valign="top">&nbsp;</td>
+                                                      <td height="25" colspan="2" align="left" valign="top" class="content-note">First and last name is private and used for search <br />
+                                                        functions only.</td>
+                                                    </tr>
+                                                    <tr>
+                                                      <td align="left" valign="top">&nbsp;</td>
+                                                      <td height="25" colspan="2" align="left" valign="middle" class="content-white">Gender:</td>
+                                                    </tr>
+                                                    <tr>
+                                                      <td align="left" valign="top">&nbsp;</td>
+                                                      <td height="25" colspan="2" align="left" valign="middle" class="content-white"><%= radio_button 'hmm_user', 'e_sex', 'M' %>&nbsp;&nbsp;Male<%= radio_button 'hmm_user', 'e_sex', 'F'  %>&nbsp;&nbsp;Female</td>
+                                                    </tr>
+                                                    <tr>
+                                                      <td align="left" valign="top">&nbsp;</td>
+                                                      <td height="25" colspan="2" align="left" valign="middle" class="content-white">Date of Birth:</td>
+                                                    </tr>
+                                                    <tr>
+                                                      <td align="left" valign="top">&nbsp;</td>
+                                                      <td height="25" colspan="2" align="left" valign="top"><%= date_select 'hmm_user', 'd_bdate', :order => [:month, :day, :year], :start_year => Time.now.year, :end_year => Time.now.year - 100 %></td>
+                                                    </tr>
+                                                    <tr>
+                                                      <td align="left" valign="top">&nbsp;</td>
+                                                      <td height="25" colspan="2" align="left" valign="middle" class="content-white">Country :</td>
+                                                    </tr>
+                                                    <tr>
+                                                      <td align="left" valign="top">&nbsp;</td>
+                                                      <td height="25" colspan="2" align="left" valign="top"><select name="hmm_user[v_country]" onchange='return chg(this.value)' class =>
+                                                          "combobox1">
+                                                          <option value="USA" <%if(@hmm_user=='USA')%> selected="selected" <%end%>>USA</option>
+                                                          <option value="Afghanistan"<%if(@hmm_user=='Afghanistan')%> selected="selected" <%end%>>Afghanistan </option>
+                                                          <option value="Albania"<%if(@hmm_user=='Albania')%> selected="selected" <%end%>>Albania </option>
+                                                          <option value="Algeria"<%if(@hmm_user=='Algeria')%> selected="selected" <%end%>>Algeria </option>
+                                                          <option value="American Samoa"<%if(@hmm_user=='American Samoa')%> selected="selected" <%end%>>American Samoa </option>
+                                                          <option value="Argentina"<%if(@hmm_user=='Argentina')%> selected="selected" <%end%>>Argentina </option>
+                                                          <option value="Australia"<%if(@hmm_user=='Australia')%> selected="selected" <%end%>>Australia </option>
+                                                          <option value="Austria"<%if(@hmm_user=='Austria')%> selected="selected" <%end%>>Austria </option>
+                                                          <option value="Azerbaijan"<%if(@hmm_user=='Azerbaijan')%> selected="selected" <%end%>>Azerbaijan</option>
+                                                          <option value="Bahamas"<%if(@hmm_user=='Bahamas')%> selected="selected" <%end%>>Bahamas </option>
+                                                          <option value="Bahrain"<%if(@hmm_user=='Bahrain')%> selected="selected" <%end%>>Bahrain </option>
+                                                          <option value="Bangladesh"<%if(@hmm_user=='Bangladesh')%> selected="selected" <%end%>>Bangladesh </option>
+                                                          <option value="Barbados"<%if(@hmm_user=='Barbados')%> selected="selected" <%end%>>Barbados </option>
+                                                          <option value="Belgium"<%if(@hmm_user=='Belgium')%> selected="selected" <%end%>>Belgium </option>
+                                                          <option value="Benin"<%if(@hmm_user=='Benin')%> selected="selected" <%end%>>Benin </option>
+                                                          <option value="Bermuda"<%if(@hmm_user=='Bermuda')%> selected="selected" <%end%>>Bermuda </option>
+                                                          <option value="Bosnia-Herzegovina"<%if(@hmm_user=='Bosnia-Herzegovina')%> selected="selected" <%end%>>Bosnia-Herzegovina </option>
+                                                          <option value="Brazil"<%if(@hmm_user=='Brazil')%> selected="selected" <%end%>>Brazil </option>
+                                                          <option value="Burundi"<%if(@hmm_user=='Burundi')%> selected="selected" <%end%>>Burundi </option>
+                                                          <option value="Cambodia"<%if(@hmm_user=='Cambodia')%> selected="selected" <%end%>>Cambodia </option>
+                                                          <option value="Cameroon"<%if(@hmm_user=='Cameroon')%> selected="selected" <%end%>>Cameroon </option>
+                                                          <option value="Canada"<%if(@hmm_user=='Canada')%> selected="selected" <%end%>>Canada </option>
+                                                          <option value="Cayman Islands"<%if(@hmm_user=='Cayman Islands')%> selected="selected" <%end%>>Cayman Islands </option>
+                                                          <option value="Central African Republic"<%if(@hmm_user=='Central African Republic')%> selected="selected" <%end%>>Central African Republic </option>
+                                                          <option value="Chile"<%if(@hmm_user=='Chile')%> selected="selected" <%end%>>Chile</option>
+                                                          <option value="China"<%if(@hmm_user=='China')%> selected="selected" <%end%>>China </option>
+                                                          <option value="Colombia"<%if(@hmm_user=='Colombia')%> selected="selected" <%end%>>Colombia </option>
+                                                          <option value="Comoros"<%if(@hmm_user=='Comoros')%> selected="selected" <%end%>>Comoros </option>
+                                                          <option value="Conch Republic"<%if(@hmm_user=='Conch Republic')%> selected="selected" <%end%>>Conch Republic</option>
+                                                          <option value="Costa Rica"<%if(@hmm_user=='Costa Rica')%> selected="selected" <%end%>>Costa Rica </option>
+                                                          <option value="Croatia"<%if(@hmm_user=='Croatia')%> selected="selected" <%end%>>Croatia </option>
+                                                          <option value="Cuba"<%if(@hmm_user=='Cuba')%> selected="selected" <%end%>>Cuba </option>
+                                                          <option value="Cyprus"<%if(@hmm_user=='Cyprus')%> selected="selected" <%end%>>Cyprus </option>
+                                                          <option value="Czech Republic"<%if(@hmm_user=='Czech Republic')%> selected="selected" <%end%>>Czech Republic/option>
+                                                          <option value="Denmark"<%if(@hmm_user=='Denmark')%> selected="selected" <%end%>>Denmark</option>
+                                                          <option value="Dominica"<%if(@hmm_user=='Dominica')%> selected="selected" <%end%>>Dominica</option>
+                                                          <option value="Dominican Republic"<%if(@hmm_user=='Dominican Republic')%> selected="selected" <%end%>>Dominican Republic/option>
+                                                          <option value="Ecuador"<%if(@hmm_user=='Ecuador')%> selected="selected" <%end%>>Ecuador/option>
+                                                          <option value="Egypt"<%if(@hmm_user=='Egypt')%> selected="selected" <%end%>>Egypt </option>
+                                                          <option value="Ethiopia"<%if(@hmm_user=='Ethiopia')%> selected="selected" <%end%>>Ethiopia </option>
+                                                          <option value="Falkland Islands"<%if(@hmm_user=='Falkland Islands')%> selected="selected" <%end%>>Falkland Islands </option>
+                                                          <option value="Fiji"<%if(@hmm_user=='Fiji')%> selected="selected" <%end%>>Fiji </option>
+                                                          <option value="Finland"<%if(@hmm_user=='Finland')%> selected="selected" <%end%>>Finland </option>
+                                                          <option value="France"<%if(@hmm_user=='France')%> selected="selected" <%end%>>France </option>
+                                                          <option value="French Guiana"<%if(@hmm_user=='French Guiana')%> selected="selected" <%end%>>French Guiana </option>
+                                                          <option value="Germany"<%if(@hmm_user=='Germany')%> selected="selected" <%end%>>Germany </option>
+                                                          <option value="Greece"<%if(@hmm_user=='Greece')%> selected="selected" <%end%>>Greece </option>
+                                                          <option value="Greenland"<%if(@hmm_user=='Greenland')%> selected="selected" <%end%>>Greenland </option>
+                                                          <option value="Guyana"<%if(@hmm_user=='Guyana')%> selected="selected" <%end%>>Guyana </option>
+                                                          <option value="Hong Kong"<%if(@hmm_user=='Hong Kong')%> selected="selected" <%end%>>Hong Kong </option>
+                                                          <option value="Hungary"<%if(@hmm_user=='Hungary')%> selected="selected" <%end%>>Hungary</option>
+                                                          <option value="Iceland"<%if(@hmm_user=='Iceland')%> selected="selected" <%end%>>Iceland</option>
+                                                          <option value="India"<%if(@hmm_user=='India')%> selected="selected" <%end%>>India </option>
+                                                          <option value="Indonesia"<%if(@hmm_user=='Indonesia')%> selected="selected" <%end%>>Indonesia </option>
+                                                          <option value="Iran"<%if(@hmm_user=='Iran')%> selected="selected" <%end%>>Iran </option>
+                                                          <option value="Iraq"<%if(@hmm_user=='Iraq')%> selected="selected" <%end%>>Iraq </option>
+                                                          <option value="Ireland"<%if(@hmm_user=='Ireland')%> selected="selected" <%end%>>Ireland</option>
+                                                          <option value="Israel"<%if(@hmm_user=='Israel')%> selected="selected" <%end%>>Israel</option>
+                                                          <option value="Italy"<%if(@hmm_user=='Italy')%> selected="selected" <%end%>>Italy</option>
+                                                          <option value="Jamaica"<%if(@hmm_user=='Jamaica')%> selected="selected" <%end%>>Jamaica</option>
+                                                          <option value="Japan"<%if(@hmm_user=='Japan')%> selected="selected" <%end%>>Japan</option>
+                                                          <option value="Jordan"<%if(@hmm_user=='Jordan')%> selected="selected" <%end%>>Jordan</option>
+                                                          <option value="Kazakhstan"<%if(@hmm_user=='Kazakhstan')%> selected="selected" <%end%>>Kazakhstan</option>
+                                                          <option value="Kiribati"<%if(@hmm_user=='Kiribati')%> selected="selected" <%end%>>Kiribati</option>
+                                                          <option value="Korea (South)"<%if(@hmm_user=='Korea (South)')%> selected="selected" <%end%>>Korea (South)</option>
+                                                          <option value="Korea"<%if(@hmm_user=='Korea')%> selected="selected" <%end%>>Korea (Democratic People's Republic)</option>
+                                                          <option value="Kuwait"<%if(@hmm_user=='Kuwait')%> selected="selected" <%end%>>Kuwait</option>
+                                                          <option value="Kyrgyzstan"<%if(@hmm_user=='Kyrgyzstan')%> selected="selected" <%end%>>Kyrgyzstan</option>
+                                                          <option value="Laos"<%if(@hmm_user=='Laos')%> selected="selected" <%end%>>Laos</option>
+                                                          <option value="Latvia"<%if(@hmm_user=='Latvia')%> selected="selected" <%end%>>Latvia</option>
+                                                          <option value="Lebanon"<%if(@hmm_user=='Lebanon')%> selected="selected" <%end%>>Lebanon</option>
+                                                          <option value="Liberia"<%if(@hmm_user=='Liberia')%> selected="selected" <%end%>>Liberia</option>
+                                                          <option value="Libya"<%if(@hmm_user=='Libya')%> selected="selected" <%end%>>Libya</option>
+                                                          <option value="Liechtenstein"<%if(@hmm_user=='Liechtenstein')%> selected="selected" <%end%>>Liechtenstein</option>
+                                                          <option value="Lithuania"<%if(@hmm_user=='Lithuania')%> selected="selected" <%end%>>Lithuania</option>
+                                                          <option value="Luxembourg"<%if(@hmm_user=='Luxembourg')%> selected="selected" <%end%>>Luxembourg</option>
+                                                          <option value="Macao"<%if(@hmm_user=='Macao')%> selected="selected" <%end%>>Macao</option>
+                                                          <option value="Macedonia"<%if(@hmm_user=='Macedonia')%> selected="selected" <%end%>>Macedonia</option>
+                                                          <option value="Madagascar"<%if(@hmm_user=='Madagascar')%> selected="selected" <%end%>>Madagascar</option>
+                                                          <option value="Malawi"<%if(@hmm_user=='Malawi')%> selected="selected" <%end%>>Malawi</option>
+                                                          <option value="Malaysia"<%if(@hmm_user=='Malaysia')%> selected="selected" <%end%>>Malaysia</option>
+                                                          <option value="Maldives"<%if(@hmm_user=='Maldives')%> selected="selected" <%end%>>Maldives</option>
+                                                          <option value="Marshall Islands"<%if(@hmm_user=='Marshall Islands')%> selected="selected" <%end%>>Marshall Islands</option>
+                                                          <option value="Mauritania"<%if(@hmm_user=='Mauritania')%> selected="selected" <%end%>>Mauritania</option>
+                                                          <option value="Mauritius"<%if(@hmm_user=='Mauritius')%> selected="selected" <%end%>>Mauritius</option>
+                                                          <option value="Mexico"<%if(@hmm_user=='Mexico')%> selected="selected" <%end%>>Mexico</option>
+                                                          <option value="Micronesia"<%if(@hmm_user=='Micronesia')%> selected="selected" <%end%>>Micronesia</option>
+                                                          <option value="Midway Islands"<%if(@hmm_user=='Midway Islands')%> selected="selected" <%end%>>Midway Islands</option>
+                                                          <option value="Moldova"<%if(@hmm_user=='Moldova')%> selected="selected" <%end%>>Moldova</option>
+                                                          <option value="Monaco"<%if(@hmm_user=='Monaco')%> selected="selected" <%end%>>Monaco</option>
+                                                          <option value="Mongolia"<%if(@hmm_user=='Mongolia')%> selected="selected" <%end%>>Mongolia</option>
+                                                          <option value="Montserrat"<%if(@hmm_user=='Montserrat')%> selected="selected" <%end%>>Montserrat</option>
+                                                          <option value="Morocco"<%if(@hmm_user=='Morocco')%> selected="selected" <%end%>>Morocco</option>
+                                                          <option value="Mozambique"<%if(@hmm_user=='Mozambique')%> selected="selected" <%end%>>Mozambique</option>
+                                                          <option value="Myanmar (Burma)"<%if(@hmm_user=='Myanmar')%> selected="selected" <%end%>>Myanmar (Burma)</option>
+                                                          <option value="Namibia"<%if(@hmm_user=='Namibia')%> selected="selected" <%end%>>Namibia</option>
+                                                          <option value="Nauru"<%if(@hmm_user=='Nauru')%> selected="selected" <%end%>>Nauru</option>
+                                                          <option value="Nepal"<%if(@hmm_user=='Nepal')%> selected="selected" <%end%>>Nepal</option>
+                                                          <option value="Netherlands"<%if(@hmm_user=='Netherlands')%> selected="selected" <%end%>>Netherlands</option>
+                                                          <option value="New Zealand"<%if(@hmm_user=='New Zealand')%> selected="selected" <%end%>>New Zealand</option>
+                                                          <option value="Nicaragua"<%if(@hmm_user=='Nicaragua')%> selected="selected" <%end%>>Nicaragua</option>
+                                                          <option value="Niger"<%if(@hmm_user=='Niger')%> selected="selected" <%end%>>Niger</option>
+                                                          <option value="Nigeria"<%if(@hmm_user=='Nigeria')%> selected="selected" <%end%>>Nigeria</option>
+                                                          <option value="North Korea"<%if(@hmm_user=='North Korea')%> selected="selected" <%end%>>North Korea</option>
+                                                          <option value="Northern Mariana Islands"<%if(@hmm_user=='Northern Mariana Islands')%> selected="selected" <%end%>>Northern Mariana Islands</option>
+                                                          <option value="Norway"<%if(@hmm_user=='Norway')%> selected="selected" <%end%>>Norway</option>
+                                                          <option value="Oman"<%if(@hmm_user=='Oman')%> selected="selected" <%end%>>Oman</option>
+                                                          <option value="Pakistan"<%if(@hmm_user=='Pakistan')%> selected="selected" <%end%>>Pakistan</option>
+                                                          <option value="Panama"<%if(@hmm_user=='Panama')%> selected="selected" <%end%>>Panama</option>
+                                                          <option value="Paraguay"<%if(@hmm_user=='Paraguay')%> selected="selected" <%end%>>Paraguay</option>
+                                                          <option value="Peru"<%if(@hmm_user=='Peru')%> selected="selected" <%end%>>Peru</option>
+                                                          <option value="Philippines"<%if(@hmm_user=='Philippines')%> selected="selected" <%end%>>Philippines</option>
+                                                          <option value="Pitcairn"<%if(@hmm_user=='Pitcairn')%> selected="selected" <%end%>>Pitcairn</option>
+                                                          <option value="Poland"<%if(@hmm_user=='Poland')%> selected="selected" <%end%>>Poland</option>
+                                                          <option value="Portugal"<%if(@hmm_user=='Portugal')%> selected="selected" <%end%>>Portugal</option>
+                                                          <option value="Qatar"<%if(@hmm_user=='Qatar')%> selected="selected" <%end%>>Qatar</option>
+                                                          <option value="Romania"<%if(@hmm_user=='Romania')%> selected="selected" <%end%>>Romania</option>
+                                                          <option value="Russia"<%if(@hmm_user=='Russia')%> selected="selected" <%end%>>Russia</option>
+                                                          <option value="Rwanda"<%if(@hmm_user=='Rwanda')%> selected="selected" <%end%>>Rwanda</option>
+                                                          <option value="Saint Lucia"<%if(@hmm_user=='Saint Lucia')%> selected="selected" <%end%>>Saint Lucia</option>
+                                                          <option value="Saint Vincent and the Grenadines"<%if(@hmm_user=='Saint Vincent and the Grenadines')%> selected="selected" <%end%>>Saint Vincent and the Grenadines</option>
+                                                          <option value="Samoa"<%if(@hmm_user=='Samoa')%> selected="selected" <%end%>>Samoa</option>
+                                                          <option value="San Marino"<%if(@hmm_user=='San Marino')%> selected="selected" <%end%>>San Marino</option>
+                                                          <option value="Saudi Arabia"<%if(@hmm_user=='Saudi Arabia')%> selected="selected" <%end%>>Saudi Arabia</option>
+                                                          <option value="Senegal"<%if(@hmm_user=='Senegal')%> selected="selected" <%end%>>Senegal</option>
+                                                          <option value="Serbia and Montenegro"<%if(@hmm_user=='Serbia and Montenegro')%> selected="selected" <%end%>>Serbia and Montenegro</option>
+                                                          <option value="Singapore"<%if(@hmm_user=='Singapore')%> selected="selected" <%end%>>Singapore</option>
+                                                          <option value="Slovak Republic"<%if(@hmm_user=='Slovak Republic')%> selected="selected" <%end%>>Slovak Republic</option>
+                                                          <option value="Solomon Islands"<%if(@hmm_user=='Solomon Islands')%> selected="selected" <%end%>>Solomon Islands</option>
+                                                          <option value="South Africa"<%if(@hmm_user=='South Africa')%> selected="selected" <%end%>>South Africa</option>
+                                                          <option value="Spain"<%if(@hmm_user=='Spain')%> selected="selected" <%end%>>Spain</option>
+                                                          <option value="Sri Lanka"<%if(@hmm_user=='Sri Lanka')%> selected="selected" <%end%>>Sri Lanka</option>
+                                                          <option value="Sudan"<%if(@hmm_user=='Sudan')%> selected="selected" <%end%>>Sudan</option>
+                                                          <option value="Suriname"<%if(@hmm_user=='Suriname')%> selected="selected" <%end%>>Suriname</option>
+                                                          <option value="Swaziland"<%if(@hmm_user=='Swaziland')%> selected="selected" <%end%>>Swaziland</option>
+                                                          <option value="Sweden"<%if(@hmm_user=='Sweden')%> selected="selected" <%end%>>Sweden</option>
+                                                          <option value="Switzerland"<%if(@hmm_user=='Switzerland')%> selected="selected" <%end%>>Switzerland</option>
+                                                          <option value="Syria"<%if(@hmm_user=='Syria')%> selected="selected" <%end%>>Syria</option>
+                                                          <option value="Taiwan"<%if(@hmm_user=='Taiwan')%> selected="selected" <%end%>>Taiwan</option>
+                                                          <option value="Tajikistan"<%if(@hmm_user=='Tajikistan')%> selected="selected" <%end%>>Tajikistan</option>
+                                                          <option value="Tanzania"<%if(@hmm_user=='Tanzania')%> selected="selected" <%end%>>Tanzania</option>
+                                                          <option value="Thailand"<%if(@hmm_user=='Thailand')%> selected="selected" <%end%>>Thailand</option>
+                                                          <option value="Timor-Leste"<%if(@hmm_user=='Timor-Leste')%> selected="selected" <%end%>>Timor-Leste</option>
+                                                          <option value="Togo"<%if(@hmm_user=='Togo')%> selected="selected" <%end%>>Togo</option>
+                                                          <option value="Tonga"<%if(@hmm_user=='Tonga')%> selected="selected" <%end%>>Tonga</option>
+                                                          <option value="Trinidad and Tobago"<%if(@hmm_user=='Trinidad and Tobago')%> selected="selected" <%end%>>Trinidad and Tobago</option>
+                                                          <option value="Trust Territory of the Pacific Islands"<%if(@hmm_user=='Trust Territory of the Pacific Islands')%> selected="selected" <%end%>>Trust Territory of the Pacific Islands</option>
+                                                          <option value="Tunisia"<%if(@hmm_user=='Tunisia')%> selected="selected" <%end%>>Tunisia</option>
+                                                          <option value="Turkey"<%if(@hmm_user=='Turkey')%> selected="selected" <%end%>>Turkey</option>
+                                                          <option value="Turkmenistan"<%if(@hmm_user=='Turkmenistan')%> selected="selected" <%end%>>Turkmenistan</option>
+                                                          <option value="Turks and Caicos Islands"<%if(@hmm_user=='Turks and Caicos Islands')%> selected="selected" <%end%>>Turks and Caicos Islands</option>
+                                                          <option value="Tuvalu"<%if(@hmm_user=='Tuvalu')%> selected="selected" <%end%>>Tuvalu</option>
+                                                          <option value="Uganda"<%if(@hmm_user=='Uganda')%> selected="selected" <%end%>>Uganda</option>
+                                                          <option value="Ukraine"<%if(@hmm_user=='Ukraine')%> selected="selected" <%end%>>Ukraine</option>
+                                                          <option value="United Arab Emirates"<%if(@hmm_user=='United Arab Emirates')%> selected="selected" <%end%>>United Arab Emirates</option>
+                                                          <option value="United Kingdom"<%if(@hmm_user=='United Kingdom')%> selected="selected" <%end%>>United Kingdom</option>
+                                                          <option value="Uruguay"<%if(@hmm_user=='Uruguay')%> selected="selected" <%end%>>Uruguay</option>
+                                                          <option value="Uzbekistan"<%if(@hmm_user=='Uzbekistan')%> selected="selected" <%end%>>Uzbekistan</option>
+                                                          <option value="Vanuatu"<%if(@hmm_user=='Vanuatu')%> selected="selected" <%end%>>Vanuatu</option>
+                                                          <option value="Vatican City"<%if(@hmm_user=='Vatican City')%> selected="selected" <%end%>>Vatican City</option>
+                                                          <option value="Venezuela"<%if(@hmm_user=='Venezuela')%> selected="selected" <%end%>>Venezuela</option>
+                                                          <option value="Viet Nam"<%if(@hmm_user=='Viet Nam')%> selected="selected" <%end%>>Viet Nam</option>
+                                                          <option value="Western Samoa"<%if(@hmm_user=='Western Samoa')%> selected="selected" <%end%>>Western Samoa</option>
+                                                          <option value="White Russia"<%if(@hmm_user=='White Russia')%> selected="selected" <%end%>>White Russia</option>
+                                                          <option value="Yemen"<%if(@hmm_user=='Yemen')%> selected="selected" <%end%>>Yemen</option>
+                                                          <option value="Yugoslavia"<%if(@hmm_user=='Yugoslavia')%> selected="selected" <%end%>>Yugoslavia </option>
+                                                          <option value="Zambia"<%if(@hmm_user=='Zambia')%> selected="selected" <%end%>>Zambia</option>
+                                                          <option value="Zimbabwe"<%if(@hmm_user=='Zimbabwe')%> selected="selected" <%end%>>Zimbabwe</option>
+                                                        </select></td>
+                                                    </tr>
+                                                    <tr>
+                                                      <td align="left" valign="top">&nbsp;</td>
+                                                      <td height="25" colspan="2" align="left" valign="middle" class="content-white"><label for="hmm_user_zip">
+                                                        <div id='pcode' style='display:block;'>Zip / Postal Code:</div>
+                                                        <div id='cty' style='display:none;'>City/Province :</div>
+                                                        </lable></td>
+                                                    </tr>
+                                                    <tr>
+                                                      <td align="left" valign="top">&nbsp;</td>
+                                                      <td height="25" colspan="2" align="left" valign="top"><div id='pcode' style='display:block;'>
+                                                          <input type="text" name="hmm_user[v_zip]" value="<%=@hmm_user.v_zip%>" class="validate['required']">
+                                                        </div>
+                                                        <div id='cty' style='display:none;'>
+                                                          <input type="text" name="hmm_user[city]" value="<%=@hmm_user.city%>" >
+                                                        </div></td>
+                                                    </tr>
+                                                    <tr>
+                                                      <td align="left" valign="top">&nbsp;</td>
+                                                      <td height="25" colspan="2" align="left" valign="middle" class="content-white">Phone Number :</td>
+                                                    </tr>
+                                                    <tr>
+                                                      <td align="left" valign="top">&nbsp;</td>
+                                                      <td height="25" colspan="2" align="left" valign="top"><input id="hmm_user_telephone" name="hmm_user[telephone]" type="text" value="<%=@hmm_user.telephone%>" class="validate['required']"/>
+                                                        <br /></td>
+                                                    </tr>
+                                                    <tr>
+                                                      <td align="left" valign="top">&nbsp;</td>
+                                                      <td colspan="2" align="left" valign="middle" class="side-heading">Example: 555-555-5555 or 5555555555 </td>
+                                                    </tr>
+                                                    <tr>
+                                                      <td align="left" valign="top">&nbsp;</td>
+                                                      <td height="25" colspan="2" align="left" valign="middle" class="content-white">E-mail :</td>
+                                                    </tr>
+                                                    <tr>
+                                                      <td align="left" valign="top">&nbsp;</td>
+                                                      <td height="25" colspan="2" align="left" valign="top"><input id="hmm_user_v_e_mail" name="hmm_user[v_e_mail]" type="text" value="<%=@hmm_user.v_e_mail%>" class="validate['required','email']"/></td>
+                                                    </tr>
+                                                    <tr>
+                                                      <td align="left" valign="top">&nbsp;</td>
+                                                      <td height="25" colspan="2" align="left" valign="middle" class="content-white">Account Security Question : </td>
+                                                    </tr>
+                                                    <tr>
+                                                      <td align="left" valign="top">&nbsp;</td>
+                                                      <td height="25" colspan="2" align="left" valign="top"><select name="hmm_user[v_security_q]">
+                                                          <option value="What is the name of your favorite pet? " <%if(@hmm_user.v_security_q=="What is the name of your favorite pet? ")%> selected="selected" <%end%>>What is the name of your favorite pet? </option>
+                                                          <option value="In what city were you born? " <%if(@hmm_user.v_security_q=="In what city were you born? ")%> selected="selected" <%end%>>In what city were you born? </option>
+                                                          <option value="What high school did you attend? " <%if(@hmm_user.v_security_q=='What high school did you attend?')%> selected="selected" <%end%>>What high school did you attend? </option>
+                                                          <option value="What is your favorite movie? " <%if(@hmm_user.v_security_q=="What is your favorite movie? ")%> selected="selected" <%end%>>What is your favorite movie? </option>
+                                                          <option value="What is your mothers maiden name? " <%if(@hmm_user.v_security_q=="What is your mothers maiden name? ")%> selected="selected" <%end%>>What is your mothers maiden name? </option>
+                                                          <option value="What street did you grow up on? " <%if(@hmm_user.v_security_q=="What street did you grow up on? ")%> selected="selected" <%end%>>What street did you grow up on? </option>
+                                                          <option value="What was the make of your first car?  " <%if(@hmm_user.v_security_q=="What was the make of your first car? ")%> selected="selected" <%end%>>What was the make of your first car? </option>
+                                                          <option value="When is your anniversary? " <%if(@hmm_user.v_security_q=="When is your anniversary? ")%> selected="selected" <%end%>>When is your anniversary? </option>
+                                                          <option value="What is your favorite color? " <%if(@hmm_user.v_security_q=="What is your favorite color? ")%> selected="selected" <%end%>>What is your favorite color? </option>
+                                                        </select></td>
+                                                    </tr>
+                                                    <tr>
+                                                      <td align="left" valign="top">&nbsp;</td>
+                                                      <td height="25" colspan="2" align="left" valign="middle" class="content-white">Change Account Security Answer : </td>
+                                                    </tr>
+                                                    <tr>
+                                                      <td align="left" valign="top">&nbsp;</td>
+                                                      <td height="25" colspan="2" align="left" valign="top"><input id="hmm_user_v_security_a" name="hmm_user[v_security_a]" type="text" value="<%=@hmm_user.v_security_a%>"  class="validate['required']"/></td>
+                                                    </tr>
+                                                    <tr>
+                                                      <td align="left" valign="top">&nbsp;</td>
+                                                      <td height="25" colspan="2" align="left" valign="top">&nbsp;</td>
+                                                    </tr>
+                                                  </table></td>
+                                                <td align="left" valign="top">&nbsp;</td>
+                                                <td width="316" align="left" valign="top" class="content-trans-bg"><table width="100%" border="0" cellspacing="0" cellpadding="0">
+                                                    <tr>
+                                                      <td width="21" align="left" valign="top">&nbsp;</td>
+                                                      <td width="293" height="25" colspan="2" align="left" valign="middle" class="content-white">About Me :</td>
+                                                    </tr>
+                                                    <tr>
+                                                      <td align="left" valign="top">&nbsp;</td>
+                                                      <td height="25" colspan="2" align="left" valign="top"><textarea name="hmm_user[v_abt_me]" class="cmt-field" id="v_abt_me" ><%=@hmm_user.v_abt_me%></textarea></td>
+                                                    </tr>
+													<tr>
+                                                      <td width="21" align="left" valign="top">&nbsp;</td>
+                                                      <td width="293" height="25" colspan="2" align="left" valign="middle" class="content-white">About Us :</td>
+                                                    </tr>
+                                                    <tr>
+                                                      <td align="left" valign="top">&nbsp;</td>
+                                                      <td height="25" colspan="2" align="left" valign="top"><textarea id="hmm_user_about_family" name="hmm_user[about_family]" class="cmt-field" ><%=@hmm_user.about_family%></textarea></td>
+                                                    </tr>
+													<tr>
+                                                      <td width="21" align="left" valign="top">&nbsp;</td>
+                                                      <td width="293" height="25" colspan="2" align="left" valign="middle" class="content-white">Family History  :</td>
+                                                    </tr>
+                                                    <tr>
+                                                      <td align="left" valign="top">&nbsp;</td>
+                                                      <td height="25" colspan="2" align="left" valign="top"><textarea name="hmm_user[family_history]" class="cmt-field" id="family_history"  ><%=@hmm_user.family_history%></textarea></td>
+                                                    </tr>
+                                                    <tr>
+                                                      <td align="left" valign="top">&nbsp;</td>
+                                                      <td height="25" colspan="2" align="left" valign="middle" class="content-white">Upload Profile Image:</td>
+                                                    </tr>
+                                                    <tr>
+                                                      <td align="left" valign="top">&nbsp;</td>
+                                                      <td height="25" colspan="2" align="left" valign="top"><label>
+                                                        <input id="hmm_user_v_myimage" name="hmm_user[v_myimage]" onChange="return validateFileExtension(this)" type="file"   class="form-field"  />
+                                                        </label></td>
+                                                    </tr>
+                                                    <tr>
+                                                      <td align="left" valign="top">&nbsp;</td>
+                                                      <td colspan="2" align="left" valign="middle" ><table width="100%" border="0" cellspacing="0" cellpadding="0">
+                                                          <tr>
+                                                            <td width="210" align="left" valign="top">&nbsp;</td>
+                                                            <td align="left" valign="top" class="content-white"><a href="<%=@hmm_user.img_url%>/hmmuser/photos/<%=@hmm_user.v_myimage%>"  class="content-white" > Preview </a></td>
+                                                          </tr>
+                                                        </table></td>
+                                                    </tr>
+                                                    <tr>
+                                                      <td align="left" valign="top">&nbsp;</td>
+                                                      <td height="25" colspan="2" align="left" valign="middle" class="content-white">My Web Links:</td>
+                                                    </tr>
+                                                    <tr>
+                                                      <td align="left" valign="top">&nbsp;</td>
+                                                      <td height="25" colspan="2" align="left" valign="top"><input id="hmm_user_v_link1" name="hmm_user[v_link1]" type="text"   class="form-field" value="<%=@hmm_user.v_link1%>"/></td>
+                                                    </tr>
+                                                    <tr>
+                                                      <td align="left" valign="top">&nbsp;</td>
+                                                      <td height="25" colspan="2" align="left" valign="middle" class="side-heading">Example : www.holdmymemories.com </td>
+                                                    </tr>
+													<tr>
+                                                      <td align="left" valign="top">&nbsp;</td>
+                                                      <td height="25" colspan="2" align="left" valign="middle" class="content-white">Link 2 &amp; 3:</td>
+                                                    </tr>
+
+                                                    <tr>
+                                                      <td align="left" valign="top">&nbsp;</td>
+                                                      <td height="25" colspan="2" align="left" valign="top"><input id="hmm_user_v_link2" name="hmm_user[v_link2]" type="text"  class="form-field" value="<%=@hmm_user.v_link2%>"/></td>
+                                                    </tr>
+													<tr>
+                                                      <td align="left" valign="top">&nbsp;</td>
+                                                      <td height="25" colspan="2" align="left" valign="top">&nbsp;</td>
+                                                    </tr>
+                                                    <tr>
+                                                      <td align="left" valign="top">&nbsp;</td>
+                                                      <td height="25" colspan="2" align="left" valign="top"><input id="hmm_user_v_link3" name="hmm_user[v_link3]" type="text" class="form-field" value="<%=@hmm_user.v_link3%>"/></td>
+                                                    </tr>
+                                                    <tr>
+                                                      <td align="left" valign="top">&nbsp;</td>
+                                                      <td height="25" colspan="2" align="left" valign="top">&nbsp;</td>
+                                                    </tr>
+                                                    <tr>
+                                                      <td align="left" valign="top">&nbsp;</td>
+                                                      <td height="25" colspan="2" align="left" valign="top"></td>
+                                                    </tr>
+                                                  </table></td>
+                                              </tr>
+                                            </table></td>
+                                        </tr>
+                                        <tr>
+                                          <td align="left" valign="top">&nbsp;</td>
+                                        </tr>
+                                        <tr>
+                                          <td align="center" valign="top"><label>
+                                            <input name="button" type="submit" class="cmd-btn" id="button" value="Save Changes" />
+                                            </label></td>
+                                        </tr>
+                                        <tr>
+                                          <td align="left" valign="top">&nbsp;</td>
+                                        </tr>
+                                      </table>
+									  </form>
+									  </td>
+                                    <td width="20" align="left" valign="top"></td>
+                                  </tr>
+                                  <tr>
+                                    <td height="10" colspan="3" align="left" valign="top"></td>
+                                  </tr>
+                                </table></td>
+                            </tr>
+                            <tr>
+                              <td>&nbsp;</td>
+                            </tr>
+                            <tr>
+                              <td class="content-trans-bg"><table table width="100%" border="0" cellspacing="0" cellpadding="0">
+                                  <tr>
+                                    <td width="20">&nbsp;</td>
+                                    <td ><table width="100%" border="0" cellspacing="0" cellpadding="0">
+
+                                        <tr>
+                                          <td height="25" colspan="3" align="left" valign="top"class="headers">
+										  <form name="frm" method="post" onSubmit="return verify()" >
+										  <table width="100%" border="0" cellspacing="0" cellpadding="0">
+                                              <tr>
+                                                <td height="20" colspan="3" align="left" valign="top" class="content-white"></td>
+                                              </tr>
+                                              <tr>
+                                                <td width="50" align="left" valign="top" class="content-white">&nbsp;</td>
+                                                <td align="center" valign="top" class="content-white"> Let&rsquo;s set up a chapter for family events, please check those that apply: </td>
+                                                <td width="80" align="left" valign="top"></td>
+                                              </tr>
+                                              <tr>
+                                                <td height="20" colspan="3" align="left" valign="top" class="content-white"></td>
+                                              </tr>
+                                              <tr>
+                                                <td align="left" valign="top" class="content-white"></td>
+                                                <td align="center" valign="top">
+												<table width="350" border="0" cellspacing="0" cellpadding="0" class="content-trans-bg">
+                                                    <tr>
+                                                      <td height="20" colspan="4" align="left" valign="top"></td>
+                                                    </tr>
+                                                    <% if(@familyvactioncnt > 0) %>
+                                                    <tr>
+                                                      <td width="20" align="left" valign="top"></td>
+                                                      <td width="50" height="25" align="left" valign="middle"><input type="checkbox" checked disabled></td>
+                                                      <td height="25" colspan="2" align="left" valign="middle" class="content-white"><strong><font color="#666666">Family Vacations</font></strong></td>
+                                                    </tr>
+                                                    <%else%>
+                                                    <tr>
+                                                      <td width="20" align="left" valign="top"></td>
+                                                      <td width="50" height="25" align="left" valign="middle"><input type="checkbox" name="vocation" id="vocation" value="1"/></td>
+                                                      <td height="25" colspan="2" align="left" valign="middle" class="content-white"><strong>Family Vacations</strong></td>
+                                                    </tr>
+                                                    <%end%>
+                                                    <tr>
+                                                      <td height="25" colspan="4" align="left" valign="top"></td>
+                                                    </tr>
+                                                    <%if(@familyholidaycnt>0)%>
+                                                    <tr>
+                                                      <td height="20" align="left" valign="top"></td>
+                                                      <td height="25" align="left" valign="middle"><input type="checkbox" checked disabled></td>
+                                                      <td height="25" colspan="2" align="left" valign="middle" class="content-white"><strong><font color="#666666">Family Holidays</font></strong>
+                                                        <input type="hidden" name="holidays" id="holidays" value="1"/>
+                                                      </td>
+                                                    </tr>
+                                                    <%if(@newyear>0)%>
+                                                    <tr>
+                                                      <td height="20" align="left" valign="top"></td>
+                                                      <td height="25" align="left" valign="top"></td>
+                                                      <td height="25" align="left" valign="middle"><input type="checkbox" checked disabled></td>
+                                                      <td width="228" height="20" align="left" valign="middle" class="content-white"><strong><font color="#666666">New Year</font></strong></td>
+                                                    </tr>
+                                                    <%else%>
+                                                    <tr>
+                                                      <td height="20" align="left" valign="top"></td>
+                                                      <td height="25" align="left" valign="top"></td>
+                                                      <td height="25" align="left" valign="middle"><input type="checkbox" name="newyear" id="newyear" value="1"/></td>
+                                                      <td width="228" height="20" align="left" valign="middle" class="content-white"><strong>New Year</strong></td>
+                                                    </tr>
+                                                    <%end%>
+                                                    <%if(@christmas>0)%>
+                                                    <tr>
+                                                      <td height="20" align="left" valign="top"></td>
+                                                      <td height="25" align="left" valign="top"></td>
+                                                      <td height="25" align="left" valign="middle"><input type="checkbox" checked disabled></td>
+                                                      <td height="20" align="left" valign="middle" class="content-white"><strong><font color="#666666">Christmas</font></strong></td>
+                                                    </tr>
+                                                    <%else%>
+                                                    <tr>
+                                                      <td height="20" align="left" valign="top"></td>
+                                                      <td height="25" align="left" valign="top"></td>
+                                                      <td height="25" align="left" valign="middle"><input type="checkbox" name="cristmas" id="cristmas" value="1"/></td>
+                                                      <td height="20" align="left" valign="middle" class="content-white"><strong>Christmas</strong></td>
+                                                    </tr>
+                                                    <%end%>
+                                                    <%if(@hanukkah>0)%>
+                                                    <tr>
+                                                      <td height="20" align="left" valign="top"></td>
+                                                      <td height="25" align="left" valign="top"></td>
+                                                      <td height="25" align="left" valign="middle"><input type="checkbox" checked disabled></td>
+                                                      <td height="20" align="left" valign="middle" class="content-white"><strong><font color="#666666">Hanukkah</font></strong></td>
+                                                    </tr>
+                                                    <%else%>
+                                                    <tr>
+                                                      <td height="20" align="left" valign="top"></td>
+                                                      <td height="25" align="left" valign="top"></td>
+                                                      <td height="25" align="left" valign="middle"><input type="checkbox" name="hanukkah" id="hanukkah" value="1"/></td>
+                                                      <td height="20" align="left" valign="middle" class="content-white"><strong>Hanukkah</strong></td>
+                                                    </tr>
+                                                    <%end%>
+                                                    <%if(@thanksgiving>0)%>
+                                                    <tr>
+                                                      <td height="20" align="left" valign="top"></td>
+                                                      <td height="25" align="left" valign="top"></td>
+                                                      <td height="25" align="left" valign="middle"><input type="checkbox" checked disabled></td>
+                                                      <td height="20" align="left" valign="middle" class="content-white"><strong><font color="#666666">Thanksgiving</font></strong></td>
+                                                    </tr>
+                                                    <%else%>
+                                                    <tr>
+                                                      <td height="20" align="left" valign="top"></td>
+                                                      <td height="25" align="left" valign="top"></td>
+                                                      <td height="25" align="left" valign="middle"><input type="checkbox" name="thanksgiving" id="thanksgiving" value="1"/></td>
+                                                      <td height="20" align="left" valign="middle" class="content-white"><strong>Thanksgiving</strong></td>
+                                                    </tr>
+                                                    <%end%>
+                                                    <%if(@easter>0)%>
+                                                    <tr>
+                                                      <td height="20" align="left" valign="top"></td>
+                                                      <td height="25" align="left" valign="top"></td>
+                                                      <td height="25" align="left" valign="middle"><input type="checkbox" checked disabled></td>
+                                                      <td height="20" align="left" valign="middle" class="content-white"><strong><font color="#666666">Easter</font></strong></td>
+                                                    </tr>
+                                                    <%else%>
+                                                    <tr>
+                                                      <td height="20" align="left" valign="top"></td>
+                                                      <td height="25" align="left" valign="top"></td>
+                                                      <td height="25" align="left" valign="middle"><input type="checkbox" name="easter" id="easter" value="1"/></td>
+                                                      <td height="20" align="left" valign="middle" class="content-white"><strong>Easter</strong></td>
+                                                    </tr>
+                                                    <%end%>
+                                                    <%else%>
+                                                    <tr>
+                                                      <td height="20" align="left" valign="top"></td>
+                                                      <td height="25" align="left" valign="middle"><input type="checkbox" name="holidays" id="holidays" value="1"/></td>
+                                                      <td height="25" colspan="2" align="left" valign="middle" class="content-white"><strong>Family Holidays</strong></td>
+                                                    </tr>
+                                                    <tr>
+                                                      <td height="20" align="left" valign="top"></td>
+                                                      <td height="25" align="left" valign="top"></td>
+                                                      <td height="25" align="left" valign="middle"><input type="checkbox" name="newyear" id="newyear" value="1" onClick="checkvaluenewyear(this.value)"/></td>
+                                                      <td width="228" height="20" align="left" valign="middle" class="content-white"><strong>New Year</strong></td>
+                                                    </tr>
+                                                    <tr>
+                                                      <td height="20" align="left" valign="top"></td>
+                                                      <td height="25" align="left" valign="top"></td>
+                                                      <td height="25" align="left" valign="middle"><input type="checkbox" name="cristmas" id="cristmas" value="1" onClick="checkvaluenewyear(this.value)"/></td>
+                                                      <td height="20" align="left" valign="middle" class="content-white"><strong>Christmas</strong></td>
+                                                    </tr>
+                                                    <tr>
+                                                      <td height="20" align="left" valign="top"></td>
+                                                      <td height="25" align="left" valign="top"></td>
+                                                      <td height="25" align="left" valign="middle"><input type="checkbox" name="hanukkah" id="hanukkah" value="1" onClick="checkvaluenewyear(this.value)"/></td>
+                                                      <td height="20" align="left" valign="middle" class="content-white"><strong>Hanukkah</strong></td>
+                                                    </tr>
+                                                    <tr>
+                                                      <td height="20" align="left" valign="top"></td>
+                                                      <td height="25" align="left" valign="top"></td>
+                                                      <td height="25" align="left" valign="middle"><input type="checkbox" name="thanksgiving" id="thanksgiving" value="1" onClick="checkvaluenewyear(this.value)"/></td>
+                                                      <td height="20" align="left" valign="middle" class="content-white"><strong>Thanksgiving</strong></td>
+                                                    </tr>
+                                                    <tr>
+                                                      <td height="20" align="left" valign="top"></td>
+                                                      <td height="25" align="left" valign="top"></td>
+                                                      <td height="25" align="left" valign="middle"><input type="checkbox" name="easter" id="easter" value="1" onClick="checkvaluenewyear(this.value)"/></td>
+                                                      <td height="20" align="left" valign="middle" class="content-white"><strong>Easter</strong></td>
+                                                    </tr>
+                                                    <%end%>
+                                                    <tr>
+                                                      <td height="25" colspan="4" align="left" valign="top"></td>
+                                                    </tr>
+                                                    <%if(@familyeventcnt>0)%>
+                                                    <tr>
+                                                      <td align="left" valign="top"></td>
+                                                      <td height="25" align="left" valign="middle"><input type="checkbox" checked disabled></td>
+                                                      <td height="25" colspan="2" align="left" valign="middle" class="content-white"><strong><font color="#666666">Family events</font></strong>
+                                                        <input type="hidden" name="events" id="events" value="1" />
+                                                      </td>
+                                                    </tr>
+                                                    <%if(@birthdayparties>0)%>
+                                                    <tr>
+                                                      <td height="20" align="left" valign="top"></td>
+                                                      <td height="25" align="left" valign="top"></td>
+                                                      <td height="25" align="left" valign="middle"><input type="checkbox" checked disabled></td>
+                                                      <td height="20" align="left" valign="middle" class="content-white"><strong><font color="#666666">Birthday Parties</font></strong></td>
+                                                    </tr>
+                                                    <%else%>
+                                                    <tr>
+                                                      <td height="20" align="left" valign="top"></td>
+                                                      <td height="25" align="left" valign="top"></td>
+                                                      <td height="25" align="left" valign="middle"><input type="checkbox" name="birthday" id="birthday" value="1"/></td>
+                                                      <td height="20" align="left" valign="middle" class="content-white"><strong>Birthday Parties</strong></td>
+                                                    </tr>
+                                                    <%end%>
+                                                    <%if(@gettogethers>0)%>
+                                                    <tr>
+                                                      <td height="20" align="left" valign="top"></td>
+                                                      <td height="25" align="left" valign="top"></td>
+                                                      <td height="25" align="left" valign="middle"><input type="checkbox" checked disabled></td>
+                                                      <td height="20" align="left" valign="middle" class="content-white"><strong><font color="#666666">Get Togethers</font></strong></td>
+                                                    </tr>
+                                                    <%else%>
+                                                    <tr>
+                                                      <td height="20" align="left" valign="top"></td>
+                                                      <td height="25" align="left" valign="top"></td>
+                                                      <td height="25" align="left" valign="middle"><input type="checkbox" name="gettogether" id="gettogether" value="1"/></td>
+                                                      <td height="20" align="left" valign="middle" class="content-white"><strong>Get Togethers</strong></td>
+                                                    </tr>
+                                                    <%end%>
+                                                    <tr>
+                                                      <td height="20" align="left" valign="top"></td>
+                                                      <td height="25" align="left" valign="top"></td>
+                                                      <td height="25" align="left" valign="top"></td>
+                                                      <td height="20" align="left" valign="top"></td>
+                                                    </tr>
+                                                    <tr>
+                                                      <td height="20" colspan="4" align="left" valign="top"></td>
+                                                    </tr>
+                                                    <%else%>
+                                                    <tr>
+                                                      <td align="left" valign="top"></td>
+                                                      <td height="25" align="left" valign="middle"><input type="checkbox" name="events" id="events" value="1" /></td>
+                                                      <td height="25" colspan="2" align="left" valign="middle" class="content-white"><strong>Family events</strong></td>
+                                                    </tr>
+                                                    <tr>
+                                                      <td height="20" align="left" valign="top"></td>
+                                                      <td height="25" align="left" valign="top"></td>
+                                                      <td height="25" align="left" valign="middle"><input type="checkbox" name="birthday" id="birthday" value="1" onClick="checkvaluefamily(this.value)"/></td>
+                                                      <td height="20" align="left" valign="middle" class="content-white"><strong>Birthday Parties</strong></td>
+                                                    </tr>
+                                                    <tr>
+                                                      <td height="20" align="left" valign="top"></td>
+                                                      <td height="25" align="left" valign="top"></td>
+                                                      <td height="25" align="left" valign="middle"><input type="checkbox" name="gettogether" id="gettogether" value="1" onClick="checkvaluefamily(this.value)"/></td>
+                                                      <td height="20" align="left" valign="middle" class="content-white"><strong>Get Togethers</strong></td>
+                                                    </tr>
+                                                    <tr>
+                                                      <td height="20" align="left" valign="top"></td>
+                                                      <td height="25" align="left" valign="top"></td>
+                                                      <td height="25" align="left" valign="top"></td>
+                                                      <td height="20" align="left" valign="top"></td>
+                                                    </tr>
+                                                    <tr>
+                                                      <td height="20" colspan="4" align="left" valign="top"></td>
+                                                    </tr>
+                                                    <%end%>
+                                                  </table></td>
+                                                <td align="left" valign="top"></td>
+                                              </tr>
+                                              <tr>
+                                                <td height="20" colspan="3" align="left" valign="top" class="content-white"></td>
+                                              </tr>
+                                              <tr>
+                                                <td height="20" colspan="3" align="center" valign="top" class="content-white"><label>
+                                                  <input name="sub" type="submit" class="cmd-btn" id="button" value="Update My Account"  />
+                                                  &nbsp;&nbsp; </label></td>
+                                              </tr>
+                                              <tr>
+                                                <td height="20" colspan="3" align="left" valign="top" class="content-white"></td>
+                                              </tr>
+                                            </table>  </form></td>
+                                        </tr>
+                                        <tr>
+                                          <td height="20" colspan="3" align="left" valign="top"></td>
+                                        </tr>
+                                      </table></td>
+                                    <td width="20">&nbsp;</td>
+                                  </tr>
+                                </table></td>
+                            </tr>
+                            <tr>
+                              <td>&nbsp;</td>
+                            </tr>
+                          </table></td>
+                      </tr>
+                      <tr>
+                        <td align="left" valign="top">&nbsp;</td>
+                        <td align="left" valign="top"></td>
+                        <td align="left" valign="top">&nbsp;</td>
+                      </tr>
+                    </table></td>
+                </tr>
+              </table></td>
+            <td width="13" align="left" valign="top"></td>
+          </tr>
+        </table></td>
+    </tr>
+  </table>
+
+<script type="text/javascript">
+  window.addEvent('domready', function(){
+    new FormCheck('editfrm');
+    setupZoom();
+  });
+
+</script>

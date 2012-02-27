@@ -1,0 +1,27 @@
+<h1>Listing shared_moment_ids</h1>
+
+<table>
+  <tr>
+  <% for column in SharedMomentId.content_columns %>
+    <th><%= column.human_name %></th>
+  <% end %>
+  </tr>
+  
+<% for shared_moment_id in @shared_moment_ids %>
+  <tr>
+  <% for column in SharedMomentId.content_columns %>
+    <td><%=h shared_moment_id.send(column.name) %></td>
+  <% end %>
+    <td><%= link_to 'Show', :action => 'show', :id => shared_moment_id %></td>
+    <td><%= link_to 'Edit', :action => 'edit', :id => shared_moment_id %></td>
+    <td><%= link_to 'Destroy', { :action => 'destroy', :id => shared_moment_id }, :confirm => 'Are you sure?', :method => :post %></td>
+  </tr>
+<% end %>
+</table>
+
+<%= link_to 'Previous page', { :page => @shared_moment_id_pages.current.previous } if @shared_moment_id_pages.current.previous %>
+<%= link_to 'Next page', { :page => @shared_moment_id_pages.current.next } if @shared_moment_id_pages.current.next %> 
+
+<br />
+
+<%= link_to 'New shared_moment_id', :action => 'new' %>

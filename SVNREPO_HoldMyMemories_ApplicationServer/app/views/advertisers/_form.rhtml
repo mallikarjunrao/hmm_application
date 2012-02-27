@@ -1,0 +1,71 @@
+<%= error_messages_for 'advertiser_details' %>
+
+<!--[form:advertiser_details]-->
+<p><label for="advertiser_details_v_firstname">Firstname</label><br/>
+<span id="sprytextfield1"><span id="sprytextfield1"><%= text_field 'advertiser_details', 'v_firstname'  %>&nbsp;&nbsp;<span class="textfieldRequiredMsg">Firstname is required.</span></span></span></p>
+
+<p><label for="advertiser_details_v_lastname">Lastname</label><br/>
+<span id="sprytextfield2"><span id="sprytextfield2"><%= text_field 'advertiser_details', 'v_lastname'  %>&nbsp;&nbsp;<span class="textfieldRequiredMsg">Lastname is required.</span></span></span></p>
+
+<p><label for="advertiser_details_v_username">Username</label><br/>
+<span id="sprytextfield3"><span id="sprytextfield3"><%= text_field 'advertiser_details', 'v_username'  %>&nbsp;&nbsp;<span class="textfieldRequiredMsg">Username is required.</span></span></span></p>
+
+<p><label for="advertiser_details_v_password">Password</label><br/>
+<span id="password"><%= password_field 'advertiser_details', 'v_password'  %>&nbsp;&nbsp;<span class="textfieldRequiredMsg">Password is required.</span>&nbsp;&nbsp;<span class="textfieldMinCharsMsg">Password should have Minimum 6 characters.</span><span class="textfieldMaxCharsMsg">Maximum 10 characters are allowed.</span></span></p>
+
+<p><label for="advertiser_details_v_company">Confirm Password</label><br/>
+<span id="cofirmpassword"><%= password_field 'advertiser_details', 'v_company'  %>&nbsp;&nbsp;<span class="textfieldRequiredMsg">Confirm Password is required.</span>&nbsp;&nbsp;<span class="textfieldMinCharsMsg">Confirm Password should have Minimum 6 characters.</span><span class="textfieldMaxCharsMsg">Maximum 10 characters are allowed.</span></span></p>
+
+<p><label for="advertiser_details_v_company">Company</label><br/>
+<span id="sprytextfield5"><span id="sprytextfield5"><%= text_field 'advertiser_details', 'v_company'  %>&nbsp;&nbsp;<span class="textfieldRequiredMsg">Company is required.</span></span></span></p>
+
+<p><label for="advertiser_details_v_address">Address</label><br/>
+<span id="sprytextfield6"><span id="sprytextfield6"><%= text_field 'advertiser_details', 'v_address'  %>&nbsp;&nbsp;<span class="textfieldRequiredMsg">Address is required.</span></span></span></p>
+
+<p><label for="advertiser_details_v_city">City</label><br/>
+<span id="sprytextfield7"><span id="sprytextfield7"><%= text_field 'advertiser_details', 'v_city'  %>&nbsp;&nbsp;<span class="textfieldRequiredMsg">City is required.</span></span></span></p>
+
+<p><label for="advertiser_details_v_state">State</label><br/>
+<span id="sprytextfield8"><span id="sprytextfield8"><%= text_field 'advertiser_details', 'v_state'  %>&nbsp;&nbsp;<span class="textfieldRequiredMsg">State is required.</span></span></span></p>
+
+<p><label for="advertiser_details_v_country">Country</label><br/>
+<span id="sprytextfield9"><span id="sprytextfield9"><%= text_field 'advertiser_details', 'v_country'  %>&nbsp;&nbsp;<span class="textfieldRequiredMsg">Country is required.</span></span></span></p>
+
+<p><label for="advertiser_details_v_zip">Zip</label><br/>
+<span id="sprytextfield10"><span id="sprytextfield10"><%= text_field 'advertiser_details', 'v_zip'  %>&nbsp;&nbsp;<span class="textfieldRequiredMsg">Zip is required.</span></span></span></p>
+
+<p><label for="advertiser_details_v_phone">Phone</label><br/>
+<span id="sprytextfield11"><span id="sprytextfield11"><%= text_field 'advertiser_details', 'v_phone'  %>&nbsp;&nbsp;<span class="textfieldRequiredMsg">Phone is required.</span></span></span></p>
+
+<p><label for="advertiser_details_v_email">Email</label><br/>
+<span id="sprytextfield12"><span id="sprytextfield12"><%= text_field 'advertiser_details', 'v_email'  %>&nbsp;&nbsp;<span class="textfieldRequiredMsg">Email is required.</span><span class="textfieldInvalidFormatMsg">Invalid format.</span></span></span></p>
+
+<p><label for="advertiser_details_e_gender">Gender</label><br/>
+<span id="RadioWidget">Male<%= radio_button 'advertiser_details', 'e_gender', 'Male'  %>
+Female</label><%= radio_button 'advertiser_details', 'e_gender', 'Female'  %>&nbsp;&nbsp;<span class="radioRequiredMsg">Please make a selection.</span></span></p>
+
+<p><label for="advertiser_details_v_plan">Plan</label><br/>
+<span id="sprytextfield13"><span id="sprytextfield13"><%= text_field 'advertiser_details', 'v_plan'  %>&nbsp;&nbsp;<span class="textfieldRequiredMsg">Plan is required.</span></span></span></p>
+
+<script type="text/javascript">
+<!--
+var sprytextfield1 = new Spry.Widget.ValidationTextField("sprytextfield1", "none", {validateOn:["blur"]});
+var sprytextfield2 = new Spry.Widget.ValidationTextField("sprytextfield2", "none", {validateOn:["blur"]});
+var sprytextfield3 = new Spry.Widget.ValidationTextField("sprytextfield3", "none", {validateOn:["blur"]});
+var sprytextfield4 = new Spry.Widget.ValidationTextField("sprytextfield4", "none", {validateOn:["blur"]});
+var sprytextfield5 = new Spry.Widget.ValidationTextField("sprytextfield5", "none", {validateOn:["blur"]});
+var sprytextfield6 = new Spry.Widget.ValidationTextField("sprytextfield6", "none", {validateOn:["blur"]});
+var sprytextfield7 = new Spry.Widget.ValidationTextField("sprytextfield7", "none", {validateOn:["blur"]});
+var sprytextfield8 = new Spry.Widget.ValidationTextField("sprytextfield8", "none", {validateOn:["blur"]});
+var sprytextfield9 = new Spry.Widget.ValidationTextField("sprytextfield9", "none", {validateOn:["blur"]});
+var sprytextfield10 = new Spry.Widget.ValidationTextField("sprytextfield10", "none", {validateOn:["blur"]});
+var sprytextfield11 = new Spry.Widget.ValidationTextField("sprytextfield11", "none", {validateOn:["blur"]});
+var sprytextfield12 = new Spry.Widget.ValidationTextField("sprytextfield12", "email", {validateOn:["blur"]});
+var sprytextfield13 = new Spry.Widget.ValidationTextField("sprytextfield13", "none", {validateOn:["blur"]});
+var RadioWidget  = new Spry.Widget.ValidationRadio("RadioWidget");
+var password 		= new Spry.Widget.ValidationTextField("password", "none", {validateOn:["blur"], minChars:6, maxChars:10});
+var cofirmpassword 	= new Spry.Widget.ValidationTextField("cofirmpassword", "none", {validateOn:["blur"], minChars:6, maxChars:10});
+//-->
+</script>
+<!--[eoform:advertiser_details]-->
+

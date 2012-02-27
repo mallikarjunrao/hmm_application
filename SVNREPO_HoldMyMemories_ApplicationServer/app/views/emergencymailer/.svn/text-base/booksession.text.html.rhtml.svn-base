@@ -1,0 +1,107 @@
+ <body bgcolor="#FFFFFF">
+
+<table align="center" bgcolor="#OOOOOO" border="0" cellpadding="0" cellspacing="0">
+<tbody><tr bgcolor="#FFFFFF">
+            <td align="left" valign="middle" height="30"><a href="http://www.clickportraitsnow.com" target="_blank"><img src="http://www.holdmymemories.com/images/logo_newstatic1.jpg" alt="Logo" border="0" /></a></td><td align="right">
+<a href="http://www.holdmymemories.com" target="_blank"><img src="http://www.holdmymemories.com/images/hmm_logo_whitebg.jpg" alt="Logo" border="0" /></a></td></tr><tr><td colspan="3">
+<br><br><div align="left"><font color="#ffffff" size="2" face="Arial, Helvetica, sans-serif"><strong>Session Details :</strong></font><strong> </strong></div></td>
+          </tr>
+          </tbody></table>
+<table align="center" cellpadding="2" cellspacing="2" bgcolor="#666666" width="664">
+          <tr align="right" bgcolor="#333333">
+            <td  height="30"><b><font color="#ffffff" size="2" face="Arial, Helvetica, sans-serif">First
+              Name:</font></b></td>
+        <td align="left" valign="middle" width="305" height="30"><div align="left"><font color="#ffffff" size="2" face="Arial, Helvetica, sans-serif">
+                <%=@fname%>
+            </font></div></td>
+    </tr>
+          <tr align="right" bgcolor="#333333">
+            <td  height="30"><b><font color="#ffffff" size="2" face="Arial, Helvetica, sans-serif">Last
+              Name:</font></b></td>
+            <td valign="middle" width="305" height="30"><div align="left"><font color="#ffffff" size="2" face="Arial, Helvetica, sans-serif">
+                 <%=@lname%></font>
+            </div></td>
+    </tr>
+          <tr bgcolor="#333333">
+            <td align="right"  height="30"><b><font color="#ffffff" size="2" face="Arial, Helvetica, sans-serif">Day-time
+              Phone Number:</font> </b> </td>
+            <td align="left" valign="middle" width="305" height="30"><div align="left"><font color="#ffffff" size="2" face="Arial, Helvetica, sans-serif">
+             <%=@phone%></font>
+            </div></td>
+    </tr>
+          <tr bgcolor="#333333">
+            <td align="right" height="30"><b><font color="#ffffff" size="2" face="Arial, Helvetica, sans-serif">Night-time
+              Phone Number:</font></b></td>
+            <td align="left" valign="middle" height="30"><div align="left"><font color="#ffffff" size="2" face="Arial, Helvetica, sans-serif">
+                  <%=@phone2%>
+            </font></div></td>
+          </tr>
+           <tr bgcolor="#333333">
+            <td align="right"  height="30"><b><font color="#ffffff" size="2" face="Arial, Helvetica, sans-serif"> Street
+              Address:</font></b></td>
+            <td align="left" valign="middle" width="305" height="30" color="#FFFFFF"><div align="left"><font color="#FFFFFF" size="2" face="Arial, Helvetica, sans-serif">
+            <%=@streetaddress%>
+            </font></div></td>
+    </tr>
+          <tr bgcolor="#333333">
+            <td align="right"  height="30"><b><font color="#ffffff" size="2" face="Arial, Helvetica, sans-serif"> Email
+              Address:</font></b></td>
+            <td align="left" valign="middle" width="305" height="30" color="#FFFFFF"><div align="left"><font color="#FFFFFF" size="2" face="Arial, Helvetica, sans-serif">
+            <%=@email%>
+            </font></div></td>
+    </tr>
+      <tr bgcolor="#333333">
+            <td align="right"  height="30"><b><font color="#ffffff" size="2" face="Arial, Helvetica, sans-serif"> Have you visited our studio before:</font></b></td>
+            <td align="left" valign="middle" width="305" height="30" color="#FFFFFF"><div align="left"><font color="#FFFFFF" size="2" face="Arial, Helvetica, sans-serif">
+            <%=@studio%>
+            </font></div></td>
+    </tr>
+          <tr bgcolor="#333333">
+            <td align="right" height="30"><b><font color="#ffffff" size="2" face="Arial, Helvetica, sans-serif">How
+              did you hear about us?:</font></b></td>
+            <td align="left" valign="middle" height="30"><div align="left"><font color="#ffffff" size="2" face="Arial, Helvetica, sans-serif"><%=@hear%></font></div></td></tr>
+          <tr bgcolor="#333333">
+            <td colspan="2" align="right"><b><font size="2" face="Arial, Helvetica, sans-serif">            </font></b><font size="2" face="Arial, Helvetica, sans-serif">&nbsp;
+            </font></td>
+          </tr>
+          <tr bgcolor="#333333">
+            <td align="right" height="30"><b><font color="#ffffff" size="2" face="Arial, Helvetica, sans-serif">Date:</font></b></td>
+            <td align="left" valign="middle" height="30">
+            
+<table cellpadding="0" cellspacing="2"><tbody><tr>
+<td valign="middle">
+<font color="#ffffff" size="2" face="Arial, Helvetica, sans-serif"><%=@month%></font>&nbsp;</td>
+<td valign="middle">
+<font color="#ffffff" size="2" face="Arial, Helvetica, sans-serif"><%=@day%></font>&nbsp;</td>
+<td valign="middle">
+<font color="#ffffff" size="2" face="Arial, Helvetica, sans-serif"><%=@year%></font></td><td valign="middle">
+
+</td>
+</tr>
+</tbody></table>
+
+             <font size="2" face="Arial, Helvetica, sans-serif"> </font></td>
+          </tr>
+          <tr bgcolor="#333333">
+            <td align="right" height="30"><b><font color="#ffffff" size="2" face="Arial, Helvetica, sans-serif">Time:</font></b></td>
+            <td align="left" valign="middle" height="30"><font color="#ffffff" size="2" face="Arial, Helvetica, sans-serif"><%=@time%>
+              </font></td>
+          </tr>
+          <tr bgcolor="#333333">
+            <td align="right" height="30"><b><font color="#ffffff" size="2" face="Arial, Helvetica, sans-serif">Session
+                    Type:</font></b></td>
+            <td align="left" valign="middle" height="30"><font color="#ffffff" size="2" face="Arial, Helvetica, sans-serif"><%=@type%></font></td>
+          </tr>
+          <tr bgcolor="#333333">
+            <td align="right" height="30"><b><font color="#ffffff" size="2" face="Arial, Helvetica, sans-serif">Comments:</font></b></td>
+            <td align="left" valign="middle" height="30">
+             <font color="#ffffff" size="2" face="Arial, Helvetica, sans-serif">
+              <%=@comments%>
+              <br>
+              </font>            </td>
+          </tr>
+          <tr bgcolor="#333333">
+            <td colspan="2" align="right" valign="middle"><div align="center"></div></td>
+          </tr>
+  </tbody></table>
+</body>

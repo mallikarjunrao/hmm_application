@@ -1,0 +1,101 @@
+   <%= javascript_include_tag 'prototype' %>
+
+  <%= javascript_include_tag 'SpryAssets/SpryValidationTextField' %>
+   <%= stylesheet_link_tag 'SpryAssets/SpryValidationTextField' %>
+<script language="javascript">
+
+    function echeck(str) {
+
+		var at="@"
+		var dot="."
+		var lat=str.indexOf(at)
+		var lstr=str.length
+		var ldot=str.indexOf(dot)
+		if (str.indexOf(at)==-1){
+		   alert("Invalid E-mail ID");
+		   return false
+		}
+
+		if (str.indexOf(at)==-1 || str.indexOf(at)==0 || str.indexOf(at)==lstr){
+		   alert("Invalid E-mail ID");
+		   return false
+		}
+
+		if (str.indexOf(dot)==-1 || str.indexOf(dot)==0 || str.indexOf(dot)==lstr){
+		    alert("Invalid E-mail ID");
+		    return false
+		}
+
+		 if (str.indexOf(at,(lat+1))!=-1){
+		    alert("Invalid E-mail ID");
+		    return false
+		 }
+
+		 if (str.substring(lat-1,lat)==dot || str.substring(lat+1,lat+2)==dot){
+		    alert("Invalid E-mail ID");
+		    return false
+		 }
+
+		 if (str.indexOf(dot,(lat+2))==-1){
+		    alert("Invalid E-mail ID");
+		    return false
+		 }
+
+		 if (str.indexOf(" ")!=-1){
+		    alert("Invalid E-mail ID");
+		    return false
+		 }
+
+ 		 return true
+	}
+
+  function ver()
+  {
+
+      if(document.getElementById('contact_u_first_name').value=="")
+       {
+           alert("Name is a required field");
+           document.getElementById('contact_u_first_name').focus();
+           return false;
+       }
+       if(document.getElementById('contact_u_message').value=="")
+       {
+           alert("Message is a required field");
+           document.getElementById('contact_u_message').focus();
+           return false;
+       }
+       if(document.getElementById('contact_u_zip').value=="")
+       {
+           alert("Postal Code is a required field");
+           document.getElementById('contact_u_zip').focus();
+           return false;
+       }
+
+       if(document.getElementById('contact_u_email').value=="")
+       {
+           alert("Email is a required field");
+           document.getElementById('contact_u_email').focus();
+           return false;
+       }
+       var emailID=document.getElementById('contact_u_email')
+       if (echeck(emailID.value)==false){
+		emailID.value=""
+		emailID.focus()
+		return false
+	}
+
+       return true;
+
+
+  }
+
+</script>
+<font color="#f5dfa6"><%=flash[:notice_contact]%></font>
+<form name="frm" method="post" action="/contact_us/email_us" onsubmit="return ver()" >
+  <%= render :partial => 'email_form' %>
+  <% if params[:c3R1ZGlvX2VtYWls] %>
+<input type="hidden" name="studio_email" value="<%=  Base64.decode64(params[:c3R1ZGlvX2VtYWls])%>" />
+<%end%>
+<br />
+
+</form>

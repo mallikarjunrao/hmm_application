@@ -1,0 +1,105 @@
+<% if session[:friend]==nil
+   	visibility=true
+   else
+	visibility=false
+   end	
+%>
+<%session[:share]="" %>
+<script src="/AC_OETags.js" language="javascript"></script>
+<link href="/stylesheets/main.css" media="screen" rel="Stylesheet" type="text/css" />
+<link href="/stylesheets/hmm.css" media="screen" rel="Stylesheet" type="text/css" />
+<link href="/stylesheets/mystyle_black_left.css" rel="stylesheet" type="text/css" />
+<%= stylesheet_link_tag 'hmmout' %>
+
+
+<table width="100%" border="0" cellspacing="0" cellpadding="0" >
+	<tr>
+		<td align="right"><a href="/manage_website/home/<%=params[:id]%>" class="whitetext">Back to Manage My Site</a>&nbsp;&nbsp;</td></tr>
+<table border="0" width="700">
+
+	<tr>
+		<td align="center">
+			<font color="#e36500" size="3">
+				Please select a moment that you would like to be submitted into the contest. Only one entry allowed per family!!			</font>		</td>
+	</tr>
+	<% session['redirect'] =  '2' %>
+	 <tr><td><table width="100%">
+     <tr>
+          <th width="100%"  align="left" valign="middle" class="" scope="col"><font size=4 face="Arial, Helvetica, sans-serif" color="#eeeeee"> 
+		  <% @gal = Galleries.find(:all, :conditions => "id='#{params[:moment_id]}'")
+		 for @i in @gal 
+			@gal_name=@i.v_gallery_name		
+%>
+<font size="3">&nbsp;&nbsp;&nbsp; </font>
+</font><%end%></th>
+<th width="13%" align="right" valign="middle">  
+</th>
+<th width="5%">&nbsp;</th>
+        </tr>
+     </table></td></tr>
+		<tr><td colspan="2">
+		<input type="hidden" id="galleryIdVal" value="<%=params[:moment_id]%>">
+		<input type="hidden" id="familyname" value="<%=params[:id]%>">
+		<input type="hidden" name="buttonVisible" id="buttonVisible" value="<%=@buttonVisibility%>">
+        <script src="/AC_OETags.js" language="JavaScript"></script>
+        <script src="DWConfiguration/ActiveContent/IncludeFiles/AC_RunActiveContent.js" type="text/javascript"></script>
+        <script type="text/javascript">
+      	var galleryid = document.getElementById("galleryIdVal").value;
+        var familyname = document.getElementById("familyname").value;
+		
+	    AC_FL_RunContent( 'codebase','http://download.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=7,0,19,0',
+                              'width','950',
+                              'height','700',
+                              'src','/ContestPage',
+                              'quality','high',
+                              'pluginspage','http://www.macromedia.com/go/getflashplayer',
+                              'movie','/ContestPage',
+                              'bgcolor','#000000',
+							  'wmode','transparent',
+							  'flashvars','familyname='+familyname+'&galleryid='+galleryid
+                              ); //end AC code
+       </script>
+	   <noscript>
+			<object classid="clsid:D27CDB6E-AE6D-11cf-96B8-444553540000" codebase="http://download.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=7,0,19,0" width="880" height="750">
+  				<param name="movie" value="/ContestPage.swf" />
+  				<param name="quality" value="high" />
+  				<param name="FlashVars"  />
+                <param wmode="transparent"  />
+  				<embed src="/ContestPage.swf" quality="high" FlashVars=""  pluginspage="http://www.macromedia.com/go/getflashplayer" type="application/x-shockwave-flash" width="880" height="750"></embed>
+			</object>
+		</noscript>
+</td>
+</tr>
+
+<tr >
+<td align="right" valign="bottom" >
+
+</td>
+</tr>
+
+</table>
+
+
+
+
+
+  
+  
+  
+  
+  
+  
+  
+  				  
+
+  
+
+  
+  
+  
+  
+  
+  
+  
+  				  
+		

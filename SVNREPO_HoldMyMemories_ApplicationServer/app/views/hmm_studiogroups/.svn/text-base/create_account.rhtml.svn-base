@@ -1,0 +1,36 @@
+<h1>Create Customer Account</h1>
+<table width="100%">
+ <tr>
+		<td align="center" colspan="4" height="48">
+		<div >&nbsp;&nbsp;&nbsp;&nbsp;<font color="#FF0000"><%= flash[:notice] %></font></div></td>
+	</tr>
+</table>
+<form name="frm" action="/customers/authorise_verify" method="post">
+	<table cellpadding="4" cellspacing="4" border="1" bordercolor="#e5b467" align="center" >
+   
+	<tr>
+		<td align="center" colspan="4" height="48">
+			Select Studio 		</td>
+	</tr>
+        <tr>
+          <td>Studio </td>
+    <td><%
+@companylist=HmmStudio.find(:all,:conditions=>"studio_groupid=#{session[:franchise]}")
+%>
+        <!--[form:product]-->
+        <select name="studioid" >
+            <% 
+            if(@companylist.length>0)
+            for cid in  @companylist %>
+            <option value="<%=cid.id%>" <% if(Integer(params[:store_id]) == Integer(cid.id)) %> selected="selected" <%end%>><%=cid.studio_branch%></option>
+            <%end%>
+            <%end%>
+          </select>    </td>
+  </tr>
+     <tr>
+		<td>&nbsp;		</td>
+		<td>
+			<input type="submit" name="srch" value="Create">		</td>
+	</tr>
+    </table>
+</form><br>

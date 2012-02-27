@@ -1,0 +1,66 @@
+<%= javascript_include_tag 'SpryAssets/SpryValidationTextField' %>
+<%= stylesheet_link_tag 'SpryAssets/SpryValidationTextField' %>
+
+<%= error_messages_for 'nonhmm_user' %>
+
+<table width="472" height="100%" border="0" align="top">
+<tr>
+		<th width="108" valign="middle" colspan="2">
+	  <label for="nonhmm_user_v_fname">
+	  <div align="left">* Required Fields</div>
+      </label></th>
+	</tr>
+<tr>
+		<th width="108" valign="middle">&nbsp;&nbsp;
+	  <label for="nonhmm_user_v_fname">
+	  <div align="left">Name *</div>
+    </label></th>
+    <th width="354" valign="top">&nbsp;&nbsp;<span id="sprytextfield1">
+			<div align="left"><%= text_field 'nonhmm_user', 'v_name', :size => 20,:id =>'v_name', :maxlength => 25, :class => "textbox-signup"%>
+			    <span class="textfieldRequiredMsg"><br>
+		        &nbsp;&nbsp;&nbsp;First Name is required</br>
+	      </span> </div></th>
+	</tr>
+	<tr>
+		<th valign="middle">&nbsp;&nbsp;<label for="nonhmm_user_v_e-mail">
+		  <div align="left">E-Mail *</div>
+	  </label></th>
+	  <th valign="top">&nbsp;&nbsp;
+		<div align="left"><span id="sprytextfield11">
+	    <%= text_field 'nonhmm_user', 'v_email' , :size => 20, :class => "textbox-signup", :id => 'v_email'  %>
+	    <span class="textfieldRequiredMsg"><br>
+	    &nbsp;&nbsp;&nbsp;E-mail Required</br>
+	    </span><span class="textfieldInvalidFormatMsg"><br>
+        &nbsp;&nbsp;&nbsp;Invalid E-mail</br>
+        </span></span> </div></th>
+	</tr>
+	<tr>
+		<th valign="middle">&nbsp;&nbsp;<label for="nonhmm_user_v_phone">
+		  <div align="left">Phone</div>
+	  </label></th>
+	  <th valign="top">&nbsp;&nbsp;&nbsp;
+      <div align="left"><%= text_field 'nonhmm_user', 'v_phone',:id =>'v_phone', :size => 20, :maxlength => 15, :class => "textbox-signup"%></div></th>
+	</tr>
+	<tr>
+		<th valign="middle">&nbsp;&nbsp;<label for="nonhmm_user_v_city">
+		  <div align="left">Address</div>
+	  </label></th>
+	  <th valign="top">&nbsp;&nbsp;&nbsp;
+      <div align="left"><%= text_area 'nonhmm_user', 'v_street',:id =>'v_street', :rows =>"9", :cols=>"40",  :class => "textbox-1", :value => "" %></div></th>
+	</tr>
+	
+   <tr>
+		<th colspan="2">&nbsp;&nbsp;<label for="nonhmm_user_v_country">Would you like to share your website with your friend ?</label><input type="radio"  name="chk[invite]" value="yes" />Yes&nbsp;&nbsp;&nbsp;<input type="radio"  name="chk[invite]" value="no" checked="checked" />No</th>
+	</tr>
+	
+	<%if @hmm_user.password_required=='yes'%>
+	<tr>
+		<th colspan="2">&nbsp;&nbsp;</th>
+	</tr>
+    <tr>
+		<th colspan="2">&nbsp;&nbsp;<label for="nonhmm_user_v_country">Your website is password protected.<br>Would you like to send your password to your friend ?</label><input type="radio"  name="chk[pass]" value="yes" />Yes&nbsp;&nbsp;&nbsp;<input type="radio"  name="chk[pass]" value="no" checked="checked" />No</th>
+	</tr>
+	<%else%>
+	<input type="hidden" name="chk[pass]" value="no">
+	<%end%>
+</table>

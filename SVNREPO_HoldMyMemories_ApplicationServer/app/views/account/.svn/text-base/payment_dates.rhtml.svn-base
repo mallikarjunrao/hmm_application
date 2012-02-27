@@ -1,0 +1,6 @@
+<table border="0" cellpadding="0" cellspacing="0">
+  <tr><td background="/images/body_hor.JPG">Payment Dates List</td></tr>
+  <%for payment in @payments%>
+  <tr class="<%=cycle('odd','even')%>"><td><%=payment.recieved_on.strftime("%m - %d - %Y")%></td></tr>
+  <%end%>
+</table>

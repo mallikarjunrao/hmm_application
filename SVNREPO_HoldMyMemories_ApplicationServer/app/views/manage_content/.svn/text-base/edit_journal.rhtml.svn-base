@@ -1,0 +1,4 @@
+<% form_tag :action => 'update_journal', :id => @journals_photo do %>
+<input type="hidden" name="family_name" id="family_name" value="<%=params[:familyname]%>" />
+  <%= render :partial => 'journal_frm' %>
+  <% end %>

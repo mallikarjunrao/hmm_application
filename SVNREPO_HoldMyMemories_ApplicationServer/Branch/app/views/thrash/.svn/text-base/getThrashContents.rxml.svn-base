@@ -1,0 +1,70 @@
+xml.instruct! :xml, :version=>"1.0"
+xml.root {
+  #chapters listing
+  xml.chapters{
+  for chapter_value in @chapters
+    xml.chapter{
+      xml.id("#{chapter_value.id}")
+      xml.access(chapter_value.e_access)
+      xml.name(chapter_value.v_tagname)
+      xml.icon(chapter_value.img_url+"/user_content/photos/icon_thumbnails/#{chapter_value.v_chapimage}")
+      xml.tags(chapter_value.v_chapter_tags)
+      xml.description(chapter_value.v_desc)
+    }  
+  end
+ }
+ xml.subchapters{
+	sub_chapters = SubChapter.find(:all ,:conditions =>"uid=#{logged_in_hmm_user.id} and status='inactive'")
+	for subchapter in sub_chapters
+	xml.subchapter{
+	  xml.id("#{subchapter.id}")
+      xml.access(subchapter.e_access)
+      xml.name(subchapter.sub_chapname)
+      xml.tagid(subchapter.tagid)
+      xml.icon(subchapter.img_url+"/user_content/photos/icon_thumbnails/#{subchapter.v_image}")
+      xml.tags(subchapter.v_subchapter_tags)
+      xml.description(subchapter.v_desc)
+	}
+	end	
+  }
+  xml.galleries{
+  sub_chapters = SubChapter.find(:all ,:conditions =>"uid=#{logged_in_hmm_user.id} ")
+    for subChapter in sub_chapters
+		galleries = Galleries.find(:all, :conditions => "subchapter_id=#{subChapter.id} and status='inactive'")
+		for gallery in galleries
+			xml.gallery{
+      xml.getsubchap(sub_chapters.object_id)
+			  xml.id("#{gallery.id}")
+			  xml.access(gallery.e_gallery_acess)
+			  xml.name(gallery.v_gallery_name)
+			  xml.subchapterid(gallery.subchapter_id)
+			  xml.icon(gallery.img_url+"/user_content/photos/icon_thumbnails/#{gallery.v_gallery_image}")
+			  xml.tags(gallery.v_gallery_tags)
+			  xml.description(gallery.v_desc)
+			}
+		end
+    end
+  }
+  xml.contents{
+	 contents = UserContent.find(:all, :conditions => "uid=#{logged_in_hmm_user.id} and status='inactive'")
+	 for content in contents
+		xml.content{
+		  xml.id("#{content.id}")
+		  xml.access(content.e_access)
+		  xml.name(content.v_tagname)
+		  xml.galleryid(content.gallery_id)
+		  if(content.e_filetype == "image")
+			xml.icon(content.img_url+"/user_content/photos/big_thumb/#{content.v_filename}")
+		  elsif(content.e_filetype == "audio")
+			xml.icon(content.img_url+"/user_content/audios/speaker.jpg")
+		  elsif(content.e_filetype == "video")
+			xml.icon(content.img_url+"/user_content/videos/thumbnails/#{content.v_filename}.jpg")
+		  end
+		  
+		  xml.description(content.v_desc)
+		}
+	 end
+   }
+ 	
+
+}

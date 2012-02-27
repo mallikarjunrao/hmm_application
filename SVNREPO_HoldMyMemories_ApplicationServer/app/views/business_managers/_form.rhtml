@@ -1,0 +1,124 @@
+<%= error_messages_for 'business_manager' %>
+<%= stylesheet_link_tag 'SpryAssets/SpryValidationTextField' %>
+<%= stylesheet_link_tag 'SpryAssets/SpryValidationPassword' %>
+<%= stylesheet_link_tag 'SpryAssets/SpryValidationConfirm' %>
+
+<%= javascript_include_tag 'SpryAssets/SpryValidationPassword' %>
+<%= javascript_include_tag 'SpryAssets/SpryValidationConfirm' %>
+<%= javascript_include_tag 'SpryAssets/SpryValidationTextField' %>
+
+
+<!--[form:business_manager]-->
+<!--p><label for="business_manager_business_manager_name">Business manager username</label><br/>
+<span id="sprytextfield1">
+< %= text_field 'business_manager', 'business_manager_name', :class => "textbox-signup" % >
+<span class="textfieldRequiredMsg">User Name is required.</span></p>
+
+<p><label for="business_manager_business_manager_username">Business manager username</label><br/>
+<span id="sprytextfield3">
+< %= text_field 'business_manager', 'business_manager_username', :class => "textbox-signup" % >
+<span class="textfieldRequiredMsg">User Name is required.</span></p>
+
+<p><label for="business_manager_business_manager_password">Business manager password</label><br/>
+<span id="sprytextfield3">
+< %= password_field 'business_manager', 'business_manager_password'  % >
+<span class="textfieldRequiredMsg">User Name is required.</span></span>
+</p>
+
+<p><label for="business_manager_business_manager_email">Business manager email</label><br/>
+< %= text_field 'business_manager', 'business_manager_email'  % ></p>
+
+<p><label for="business_manager_created_at">Created at</label><br/>
+< %= datetime_select 'business_manager', 'created_at'  % ></p>
+<p><label for="business_manager_modified_at">Modified at</label><br/>
+< %= datetime_select 'business_manager', 'modified_at'  % ></p-->
+
+<table width="890" border="0" cellpadding="0" cellspacing="0">
+
+	<tr>
+		<td align="right" width="340" valign="middle">
+			<label for="business_manager_business_manager_name">Business Manager name *</label
+		</td>		<td>&nbsp;</td>
+		<td><span id="sprytextfield1">
+			<%=text_field 'business_manager', 'business_manager_name', :class => "textbox-signup"  %>
+			<span class="textfieldRequiredMsg">Name is required.</span></span>
+		</td>
+	</tr>
+	
+	<tr><td colspan="3">&nbsp;</td></tr>
+	
+	<tr>
+		<td align="right" width="340" valign="middle">
+			<label for="business_manager_business_manager_username">User Name *</label>
+		</td>
+		<td>&nbsp;</td>
+		<td><span id="sprytextfield3">
+			<%=  text_field 'business_manager', 'business_manager_username', :class => "textbox-signup", :id =>'manager_username', :onclick => "disabled"  %>
+			<span class="textfieldRequiredMsg">User Name is required.</span></span>
+			<%= observe_field :'manager_username',                         
+                        :with       => "username",              
+                        :frequency  => 0.25,                    
+                        :url        => {:action => :validate }, 
+                        :update     => :message                 
+                      %>
+					   <span id="message"></span>
+		</td>
+	</tr>
+	
+	
+	<tr><td colspan="3">&nbsp;</td></tr>
+	
+	<tr>
+		<td align="right" width="340" valign="middle">
+			<label for="business_manager_business_manager_password">Password *</label>
+		</td>
+		<td>&nbsp;</td>
+		<td> <span class="" id="sprypassword12">
+			<%= password_field 'business_manager', 'business_manager_password', :class => "textbox-signup"  %>
+			<span class="passwordRequiredMsg">A value is required.</span> <span class="passwordMinCharsMsg">The minimum number of characters not met.</span> </span>
+		</td>
+	</tr>
+	<tr><td colspan="3">&nbsp;</td></tr>
+	<tr>
+		<td align="right" width="340" valign="middle">
+			<label for="business_manager_business_manager_password">Re-type Password *</label>
+		</td>
+		<td>&nbsp;</td>
+		<td><span class="" id="spryconfirm5">
+			<%= password_field 'business_manager', 'business_manager_password', :class => "textbox-signup"  %>
+			<span class="confirmRequiredMsg">A value is required.</span> <span class="confirmInvalidMsg">The values don't match</span> </span></span>
+		</td>
+	</tr>
+	
+	<tr><td colspan="3">&nbsp;</td></tr>
+	
+	<tr>
+		<td align="right">
+			<label for="business_manager_business_manager_email">E mail *</label>
+			
+		</td>
+		<td>&nbsp;</td>
+		<td><span id="sprytextfield11">	
+			<%= text_field 'business_manager', 'business_manager_email', :class => "textbox-signup"  %>
+			<span class="textfieldRequiredMsg">E-mail Required</span><span class="textfieldInvalidFormatMsg">Invalid E-mail</span></span></span>
+		</td>
+	</tr>
+	
+	<tr><td colspan="3">&nbsp;</td></tr>
+	
+	
+</table>
+
+<script type="text/javascript">
+
+var sprytextfield1 = new Spry.Widget.ValidationTextField("sprytextfield1", "none", {validateOn:["blur"]});
+var sprytextfield2 = new Spry.Widget.ValidationTextField("sprytextfield2", "none", {validateOn:["blur"]});
+var sprytextfield3 = new Spry.Widget.ValidationTextField("sprytextfield3", "none", {validateOn:["blur"]});
+var sprytextfield11 = new Spry.Widget.ValidationTextField("sprytextfield11", "email", {validateOn:["blur"]});
+var sprytextfield4 = new Spry.Widget.ValidationTextField("sprytextfield4", "integer", {validateOn:["blur", "change"], minChars:7});
+
+var sprypassword12 = new Spry.Widget.ValidationPassword("sprypassword12",{validateOn:["blur"]});
+var spryconf5 = new Spry.Widget.ValidationConfirm("spryconfirm5", "sprypassword12", {validateOn: ['blur']});
+	</script>
+<!--[eoform:business_manager]-->
+

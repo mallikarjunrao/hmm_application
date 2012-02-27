@@ -1,0 +1,99 @@
+<div  id="market_managers">
+  <table align="center">
+    <tr>
+      <td colspan="8">
+       <%to_date=todate.split('-')
+        from_date=fromdate.split('-')
+        if to_date[1]==2.to_s
+          if to_date[2]==28.to_s
+            todate="#{to_date[0]}-#{to_date[1]}-31"
+          end
+        else
+          if to_date[2]>=30.to_s
+            todate="#{to_date[0]}-#{to_date[1]}-31"
+          end
+        end
+
+        if from_date[1]==2.to_s
+          if from_date[2]>=28.to_s
+            fromdate="#{from_date[0]}-#{from_date[1]}-31"
+          end
+        else
+          if from_date[2]>=30.to_s
+            fromdate="#{from_date[0]}-#{from_date[1]}-31"
+          end
+        end
+
+        %>
+        <font size="3" color="#ffffff">Market Manager Commission Report - <%=to_date[1]%>/<%=to_date[2]%>/<%=to_date[0]%> to <%=from_date[1]%>/<%=from_date[2]%>/<%=from_date[0]%></font>
+      </td>
+    </tr>
+    <tr>
+      <td colspan="8">&nbsp;</td>
+    </tr>
+    <tr>
+      <td  background="/images/body_hor.JPG">List of Managers</td>
+      <td  background="/images/body_hor.JPG">Managers Username</td>
+      <td  background="/images/body_hor.JPG">Commissions</td>
+    </tr>
+    <%for j in @marketmanager_commission%>
+      <tr class="<%= cycle('odd', 'even') -%>">
+        <td>
+          <a href="/account/commissionReport_market_manager_new/<%=j.id%>"><%=j.manager_name%></a>
+        </td>
+        <td>
+          <a href="/account/commissionReport_market_manager_new/<%=j.id%>"><%=j.manager_username%></a>
+        </td>
+
+        <% @studio = ManagerBranche.find(:all, :conditions => "manager_id='#{j.id}'")
+
+        @studio_customers_count = 0
+      %>
+        <%for m in @studio%>
+          <% @joined_on=m.joined_on %>
+          <% @expired_on=m.expired_on %>
+          <%@studioemp = EmployeAccount.find(:all, :conditions => "store_id='#{m.branch_id}' and emp_type='store_manager' and employe_join_date > '#{@joined_on}' ")
+          customers_count=0
+        %>
+          <%for z in @studioemp %>
+            <%@employee_customers_count = PaymentCount.count('DISTINCT a.uid', :joins => "as a, hmm_users as b", :conditions => "a.emp_id='#{z.id}' and a.uid=b.id and a.account_type='platinum_user' and (a.amount='$9.95' or a.amount='$49.95' or a.amount='$99.95') and  a.recieved_on between '#{fromdate}' and '#{todate}' and (b.d_created_date between '#{@joined_on}' and '#{@expired_on}' )  ")
+
+              @deduct_commission = DeductManagerCommission.find(:all, :select => "sum(amount) as deduction", :conditions => "studio_manager_id='#{z.id}' and deduction_date between '#{fromdate}' and '#{todate}' ")
+
+
+              @studioempother = EmployeAccount.find(:all, :conditions => "store_id='#{z.store_id}' and emp_type!='store_manager'")
+              customers_count_other=0
+              for y in @studioempother
+                @employeeother_customers_count = PaymentCount.count('DISTINCT a.uid', :joins => "as a, hmm_users as b", :conditions => "a.emp_id='#{y.id}' and a.uid=b.id and a.account_type='platinum_user' and (a.amount='$9.95' or a.amount='$49.95' or a.amount='$99.95') and  a.recieved_on between '#{fromdate}' and '#{todate}' and (b.d_created_date between '#{z.employe_join_date}' and '#{z.end_date}' )  ")
+                customers_count_other=customers_count_other+@employeeother_customers_count
+              end
+              @totalcustomercountbystudio=@employee_customers_count+customers_count_other
+
+              customers_count=customers_count + @totalcustomercountbystudio - (@deduct_commission[0].deduction.to_f / 2)
+          %>
+
+
+          <% end %>
+          <%@studio_customers_count=@studio_customers_count+customers_count
+        %>
+        <%
+        end
+        @commission=@studio_customers_count
+      %>
+        <td align="center">
+
+
+              $<%=@commission%>
+
+        </td>
+      </tr>
+    <%end%>
+    <tr><td>&nbsp;</td>
+    </tr>
+    <tr>
+      <th>
+        <input type="button" value="Print Commission Report" name="print" onclick="printIt(document.getElementById('market_managers').innerHTML);return false" />
+      </th>
+    </tr>
+  </table>
+</div>

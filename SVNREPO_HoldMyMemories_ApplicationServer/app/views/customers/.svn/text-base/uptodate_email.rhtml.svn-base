@@ -1,0 +1,7 @@
+<form name="frm" action="/customers/email_uptodate">
+  <p><%=flash[:notice]%></p>
+  <p> username: <input type="text" name="uname" value=""/></p>
+  <p> email: <input type="text" name="email" value=""/></p>
+  <p> <input type="submit" name="submit" value="submit"/></p>
+  
+</form>

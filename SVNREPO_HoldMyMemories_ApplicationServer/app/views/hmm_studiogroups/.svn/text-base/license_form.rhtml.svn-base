@@ -1,0 +1,748 @@
+
+<script language="JavaScript">
+  function check(){
+		
+		
+    if (document.frm.license_licensor.value == '')
+    {
+      alert("Please enter the Place");
+      document.frm.license_licensor.focus();
+      return false;
+    }
+    if (document.frm.license_studio.value == '')
+    {
+      alert("Please enter the Studio");
+      document.frm.license_studio.focus();
+      return false;
+    }
+    if (document.frm.license_location.value == '')
+    {
+      alert("Please enter the Location");
+      document.frm.license_location.focus();
+      return false;
+    }
+    if (document.frm.licensor_address.value == '')
+    {
+      alert("Please enter the Licensor Address");
+      document.frm.licensor_address.focus();
+      return false;
+    }
+    if (document.frm.licensor_attn.value == '')
+    {
+      alert("Please enter the Licensor Attn");
+      document.frm.licensor_attn.focus();
+      return false;
+    }
+    if (document.frm.licensor_fax.value == '')
+    {
+      alert("Please enter the Licensor Fax");
+      document.frm.licensor_fax.focus();
+      return false;
+    }
+    if (document.frm.licensor_studio.value == '')
+    {
+      alert("Please enter the Studio Name");
+      document.frm.licensor_studio.focus();
+      return false;
+    }
+    if (document.frm.licensor_studio_by.value == '')
+    {
+      alert("Please enter the Studio Owner");
+      document.frm.licensor_studio_by.focus();
+      return false;
+    }
+    if (document.frm.licensor_studio_title.value == '')
+    {
+      alert("Please enter the Title");
+      document.frm.licensor_studio_title.focus();
+      return false;
+    }
+	
+  }
+	
+</script>
+<script type="text/javascript">
+  function windowOpener(windowHeight, windowWidth, windowName, windowUri)
+  {
+    //alert();
+    var centerWidth = (window.screen.width - windowWidth) / 2;
+    var centerHeight = (window.screen.height - windowHeight) / 2;
+
+    var features='resizable=0,width='+ windowWidth +
+      ',height='+ windowHeight +
+      ',left='+ centerWidth +
+      ',top='+ centerHeight;
+    newWindow = window.open(windowUri,'',features);
+
+    //newWindow.focus();
+    //return newWindow.name;
+  }
+</script>
+
+<style type="text/css">
+  .headingtop{
+    font-family:Arial, Helvetica, sans-serif;
+    font-size:14px;
+    color:#ffffff;
+    font-weight:bold;
+  }
+
+  .contentwhitetext{
+    font-family:Arial, Helvetica, sans-serif;
+    font-size:12px;
+    color:#ffffff;
+  }
+
+  .contentwhitetextunderline{
+    font-family:Arial, Helvetica, sans-serif;
+    font-size:12px;
+    color:#ffffff;
+    text-decoration:underline;
+  }
+
+  .contentwhitetextbold{
+    font-family:Arial, Helvetica, sans-serif;
+    font-size:12px;
+    color:#ffffff;
+    font-weight:bold;
+  }
+  .textboxsmall{
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 12px;
+    font-weight: normal;
+    color: #fff;
+    text-decoration: none;
+    width:30px;
+    height: 16px;
+    border-top-width: 0px;
+    border-right-width: 0px;
+    border-bottom-width: 1px;
+    border-left-width: 0px;
+    border-top-style: solid;
+    border-right-style: solid;
+    border-bottom-style: 1px #fff;
+    border-left-style: solid;
+    padding-top:2px;
+    padding-left:5px;
+    background-color:transparent;
+  }
+  .textboxsmall1{
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 12px;
+    font-weight: normal;
+    color: #fff;
+    text-decoration: none;
+    width:60px;
+    height: 16px;
+    border-top-width: 0px;
+    border-right-width: 0px;
+    border-bottom-width: 1px;
+    border-left-width: 0px;
+    border-top-style: solid;
+    border-right-style: solid;
+    border-bottom-style: 1px #fff;
+    border-left-style: solid;
+    padding-top:2px;
+    padding-left:5px;
+    background-color:transparent;
+  }
+  .textboxsmall2{
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 12px;
+    font-weight: normal;
+    color: #fff;
+    text-decoration: none;
+    width:180px;
+    height: 16px;
+    border-top-width: 0px;
+    border-right-width: 0px;
+    border-bottom-width: 1px;
+    border-left-width: 0px;
+    border-top-style: solid;
+    border-right-style: solid;
+    border-bottom-style: 1px #fff;
+    border-left-style: solid;
+    padding-top:2px;
+    padding-left:5px;
+    background-color:transparent;
+  }
+
+  .textboxsmall_licen{
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 12px;
+    font-weight: normal;
+    color: #fff;
+    text-decoration: none;
+    width:155px;
+    height: 16px;
+    border-top-width: 0px;
+    border-right-width: 0px;
+    border-bottom-width: 1px;
+    border-left-width: 0px;
+    border-top-style: solid;
+    border-right-style: solid;
+    border-bottom-style: 1px #fff;
+    border-left-style: solid;
+    padding-top:2px;
+    padding-left:5px;
+    background-color:transparent;
+    #paddingcont{
+    padding-left:20px;
+
+  }
+  .style2 {font-family: Arial, Helvetica, sans-serif; font-size: 12px; color: #ffffff; text-decoration: underline; font-weight: bold; }
+</style>
+<div align="center">
+  <form name="frm" action="/hmm_studiogroups/pay_form/" method="post" onsubmit="return check();">
+    <table width="934" border="0" cellspacing="0" cellpadding="0" align="center">
+      <tr>
+        <td align="left" valign="top" class="headingtop">&nbsp;</td>
+      </tr>
+      <tr>
+        <td align="center" valign="top" class="headingtop">LICENSE AGREEMENT</td>
+      </tr>
+      <tr>
+        <td align="left" valign="top" class="contentwhitetext">&nbsp;</td>
+      </tr>
+      <tr>
+        <td align="left" valign="top" class="contentwhitetext">THIS LICENSE AGREEMENT (the "License"), effective from 
+          <%     t = Time.now %>
+          <input type="text" class="textboxsmall_licen" name="license_date" value="<%=t.strftime('%d')%> - <%=t.strftime('%B')%> - <%=t.strftime('%Y')%>" readonly="readonly" />
+          , by and between HoldMyMemories.com, LLC., a Texas corporation (the "Licensor") with principal business address in Houston, Texas and
+          <input type="text" name="license_licensor" id="license_licensor" value="<%=session[:license_licensor]%>" class="textboxsmall2"/>, a 
+          <input type="text" name="license_studio" id="license_studio" value="<%=session[:license_studio]%>"  class="textboxsmall2"/> 
+          as licensee (the "Studio") operating at 
+          <input type="text" name="license_location" id="license_location" value="<%=session[:license_location]%>" class="textboxsmall2"/> (the "Location").</td>
+      </tr>
+      <tr>
+        <td align="left" valign="top">&nbsp;</td>
+      </tr>
+      <tr>
+        <td align="center" valign="top" class="headingtop">RECITALS</td>
+      </tr>
+      <tr>
+        <td align="left" valign="top">&nbsp;</td>
+      </tr>
+      <tr>
+        <td align="center" valign="top"><table width="777" border="0" cellspacing="0" cellpadding="0">
+            <tr>
+              <td width="41" align="center" valign="top" class="contentwhitetextbold">A.</td>
+              <td width="736" align="left" valign="top" class="contentwhitetext">Licensor has developed, honed and implemented a unique, proprietary system (the<br />              "<span class="contentwhitetextunderline" >Hold My Memories<sup>SM</sup> System</span>" or "<span class="contentwhitetextunderline" >HMM System</span>" or the "<span class="contentwhitetextunderline" >System</span>") for professional photography studios to offer their customers and use as a tool to help such studios encourage repeat business.</td>
+            </tr>
+            <tr>
+              <td height="10" align="center" valign="top" class="contentwhitetextbold"></td>
+              <td height="10" align="left" valign="top"></td>
+            </tr>
+            <tr>
+              <td align="center" valign="top" class="contentwhitetextbold">B.</td>
+              <td align="left" valign="top" class="contentwhitetext">The HMM System provides members with a website application to create, store, organize and share personalized life stories and memories through photos, videos, movies and artwork.</td>
+            </tr>
+            <tr>
+              <td height="10" align="center" valign="top" class="contentwhitetextbold"></td>
+              <td height="10" align="left" valign="top"></td>
+            </tr>
+            <tr>
+              <td align="center" valign="top" class="contentwhitetextbold">C.</td>
+              <td align="left" valign="top" class="contentwhitetext">Licensor owns all rights, title and interest to the HMM System and the trade and/or service mark Hold My Memories Share Your MomentsSM, including the designs attendant thereto.</td>
+            </tr>
+            <tr>
+              <td height="10" align="center" valign="top" class="contentwhitetextbold"></td>
+              <td height="10" align="left" valign="top"></td>
+            </tr>
+            <tr>
+              <td align="center" valign="top" class="contentwhitetextbold">D.</td>
+              <td align="left" valign="top" class="contentwhitetext">Licensor is developing a network of licensed studios who will offer memberships to their customers during their sales process.</td>
+            </tr>
+            <tr>
+              <td height="10" align="center" valign="top" class="contentwhitetextbold"></td>
+              <td height="10" align="left" valign="top"></td>
+            </tr>
+            <tr>
+              <td align="center" valign="top" class="contentwhitetextbold">E.</td>
+              <td align="left" valign="top" class="contentwhitetext">After due consideration, the Studio desires to participate by licensing the HMM System and marks from Licensor per the terms and conditions thereof.</td>
+            </tr>
+            <tr>
+              <td colspan="2" align="center" valign="top" >&nbsp;</td>
+            </tr>
+            <tr>
+              <td colspan="2" align="center" valign="top" >&nbsp;</td>
+            </tr>
+            <tr>
+              <td colspan="2" align="center" valign="top" class="headingtop">A G R E E M E N T</td>
+            </tr>
+            <tr>
+              <td colspan="2" align="center" valign="top">&nbsp;</td>
+            </tr>
+            <tr>
+              <td colspan="2" align="left" valign="top" class="contentwhitetext">1.&nbsp;&nbsp;&nbsp; <span class="contentwhitetextunderline" ><strong>Licensor's 100% Ownership of HMM System.</strong></span>  Studio agrees that notwithstanding any rights granted to Studio by this License, the Licensor owns all right, title and interest in and to the HMM System, which shall include but not limited to the following:  (i) Hold My Memories.com; (ii) Hold My Memories/Share Your Moments<sup>SM</sup> (iii) any trademarks and/or service marks related to Hold My Memories<sup>SM</sup>; (iv) all software and related computer applications now in use or later developed related to the HMM System; (v) all trade secrets, know how and data (including the results of any trial and error to develop or improve the HMM System); (vi) all further developments or improvements to the HMM System, whether or not developed by Licensor; and (vii) the business model and all marketing plans involving the HMM System, both now existing and later developed (collectively, all of the foregoing shall be referred to as the "<span class="contentwhitetextunderline" >HMM System</span>").</td>
+            </tr>
+            <tr>
+              <td height="15" colspan="2" align="center" valign="top"></td>
+            </tr>
+            <tr>
+              <td colspan="2" align="left" valign="top"class="contentwhitetext">2.&nbsp;&nbsp;&nbsp; <span class="contentwhitetextunderline" ><strong>Nonexclusive License.</strong></span>  Licensor hereby grants to Studio a nonexclusive license to use and exploit the HMM System in connection with the operation of the Studio’s photograph business subject to the terms and conditions set forth in this License.</td>
+            </tr>
+            <tr>
+              <td colspan="2" align="left" valign="top"class="contentwhitetext">&nbsp;</td>
+            </tr>
+            <tr>
+              <td colspan="2" align="left" valign="top"class="contentwhitetext"><table width="777" border="0" cellspacing="0" cellpadding="0">
+                  <tr>
+                    <td colspan="2" align="left" valign="top">3.<span class="contentwhitetextunderline" ><strong> Royalties and Fees.</strong></span></td>
+                  </tr>
+                  <tr>
+                    <td width="31" align="left" valign="top">&nbsp;</td>
+                    <td width="746" align="left" valign="top">&nbsp;</td>
+                  </tr>
+                  <tr>
+                    <td align="left" valign="top">&nbsp;</td>
+                    <td align="left" valign="top">3.1 &nbsp;&nbsp;&nbsp;<span class="contentwhitetextunderline" ><strong>Initial License Fee.</strong></span> Upon execution of this License, Licensee shall provide Licensor with an Initial License Fee of $295.00 to reimburse Licensor's expenses in approving Studio and any initial training relating to the HMM System.</td>
+                  </tr>
+                  <tr>
+                    <td align="left" valign="top"></td>
+                    <td align="left" valign="top"></td>
+                  </tr>
+                  <tr>
+                    <td align="left" valign="top">&nbsp;</td>
+                    <td align="left" valign="top" class="contentwhitetext">&nbsp;</td>
+                  </tr>
+                  <tr>
+                    <td align="left" valign="top">&nbsp;</td>
+                    <td align="left" valign="top" class="contentwhitetext">3.2&nbsp;&nbsp;&nbsp; <span class="contentwhitetextunderline" ><strong>Royalty</strong></span>.  In addition to the Initial License Fee and in return for Licensor’s grant to Studio of a license to use the HMM System, the Studio shall pay to Licensor, as a royalty, all amounts which Licensor customarily charges in connection with each sale of an HMM membership.  For the initial term of this License, this royalty shall total:</td>
+                  </tr>
+                  <tr>
+                    <td align="left" valign="top">&nbsp;</td>
+                    <td align="left" valign="top">&nbsp;</td>
+                  </tr>
+                  <tr>
+                    <td align="left" valign="top">&nbsp;</td>
+                    <td align="left" valign="top"class="contentwhitetext" id="paddingcont">(i)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$4.95	per month in the case of monthly subscribers ($5.00 to studio)</td>
+                  </tr>
+                  <tr>
+                    <td align="left" valign="top">&nbsp;</td>
+                    <td align="left" valign="top"class="contentwhitetext" id="paddingcont">(ii)&nbsp;&nbsp;&nbsp;&nbsp;$24.95	from each 6 months’ prepaid subscription and ($25.00 to studio) </td>
+                  </tr>
+                  <tr>
+                    <td align="left" valign="top">&nbsp;</td>
+                    <td align="left" valign="top"class="contentwhitetext" id="paddingcont">(iii)&nbsp;&nbsp;&nbsp;$49.95	from each annual prepaid subscription ($50.00 to studio)</td>
+                  </tr>
+                  <tr>
+                    <td align="left" valign="top">&nbsp;</td>
+                    <td align="left" valign="top">&nbsp;</td>
+                  </tr>
+                  <tr>
+                    <td align="left" valign="top">&nbsp;</td>
+                    <td align="left" valign="top"class="contentwhitetext">3.3&nbsp;&nbsp;&nbsp;<span class="contentwhitetextunderline" > <strong>Licensor to Collect All HMM Fees.</strong></span>    Licensor shall collect all HMM fees directly from Studio customers through the HMM website.  The balance of such HMM fees after deducting all royalties due Licensor from this paragraph shall be returned to the Studio monthly.  </td>
+                  </tr>
+                </table></td>
+            </tr>
+            <tr>
+              <td colspan="2" align="left" valign="top"class="contentwhitetext">&nbsp;</td>
+            </tr>
+            <tr>
+              <td colspan="2" align="left" valign="top"class="contentwhitetext">4.&nbsp;&nbsp;&nbsp;<span class="contentwhitetextunderline" ><strong>Term.</strong></span>  The term of License shall begin on the date first above written and shall, unless earlier terminated per the language of this License, continue for one year and automatically renew for successive one-year periods subject to the following terms and conditions. </td>
+            </tr>
+            <tr>
+              <td colspan="2" align="left" valign="top"class="contentwhitetext">&nbsp;</td>
+            </tr>
+            <tr>
+              <td colspan="2" align="left" valign="top"class="contentwhitetext">5.&nbsp;&nbsp;&nbsp; <span class="contentwhitetextunderline" ><strong>Termination.</strong></span>  Notwithstanding anything to the contrary herein, this License may be terminated by Licensor for any of the following events ("Events of Termination"):</td>
+            </tr>
+            <tr>
+              <td colspan="2" align="left" valign="top"class="contentwhitetext">&nbsp;</td>
+            </tr>
+            <tr>
+              <td colspan="2" align="left" valign="top"class="contentwhitetext"><table width="777" border="0" cellspacing="0" cellpadding="0">
+                  <tr>
+                    <td width="41" align="left" valign="top">&nbsp;</td>
+                    <td width="736" align="left" valign="top">(i)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Studio violates Licensor’s Code of Conduct or otherwise uses the HMM System in a way that denigrates Licensor or damages its goodwill;</td>
+                  </tr>
+                  <tr>
+                    <td height="10" align="left" valign="top" class="contentwhitetextbold"></td>
+                    <td height="10" align="left" valign="top"></td>
+                  </tr>
+                  <tr>
+                    <td align="left" valign="top">&nbsp;</td>
+                    <td align="left" valign="top">(ii)&nbsp;&nbsp;&nbsp;&nbsp;Studio ceases to operate its business at the Location or otherwise becomes insolvent or files for bankruptcy protection;	</td>
+                  </tr>
+                  <tr>
+                    <td height="10" align="left" valign="top" class="contentwhitetextbold"></td>
+                    <td height="10" align="left" valign="top"></td>
+                  </tr>
+                  <tr>
+                    <td align="left" valign="top">&nbsp;</td>
+                    <td align="left" valign="top">(iii)	&nbsp;&nbsp;Studio fails to pay Licensor any fees or royalties when due under the terms of the License;</td>
+                  </tr>
+                  <tr>
+                    <td height="10" align="left" valign="top" class="contentwhitetextbold"></td>
+                    <td height="10" align="left" valign="top"></td>
+                  </tr>
+                  <tr>
+                    <td align="left" valign="top">&nbsp;</td>
+                    <td align="left" valign="top">(iv)&nbsp;&nbsp;&nbsp;Studio's use of the HMM System violates applicable state or federal laws or regulations;</td>
+                  </tr>
+                  <tr>
+                    <td height="10" align="left" valign="top" class="contentwhitetextbold"></td>
+                    <td height="10" align="left" valign="top"></td>
+                  </tr>
+                  <tr>
+                    <td align="left" valign="top">&nbsp;</td>
+                    <td align="left" valign="top">(v)&nbsp;&nbsp;&nbsp;&nbsp;Studio materially breaches the terms and conditions of this License and refuses to cure same; or</td>
+                  </tr>
+                  <tr>
+                    <td height="10" align="left" valign="top" class="contentwhitetextbold"></td>
+                    <td height="10" align="left" valign="top"></td>
+                  </tr>
+                  <tr>
+                    <td align="left" valign="top">&nbsp;</td>
+                    <td align="left" valign="top">(vi)&nbsp;&nbsp;&nbsp;Licensor and Studio mutually agree to such termination.</td>
+                  </tr>
+                  <tr>
+                    <td colspan="2" align="left" valign="top">&nbsp;</td>
+                  </tr>
+                  <tr>
+                    <td colspan="2" align="left" valign="top"class="contentwhitetext">6<strong>.&nbsp;&nbsp;&nbsp;<span class="contentwhitetextunderline" >Right to Display Studio Images</span></strong><span class="contentwhitetextunderline" >.</span>  Studio grants Licensor the right to display any images from photo sessions that Studio or its customers post to any HMM site during the term of this License.  Studio understands and agrees that Licensor’s right to use, access and display posted photos is absolute and irrevocable, even if this License expires or is earlier terminated.  Studio shall not deny its customers access to studio images after this License terminates.  </td>
+                  </tr>
+                  <tr>
+                    <td colspan="2" align="left" valign="top">&nbsp;</td>
+                  </tr>
+                  <tr>
+                    <td colspan="2" align="left" valign="top">7.&nbsp;&nbsp;&nbsp;<span class="contentwhitetextunderline" ><strong>Licensor's Rights of Approval and Quality Control. </strong></span></td>
+                  </tr>
+                  <tr>
+                    <td colspan="2" align="left" valign="top"><table width="777" border="0" cellspacing="0" cellpadding="0">
+                        <tr>
+                          <td width="32" align="left" valign="top">&nbsp;</td>
+                          <td width="745">&nbsp;</td>
+                        </tr>
+                        <tr>
+                          <td width="32" align="left" valign="top">&nbsp;</td>
+                          <td align="left" valign="top" class="contentwhitetext">7.1&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Studio will protect and enhance the reputation and integrity of the HMM System and the good will associated therewith.  Studio agrees to affix to any materials, packaging, or advertising, promotional or display material which contain the HMM logo or marks, any notices of trademark or copyright as Licensor directs.  Studio agrees to obtain Licensor's specific written instructions with respect to all such notices.</td>
+                        </tr>
+                        <tr>
+                          <td height="10" align="left" valign="top" class="contentwhitetextbold"></td>
+                          <td height="10" align="left" valign="top"></td>
+                        </tr>
+                        <tr>
+                          <td width="32" align="left" valign="top">&nbsp;</td>
+                          <td align="left" valign="top">7.2&nbsp;&nbsp;&nbsp;&nbsp;Studio’s use or exploitation of the HMM System will conform to Licensor’s Code of Conduct and any other written quality standards set by Licensor and modified from time to time.</td>
+                        </tr>
+                        <tr>
+                          <td height="10" align="left" valign="top" class="contentwhitetextbold"></td>
+                          <td height="10" align="left" valign="top"></td>
+                        </tr>
+                        <tr>
+                          <td width="32" align="left" valign="top">&nbsp;</td>
+                          <td align="left" valign="top">7.3&nbsp;&nbsp;&nbsp;Studio will use the HMM System in accordance with all applicable federal, State and local laws and in a manner that will not reflect adversely upon the good name of Licensor.  Once Licensor has approved in writing the method of Studio’s use of the HMM System, Studio shall not depart therefrom in any material respect without Licensor's prior written consent. </td>
+                        </tr>
+                        <tr>
+                          <td height="10" align="left" valign="top" class="contentwhitetextbold"></td>
+                          <td height="10" align="left" valign="top"></td>
+                        </tr>
+                        <tr>
+                          <td width="32" align="left" valign="top">&nbsp;</td>
+                          <td align="left" valign="top">7.4&nbsp;&nbsp;&nbsp;Studio understands and acknowledges that every detail of the HMM System is important to Licensor and to protect and enhance the reputation and good will of the HMM System, Studio agrees to use all materials, methods and marks to conform with Licensor’s standards.</td>
+                        </tr>
+                      </table></td>
+                  </tr>
+                  <tr>
+                    <td colspan="2" align="left" valign="top">&nbsp;</td>
+                  </tr>
+                  <tr>
+                    <td colspan="2" align="left" valign="top">8.<span class="contentwhitetextunderline"><strong>Protection of HMM System.</strong></span></td>
+                  </tr>
+                  <tr>
+                    <td colspan="2" align="left" valign="top"><table width="777" border="0" cellspacing="0" cellpadding="0">
+                        <tr>
+                          <td width="31" align="left" valign="middle">&nbsp;</td>
+                          <td>&nbsp;</td>
+                        </tr>
+                        <tr>
+                          <td>&nbsp;</td>
+                          <td align="left" valign="top">8.1&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Licensor may take any action which it deems necessary to protect its rights in the HMM System. </td>
+                        </tr>
+                        <tr>
+                          <td height="10" align="left" valign="top" class="contentwhitetextbold"></td>
+                          <td height="10" align="left" valign="top"></td>
+                        </tr>
+                        <tr>
+                          <td align="left" valign="top">&nbsp;</td>
+                          <td align="left" valign="top">8.2&nbsp;&nbsp;&nbsp;&nbsp;To protect Licensor’s rights in the HMM System, Studio shall: (i) not attack the title of Licensor in and to the HMM System or any copyright or trademark pertaining thereto, nor will it attack the validity of the license granted hereunder; (ii) not harm, misuse or bring into disrepute the HMM System; (iii) use the HMM System in an ethical and legal manner and in accordance with the terms and intent of this License; </td>
+                        </tr>
+                      </table></td>
+                  </tr>
+                  <tr>
+                    <td colspan="2" align="left" valign="top">&nbsp;</td>
+                  </tr>
+                  <tr>
+                    <td colspan="2" align="left" valign="top" >9.&nbsp;&nbsp;&nbsp;<span class="contentwhitetextunderline"><strong>Licensor’s Warranties and Representations.</strong> Licensor hereby represents and warrants to Studio that:</span>  (i) Licensor has the full power and authority to enter into this License and that the execution and delivery thereof will not violate any license or agreement to which Licensor is a party; and (ii) Licensor owns the HMM System and has no actual knowledge of any rights or claims of third parties which conflict with Licensor’s rights in the HMM System.</td>
+                  </tr>
+                  <tr>
+                    <td colspan="2" align="left" valign="top">&nbsp;</td>
+                  </tr>
+                  <tr>
+                    <td colspan="2" align="left" valign="top">10.&nbsp;&nbsp;&nbsp;<span class="contentwhitetextunderline"><strong>HMM Code of Conduct</strong></span>.  By signing below and entering into this License, the Studio agrees to comply at all times with Licensor’s Code of Conduct which Licensor may improve at any given time.  Although Licensor will maintain a written Code of Conduct (and update or make revisions thereto), Studio nevertheless understands and agrees that the HMM System is family-oriented and Studio shall not create or display any offensive, lewd or lascivious images.  Studio agrees to encourage decency among members in images and uploaded photographs.</td>
+                  </tr>
+                  <tr>
+                    <td colspan="2" align="left" valign="top">&nbsp;</td>
+                  </tr>
+                  <tr>
+                    <td colspan="2" align="left" valign="top">11.&nbsp;&nbsp;&nbsp;<span class="contentwhitetextunderline"><strong>Improvements.</strong></span> Any and all improvements to the HMM System developed by Studio will be the sole and exclusive property of the Licensor, although for the remaining term hereof the Licensor will grant Studio a royalty-free license to use Studio&rsquo;s improvements per the terms and conditions of this License.</td>
+                  </tr>
+                  <tr>
+                    <td colspan="2" align="left" valign="top">&nbsp;</td>
+                  </tr>
+                  <tr>
+                    <td colspan="2" align="left" valign="top">12.&nbsp;&nbsp;&nbsp;<span class="contentwhitetextunderline"><strong>License Personal to Studio</strong></span>.  Licensor grants this License to Studio based on Licensor’s review of Studio and its owners and managers.  Licensor signed this License because Licensor believes in the Studio’s ability to exploit the License.  The License can be terminated at Licensor’s option if the Studio’s ownership changes or if the Studio ceases to operate at the Location.  Notwithstanding anything to the contrary in this License, the Licensor may assign its rights in HMM to an any third party without Studio’s consent. </td>
+                  </tr>
+                  <tr>
+                    <td colspan="2" align="left" valign="top">&nbsp;</td>
+                  </tr>
+                  <tr>
+                    <td colspan="2" align="left" valign="top">13.&nbsp;&nbsp;&nbsp;<span class="contentwhitetextunderline"><strong>Franchise.</strong></span>&nbsp;Licensor reserves the right to later franchise the HMM System.  In such a case, the Studio agrees to cooperate with Licensor in its efforts to do so.</td>
+                  </tr>
+                  <tr>
+                    <td colspan="2" align="left" valign="top">&nbsp;</td>
+                  </tr>
+                  <tr>
+                    <td colspan="2" align="left" valign="top">14.&nbsp;&nbsp;&nbsp;<span class="contentwhitetextunderline"><strong> Notices</strong>.</span>   All notices, requests, consents, and other communications required or permitted to be given hereunder shall be in writing and delivered personally by receipted delivery or sent by certified or registered mail, return receipt requested, postage prepaid, as follows: </td>
+                  </tr>
+                  <tr>
+                    <td colspan="2" align="left" valign="top">&nbsp;</td>
+                  </tr>
+                  <tr>
+                    <td colspan="2" align="left" valign="top"><table width="777" border="0" cellspacing="0" cellpadding="0">
+                        <tr>
+                          <td width="255" align="center" valign="top">If to Studio, to:</td>
+                          <td width="522" align="left" valign="top">HoldMyMemories.com, LLC.<br />
+                            Attn: HMM Studio Support<br />
+                            14149 Westfair East Drive<br />
+                            Houston, Texas 77041<br />
+                            Fax:   	(713) 456-2736</td>
+                        </tr>
+                        <tr>
+                          <td align="left" valign="top">&nbsp;</td>
+                          <td align="left" valign="top">&nbsp;</td>
+                        </tr>
+                        <tr>
+                          <td align="center" valign="top">With a copy to:</td>
+                          <td align="left" valign="top">Cain & LaCroix, P.C.<br />
+					Attn: Melina B. Cain<br />
+					416 Westheimer<br /> 
+					Houston, Texas 77006<br />
+					Fax: 	(713) 623-8400<br /></td>
+                        </tr>
+                        <tr>
+                          <td align="left" valign="top">&nbsp;</td>
+                          <td align="left" valign="top">&nbsp;</td>
+                        </tr>
+                        <tr>
+                          <td align="center" valign="top">If to Licensor, to:</td>
+                          <td align="left" valign="top"><input type="text" name="licensor_address" id="licensor_address" class="textboxsmall2" value="<%=session[:licensor_address] %>"/></td>
+                        </tr>
+                        <tr>
+                          <td align="left" valign="top">&nbsp;</td>
+                          <td align="left" valign="top">Attn:
+                            <input type="text" name="licensor_attn" id="licensor_attn" class="textboxsmall_licen" value="<%=session[:licensor_attn] %>"/><br />
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="text" name="licensor_attn1" id="licensor_attn1" class="textboxsmall_licen" value="<%=session[:licensor_attn1] %>"/><br />
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="text" name="licensor_attn2" id="licensor_attn2" class="textboxsmall_licen" value="<%=session[:licensor_attn2] %>"/>                      </td>
+                        </tr>
+                        <tr>
+                          <td align="left" valign="top">&nbsp;</td>
+                          <td align="left" valign="top">&nbsp;</td>
+                        </tr>
+                        <tr>
+                          <td align="left" valign="top">&nbsp;</td>
+                          <td align="left" valign="top">Fax:
+                            <input type="text" name="licensor_fax" id="licensor_fax" class="textboxsmall_licen" value="<%=session[:licensor_fax] %>"/></td>
+                        </tr>
+                      </table></td>
+                  </tr>
+                  <tr>
+                    <td colspan="2" align="left" valign="top">&nbsp;</td>
+                  </tr>
+                  <tr>
+                    <td colspan="2" align="left" valign="top"><p>Any notice so given shall be deemed received when  delivered personally by receipted delivery, or, if mailed, when received. Any  party may change the address to which notices are to be sent by giving written  notice of such change of address to the other parties in the manner herein  provided for giving notice. </p></td>
+                  </tr>
+                  <tr>
+                    <td colspan="2" align="left" valign="top">&nbsp;</td>
+                  </tr>
+                  <tr>
+                    <td colspan="2" align="left" valign="top">15.&nbsp;&nbsp;&nbsp;<span class="contentwhitetextunderline"><strong><u>Indemnification</u>.</strong></span></td>
+                  </tr>
+                  <tr>
+                    <td colspan="2" align="left" valign="top">&nbsp;</td>
+                  </tr>
+                  <tr>
+                    <td colspan="2" align="left" valign="top"><table width="777" border="0" align="center" cellpadding="0" cellspacing="0">
+                        <tr>
+                          <td width="31" align="left" valign="top">&nbsp;</td>
+                          <td align="left" valign="top">15.1&nbsp;&nbsp;&nbsp;&nbsp;<span class="contentwhitetextunderline"><strong>Indemnification of Licensor.</strong></span>  Studio agrees to indemnify and hold harmless Licensor, its employees, consultants, officers, directors, stockholders, Studios, successors and assigns from and against any and all losses, damages, costs and expenses, including any legal fees and expenses incident thereto, arising from any suit, claim or demand based upon Studio‘s use of the HMM System, or based upon Studio’s operation for any actions brought in court or brought for breach of contract by third-parties.</td>
+                        </tr>
+                        <tr>
+                          <td height="10" align="left" valign="top" class="contentwhitetextbold"></td>
+                          <td height="10" align="left" valign="top"></td>
+                        </tr>
+                        <tr>
+                          <td align="left" valign="top">&nbsp;</td>
+                          <td align="left" valign="top">15.2&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="style2">Indemnification of Studio.</span>  Licensor agrees to indemnify and hold harmless Studio, its employees, officers and directors, from and against any and all losses, damages, costs and expenses, including the legal fees and expenses incident thereto, arising from any suit, claim or demand based upon Licensor’s use of the HMM System.</td>
+                        </tr>
+                      </table></td>
+                  </tr>
+                  <tr>
+                    <td colspan="2" align="left" valign="top">&nbsp;</td>
+                  </tr>
+                  <tr>
+                    <td colspan="2" align="left" valign="top">16.&nbsp;&nbsp;&nbsp;<span class="contentwhitetextunderline"><strong><u>General</u>.</strong></span></td>
+                  </tr>
+                  <tr>
+                    <td colspan="2" align="left" valign="top">&nbsp;</td>
+                  </tr>
+                  <tr>
+                    <td colspan="2" align="left" valign="top"><table width="777" border="0" align="center" cellpadding="0" cellspacing="0">
+                        <tr>
+                          <td width="31" align="left" valign="top"><p>&nbsp;</p>                      </td>
+                          <td align="left" valign="top"><p>16.1&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <span class="contentwhitetextunderline"><strong> Governing Law.</strong></span> This Agreement shall be governed by and construed and enforced in accordance with the laws of the State of Texas, without regards to application of any conflict of  law principles.  Venue for any disputes governing the interpretation or enforcement of this License will lie in the state or federal courts of Harris County, Texas. </p>                      </td>
+                        </tr>
+                        <tr>
+                          <td height="10" align="left" valign="top" class="contentwhitetextbold"></td>
+                          <td height="10" align="left" valign="top"></td>
+                        </tr>
+                        <tr>
+                          <td width="31" align="left" valign="top">&nbsp;</td>
+                          <td align="left" valign="top">16.2&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="contentwhitetextunderline"><strong>Headings</strong>.</span>The section headings contained herein are for reference purposes only and shall not in any way affect the meaning or interpretation of this License. </td>
+                        </tr>
+                        <tr>
+                          <td height="10" align="left" valign="top" class="contentwhitetextbold"></td>
+                          <td height="10" align="left" valign="top"></td>
+                        </tr>
+                        <tr>
+                          <td align="left" valign="top">&nbsp;</td>
+                          <td align="left" valign="top">16.3&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong><span class="contentwhitetextunderline">No Partnership.</span></strong>Nothing in this license shall be interpreted to place the parties in the relationship of partners or joint venturers, and the Studio shall have no power to obligate or bind Licensor in any manner whatsoever. </td>
+                        </tr>
+                        <tr>
+                          <td height="10" align="left" valign="top" class="contentwhitetextbold"></td>
+                          <td height="10" align="left" valign="top"></td>
+                        </tr>
+                        <tr>
+                          <td align="left" valign="top">&nbsp;</td>
+                          <td align="left" valign="top">16.4&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="style2">Entire Agreement &amp; Integration.</span> This License sets forth the entire agreement and understanding of the parties hereto, and supersedes all prior agreements, arrangements and understandings between the parties hereto. No representation, promise or inducement has been made by any party that is not embodied in this License, and no party shall be bound by or liable for any alleged representation, promise or inducement not so set forth.</td>
+                        </tr>
+                        <tr>
+                          <td height="10" align="left" valign="top" class="contentwhitetextbold"></td>
+                          <td height="10" align="left" valign="top"></td>
+                        </tr>
+                        <tr>
+                          <td align="left" valign="top">&nbsp;</td>
+                          <td align="left" valign="top">16.5&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="contentwhitetextunderline"><strong>Amendment</strong>.</span>This License may be amended, modified, superseded or canceled, and the terms or covenants hereof may be waived, only by a written instrument executed by all the parties hereto.  </td>
+                        </tr>
+                        <tr>
+                          <td height="10" align="left" valign="top" class="contentwhitetextbold"></td>
+                          <td height="10" align="left" valign="top"></td>
+                        </tr>
+                        <tr>
+                          <td align="left" valign="top">&nbsp;</td>
+                          <td align="left" valign="top">16.6&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="contentwhitetextunderline"><strong>No Waiver</strong>.</span>The failure of any party at any time or times to require performance of any provision hereof shall in no manner affect the right at a later time to enforce the same.  No waiver by either party of the breach of any term or covenant contained in this License, whether by conduct or otherwise, in any one or more instances, shall be deemed to be, or construed as, a further or continuing waiver of any such breach or a waiver of the breach of any other term or covenant contained in this License.</td>
+                        </tr>
+                        <tr>
+                          <td height="10" align="left" valign="top" class="contentwhitetextbold"></td>
+                          <td height="10" align="left" valign="top"></td>
+                        </tr>
+                        <tr>
+                          <td align="left" valign="top">&nbsp;</td>
+                          <td align="left" valign="top">16.7&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="contentwhitetextunderline"><strong> Multiple Counterparts</strong>.</span>  This License may be executed in counterparts, each of which shall be deemed to be an original and shall be binding upon the party who executed the same, but all of such counterparts shall constitute one and the same agreement.</td>
+                        </tr>
+                        <tr>
+                          <td height="10" align="left" valign="top" class="contentwhitetextbold"></td>
+                          <td height="10" align="left" valign="top"></td>
+                        </tr>
+                        <tr>
+                          <td align="left" valign="top">&nbsp;</td>
+                          <td align="left" valign="top">16.8&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="contentwhitetextunderline"><strong>No Warranties</strong>.</span>While Licensor believes that the HMM System will encourage repeat business to Studio and solidify relationships with its customers, Licensor has not and cannot guarantee any particular results.  Studio agrees that Licensor did not make any promises of revenue, profit or success.  </td>
+                        </tr>
+                        <tr>
+                          <td height="10" align="left" valign="top" class="contentwhitetextbold"></td>
+                          <td height="10" align="left" valign="top"></td>
+                        </tr>
+                        <tr>
+                          <td align="left" valign="top">&nbsp;</td>
+                          <td align="left" valign="top">16.9 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="contentwhitetextunderline"><strong>Studio’s Independent Review</strong>.</span>  Studio has made its own independent review of the HMM System and this License.  Studio had ample opportunity to review this License and, by signing below, agrees to the License terms based on Studio’s own decision, not relying on any promise, representation or statement of Licensor.</td>
+                        </tr>
+                        <tr>
+                          <td height="10" align="left" valign="top" class="contentwhitetextbold"></td>
+                          <td height="10" align="left" valign="top"></td>
+                        </tr>
+                        <tr>
+                          <td align="left" valign="top">&nbsp;</td>
+                          <td align="left" valign="top">16.10&nbsp;&nbsp;&nbsp;&nbsp; <span class="contentwhitetextunderline"><strong><a href="/user_account/termsof_use" target="_blank" >EULA</a> & <a href="/user_account/privacy_policy" target="_blank" >Privacy Policies</a></strong>.</span>Studio agrees to comply and be bound by the terms of Licensor's Privacy Policies and End User License Agreement ("EULA") which Licensor may enact from time to time. </td>
+                        </tr>
+                        <tr>
+                          <td height="10" align="left" valign="top" class="contentwhitetextbold"></td>
+                          <td height="10" align="left" valign="top"></td>
+                        </tr>
+                        <tr>
+                          <td align="left" valign="top">&nbsp;</td>
+                          <td align="left" valign="top">16.11&nbsp;&nbsp;&nbsp;&nbsp;<span class="style2">Waivers and Limitations of Liability.</span>  UNLESS THE LAW FORBIDS IT IN ANY PARTICULAR CASE, WE EACH AGREE TO LIMIT CLAIMS FOR DAMAGES OR OTHER MONETARY RELIEF AGAINST EACH OTHER TO DIRECT DAMAGES.  THIS LIMITATION AND WAIVER WILL APPLY REGARDLESS OF THE THEORY OF LIABILITY, WHETHER FRAUD, MISREPRESENTATION, BREACH OF CONTRACT, PERSONAL INJURY, PRODUCTS LIABILITY, OR ANY OTHER THEORY.  THIS MEANS THAT NEITHER OF US WILL SEEK ANY INDIRECT, SPECIAL, CONSEQUENTIAL, TREBLE, OR PUNITIVE DAMAGES FROM THE OTHER.</td>
+                        </tr>
+                        <tr>
+                          <td align="left" valign="top">&nbsp;</td>
+                          <td align="left" valign="top">&nbsp;</td>
+                        </tr>
+                        <tr>
+                          <td align="left" valign="top">&nbsp;</td>
+                          <td align="left" valign="top" style="padding-left:25px;">EXECUTED as of the date first above mentioned.</td>
+                        </tr>
+                        <tr>
+                          <td align="left" valign="top">&nbsp;</td>
+                          <td align="left" valign="top">&nbsp;</td>
+                        </tr>
+                        <tr>
+                          <td align="left" valign="top">&nbsp;</td>
+                          <td align="left" valign="top"><table width="777" border="0" align="center" cellpadding="0" cellspacing="0">
+                              <tr>
+                                <td width="305" align="left" valign="top"><strong>LICENSOR:	</strong></td>
+                                <td width="472" align="left" valign="top"><strong>STUDIO:</strong></td>
+                              </tr>
+                              <tr>
+                                <td align="left" valign="top">&nbsp;</td>
+                                <td align="left" valign="top">&nbsp;</td>
+                              </tr>
+                              <tr>
+                                <td align="left" valign="top"><strong>HoldMyMemories.com, LLC </strong></td>
+                                <td align="left" valign="top"><input type="text" name="licensor_studio" id="licensor_studio" class="textboxsmall2" value="<%=session[:licensor_studio] %>"/></td>
+                              </tr>
+                              <tr>
+                                <td height="25" align="left" valign="top">&nbsp;</td>
+                                <td align="left" valign="top">&nbsp;</td>
+                              </tr>
+                              <tr>
+                                <td align="left" valign="top">By:&nbsp;<span class="contentwhitetextunderline"> Mr.Bob Eveleth&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></td>
+                                <td align="left" valign="top">By:
+                                  <input type="text" name="licensor_studio_by" id="licensor_studio_by" class="textboxsmall2" value="<%=session[:licensor_studio_by] %>"/></td>
+                              </tr>
+                              <tr>
+                                <td height="10" align="left" valign="top" class="contentwhitetextbold"></td>
+                                <td height="10" align="left" valign="top"></td>
+                              </tr>
+                              <tr>
+                                <td align="left" valign="top">Title:&nbsp;<span class="contentwhitetextunderline"> President&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></td>
+                                <td align="left" valign="top">Title:&nbsp;
+                                  <input type="text" name="licensor_studio_title" id="licensor_studio_title" class="textboxsmall2" value="<%=session[:licensor_studio_title] %>"/></td>
+                              </tr>
+                            </table></td>
+                        </tr>
+                      </table></td>
+                  </tr>
+                </table></td>
+            </tr>
+
+
+          </table></td>
+      </tr>
+      <tr>
+        <td align="left" valign="top">&nbsp;</td>
+      </tr>
+    </table>
+    <p align="center"><input type="submit" name="sub" value="Submit"/> &nbsp;&nbsp;&nbsp;<input type="submit" name="dis" id="dis" value="Submit with Discount Code"/>&nbsp;&nbsp;&nbsp;<input type="submit" name="act" id="act" value="Submit and Activate with Promo Code"/></p>
+  </form>
+</div>

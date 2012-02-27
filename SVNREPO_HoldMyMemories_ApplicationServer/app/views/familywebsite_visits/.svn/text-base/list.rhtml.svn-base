@@ -1,0 +1,27 @@
+<h1>Listing familywebsite_visits</h1>
+
+<table>
+  <tr>
+  <% for column in FamilywebsiteVisit.content_columns %>
+    <th><%= column.human_name %></th>
+  <% end %>
+  </tr>
+  
+<% for familywebsite_visit in @familywebsite_visits %>
+  <tr>
+  <% for column in FamilywebsiteVisit.content_columns %>
+    <td><%=h familywebsite_visit.send(column.name) %></td>
+  <% end %>
+    <td><%= link_to 'Show', :action => 'show', :id => familywebsite_visit %></td>
+    <td><%= link_to 'Edit', :action => 'edit', :id => familywebsite_visit %></td>
+    <td><%= link_to 'Destroy', { :action => 'destroy', :id => familywebsite_visit }, :confirm => 'Are you sure?', :method => :post %></td>
+  </tr>
+<% end %>
+</table>
+
+<%= link_to 'Previous page', { :page => @familywebsite_visit_pages.current.previous } if @familywebsite_visit_pages.current.previous %>
+<%= link_to 'Next page', { :page => @familywebsite_visit_pages.current.next } if @familywebsite_visit_pages.current.next %> 
+
+<br />
+
+<%= link_to 'New familywebsite_visit', :action => 'new' %>

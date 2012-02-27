@@ -1,0 +1,92 @@
+<table border="0" width="2000">
+
+  <tr valign='center' align='center'>
+
+
+    <th>First Name</th>
+	<th >Last  Name</th>
+        <th>Sex</th>
+        <th>User Name</th>
+
+        <th> Email Address</th>
+        <th>Status</th>
+        <th>Cancellation request sent on</th>
+
+	<th>Reason for Cancellation</th>
+        <th>Studio Name</th>
+        <th>Studio Manager name (who accpeted the cancellation)</th>
+       
+	
+	
+
+
+  </tr>
+  <% 	odd_or_even = 0
+  i = 0
+  for colmn in @hmm_users
+    i = i + 1
+    odd_or_even = 1 - odd_or_even
+  %>
+
+    <tr class='ListLine<%= odd_or_even %>'>
+      <% hmmdet=HmmUser.find(:all,:conditions=>"id=#{colmn.id}")%>
+      <td align="center"><%=h colmn.v_fname%></td>
+
+      <td align="center"><%=h colmn.v_lname%></td>
+
+
+
+      <td><%=h colmn.e_sex%></td>
+      <td><%=h colmn.v_user_name%></td>
+
+      <td><%=h colmn.v_e_mail%></td>
+      <td><%=h colmn.e_user_status%></td>
+      <td><% if colmn.cancellation_request_date == '0000-00-00' || colmn.cancellation_request_date=='' || colmn.cancellation_request_date == nil %>
+                            Sorry, Requested date not found!!
+
+        <%else%>
+          <%=h colmn.cancellation_request_date.strftime("%m - %d - %Y")%>
+        <%end%></td>
+      <td><%  if(colmn.cancel_reason) %>
+          <%=h colmn.cancel_reason%>
+        <%else%>
+          <% cr=CancellationRequest.find(:first,:conditions=>"uid=#{colmn.id}") %>
+        <%if cr%>
+          <%=cr.reason_for_cancellation%>
+        <%end%>
+        <%end%></td>
+    <td><%if colmn.studio_name%> <%=h colmn.studio_name%> <%else%> Direct Customer<%end%></td>
+      <% if  colmn.canceled_by == nil || colmn.canceled_by == "" %>
+        <td>Old Entries</td>
+      
+      <%else %>
+        <% if  colmn.canceled_by == -2 %>
+          <td>Subscription failed</td>
+        
+        <%else%>
+          <% if  colmn.canceled_by == "0" ||  colmn.canceled_by == 0 %>
+            <td>Canceled by Admin</td>
+           
+          <%else%>
+            <% @employe_account = EmployeAccount.find(colmn.canceled_by)  %>
+            <td><%=h @employe_account.employe_name%></td>
+            <% if @employe_account.branch == 'baybrook' %>
+              <td>Houston, TX: Baybrook</td>
+            <%end%>
+          <%end%>
+        <%end%>
+      <%end%>
+    </tr>
+
+  <% end %>
+
+
+
+</table>
+
+
+
+
+
+
+<br />

@@ -1,0 +1,569 @@
+ <%= stylesheet_link_tag 'hmmout' %>
+    <link href="/stylesheets/main.css" media="screen" rel="Stylesheet" type="text/css" />
+    <link href="/stylesheets/hmm.css" media="screen" rel="Stylesheet" type="text/css" />
+    <link href="/stylesheets/mystyle_black_left.css" rel="stylesheet" type="text/css" />
+
+<script type="text/javascript">window.print();</script>
+<% @a=0 
+@a2=0 
+%>
+<p align="left">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</p>
+<p align="right">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</p>
+<table width="100%" border="0" cellspacing="0" cellpadding="0" align="center">
+             <tr>
+                <td align="center" valign="top">&nbsp;</td>
+  </tr>
+              <tr>
+                <td align="center" valign="top"><font color="red"><%=flash[:notice]%><%=flash[:success]%></font></td>
+              </tr>
+              <tr>
+                <td align="center" valign="top">&nbsp;</td>
+              </tr>
+              <tr>
+                <td  align="center" valign="top">
+                    <table width="850" border="0" cellspacing="0" cellpadding="0">
+                  <tr>
+                    <td width="11" align="left" valign="top">&nbsp;</td>
+                    <td width="824" align="left" valign="top" ></td>
+                    <td width="15" align="left" valign="top">&nbsp;</td>
+                  </tr>
+                  <tr>
+                    <td align="left" valign="top"></td>
+                    <td align="center" valign="top"  bgcolor="#050505"><table width="810" border="0" cellspacing="0" cellpadding="0">
+                      <tr>
+                        <td colspan="2" align="left" valign="middle"><img src="/images/hmm_logo1.png" style="margin-left:20px;"/></td>
+                        <td align="right" valign="top"><table width="405" border="0" cellspacing="0" cellpadding="0">
+                          <tr>
+                            <td width="194" align="center" valign="middle">&nbsp;</td>
+                            <td width="211" align="left" valign="top"><!--<span class="whitecont">
+                                <% if @studio_details %>
+                                <%=@studio_details.studio_name %>,<br><%=@studio_details.studio_branch %>,<br><%=@studio_details.studio_address %>.<br>
+                                <%else%>
+                                HOUSTON, TX:<br>Baybrook<br>281-486-1987.
+                                <%end%>
+                              </span>-->
+                            </td>
+                          </tr>
+                        </table></td>
+                      </tr>
+                      <tr>
+                        <td height="30" align="left" valign="middle">&nbsp;</td>
+                        <td align="left" valign="middle">&nbsp;</td>
+                        <td align="left" valign="top">&nbsp;</td>
+                      </tr>
+                      <tr>
+                        <td width="185" align="left" valign="middle"><span class="whitecont">Order:</span> <span class="whitecontnormal"><%=@order_details.order_number%></span></td>
+                        <td width="185" align="left" valign="middle"><span class="whitecont">Date:</span> <span class="whitecontnormal"><%=@order_details.created_at.strftime("%m / %d / %Y")%></span></td>
+                        <td align="left" valign="top">&nbsp;</td>
+                      </tr>
+                      <tr>
+                        <td colspan="2" align="left" valign="top">&nbsp;</td>
+                        <td align="left" valign="top">&nbsp;</td>
+                      </tr>
+                      <tr>
+                        <td colspan="2" align="left" valign="top" class="leftconthr">Bill To:</td>
+                        <td align="left" valign="top" class="leftconthr">&nbsp;</td>
+                      </tr>
+                      <tr>
+                        <td colspan="2" align="left" valign="top" class="whitecont">
+                          Name : <%=@order_details.billing_lname%> <%=@order_details.billing_name%>,<br>Address : <%=@order_details.billing_address%>,<br>
+                          <%=@order_details.billing_city%>,<% @state=State.find(@order_details.billing_state) %><%=@state.state%>,<%=@order_details.billing_zip%>,
+<br/>
+<%=@order_details.billing_country%>.<br>Phone Number : <%=@order_details.billing_phone%><br>Email : <%=@order_details.billing_email%>.<br>
+                        </td>
+                        <td align="left" valign="top" class="whitecont">&nbsp;</td>
+                      </tr>
+                      <tr>
+                        <td colspan="2" align="left" valign="top">&nbsp;</td>
+                        <td align="left" valign="top">&nbsp;</td>
+                      </tr>
+                      <tr>
+                        <td colspan="2" align="left" valign="top" class="leftconthr">Ship To:</td>
+                        <td align="left" valign="top">&nbsp;</td>
+                      </tr>
+                      <tr>
+                        <td colspan="2" align="left" valign="top" class="whitecont">
+                          Name : <%=@order_details.shipping_lname%> <%=@order_details.shipping_name%>,<br>Address : <%=@order_details.shipping_address%>,<br><%=@order_details.shipping_city%>,<% @state2=State.find(@order_details.shipping_state) %>
+<%=@state2.state%>,<%=@order_details.shipping_zip%><br><%=@order_details.shipping_country%>.<br>Phone Number : <%=@order_details.shipping_phone%>.<br>Email : <%=@order_details.shipping_email%>.
+                        </td>
+                        <td align="left" valign="top">&nbsp;</td>
+                      </tr>
+                      <tr>
+                        <td colspan="2" align="left" valign="top">&nbsp;</td>
+                        <td align="left" valign="top">&nbsp;</td>
+                      </tr>
+                      <tr>
+                        <td colspan="3" align="left" valign="top"><table width="890" border="0" cellspacing="0" cellpadding="0">
+                  <tr>
+                    <td width="11" align="left" valign="top">&nbsp;</td>
+                    <td width="868" align="left" valign="top" ></td>
+                    <td width="11" align="left" valign="top">&nbsp;</td>
+                  </tr>
+                  <tr>
+                    <td align="left" valign="top" >&nbsp;</td>
+                    <td align="center" valign="top"  bgcolor="#050505"><table width="869" border="0" cellspacing="0" cellpadding="0">
+                      <tr>
+                        <td height="25" align="left" valign="top" background="/images/g_round4.jpg" class="cartblack">&nbsp;</td>
+                        <td width="305" align="center" valign="top" background="/images/g_round4.jpg" class="cartblack">Photo</td>
+                        <td align="center" valign="top" background="/images/g_round4.jpg" class="cartblack">Print</td>
+                        <td align="center" valign="top" background="/images/g_round4.jpg" class="cartblack">Copies</td>
+                          <td align="center" valign="top" background="/images/g_round4.jpg" class="cartblack">Unit Price</td>                       
+                        <td align="center" valign="top" background="/images/g_round4.jpg" class="cartblack">Price</td>
+                      </tr>
+                      <tr>
+                        <td height="5" colspan="4" align="left" valign="top"></td>
+                        </tr>
+                      <%  for products in @order_products %>
+                      <tr>
+                        <td width="26" align="left" valign="top">&nbsp;</td>
+                        <td align="center" valign="top" class="cont"><table width="287" border="0" cellspacing="1" cellpadding="1">
+                          <tr>
+                            <td width="47" align="left" valign="middle"><img src="<%=products.img_url%>/user_content/photos/order_prints/thumbnails/<%=products.print_image%>?time=<%=Time.now%>" width="100" height="100" /></td>
+                            <td width="240" align="left" valign="middle">&nbsp;<%@photo=UserContent.find(products.user_content_id)%>
+                            <%=@photo.v_tagphoto%>
+                            </td>
+                          </tr>
+                        </table></td>
+                        <td width="274" align="center" valign="top" class="whitecontnormal"><%@print=Size.find(products.size_id)%>
+                            <%=@print.name%></td>
+                            <td width="264" align="center" valign="top" class="whitecontnormal"><%=products.quantity%></td>
+                        <td width="264" align="center" valign="top" class="whitecontnormal">$ <%=products.price%> </td>
+                        <td width="264" align="center" valign="top" class="whitecontnormal">$
+                        <% 
+                           	@total_amount=(Float(products.price)*Integer(products.quantity))
+                           
+                        %>
+                        <%=@total_amount%>
+                        <% @a=Float(@a)+Float(@total_amount) %>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td height="5" colspan="4" align="left" valign="top"></td>
+                        </tr>
+                    <%end%>
+                    <tr><td colspan="5" align="right">&nbsp;
+                    </td></tr>
+                    </table></td>
+                    <td align="left" valign="top" >&nbsp;</td>
+                  </tr>
+
+                  <tr>
+                    <td align="left" valign="top">&nbsp;</td>
+                    <td align="left" valign="top" ></td>
+                    <td align="left" valign="top">&nbsp;</td>
+                  </tr>
+                  </table></td>
+                      </tr>
+
+                      <tr>
+                        <td colspan="2" align="left" valign="top">&nbsp;</td>
+                        <td align="left" valign="top">&nbsp;</td>
+                      </tr>
+                      <tr>
+                        <td colspan="2" align="left" valign="top">&nbsp;</td>
+                        <td align="right" valign="top"><table width="289" border="0" cellspacing="0" cellpadding="0">
+                  <tr>
+                    <td width="11" align="left" valign="top">&nbsp;</td>
+                    <td width="668" align="left" valign="top" ></td>
+                    <td width="11" align="left" valign="top">&nbsp;</td>
+                  </tr>
+                  <tr>
+                    <td align="left" valign="top" ></td>
+                    <td align="center" valign="top"  bgcolor="#050505"><table width="90%" border="0" cellspacing="0" cellpadding="0">
+
+                      <tr>
+                        <td width="43%" align="left" valign="top"><span class="whitecont">Subtotal :</span></td>
+                        <td width="57%" align="center" valign="top" class="whitecontnormal">$<% @a%>
+                        <script type="text/javascript">
+                                    var val1 =<%=@a%>;
+									var subttl = val1.toFixed(2);
+									document.write(subttl);
+                                    </script>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td align="left" valign="top" class="whitecont">&nbsp;</td>
+                        <td align="center" valign="top" class="whitecont">&nbsp;</td>
+                      </tr>
+                      <!--<tr>
+                        <td align="left" valign="top" class="whitecont">Discount Applied:</td>
+                        <td width="44%" align="center" valign="top" class="whitecontnormal">$0.99</td>
+
+
+                      </tr>
+                      <tr>
+                        <td align="left" valign="top">&nbsp;</td>
+                        <td align="center" valign="top">&nbsp;</td>
+                      </tr>
+                      <tr>
+                        <td align="left" valign="top" class="whitecont">Shipping:</td>
+                        <td align="center" valign="top" class="whitecontnormal">$1.99</td>
+                      </tr>
+                      <tr>
+                        <td align="left" valign="top" class="whitecont">&nbsp;</td>
+                        <td align="center" valign="top">&nbsp;</td>
+                      </tr>-->
+                      <tr>
+                        <td align="left" valign="top" class="whitecont">Shipping :</td>
+                        <td align="center" valign="top" class="whitecontnormal">$<% @order_details.shipping_price%>
+                        <script type="text/javascript">
+                                    var val2 = <%=@order_details.shipping_price%>;
+									var shipprice = val2.toFixed(2);
+									document.write(shipprice);
+                                    </script>
+                        </td>
+                      </tr>
+                      <% if(@order_details.sales_tax!=0.00)%>
+                      <tr>
+                        <td align="left" valign="top" class="whitecont">&nbsp;</td>
+                        <td align="center" valign="top" class="whitecontnormal">&nbsp;</td>
+                      </tr>
+                      <tr>
+                        <td align="left" valign="top" class="whitecont">Sales Tax (<%= @order_details.tax_rate%> %) : </td>
+                        <td align="center" valign="top" class="whitecontnormal">$ <%= @order_details.sales_tax%>
+                       
+                        </td>
+                      </tr>
+                      <%end%>
+                      <tr>
+                        <td align="left" valign="top" class="whitecont">&nbsp;</td>
+                        <td align="center" valign="top" class="whitecontnormal">&nbsp;</td>
+                      </tr>
+                      <tr>
+                        <td align="left" valign="top" class="whitecont">Total :</td>
+                        <td align="center" valign="top" class="whitecontnormal">$<% @order_details.total_price%>
+                         <script type="text/javascript">
+                                    var val3 = <%=@order_details.total_price%>;
+									var ttl = val3.toFixed(2);
+									document.write(ttl);
+                                    </script>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td align="left" valign="top" class="whitecont">&nbsp;</td>
+                        <td align="center" valign="top" class="whitecontnormal">&nbsp;</td>
+                      </tr>
+                      <tr>
+                        <td align="left" valign="top" class="whitecont">&nbsp;</td>
+                        <td align="left" valign="top" class="whitecontnormal">&nbsp;</td>
+                      </tr>
+
+
+                    </table></td>
+                    <td align="left" valign="top" ></td>
+                  </tr>
+                  <tr align="right">
+                    <td align="left" valign="top">&nbsp;</td>
+                    <td align="left" valign="top" ></td>
+                    <td align="left" valign="top">&nbsp;</td>
+                  </tr>
+                </table></td>
+                      </tr>
+
+                      <tr>
+                        <td colspan="2" align="left" valign="top">&nbsp;</td>
+                        <td align="left" valign="top">&nbsp;</td>
+                      </tr>
+                      <tr>
+                        <td colspan="2" align="left" valign="top">&nbsp;</td>
+                        <td align="left" valign="top">&nbsp;</td>
+                      </tr>
+                    </table></td>
+                    <td align="left" valign="top" ></td>
+                  </tr>
+                  <tr>
+                    <td align="left" valign="top">&nbsp;</td>
+                    <td align="left" valign="top" ></td>
+                    <td align="left" valign="top">&nbsp;</td>
+                  </tr>
+                </table>
+                
+                <br><br><br>
+                <table width="850" border="0" cellspacing="0" cellpadding="0">
+                  <tr>
+                    <td width="11" align="left" valign="top">&nbsp;</td>
+                    <td width="824" align="left" valign="top" ></td>
+                    <td width="15" align="left" valign="top">&nbsp;</td>
+                  </tr>
+                  <tr>
+                    <td align="left" valign="top"></td>
+                    <td align="center" valign="top"  bgcolor="#050505"><table width="810" border="0" cellspacing="0" cellpadding="0">
+                      <tr>
+                        <td colspan="2" align="left" valign="middle"><img src="/images/hmm_logo1.png" style="margin-left:20px;"/></td>
+                        <td align="right" valign="top"><table width="405" border="0" cellspacing="0" cellpadding="0">
+                          <tr>
+                            <td width="194" align="center" valign="middle">&nbsp;</td>
+                            <td width="211" align="left" valign="top"><!--<span class="whitecont">
+                                <% if @studio_details2 %>
+                                <%=@studio_details2.studio_name %>,<br><%=@studio_details2.studio_branch %>,<br><%=@studio_details2.studio_address %>.<br>
+                                <%else%>
+                                HOUSTON, TX:<br>Baybrook<br>281-486-1987.
+                                <%end%>
+                              </span>-->
+                            </td>
+                          </tr>
+                        </table></td>
+                      </tr>
+                      <tr>
+                        <td height="30" align="left" valign="middle">&nbsp;</td>
+                        <td align="left" valign="middle">&nbsp;</td>
+                        <td align="left" valign="top">&nbsp;</td>
+                      </tr>
+                      <tr>
+                        <td width="185" align="left" valign="middle"><span class="whitecont">Order:</span> <span class="whitecontnormal"><%=@order_details2.order_number%></span></td>
+                        <td width="185" align="left" valign="middle"><span class="whitecont">Date:</span> <span class="whitecontnormal"><%=@order_details2.created_at.strftime("%m / %d / %Y")%></span></td>
+                        <td align="left" valign="top">&nbsp;</td>
+                      </tr>
+                      <tr>
+                        <td colspan="2" align="left" valign="top">&nbsp;</td>
+                        <td align="left" valign="top">&nbsp;</td>
+                      </tr>
+                      <tr>
+                        <td colspan="2" align="left" valign="top" class="leftconthr">Bill To:</td>
+                        <td align="left" valign="top" class="leftconthr">&nbsp;</td>
+                      </tr>
+                      <tr>
+                        <td colspan="2" align="left" valign="top" class="whitecont">
+                          Name : <%=@order_details2.billing_lname%> <%=@order_details2.billing_name%>,<br>Address : <%=@order_details2.billing_address%>,<br>
+                          <%=@order_details2.billing_city%>,<% @state3=State.find(@order_details2.billing_state) %><%=@state3.state%>,<%=@order_details2.billing_zip%>,
+<br/>
+<%=@order_details2.billing_country%>.<br>Phone Number : <%=@order_details2.billing_phone%><br>Email : <%=@order_details2.billing_email%>.<br>
+                        </td>
+                        <td align="left" valign="top" class="whitecont">&nbsp;</td>
+                      </tr>
+                      <tr>
+                        <td colspan="2" align="left" valign="top">&nbsp;</td>
+                        <td align="left" valign="top">&nbsp;</td>
+                      </tr>
+                      <tr>
+                        <td colspan="2" align="left" valign="top" class="leftconthr">Ship To:</td>
+                        <td align="left" valign="top">&nbsp;</td>
+                      </tr>
+                      <tr>
+                        <td colspan="2" align="left" valign="top" class="whitecont">
+                          Name : <%=@order_details2.shipping_lname%> <%=@order_details2.shipping_name%>,<br>Address : <%=@order_details2.shipping_address%>,<br><%=@order_details2.shipping_city%>,<% @state4=State.find(@order_details2.shipping_state) %>
+<%=@state4.state%>,<%=@order_details2.shipping_zip%><br><%=@order_details2.shipping_country%>.<br>Phone Number : <%=@order_details2.shipping_phone%>.<br>Email : <%=@order_details2.shipping_email%>.
+                        </td>
+                        <td align="left" valign="top">&nbsp;</td>
+                      </tr>
+                      <tr>
+                        <td colspan="2" align="left" valign="top">&nbsp;</td>
+                        <td align="left" valign="top">&nbsp;</td>
+                      </tr>
+                      <tr>
+                        <td colspan="3" align="left" valign="top"><table width="890" border="0" cellspacing="0" cellpadding="0">
+                  <tr>
+                    <td width="11" align="left" valign="top">&nbsp;</td>
+                    <td width="868" align="left" valign="top" ></td>
+                    <td width="11" align="left" valign="top">&nbsp;</td>
+                  </tr>
+                  <tr>
+                    <td align="left" valign="top" >&nbsp;</td>
+                    <td align="center" valign="top"  bgcolor="#050505"><table width="869" border="0" cellspacing="0" cellpadding="0">
+                      <tr>
+                        <td height="25" align="left" valign="top" background="/images/g_round4.jpg" class="cartblack">&nbsp;</td>
+                        <td width="305" align="center" valign="top" background="/images/g_round4.jpg" class="cartblack">Photo</td>
+                        <td align="center" valign="top" background="/images/g_round4.jpg" class="cartblack">Print</td>
+                        <td align="center" valign="top" background="/images/g_round4.jpg" class="cartblack">Copies</td>
+                        <td align="center" valign="top" background="/images/g_round4.jpg" class="cartblack">Unit Price</td>                   
+                        <td align="center" valign="top" background="/images/g_round4.jpg" class="cartblack">Price</td>
+                      </tr>
+                      <tr>
+                        <td height="5" colspan="4" align="left" valign="top"></td>
+                        </tr>
+                      <%  for products2 in @order_products2 %>
+                      <tr>
+                        <td width="26" align="left" valign="top">&nbsp;</td>
+                        <td align="center" valign="top" class="cont"><table width="287" border="0" cellspacing="1" cellpadding="1">
+                          <tr>
+                            <td width="47" align="left" valign="middle"><img src="<%=products2.img_url%>/user_content/photos/order_prints/thumbnails/<%=products2.print_image%>?time=<%=Time.now%>" width="100" height="100" /></td>
+                            <td width="240" align="left" valign="middle">&nbsp;<%@photo2=UserContent.find(products2.user_content_id)%>
+                            <%=@photo2.v_tagphoto%>
+                            </td>
+                          </tr>
+                        </table></td>
+                        <td width="274" align="center" valign="top" class="whitecontnormal"><%@print2=Size.find(products2.size_id)%>
+                            <%=@print2.name%></td>
+                        <td width="264" align="center" valign="top" class="whitecontnormal"><%=products.quantity%></td>
+                         <td width="264" align="center" valign="top" class="whitecontnormal">$ <%=products2.price%> </td>
+                        <td width="264" align="center" valign="top" class="whitecontnormal">$
+                        <% 
+                           	@total_amount2=(Float(products2.price)*Integer(products2.quantity))
+                          
+                        %>
+                        <%=@total_amount2%>
+                        <% @a2=Float(@a2)+Float(@total_amount2) %>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td height="5" colspan="4" align="left" valign="top"></td>
+                        </tr>
+                    <%end%>
+                    <tr><td colspan="5" align="right">&nbsp;
+                    </td></tr>
+                    </table></td>
+                    <td align="left" valign="top" >&nbsp;</td>
+                  </tr>
+
+                  <tr>
+                    <td align="left" valign="top">&nbsp;</td>
+                    <td align="left" valign="top" ></td>
+                    <td align="left" valign="top">&nbsp;</td>
+                  </tr>
+                  </table></td>
+                      </tr>
+
+                      <tr>
+                        <td colspan="2" align="left" valign="top">&nbsp;</td>
+                        <td align="left" valign="top">&nbsp;</td>
+                      </tr>
+                      <tr>
+                        <td colspan="2" align="left" valign="top">&nbsp;</td>
+                        <td align="right" valign="top"><table width="289" border="0" cellspacing="0" cellpadding="0">
+                  <tr>
+                    <td width="11" align="left" valign="top">&nbsp;</td>
+                    <td width="668" align="left" valign="top" ></td>
+                    <td width="11" align="left" valign="top">&nbsp;</td>
+                  </tr>
+                  <tr>
+                    <td align="left" valign="top" ></td>
+                    <td align="center" valign="top"  bgcolor="#050505"><table width="90%" border="0" cellspacing="0" cellpadding="0">
+
+                      <tr>
+                        <td width="43%" align="left" valign="top"><span class="whitecont">Subtotal :</span></td>
+                        <td width="57%" align="center" valign="top" class="whitecontnormal">$<% @a2%>
+                        <script type="text/javascript">
+                                    var val1 =<%=@a2%>;
+									var subttl = val1.toFixed(2);
+									document.write(subttl);
+                                    </script>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td align="left" valign="top" class="whitecont">&nbsp;</td>
+                        <td align="center" valign="top" class="whitecont">&nbsp;</td>
+                      </tr>
+                      <!--<tr>
+                        <td align="left" valign="top" class="whitecont">Discount Applied:</td>
+                        <td width="44%" align="center" valign="top" class="whitecontnormal">$0.99</td>
+                      </tr>
+                      <tr>
+                        <td align="left" valign="top">&nbsp;</td>
+                        <td align="center" valign="top">&nbsp;</td>
+                      </tr>
+                      <tr>
+                        <td align="left" valign="top" class="whitecont">Shipping:</td>
+                        <td align="center" valign="top" class="whitecontnormal">$1.99</td>
+                      </tr>
+                      <tr>
+                        <td align="left" valign="top" class="whitecont">&nbsp;</td>
+                        <td align="center" valign="top">&nbsp;</td>
+                      </tr>-->
+                      <tr>
+                        <td align="left" valign="top" class="whitecont">Shipping Price :</td>
+                        <td align="center" valign="top" class="whitecontnormal">$<% @order_details2.shipping_price%>
+                        <script type="text/javascript">
+                                    var val2 = <%=@order_details2.shipping_price%>;
+									var shipprice = val2.toFixed(2);
+									document.write(shipprice);
+                                    </script>
+                        </td>
+                      </tr>
+                      <% if(@order_details2.sales_tax!=0.00)%>
+                      <tr>
+                        <td align="left" valign="top" class="whitecont">&nbsp;</td>
+                        <td align="center" valign="top" class="whitecontnormal">&nbsp;</td>
+                      </tr>
+                      <tr>
+                        <td align="left" valign="top" class="whitecont">Sales Tax (<%= @order_details2.tax_rate%> %): </td>
+                        <td align="center" valign="top" class="whitecontnormal">$ <%=@order_details2.sales_tax%>
+                       
+                        </td>
+                      </tr>
+                      <%end%>
+                      <tr>
+                        <td align="left" valign="top" class="whitecont">&nbsp;</td>
+                        <td align="center" valign="top" class="whitecontnormal">&nbsp;</td>
+                      </tr>
+                      <tr>
+                        <td align="left" valign="top" class="whitecont">Total :</td>
+                        <td align="center" valign="top" class="whitecontnormal">$<% @order_details2.total_price%>
+                         <script type="text/javascript">
+                                    var val3 = <%=@order_details2.total_price%>;
+									var ttl = val3.toFixed(2);
+									document.write(ttl);
+                                    </script>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td align="left" valign="top" class="whitecont">&nbsp;</td>
+                        <td align="center" valign="top" class="whitecontnormal">&nbsp;</td>
+                      </tr>
+                      <tr>
+                        <td align="left" valign="top" class="whitecont">&nbsp;</td>
+                        <td align="left" valign="top" class="whitecontnormal">&nbsp;</td>
+                      </tr>
+
+
+                    </table></td>
+                    <td align="left" valign="top" ></td>
+                  </tr>
+                  <tr align="right">
+                    <td align="left" valign="top">&nbsp;</td>
+                    <td align="left" valign="top" ></td>
+                    <td align="left" valign="top">&nbsp;</td>
+                  </tr>
+                </table></td>
+                      </tr>
+
+                      <tr>
+                        <td colspan="2" align="left" valign="top">&nbsp;</td>
+                        <td align="left" valign="top">&nbsp;</td>
+                      </tr>
+                      <tr>
+                        <td colspan="2" align="left" valign="top">&nbsp;</td>
+                        <td align="left" valign="top">&nbsp;</td>
+                      </tr>
+                    </table></td>
+                    <td align="left" valign="top" ></td>
+                  </tr>
+                  
+                  <tr>
+                    <td align="left" valign="top">&nbsp;</td>
+                    <td align="left" valign="top" ></td>
+                    <td align="left" valign="top">&nbsp;</td>
+                  </tr>
+                  <tr>
+                      <% 
+                        tot=0
+                        ship=0
+                        gtot=0
+                        
+                        if(session[:order_type]=='hmm')
+                          gtot=session[:total]
+                        end
+                        
+                        if(session[:order_type]=='other') 
+                          gtot=session[:total2]
+                        end    
+                        
+                        if(session[:order_type]=='all') 
+                        
+                       gtot=session[:total]+session[:total2]
+                         
+                        end 
+                        
+                        %>    
+                        <td colspan="2" align="right" valign="top" class="whitecontnormal"><b>Grand Total : $ <% gtot%>
+                        			<script type="text/javascript">
+                                    var gtot =<%=gtot%>.toFixed(2);
+								    document.write(gtot);
+                                    </script>
+                         </b>&nbsp;</td>
+                        <td align="right" valign="top" >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
+                      </tr>
+                </table>
+                </td>
+              </tr>
+</table>

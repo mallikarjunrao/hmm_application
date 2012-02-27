@@ -1,0 +1,29 @@
+<script src="http://static.ak.fbcdn.net/connect.php/js/FB.Share"  type="text/javascript" >
+</script>
+<style type="text/css">
+  div#nyroModalWrapper {
+    display: block;
+    height: 155px;
+    left: 52%;
+    margin-left: -100px;
+    margin-top: -89px;
+    position: absolute;
+    top: 54%;
+    width: 362px;
+}
+</style>
+<%url="http://www.holdmymemories.com/family_memory/blog_view/#{params[:id]}?bid=#{params[:blog_id]}&&type=websites" %>
+<table border="0" align="center" cellpadding="0" cellspacing="0" valign="middle" height="250" width="60" valign="center">
+  <tr><td height="20"></td></tr>
+  <tr>
+    <td valign="center"><a href="javascript:void(0);" title="Invite your facebok friends." onClick="window.open('http://www.facebook.com/sharer.php?u=<%= CGI.escape("#{url}") %>','sharer','toolbar=0,status=0,width=626,height=436');" class="nyroModalClose"><img src="/images/common/facebook-logo.gif"  height="55" border="0"/>
+       </a>
+    </td>
+     <%if session[:hmm_user]%>
+    <%if logged_in_hmm_user.id==@family_website_owner.id%>
+
+    <td valign="center"> <a href="/family_memory/share_blog/<%=params[:id]%>?blog_id=<%=params[:blog_id]%>&blog_type=<%=params[:blog_type]%>" title="Share via email."><img src="/images/common/mail-icon.png" height="78" border="0"/></a></td>
+  <%end%>
+    <%end%>
+  </tr>
+</table>

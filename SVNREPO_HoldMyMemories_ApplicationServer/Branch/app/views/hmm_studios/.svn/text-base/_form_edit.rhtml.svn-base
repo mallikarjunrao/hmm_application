@@ -1,0 +1,48 @@
+<%= error_messages_for 'hmm_studio' %>
+
+
+<table>
+	<tr>
+		<td colspan="3">&nbsp;</td>
+	</tr>
+	
+	
+	<tr>
+		<td align="right" >
+			<label for="hmm_studio_studio_branch">Studio branch</label>		
+		</td>
+		<td>&nbsp;</td>
+		<td align="left">
+			<%= text_field 'hmm_studio', 'studio_branch', :class => "textbox-signup" %>
+			<%= %>
+			<%= observe_field :'hmm_studio_studio_branch',                         
+                        :with       => "studio_branch",
+						:frequency  => 0.25,                    
+                        :url        => {:action => :validate_edit, :id => @sid }, 
+                        :update     => :message                 
+                      %>
+				 
+					   <span id="message"></span>
+					   
+		</td>
+	</tr>
+	<tr>
+		<td colspan="3">&nbsp;</td>
+	</tr>
+	<tr>
+		<td align="right" valign="top">
+			<label for="hmm_studio_studio_branch">Studio address</label>		
+		</td>
+		<td>&nbsp;</td>
+		<td align="left">
+			<%= text_area 'hmm_studio', 'studio_address', :rows =>"9", :cols=>"40",  :class => "textbox-1"   %>
+		</td>
+	</tr>
+	<tr>
+		<td colspan="3">&nbsp;</td>
+	</tr>
+</table>
+
+
+
+

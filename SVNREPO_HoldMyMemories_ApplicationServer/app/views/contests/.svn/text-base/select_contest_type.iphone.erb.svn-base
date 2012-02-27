@@ -1,0 +1,32 @@
+<table width="100%" border="0" align="center" cellpadding="0" cellspacing="0">
+  <tr>
+    <tr><td>&nbsp;</td>
+  </tr>
+  <tr>
+    <td align="center" valign="top" style="color:white">
+      <h2><b>Select Contest type</b></h2>
+    </td>
+  </tr>
+</tr>
+<tr>
+  <td align="center" valign="top" >
+    <table width="100%" border="0" align="center" cellpadding="0" cellspacing="0">
+        <tr>
+          <td align="center" valign="middle" colspan="2">&nbsp;</td>
+          <td align="left" valign="top" colspan="2">&nbsp;</td>
+        </tr>
+        <tr>
+          <td width="100%" height="23" align="center" valign="middle" colspan="2">
+            <a href="/contests/hmm_contest?type=photo&contest_id=<%= params[:contest_id] %>"><img src="<%= @contest_details.photo_logo %>" width="260" height="105" border="0"/></a>
+          </td>
+        </tr>
+        <tr><td height="23" align="center" colspan="2"></td></tr>
+        <tr>
+          <td width="100%" height="23" align="center" valign="middle" colspan="2">
+            <a href="/contests/hmm_contest?type=video&contest_id=<%= params[:contest_id] %>"><img src="<%= @contest_details.video_logo %>" width="260" height="105"  border="0" /></a>
+          </td>
+        </tr>
+    </table>
+  </td>
+</tr>
+</table>

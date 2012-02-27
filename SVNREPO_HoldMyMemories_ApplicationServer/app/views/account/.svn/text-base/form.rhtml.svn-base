@@ -1,0 +1,13 @@
+ <font color="white">
+   <table border="0" >
+  <tr><td>File Url </td><td>Major Version</td><td>Minor Version</td></tr>
+ <% for version in @versions %>
+<form name="form1"  action="/account/update_values/<%=version.id%>" method="post">
+
+
+  <tr><td><%=version.file_url%></td><td><input type="text" name="major" value="<%=version.major%>" size="4"/></td><td><input type="text" name="minor" value="<%=version.minor%>" size="4"/></td>
+    <td><input type="submit" name="submit" value="update" /></td></tr>
+</form>
+ <%end %>
+</table>
+</font>

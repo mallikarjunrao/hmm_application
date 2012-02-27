@@ -1,0 +1,168 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:TitleWindow xmlns:mx="http://www.adobe.com/2006/mxml" 
+	layout="vertical" verticalGap="0"  width="50" height="50" 
+	verticalAlign="middle" horizontalAlign="center" borderStyle="none" 
+	backgroundAlpha="0.0" borderThickness="0" borderThicknessBottom="0" borderThicknessLeft="0"
+	borderThicknessRight="0" borderThicknessTop="0" headerHeight="0"
+	show="onShow(event)" hide="onHide(event)" creationComplete="init()" showCloseButton="false">
+	<mx:Metadata>
+	 	/** 
+				TitleWindow subclass that implements preloading
+				graphic display.
+				Spinner with ticks that fade in and out.
+		**/
+	 </mx:Metadata>
+	<mx:Canvas id="cont"  borderStyle="none" horizontalScrollPolicy="off" 
+		verticalScrollPolicy="off" backgroundAlpha="0" 
+		creationComplete="initTicks()" width="100%" height="100%">
+	</mx:Canvas>
+	<mx:Script>
+		<![CDATA[
+			import mx.controls.Button;
+			import mx.effects.easing.Linear;
+			import mx.effects.Glow;
+			import mx.effects.Sequence;
+			import mx.events.EffectEvent;
+			import mx.effects.Fade;
+			import mx.collections.ArrayCollection;
+			import mx.effects.easing.Bounce;
+			import mx.core.UIComponent;
+			import mx.effects.Move;
+			import mx.effects.Effect;
+			import mx.effects.easing.Circular;
+			
+			[Bindable]
+			private var _lastIndex:int = 0;
+			//defaults and customization
+			/**number of ticks in circle**/
+			public static var numTicks:int = 10;
+			/**radius of circle not including the ticks**/
+			public static var radius:int = 10;
+			/**themeColor - color of ticks**/
+			public static var themeColor:uint = 0x000000;
+			/**What alpha value do ticks start**/
+			public static var alphaVal:Number = 0.2;
+			/**width of the tick**/
+			public static var tickWidth:int = 2;
+			/**height of the tick**/
+			public static var tickHeight:int = 9;
+			/**decrease of andle of the ticks from the circle. If 0 ticks are aligned 
+			with the circle**/
+			public static var angleDecrease:int = 20;
+			/**speed of ticks fade to 1.0 move**/
+			public static var spinDuration:int = 300;
+			/**the higher the more of a "snake" effect you get**/
+			public static var spinTrailOffsetDuration:int = 1000;
+			
+			private function init():void
+			{
+				width = 2*Math.PI*radius;
+				height = width;
+				 if(this.visible)
+				{
+					onShow(null);
+				} 
+			}
+
+			private function initTicks():void
+			{
+				//distribute ticks on a circle
+				
+				//calc center of circle point.
+				var center:Point = new Point(this.width/2,this.height/2); //should be a square
+				var degrees:Number = 0;
+				for(var i:int=0;i<numTicks;i++)
+				{
+					var angle:Number = Math.PI * 2 * degrees / 360;
+					var ui:UIComponent = createTick();
+					
+					//ui.rotation = degrees;
+					cont.addChild(ui);
+					ui.x = radius*Math.cos(angle) + center.x; 
+					ui.y = radius*Math.sin(angle) + center.y;
+					ui.rotation = degrees-angleDecrease;
+					degrees += 360/numTicks;
+				}
+			}
+			
+			private function createTick():UIComponent
+			{
+				var tick:UIComponent = new Canvas();
+				tick.setStyle("backgroundColor",themeColor);
+				tick.setStyle("borderStyle","solid");
+				tick.setStyle("borderColor",themeColor);
+				tick.setStyle("cornerRadius",Math.max(tickHeight,tickWidth)*2);
+				tick.width = tickWidth;
+				tick.height = tickHeight;
+				tick.alpha = alphaVal;
+				return tick;
+			}
+			
+			private function onShow(event:Event):void
+			{
+				handleItemEffect(0);
+			}
+			
+			private function handleItemEffect(index:int):void
+			{
+				//create a sequence of "in" and "out" effect. 
+				var ui:UIComponent = UIComponent(cont.getChildAt(index));
+				var seq:Sequence = new Sequence();
+				var eff:Effect = getEffect();
+				eff.addEventListener(EffectEvent.EFFECT_END,onEffectEnd);
+				eff.duration = spinDuration;
+				seq.addChild(eff);
+				eff = getUndoEffect();
+				eff.duration = eff.duration + spinTrailOffsetDuration; //for "snake" effect
+				seq.addChild(eff);
+				seq.play([ui]);
+			}
+
+			private function getEffect():Effect
+			{
+				var fade:Fade = new Fade();
+				fade.alphaFrom = alphaVal;
+				fade.alphaTo = 1;
+				return fade;
+			}
+			
+			private function getUndoEffect():Effect
+			{
+				var fade:Fade = new Fade();
+				fade.alphaFrom = 1;
+				fade.alphaTo = alphaVal;
+				return fade;
+			}
+			
+			private function onEffectEnd(event:EffectEvent):void
+			{
+				//start effect on next child in tick container
+				Effect(event.target).removeEventListener(EffectEvent.EFFECT_END,onEffectEnd);
+				_lastIndex++;
+				if(_lastIndex > cont.numChildren-1)
+					_lastIndex = 0;
+				handleItemEffect(_lastIndex);
+			}
+			
+			private function onHide(event:Event):void
+			{
+				reset();
+			}
+			
+			private function reset():void
+			{
+				//reset effects
+				 for each(var u:UIComponent in cont.getChildren())
+				{
+					var unglow:Effect = getUndoEffect();
+					unglow.duration = 0;
+					unglow.play([u]);
+					
+				} 
+				_lastIndex = 0;
+			}
+			
+		]]>
+	</mx:Script>
+
+</mx:TitleWindow>

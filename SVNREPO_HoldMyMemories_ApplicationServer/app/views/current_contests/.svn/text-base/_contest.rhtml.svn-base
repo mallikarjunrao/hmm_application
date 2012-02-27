@@ -1,0 +1,33 @@
+<%= javascript_include_tag 'modalbox/prototype' %>
+<script type="text/javascript" src="/javascripts/modalbox/scriptaculous.js?load=effects"></script>
+<script type="text/javascript" src="/javascripts/modalbox/modalbox.js"></script>
+<%= stylesheet_link_tag 'modalbox/modalbox' %>
+<style type="text/css">
+
+.backround-img {
+	background-image:url(/images/glamour_contest/backround-img.jpg);
+	background-position:center top;
+	background-repeat:no-repeat;
+	height:817px;
+}
+
+.backroung-img-bg {
+	background-image:url(/images/glamour_contest/backround-img-bg.png);
+	background-repeat:repeat-y;
+	background-position:center top;
+}
+.buttons-background {
+	background-image:url(/images/glamour_contest/buttons-bg.png);
+	background-repeat:repeat-y;
+	background-position:center top;
+}
+
+.img-txt {
+	font-family:Georgia, "Times New Roman", Times, serif;
+	font-size:17px;
+	color: #ab873a;
+	text-decoration:none;
+	font-weight:bold;
+}
+</style>
+<%= eval(contest.load_method_data) %>

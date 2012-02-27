@@ -1,0 +1,279 @@
+
+
+
+
+
+<%= javascript_include_tag 'modalbox/prototype' %>
+<script type="text/javascript" src="/javascripts/modalbox/scriptaculous.js?load=effects"></script>
+<script type="text/javascript" src="/javascripts/modalbox/modalbox.js"></script>
+<%= stylesheet_link_tag 'modalbox/modalbox' %>
+<table width="100%" border="0" cellspacing="0" cellpadding="0">
+             
+			 <% for i in @hmmuserid%>
+			  <tr>
+                <td width="233" align="left" valign="top" background="/images/left_cont2_bg2.gif"><table width="100%" border="0" cellspacing="0" cellpadding="0">
+                  
+                  <tr>
+                    <td align="left" valign="top" background="/images/left_conthr_bg.jpg"><table width="100%" border="0" cellspacing="0" cellpadding="0">
+                      <tr>
+                        <td width="13" align="left" valign="top"></td>
+                        <td width="220" height="26" align="left" valign="middle" class="leftconthr">About Us</td>
+                      </tr>
+                    </table></td>
+                  </tr>
+                  <tr>
+                    <td align="left" valign="top" background="/images/left_cont_bg2.jpg" id="leftcontbg2"><table width="100%" border="0" cellpadding="0" cellspacing="0"  id="leftcontbg">
+                      <tr>
+                        <td align="left" valign="top"></td>
+                        <td height="18" align="left" valign="middle" class="leftcont"></td>
+                      </tr>
+                      <tr>
+                        <td width="13" align="left" valign="top"></td>
+                        <td width="220" align="left" valign="middle" class="leftcont" style="text-align:justify">
+						<%=i.about_family%>
+						</td>
+                      	<td width="13" align="left" valign="top"></td>
+					  </tr>
+                      <tr>
+                        <td align="left" valign="top"></td>
+                        <td height="25" align="left" valign="middle" class="leftcont"></td>
+                      </tr>
+                      
+                      
+                      
+                      
+                      
+                    </table></td>
+                  </tr>
+                  <tr>
+                    <td height="60" align="left" valign="top" background="/images/search_bg.jpg"><table width="100%" border="0" cellspacing="0" cellpadding="0">
+                      <tr>
+                        <td height="23" colspan="4" align="left" valign="top"></td>
+                        </tr>
+                      <tr>
+                        <td width="13" align="right" valign="bottom">&nbsp;</td>
+                        <td width="159" align="left" valign="middle"><table width="159" border="0" cellspacing="0" cellpadding="0">
+                          <tr>
+                            <td width="18" align="right" valign="middle" ><img src="/images/search_form_icon.gif" width="18" height="16" /></td>
+                            <td width="134" height="16" align="left" valign="middle"><label>
+                            <input name="textfield" type="text" class="searchbox"  style="border:0px;" id="textfield" />
+                            </label></td>
+                            <td width="11" align="left" valign="middle"><img src="/images/search_form_cor.gif" width="7" height="16" /></td>
+                          </tr>
+                        </table></td>
+                        <td width="34" align="right" valign="middle"><a href="#" onmouseout="MM_swapImgRestore()" onmouseover="MM_swapImage('Image20','','/images/search_family_ovr.gif',1)"><img src="/images/search_family_def.gif" name="Image20" width="44" height="18" border="0" id="Image20" /></a></td>
+                        <td width="24" align="left" valign="bottom"></td>
+                      </tr>
+                    </table></td>
+                  </tr>
+                  <tr>
+                    <td align="left" valign="top" background="/images/left_conthr_bg.jpg"><table width="100%" border="0" cellspacing="0" cellpadding="0">
+                      <tr>
+                        <td width="13" align="left" valign="top"></td>
+                        <td width="220" height="26" align="left" valign="middle" class="leftconthr">Links</td>
+                      </tr>
+                    </table></td>
+                  </tr>
+                  
+                  <tr>
+                    <td align="left" valign="top" background="/images/left_cont_bg2.jpg" id="leftcont2bg2"><table width="100%" border="0" cellpadding="0" cellspacing="0" id="leftcont2bg">
+                      <tr>
+                        <td align="left" valign="top"></td>
+                        <td height="18" align="left" valign="middle" class="leftcont"></td>
+                      </tr>
+                      <tr>
+                        <td width="13" align="left" valign="top"></td>
+                        <td width="220" align="left" valign="middle" class="leftcont2">
+                         
+                          <a href="http://<%= i.v_link1%>" target="_blank"  class="leftcont2"><%= i.v_link1%></a><br />
+							<a href="http://<%= i.v_link2%>" target="_blank"  class="leftcont2"><%= i.v_link2%></a><br />
+							<a href="http://<%= i.v_link3%>" target="_blank"  class="leftcont2"><%= i.v_link3%></a></td>
+                      </tr>
+                      <tr>
+                        <td align="left" valign="top"></td>
+                        <td height="40" align="left" valign="middle" class="leftcont"></td>
+                      </tr>
+                      <tr>
+                        <td align="left" valign="top"></td>
+                        <td height="25" align="center" valign="middle" class="leftcont">
+                        
+							</a>
+					  </tr>
+                      <tr>
+                        <td align="left" valign="top"></td>
+                        <td height="15" align="left" valign="middle" class="leftcont"></td>
+                      </tr>
+                      
+                      
+                      
+                      
+                      
+                    </table></td>
+                  </tr>
+                  
+                  
+                </table></td>
+                <td width="668" align="center" valign="top"><table width="632" border="0" cellspacing="0" cellpadding="0">
+                  <tr>
+                    <td align="left" valign="top"><table width="100%" border="1" cellpadding="0" cellspacing="0" bordercolor="#2a2a2a">
+                      <tr>
+                        <td align="left" valign="middle" ><table width="100%" border="0" cellspacing="0" cellpadding="0">
+                          <tr>
+                            <td width="12" align="left" valign="top"></td>
+                            <td width="600" height="42" align="left" valign="middle" class="conthr">The <%=i.v_lname.capitalize%>&rsquo;s History</td>
+                            <td width="14" align="left" valign="top"></td>
+                          </tr>
+                          
+                        </table></td>
+                      </tr>
+                      <tr>
+                        <td align="left" valign="middle" ><table width="100%" border="0" cellspacing="0" cellpadding="0">
+                          
+                          <tr>
+                            <td width="12" align="left" valign="top"></td>
+                            <td width="600" align="left" valign="top"><table width="100%" border="0" cellspacing="0" cellpadding="0">
+                              
+                              <tr>
+                                <td align="left" valign="top"><table width="100%" border="0" cellspacing="0" cellpadding="0">
+                                    <tr>
+                                      <td height="20" align="left" valign="top"></td>
+                                    </tr>
+                                    <tr>
+                                      <td align="left" valign="top" class="cont" style="text-align:justify">
+										<%=i.family_history%>
+										</td>
+                                    </tr>
+                                    
+                                    
+                                    <tr>
+                                      <td height="20" align="left" valign="top" class="cont"></td>
+                                    </tr>
+                                    
+                                </table></td>
+                              </tr>
+                              
+                            </table></td>
+                            <td width="14" align="left" valign="top"></td>
+                          </tr>
+                        </table>                          </td>
+                      </tr>
+                      
+                    </table></td>
+                  </tr>
+				  <% for j in @biographies%>
+                  <tr>
+                    <td height="20" align="left" valign="top"></td>
+                  </tr>
+                  <tr>
+                    <td align="left" valign="top"><table width="100%" border="1" cellpadding="0" cellspacing="0" bordercolor="#2a2a2a">
+                      
+                      
+                      
+                    </table></td>
+                  </tr>
+                  
+                   
+                  <tr>
+                    <td height="20" align="left" valign="top">
+                    	
+						
+						<table width="100%" border="1" cellpadding="0" cellspacing="0" bordercolor="#2a2a2a">
+                      <tr>
+                        
+						<td align="left" valign="middle" ><table width="100%" border="0" cellspacing="0" cellpadding="0">
+                          <tr>
+                            <td width="12" align="left" valign="top"></td>
+                            <td width="600" height="42" align="left" valign="middle" class="conthr"><%=j.familymember_name%></td>
+                            <td width="14" align="left" valign="top"></td>
+                          </tr>
+                          
+                        </table></td>
+                      </tr>
+                      <tr>
+                        <td align="left" valign="middle" ><table width="100%" border="0" cellspacing="0" cellpadding="0">
+                          
+                          <tr>
+                            <td width="12" align="left" valign="top"></td>
+                            <td width="600" align="left" valign="top"><table width="100%" border="0" cellspacing="0" cellpadding="0">
+                              
+                              <tr>
+                                <td align="left" valign="top"><table width="100%" border="0" cellspacing="0" cellpadding="0">
+                                    <tr>
+                                      <td height="20" align="left" valign="top"></td>
+                                    </tr>
+
+
+                                    <tr>
+                                      <td align="left" valign="top" class="cont"><table width="100%" border="0" cellspacing="0" cellpadding="0">
+                                        <tr>
+                                          <td width="178" align="center" valign="top">
+                                          	<a href="/my_familywebsite/subchapters/<%=j.chap_id%>">
+                                          		<img src="<%=j.img_url%>/hmmuser/family_members/thumbs/<%=j.member_image %>" border="0" onmousedown="callme(this.id)" onContextMenu="return false;"/></a></td>
+                                          <td width="423" align="left" valign="top"><table width="100%" border="0" cellspacing="0" cellpadding="0">
+                                            
+                                            <tr>
+                                              <td align="left" valign="top" class="cont" >
+                                              	<%=j.biographie%>
+</td>
+                                            </tr>
+                                            <tr>
+                                              <td height="20" align="left" valign="top"></td>
+                                            </tr>
+                                            
+                                            
+                                          </table>
+										  </td>
+                                        </tr>
+                                      </table>
+									  </td>
+                                    </tr>
+                                   
+                                    
+                                    <tr>
+                                      <td height="65" align="right" valign="middle" class="cont"><a href="/my_familywebsite/subchapters/<%=j.chap_id%>" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('Image29','','/images/view_chapter-btn.gif',1)"><img src="/images/view_chapter-btn.jpg" name="Image29" width="122" height="24" border="0" id="Image29" /></a></td>
+                                    </tr>
+                                    
+                                </table></td>
+                              </tr>
+                              
+                            </table></td>
+                            <td width="14" align="left" valign="top"></td>
+                          </tr>
+                        </table>                          </td>
+						
+                      </tr>
+                      
+                    </table>
+					<%end%>
+					</td>
+                  </tr>
+				   
+                  <tr>
+                    <td height="20" align="left" valign="top"></td>
+                  </tr>
+				  
+                  <tr>
+                    <td align="left" valign="top">
+                    	
+						
+					 
+					</td>
+                  </tr>
+				  
+				
+                  <tr>
+                    
+                  </tr>
+                  <tr>
+                    <td align="left" valign="top">
+                    	
+					</td>
+                  </tr>
+                  <tr>
+                    <td height="20" align="left" valign="top"></td>
+                  </tr>
+                </table></td>
+              </tr>
+            </table>
+			<%end%>
+

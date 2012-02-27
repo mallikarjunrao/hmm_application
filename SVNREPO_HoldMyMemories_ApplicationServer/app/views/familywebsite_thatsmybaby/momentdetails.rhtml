@@ -1,0 +1,98 @@
+<style type = "text/css">
+  .text3{
+    font-family:Arial, Helvetica, sans-serif;
+    font-size:12px;
+    font-weight:normal;
+    color:#ffffff;
+  }
+</style>
+<%= javascript_include_tag 'modalbox/prototype' %>
+<script type="text/javascript" src="/javascripts/modalbox/scriptaculous.js?load=effects"></script>
+<script type="text/javascript" src="/javascripts/modalbox/modalbox.js"></script>
+<%= stylesheet_link_tag 'modalbox/modalbox' %>
+<table width="100%" border="0" cellspacing="0" cellpadding="0">
+  <tr>
+    <td height="10" align="left" valign="top"></td>
+  </tr>
+  <tr>
+    <td height="35" align="left" valign="bottom" class="header-page">Photo Contest</td>
+  </tr>
+  <tr>
+    <td height="10" align="left" valign="top"></td>
+  </tr>
+  <tr>
+    <td height="1" align="left" valign="top" bgcolor="#454545"></td>
+  </tr>
+  <tr>
+    <td height="10" align="left" valign="top"></td>
+  </tr>
+  <tr>
+    <td align="left" valign="top" class="content-trans-bg"><table width="100%" align="center">
+        <tr><td>&nbsp;</td></tr>
+        <tr>
+          <td  align="left" ><img src=<%=photo_contest_image%> border="0"   ></td>
+        </tr>
+        <tr><td>&nbsp;</td></tr>
+        <tr>
+          <th align="center">
+            <img src="<%=@moment_details[0].img_url%>/user_content/photos/journal_thumb/<%=@moment_details[0].v_filename%>" border="0">
+          </th>
+        </tr>
+        <tr><th>&nbsp;</th></tr>
+           <%if Date.today <= vote_expire_date.to_date %>
+        <tr>
+          <td  align="center" valign="middle" colspan="3" >
+            <a href="/<%=familywebsite_controller_name%>/vote/<%=params[:id]%>?contest_id=<%=@contests_fname[0].id%>"  onclick="Modalbox.show(this.href, {title: 'My Image', width: 1000, height:1000}); return false;">
+              <input name="button" type="button" class="cmd-btn" id="button" value="Vote" style="cursor:pointer;"/></a>
+          </td>
+        </tr>
+         <%end%>
+        <tr>
+          <td align="center" class="text3" >
+            <%=@contests_fname[0].first_name %>
+          </td>
+        </tr>
+        <tr><th>&nbsp;</th></tr>
+        <%for @j in @journal %>
+          <tr>
+            <th align="center" valign="middle" scope="col"><span class="heading-journal">
+                <table width="600" class="border">
+                  <tr>
+                    <th align="left" bgcolor="#191919" colspan="2">
+                      <font size="3" color="#FFFFFF"> Journal</font>
+                    </th>
+                  </tr>
+                  <tr><th colspan="2">&nbsp;</th></tr>
+                  <tr>
+                    <th>&nbsp;&nbsp;</th>
+                    <th align="left" class="text3">
+
+                      <%= @j.title %> -
+                      <% ActiveSupport::CoreExtensions::Time::Conversions::DATE_FORMATS.merge!(
+                        :date => "%Y-%m-%d",
+                        :presentable_datetime => "%a %b %d, %Y %H:%M",
+                        :presentable_date => "%a %b %d, %Y")
+                      @created_date=@j.added_date%>
+                      <%= @created_date.to_s(:presentable_date) %></span>
+                    </th>
+                  </tr>
+                  <tr><th colspan="2">&nbsp;</th></tr>
+                  <tr class="text3">
+                    <th>&nbsp;&nbsp;</th>
+                    <th align="left">
+                      <%=@j.description.gsub("\n", "<br />\n") %>
+                    </th>
+                  </tr>
+                  <tr><th>&nbsp;</th></tr>
+                  <tr><th>&nbsp;</th></tr>
+                </table>
+            </th>
+          </tr>
+          <tr>
+            <th>&nbsp;
+            </th>
+          </tr>
+        <%end%>
+      </table></td>
+  </tr>
+</table>

@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:Canvas xmlns:mx="http://www.adobe.com/2006/mxml" width="100%" height="100%" backgroundColor="0" creationComplete="handleCreationComplete()" xmlns:components="components.*" >
+	<mx:DataGrid width="100%" height="100%" id="shareDetailsGrid" visible="false" rowHeight="100" backgroundColor="0" borderStyle="solid" borderThickness="1"  verticalScrollBarStyleName="scrollbar">
+		<mx:columns >
+			<mx:DataGridColumn headerText="Email List" dataField="emaillist" backgroundColor="0" color="0xFFFFFF">
+				<mx:itemRenderer>
+					<mx:Component>
+						<mx:Text width="200"   text="{data.emaillist}"/>
+ 					</mx:Component>
+				</mx:itemRenderer>			
+			</mx:DataGridColumn>
+			<mx:DataGridColumn headerText="Created Date" dataField="createddate" backgroundColor="0" color="0xFFFFFF" >
+			<mx:itemRenderer>
+					<mx:Component>
+						<mx:Text text="{data.createddate}"/>
+					</mx:Component>
+				</mx:itemRenderer>
+			</mx:DataGridColumn>
+			<mx:DataGridColumn headerText="Expiry Date" dataField="expirydate"  backgroundColor="0"  itemRenderer="renderers.CustomDateItemRenderer">
+			</mx:DataGridColumn>
+			<mx:DataGridColumn headerText="Message" dataField="message"  backgroundColor="0" color="0xFFFFFF" >
+				<mx:itemRenderer>
+					<mx:Component>
+						<mx:TextArea borderStyle="none" borderThickness="0" backgroundAlpha="0" text="{data.message}"/>
+ 					</mx:Component>
+				</mx:itemRenderer>
+			</mx:DataGridColumn>
+			<mx:DataGridColumn  headerText="Actions"  backgroundColor="0" color="0XFFFFFF" itemRenderer="renderers.ShareActionsItemRenderer">
+				
+			</mx:DataGridColumn> 
+		</mx:columns>
+	</mx:DataGrid>
+	<mx:Canvas cornerRadius="0" width="100%" height="100%" id="share" visible="false">
+		<mx:VBox width="100%" height="100%" horizontalAlign="center" verticalAlign="middle">
+			<mx:Text text="No shares found!!!" fontSize="15" fontWeight="bold" color="0XFFFFFF"/>
+		</mx:VBox>	
+	</mx:Canvas>
+	<mx:Style>
+		.headerstyle
+		{
+			color: #ffffff;
+			header-colors:#000000, #000001;
+		}
+		
+	    .scrollbar
+	  	{
+		   track-colors: #666666, #cccccc;
+		   fill-colors: #333333, #666666;
+		   border-color: #666666;
+		   theme-color: #000000;
+		   corner-radius: 4;   
+	      }
+	</mx:Style>
+	<mx:Script>
+		<![CDATA[
+			import mx.core.UIComponent;
+			import mx.events.CloseEvent;
+			import renderers.EmailListItemRenderer;
+			import mx.controls.TextArea;
+			import renderers.CustomDateItemRenderer;
+			import renderers.CustomTreeItemRenderer;
+			import mx.collections.ArrayCollection;
+			import mx.rpc.events.FaultEvent;
+			import mx.rpc.events.ResultEvent;
+			import mx.rpc.http.HTTPService;
+			private var preloaderSprite : Sprite;
+			
+			[Embed(source="assets/Shares.swf")]
+			private var preLoaderSwf : Class;
+			private var preloader : UIComponent; 
+			
+			public function handleClick() : void
+			{
+									
+			}
+			
+			private function handleCreationComplete() : void
+			{
+				if(!preloader)
+				{
+					preloaderSprite = new preLoaderSwf(); 
+					preloader = new UIComponent();
+				}
+				preloader.addChild(preloaderSprite); 
+				this.addChild(preloader);
+				preloader.x = (this.width - preloaderSprite.width)/2;
+				preloader.y = (this.height - preloaderSprite.height)/2; 
+				
+				var service : HTTPService = new HTTPService();
+				service.url = "/share/getsharelist/";
+				service.addEventListener(ResultEvent.RESULT,handleResult);
+				service.addEventListener(FaultEvent.FAULT,handleFault);
+				service.send();
+				
+				//shareDetailsGrid.columns.actions.preview.addEventListener(MouseEvent.CLICK,handleClick);
+				
+			}
+			
+			private function handleResult(event : ResultEvent) : void
+			{
+				if(event.result.shares && event.result.shares.share)
+				{
+					if(event.result.shares.share is ArrayCollection)
+						shareDetailsGrid.dataProvider = event.result.shares.share as ArrayCollection;
+					else	
+						shareDetailsGrid.dataProvider = ArrayCollection([event.result.shares.share]);
+					share.visible = false;
+					shareDetailsGrid.visible = true;
+					
+				}
+				else
+				{
+					share.visible = true;
+					shareDetailsGrid.visible = false;
+				}
+				 	this.removeChild(preloader);
+			}
+			
+			private function handleFault(event : FaultEvent) : void
+			{
+				trace(event.message);
+			}
+				
+		]]>
+	</mx:Script>
+</mx:Canvas>

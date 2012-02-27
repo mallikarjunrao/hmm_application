@@ -1,0 +1,24 @@
+<table width="80%" align="center"><tr><td>&nbsp;&nbsp;&nbsp;<td>
+
+
+
+<table border="0" cellpadding="6" cellspacing="6"  width="100%">
+  <tr><td align="center"><h3>Tips on HoldMyMemories.com</h3></td></tr>
+  <%i=0%>
+<% for tips in @tips %>
+  
+ 
+    <tr><td align="left"> <font size="3"<b><strong><%=i+1%>.&nbsp;<%=tips.title %></font></strong></b></td></tr>
+	<tr><td align="left"><b><strong><%=tips.description %></strong></b></td></tr>
+  <% end %>
+
+</table>
+
+<%= link_to 'Previous page', { :page => @tip_pages.current.previous } if @tip_pages.current.previous %>
+<%= link_to 'Next page', { :page => @tip_pages.current.next } if @tip_pages.current.next %> 
+
+<br />
+
+
+
+ </td></tr></table>

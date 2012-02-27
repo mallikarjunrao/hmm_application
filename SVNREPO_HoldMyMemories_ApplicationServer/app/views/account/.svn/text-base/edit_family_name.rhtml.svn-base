@@ -1,0 +1,15 @@
+<h2>Change Family Name:</h2>
+<table border="0" width="200">
+  <form action="/account/edit_family_name/<%=@user.id%>" method="post">
+    <tr><td height="20"></td></tr>
+  <tr><td><input type="text" name="family_name" id="family_name" value="<%=@user.family_name%>" /></td><td><input type="submit" name="Update" value="Update" /></td></tr>
+<br />
+      <%= observe_field   :'family_name',
+        :with       => "family_name",
+        :frequency  => 0.25,
+        :url        => {:action => :check_family_name },
+        :update     => :message
+    %>
+      <span id="message"></span>
+</form>
+</table>

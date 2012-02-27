@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:Canvas xmlns:mx="http://www.adobe.com/2006/mxml" width="100%" height="100%" backgroundColor="0" creationComplete="handleCreationComplete()">
+	<mx:DataGrid width="100%" height="100%" visible="false" id="exportDetailsGrid" rowHeight="120" backgroundColor="0" borderStyle="solid" borderThickness="1">
+		<mx:columns>
+			<mx:DataGridColumn headerText="Exported To" dataField="name"  
+			 width="100"  backgroundColor="0" color="0XFFFFFF">
+			 	<mx:itemRenderer>
+			 		<mx:Component>
+			 		<mx:VBox width="100%" height="100%" horizontalAlign="center" verticalAlign="middle" backgroundAlpha="0" 
+			 			creationComplete="handleCreationComplete()">
+			 			<mx:Image width="84" height="84" source="{imagePath}" />
+						<mx:Label text="{data.name}" fontWeight="bold"/>
+						<mx:Script>
+							<![CDATA[
+								[Bindable]
+								private var imagePath : String;
+								private function handleCreationComplete() : void
+								{
+								    imagePath = data.imgurl+"/hmmuser/photos/thumb/"+data.image;	
+								}
+							]]>
+						</mx:Script>
+					</mx:VBox>	
+			 		</mx:Component>
+			 	</mx:itemRenderer>
+			 </mx:DataGridColumn>
+			<mx:DataGridColumn headerText="Status" dataField="status" backgroundColor="0" color="0XFFFFFF"/>
+			<mx:DataGridColumn headerText="Export Type" dataField="type" backgroundColor="0" color="0XFFFFFF" labelFunction="handleLabelFunction">
+			</mx:DataGridColumn>
+		</mx:columns>
+	</mx:DataGrid>
+	<mx:Canvas width="100%" height="100%" id="export" visible="false" horizontalCenter="1" verticalCenter="1">
+		<mx:VBox width="100%" height="100%" horizontalAlign="center" verticalAlign="middle">
+			<mx:Text text="No exports found!!!" fontWeight="bold" fontSize="15" color="0xFFFFFF"/>
+		</mx:VBox>	
+	</mx:Canvas>
+	
+	<mx:Script>
+		<![CDATA[
+			import mx.core.UIComponent;
+			import mx.controls.dataGridClasses.DataGridColumn;
+			import renderers.ExportDataGridImageItemRenderer;
+			import mx.rpc.http.HTTPService;
+			import mx.collections.ArrayCollection;
+			import mx.rpc.events.FaultEvent;
+			import mx.rpc.events.ResultEvent;
+			
+			private var preloaderSprite : Sprite; 
+			[Embed(source="assets/Shares.swf")]
+			private var preLoaderSwf : Class;
+			private var preloader : UIComponent; 
+			
+			private function handleCreationComplete() : void
+			{
+				if(!preloader)
+				{
+					preloaderSprite = new preLoaderSwf(); 
+					preloader = new UIComponent();
+				}
+				preloader.addChild(preloaderSprite); 
+				this.addChild(preloader);
+				preloader.x = (this.width - preloaderSprite.width)/2;
+				preloader.y = (this.height - preloaderSprite.height)/2; 
+				
+				var service : HTTPService = new HTTPService();
+				service.url = "/export/getexportlist/";
+				service.addEventListener(ResultEvent.RESULT,handleResult);
+				service.addEventListener(FaultEvent.FAULT,handleFault);
+				service.send();
+			}
+			
+			private function handleResult(event : ResultEvent) : void
+			{
+				if(event.result.exports && event.result.exports.export)
+				{
+					exportDetailsGrid.dataProvider = event.result.exports.export as ArrayCollection;
+					export.visible = false;
+					exportDetailsGrid.visible = true;
+				}
+				else
+				{
+					export.visible = true;
+					exportDetailsGrid.visible = false;
+				}
+				this.removeChild(preloader);
+			}
+			
+			private function handleFault(event : FaultEvent) : void
+			{
+				trace(event.message);
+			}
+			
+			private function handleLabelFunction(item : Object,column : DataGridColumn) : String
+			{
+				var type : String;
+				switch(item.type)
+				{
+					case "tags": 
+					            type = "Chapter";
+					            break;
+					case "subchapter":            
+					    	type = "Sub Chapter";
+					        break;
+					case "gallery":
+					       type = "Gallery";
+					       break;
+					default :
+					         type = "Content";
+					         break;               
+				}
+				return type;
+			}
+			
+		]]>
+	</mx:Script>
+</mx:Canvas>

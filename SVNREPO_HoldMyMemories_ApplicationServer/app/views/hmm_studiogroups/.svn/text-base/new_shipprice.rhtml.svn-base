@@ -1,0 +1,150 @@
+<h1>Add New Ship Method &amp; Price</h1>
+Studio : <%
+studioname=HmmStudio.find(params[:sid])
+
+%>
+<%=studioname.studio_branch%>
+<script type="text/javascript">
+function verify()
+{
+        if(document.frm.ship_method.value=='')
+	{
+		alert('Enter the ship method name');
+		document.frm.ship_method.focus();
+		return false;
+	}
+	if(document.frm.ship_price1.value=='')
+	{
+		alert('Enter the ship price value');
+		document.frm.ship_price1.focus();
+		return false;
+	}
+
+	if(document.frm.ship_price2.value=='')
+	{
+		alert('Enter the ship price value');
+		document.frm.ship_price2.focus();
+		return false;
+	}
+	if(document.frm.ship_price3.value=='')
+	{
+		alert('Enter the ship price value');
+		document.frm.ship_price3.focus();
+		return false;
+	}
+	if(document.frm.ship_price4.value=='')
+	{
+		alert('Enter the ship price value');
+		document.frm.ship_price4.focus();
+		return false;
+	}
+	if(document.frm.ship_price5.value=='')
+	{
+		alert('Enter the ship price value');
+		document.frm.ship_price5.focus();
+		return false;
+	}
+	if(document.frm.ship_price6.value=='')
+	{
+		alert('Enter the ship price value');
+		document.frm.ship_price6.focus();
+		return false;
+	}
+	if(document.frm.ship_price7.value=='')
+	{
+		alert('Enter the ship price value');
+		document.frm.ship_price7.focus();
+		return false;
+	}
+	if(document.frm.ship_price8.value=='')
+	{
+		alert('Enter the ship price value');
+		document.frm.ship_price8.focus();
+		return false;
+	}
+	if(document.frm.ship_price9.value=='')
+	{
+		alert('Enter the ship price value');
+		document.frm.ship_price9.focus();
+		return false;
+	}
+}
+
+
+function onlyNumbers(evt)
+{
+	var e = event || evt; // for trans-browser compatibility
+	var charCode = e.which || e.keyCode;
+
+	if (charCode > 31 && (charCode < 48 || charCode > 57))
+		return false;
+
+	return true;
+
+}
+
+
+</script>
+
+<form name="frm" method="post" action="/hmm_studiogroups/add_shipprice/?sid=<%=params[:sid]%>" onSubmit="return verify();">
+  <p ><label>Shipping Method Name</label><br/>
+<input type="text" name="ship_method" ></p>
+
+<table width="100%">
+<tr>
+<td width="37%">Start Value</td>
+<td width="23%">&nbsp;</td>
+<td width="23%">End Value</td>
+<td width="40%">Ship Price</td>
+</tr>
+<tr>
+<td>$0.00 <input type="hidden" name="start_value1" value="0.00"></td>
+<td>-</td>
+<td>$49.98<input type="hidden" name="end_value1" value="49.98"></td><td><input type="text" name="ship_price1"></td>
+</tr>
+<tr>
+<td>$49.99 <input type="hidden" name="start_value2" value="49.99"></td>
+<td>-</td>
+<td>$99.98<input type="hidden" name="end_value2" value="99.98"></td><td><input type="text" name="ship_price2"></td>
+</tr>
+<tr>
+<td>$99.99 <input type="hidden" name="start_value3" value="99.99"></td>
+<td>-</td>
+<td>$149.98<input type="hidden" name="end_value3" value="149.98"></td><td><input type="text" name="ship_price3"></td>
+</tr>
+<tr>
+<td>$149.99 <input type="hidden" name="start_value4" value="149.99"></td>
+<td>-</td>
+<td>$199.98<input type="hidden" name="end_value4" value="199.98"></td><td><input type="text" name="ship_price4"></td>
+</tr>
+<tr>
+<td>$199.99 <input type="hidden" name="start_value5" value="199.99"></td>
+<td>-</td>
+<td>$249.98<input type="hidden" name="end_value5" value="249.98"></td><td><input type="text" name="ship_price5"></td>
+</tr>
+<tr>
+<td>$249.99 <input type="hidden" name="start_value6" value="249.99"></td>
+<td>-</td>
+<td>$299.98<input type="hidden" name="end_value6" value="299.98"></td><td><input type="text" name="ship_price6"></td>
+</tr>
+<tr>
+<td>$299.99 <input type="hidden" name="start_value7" value="299.99"></td>
+<td>-</td>
+<td>$349.98<input type="hidden" name="end_value7" value="349.98"></td><td><input type="text" name="ship_price7"></td>
+</tr>
+<tr>
+<td>$349.99 <input type="hidden" name="start_value8" value="349.99"></td>
+<td>-</td>
+<td>$399.98<input type="hidden" name="end_value8" value="399.98"></td><td><input type="text" name="ship_price8"></td>
+</tr>
+<tr>
+<td>$399.99<input type="hidden" name="start_value9" value="399.99"></td>
+<td>-</td>
+<td>+<input type="hidden" name="end_value9" value="10000.00"></td><td><input type="text" name="ship_price9"></td>
+</tr>
+<tr>
+<td colspan="4" align="center"><input type="submit" name="sub" value="Submit"></td>
+</tr>
+</table>
+
+</form>

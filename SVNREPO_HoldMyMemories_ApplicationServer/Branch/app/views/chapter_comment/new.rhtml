@@ -1,0 +1,8 @@
+<h3>Add Comments for <%if  (params[:id_journal]=='' || params[:id_journal]=='0') %> <%=session[:chap_name]%> chapter<%else%> Journal <%end%> </h3>
+
+<% form_tag :action => 'create' do %>
+  <%= render :partial => 'form' %>
+  <%= submit_tag "Create" %>
+<% end %>
+
+

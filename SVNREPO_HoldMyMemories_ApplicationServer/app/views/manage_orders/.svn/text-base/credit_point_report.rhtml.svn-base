@@ -1,0 +1,20 @@
+
+<table border="0" cellpadding="0" cellspacing="0" width="900">
+  <tr class="cont_13">
+    <th align="left" valign="middle" background="/images/body_hor.JPG" style="padding-left:10px;">order_number</th>
+    <th align="center" valign="middle" background="/images/body_hor.JPG">First Name</th>
+    <th align="left" valign="middle" background="/images/body_hor.JPG">Last Name</th>
+    <th align="left" valign="middle" background="/images/body_hor.JPG">Studio Name</th>
+    <th align="left" valign="middle" background="/images/body_hor.JPG">Total Price</th>
+    <th align="left" valign="middle" background="/images/body_hor.JPG">sales_tax</th>
+    <th align="left" valign="middle" background="/images/body_hor.JPG">shipping_price</th>
+    <th align="left" valign="middle" background="/images/body_hor.JPG">credit Redemption Amount</th>
+        <th align="left" valign="middle" background="/images/body_hor.JPG">Added Date</th>
+    <% for credit_user in @credit_users %>
+  </tr>
+  <tr class="<%= cycle('odd', 'even') %>"><td><%=credit_user.order_number%></td><td><%=credit_user.v_fname%></td><td><%=credit_user.v_lname%></td><td><%=credit_user.studio_name%></td>
+    <td><%=credit_user.total_price%></td><td><%=credit_user.sales_tax%></td><td><%=credit_user.shipping_price%></td><td><%=credit_user.credit_point_amount%></td><td><%=credit_user.created_at.strftime("%m/%d/%Y")%></td>
+  </tr>
+  <%end%>
+</table>
+<%=will_paginate @credit_users , :params => params %>

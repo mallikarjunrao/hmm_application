@@ -1,0 +1,14 @@
+<form name="frm" action="/account/rebill_status_change" method="post">
+<table align="center" cellpadding="3" cellspacing="3" class="border">
+<input type="hidden" name="hmmid" value="<%=@hmm_user.id%>"/>
+<tr><td colspan="2"><h2>Rebill the User Manually from authrize.net website.</h2></td></tr>
+<tr><td>Customer's Name</td><td><%=@hmm_user.v_fname%>&nbsp;<%=@hmm_user.v_lname%></td></tr>
+
+<tr><td>Customer's Subscription number</td><td><%=@hmm_user.subscriptionnumber%></td></tr>
+<tr><td>Amount  charged</td><td>$9.95</td></tr>
+<tr><td>Subscription Failed Date:</td><td><%=@hmm_user.account_expdate%></td></tr>
+<tr><td>Rebilled Date:</td><td><%=@hmm_user.billed_date%></td></tr>
+<tr><td>Rebilled sucessfully:</td><td><select name="rebill_status"><option value="yes">Yes</option><option value="no">No</option></select></td></tr>
+<tr><td></td><td><input type="submit" name="sub" value="Change Rebilled status"/> <font size="1" color="white">Please verify the rebilled status of the transaction and update the status occurdingly.</font></td></tr>
+</table>
+</form>

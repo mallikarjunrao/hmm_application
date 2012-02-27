@@ -1,0 +1,4 @@
+<% form_tag :action => 'create_nonhmm' do %>
+  <%= render :partial => 'form_nonhmm' %>
+    <%= submit_tag "Create" %>
+<% end %>

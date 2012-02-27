@@ -1,0 +1,22 @@
+<table width="<%=@app_width%>" border="0" cellspacing="0" cellpadding="0" id="tab_bgcolor">
+  <tr>
+    <td width="25" align="left" valign="middle" background="<%=@image_path%>/tab_trans.png"></td>
+    <td width="97%"  height="36" align="left" valign="middle" background="<%=@image_path%>/tab_trans.png" class="headers">Recently Added Moments</td>
+  </tr>
+  <tr>
+    <td height="155" align="center" valign="middle" colspan="2">
+      <table width="100%" height="93" cellpadding="0" cellspacing="0">
+        <tr valign="middle">
+          <% for recent_moment in @recent_moments %>
+            <td align="center">
+			<div align="center">
+                          <a href="<%=@path.proxyname%>/familywebsite/moments/<%=@family_website_owner.family_name%>?moment_id=<%=  recent_moment.id %>" target="_blank">
+                <img src="<%= @content_server_url %>/user_content/photos/big_thumb/<%=  recent_moment.v_filename %>" width="86"   alt="" border="0" />
+              </a></div>
+            </td>
+          <% end %>
+        </tr>
+      </table>
+    </td>
+  </tr>
+</table>

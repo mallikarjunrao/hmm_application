@@ -1,0 +1,121 @@
+<%  @studio_header = HmmStudio.find(@family_website_owner.studio_id)
+if @studio_header.studio_groupid==pp_studio_group
+  textarea = "glrTxtArea"
+  textbox = "glrTxtfld"
+  postbtn = "cmnBtnS cmnBtnMar"
+  commentHead = "commentTxthead"
+  commentSmall = "commentTxtsmall"
+else
+  textarea = "comTxtArea"
+  textbox = "textfield"
+  postbtn = "contactBtn"
+  commentHead = "msgHead"
+  commentSmall = "msgSmall"
+end %>
+<script language="javascript">
+  function like_a_radio(oBox) {
+    var el, i = 0, f = oBox.form;
+    while (el = f[i++]) if (el.type == 'checkbox') el.checked = (el == oBox && el.checked);
+  }
+
+  /*
+   *commented due to getting $(document).ready(function() is not a function  error
+  $(document).ready(function() {
+    $.nyroModalSettings({
+      type: 'iframe',
+      height: 500,
+      width: 700,
+      resizable: true,
+      autoSizable: true,
+      titleFromIframe: true,
+      // modal: true,
+      // selIndicator: '#loading',
+      contentLoading: "" // use our own
+    });
+
+    $('a.nyroModalPhotos').nyroModal();
+  });
+   */
+</script>
+<style type="text/css">
+
+  #nyroModalContent
+  {
+    background:  #002841;
+    width: 342px;
+    height: 200px;
+    overflow: auto;
+  }
+  #nyroModalWrapper
+  {
+    height: 221px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    display: block;
+    width: 346px;
+    margin-top: -164.5px;
+    margin-left: -177px;
+  }
+  #nyroModalBg
+  {
+    background-color: rgb(0, 0, 0);
+    position: absolute;
+    overflow: hidden;
+    top: 0px;
+    left: 0px;
+    height: 100%;
+    width: 100%;
+    opacity: 0.75;
+  }
+</style>
+<% if flash[:notice_com] != "" %>
+  <table style="background: #002841;" align="center" ><tr>
+      <td>
+        <table style="background: #002841; width: 324px;"align="center" cellpadding="4" cellspacing="4">
+          <tr ><td height="200" valign="middle" class="msgSmall" align="center"><%= flash[:notice_com] %><br/><br/><br/>
+              <a href="" class="nyroModalClose"><input type="button" class="<%= postbtn %>" value="Close" /></a>
+            </td></tr>
+        </table>
+        <% flash[:notice_com] = "" %>
+      <%  else %>
+        <form method="post" name="commentform" id="blogform" action="/family_memory/comment_popup/<%=params[:id]%>?moment_id=<%= params[:moment_id] %>" class="nyroModal">
+          <table style="background: #002841;" align="center" height="321" >
+            <tr>
+              <td align="center"><font color="white">
+                  Apply comment to:</font>
+              </td>
+            </tr>
+            <tr>
+              <td align="center">
+                <font color="white">
+                  <input type="hidden" name="gallery_id" value="<%= params[:gallery_id] %>" />
+                  <input type="hidden" name="moment_comment[v_comment]" value="<%= params[:moment_comment][:v_comment] %>" />
+                  <input type="hidden" name="moment_comment[v_name]" value="<%= params[:moment_comment][:v_name] %>" />
+                  <input type="hidden" name="moment_comment[user_content_id]" value="<%= params[:moment_id] %>" />
+
+                  <input type="radio" id="chkOne" name="apply_to" value="image" checked onclick="like_a_radio(this);" />Image
+                  <input type="radio" id="chkTwo" name="apply_to" value="album" onclick="like_a_radio(this);" />Album
+                </font>
+              </td>
+            </tr>
+            <tr>
+              <td align="center" valign="top" colspan="2" class="content" style="width: 320px; height: 50px;">
+                <%= recaptcha_tags :ajax=> true %><br><font color="red"><%=flash[:error]%></font>
+              </td>
+            </tr>
+            <tr>
+              <td align="center" valign="top" colspan="2" class="content">
+                <input type="submit" class="<%= postbtn %>" value="Enter" /></td>
+            </tr>
+            <tr>
+              <td  valign="top" colspan="2" align="center" >
+                <a href="#" class="nyroModalClose"><input type="button" class="<%= postbtn %>" value="Close" /></a>
+              </td>
+            </tr>
+
+          </table>
+        </form>
+      <% end %>
+    </td></tr>
+</table>

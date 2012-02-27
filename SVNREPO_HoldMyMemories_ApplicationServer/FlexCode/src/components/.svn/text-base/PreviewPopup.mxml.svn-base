@@ -1,0 +1,321 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:Canvas xmlns="components.*" xmlns:mx="http://www.adobe.com/2006/mxml" horizontalScrollPolicy="off" verticalScrollPolicy="off"
+	 clipContent="true" xmlns:fabulousFlex="fabulousFlex.*" showEffect="" width="508" height="379" backgroundColor="0">
+  <mx:Style>
+  	.next
+  	{  
+  	    disabled-skin : Embed(source= "assets/nextdef.png");
+  		up-skin : Embed(source= "assets/nextdef.png");
+  		over-skin : Embed(source= "assets/nextovr.png");
+  		down-skin : Embed(source= "assets/nextdef.png");
+  	}
+  	.back
+  	{  
+  		disabled-skin : Embed(source= "assets/previousdef.png");
+  		up-skin : Embed(source= "assets/previousdef.png");
+  		over-skin : Embed(source= "assets/previousovr.png");
+  		down-skin : Embed(source= "assets/previousdef.png");
+  	}
+  		
+  </mx:Style>	
+<!--<fabulousFlex:PreloadingImage id="img" source="resources/1.JPG" preloaderTitleWindow="{SquaresSpinnerPreloadingWindow}" width="332" height="250"/>-->
+
+	<mx:Button width="16" height="16" cornerRadius="0" upSkin="@Embed('assets/closebtn_def.png')" overSkin="@Embed('assets/closebtn_act.png')" downSkin="@Embed('assets/closebtn_def.png')" 
+		click="handleCloseClick()" id="closeButton" x="{(this.width-closeButton.width-1)}"
+		 y="{1}" focusInEffect="{fadeIn}" focusOutEffect="{fadeOut}"/>
+	
+	<mx:Fade id="fadeIn" duration="500" alphaFrom="0.5" alphaTo="1" />
+	<mx:Fade id="fadeOut" duration="900" alphaFrom="1" alphaTo="0.5" />
+	<mx:Button id="next" y="350" x="333"  styleName="next" toolTip="Click here to see the next photo"  click="handleNext()" enabled="{nextEnabled}"  visible="false"/>
+	<mx:Button id="back"  y="350" styleName="back" toolTip="Click here to see the previous photo"  click="handleBack()" enabled="{selectedIndex}" x="158" visible="false"/>
+	
+	<mx:Script>
+		<![CDATA[
+			import mx.controls.Alert;
+			import mx.core.IDataRenderer;  
+			import mx.collections.ArrayCollection;
+			import mx.core.UIComponent;
+			import mx.core.Application;
+			import mx.controls.Label;
+			import mx.core.IFlexDisplayObject;
+			import mx.managers.PopUpManager;
+			import mx.events.FlexEvent;
+			import fabulousFlex.WheelPreloadingWindow; 
+			import fabulousFlex.PreloadingImage;
+			import mx.controls.Image;
+			import mx.controls.VideoDisplay;
+			import vo.GalleryTypes;
+			
+			private var audioPlayer : HmmAudioPlayer;
+			private var video : HmmVideoPlayer;
+			private var img : Image;
+			public var galleryType : String;
+			public var displayIcon : String;
+			public var isStandAlone : Boolean;
+			[Bindable]
+			public var contentAC : ArrayCollection;
+			[Bindable]
+			public var selectedIndex : int;
+			[Bindable]
+			private var  nextEnabled : Boolean = true;
+			private var preloaderSprite : Sprite;
+			
+			[Embed(source="assets/ajax-loader.swf")]
+			private var preLoaderSwf : Class;
+			private var preloader : UIComponent;
+			
+			override public function set data(value : Object) : void
+			{
+				super.data = value;
+				switch(data.type)
+				{
+					case GalleryTypes.AUDIO:
+								prepareAudio();
+								break; 
+					case GalleryTypes.VIDEO:
+								prepareVideo();
+								break;
+					case GalleryTypes.PHOTO:
+					            next.visible = true;
+					            back.visible = true;
+								preparePhoto();
+								break;
+					case "swf" :
+								prepareSWF();  
+								break;
+				}
+			}
+			
+			override public function get data() : Object
+			{
+				return super.data;
+			}
+			
+			protected function prepareSWF() : void
+			{
+				var label : Label = new Label();
+				label.text = "This is a user created Slideshow. No preview available.";
+				
+				label.setStyle("fontFamily", "Arial");
+				label.setStyle("fontSize", 15);
+				label.setStyle("color", 0xffffff);
+				//label.x = (this.width - label.width)/2;
+				label.y = (this.height - label.height)/2;
+				this.addChild(label);
+			}
+			
+			protected function handleCloseClick():void
+			{
+				if(video != null)
+				{
+					video.handleCloseClick();
+				}else if(audioPlayer != null)
+				{
+					audioPlayer.handleCloseClick();
+				}
+				
+				PopUpManager.removePopUp(this as IFlexDisplayObject);
+				
+				
+			}
+			
+			private function prepareAudio() : void
+			{
+				var url : String = data.icon;
+				audioPlayer = new HmmAudioPlayer();
+				audioPlayer.source = url;
+				this.addChild(audioPlayer);
+				
+				
+			}
+			
+			private function prepareVideo() : void
+			{
+				/* video = new HmmVideoPlayer();
+				video.addEventListener(FlexEvent.CREATION_COMPLETE, handleVideoPlayerCreationComplete)
+				this.addChild(video); */
+				var popup : IFlexDisplayObject = PopUpManager.createPopUp(Application.application as DisplayObject, 
+													YouTubeLikePlayer, true);
+				if(!isStandAlone)									
+					PopUpManager.centerPopUp(popup);
+				else
+				{
+					popup.x = 0;
+					popup.y = 0;
+					YouTubeLikePlayer(popup).closeButton.visible = false;
+					YouTubeLikePlayer(popup).isStandAlone = true;
+				}
+					popup.width = 500;
+					popup.height = 400;												
+					var path : String = data.icon;
+					var explodedPath : Array = path.split(".");
+					for(var i : int =0; i < explodedPath.length; i++)
+					{
+						if(explodedPath[i] == "jpg")
+							explodedPath[i] = "flv"; 
+						path = explodedPath.join(".");
+					}
+					explodedPath = path.split("/");
+					for( i =0; i < explodedPath.length; i++)
+					{
+						if(explodedPath[i] == "thumbnails")
+							break;
+						
+					}
+					explodedPath.splice(i,1);
+					path = explodedPath.join("/");
+				YouTubeLikePlayer(popup).video.source = path;
+				YouTubeLikePlayer(popup).video.load();
+				YouTubeLikePlayer(popup).play.selected = true;
+				YouTubeLikePlayer(popup).video.play();
+				PopUpManager.removePopUp(this);
+			}
+			
+			private function handleVideoPlayerCreationComplete(event : FlexEvent) : void
+			{
+				
+				var vid : PlayerWithSlider = event.currentTarget as HmmVideoPlayer;
+				vid.percentHeight = 100;
+				vid.percentWidth = 100;
+				if(vid)
+				{
+					var path : String = data.icon;
+					var explodedPath : Array = path.split(".");
+					for(var i : int =0; i < explodedPath.length; i++)
+					{
+						if(explodedPath[i] == "jpg")
+							explodedPath[i] = "flv";
+						path = explodedPath.join(".");
+					}
+					explodedPath = path.split("/");
+					for( i =0; i < explodedPath.length; i++)
+					{
+						if(explodedPath[i] == "thumbnails")
+							break;
+						
+					}
+					explodedPath.splice(i,1);
+					path = explodedPath.join("/");
+					video.source = path;
+					
+				}
+				
+				
+			}
+			
+			private function preparePhoto() : void
+			{
+				//var img : Image = new Image();
+				if(img)
+				{
+					this.removeChild(img);
+				}
+				if(!preloader)
+				{
+					preloaderSprite = new preLoaderSwf(); 
+					preloader = new UIComponent();
+				}
+				preloader.addChild(preloaderSprite); 
+				this.addChild(preloader);
+				preloader.x = (this.width - preloaderSprite.width)/2;
+				preloader.y = (this.height - preloaderSprite.height)/2; 
+				img = new SmoothImage();
+				var url : String = data.icon.toString();
+				var explodedUrl : Array = url.split("/");
+				for( var i : int = 0; i < explodedUrl.length; i++)
+				{
+					if(explodedUrl[i] == "big_thumb")
+						explodedUrl[i] = "journal_thumb";
+				}
+				img.addEventListener(Event.COMPLETE, handleLoadComplete);
+				img.load( explodedUrl.join("/"));
+				
+				
+			}
+			private function handleNext() : void
+			{    
+			  
+			 if(selectedIndex < contentAC.length-1)
+			  {    
+			  	    nextEnabled = true;
+			    	selectedIndex++;
+				 this.data = contentAC[selectedIndex];
+				
+				  }
+				  else
+				  {
+				  	nextEnabled = false;
+				  	Alert.show("You have reached the end of the gallery please click ok and then the back button");
+				  }
+	            //preparePhoto();
+			}
+			private function handleBack() :void
+			{
+				if(selectedIndex >0)
+				{
+					selectedIndex--;
+					nextEnabled = true;
+				}
+				this.data = contentAC[selectedIndex];
+			}
+			
+			public function setFullscreen() : void
+			{
+				if(video)
+				{
+					video.setFullscreenHeight();
+				}
+				
+			}
+			
+			private function handleLoadComplete(event : Event) : void
+			{
+				img = event.currentTarget as Image;
+				img.setStyle("borderThickness", 1);
+				img.setStyle("borderColor", 0xff0000);
+				img.setStyle("borderStyle", "solid");
+				img.setStyle("backgroundColor", 0xff0000);
+				img.scaleContent = true;
+				img.filters = [new GlowFilter()];
+				 if(img.contentHeight> img.contentWidth)
+				{
+					img.height = 330;//img.contentWidth*359/img.contentHeight;;
+					img.width = img.contentWidth*330/img.contentHeight;
+					
+					img.x = Math.max(10,(this.width - img.width)/2);
+					img.y = 10;//Math.max(10,(this.height - img.height)/2);
+				}else
+				{
+					img.width = 350;//img.contentHeight*488/img.contentWidth;
+					img.height = img.contentHeight*350/img.contentWidth;
+					img.x = 10;//Math.max(10,(this.width - img.width)/2);
+					img.y = Math.max(10,(this.height - img.height)/2);
+				 }
+				img.includeInLayout = true;
+				img.maintainAspectRatio = false;
+				this.addChild(img);
+				removeChild(preloader);
+				this.measure();
+				//img.x = (this.width - img.width)/2;
+				//img.y = (this.height - img.height)/2;
+				
+				//this.width = img.contentWidth ;//+ 2*int(getStyle("borderThicknessLeft")) + 2*int(getStyle("borderThicknessRight"));
+				//this.height = img.contentHeight ;//+ 2*int(getStyle("borderThicknessBottom")) + 2*int(getStyle("borderThicknessTop"));
+				
+			}
+			
+			override protected function updateDisplayList(unscaledWidth:Number, unscaledHeight:Number):void
+			{
+				super.updateDisplayList(unscaledWidth, unscaledHeight);	
+				if(img)
+				{
+					img.x = (this.width - img.width)/2;
+					img.y = (this.height - img.height)/2;
+				}
+			}
+			
+			
+		]]>
+	</mx:Script>
+	
+</mx:Canvas>

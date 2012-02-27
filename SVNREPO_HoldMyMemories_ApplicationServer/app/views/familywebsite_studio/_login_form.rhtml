@@ -1,0 +1,91 @@
+<script type="text/javascript">
+  //var f1 = new LiveValidation('username',{onlyOnSubmit: true });
+  //f1.add(Validate.Presence);
+  //var f2 = new LiveValidation('password',{onlyOnSubmit: true });
+  //f1.add(Validate.Presence);
+
+ function login_validation()
+ {
+  if(document.getElementById('username_popup').value == "")
+  {
+    alert('Username cannot be Empty');
+    return false;
+  }
+  if(document.getElementById('password_popup').value == "")
+  {
+    alert('Password cannot be Empty');
+    return false;
+  }
+ }
+</script>
+<table border="0" align="center"><tr>
+                              <td height="40" align="center" valign="top" class="headers"> Member Login </td>
+                            </tr>
+
+                            <% if flash[:error] %>
+                              <tr>
+                                <td height="40" align="center" valign="top" class="error-message"><%= flash[:error] %> </td>
+                              </tr>
+                            <% end %>
+</table>
+<form name="login_info" id="login_info" action="/familywebsite_studio/share_login/<%=params[:id]%>" method="post" >
+<table width="369" border="0" cellspacing="0" cellpadding="0" class="login-box">
+                                  <tr>
+                                    <td height="35" colspan="4" align="left" valign="top"></td>
+                                  </tr>
+                                  <tr>
+                                    <td width="30" align="left" valign="top"></td>
+                                    <td width="93" align="left" valign="middle" class="content-white">User Name:</td>
+                                    <td width="203" align="left" valign="middle">
+                                        <input type="text" name="username" id="username_popup" value=""/><br/>
+                                    </td>
+                                    <td width="43" align="left" valign="top">&nbsp;</td>
+                                  </tr>
+                                  <tr>
+                                    <td height="10" colspan="4" align="left" valign="top"></td>
+                                  </tr>
+                                  <tr>
+                                    <td width="30"  align="left" valign="top"></td>
+                                    <td width="93" align="left" valign="middle" class="content-white">Password:</td>
+                                    <td width="203" align="left" valign="middle">
+                                        <input type="password" name="password" id="password_popup" value=""/><br/>
+                                    </td>
+                                    <td align="left" valign="top">&nbsp;</td>
+                                  </tr>
+                                  <tr>
+                                    <td height="20" colspan="4" align="left" valign="top"></td>
+                                  </tr>
+                                  <tr>
+                                    <td align="left" valign="top"></td>
+                                    <td align="left" valign="middle" class="content-white">&nbsp;</td>
+                                    <td align="right" valign="middle">
+                                      <label>
+                                        <input type="submit" name="sub_bt" value="Submit" onclick='return login_validation();'/>
+                                      </label>
+                                    </td>
+                                    <td align="left" valign="top">&nbsp;</td>
+                                  </tr>
+
+                                  <tr>
+                                    <td align="left" valign="top"></td>
+                                    <td height="25" colspan="2" align="center" valign="middle" class="content-white">&nbsp;</td>
+                                    <td align="left" valign="top">&nbsp;</td>
+                                  </tr>
+                                  <tr>
+                                    <td align="left" valign="top"></td>
+                                    <td height="25" colspan="2" align="center" valign="middle" class="content-white"><a href="/familywebsite/forgot_password/<%= params[:id] %>">I cannot access my account</a></td>
+                                    <td align="left" valign="top">&nbsp;</td>
+                                  </tr>
+                                  <tr>
+                                    <td align="left" valign="top"></td>
+                                    <td height="25" colspan="2" align="center" valign="middle" class="content-white"><a href="/customers/authorise_verify"> Create an account </a> </td>
+                                    <td align="left" valign="top">&nbsp;</td>
+                                  </tr>
+                                  <tr >
+                                    <td align="left" valign="top"></td>
+                             <td  height="25" colspan="2" align="center" valign="middle" class="content-white"><input type="Reset" value="Close" class="nyroModalClose"  /></td>
+                              <td align="left" valign="top">&nbsp;</td>
+                             </tr>
+                                </table>
+ </form>
+

@@ -1,0 +1,237 @@
+<%= javascript_include_tag 'themes/formcheck/core' %>
+<%= javascript_include_tag 'themes/formcheck/more' %>
+<%= javascript_include_tag 'themes/formcheck/en' %>
+<%= javascript_include_tag 'themes/formcheck/formcheck' %>
+<%= stylesheet_link_tag 'themes/formcheck/formcheck'%>
+<style type="text/css">
+
+  .cmd-btn{
+    background:transparent;
+    background:url(/images/family_memory/input-btn.png);
+    border:none;
+    height:26px;
+    width:76px;
+    font-size:14px;
+    color:#87a3b5;
+    cursor: pointer;
+  }
+  .cmd-btn:hover{
+    background:url(/images/family_memory/input-btn-ovr.png);
+
+  }
+</style>
+<script type="text/javascript">
+  var Jq = jQuery.noConflict();
+  Jq(document).ready(function(){
+    Jq(".login").click(function(){
+      if (Jq(".log").is(":hidden")) {
+        Jq(".log").slideDown("slow");
+      } else {
+        Jq(".log").slideUp("slow");
+      }
+    });
+    Jq(".close1").click(function(){
+      Jq(".log").slideUp("slow");
+
+    });
+  });
+</script>
+<script type="text/javascript">
+  var refreshId = setInterval(function()
+  {
+    Jq('#responsecontainer').fadeOut("slow").load('/family_memory/get_offers').fadeIn("slow");
+  }, 1000000);
+  Jq.ajaxSetup({ cache: false });
+</script>
+<table width="100%" border="0" cellspacing="0" cellpadding="0">
+  <tr>
+    <td><font color="red" size="2">
+        <% if flash[:error] %>
+          <%= flash[:error] %>
+        <% else %>
+          <%= flash[:notice] %>
+        <% end %>
+      </font></td>
+  </tr>
+  <% if session[:hmm_user].nil? %>
+    <tr>
+      <td height="20" align="center" valign="bottom"><div class="btn"><a href="#" title="Login" class="login"><img src="/images/family_memory/transaprent.png" class="menus loginHome" border="0"/></a></div></td>
+    </tr>
+  <%else%>
+    <tr>
+      <td height="20" align="center" valign="bottom"><div class="btn"><a href="/family_memory/logout/<%=params[:id]%>" title="Logout" class="logout"><img src="/images/family_memory/transaprent.png" class="menus logoutHome" border="0"/></a></div></td>
+    </tr>
+  <%end%>
+  <tr class="log" style="display: none">
+    <td height="20" align="center" valign="top" >
+      <form name="emailusform" id="blogform" action="/family_memory/login/<%=params[:id]%>" method="post">
+        <table width="150" border="0" cellspacing="0" cellpadding="0" class="LoginHomeTxt add">
+          <tr>
+            <td height="41">&nbsp;</td>
+          </tr>
+          <tr>
+            <td align="center">Member login</td>
+          </tr>
+          <tr>
+            <td height="12"></td>
+          </tr>
+          <tr>
+            <td align="center" width="140" height="15"><input type="text" id="hmm_user_v_user_name" name="username" class="7b9baf" size="15" value="Username" onclick="this.value=''"/></td>
+          </tr>
+          <tr>
+            <td height="15"></td>
+          </tr>
+          <tr>
+            <td align="center" width="140" height="15"><input type="password" id="hmm_user_v_password" name="password" class="7b9baf" size="15" value="Password" onclick="this.value=''"/></td>
+          </tr>
+          <tr>
+            <td height="10"></td>
+          </tr>
+          <tr>
+            <td align="center"><input type="submit" class="cmd-btn" value="Submit" /></td>
+          </tr>
+          <tr>
+            <td height="15"></td>
+          </tr>
+          <tr>
+            <td align="center"> <input type="button" class="cmd-btn close1" value="Close"  /></td>
+          </tr>
+
+          <tr>
+            <td>&nbsp;</td>
+          </tr>
+
+        </table>
+      </form>
+
+    </td>
+  </tr>
+  <tr>
+    <td height="20"></td>
+  </tr>
+  <tr>
+    <td align="center"><a href="/family_memory/home/<%=params[:id]%>" style="text-decoration: none"><img src="<%=@family_website_owner.img_url%>/hmmuser/familyphotos/thumbs/<%=@family_website_owner.family_pic%>" width="175" style="text-decoration: none" border="0"/></a></td>
+  </tr>
+  <tr>
+    <td height="28" align="center" valign="top" class="profileName"><%=@family_website_owner.v_lname.capitalize%> Family</td>
+  </tr>
+  <%if session[:hmm_user]%>
+    <%if logged_in_hmm_user.id==@family_website_owner.id%>
+      <tr>
+        <td height="59" align="center" valign="top"><a href="/family_memory/edit_profile/<%=params[:id]%>" ><img src="/images/family_memory/icon-setting.png" border="0" alt="Edit Profile"/></a></td>
+      </tr>
+    <%end%>
+  <%end%>
+  <%if session[:hmm_user]%>
+    <%if logged_in_hmm_user.id==@family_website_owner.id%>
+      <%if @cp==1%>
+        <tr>
+          <td align="center" class="studioCredit">Studio Credit:<br />
+            <% if @family_website_owner.id == session[:hmm_user] or session[:hmm_user]  %>
+
+              <% if @studio_groups.credit_system =="Dollars" %>
+                $<%=number_with_precision(@creditpt.available_credits, :precision => 2)%>
+              <%else%>
+                <%=@creditpt.available_credits.round%>
+              <%end%>
+            <%end%>
+          </td>
+        </tr>
+      <% end  %>
+    <%end%>
+  <%end%>
+  <tr>
+    <td height="26" align="center" class="studioCredit">&nbsp;</td>
+  </tr>
+  <tr>
+    <td align="right"><div class="menuMargin"><ul id="menu">
+          <%if session[:hmm_user]%>
+            <%if logged_in_hmm_user.id==@family_website_owner.id%>
+              <li class="addPhotos"><a href="/family_memory/upload/<%=params[:id]%>" title="Add Photos"></a></li>
+            <%end%>
+          <%end%>
+          <li class="blog"><a href="/family_memory/blog/<%=params[:id]%>" title="Blog"></a></li>
+          <li class="contests"><a href="/family_memory/contest/<%=params[:id]%>" title="Contests" ></a></li>
+          <% if ((@family_website_owner.studio_id).to_i == 0 )%>
+            <li class="bookSession"><a href="/family_memory/search_studio/<%=params[:id]%>" title="Book Sessions"  class="nyroModal"></a></li>
+          <%else
+            link="/my_familywebsite/book_session/#{@family_website_owner.family_name}/?studio_id=#{@family_website_owner.studio_id}"%>
+            <li class="bookSession"><a href="<%=link%>" title="Book Sessions" target="_blank"></a></li>
+          <%end %>
+
+        </ul></div></td>
+  </tr>
+  <tr>
+    <td align="center"><a href="http://itunes.apple.com/us/app/holdmymemories/id398282766?mt=8" target="_blank"><img src="/images/family_memory/icon-appstore.png" border="0" /></a></td>
+  </tr>
+  <tr>
+    <td height="10" align="center"></td>
+  </tr>
+  <tr>
+    <%   cur_date=Date.today
+    offers=PackageOffer.find(:first,:conditions=>"start_date<'#{cur_date}' and end_date>'#{cur_date}' and status='active'")%>
+    <td align="center" valign="top" class="add"><div id="responsecontainer">
+        <span><%=offers.title%></span><br /><%=offers.description%>
+      </div></td>
+  </tr>
+  <tr>
+    <td height="30" align="center" valign="middle" class="powered">Powered by</td>
+  </tr>
+  <tr>
+    <td align="center" valign="top"><img src="/images/family_memory/hmm-small-logo.png" /></td>
+  </tr>
+  <tr>
+    <td align="center" valign="top">&nbsp;</td>
+  </tr>
+</table>
+
+<%= javascript_include_tag 'livevalidation_prototype','livevalidation'%>
+<script type="text/javascript">
+  if(document.getElementById('hmm_user_v_user_name')!=null)
+  {
+    var f2 = new LiveValidation('hmm_user_v_user_name');
+
+    f2.add( Validate.Presence );
+    f2.add( Validate.Exclusion, { within: [ 'Username' ] } );
+  }
+  if(document.getElementById('hmm_user_v_password')!=null)
+  {
+    var f3 = new LiveValidation('hmm_user_v_password');
+    f3.add( Validate.Exclusion, { within: [ 'Password' ] } );
+  }
+
+</script>
+<style type="text/css">
+  .LV_validation_message{
+    margin:0 0 0 1px;
+    font-size: 2px;
+  }
+  .add span {
+    font-size: 18px;
+    font-weight: normal;
+    line-height: 45px;
+  }
+  .LV_valid {
+    color:#00CC00;
+  }
+
+  .LV_invalid {
+    color:#CC0000;
+  }
+
+  .LV_valid_field,
+  input.LV_valid_field:hover,
+  input.LV_valid_field:active,
+  textarea.LV_valid_field:hover,
+  textarea.LV_valid_field:active {
+    border: 1px solid #00CC00;
+  }
+
+  .LV_invalid_field,
+  input.LV_invalid_field:hover,
+  input.LV_invalid_field:active,
+  textarea.LV_invalid_field:hover,
+  textarea.LV_invalid_field:active {
+    border: 1px solid #CC0000;
+  }
+</style>

@@ -1,0 +1,244 @@
+<script type="text/javascript">
+            function sub()
+            {
+				if(document.getElementById('agree_down').checked == false)
+                {
+					alert('Inorder to enter the contest, please agree to the terms and conditions!!')
+					return false;
+                }
+				else 
+				return true;
+            }
+			function sub_up()
+			{
+				if(document.getElementById('agree').checked == false)
+				{
+					alert('Inorder to enter the contest, please agree to the terms and conditions!!')
+					return false;
+                }
+				else
+				return true;
+			}
+</script>
+<%= javascript_include_tag 'modalbox/prototype' %>
+<script type="text/javascript" src="/javascripts/modalbox/scriptaculous.js?load=effects"></script>
+<script type="text/javascript" src="/javascripts/modalbox/modalbox.js"></script>
+<%= stylesheet_link_tag 'modalbox/modalbox' %>
+
+
+<form name="frm" action="/familywebsite_seniorscontest/contest_login/<%=params[:id]%>/?contest=<%=params[:contest]%>" method="post">
+<table width="100%" border="0" cellspacing="0" cellpadding="0">
+                      <tr>
+                        <td width="30" align="left" valign="top">&nbsp;</td>
+                        <td width="882" align="left" valign="top">&nbsp;</td>
+                        <td width="30" align="left" valign="top">&nbsp;</td>
+                      </tr>
+                      <tr>
+                        <td align="left" valign="top">&nbsp;</td>
+                        <td align="left" valign="top" class="contentent-trans-bg"><table width="100%" border="0" cellspacing="0" cellpadding="0">
+                      <tr>
+                        <td width="30" align="left" valign="top">&nbsp;</td>
+                        <td width="882" align="left" valign="top">&nbsp;</td>
+                        <td width="30" align="left" valign="top">&nbsp;</td>
+                      </tr>
+                      <tr>
+                        <td align="left" valign="top">&nbsp;</td>
+                        <td align="left" valign="top" class="contentent-trans-bg"><table width="100%" border="0" cellspacing="0" cellpadding="0">
+                          <tr>
+                            <td align="left" valign="top">&nbsp;</td>
+                            <td  align="left" valign="top">&nbsp;</td>
+                            <td align="left" valign="top">&nbsp;</td>
+                          </tr>
+                          <tr>
+                            <td align="left" valign="top">&nbsp;</td>
+                            <td  align="left" valign="top" class="contentent"><table width="100%" border="0" align="center" cellspacing="0" cellpadding="0">
+                              
+                                <tr>
+                                    <td align="center" valign="top" class="contentent" scope="col"> <%if params[:contest] == 'photo'%>
+                  <img src=<%=seniorphoto_contest_image%> border="0">
+				<%else%>
+				<img src=<%=video_contest_image%> border="0">
+				<%end%></td>
+                                </tr>
+                                <tr>
+                                    <td align="center" valign="top" class="contentent" scope="col" height="20">&nbsp;</td>
+                                </tr>
+                                <tr>
+                                    <td align="center" valign="top" scope="col"><table width="100%" border="0" cellspacing="0" cellpadding="0">
+
+                                          <tr>
+                                            <td width="63" align="left" valign="top" scope="col">&nbsp; </td>
+                                              <td width="100%" height="20" align="left" valign="top" scope="col" colspan="2"> <table width="100%" border="0" cellspacing="0" cellpadding="0">
+                                                
+                                                <tr>
+                                                  <td height="20" align="left" valign="top" class="content-white"><label> </label>
+                                                    <label>
+                                                      <input type="radio" name="agree" id="agree" value="agree" >
+                                                      </label>
+                                                    I agree to the Terms and Conditions</td>
+                                                        <td width="164" rowspan="2" align="center" valign="middle"><label>
+                                                        <input type="submit" class="cmd-btn" id="button" value="Next" onclick="return sub_up();" />
+                                                        </label></td>
+                                                    </tr>
+                                                <tr>
+                                                  <td align="left" valign="top" class="content-white"><input type="radio" name="agree" id="agree" value="disagree" />
+                                                    I do not agree to the Terms and Conditions</td>
+                                                    </tr>
+                                                
+                                                </table></td>
+                                          </tr>
+                                      <tr>
+                                        <td align="left" valign="top" scope="col">&nbsp; </td>
+                                              <td height="42" align="center" valign="top" class="content" scope="col">&nbsp;</td>
+                                              <td align="left" valign="top" scope="col">&nbsp; </td>
+                                          </tr>
+                                      <tr>
+                                        <td align="left" valign="top" scope="col">&nbsp; </td>
+                                              <td height="42" align="center" valign="top" class="headers" scope="col">You must first read the following:</td>
+                                              <td align="left" valign="top" scope="col">&nbsp; </td>
+                                          </tr>
+                                     
+            <tr>
+              <th align="left" valign="top" scope="col"></th>
+              <th align="left" valign="top" class="content" scope="col">HoldMyMemories.com contests Terms and Conditions:</th>
+              <th align="left" valign="top" scope="col"></th>
+            </tr>
+
+            <tr>
+              <th align="left" valign="top" scope="col"></th>
+              <th height="26" align="left" valign="top" class="content" scope="col">&nbsp;</th>
+              <th align="left" valign="top" scope="col"></th>
+            </tr>
+            <tr>
+              <th align="left" valign="top" scope="col"></th>
+              <th align="left" valign="top" class="content" scope="col"><p><b>Eligibility:</b>  Any HoldMyMemories.com account member who is 18 years of age or older at the time of entry may submit an entry to a HoldMyMemories.com contest.  Contests are not open to employees of HoldMyMemories.com, or any affiliates, including employees of a HoldMyMemories.com studio.  No purchase is necessary to enter contest.</p></th>
+              <th align="left" valign="top" scope="col"></th>
+              </tr>
+			  <tr>
+              <th align="left" valign="top" scope="col"></th>
+              <th height="26" align="left" valign="top" class="content" scope="col">&nbsp;</th>
+              <th align="left" valign="top" scope="col"></th>
+            </tr>
+            <tr>
+              <th align="left" valign="top" scope="col"></th>
+              <th align="left" valign="top" class="content" scope="col"><p><b>Registration:</b> Only one entry per child.  Each contest listed on the �contest� page is considered a separate contest.</p></th>
+              <th align="left" valign="top" scope="col"></th>
+              </tr>
+			  <tr>
+              <th align="left" valign="top" scope="col"></th>
+              <th height="26" align="left" valign="top" class="content" scope="col">&nbsp;</th>
+              <th align="left" valign="top" scope="col"></th>
+            </tr>
+            <tr>
+              <th align="left" valign="top" scope="col"></th>
+              <th align="left" valign="top" class="content" scope="col"><p><b>Submission:</b>  Member warrants that it owns the copyright to any files or combination of files that are entered into any HoldMyMemories.com contest, or entrant warrants that the files submitted were created at a HoldMyMemories.com (HMM) studio, and may be used for submission.</p></th>
+              <th align="left" valign="top" scope="col"></th>
+              </tr>
+
+			  <tr>
+              <th align="left" valign="top" scope="col"></th>
+              <th height="26" align="left" valign="top" class="content" scope="col">&nbsp;</th>
+              <th align="left" valign="top" scope="col"></th>
+            </tr>
+            <tr>
+              <th align="left" valign="top" scope="col"></th>
+              <th align="left" valign="top" class="content" scope="col"><p><b>Right to use by HoldMyMemories.com and/or its affiliates:</b> By entering a HoldMyMemories.com contest, member agrees to grant HoldMyMemories.com and its affiliates the non-exclusive right to make available the member�s entry on its (HoldMyMemories.com) website in perpetuity, and without compensation.</p></th>
+              <th align="left" valign="top" scope="col"></th>
+              </tr>
+			  <tr>
+              <th align="left" valign="top" scope="col"></th>
+              <th height="26" align="left" valign="top" class="content" scope="col">&nbsp;</th>
+              <th align="left" valign="top" scope="col"></th>
+            </tr>
+            <tr>
+              <th align="left" valign="top" scope="col"></th>
+              <th align="left" valign="top" class="content" scope="col"><p><b>Contest Submission Deadlines:</b>  :  Each contest will have its submission and voting deadlines posted.  Voting for any contest may begin at any time HoldMyMemories.com determines, including allowing voting prior to entry submission deadlines.  HoldMyMemories.com reserves the right to suspend or cancel any contest at its sole discretion.   HoldMyMemories.com reserves the right to modify the terms of any contest in any way or at any time.  HoldMyMemories.com will continue to hosts contests on a regular basis, and may carry over entrants from one contest into another contest.</p></th>
+              <th align="left" valign="top" scope="col"></th>
+              </tr>
+			  <tr>
+              <th align="left" valign="top" scope="col"></th>
+              <th height="26" align="left" valign="top" class="content" scope="col">&nbsp;</th>
+              <th align="left" valign="top" scope="col"></th>
+            </tr>
+            <tr>
+              <th align="left" valign="top" scope="col"></th>
+              <th align="left" valign="top" class="content" scope="col"><p><b>Judging Criteria:</b> Finalists will be chosen by website voting.  One vote will be permitted per validated email address.  Grand Prize winners will be chosen by a panel of judges.</p></th>
+              <th align="left" valign="top" scope="col"></th>
+              </tr>
+			  <tr>
+              <th align="left" valign="top" scope="col"></th>
+              <th height="26" align="left" valign="top" class="content" scope="col">&nbsp;</th>
+              <th align="left" valign="top" scope="col"></th>
+            </tr>
+            <tr>
+              <th align="left" valign="top" scope="col"></th>
+              <th align="left" valign="top" class="content" scope="col"><p><b>Prizes:</b> Prizes will be indicated on the contest page, and may vary by contest.</b></p></th>
+              <th align="left" valign="top" scope="col"></th>
+              </tr>
+			  <tr>
+              <th align="left" valign="top" scope="col"></th>
+              <th height="26" align="left" valign="top" class="content" scope="col">&nbsp;</th>
+              <th align="left" valign="top" scope="col"></th>
+            </tr>
+            <tr>
+              <th align="left" valign="top" scope="col"></th>
+              <th align="left" valign="top" class="content" scope="col"><p><b>Miscellaneous: </b>By participating in any HoldMyMemories.com contest, members agree to be bound by the contest rules, and the decisions of HoldMyMemories.com.  Member also agrees that the decisions of HoldMyMemories.com are final.   Member agrees that HoldMyMemories.com may remove any contest submission that it deems inappropriate.  Member/entrant agrees that it will indemnify HoldMyMemories.com and its affiliates and contest sponsors from any and all claims involving the submission of entries that may be in violation of copyright law, or found to be infringing upon the rights of others.  Any HoldMyMemories.com contest is void where prohibited.   Any questions or further inquiries regarding any contest should be directed by email to: Contest@HoldMyMemories.com.</p></th>
+              <th align="left" valign="top" scope="col"></th>
+              </tr>
+                                      <tr>
+                                        <td align="left" valign="top" scope="col">&nbsp; </td>
+                                              <td height="20" align="left" valign="top" class="content" scope="col">&nbsp; </td>
+                                          </tr>
+                                      <tr>
+                                        <td align="left" valign="top" scope="col">&nbsp; </td>
+                                              <td align="left" valign="top" scope="col"><table width="100%" border="0" cellspacing="0" cellpadding="0">
+                                                
+                                                  <tr>
+                                                    <td height="20" align="left" valign="top" class="content-white"><label> </label>
+                                                      <label>
+                                                        <input type="radio" name="agree_down" id="agree_down" value="agree" />
+                                                        </label>
+                                                      I agree to the Terms and Conditions</td>
+                                                        <td width="164" rowspan="2" align="center" valign="middle"><input name="button2" type="submit" class="cmd-btn" id="button2" value="Next" onclick="window.location.href='contest-chapter.html'"/></td>
+                                                    </tr>
+                                                  <tr>
+                                                    <td align="left" valign="top" class="content-white"><input type="radio" name="agree_down" id="agree_down" value="disagree" />
+                                                      I do not agree to the Terms and Conditions</td>
+                                                    </tr>
+                                                  
+                                                </table></td>
+                                          </tr>
+                                      </table></td>
+                                </tr>
+                                <tr>
+                                    <td align="center" valign="top" scope="col">&nbsp;</td>
+                                </tr>
+                                <tr>
+                                    <td height="50" align="center" valign="top" scope="col">&nbsp;</td>
+                                </tr>
+                                                          </table></td>
+                            <td align="left" valign="top">&nbsp;</td>
+                          </tr>
+                          <tr>
+                            <td width="28" align="left" valign="top">&nbsp;</td>
+                            <td  align="left" valign="top">&nbsp;</td>
+                            <td width="28" align="left" valign="top">&nbsp;</td>
+                          </tr>
+                        </table></td>
+                        <td align="left" valign="top">&nbsp;</td>
+                      </tr>
+                      <tr>
+                        <td align="left" valign="top">&nbsp;</td>
+                        <td align="left" valign="top">&nbsp;</td>
+                        <td align="left" valign="top">&nbsp;</td>
+                      </tr>
+                    </table></td>
+                        <td align="left" valign="top">&nbsp;</td>
+                      </tr>
+                      <tr>
+                        <td align="left" valign="top">&nbsp;</td>
+                        <td align="left" valign="top">&nbsp;</td>
+                        <td align="left" valign="top">&nbsp;</td>
+                      </tr>
+                    </table>
+                    </form>

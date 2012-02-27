@@ -1,0 +1,143 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <link href="/stylesheets/main.css" media="screen" rel="Stylesheet" type="text/css" />
+<link href="/stylesheets/hmm.css" media="screen" rel="Stylesheet" type="text/css" />
+<%= stylesheet_link_tag 'hmmout' %>
+
+<%= javascript_include_tag 'AC_OETags' %>
+<%= javascript_include_tag 'prototype' %>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+<title>Hold My Memories</title>
+ <link rel="SHORTCUT ICON" href="/images/common/favicon.ico" type="image/x-icon" />
+   
+<link href="/hmm.css" rel="stylesheet" type="text/css" />
+
+<script type="text/javascript">
+<!--
+function MM_preloadImages() { //v3.0
+  var d=document; if(d.images){ if(!d.MM_p) d.MM_p=new Array();
+    var i,j=d.MM_p.length,a=MM_preloadImages.arguments; for(i=0; i<a.length; i++)
+    if (a[i].indexOf("#")!=0){ d.MM_p[j]=new Image; d.MM_p[j++].src=a[i];}}
+}
+//-->
+</script>
+<script type="text/javascript" src="js/swfobject.js"></script>
+<style type="text/css">
+.cmd-btn {
+            font-family:Verdana, Arial, Helvetica, sans-serif;
+            font-size:12px;
+            font-weight:bold;
+            color:#c3c3c3;
+            background-image:url(/new_images/cmd-btn.gif);
+            background-repeat:repeat-x;
+            height:21px;
+            padding:0px 15px 0px 15px;
+            border: 1px solid #635e59;
+}
+.current{
+	font-family:Arial, Helvetica, sans-serif;
+	font-size:12px;
+	color:#ff6100;
+	font-weight:bold;
+	text-decoration:none;
+}
+</style>
+
+</head>
+
+<body>
+
+<table width="100%" border="0" cellspacing="0" cellpadding="0">
+  <tr>
+    <td align="center" valign="top"><table width="947" border="0" align="center" cellpadding="0" cellspacing="0">
+  <tr>
+    <td width="479" height="68" align="left" valign="middle"><a href="/"><img src="/new_images/logo.jpg" width="225" height="46" border="0" style="margin-left:25px;"/></a></td>
+    <td width="468" align="right" valign="top" style="padding-top:7px;"><!--<a href="/hmm_studios/hmmstudio_signup" class="topmenu">Hmm Studio Signup</a> --><a href="/customers/authorise_verify" class="topmenu">Not Registered?</a> <a href="/user_account/login" class="topmenu">Log In</a></td>
+  </tr>
+  <tr>
+    <td colspan="2"><table width="947" border="0" cellspacing="0" cellpadding="0" align="center">
+      <tr>
+        <td width="16" align="left" valign="top"><img src="/new_images/topleft_curve1.jpg" width="16" height="28" /></td>
+        <td width="223" align="center" valign="middle" background="/new_images/topmid_curve1.jpg">&nbsp;</td>
+        <td width="72" align="center" valign="middle" background="/new_images/topmid_curve1.jpg"></td>
+        <td width="1" align="center" valign="middle" background="/new_images/topmid_curve1.jpg"></td>
+        <td width="104" align="center" valign="middle" background="/new_images/topmid_curve1.jpg"></td>
+        <td width="1" align="center" valign="middle" background="/new_images/topmid_curve1.jpg"></td>
+        <td width="123" align="center" valign="middle" background="/new_images/topmid_curve1.jpg"></td>
+        <td width="1" align="center" valign="middle" background="/new_images/topmid_curve1.jpg"></td>
+        <td width="123" align="center" valign="middle" background="/new_images/topmid_curve1.jpg"></td>
+        <td width="1" align="center" valign="middle" background="/new_images/topmid_curve1.jpg"></td>
+        <td width="88" align="center" valign="middle" background="/new_images/topmid_curve1.jpg"></td>
+        <td width="1" align="center" valign="middle" background="/new_images/topmid_curve1.jpg"></td>
+        <td width="76" align="center" valign="middle" background="/new_images/topmid_curve1.jpg"><a href="/customers/authorise_verify" class="mainmenu_text">Sign Up</a></td>
+        <td width="1" align="center" valign="middle" background="/new_images/topmid_curve.jpg"><img src="/new_images/menu_div.jpg" width="1" height="27" /></td>
+        <td width="100" align="center" valign="middle" background="/new_images/topmid_curve1.jpg" ><a href="/static/abouthmm" class="mainmenu_text">About HMM</a></td>
+        <td width="16" align="left" valign="top"><img src="/new_images/topright_curve1.jpg" width="16" height="28" /></td>
+      </tr>
+    </table></td>
+  </tr>
+  <tr>
+    <td colspan="2" align="center" valign="top"bgcolor="#000000" height="1"></td>
+  </tr>
+  <tr>
+    <td colspan="2" align="center" valign="top" class="gradlines" bgcolor="#000000" >
+    
+    <table width="900" border="0" align="center" cellpadding="0" cellspacing="0">
+  <tr>
+    <td align="left" valign="top"><div id="content1" ><%= yield %></div></td>
+  </tr>
+</table>
+
+    </td>
+  </tr>
+
+
+  <tr>
+    <td colspan="2"><table width="947" border="0" cellspacing="0" cellpadding="0">
+      <tr>
+        <td width="16" align="left" valign="top"><img src="/new_images/bottom_black_curve1.png" width="16" height="14" /></td>
+        <td width="206" align="right" valign="top" bgcolor="#000000"><table width="196" border="0" cellspacing="0" cellpadding="0">
+          <tr>
+            <td align="center" valign="top" height="10"></td>
+            <td  width="1"></td>
+          </tr>
+        </table></td>
+        <td width="448" align="left" valign="top" bgcolor="#000000" ></td>
+        <td width="261" align="right" valign="top" bgcolor="#000000"></td>
+        <td width="16" align="right" valign="top"><img src="/new_images/bottom_black_curve_right1.png" width="16" height="14" /></td>
+      </tr>
+      <tr>
+        <td align="left" valign="top">&nbsp;</td>
+        <td align="left" valign="top"></td>
+        <td align="left" valign="top" ></td>
+        <td align="right" valign="top"></td>
+        <td align="right" valign="top">&nbsp;</td>
+      </tr>
+
+    </table></td>
+  </tr>
+</table></td>
+  </tr>
+   <tr>
+    <td height="24" align="center" valign="middle" bgcolor="#000000"><table width="915" border="0" cellspacing="0" cellpadding="0">
+      <tr>
+        <td width="315" align="left" valign="middle" class="copyright">&copy; 2010 HoldMyMemories.com, LLC. All rights reserved. </td>
+        <td width="600" align="left" valign="middle" class="grayfont"><a href="/contact_us/new" class="footermenu">Contact Us</a> | <a href="/static/abouthmm" class="footermenu">About HMM</a> | <a href="/user_account/faq" class="footermenu">FAQ</a> | <a href="/user_account/privacy_policy" class="footermenu">Privacy Policy</a> | <a href="/user_account/termsof_use" class="footermenu">End Users License Agreement</a></td>
+      </tr>
+    </table></td>
+  </tr>
+</table>
+
+
+<script type="text/javascript">
+var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+</script>
+<script type="text/javascript">
+var pageTracker = _gat._getTracker("UA-5209348-1");
+pageTracker._trackPageview();
+</script>
+
+</body>
+</html>

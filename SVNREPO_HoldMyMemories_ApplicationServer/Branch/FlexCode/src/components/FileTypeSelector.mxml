@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:TitleWindow xmlns:mx="http://www.adobe.com/2006/mxml" width="200"  layout="vertical"  height="170" color="#ffffff" 
+	fontFamily="Arial" fontWeight="bold" horizontalAlign="center" verticalAlign="middle" title="Choose file type." 
+	backgroundAlpha="0.5" backgroundColor="0" close="handleClose()" showCloseButton="true">
+	<mx:RadioButtonGroup id="selector" selectedValue="{0}" />
+	<mx:VBox width="100%" height="100%" verticalAlign="middle" horizontalAlign="center">
+		<mx:RadioButton id="images" label="Images" value="0" group="{selector}"/>
+		<mx:RadioButton id="videos" label="Videos" value="1" group="{selector}"/>
+		<mx:RadioButton id="audios" label="Audio" value="2" group="{selector}"/>
+		<mx:Button styleName="lastButtonStyle" label="Ok" click="handleClick()"/>	
+	</mx:VBox>
+	
+	<mx:Script>
+		<![CDATA[
+			import mx.managers.PopUpManager;
+			
+			public var callback : Function;
+			
+			private function handleClick() : void
+			{
+				callback(this);
+			} 
+			
+			private function handleClose() : void
+			{
+				PopUpManager.removePopUp(this);
+			}
+		]]>
+	</mx:Script>
+</mx:TitleWindow> 

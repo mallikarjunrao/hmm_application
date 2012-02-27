@@ -1,0 +1,296 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Untitled Document</title>
+<%if(@pdetails.follow_datetime=='')%>
+<script type="text/javascript">
+function chk_verify()
+{
+
+	if(document.form1.fmm.value=="")
+	{
+		alert("Please select Follow Up Date")
+		document.form1.fmm.focus()
+		return false;
+  	}
+	if(document.form1.fdd.value=="")
+	{
+		alert("Please select Follow Up Date")
+		document.form1.fdd.focus()
+		return false;
+  	}
+	if(document.form1.fyy.value=="")
+	{
+		alert("Please select Follow Up Date")
+		document.form1.fyy.focus()
+		return false;
+  	}
+	if(document.form1.thh.value=="")
+	{
+		alert("Please select Follow Up Time")
+		document.form1.thh.focus()
+		return false;
+  	}
+	if(document.form1.tmm.value=="")
+	{
+		alert("Please select Follow Up Time")
+		document.form1.tmm.focus()
+		return false;
+  	}
+	if(document.form1.tam.value=="")
+	{
+		alert("Please select Follow Up Time")
+		document.form1.tam.focus()
+		return false;
+  	}
+
+
+	return true;
+
+}
+</script>
+<%else%>
+<script type="text/javascript">
+function chk_verify()
+{
+	return true;
+
+}
+</script>
+<%end%>
+</head>
+
+<body>
+<table width="100%" border="0" cellspacing="0" cellpadding="0">
+          <tr>
+            <td align="left" valign="top">
+            <form name="form1" method="post" action="/sales_person/initial_studio_update/<%=params[:id]%>" onSubmit="return chk_verify();">
+            <table width="100%" border="0" cellspacing="0" cellpadding="0">
+              <tr>
+                <td colspan="2">&nbsp;</td>
+              </tr>
+              <tr>
+                <td height="20" colspan="2" align="left" valign="top" class="grayheaderhome">Edit Client Details</td>
+              </tr>
+              <tr>
+                <td height="1" colspan="2" align="left" valign="top" bgcolor="#4b4949"></td>
+              </tr>
+              <tr>
+                <td height="35" colspan="2" align="center" valign="middle" class="grayfont"><font color="#FF0000"><%=flash[:notice]%></font></td>
+              </tr>
+              <tr>
+                <td height="7" align="left" valign="top"></td>
+                <td width="820" align="right" valign="middle"></td>
+              </tr>
+             
+              <tr>
+                <td width="175" align="left" valign="middle" class="grayfont_small">Notes:</td>
+                <td align="left" valign="middle"><textarea name="notes" ><%=@pdetails.notes%></textarea></td>
+              </tr>
+              <tr>
+                <td height="29" align="left" valign="middle" class="grayfont"></td>
+                <td align="left" valign="top"></td>
+              </tr>
+              <%if(@pdetails.follow_datetime!='' && @pdetails.follow_datetime!=nil)%>
+               <tr><td align="left" valign="top"></td>
+                <td height="5" align="left" valign="middle" class="grayfont">Current Follow Up Date and Time : <%=@pdetails.follow_datetime%><br /></td>
+                
+              </tr>
+              <%end%>
+               <tr><td align="left" valign="top"></td>
+                <td height="5" align="left" valign="middle" class="grayfont">&nbsp;</td>
+                
+              </tr>
+              <tr>
+                <td width="175" align="left" valign="top" class="grayfont_small">Follow Up Date *:</td>
+                <td align="left" valign="middle" class="grayfont_small">
+                
+           <select name="fmm" class="textbox2">
+          <option value="">-Select-</option>
+          <option value="January">January</option>
+          <option value="February">February</option>
+          <option value="March">March</option>
+          <option value="April">April</option>
+          <option value="May">May</option>
+          <option value="June">June</option>
+          <option value="July">July</option>
+          <option value="August">August</option>
+          <option value="September">September</option>
+          <option value="October">October</option>
+          <option value="November">November</option>
+          <option value="December">December</option>
+          </select>: MM
+          &nbsp;&nbsp;&nbsp;
+          <select name="fdd" class="textbox2">
+          <option value="">-Select-</option>
+          <option value="1">1</option>
+          <option value="2">2</option>
+          <option value="3">3</option>
+          <option value="4">4</option>
+          <option value="5">5</option>
+          <option value="6">6</option>
+          <option value="7">7</option>
+          <option value="8">8</option>
+          <option value="9">9</option>
+          <option value="10">10</option>
+          <option value="11">11</option>
+          <option value="12">12</option>
+          <option value="13">13</option>
+          <option value="14">14</option>
+          <option value="15">15</option>
+          <option value="16">16</option>
+          <option value="17">17</option>
+          <option value="18">18</option>
+          <option value="19">19</option>
+          <option value="20">20</option>
+          <option value="21">21</option>
+          <option value="22">22</option>
+          <option value="23">23</option>
+          <option value="24">24</option>
+          <option value="25">25</option>
+          <option value="26">26</option>
+          <option value="27">27</option>
+          <option value="28">28</option>
+          <option value="29">29</option>
+          <option value="30">30</option>
+          <option value="31">31</option>
+          </select>: DD 
+          &nbsp;&nbsp;&nbsp;<select name="fyy" class="textbox2">
+          <option value="">-Select-</option>
+          <option value="2010">2010</option>
+          <option value="2011">2011</option>
+          <option value="2012">2012</option>
+          <option value="2013">2013</option>
+          <option value="2014">2014</option>
+          <option value="2015">2015</option>
+          <option value="2016">2016</option>
+          <option value="2017">2017</option>
+          <option value="2018">2018</option>
+          <option value="2019">2019</option>
+          <option value="2020">2020</option>
+          </select>: YYYY
+          &nbsp;</td>
+              </tr>
+               <tr>
+                <td height="29" align="left" valign="middle" class="grayfont"></td>
+                <td align="left" valign="top"></td>
+              </tr>
+               <tr>
+                <td width="175" align="left" valign="top" class="grayfont_small">Follow Up Time *:</td>
+                <td align="left" valign="middle" class="grayfont_small"><select name="thh" class="textbox2">
+          <option value="">-Select-</option>
+          <option value="1">1</option>
+          <option value="2">2</option>
+          <option value="3">3</option>
+          <option value="4">4</option>
+          <option value="5">5</option>
+          <option value="6">6</option>
+          <option value="7">7</option>
+          <option value="8">8</option>
+          <option value="9">9</option>
+          <option value="10">10</option>
+          <option value="11">11</option>
+          <option value="12">12</option>
+          </select>: HH
+          &nbsp;&nbsp;&nbsp;
+          <select name="tmm" class="textbox2">
+          <option value="">-Select-</option>
+          <option value="01">01</option>
+          <option value="02">02</option>
+          <option value="03">03</option>
+          <option value="04">04</option>
+          <option value="05">05</option>
+          <option value="06">06</option>
+          <option value="07">07</option>
+          <option value="08">08</option>
+          <option value="09">09</option>
+          <option value="10">10</option>
+          <option value="11">11</option>
+          <option value="12">12</option>
+          <option value="13">13</option>
+          <option value="14">14</option>
+          <option value="15">15</option>
+          <option value="16">16</option>
+          <option value="17">17</option>
+          <option value="18">18</option>
+          <option value="19">19</option>
+          <option value="20">20</option>
+          <option value="21">21</option>
+          <option value="22">22</option>
+          <option value="23">23</option>
+          <option value="24">24</option>
+          <option value="25">25</option>
+          <option value="26">26</option>
+          <option value="27">27</option>
+          <option value="28">28</option>
+          <option value="29">29</option>
+          <option value="30">30</option>
+          <option value="31">31</option>
+          <option value="32">32</option>
+          <option value="33">33</option>
+          <option value="34">34</option>
+          <option value="35">35</option>
+          <option value="36">36</option>
+          <option value="37">37</option>
+          <option value="38">38</option>
+          <option value="39">39</option>
+          <option value="40">40</option>
+          <option value="41">41</option>
+          <option value="42">42</option>
+          <option value="43">43</option>
+          <option value="44">44</option>
+          <option value="45">45</option>
+          <option value="46">46</option>
+          <option value="47">47</option>
+          <option value="48">48</option>
+          <option value="49">49</option>
+          <option value="50">50</option>
+          <option value="51">51</option>
+          <option value="52">52</option>
+          <option value="53">53</option>
+          <option value="54">54</option>
+          <option value="55">55</option>
+          <option value="56">56</option>
+          <option value="57">57</option>
+          <option value="58">58</option>
+          <option value="59">59</option>
+          <option value="60">60</option>
+          </select>: MM&nbsp;&nbsp;&nbsp;
+          <select name="tam" class="textbox2">
+          <option value="" class="textbox2">-Select-</option>
+          <option value="am">am</option>
+          <option value="pm">pm</option>
+          </select>: AM/PM 
+          &nbsp;</td>
+              </tr>
+               <tr>
+                <td height="29" align="left" valign="middle" class="grayfont"></td>
+                <td align="left" valign="top"></td>
+              </tr>
+              <tr>
+                <td width="175" align="left" valign="middle" class="grayfont_small">Follow Up Person:</td>
+                <td align="left" valign="middle"><input type="text" name="follow_person" id="follow_person" class="textbox2" value="<%=@pdetails.follow_person%>"/></td>
+              </tr>
+               <tr>
+                <td height="5" align="left" valign="middle" class="grayfont"></td>
+                <td align="left" valign="top"></td>
+              </tr>
+              <tr>
+                <td align="left" valign="middle">&nbsp;</td>
+                <td align="left" valign="top"><input name="Submit" class="cmd-btn" value="Submit" style="cursor:pointer;" type="submit" />   </td>
+              </tr>
+              <tr>
+                <td height="5" align="left" valign="middle" class="grayfont"></td>
+                <td align="left" valign="top"></td>
+              </tr>
+              <tr>
+                <td height="5" align="left" valign="middle" class="grayfont"></td>
+                <td align="left" valign="top">&nbsp;</td>
+              </tr>
+            </table></form></td>
+            <td width="1">&nbsp;</td>
+          </tr>
+        </table>
+</body>
+</html>

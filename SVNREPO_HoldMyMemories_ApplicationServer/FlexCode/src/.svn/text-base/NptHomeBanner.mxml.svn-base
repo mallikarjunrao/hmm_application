@@ -1,0 +1,175 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:Application 
+	xmlns:mx="http://www.adobe.com/2006/mxml" 
+	xmlns:flex="org.papervision3d.flex.*"
+	layout="absolute"
+	frameRate="60"
+	applicationComplete="initPV3D()" width="100%" height="100%" backgroundColor="0x0" 
+	preloader="custompreloader.PreloaderHourGlass" backgroundAlpha="0"> <!--backgroundImage="@Embed(source='assets/bgrnd.jpg')"-->
+	<!--<mx:Button width="1" height="1" upSkin="@Embed(source='assets/takethetour_btn.jpg')" downSkin="@Embed(source='assets/takethetour_btn.jpg')" 
+		 overSkin="@Embed(source='assets/takethetour_btn_over.jpg')" x="{this.width/2-30}" y="{this.height/4}"/>-->
+		
+	<mx:Script>
+		<![CDATA[
+			import custompreloader.PreloaderGlassLoading;
+			import custompreloader.PreloaderHourGlass;
+			import components.HomePageCoverflow;
+			import mx.controls.Alert;
+			import flash.net.navigateToURL;
+		//	import components.ExternalJsJournal;
+			import vo.BaseVO;
+			import vo.SubChapterVO;
+			import vo.ChapterVO;
+			import mx.managers.PopUpManager;
+			import mx.core.IFlexDisplayObject;
+			import components.ExportControl;
+			import model.HmmChaptersModel;
+			import events.CoverFlowEvent;
+			
+			import mx.collections.ArrayCollection;
+			import mx.rpc.events.FaultEvent;
+			import mx.rpc.events.ResultEvent;
+			import hmm.StackCoverFlowLeft;
+			import hmm.StackCoverFlow;
+			import mx.controls.Image;
+			import org.papervision3d.examples.PlaneRendering;
+			import org.papervision3d.examples.FocusApp;
+			private var navigateToUrl : String;
+			private var focusApp:HomePageCoverflow;
+			private var itemNameDictionary : Dictionary;
+			private var subChapterId : int;
+			//private var extInterface : ExternalJsJournal;
+			
+			private function initPV3D():void
+			{
+				var serverUrl:String = Application.application.parameters.serverUrl;
+				
+				service.send();
+				
+				//focusApp.bitmapAssets = bitmaps;
+				
+			}
+			
+			private function handleResult(event : ResultEvent) : void
+			{
+				trace(event.toString());
+				var bitmaps : Array = new Array();
+				if(event.result.images && event.result.images.img is ArrayCollection)
+				{
+					var result : ArrayCollection = event.result.images.img as ArrayCollection;
+					for(var i : int =0; i<result.length; i++)
+					{
+						var obj : Object = new Object();
+						obj.icon = result[i].file
+						obj.name = "temp";
+						obj.id = "temp";
+						
+						bitmaps.push(obj);
+					}	
+				}else
+				{
+					if(event.result.images)
+					{
+						obj = new Object();
+						
+						obj.name = "temp";
+						obj.id = "temp";
+						obj.icon = event.result.images.img.file.toString();
+						bitmaps.push(obj);
+					}
+				}
+				
+				//Here our logic resides.
+				
+				focusApp = new HomePageCoverflow(paperCanvas.canvas, bitmaps, 175, 0, 350, true);
+				focusApp.addEventListener(Event.CHANGE, handleSelectionChanged);
+				focusApp.addEventListener(CoverFlowEvent.NAVIGATE_TO, handleNavigateTo);
+				focusApp.dataField = "icon";
+				focusApp.labelField = "name"
+				focusApp.init();
+				
+				
+			}
+			
+			
+			
+			private function handleNavigateTo(event : CoverFlowEvent) : void
+			{
+				var urlstr : String = navigateToUrl+event.extra.id;
+				var urlreq : URLRequest = new URLRequest( urlstr);
+				navigateToURL(urlreq, "_self");
+			}
+			
+			private function handleSelectionChanged(event : CoverFlowEvent) : void
+			{
+				itemName.text = event.extra as String;
+			}
+			
+			private function handleFault(event : FaultEvent) : void
+			{
+				
+				 trace(event.toString());
+			}
+			
+			
+			private function handleClick() : void
+			{
+				
+				navigateToURL(new URLRequest("/user_account/takeTour"),"_self");
+			}
+			
+			
+			
+			
+		]]>
+	</mx:Script>
+	
+		<mx:Style>
+			.lastButtonStyle
+			{
+				fillColors: #000000, #000000, #000000, #cccccc;
+				corner-radius : 0;
+				selection-color : #ff6633;
+				color : #Ffffff;
+				theme-color : #ff6633;
+			}
+			
+			Button
+			{
+				fillColors: #000000, #000000, #000000, #cccccc;
+				corner-radius : 0;
+				selection-color : #ff6633;
+				color : #Ffffff;
+				theme-color : #ff6633;
+				up-skin: Embed("./assets/takethetour_btn.jpg");
+				down-skin: Embed("./assets/takethetour_btn.jpg");
+				over-skin: Embed("./assets/takethetour_btn_over.jpg");
+			}
+			
+			Alert {
+		    corner-radius: 8;
+		    header-height: 27;
+		    header-colors: #999999, #000000;
+		    background-color: #000000;
+		    color: #ffffff;
+		    border-thickness: 4;
+		    border-color: #000000;
+		    panel-border-style: roundCorners;
+		    shadow-distance: 4;
+		    shadow-direction: bottom;
+		    button-style-name: "firstButtonStyle";
+		  }
+		</mx:Style>
+		<mx:HTTPService id="service" result="handleResult(event)" fault="handleFault(event)" url="/images.xml"/>
+		<!--Canvas3D canvas property should be used as the container for the scene-->
+			
+			<flex:Canvas3D id="paperCanvas" backgroundAlpha="0"
+				backgroundColor="#000000"
+				width="100%" 
+				height="100%" enabled="false" buttonMode="false"/>
+			<mx:Button id="taketour"   useHandCursor="true" buttonMode="true" y="50" x="235" click="handleClick()"/>
+		    <mx:Label color="#ffffff" visible="false"
+				 id="itemName" filters="{[new GlowFilter()]}" fontFamily="Arial" 
+				fontSize="24" x="{(this.width-itemName.width)/2}" y="{(this.height-itemName.height- 10)}"/>
+			
+</mx:Application>

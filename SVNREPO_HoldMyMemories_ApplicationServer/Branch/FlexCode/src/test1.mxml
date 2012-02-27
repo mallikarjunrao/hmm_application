@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:Canvas xmlns:mx="http://www.adobe.com/2006/mxml" width="400" height="300" >
+	<mx:Image source="assets/choose.jpg"/>
+	<mx:Script>
+		<![CDATA[
+			
+			public function getComponentData() : Object
+			{
+				return "hello world";
+			}
+			
+			public function finalizeComponent() : void
+			{
+				
+			}
+		]]>
+	</mx:Script>
+</mx:Canvas>

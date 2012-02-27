@@ -1,0 +1,5 @@
+<h2>Edit Contest Logo</h2>
+<br/>
+<% form_tag("#{request_content_url}/contest_upload/update_contest_logo?id=#{@contest_logo_detail.id}", {:multipart => true}) do %>
+  <%= render :partial=>"form", :locals => {:contest_logo => @contest_logo_detail} %>
+<% end %>

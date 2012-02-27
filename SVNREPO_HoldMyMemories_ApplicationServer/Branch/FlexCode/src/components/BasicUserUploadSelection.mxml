@@ -1,0 +1,167 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:VBox xmlns:mx="http://www.adobe.com/2006/mxml" width="400" height="300" verticalAlign="top" horizontalAlign="center" creationComplete="handleCreationComplete()" show="handleShow()">
+	<mx:ViewStack width="100%" height="100%" id="getfilesViewstack" change="handleChange()">
+		<mx:VBox width="100%" height="100%" horizontalAlign="center">
+			<mx:Label text="Step Two" fontWeight="bold" fontSize="18" color="0xf79646"/>
+			<mx:Label text="Get your memories!" textDecoration="underline" fontSize="15" color="0xf79646"/>
+			<mx:Button styleName="getyourfiles" cornerRadius="0" click="handleGetYourFiles()"/>
+		</mx:VBox>
+		<mx:VBox width="100%" height="100%" horizontalAlign="center">
+			<mx:Text text="You can select multiple images by holding the CTRL key and choosing images" color="0xcc3300" width="100%" fontSize="18"/>
+		</mx:VBox>
+		
+	</mx:ViewStack>
+	
+	<mx:Style>
+		.getyourfiles
+		{
+			up-skin: Embed(source='assets/get_ur_files_def.jpg');
+			down-skin: Embed(source='assets/get_ur_files_def.jpg');
+			over-skin:  Embed(source='assets/get_ur_files_over.jpg');
+		}
+	</mx:Style>
+	<mx:Script>
+		<![CDATA[
+			import mx.rpc.events.FaultEvent;
+			import mx.rpc.events.ResultEvent;
+			import mx.rpc.http.HTTPService;
+			
+			import mx.core.Application;
+			import mx.effects.easing.Quadratic;
+			import mx.controls.SWFLoader;
+			import mx.managers.PopUpManager;
+			import mx.core.IFlexDisplayObject;
+			import mx.effects.easing.Elastic;
+			import mx.collections.ArrayCollection;
+			
+			[Embed(source="assets/busy.swf")]
+			private var busy : Class;
+			private var fileRefList : CustomFileReferenceList;
+			[Bindable]
+			private var listOfFileNames : ArrayCollection = new ArrayCollection();
+            private var listOfFiles : ArrayCollection = new ArrayCollection();
+            public var isBasicUser : Boolean = false;
+            private var upLoadPopup : IFlexDisplayObject;
+            
+            public var isAddMore : Boolean = false;
+            private var proxyName : String;
+            private var proxyUrl : String;
+            
+            private function handleCreationComplete() : void
+            {
+            	proxyName = this.parentApplication.proxyName;
+            	proxyUrl = this.parentApplication.proxyUrl;	
+            }
+            
+            private function handleGetYourFiles() : void
+            {
+            	selectFiles();	
+            	getfilesViewstack.selectedIndex = 1;
+            	
+            }
+			private function handleChange() : void
+			{
+				if(getfilesViewstack.selectedIndex == 1)
+				{
+					//selectFiles();
+					Application.application.minimizeBradcrumAndNextBack();
+				}
+			}
+			
+			private function handleShow() : void
+			{
+				if(!isAddMore)
+					getfilesViewstack.selectedIndex = 0;
+				else
+				 isAddMore = false;	
+			}
+			
+			public function addMore() : void
+			{
+				isAddMore = true;
+				getfilesViewstack.selectedIndex = 1;
+				selectFiles();
+			}
+			public  function uploadFiles() : void
+            {
+            	if(!listOfFiles.length)
+            	    return;
+            	upLoadPopup = PopUpManager.createPopUp(this, UploadProgress, true);
+            	(upLoadPopup as UploadProgress).uploadList.dataProvider = listOfFiles;
+            	(upLoadPopup as UploadProgress).fileUploadController = fileRefList;
+            	fileRefList.addPendingFile(listOfFiles);
+            	PopUpManager.centerPopUp(upLoadPopup);
+            }
+            
+            private function handleListUploadCancel(event : Event) : void
+            {
+            	listOfFileNames = new ArrayCollection();
+            	listOfFiles = new ArrayCollection();
+            	PopUpManager.removePopUp(upLoadPopup);
+            	getfilesViewstack.selectedIndex = 0;
+            	Application.application.normalizeBradCrumAndNextBack();
+				
+            }
+			public function selectFiles() : void
+			{
+				fileRefList = new CustomFileReferenceList();
+				fileRefList.proxyName = proxyName;
+				fileRefList.proxyUrl = proxyUrl;
+				fileRefList.addEventListener("filebrowsercancel",handleFileBrowserClosed);
+				fileRefList.addEventListener(Event.SELECT, handleFilesSelected);
+				fileRefList.addEventListener(Event.CANCEL, handleFilesSelectionCancel);
+				fileRefList.addEventListener(CustomFileReferenceList.LIST_CANCEL, handleListUploadCancel);
+				fileRefList.addEventListener(CustomFileReferenceList.LIST_COMPLETE, handleListUploadComplete);
+				fileRefList.browse([fileRefList.getTypes(Application.application.currentGalleryType)]);				
+			}
+			
+			
+			private function handleFileBrowserClosed(event : Event) : void
+			{
+				getfilesViewstack.selectedIndex = 0;
+				Application.application.normalizeBradCrumAndNextBack();
+			}
+						
+			public function clearFileList() : void
+			{
+				fileRefList.fileList.splice(0, fileRefList.fileList.length);
+				listOfFileNames.removeAll();
+			}
+			
+			private function handleListUploadComplete(event : Event) : void
+			{
+			//	busyPopup.visible =false;
+				listOfFiles.source = [];
+				this.parentDocument.dispatchEvent(new Event("uploadcomplete"));
+				PopUpManager.removePopUp(upLoadPopup);
+		
+			}
+			
+			
+			
+			
+			private function handleFilesSelected(event : Event) : void
+			{
+				
+				for(var i : int = 0; i< fileRefList.fileList.length; i++)
+				{
+					var fileRef : FileReference = fileRefList.fileList[i] as FileReference;
+					listOfFiles.addItem(fileRef);
+					listOfFileNames.addItem(fileRef.name);
+				}
+				uploadFiles();
+			}
+			
+			private function handleFilesSelectionCancel(event : Event) : void
+			{
+				
+			}
+			
+			/* private function handleShow() : void
+			{
+				//fileList.visible = false;
+			} */
+			<mx:SWFLoader id="busyPopup" show="handleShow()" visible="false" source="{new busy()}" x="{(this.width-busyPopup.width)/2}" y="{(this.height-busyPopup.height)/2}"/>
+		]]>
+	</mx:Script>
+</mx:VBox>

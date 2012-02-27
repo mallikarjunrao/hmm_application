@@ -1,0 +1,146 @@
+<style>
+.ListLine0 {
+background: #777777;
+color:#FFFFFF;
+font-size: 12px;
+}
+.ListLine1 {
+background: #bbbbbb;
+font-size: 12px;
+color: #000000;
+}
+
+</style>
+
+<%session[:sharepath]='fnf'%>
+<% session[:friend]=''%>
+<table border="0">
+<tr>
+  <th width="0" align="left" valign="top" scope="col"></th>
+  <th width="510" align="left" valign="top" scope="col">
+  	<table width="100%" border="0" cellspacing="0" cellpadding="0">
+    <tr>
+      <th width="140" height="22" align="left" valign="top" scope="col">
+      	
+      	<a href="/customers/edit_profile/<%=logged_in_hmm_user.id%>" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('Image22','','/images/manage-profile_over.jpg',1)">
+      	<img src="/images/manage-profile_def.jpg" name="Image22" width="140" height="22" border="0" id="Image22" /></a>
+	  </th>
+      
+	  <th width="206" align="left" valign="top" scope="col">
+	  
+	  	<a href="/customers/FnF_Request" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('Image24','','/images/manage-fndsandfmly_over.jpg',1)">
+	  		<img src="/images/manage-fndsandfmly_def.jpg" name="Image24" width="206" height="22" border="0" id="Image24" /></a>
+			</th>
+      
+	  <th width="164" align="left" valign="top" scope="col">
+	  	<a href="/chapter_comment/allcmt_list/" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('Image25','','/images/manage-comments_over.jpg',1)">
+	  	<img src="/images/manage-comments_def.jpg" name="Image25" width="164" height="22" border="0" id="Image25" /></a>	  </th>
+		
+		<th width="164" align="left" valign="top" scope="col">
+	  	<a href="/share_moments/manageShare/" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('Image26','','/images/manage-share_over.jpg',1)">
+	  	<img src="/images/manage-share_def.jpg" name="Image26" width="140" height="22" border="0" id="Image26" /></a>	  
+		</th>
+		
+		<th width="206" align="left" valign="top" scope="col">
+			<img src="/images/mang_family_web_over.jpg" name="Image27" width="206" height="22" border="0" id="Image27" /></a>
+	  	
+		</th>
+		
+    </tr>
+  </table></th>
+  <th width="390" align="left" valign="top" scope="col"></th>
+</tr>
+</table>
+
+
+
+<table>
+	
+	<tr>
+		<td align="left" colspan="4"><a href="/family_members/share_familywebsite"><img src="/images/share-fmly-web.jpg" width="207" height="29" border="0"> </a></td><td align="right" colspan="3"><a href="/<%=logged_in_hmm_user.family_name%>" target="_blank"><img src="/images/pre_family_website.jpg" border="0" /></a></td>
+	</tr>
+	<tr>	
+		<td align="center" colspan="7">
+			<font color="#ffffff" size='5'><%=flash[:share_familywebsite]%></font>
+			<font color="#ffffff"><%=flash[:notice_website]%></font>
+			<font color="#ffffff"><%=flash[:notice]%></font>
+			<br><br>
+			<font color="#f5dfa6" size="3"><a href="/<%=logged_in_hmm_user.family_name%>" target="_blank">Your Family website URL is - http://holdmymemories.com/<%=logged_in_hmm_user.family_name%></a></font>
+		</td>
+	</tr>
+	
+  <tr bgcolor="#333333">
+  
+    <th>Image</th>
+	<th>Family Member Name</th>
+	<th>Relation</th>
+	<th>Biography</th>
+	<th colspan="5">Actions</th>
+	
+
+  </tr>
+  
+<% 
+	i=0
+@arr = [] 
+
+@family_members2 = FamilyMember.find(:all, :conditions => "uid=#{logged_in_hmm_user.id}", :order => 'id')
+
+for family_member in @family_members2
+@arr[i]=family_member	
+i=i+1	
+j=i
+
+end %>
+  
+<% odd_or_even = 0 
+	i = 0 
+@family_members1 = FamilyMember.find(:all, :conditions => "uid=#{logged_in_hmm_user.id}",:order => 'id')
+	for family_member in @family_members1
+ 	
+	odd_or_even = 1 - odd_or_even %>
+	<tr class='ListLine<%= odd_or_even %>'>
+    <td align="top" > <img src="<%=family_member.img_url%>/hmmuser/family_members/thumbs/<%=h family_member.member_image %>" border="0"></td>
+	<td align="top" > <%=h family_member.familymember_name %></td>
+	<td align="top"> <%=h family_member.relation %></td>
+	<td width="500" style="text-align:justify"> <%=h family_member.biographie %></td>
+
+    <td >
+	<a class='ListLine<%= odd_or_even %>' href="/family_members/show/<%=family_member.id%>">Show</a></td>
+    <td class='ListLine<%= odd_or_even %>'>
+	<a class='ListLine<%= odd_or_even %>' href="/family_members/edit_familymember/<%=family_member.id%>">Edit</a></td>
+    <td class='ListLine<%= odd_or_even %>'>
+	<a class='ListLine<%= odd_or_even %>' href="/family_members/destroying/<%=family_member.id%>" onClick="if(confirm('Are you sure you want to delete your Family Member')){return true; } else return false;">Delete</a></td>
+  	
+	<td>
+   
+		<%if i==j-1 %>
+		<%else%>
+		<%= link_to '<img src="/images/arrow_it.png" border="0">', { :action => 'down', :id => family_member.id , :nextid => @arr[i+1]   }, :confirm => 'Are you sure?', :method => :post %>
+   	   	<%end%>
+		</td>
+		<td>
+		<%if i==0 %>
+		<%else%>
+	   	<%= link_to '<img src="/images/arrow_up_fa.png" border="0">', { :action => 'up', :prev => @arr[i-1], :id => family_member.id }, :confirm => 'Are you sure?', :method => :post %>	
+  		<%end%>
+   </td>
+  	
+  </tr>
+<% 
+	i = i + 1
+	end %>
+<tr>
+	<td colspan="4" width="183">
+		<a href="/family_members/familypage_members"><img src="/images/add-family-members.jpg" border="0" width="204" height="29"></a>
+	</td >
+	<td colspan="3">
+		
+	</td>
+</tr>
+</table>
+
+
+<br />
+
+

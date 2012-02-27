@@ -1,0 +1,12 @@
+<%
+xml.instruct! :xml, :version=>"1.0" 
+
+xml.images{
+  for image in @user_contents
+    xml.image do
+      xml.title(image.v_filename)
+     
+    end
+  end
+}
+%>

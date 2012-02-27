@@ -1,0 +1,10 @@
+
+<br>
+
+
+<% form_tag :action => 'create_subchapjournal' do %>
+<input type="hidden" name="family_name" id="family_name" value="<%=params[:familyname]%>" />
+  <%= render :partial => 'form_subchap' %>
+ 
+<% end %>
+

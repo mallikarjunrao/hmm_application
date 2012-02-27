@@ -1,0 +1,100 @@
+<%= javascript_include_tag "flash/swfobject" %>
+<script type="text/javascript">
+  var galId = "<%=@galleryUrl%>";
+  var flashName = "<%=  @versions.file_url%>?v=<%=  @versions.major %>_<%=@versions.minor %>";
+  var backId = "<%=params[:id]%>";
+  var visibility = "<%=@buttonVisibility%>";
+
+  var flashvars = {};
+  flashvars.serverUrl = galId;
+  flashvars.navigateToUrl ="/familywebsite/moments/<%= @presenter_name[0]['family_name']%>?moment_id=";
+  flashvars.backid = backId;
+  flashvars.butttonsVisible = visibility;
+  flashvars.contenturl = "<%=@paths.content_path%>";
+  var params = {};
+  params.wmode = "transparent";
+</script>
+<%if(@norecords=="") %>
+  <%session['redirect']='111'%>
+  <table border="0" width="820">
+    <tr>
+      <td colspan="2" align="left"><font size="3" color="#cccccc"><%=@fname%>'s Shared Memories</font>
+      </td>
+    </tr>
+
+    <tr>
+      <td colspan="2">
+        <div id="flash_content" style="width:954"/>
+        <script type="text/javascript">
+          swfobject.embedSWF(flashName, "flash_content", "954", "300", "9.0.0", "/expressInstall.swf",flashvars,params);
+        </script>
+      </td>
+    </tr>
+  </table>
+
+  <table width="100%" border="0"><tr><td align="center"></td></tr>
+    <tr>
+      <%if flash[:notice_pcc] %>
+        <td><font color="#f5dfa6"><%=flash[:notice_pcc]%><%for i in @presenter_name%>&nbsp;<%=i.v_fname%></font>
+          </td>
+        <%end%>
+      </tr>
+    <%end%>
+    <tr><td align="center">
+        <%= link_to_remote("Add Comments", :update =>"me",
+          :url => {:controller => :share_comments, :action => :new, :id=> params[:id]}, :layout => false  ) %>
+        &nbsp;&nbsp;&nbsp;
+        <%#= link_to_remote("View Comments", :update =>"me",
+          :url => {:controller => :share_comments, :action => :share_comnt, :id=> params[:id] }, :layout => false  ) %>
+
+      </td></tr>
+    <tr><td align="center"> <div id="me"></div> </td></tr></table>
+
+
+<%else if session[:hmm_user] %>
+
+    <table border="0" width="820">
+      <tr><td colspan="2" align="left"><font size="3" color="#cccccc"><%=@fname%>'s Shared Memories</font></td></tr>
+      <tr><td colspan="2">
+          <div id="flash_content" style="width:820"/>
+          <script language="JavaScript" type="text/javascript">
+            swfobject.embedSWF(flashName, "flash_content", "820", "300", "9.0.0", "/expressInstall.swf",flashvars,params);
+          </script>
+
+        </td>
+      </tr>
+    </table>
+
+    <br /><br />
+    <table width="100%" border="0"><tr><td align="center"></td></tr>
+      <tr>
+        <%if flash[:notice_pcc] %>
+          <td><font color="#f5dfa6"><%=flash[:notice_pcc]%><%for i in @presenter_name%>&nbsp;<%=i.v_fname%></font>
+            </td>
+          <%end%>
+        </tr>
+      <%end%>
+      <tr><td align="center">
+          <%= link_to_remote("Add Comments", :update =>"me",
+            :url => {:controller => :share_comments, :action => :new, :id=> params[:id]}, :layout => false  ) %>
+          &nbsp;&nbsp;&nbsp;
+          <%#= link_to_remote("View Comments", :update =>"me",
+            :url => {:controller => :share_comments, :action => :share_comnt, :id=> params[:id] }, :layout => false  ) %>
+
+        </td></tr>
+      <tr><td align="center"> <div id="me"></div> </td></tr></table>
+
+  <%else%>
+    <table class="border" width="100%" align="center"><tr><td align="center" >
+          <font color="#f5dfa6">Sorry! You does not have a permission to view these "Shared memories"	 </font>
+
+        </td></tr></table>
+
+
+
+  <%end%>
+<%end%>
+
+
+
+

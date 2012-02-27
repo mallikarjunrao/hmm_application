@@ -1,0 +1,14 @@
+<table  border="0" align="left">
+  <tr><th>&nbsp;</th></tr>
+  <tr>
+    <th align="center" class="content-white"><font color="white" size="4"> Contest Rules and Regulations</font></th>
+  </tr>
+  <tr><th>&nbsp;</th></tr>
+  <tr>
+    <th  class="content-white" align="left">
+      <font color="white" size="2">
+        <%= CGI.unescapeHTML(@contest.rules_regulations) %>
+      </font>
+    </th>
+  </tr>
+</table>

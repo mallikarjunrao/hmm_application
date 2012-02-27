@@ -1,0 +1,33 @@
+<h1>My Photos</h1>
+<%= javascript_include_tag 'dragdrop' %>
+<%= javascript_include_tag 'effects' %>
+<%= javascript_include_tag 'prototype' %>
+<%= javascript_include_tag 'scriptaculous' %>
+<%= javascript_include_tag 'mm_menu' %>
+<%= javascript_include_tag 'builder' %>
+<%= javascript_include_tag 'slider' %>
+<%= javascript_include_tag 'frog.js' %>
+<script type='text/javascript'>
+	function myfunc(val)
+	{
+	window.location='/myphotos/list/'+val	
+	//alert(val);	
+	} 
+	
+</script>
+
+
+<table border="0" width="100%"><tr><td>
+<div id="FrogJS" width="100%">
+<% for user_content in @user_contents
+	
+ %>
+
+	<a  href="/user_content/photos/<%=user_content.v_filename%>" title="Jolie Myers / The State News" rel="/myphotos/list">
+				<img  src="/user_content/photos/<%=user_content.v_filename%>" width="100" height="100" />
+	</a>	
+<% end %>
+</div>
+</td></tr></table>
+
+ 

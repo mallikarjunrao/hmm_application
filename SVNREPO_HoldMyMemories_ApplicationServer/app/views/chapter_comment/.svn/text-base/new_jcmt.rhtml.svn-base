@@ -1,0 +1,6 @@
+<h3>Add Comments for  <%=session[:chap_name]%> chapter </h3>
+
+<% form_tag :action => 'create_jcmt' do %>
+  <%= render :partial => 'form' %>
+  <%= submit_tag "Create" %>
+<% end %>

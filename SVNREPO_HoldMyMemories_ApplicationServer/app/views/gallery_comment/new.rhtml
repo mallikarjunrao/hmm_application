@@ -1,0 +1,9 @@
+<br><br><Br>
+<h4>Add Comments for  <%if params[:id_journal]=='0' %> <%=session[:gallery_name]%> Gallery <%else%> Journal <%end%></h4>
+
+<% form_tag :action => 'create' do %>
+  <%= render :partial => 'form' %>
+  <%= submit_tag "Create" %>
+<% end %>
+
+

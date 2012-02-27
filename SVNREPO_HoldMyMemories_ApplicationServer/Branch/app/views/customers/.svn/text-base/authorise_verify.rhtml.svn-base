@@ -1,0 +1,15 @@
+<% if (params[:family_name].nil?)
+       session[:lastname]=nil
+    else
+        
+         session[:lastname]=params[:family_name]
+    end     
+%>
+
+
+<% form_tag({:action => "create"}, {:multipart => true}) do %>
+
+
+
+	<%= render :partial => 'paydetails' %>
+<% end %>

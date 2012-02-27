@@ -1,0 +1,12 @@
+<p><% if flash[:notice]  %>Email sent successfully. <%end%></p>
+
+<form action="/familywebsite/testemail" method="post" enctype="multipart/form-data" name="upload_image">
+  <table width="100%" border="0" cellspacing="0" cellpadding="0">
+    <tr>
+      <td align="center">From name : <input name="name" type="text" value="Farooq" /></td>
+      <td align="center">From email: <input name="fromemail" type="text" value="see.farooq@gmail.com" /></td>
+      <td align="center">To email: <input name="toemail" type="text" value="farooq@softwaysolutions.com" /></td>
+      <td align="center"><input type="submit" name="sub1" value="submit" /></td>
+
+    </tr></table>
+</form>

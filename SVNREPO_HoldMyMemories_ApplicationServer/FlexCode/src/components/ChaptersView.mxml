@@ -1,0 +1,862 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:TileList xmlns:mx="http://www.adobe.com/2006/mxml" columnWidth="130" rowHeight="130" keyDown="handleKeyDown(event)" itemRollOver="handleRollOver(event)" itemRollOut="{rollOverIndex = -1;}"
+			 itemDoubleClick="handleDoubleClick(event)"  backgroundColor="#111111" rollOverColor="#9C9C9C" offscreenExtraRowsOrColumns="0" allowMultipleSelection="true" backgroundAlpha="0"
+			 doubleClickEnabled="true" dragDrop="handleDropEvent(event)" dragEnabled="false" creationComplete="handleCreationComplete()" verticalScrollPolicy="off">
+	<mx:itemRenderer>renderers.FolderRenderer</mx:itemRenderer>
+	<mx:itemsChangeEffect>
+		<mx:DefaultTileListEffect id="myDTLE" 
+        moveDuration="500" fadeInDuration="400" fadeOutDuration="500" suspendBackgroundProcessing="true"/>
+	
+
+	</mx:itemsChangeEffect>
+	
+	
+	<mx:Script>
+		<![CDATA[
+			import mx.core.Application;
+			import mx.managers.CursorManager;
+			import vo.GalleryTypes;
+			import mx.controls.ToggleButtonBar;
+			import mx.controls.Image;
+			import mx.controls.Alert;
+			import mx.core.IDataRenderer;
+			import mx.managers.PopUpManager;
+			import mx.core.IFlexDisplayObject;
+			import vo.WebFileVO;
+			import vo.SubChapterVO;
+			import model.HmmChaptersModel;
+			import com.adobe.serialization.json.JSON;
+			import mx.rpc.events.ResultEvent;
+			import mx.rpc.events.FaultEvent;
+			import mx.rpc.http.HTTPService;
+			import mx.messaging.channels.HTTPChannel;
+			import mx.controls.List;
+			import mx.collections.IList;
+			import mx.controls.HorizontalList;
+			import vo.ChapterVO;
+
+			import vo.GalleryVO;
+			import events.FolderEvent;
+			import mx.collections.ArrayCollection;
+			import vo.WebFolderVO;
+			import mx.events.ListEvent;
+			import mx.events.ItemClickEvent;
+			import mx.events.DragEvent;
+			import model.WebFileSystemModel;
+			private var webfilesystemModel : WebFileSystemModel;
+			private var stack  : Array = new Array();
+			private var rootFolder : WebFolderVO = new WebFolderVO();
+			public var currentFolder : Object;
+			[Event("folderchanged")]
+			private var hmmCntxtMenu : HmmContextMenu;
+			private var currentFiles : ArrayCollection;
+			private var galleryType : String;
+			private var subChapterId : int;
+			public var clipBoardChapter : ChapterVO;
+			private var cutChapter : Boolean;
+			public var newChapter : ChapterVO;
+			public var newImage : Object;
+			public var level : String = "chapter";
+			
+			public var currentChapter : ChapterVO;
+			public var currentSubChapter : SubChapterVO;
+			public var currentGallery : GalleryVO;
+			public var rollOverIndex : int;
+			public var proxyurl : String;
+			public var proxyName : String;
+			
+			private var serviceItemDictionary : Dictionary = new Dictionary();
+			private function handleCreationComplete() : void
+			{
+				proxyurl = this.parentApplication.proxyUrl;
+				proxyName = this.parentApplication.proxyName; 
+				contextMenu = HmmContextMenuManager.getInstance().getContextMenu(HmmContextMenuTypes.ROOT_MENU);
+				
+			}
+			
+			private function handleKeyDown(event : KeyboardEvent) : void
+			{
+				if(event.charCode == Keyboard.ENTER && selectedItem != null)
+				{
+					handleDoubleClick(event);
+				}
+					
+			}
+			
+			private function handleRollOver(event : ListEvent) : void
+			{
+				var item : Object = event.itemRenderer.data;
+				var ac : ArrayCollection = dataProvider as ArrayCollection;
+				var idx : int = ac.getItemIndex(item);
+				rollOverIndex = idx; 
+				trace("row: "+event.rowIndex.toString()+ "      col: "+event.columnIndex.toString()+" rollidx: "+rollOverIndex.toString() );
+			}
+			
+			private function handleDropEvent(event : DragEvent) : void
+			{
+				if (event.dragSource.hasFormat("items"))
+	              {
+	              	
+	                // Explicitly handle the dragDrop event.            
+	                event.preventDefault();
+	
+	                // Since you are explicitly handling the dragDrop event,
+	                // call hideDropFeedback(event) to have the drop target
+	                // hide the drop indicator. 
+	                // The drop indicator is created
+	                // automatically for the list controls by the built-in 
+	                // event handler for the dragOver event.
+	                event.currentTarget.hideDropFeedback(event);
+	
+	                // Get drop target.
+	                var dropTarget:TileList=TileList(event.currentTarget);
+	                
+	                // Get the dragged item from the drag initiator.
+	                // The List control always writes an Array 
+	                // to the dragSource object,
+	                // even if there is only one item being dragged.
+	                var itemsArray:Array = 
+	                    event.dragSource.dataForFormat("items") as Array;
+	    			for(var i : int = 0; i < itemsArray.length; i++)
+	    			{
+	    				if(itemsArray[i].type == "swf" && currentGallery.type == "video")
+		    			{
+		    				var dropLoc:int = dropTarget.calculateDropIndex(event);
+		
+			                // Add the new object to the drop target.
+			                var val : WebFileVO = itemsArray[i] as WebFileVO; 
+			                
+			                addItemService(val.clone());    
+			                
+		    			}else if(itemsArray[i].type == currentGallery.type)
+		    			{
+		    				var val : WebFileVO = itemsArray[i] as WebFileVO;
+		    				addItemService(val.clone());
+		    			}
+		                else 
+		              	{                
+		              		Alert.show("You cannot drop this item in this gallery. Please choose the correct gallery for this item.");
+		              		
+		              	}
+		              	 // Add the new object to the drop target.
+	                
+		                  
+	    			}
+	    			 
+	    
+	                // Get the drop location in the destination.
+	                var dropLoc:int = dropTarget.calculateDropIndex(event);
+	
+	               
+	                //IList(dropTarget.dataProvider).addItemAt(itemsArray[0], dropLoc);
+	              }
+				
+			}
+			
+			
+			
+			
+			public function get currentPath() : String
+			{
+				var str : String = new String();
+				for(var i : int =0; i < stack.length; i++)
+				{
+					//str += "/"+stack[i].name.toString();
+				}
+				return str;
+			}
+			
+			private function handleDoubleClick(event : Event) : void
+			{
+				var item : Object = this.selectedItem;//(dataProvider as ArrayCollection).getItemAt(event.rowIndex*this.columnCount+event.columnIndex);
+				
+				var evt : FolderEvent = new FolderEvent(FolderEvent.FOLDER_CHANGED);
+				evt.folder = item.name;
+				rollOverIndex = -1;
+				if(item is ChapterVO)
+				{
+					currentFolder = item as ChapterVO;
+					currentChapter = item as ChapterVO;
+					this.doubleClickEnabled = true;
+					level = "chapter";
+					if(event.target.currentChapter.defaultTag == "no")
+					{
+						contextMenu = new ContextMenu();
+						contextMenu.hideBuiltInItems();
+						evt.data = contextMenu;//new ContextMenu();
+						this.parentDocument.rightClickLabel.visible = false;
+					}	
+					else
+					{
+						contextMenu = HmmContextMenuManager.getInstance().getContextMenu(HmmContextMenuTypes.CHAPTER_MENU);
+						evt.data = HmmContextMenuManager.getInstance().getContextButtons(HmmContextMenuTypes.CHAPTER_MENU);
+						this.parentDocument.rightClickLabel.visible = true;
+					}
+					if(currentFolder)
+					{
+						stack.push(dataProvider);
+						var chp : ChapterVO = item as ChapterVO;
+						if(chp.subchapters.length)
+						{
+							var contents : ArrayCollection = new ArrayCollection(currentFolder["subchapters"]);
+							this.dataProvider = contents;
+							if(currentFolder.writable)
+							{
+								this.dropEnabled = true;
+								this.dragEnabled = true;
+							}else	
+							{
+								this.dropEnabled = false;
+								this.dragEnabled = false;
+							}
+						}
+						else
+						{
+							var chapterService : HTTPService = new HTTPService();
+							chapterService.url = "/load_data/subchapterlist/"+chp.id;
+							chapterService.addEventListener(ResultEvent.RESULT,handleSubChapterListResult);
+							chapterService.addEventListener(FaultEvent.FAULT,handleSubChapterListFault);
+							chapterService.send();
+							FadingNotifier.setBusyState();
+						}
+					}
+					evt.folderLevel = stack.length;
+					dispatchEvent(evt);
+					
+				}
+				else if(item is GalleryVO)
+				{
+					currentFolder = item as GalleryVO;
+					currentGallery = item as GalleryVO;
+					level = "gallery";
+					if(event.target.currentChapter.defaultTag == "no")
+					{
+						contextMenu = new ContextMenu();
+						contextMenu.hideBuiltInItems();
+						evt.data = contextMenu;//new ContextMenu();
+						this.parentDocument.rightClickLabel.visible = false;
+					}	
+					else
+					{
+						contextMenu = HmmContextMenuManager.getInstance().getContextMenu(HmmContextMenuTypes.GALLERY_MENU);
+						evt.data = HmmContextMenuManager.getInstance().getContextButtons(HmmContextMenuTypes.GALLERY_MENU);
+					}	
+					this.doubleClickEnabled = true;
+					if(currentFolder)
+					{
+						stack.push(dataProvider);
+						var gall : GalleryVO = item as GalleryVO;
+						galleryType = (currentFolder as GalleryVO).type;
+						if(gall.files.length)
+						{
+							galleryType = (currentFolder as GalleryVO).type;
+							contents = new ArrayCollection(currentFolder["files"]);
+							currentFiles = contents;
+							
+							this.dataProvider = contents;
+							if(currentFolder.writable)
+							{
+								this.dropEnabled = true;
+								this.dragEnabled = true;
+								// add cdoe for context menus
+							}else
+							{
+								this.dropEnabled = false;
+								this.dragEnabled = false;
+								// add cdoe for context menus
+							}
+						}
+						else
+						{
+							var galleryService : HTTPService = new HTTPService();
+							galleryService.url = "/load_data/contentlist/"+gall.id;
+							galleryService.addEventListener(ResultEvent.RESULT,handleContentListResult);
+							galleryService.addEventListener(FaultEvent.FAULT,handleContentListFault);
+							galleryService.send();
+							FadingNotifier.setBusyState();
+						}
+					}
+					evt.folderLevel = stack.length;
+					dispatchEvent(evt);
+					this.dropEnabled = true;
+				}else if(item is SubChapterVO)
+				{
+					currentFolder = item as SubChapterVO;
+					currentSubChapter = item as SubChapterVO;
+					level = "subchapter";
+					this.doubleClickEnabled = true;
+					if(event.target.currentChapter.defaultTag == "no")
+					{
+						contextMenu = new ContextMenu();
+						contextMenu.hideBuiltInItems();
+						evt.data = contextMenu;//new ContextMenu();
+						this.parentDocument.rightClickLabel.visible = false;
+					}	
+					else
+					{
+						contextMenu = HmmContextMenuManager.getInstance().getContextMenu(HmmContextMenuTypes.SUBCHAPTER_MENU);
+						evt.data = HmmContextMenuManager.getInstance().getContextButtons(HmmContextMenuTypes.SUBCHAPTER_MENU);
+					}
+					if(currentFolder)
+					{
+						stack.push(dataProvider);
+						var subChp : SubChapterVO = item as SubChapterVO;
+						if(subChp.gallery.length)
+						{
+							contents = new ArrayCollection(currentFolder["gallery"]);
+							this.dataProvider = contents;
+							subChapterId = currentFolder.id;
+							if(currentFolder.writable)
+							{
+								this.dropEnabled = true;
+								this.dragEnabled = true;
+								//add code for context menus
+							}else
+							{
+								this.dropEnabled = false;
+								this.dragEnabled = false;
+								// add code for context menu
+							}
+						}
+						else
+						{
+							var subChapterService : HTTPService = new HTTPService();
+							subChapterService.addEventListener(ResultEvent.RESULT,handleGalleryListResult);
+							subChapterService.addEventListener(FaultEvent.FAULT,handleGalleryListFault);
+							subChapterService.url = "/load_data/gallerylist/"+subChp.id;
+							subChapterService.send();
+							FadingNotifier.setBusyState();
+						}
+					}
+					evt.folderLevel = stack.length;
+					dispatchEvent(evt);
+				}else
+				{
+					var popup : IFlexDisplayObject = PopUpManager.createPopUp(Application.application as DisplayObject, PreviewPopup, true);
+					PopUpManager.centerPopUp(popup);
+					popup.width = 508;
+					popup.height = 379;
+					//(popup as PreviewPopup).galleryType = currentGallery.type;
+					(popup as PreviewPopup).data = selectedItem;
+					(popup as PreviewPopup).contentAC = this.dataProvider as ArrayCollection;
+					(popup as PreviewPopup).selectedIndex = selectedIndex;
+					
+					
+					//(popup as IDataRenderer).contentAC = this.dataProvider as ArrayCollection;
+				}
+				
+				
+				/* if(currentFolder && currentFolder.sub.length == 0)
+					this.doubleClickEnabled = false;
+				else
+					this.doubleClickEnabled = true;
+				//var sub : ArrayCollection = folders["folder"];
+				if(currentFolder)
+				{
+					stack.push(dataProvider);
+					var contents : ArrayCollection = currentFolder["subchapters"];
+					if(currentFolder is GalleryVO)
+						this.dataProvider = currentFolder.files;
+					else
+						this.dataProvider = contents;
+					
+				}
+				var evt : FolderEvent = new FolderEvent(FolderEvent.FOLDER_CHANGED);
+				evt.folder = currentPath;
+				evt.folderLevel = stack.length;
+				dispatchEvent(evt);
+				if(currentFolder && currentFolder.writable)
+				{
+					this.dropEnabled = true;
+					hmmCntxtMenu.clearMenus();
+					hmmCntxtMenu.createAll();
+					contextMenu = hmmCntxtMenu.contextMenu;
+				}
+				else
+				{
+					this.dropEnabled = false;
+					hmmCntxtMenu.clearMenus();
+					hmmCntxtMenu.createCloneMenu();
+					contextMenu = hmmCntxtMenu.contextMenu;
+				}*/
+			}
+			
+			private function handleContentListResult(event : ResultEvent) : void
+			{
+				
+				var retFiles : Array = new Array();
+				if(event.result.files)
+				{
+					if(event.result.files.file is ArrayCollection)
+					{
+						
+						
+						for(var f : int = 0; f < event.result.files.file.length; f++)
+						{
+							var file : WebFileVO = new WebFileVO();
+							file.icon = event.result.files.file[f].icon;
+							file.name = event.result.files.file[f].name;
+							file.id = event.result.files.file[f].id;
+							file.access = event.result.files.file[f].access;
+							file.tags = event.result.files.file[f].tags;
+							if(event.result.files.file[f].galleryid)
+							{
+								file.galleryid = event.result.files.file[f].galleryid; 
+							}
+							file.description = event.result.files.file[f].description;
+							file.creationDate = new Date(event.result.files.file[f].creationdate);
+							file.type = event.result.files.file[f].type;
+							retFiles.push(file);
+							//fileMap[files[f].id] = file;
+						} 
+					}else
+					{
+						    file = new WebFileVO();
+						    file.id = event.result.files.file.id;
+						    file.access = event.result.files.file.access;
+							file.icon = event.result.files.file.icon as String;
+							file.name = event.result.files.file.name as String;
+							if(event.result.files.file.galleryid)
+							{
+								file.galleryid = event.result.files.file.galleryid; 
+							}
+							file.tags = event.result.files.file.tags;
+							file.description = event.result.files.file.description;
+							file.creationDate = new Date(event.result.files.file.creationdate);
+							file.type = event.result.files.file.type;
+							retFiles.push(file);
+							//fileMap[files.id] = file;
+					}	
+				}
+				currentFolder["files"] = retFiles; 
+				var contents : ArrayCollection = new ArrayCollection(currentFolder["files"]);
+				currentFiles = contents;
+				this.dataProvider = contents;
+				if(currentFolder.writable)
+				{
+					this.dropEnabled = true;
+					this.dragEnabled = true;
+					// add cdoe for context menus
+				}
+				else
+				{
+					this.dropEnabled = false;
+					this.dragEnabled = false;
+					// add cdoe for context menus
+				}
+				FadingNotifier.removeBusyState();	
+			}
+			
+			private function handleContentListFault(event : FaultEvent) : void
+			{
+				FadingNotifier.removeBusyState();
+				Alert.show("Unable to load your moments!");
+			}
+			
+			private function handleGalleryListResult(event : ResultEvent) : void
+			{
+				var retGalleries : Array = new Array();
+				if(event.result.galleries)
+				{
+					if(event.result.galleries.gallery is ArrayCollection)
+					{
+						
+						for(var i : int = 0; i < event.result.galleries.gallery.length; i++)
+						{
+							var gallery : GalleryVO = new GalleryVO();
+							gallery.type = event.result.galleries.gallery[i].type;
+							// check if there is atleast one album
+							gallery.files = new Array();
+							if(event.result.galleries.gallery[i].subchapterid)
+							{
+								gallery.subChapterId = event.result.galleries.gallery[i].subchapterid;
+							}
+							gallery.name = event.result.galleries.gallery[i].name;
+							gallery.id = event.result.galleries.gallery[i].id;
+							gallery.icon = event.result.galleries.gallery[i].icon;
+							gallery.access = event.result.galleries.gallery[i].access;
+							gallery.description = event.result.galleries.gallery[i].description;
+							gallery.tags = event.result.galleries.gallery[i].tags;
+							gallery.writable = true;
+							retGalleries.push(gallery);
+						}
+					}
+					else
+					{
+						var gallery : GalleryVO = new GalleryVO();
+						gallery.name = event.result.galleries.gallery.name;
+						gallery.icon = event.result.galleries.gallery.icon;
+						gallery.id = event.result.galleries.gallery.id;
+						gallery.type = event.result.galleries.gallery.type;
+						gallery.description = event.result.galleries.gallery.description;
+						gallery.tags = event.result.galleries.gallery.tags;
+						if(event.result.galleries.gallery.subchapterid)
+						{
+							gallery.subChapterId = event.result.galleries.gallery.subchapterid;
+						}
+						gallery.files = new Array
+						gallery.access = event.result.galleries.gallery.access;
+						gallery.writable = true;
+						retGalleries.push(gallery);
+					}
+				}
+				currentFolder["gallery"] = retGalleries; 
+				var contents : ArrayCollection = new ArrayCollection(currentFolder["gallery"]);
+				this.dataProvider = contents;
+				subChapterId = currentFolder.id;
+				if(currentFolder.writable)
+				{
+					this.dropEnabled = true;
+					this.dragEnabled = true;
+					//add code for context menus
+				}
+				else
+				{
+					this.dropEnabled = false;
+					this.dragEnabled = false;
+					// add code for context menu
+				}
+				FadingNotifier.removeBusyState();
+			}
+			
+			private function handleGalleryListFault(event : FaultEvent) : void
+			{
+				FadingNotifier.removeBusyState();
+				Alert.show("Unable to load your galleries!");
+			}
+			
+			private function handleSubChapterListResult(event : ResultEvent) : void
+			{
+				var retSubChapters : Array = new Array();
+				if(event.result.subChapters)
+				{
+					if(event.result.subChapters.subchapter is ArrayCollection)
+					{
+						for(var i : int = 0; i < event.result.subChapters.subchapter.length; i++)
+						{
+							var subchapter : SubChapterVO = new SubChapterVO();
+							subchapter.name = event.result.subChapters.subchapter[i].name;
+							subchapter.icon = event.result.subChapters.subchapter[i].icon;
+							subchapter.id = event.result.subChapters.subchapter[i].id;
+							if(event.result.subChapters.subchapter[i].tagid)
+							{
+								subchapter.tagid = event.result.subChapters.subchapter[i].tagid;
+							}
+							subchapter.access = event.result.subChapters.subchapter[i].access;
+							subchapter.tags = event.result.subChapters.subchapter[i].tags;
+							subchapter.description = event.result.subChapters.subchapter[i].description;
+							retSubChapters.push(subchapter);
+												
+						}
+						
+						
+					}
+					else
+					{
+							var subchapter : SubChapterVO = new SubChapterVO();
+							subchapter.name = event.result.subChapters.subchapter.name;
+							subchapter.icon = event.result.subChapters.subchapter.icon;
+							subchapter.id = event.result.subChapters.subchapter.id;
+							subchapter.access = event.result.subChapters.subchapter.access;
+							subchapter.tags = event.result.subChapters.subchapter.tags;
+							if(event.result.subChapters.subchapter.tagid)
+							{
+								subchapter.tagid = event.result.subChapters.subchapter.tagid;
+							}
+							subchapter.description = event.result.subChapters.subchapter.description;
+							retSubChapters.push(subchapter);
+					
+					}
+				}
+				currentFolder["subchapters"] = retSubChapters;
+				var contents : ArrayCollection = new ArrayCollection(currentFolder["subchapters"]);
+				this.dataProvider = contents;
+				if(currentFolder.writable)
+				{
+					this.dropEnabled = true;
+					this.dragEnabled = true;
+				}
+				else	
+				{
+					this.dropEnabled = false;
+					this.dragEnabled = false;
+				}
+				FadingNotifier.removeBusyState(); 
+			}
+			
+			private function handleSubChapterListFault(event : FaultEvent) : void
+			{
+				FadingNotifier.removeBusyState();
+				Alert.show("Unable to load your subchapters!");
+			}
+			
+			public function set hmmContextMenu(cm:HmmContextMenu):void
+			{
+				hmmCntxtMenu = cm;
+				//contextMenu = cm.contextMenu;
+				//set context menu object here
+			}
+			
+			public function set model(value : Object) : void
+			{
+				if(value != null)
+				{
+					webfilesystemModel = value as WebFileSystemModel;
+					dataProvider = webfilesystemModel.folderList;
+				}	
+			}
+			
+			
+			
+			public function oneLevelUp() : void
+			{
+				var obj : Object = stack.pop();
+				if(obj == null)
+				{
+					dataProvider = webfilesystemModel.folderList;
+					this.contextMenu = HmmContextMenuManager.getInstance().getContextMenu(HmmContextMenuTypes.ROOT_MENU);
+					this.parentDocument.rightClickLabel.visible = true;
+				}else
+				{
+					dataProvider = obj;
+					if(obj[0] is GalleryVO)
+					{
+						if(currentChapter.defaultTag == "no")
+						{
+							contextMenu = new ContextMenu();
+							contextMenu.hideBuiltInItems();
+							//evt.data = contextMenu;//new ContextMenu();
+						}	
+						else
+							contextMenu = HmmContextMenuManager.getInstance().getContextMenu(HmmContextMenuTypes.SUBCHAPTER_MENU);	
+					}else if(obj[0] is SubChapterVO)
+					{
+						if(currentChapter.defaultTag == "no")
+						{
+							contextMenu = new ContextMenu();
+							contextMenu.hideBuiltInItems();
+							//evt.data = contextMenu;//new ContextMenu();
+						}	
+						else
+							contextMenu = HmmContextMenuManager.getInstance().getContextMenu(HmmContextMenuTypes.CHAPTER_MENU);
+					}else if(obj[0] is ChapterVO)
+					{
+						
+						contextMenu = HmmContextMenuManager.getInstance().getContextMenu(HmmContextMenuTypes.ROOT_MENU);
+						this.parentDocument.rightClickLabel.visible = true;
+						
+							
+					}	
+				}
+				
+				if(level == "chapter")
+				{
+					//level = "root";
+				}else if(level == "subchapter")
+					level = "chapter";
+				else if(level == "gallery")
+					level = "subchapter"
+				else if(level == "item")
+					level = "gallery";
+					this.dropEnabled = false;
+					
+			}
+			
+		public function attachEventListeners(dispatcher : EventDispatcher) : void
+		{
+			dispatcher.addEventListener(HmmContextMenuEvents.CREATE_CHAPTER, handleCreateChapter);
+			dispatcher.addEventListener(HmmContextMenuEvents.COPY_CHAPTER, handleCopyChapter);
+			dispatcher.addEventListener(HmmContextMenuEvents.CUT_CHAPTER, handleCutChapter);
+			dispatcher.addEventListener(HmmContextMenuEvents.DELETE_CHAPTER, handleDeleteChapter);
+			dispatcher.addEventListener(HmmContextMenuEvents.HIDE_CHAPTER, handleHideChapter);
+			dispatcher.addEventListener(HmmContextMenuEvents.UNHIDE_CHAPTER, handleUnhideChapter);
+			dispatcher.addEventListener(HmmContextMenuEvents.PASTE_CHAPTER, handlePasteChapter);
+		}
+		
+		private function handleCreateChapter(event : HmmContextMenuEvents) : void
+		{
+			trace("creating chapter in model");
+			
+		}
+		
+		public function addAllInHoldingBin(arr : Array) : void
+		{
+			if(level != "gallery")
+			{
+				Alert.show("Please open a gallery first", "Message");
+				return;
+			}
+			for(var i : int = 0; i < arr.length; i++)
+			{
+				if(arr[i].type == "swf" && currentGallery.type == "video")
+    			{
+    				
+
+	                // Add the new object to the drop target.
+	                var val : WebFileVO = arr[i] as WebFileVO; 
+	                
+	                addItemService(val.clone());    
+	                
+    			}else if(arr[i].type == currentGallery.type)
+    			{
+    				var val : WebFileVO = arr[i] as WebFileVO;
+    				addItemService(val.clone());
+    			}
+                else 
+              	{                
+              		Alert.show("You cannot drop this item in this gallery. Please choose the correct gallery for this item.");
+              		
+              	}
+              	 // Add the new object to the drop target.
+            
+                  
+			}
+		}
+		
+		public function addItemService(item : Object) : void
+		{
+			var obj : Object = new Object();
+			var fileName : String = item.icon;
+			var splitval : Array =  fileName.split('/');
+            for(var count : int = 0; count < currentFiles.length; count++)
+            {
+            	if(currentFiles[count].icon == fileName)
+            	{
+            		Alert.show("Sorry you have already added this item to this gallery : "+currentGallery.name);
+            		return;
+            	}
+            }
+			
+			var service : HTTPService = new HTTPService();
+			service.addEventListener(ResultEvent.RESULT, handleItemAddServiceResult);
+			service.addEventListener(FaultEvent.FAULT, handleItemAddServiceFault);
+			
+			service.url = "/myphotos/addPhoto";
+			
+			//service.resultFormat = HTTPService.RESULT_FORMAT_XML;
+						obj["v_filename"] = splitval[splitval.length-1];
+			
+			switch(galleryType)
+			{
+				case GalleryTypes.AUDIO:
+										break;
+				case GalleryTypes.VIDEO:
+										
+										var xplodedName :Array = obj.v_filename.split(".");
+										for(var i :int = 0; i < xplodedName.length; i++)
+										{
+											if(xplodedName[i] == "jpg")
+											break;
+										}
+										xplodedName.splice(i, 1);
+										obj["v_filename"] = xplodedName.join("."); 
+										break;
+				case GalleryTypes.PHOTO:
+										
+										break;						
+			}
+			
+			obj["e_filetype"] = galleryType;
+			obj["v_tagphoto"] = item.name;
+			//obj["d_momentdate"] = newImage.
+			obj["sub_chapid"] = subChapterId;
+			obj["gallery_id"] = currentFolder.id;
+			obj["tagid"] = currentChapter.id;
+			obj["createddate"] = item.creationDate.toString();
+			trace("Sub chapter id "+ subChapterId);
+			obj["e_access"] = "private";
+			//Alert.show(obj.createddate +"--------------"+item.creationDate.toString());
+			obj["userId"] = HmmChaptersModel.getInstance().userId;
+			serviceItemDictionary[service] = item;
+			service.send(obj);
+			FadingNotifier.setBusyState();
+			CursorManager.setBusyCursor();
+		}
+		
+		private function handleItemAddServiceResult(event : ResultEvent) : void
+		{
+			trace(event.result.toString());
+			var img : Object = serviceItemDictionary[event.target];
+			img.id = event.result.photoid;
+			img.access = "semiprivate";
+			currentFiles.addItem(img);
+			dataProvider = currentFiles;
+			FadingNotifier.removeBusyState();
+			CursorManager.removeBusyCursor();
+		}
+		
+		private function handleItemAddServiceFault(event : FaultEvent) : void
+		{
+			Alert.show(event.fault.toString());
+			FadingNotifier.removeBusyState();
+			CursorManager.removeBusyCursor();
+			trace(event.toString());
+		}
+		
+		private function deleteChapter(chapter : ChapterVO) : void
+		{
+			var deleteChapterService : HTTPService = new HTTPService();
+			// Add service string
+			var output : String = JSON.encode(chapter);
+			deleteChapterService.url = "/tags/delete/";
+			deleteChapterService.addEventListener(ResultEvent.RESULT, handleServiceResult);
+			deleteChapterService.addEventListener(FaultEvent.FAULT, handleServiceFault);
+			var obj : Object = new Object();
+			obj.output = output;
+			deleteChapterService.send(obj);
+		}
+		
+		private function handleServiceResult(event : ResultEvent) : void
+		{
+			trace(event.toString());
+			newChapter.id = event.result.chapterid;
+			newChapter.subchapters[0].id = event.result.subchapterid;	
+		}
+		
+		private function handleServiceFault(event : FaultEvent) : void
+		{
+			trace(event.toString());
+		}
+		
+		private function handleCopyChapter(event : HmmContextMenuEvents) : void
+		{
+			var datap : ArrayCollection = dataProvider as ArrayCollection;
+			clipBoardChapter = datap[this.selectedIndex];
+			cutChapter = false;
+			trace("copying chapter in model");
+		}
+		private function handleCutChapter(event : HmmContextMenuEvents) : void
+		{
+			var datap : ArrayCollection = dataProvider as ArrayCollection;
+			clipBoardChapter = datap[this.selectedIndex];
+			cutChapter = true;
+			trace("cutting chapter in model");	
+		}
+		private function handleDeleteChapter(event : HmmContextMenuEvents) : void
+		{
+			trace("creating chapter in model");	
+		}
+		private function handleHideChapter(event : HmmContextMenuEvents) : void
+		{
+			trace("creating chapter in model");	
+		}
+		private function handleUnhideChapter(event : HmmContextMenuEvents) : void
+		{
+			trace("creating chapter in model");	
+		}
+		private function handlePasteChapter(event : HmmContextMenuEvents) : void
+		{
+			
+			if(cutChapter)
+			{
+				
+			}else
+			{
+				
+			}
+			trace("creating chapter in model");	
+		}
+			
+		]]>
+	</mx:Script>
+</mx:TileList>

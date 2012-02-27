@@ -1,0 +1,123 @@
+<script type="text/javascript">
+	function check()
+	{
+		if (document.getElementById('emp_name').value == 'select_emp')
+		{
+			alert('Please select the employee name to link the customer');
+			return false;
+		}
+	}
+	
+</script>
+
+<form name"mylinkform" action="/account/update_cus_emp"  method="post" onsubmit="return check()">
+<table>
+	<input type="hidden" name="branch" id="branch" value="<%=params[:branch]%>">
+	<input type="hidden" name="id" id="id" value="<%=params[:id]%>">
+	<tr>
+		<td colspan="3">&nbsp;</td>
+	</tr>
+	<tr>
+		<td colspan="3" align="center"><font size="4">Link Customer to Studio121</font></td>
+	</tr>
+	<tr>
+		<td colspan="3">&nbsp;</td>
+	</tr>
+	<%@hmm_users = HmmUser.find(:all, :conditions => "id='#{params[:id]}'")
+	 for @hmm_user in @hmm_users%>
+	<tr>
+   	<td align="right">First Name</td><th>&nbsp;&nbsp;</th><td><%=h @hmm_user.v_fname%></td>
+   	</tr>
+   <tr>
+		<td colspan="3">&nbsp;</td>
+	</tr>
+	<tr>
+	<td align="right">Last Name</td><th>&nbsp;&nbsp;</th><td><%=h @hmm_user.v_lname%></td>	
+	</tr>
+	<tr>
+		<td colspan="3">&nbsp;</td>
+	</tr>
+	<tr>
+	<td align="right">Sex</td><th>&nbsp;&nbsp;</th><td><%=h @hmm_user.e_sex%></td>	
+	</tr>
+	<tr>
+		<td colspan="3">&nbsp;</td>
+	</tr>
+	<tr>
+	<td align="right">User Name</td><th>&nbsp;&nbsp;</th><td><%=h @hmm_user.v_user_name%></td>	
+	</tr>
+	<tr>
+		<td colspan="3">&nbsp;</td>
+	</tr>
+	<tr>
+	<td align="right">Country</td><th>&nbsp;&nbsp;</th><td><%= @hmm_user.v_country%></td>	
+	</tr>
+	<tr>
+		<td colspan="3">&nbsp;</td>
+	</tr>
+	<tr>
+	<td align="right">Zip</th></td><th>&nbsp;&nbsp;</th><td><%=h @hmm_user.v_zip%></td>	
+	</tr>
+	<tr>
+		<td colspan="3">&nbsp;</td>
+	</tr>
+	<tr>
+	<td align="right">E-mail</td><th>&nbsp;&nbsp;</th><td><%=h @hmm_user.v_e_mail%></td>	
+	</tr>
+	<tr>
+		<td colspan="3">&nbsp;</td>
+	</tr>
+	<tr>
+	<td align="right">Account Type</td><th>&nbsp;&nbsp;</th><td><%=h @hmm_user.account_type%></td>	
+	</tr>
+	<tr>
+		<td colspan="3">&nbsp;</td>
+	</tr>
+	<tr>
+	<td align="right">User Status</td><th>&nbsp;&nbsp;</th><td><%=h @hmm_user.e_user_status%></td>	
+	</tr>
+	<tr>
+		<td colspan="3">&nbsp;</td>
+	</tr>
+	<tr>
+	<td align="right">Created Date</td><th>&nbsp;&nbsp;</th><td><%= @hmm_user.d_created_date.strftime("%a %b #{@hmm_user.d_created_date.day.ordinalize} %Y")%></td>	
+	</tr>
+	<tr>
+		<td colspan="3">&nbsp;</td>
+	</tr>
+	<tr>
+	<td align="right">Updated Date</td><th>&nbsp;&nbsp;</th><td><%=h @hmm_user.d_updated_date.strftime("%a %b #{@hmm_user.d_updated_date.day.ordinalize} %Y")%></td>	
+	</tr>
+	<%end%>
+	<tr>
+		<td colspan="3">&nbsp;</td>
+	</tr>
+	<tr>
+		<td align="right">Studio</td>
+		<td>&nbsp;</td>
+		<td align="left"><%=params[:branch]%></td>
+	</tr>
+	<tr>
+		<td colspan="3">&nbsp;</td>
+	</tr>
+	<tr>
+		<th align="right">Select Employee</th>
+		<th>&nbsp;</th>
+		<th>
+			<select name="emp_name" id="emp_name" class => "combobox1">
+			<option value="select_emp" >Select Employee</option>
+			<%for i in @linkemp%>
+			<option value="<%=i.id%>" ><%=i.employe_username%></option>
+			<%end%>	
+		</th>
+	</tr>
+	<tr>
+		<td colspan="3">&nbsp;</td>
+	</tr>
+	<tr>
+		<td colspan="3" align="center">
+			<input type="submit" id="sub" name="sub" value="submit">
+		</td>
+	</tr>
+</table>
+</form>

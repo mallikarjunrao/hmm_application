@@ -1,0 +1,16 @@
+<h1>New invite_friend</h1>
+
+<%= error_messages_for :invite_friend %>
+
+<% form_for(:invite_friend, :url => invite_friends_path) do |f| %>
+  <p>
+    <b>Uid</b><br />
+    <%= f.text_field :uid %>
+  </p>
+
+  <p>
+    <%= submit_tag "Create" %>
+  </p>
+<% end %>
+
+<%= link_to 'Back', invite_friends_path %>

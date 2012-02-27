@@ -1,0 +1,22 @@
+<font color="#ffffff">
+  <table border="0" align="center" valign="center">
+    <tr height="30">
+      <td></td>
+    </tr>
+    <tr>
+      <td align="center" colspan="2" align="center">Rules for</td></tr>
+    <tr><% count = 0 %>
+      <%cur_date=Date.today%>
+      <% @contests = ContestDetail.find(:all,:conditions=>"start_date<'#{cur_date}' and end_date>'#{cur_date}'") %>
+      <td colspan="2" align="center">
+        <% @contests.each do |contest| %>
+          <% if count > 2 %>
+            <br/>&nbsp;
+          <% end %>
+          <a href="/contests/ruleslist?contest_id=<%= contest.id %>&specific=true"><img src="<%= contest.home_logo %>" border="0"/></a>
+          <% count+= 1 %>
+        <% end %>
+      </td>
+    </tr>
+  </table>
+</font>

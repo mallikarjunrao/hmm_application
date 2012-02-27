@@ -1,0 +1,66 @@
+<table>
+          <tr><td colspan="15"><h2>Contest Report</h2> </td></tr>
+          <tr>
+
+            <td>    </td></tr>
+
+          <tr valign='center' align='center'>
+ <th width="120">First Name</th>
+            <th width="120">Last Name</th>
+            <th width="50">sex</th>
+            <th width="100">User Name</th>
+
+            <th width="200">Email Address</th>
+            <th width="100">Status</th>
+            <th width="120">Entrant Name</th>
+            <th width="200">Contest Name</th>
+            <th width="100">Total Votes</th>
+          
+
+           
+          </tr>
+
+          <% 	odd_or_even = 0
+          i = 0
+          for colmn in @hmm_users
+            i = i + 1
+            odd_or_even = 1 - odd_or_even
+          %>
+
+            <tr class='ListLine<%= odd_or_even %>'>
+
+              <% hmmdet=HmmUser.find(:all,:conditions=>"id=#{colmn.id}")%>
+
+              <td align="center"><a class='ListLine<%= odd_or_even %>' href="/user_account/authenticate/?id=1&hmm_user[v_user_name]=<%=colmn.v_user_name%>&hmm_user[v_password]=<%=hmmdet[0]['v_password']%>" target="_blank"><%=h colmn.v_fname%></a></td>
+
+              <td align="center"><a class='ListLine<%= odd_or_even %>' href="/user_account/authenticate/?id=1&hmm_user[v_user_name]=<%=colmn.v_user_name%>&hmm_user[v_password]=<%=hmmdet[0]['v_password']%>" target="_blank"><%=h colmn.v_lname%></a></td>
+              <td align="center"><%=h colmn.e_sex%></td>
+              <td align="center"><%=h colmn.v_user_name%></td>
+
+              <td align="center"><%=h colmn.v_e_mail%></td>
+              <td align="center"><%if colmn.e_user_status=='blocked'%>
+                  <font size="3" color="#ff0000"><b>
+                      <%=h colmn.e_user_status.capitalize%></b></font>
+                <%else%>
+                  <font size="3" color="#00bb00" ><b>
+                      <%=h colmn.e_user_status.capitalize%></b></font>
+                <%end%>
+              </td>
+              <td><%=h colmn.first_name%></td>
+              <td><%=h colmn.contest_title%></td>
+              <td><%=ContestVotes.count_by_sql("select COUNT(*) AS COUNT from contest_votes where contest_id='#{colmn.contest_id}' and conformed='yes'") %></td>
+           
+            </tr>
+
+          <% end %>
+          <input type="hidden" name="len" id="len" value="<%= i %>"/>
+          <tr><td>
+             
+            </td>
+          </tr>
+
+        </table>
+
+
+
+      

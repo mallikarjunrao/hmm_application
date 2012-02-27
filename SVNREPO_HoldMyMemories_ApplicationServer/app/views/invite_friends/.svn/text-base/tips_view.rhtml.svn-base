@@ -1,0 +1,89 @@
+<style>
+	.heading{
+		font-family: Verdana, Arial, Helvetica, sans-serif;
+		color: #ffffff;
+		
+		font-size:medium;
+	}
+</style>
+
+<table width="905" border="0" align="center" cellpadding="0" cellspacing="0">
+      <tr>
+        <th width="50" height="40" align="left" valign="top" scope="col">&nbsp;</th>
+		 <th width="16" align="left" valign="top" scope="col">&nbsp;</th>
+        <th width="589" align="left" valign="top" scope="col"><font color="#f5dfa6" ><%=flash[:notice_tip]%></font></th>
+        <th width="50" align="left" valign="top" scope="col">&nbsp;</th>
+      </tr>
+      <tr>
+      	 <th width="150" height="10" align="left" valign="top" scope="col">&nbsp;</th>
+		 <th width="16" align="left" valign="top" >&nbsp;</th>
+      	<th align="left" valign="top" align="center" class="cont" ><span class="heading">Tips</span><br />
+		<th width="150" align="left" valign="top" >&nbsp;</th>
+      </tr>
+
+	
+	  <tr>
+        <th width="50" height="40" align="left" valign="top" scope="col">&nbsp;</th>
+		 <th width="16" align="left" valign="top" scope="col">&nbsp;</th>
+        <th width="589" align="left" valign="top" scope="col">&nbsp;</th>
+        <th width="50" align="left" valign="top" scope="col">&nbsp;</th>
+      </tr>
+     
+
+			<%j=0%>
+			<% for i in @tips %>
+			<%j=j+1%>
+		<tr>
+        <th width="50" height="10" align="left" valign="top" scope="col">&nbsp;</th>
+		 <th width="16" align="left" valign="top" scope="col">&nbsp;</th>
+        <th width="589" align="left" valign="top" scope="col">&nbsp;</th>
+        <th width="50" align="left" valign="top" scope="col">&nbsp;</th>
+      </tr>
+     
+	  <tr>
+	    <th align="left" valign="top" scope="col">&nbsp;</th>
+		<th align="right" valign="top" scope="col" class="questions-text"><%= j %>.</th>	
+         <th align="left" valign="bottom" scope="col" class="questions-text">
+		  &nbsp;&nbsp;&nbsp;<%=i.title%></a><div id="<%=i.id%>" style="display:inline;">
+          &nbsp;&nbsp;<a href="#" onclick="new Ajax.Updater('<%=i.id%>', '/invite_friends/tips_detail/<%=i.id%>', {asynchronous:true, evalScripts:true}); return false;">Click here to view</a>
+</div>
+		  </th>
+		  
+        <th align="left" valign="top" scope="col">&nbsp;</th>
+      </tr>
+	  <tr>
+        <th width="50" height="10" align="left" valign="top" scope="col">&nbsp;</th>
+		 <th width="16" align="left" valign="top" scope="col">&nbsp;</th>
+        <th width="589" align="left" valign="top" scope="col">&nbsp;</th>
+        <th width="50" align="left" valign="top" scope="col">&nbsp;</th>
+      </tr>
+    
+	
+	  <tr>
+	  	<td colspan="4">
+
+
+
+
+	  	</td>
+	  </tr>
+	  <%end%>
+	  
+	  <tr>
+	  	<th width="150" height="40" align="left" valign="top" scope="col">&nbsp;</th>
+		 <th width="16" align="left" valign="top" >&nbsp;</th>
+      	<th align="left" valign="top" class="cont" ><span class="contbold">Have an item you would like a tip on? <br> 
+		<%= link_to_remote("Click here to submit your ideas or questions to HoldMyMemories.com.",
+					:update => "ideas", :url => {:controller => :tip_ideas, :action => :new } ) %>
+		</span>
+		<th width="150" align="left" valign="top" >&nbsp;</th>
+	  </tr>
+	  <tr>
+	  	<th width="150" height="40" align="left" valign="top" scope="col">&nbsp;</th>
+		 <th width="16" align="left" valign="top" >&nbsp;</th>
+      	<th align="left" valign="top" class="cont" ><span class="contbold">
+		<div id="ideas"></div>
+		</span>
+		<th width="150" align="left" valign="top" >&nbsp;</th>
+	  </tr>
+</table>

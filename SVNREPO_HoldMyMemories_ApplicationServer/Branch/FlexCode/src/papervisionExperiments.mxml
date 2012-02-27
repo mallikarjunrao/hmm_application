@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:Application 
+	xmlns:mx="http://www.adobe.com/2006/mxml" 
+	xmlns:flex="org.papervision3d.flex.*"
+	layout="absolute"
+	pageTitle="PaperVision3D Flex Example" 
+	frameRate="60"
+	applicationComplete="initPV3D()" width="750" height="350">
+	
+	<!--
+		This example shows the simplest way to intergrate PV3D in your Flex Application.
+		Structure and style are meant as an example, so consider it that way.
+	-->
+	<mx:Array id="bitmaps">
+		<mx:String>assets/photo01.jpg</mx:String>
+		<mx:String>assets/photo02.jpg</mx:String>
+		<mx:String>assets/photo03.jpg</mx:String>
+		<!--<mx:String>assets/photo04.jpg</mx:String>
+		<mx:String>assets/photo05.jpg</mx:String>
+		<mx:String>assets/photo06.jpg</mx:String>
+		<mx:String>assets/photo07.jpg</mx:String>
+		<mx:String>assets/photo08.jpg</mx:String>
+		<mx:String>assets/photo09.jpg</mx:String>
+		<mx:String>assets/photo10.jpg</mx:String>-->
+	</mx:Array>
+	<mx:Script>
+		<![CDATA[
+			import hmm.StackCoverFlowLeft;
+			import hmm.StackCoverFlow;
+			import mx.controls.Image;
+			import org.papervision3d.examples.PlaneRendering;
+			import org.papervision3d.examples.FocusApp;
+			
+			private var focusApp:StackCoverFlowLeft;
+		
+			private function initPV3D():void
+			{
+				//Here our logic resides.
+				
+				focusApp = new StackCoverFlowLeft(paperCanvas.canvas, bitmaps, 75, 0, 150, true);
+				//focusApp.bitmapAssets = bitmaps;
+				
+			}
+		]]>
+	</mx:Script>
+	
+	
+		
+		<!--Canvas3D canvas property should be used as the container for the scene-->
+		<flex:Canvas3D id="paperCanvas"
+			backgroundColor="#000000"
+			backgroundAlpha="1"
+			width="100%" 
+			height="100%"/>	
+	
+	
+</mx:Application>

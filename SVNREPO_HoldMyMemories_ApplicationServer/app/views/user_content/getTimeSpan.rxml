@@ -1,0 +1,31 @@
+xml.instruct! :xml, :version=>"1.0"
+xml.contents {
+	for content in @user_contents
+		
+              if(content.d_momentdate != nil && content.e_filetype != nil)  
+              xml.content{
+                                    xml.name(content.v_tagphoto)
+                                    xml.type(content.e_filetype)
+                                     xml.icon(content.v_filename)
+            #                        if(content.e_filetype == "image")
+            #                          xml.icon("/user_content/photos/big_thumb/"+content.v_filename)
+            #                        elsif(content.e_filetype == "video")
+            #                          xml.icon("/user_content/videos/thumbnails/"+content.v_filename+".jpg")
+            #                        elsif(content.e_filetype == "audio")  
+            #                          xml.icon("/user_content/audios/speaker.jpg");#+content.v_filename)
+            #                        elsif(content.e_filetype == "swf") 
+            #                           xml.icon("/user_content/videos/thumbnails/"+content.v_filename)
+            #                        else
+            #                        end
+                                    if(content.d_momentdate != nil)
+                                      xml.date(content.d_momentdate)
+                                    else
+                                      xml.date(content.d_createddate)
+                                    end
+                                    xml.id(content.id)
+                            }
+              end             
+	
+	end
+
+}

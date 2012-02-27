@@ -1,0 +1,498 @@
+<meta http-equiv="X-UA-Compatible" content="IE=8" />
+
+<%= javascript_include_tag 'themes/formcheck/core' %>
+<%= javascript_include_tag 'themes/formcheck/more' %>
+<%= javascript_include_tag 'themes/formcheck/en' %>
+<%= javascript_include_tag 'themes/formcheck/formcheck' %>
+<%= stylesheet_link_tag 'themes/formcheck/formcheck'%>
+<%= javascript_include_tag 'prototype' %>
+<%= javascript_include_tag 'SpryAssets/SpryValidationTextField' %>
+<%= javascript_include_tag "themes/swfobject" %>
+<%= javascript_include_tag "prototype.js" %>
+<style type="text/css">
+
+  td {
+    color:#FFFFFF;
+  }
+
+  .AccordionTitle, .AccordionContent, .AccordionContainer {
+    background-position: left top;
+    background-repeat: repeat;
+    padding-bottom: 5px;
+    padding-right: 20px;
+    padding-top: 5px;
+    position: relative;
+    width: 98%;
+  }
+</style>
+
+<script type="text/javascript">
+
+  var ContentHeight;
+  var TimeToSlide = 250.0;
+
+
+  var openAccordion = '';
+  function runAccordion(index)
+  {
+    var nID = "Accordion" + index + "Content";
+    if(openAccordion == nID)
+      nID = '';
+
+    setTimeout("animate(" + new Date().getTime() + "," + TimeToSlide + ",'"
+      + openAccordion + "','" + nID + "','" + index + "')", 33);
+
+    openAccordion = nID;
+  }
+  function animate(lastTick, timeLeft, closingId, openingId,index)
+  {
+    var curTick = new Date().getTime();
+    var elapsedTicks = curTick - lastTick;
+
+    var opening = (openingId == '') ? null : document.getElementById(openingId);
+    var closing = (closingId == '') ? null : document.getElementById(closingId);
+
+    if(index==4)
+    {
+      ContentHeight = 750;
+
+    }
+    else
+    {
+      ContentHeight = 319;
+
+    }
+
+    if(timeLeft <= elapsedTicks)
+    {
+      if(opening!= null)
+      {
+        opening.style.height = ContentHeight + 'px';
+      }
+
+      if(closing != null)
+      {
+        closing.style.display = 'none';
+        closing.style.height = '0px';
+      }
+      return;
+    }
+
+    timeLeft -= elapsedTicks;
+    var newClosedHeight = Math.round((timeLeft/TimeToSlide) * ContentHeight);
+
+    if(opening != null)
+    {
+      if(opening.style.display != 'block')
+        opening.style.display = 'block';
+      opening.style.height = (ContentHeight - newClosedHeight) + 'px';
+    }
+
+    if(closing != null)
+      closing.style.height = newClosedHeight + 'px';
+
+    setTimeout("animate(" + curTick + "," + timeLeft + ",'"
+      + closingId + "','" + openingId + "','" + index + "')", 33);
+  }
+
+</script>
+
+<script type="text/javascript">
+  function uploading_files() {
+    var input = document.getElementById('portfolio_image');
+    var list = document.getElementById('fileList');
+    if (navigator.appName == "Microsoft Internet Explorer" && document.getElementById('portfolio_image').value != "")
+    {
+      var e=document.getElementById('loadingMessage');
+      e.style.display="block";
+      var e1=document.getElementById('loadingMessage_images');
+      e1.style.display="none";
+      return true;
+    }
+    else if (document.getElementById('portfolio_image').value == "" || !list.hasChildNodes())
+    {
+      alert("Select photo(s) to upload!");
+      input.value = "";
+      return false;
+    }
+    else
+    {
+      var text_value = document.getElementById('photo_album').value.replace(/^\s+|\s+$/g, '');
+      if (document.getElementById('new_album1').style.display == "block" && text_value.length == 0)
+      {
+        alert("Enter the name of the new album");
+        document.getElementById('photo_album').focus();
+        return false;
+      }
+      else
+      {
+        var e=document.getElementById('loadingMessage');
+        e.style.display="block";
+        var e1=document.getElementById('loadingMessage_images');
+        e1.style.display="none";
+        return true;
+      }
+    }
+  };
+
+  function uploading_videos() {
+    var input = document.getElementById('portfolio_video');
+    var list = document.getElementById('videoList');
+    if (document.getElementById('portfolio_video').value == "" || !list.hasChildNodes())
+    {
+      alert("Select video(s) to upload!");
+      input.value = "";
+      return false;
+    }
+    else
+    {
+      var text_value = document.getElementById('video_album').value.replace(/^\s+|\s+$/g, '');
+      if (document.getElementById('new_album2').style.display == "block" && text_value.length == 0)
+      {
+        alert("Enter the name of the new album");
+        document.getElementById('video_album').focus();
+        return false;
+      }
+      else
+      {
+        var e=document.getElementById('loadingMessage2');
+        e.style.display="block";
+        var e1=document.getElementById('loadingMessage_images2');
+        e1.style.display="none";
+        return true;
+      }
+    }
+  };
+
+  function delete_photo(file_id){
+    var item = document.getElementById('fileList').querySelector('li:nth-of-type('+file_id+')');
+    var input = document.getElementById('portfolio_image');
+    var list = document.getElementById('fileList');
+    var childnode = document.getElementById('li_'+file_id);
+    var removenode = list.removeChild(childnode);
+    if (!list.hasChildNodes())
+    {
+      input.value = "";
+    }
+  };
+  function delete_video(file_id){
+    var item = document.getElementById('fileList').querySelector('li:nth-of-type('+file_id+')');
+    var input = document.getElementById('portfolio_video');
+    var list = document.getElementById('videoList');
+    var childnode = document.getElementById('li_'+file_id);
+    var removenode = list.removeChild(childnode);
+    if (!list.hasChildNodes())
+    {
+      input.value = "";
+    }
+  };
+
+  function bytesToSize(bytes) {
+    var sizes = ['Bytes', 'KB', 'MB', 'GB', 'TB'];
+    if (bytes == 0) return 'n/a';
+    var i = parseInt(Math.floor(Math.log(bytes) / Math.log(1024)));
+    return (bytes / Math.pow(1024, i)).toFixed(1) + ' ' + sizes[i];
+  };
+
+  function display_files(id)
+  {
+    var input = document.getElementById(id);
+    var list = document.getElementById('fileList');
+
+    //alert(navigator.appName);
+    //alert(input.value);
+    if (navigator.appName == "Microsoft Internet Explorer")
+    {
+      //var li = document.createElement('li');
+      //alert("In IE browser");
+      //li.setAttribute('id', "li_0");
+      var extArray = new Array(".jpg", ".png", ".bmp", ".JPG", ".JPEG", ".PNG", ".jpeg");
+      var allowSubmit = false;
+      var file = input.value;
+      while (file.indexOf("\\") != -1)
+        file = file.slice(file.indexOf("\\") + 1);
+      ext = file.slice(file.indexOf("."));
+      for (var i = 0; i < extArray.length; i++) {
+        if (extArray[i] == ext) { allowSubmit = true; break; }
+      }
+      if (allowSubmit)
+      {
+        //list.innerHTML = "<input type='hidden' name='select_image[]' value='0' id='select_image'>";
+        //alert("select value="+document.getElementById('select_image').value);
+      }
+      else
+      {
+        alert ('Your upload file(s) contains an unapproved file extension.');
+        var newinput = document.createElement('input');
+        newinput.setAttribute('id', "portfolio_image");
+        newinput.setAttribute('type', "file");
+        newinput.setAttribute('name', "upload_media[]");
+        newinput.setAttribute('multiple', "");
+        newinput.setAttribute('onchange', "display_files();");
+        input.parentNode.replaceChild(newinput, input);
+        alert(document.getElementById('portfolio_image').value);
+        window.location.href=window.location.href;
+      }
+    }
+    else
+    {
+      var flength = input.files.length;
+      for (var x = 0; x < flength; x++) {
+        //add to list
+        var li = document.createElement('li');
+        var filename = input.files[x].name;
+        var result = false;
+        var arr = ["jpeg","jpg","png", "JPG", "JPEG", "PNG"];
+        var ext = /^.+\.([^.]+)$/.exec(filename);
+        for(var i=0; i<arr.length; i++) {
+          if (arr[i] == ext[1])
+          {
+            result = true;
+          }
+        };
+
+        if (result)
+        {
+          li.setAttribute('id', "li_"+x);
+          //var src = loadFile(input.files[x]);
+          li.innerHTML = input.files[x].name +"&nbsp;("+bytesToSize(input.files[x].size)+")&nbsp;<input type='button' id="+x+" class='cmd-btn' value='Delete' onclick='delete_photo(this.id);'> <input type='hidden' name='select_image[]' value="+x+" id='select_image'>";
+          //li.innerHTML = "<img src="+input.files[x].value+" width='50' height='50'> &nbsp;"+input.files[x].name +"&nbsp;("+bytesToSize(input.files[x].size)+")&nbsp;<input type='button' id="+x+" class='cmd-btn' value='Delete' onclick='delete_photo(this.id);'> <input type='hidden' name='select_image[]' value="+x+" id='select_image'>";
+          //alert('File ' + (x + 1) + ':  ' + input.files[x].fileName);
+          list.appendChild(li);
+        }
+        else
+        {
+          alert ('Your upload file(s) contains an unapproved file extension.');
+          //x+=1;
+        }
+      }
+    }
+
+  }
+
+
+  function display_videos(){
+    var input = document.getElementById('portfolio_video');
+    var list = document.getElementById('videoList');
+
+
+    if (navigator.appName == "Microsoft Internet Explorer")
+    {
+      //var li = document.createElement('li');
+      //alert("In IE browser");
+      //li.setAttribute('id', "li_0");
+      var extArray = new Array(".mov", ".mpeg", ".mpg", ".wmv", ".flv", ".MOV", ".MPEG", ".MPG", ".WMV", ".FLV");
+      var allowSubmit = false;
+      var file = input.value;
+      while (file.indexOf("\\") != -1)
+        file = file.slice(file.indexOf("\\") + 1);
+      ext = file.slice(file.indexOf("."));
+      for (var i = 0; i < extArray.length; i++) {
+        if (extArray[i] == ext) { allowSubmit = true; break; }
+      }
+      if (allowSubmit)
+      {
+        list.innerHTML = "<input type='hidden' name='select_image[]' value='0' id='select_image'>";
+        alert("select value="+document.getElementById('select_image').value);
+      }
+      else
+      {
+        alert ('Your upload file(s) contains an unapproved file extension.');
+        var newinput = document.createElement('input');
+        newinput.setAttribute('id', "portfolio_video");
+        newinput.setAttribute('type', "file");
+        newinput.setAttribute('name', "upload_media[]");
+        newinput.setAttribute('multiple', "");
+        newinput.setAttribute('onchange', "display_videos();");
+        input.parentNode.replaceChild(newinput, input);
+        alert(document.getElementById('portfolio_video').value);
+        window.location.href=window.location.href;
+      }
+    }
+    else
+    {
+      var flength = input.files.length;
+      for (var x = 0; x < flength; x++) {
+        //add to list
+        var li = document.createElement('li');
+        var filename = input.files[x].name;
+        var result = false;
+        var arr = ["mov","mpeg","mpg","wmv","flv", "MOV", "MPEG", "MPG", "WMV", "FLV"];
+        var ext = /^.+\.([^.]+)$/.exec(filename);
+        for(var i=0; i<arr.length; i++) {
+          if (arr[i] == ext[1])
+          {
+            result = true;
+          }
+        };
+
+        if (result)
+        {
+          li.setAttribute('id', "li_"+x);
+          li.innerHTML = input.files[x].name +"&nbsp;("+bytesToSize(input.files[x].size)+")&nbsp;<input type='button' id="+x+" class='cmd-btn' value='Delete' onclick='delete_video(this.id);'> <input type='hidden' name='select_image[]' value="+x+" id='select_image'>";
+          //alert('File ' + (x + 1) + ':  ' + input.files[x].fileName);
+          list.appendChild(li);
+        }
+        else
+        {
+          alert ('Your upload file(s) contains an unapproved file extension.');
+          //x+=1;
+        }
+      }
+    }
+  }
+
+  function check_album(chkbox)
+  {
+    var x =  (chkbox == "CHKBOX_1") ? "1" : "2"
+    if (document.getElementById(chkbox).checked == true)
+    {
+      document.getElementById('new_album'+x).style.display = "block";
+      document.getElementById('display_album'+x).style.display = "none";
+    }
+    else
+    {
+      document.getElementById('new_album'+x).style.display = "none";
+      document.getElementById('display_album'+x).style.display = "block";
+    }
+  }
+
+  
+
+  // Function that sends form data, by passing them to an iframe
+  function uploading(theform){
+    // Adds the code for the iframe
+    document.getElementById('ifrm').innerHTML = '<iframe id="uploadframe" name="uploadframe" src="uploader.php" frameborder="0"></iframe>';
+
+    theform.submit();		// Executa trimiterea datelor
+
+    // Restore the form
+    document.getElementById('uploadform').innerHTML = '<input type="file" id="test" class="file_up" name="file_up[]" /><input type="submit" value="UPLOAD" id="sub" />';
+    return false;
+  }
+  function randomString() {
+    var chars = "abcdefghiklmnopqrstuvwxyz";
+    var string_length = 4;
+    var randomstring = '';
+    for (var i=0; i<string_length; i++) {
+      var rnum = Math.floor(Math.random() * chars.length);
+      randomstring += chars.substring(rnum,rnum+1);
+    }
+    return randomstring;
+  }
+
+
+</script>
+<style type="text/css"><!--
+  #uploadform {
+    position:relative;
+    width:280px;
+    margin:3px auto 15px 8px;
+    text-align:center;
+  }
+  #uploadform input {
+    display:block;
+    margin:3px auto;
+  }
+  --></style>
+
+
+<table cellspacing="0" cellpadding="0" border="0" width="100%">
+  <%= render :partial => "family_memory/partials/heading"%>
+  <tr>
+    <td align="left" valign="bottom" height="35" class="header-page">Upload Photos/Videos</td>
+  </tr>
+  <tr>
+    <td bgcolor="#454545" align="left" valign="top" height="1"></td>
+  </tr>
+  <tr>
+    <td align="left" valign="top" height="10"></td>
+  </tr>
+  <tr>
+    <td>
+      <table width="100%" border="0" cellspacing="0" cellpadding="0">
+        <tr>
+          <td width="13" align="left" valign="top"></td>
+        </tr>
+        <tr>
+          <td height="10" align="left" valign="top"></td>
+        </tr>
+        <tr>
+          <td height="10" align="left" valign="top"></td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+  <tr>
+    <td class="content-trans-bg" >
+      <div id="AccordionContainer" class="AccordionContainer">
+        <div onclick="runAccordion(10);">
+          <div onselectstart="return false;" >
+            <div class="headers_email"align="left" style="width: 100%; cursor:pointer">Upload Photo(s)</div>
+          </div>
+        </div>
+        <div id="Accordion10Content" class="AccordionContent" >
+          <!-- <form name="frm" action="/manage_iphone_studio/uploader?id=
+<%#= params[:id] %>&chapter_type=event&event_id=158390&user_id=41737" method="post" enctype="multipart/form-data" onsubmit="return uploading();"> -->
+          <table border="0" cellpadding="0" cellspacing="0" width="100%" height ="450px" align="center"><tr><td align="center">
+                <div id="flash_content">
+                  <h1>Get Flash Player</h1>
+                  <p><a href="http://www.adobe.com/go/getflashplayer"><img src="http://www.adobe.com/images/shared/download_buttons/get_flash_player.gif" alt="Get Adobe Flash player" /></a></p>
+                </div>
+
+                <script type="text/javascript">
+                  var flashvars = {};
+                  flashvars.content_url = "<%= request_content_url %>";
+                  flashvars.user_id = "<%= session[:hmm_user] %>";
+                  flashvars.proxyurl = "<%=  @path %>,http://content1.holdmymemories.com,http://content.holdmymemories.com";
+                  flashvars.familyname = "<%= params[:id] %>"
+                  flashvars.website_type = "familywebsite_v4";
+                  flashvars.navigate_url = "/family_memory/upload2/<%=params[:id]%>";
+                  flashvars.media_type = "image";
+                  var params = {};
+                  params.wmode = "transparent";
+                  params.allowFullScreen = true
+                  swfobject.embedSWF("/UploadComponent_V4.swf", "flash_content", "100%", "450", "9.0.0", "/expressInstall.swf",flashvars,params);
+                </script>
+              </td></tr>
+          </table>
+        </div>
+      </div>
+    </td>
+  </tr>
+  <tr>
+    <td class="content-trans-bg" >
+      <div id="AccordionContainer" class="AccordionContainer">
+        <div onclick="runAccordion(11);">
+          <div onselectstart="return false;" >
+            <div class="headers_email"align="left" style="width: 100%; cursor:pointer">Upload Video(s)</div>
+          </div>
+        </div>
+        <div id="Accordion11Content" class="AccordionContent">
+          <table border="0" cellpadding="0" cellspacing="0" width="100%" height ="450px" align="center"><tr><td align="center">
+                <div id="flash_content">
+                  <h1>Get Flash Player</h1>
+                  <p><a href="http://www.adobe.com/go/getflashplayer"><img src="http://www.adobe.com/images/shared/download_buttons/get_flash_player.gif" alt="Get Adobe Flash player" /></a></p>
+                </div>
+
+                <script type="text/javascript">
+                  var flashvars = {};
+                  flashvars.content_url = "<%= request_content_url %>";
+                  flashvars.user_id = "<%= session[:hmm_user] %>";
+                  flashvars.proxyurl = "<%=  @path %>,http://content1.holdmymemories.com,http://content.holdmymemories.com";
+                  flashvars.familyname = "<%= params[:id] %>"
+                  flashvars.website_type = "familywebsite_v4";
+                  flashvars.navigate_url = "/family_memory/upload2/<%=params[:id]%>";
+                  flashvars.media_type = "video";
+                  var params = {};
+                  params.wmode = "transparent";
+                  params.allowFullScreen = true
+                  swfobject.embedSWF("/UploadComponent_V4.swf", "flash_content", "100%", "450", "9.0.0", "/expressInstall.swf",flashvars,params);
+                </script>
+              </td></tr>
+          </table>
+        </div>
+      </div>
+    </td>
+  </tr>
+</table>

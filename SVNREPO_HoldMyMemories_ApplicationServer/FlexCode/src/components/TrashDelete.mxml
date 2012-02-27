@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:TitleWindow xmlns:mx="http://www.adobe.com/2006/mxml" layout="absolute" width="380" height="200" 
+	showCloseButton="true" close="{PopUpManager.removePopUp(this)}" creationComplete="handleCreationComplete()" backgroundColor="0">
+	<mx:VBox width="100%" height="100%" horizontalAlign="center" verticalAlign="middle" >
+		<mx:Text  htmlText="{deleteMessage}" width="360" height="70" fontSize="15" color="red"/>
+		<mx:Text text="Please enter the text given below" color="0Xffffff"/>
+		<mx:HBox>
+		<mx:Label id="randomnumber" text="{randNum}" fontSize="15" fontWeight="bold" color="0Xffffff"/>
+		<mx:TextInput id="randomTextIn" change="handleChange()" />
+		</mx:HBox>
+		<mx:Button label="OK" click="handleClick()" id="ok" enabled="false" styleName="lastButtonStyle"/>
+	</mx:VBox>
+	<mx:Script>
+		<![CDATA[
+			import mx.controls.Alert;
+			import com.adobe.crypto.MD5;
+			import mx.utils.StringUtil;
+			import mx.managers.PopUpManager;
+			[Bindable]
+			var randNum : String;
+			[Bindable]
+			public var deleteMessage : String
+			public var popupResult : String;
+			
+			private function handleChange() : void
+			{
+				if(randomTextIn.text == randNum)
+				  ok.enabled = true;
+				else
+				  ok.enabled = false;   
+			}
+			
+			private function handleClick() : void
+			{
+				if(randomTextIn.text == randNum)
+				{
+					popupResult = "delete";
+					
+				}
+				else
+				{ 
+				 	//this.parentDocument.popupResult = "Ignore";
+				 	Alert.show("Entered incorrect text, try to enter proper ");
+				 	randNum = MD5.hash(new Date().toString()).substring(0,5);
+				 	return;
+				 	
+				}
+				dispatchEvent(new Event("deletepopup"));
+				PopUpManager.removePopUp(this);
+			}
+			
+			private function handleCreationComplete() : void
+			{
+				randNum = MD5.hash(new Date().toString()).substring(0,5);
+			}
+		]]>
+	</mx:Script>
+	
+</mx:TitleWindow>

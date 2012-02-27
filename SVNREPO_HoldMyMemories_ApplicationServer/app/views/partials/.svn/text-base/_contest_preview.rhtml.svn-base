@@ -1,0 +1,129 @@
+<table width="100%" border="0" cellspacing="0" cellpadding="0" >
+                          <tr>
+                            <td height="60" align="center" valign="middle" class="cont-orange-hr"><%=@contest.contest_type%> contest</td>
+                          </tr>
+                          <tr>
+                            <td align="left" valign="top"><img src="/images/common/contests-top-cur.png" width="402" height="12" /></td>
+                          </tr>
+                          <tr>
+                            <td align="left" valign="top" background="/images/contests_mid_img.jpg"><table width="100%" border="0" cellspacing="0" cellpadding="0">
+                          <tr>
+                            <td width="15" height="218" align="left" valign="top" class="contest-left-br" scope="col">&nbsp;</td>
+                            <td width="371" align="left" valign="top"  bgcolor="#000000" scope="col"><table width="100%" border="0" cellspacing="0" cellpadding="0">
+                              <tr>
+                                <td height="33" align="center" valign="top" scope="col"><img src="<%=@contest.img_url%>/contest_logos/<%=@contest.logo%>" width="286" height="123"/></td>
+                              </tr>
+                              <tr>
+                                <td height="33" align="center" valign="middle" class="content-yellow" scope="col"> Presented by </td>
+                              </tr>
+                              <tr>
+                                <td height="33" align="center" valign="middle" scope="col"><img src="<%=@contest.img_url%>/presentedby_logos/<%=@contest.presented_by%>" width="127" height="33" /></td>
+                              </tr>
+                              <tr>
+                                <td height="16" align="left" valign="top" class="headers" scope="col">&nbsp;</td>
+                              </tr>
+
+                               <tr>
+                                <td height="16" align="left" valign="top" class="content" scope="col"><%=@contest.description%></td>
+                              </tr>
+                               <tr>
+                                 <td height="6" align="left" valign="top" scope="col"></td>
+                               </tr>
+                               <tr>
+                                 <td height="1" align="left" valign="top" bgcolor="#FFFFFF" scope="col"></td>
+                               </tr>
+                               <tr>
+                                 <td height="20" align="left" valign="top" class="content" scope="col"></td>
+                               </tr>
+                               <tr>
+                                 <td height="20" align="left" valign="top" class="content-white" scope="col"></td>
+                               </tr>
+                               
+                               <tr>
+                                 <td height="31" align="left" valign="top" class="content" scope="col"></td>
+                               </tr>
+                               <tr>
+                                 <td height="25" align="left" valign="top" class="content" scope="col"><span class="headers">Winner to Receive:</span></td>
+                               </tr>
+                               <tr>
+                                 <td height="19" align="left" valign="top" class="content-yellow" scope="col"><%=@contest.prizes%></td>
+                               </tr>
+                                <tr>
+                                 <td height="25" align="left" valign="top" class="content" scope="col"><span class="headers">Contest Rules</span></td>
+                               </tr>
+                               <tr>
+                                 <td height="219" align="left" valign="top" class="content" scope="col"><%=@contest.rules%></td>
+                              </tr>
+                               <tr>
+                                 <td height="45" align="left" valign="top" class="content" scope="col"></td>
+                               </tr>
+                               <tr>
+                                 <td height="19" align="left" valign="top" class="content" scope="col"><table width="100%" border="0" cellspacing="0" cellpadding="0">
+                                   <tr>
+                                     <td width="20" align="left" valign="top" scope="col"></td>
+                                     <td align="center" valign="top" scope="col"><label>
+                                     <%if(session[:hmm_user]) %>
+                                     <input name="button" type="submit" class="contest-btn" id="button" value="Click to Enter" onClick="window.location.href='/familywebsite_contest/manage_terms_conditions/<%=params[:id]%>?contest=photo'" style="cursor:pointer;"/>
+                                     <%else%>
+                                     <input name="button" type="submit" class="contest-btn" id="button" value="Click to Enter" onClick="window.location.href='/familywebsite_contest/terms_conditions/<%=params[:id]%>?contest=photo'" style="cursor:pointer;"/>
+                                     <%end%>
+                                     </label>                                       </td>
+                                     <td width="20" align="left" valign="top" scope="col"></td>
+                                   </tr>
+                                   
+                                 </table></td>
+                               </tr>
+                                <tr>
+                                 <td height="14" align="left" valign="top" class="content" scope="col"></td>
+                               </tr>
+                               <tr>
+                                 <td height="19" align="left" valign="top" class="content" scope="col"><table width="100%" border="0" cellspacing="0" cellpadding="0">
+                                   <tr>
+                                     <td width="20" align="left" valign="top" scope="col"></td>
+                                     <td align="center" valign="top" scope="col"><label>
+
+                                      <%if(session[:hmm_user]) %>
+                                     <input name="button2" type="submit" class="contest-btn" id="button2" value="View and Vote" onClick="window.location.href='/familywebsite_contest/manage_moments_vote/<%=params[:id]%>'" style="cursor:pointer;"/>
+                                     <%else%>
+                                     <input name="button2" type="submit" class="contest-btn" id="button2" value="View and Vote" onClick="window.location.href='/familywebsite_contest/moments_vote/<%=params[:id]%>'" style="cursor:pointer;"/>
+                                     <%end%>
+                                       </label>                                     </td>
+                                     <td width="20" align="left" valign="top" scope="col"></td>
+                                   </tr>
+                                 </table></td>
+                               </tr>
+                                 <tr>
+                                 <td height="14" align="left" valign="top" class="content" scope="col"></td>
+                               </tr>
+                               <tr>
+                                 <td height="19" align="left" valign="top" class="content" scope="col"><table width="100%" border="0" cellspacing="0" cellpadding="0">
+                                   <tr>
+                                     <td width="20" align="left" valign="top" scope="col"></td>
+                                     <td align="center" valign="top" scope="col"><label>
+
+                                     <%if(session[:hmm_user]) %>
+                                    <input name="button3" type="submit" class="contest-btn" id="button3" value="View Previous Contest Winners"  style="cursor:pointer;" onClick="window.location.href='/familywebsite_contest/manage_previous_contest/<%=params[:id]%>'"/>
+                                     <%else%>
+                                     <input name="button3" type="submit" class="contest-btn" id="button3" value="View Previous Contest Winners"  style="cursor:pointer;" onClick="window.location.href='/familywebsite_contest/previous_contest/<%=params[:id]%>'"/>
+                                     <%end%>
+                                       </label>                                     </td>
+                                     <td width="20" align="left" valign="top" scope="col"></td>
+                                   </tr>
+                                 </table></td>
+                               </tr>
+                              <tr>
+                                 <td height="30" align="left" valign="top" class="content" scope="col"></td>
+                              </tr>
+                            </table></td>
+                            <td width="16" align="left" valign="top" class="contest-right-br" scope="col">&nbsp;</td>
+                          </tr>
+                          <tr>
+                            <td height="15" colspan="3" align="left" valign="top" scope="col"><img src="/images/common/contest-btm-img.png" width="402" height="16" /></td>
+                            </tr>
+                        </table></td>
+                          </tr>
+                          <tr>
+                            <td align="left" valign="top">&nbsp;</td>
+                          </tr>
+
+                        </table>

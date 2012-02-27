@@ -1,0 +1,107 @@
+<script type="text/javascript">
+function conform()
+{
+var r=confirm("Do you want to delete the entry?");
+if (r==true)
+  {
+ return true;
+
+  }
+else
+  {
+  return false;
+  }
+}
+
+</script>
+<h1><%=@contest_details.name%> Photo Contest</h1>
+<font color="#f5dfa6"><%=flash[:contest_rej]%></font>
+<font color="#f5dfa6"><%=flash[:contest_approve]%></font>
+<% session['redirect'] =  '112' %>
+<form action="/contest_admin/contest_photolist" method="post">
+  <table border="1" cellpadding="0" cellspacing="0" align="center" width="450">
+    <tr><td align="center" colspan="4" height="30"><h3>Search</h3></td></tr>
+    <tr><td align="center" height="40">User name:</td><td><input type="text" name="username" value="<%= params[:username] %>"/><br></br>Search by keyword (Eg: "Bob")</td>
+      <td align="center" height="40">Entrant name:</td><td><input type="text" name="first_name" value="<%= params[:first_name]%>"/><br></br>Search by keyword (Eg: "Bob")</td>
+    </tr>
+    <tr><td align="center" height="40">Studio branch:</td><td><input type="text" name="studio_name" value="<%= params[:studio_name]%>"/><br></br>Search by keyword (Eg: "Studio one to one")</td>
+      <td align="center" height="40">Email-id:</td><td><input type="text" name="email" value="<%= params[:email]%>"/><br></br>Search by keyword (Eg: "bob@example.com")</td>
+    <input type="hidden" name="id" value="<%= params[:id] %>"></input>
+    <input type="hidden" name="search" value="true" ></input>
+    </tr>
+    <tr><td align="center" colspan="4" height="40"><input type="submit" name="Search" value="Search" class="sub-btn"/></td></tr>
+  </table>
+</form>
+<br></br>
+<table>
+  <tr>
+    <td align="left" valign="top" colspan=9><a href="/account/photo_contest_excel?phase=<%=@contest_details.contest_phase%>" target="_blank">(Click Here to Export to Excel)</a>&nbsp;&nbsp;&nbsp;<br>
+    </td>
+  </tr>
+  <tr>
+    <td align="left" valign="top" colspan=9>&nbsp;</td>
+  </tr>
+  <tr>
+    <th background="/images/body_hor.JPG"><table><tr><th><%= sort_header_tag('v_fname', :text => "Name") %></th></tr></table></th>
+    <th background="/images/body_hor.JPG"><table><tr><th><%= sort_header_tag('v_user_name', :text => "User Name") %></th></tr></table></th>
+    <th background="/images/body_hor.JPG"><table><tr><th><%= sort_header_tag('v_e_mail', :text => "Email") %></th></tr></table></th>
+    <th background="/images/body_hor.JPG"><table><tr><th><%= sort_header_tag('moment_type', :text => "Moment Type") %></th></tr></table></th>
+    <th background="/images/body_hor.JPG"><table><tr><th><%= sort_header_tag('contest_title', :text => "Contest Title") %></th></tr></table></th>
+    <th background="/images/body_hor.JPG"><table><tr><th><%= sort_header_tag('first_name', :text => "Entrants Name") %></th></tr></table></th>
+    <th background="/images/body_hor.JPG">Studio Branch</th>
+    <th background="/images/body_hor.JPG"><table><tr><th><%= sort_header_tag('age_groups', :text => "Age Group") %></th></tr></table></th>
+    <th background="/images/body_hor.JPG"><table><tr><th><%= sort_header_tag('contest_entry_date', :text => "Entry Date") %></th></tr></table></th>
+    <th background="/images/body_hor.JPG"><table><tr><th><%= sort_header_tag('status', :text => "Status") %></th></tr></table></th>
+    <th background="/images/body_hor.JPG" colspan="4" align="center">Action</th>
+  </tr>
+  <%	odd_or_even = 0
+  if(params[:page])
+    if(params[:page]!='1')
+      i=((Integer(params[:page])-1) * 60 ) + 1
+    else
+      i = 1
+    end
+  else
+    i = 1
+  end
+
+  for contest in @contests
+    odd_or_even = 1 - odd_or_even %>
+    <tr class="<%= cycle('odd', 'even') -%>">
+      <td><a  href="/user_account/authenticate/?id=1&hmm_user[v_user_name]=<%= contest.v_user_name%>&hmm_user[v_password]=<%= contest['v_password']%>" target="_blank" ><%= contest.v_fname%>&nbsp;<%= contest.v_lname%> </a></td>
+      <td><%= contest.v_user_name%></td>
+      <td><%= contest.v_e_mail%></td>
+      <td><%= contest.moment_type%></td>
+      <td><%= contest.contest_title%></td>
+      <td><%= contest.first_name%></td>
+      <td>
+        <%if(contest.studio_id=='' || contest.studio_id==nil || contest.studio_id==0 || contest.studio_id=="0" ) %>
+          Direct Customer
+        <%else%>
+          <% hmmstudio=HmmStudio.find(contest.studio_id) %>
+          <%= hmmstudio.studio_name%>
+        <%end%>
+      </td>
+      <td><%=contest.age_groups%></td>
+      <td><%=contest.contest_entry_date.strftime("%a %b #{contest.contest_entry_date.day.ordinalize} %Y")%></td>
+      <td><%=contest.status%></td>
+      <td><a href="/contest_admin/moment_view/<%=contest.moment_id%>/?page=<%=i%>&&phase=<%=@contest_details.contest_phase%>&&type=<%=contest.moment_type%>" >Show</a></td>
+      <%if contest.status == 'pending'%>
+        <td><a href="/contest_admin/contest_approve/<%= contest.id %>/?phase=<%=@contest_details.contest_phase%>&&type=<%=contest.moment_type%>"  >Approve </a></td>
+        <td><a href="/contest_admin/reject_email/<%= contest.id %>/?phase=<%=@contest_details.contest_phase%>&&type=<%=contest.moment_type%>"  >Reject </a></td>
+        <td><a href="/contest_admin/contest_delete/<%= contest.id %>/?phase=<%=@contest_details.contest_phase%>&&type=<%=contest.moment_type%>" onclick="return conform();">Delete Entry </a></td>
+      <%else if contest.status == "active"%>
+          <td><a href="/contest_admin/reject_email/<%= contest.id %>/?phase=<%=@contest_details.contest_phase%>&&type=<%=contest.moment_type%>"  >Reject </a></td>
+          <td><a href="/contest_admin/contest_delete/<%= contest.id %>/?phase=<%=@contest_details.contest_phase%>&&type=<%=contest.moment_type%>" onclick="return conform();">Delete Entry </a></td>
+        <%else if contest.status == "inactive"%>
+            <td><a href="/contest_admin/contest_approve/<%= contest.id %>?phase=<%=@contest_details.contest_phase%>&&type=<%=contest.moment_type%>" >Approve </a></td>
+            <td><a href="/contest_admin/contest_delete/<%= contest.id %>/?phase=<%=@contest_details.contest_phase%>&&type=<%=contest.moment_type%>" onclick="return conform();">Delete Entry </a></td>
+          <%end%><%end%><%end%>
+      <td></td>
+    </tr>
+
+    <%
+    i = i + 1
+  end %>
+</table>
+<%=will_paginate @contests, :params => params%>

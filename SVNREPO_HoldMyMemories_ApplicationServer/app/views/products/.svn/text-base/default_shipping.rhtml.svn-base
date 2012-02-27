@@ -1,0 +1,32 @@
+<h1>Manage Default Shipping</h1>
+
+
+<script type="text/javascript">
+function validate()
+{
+	if(document.getElementById('ship_price').value=='')
+	{
+		alert("Default Shipping Price is required");
+		document.getElementById('ship_price').focus();
+		return false;
+	}
+	
+}
+</script>
+
+
+
+<form name="frm" action="/products/update_default_shipping/" method="post" onsubmit="return validate();">
+
+<!--[form:product]-->
+<p><font color="red"><%=flash[:shipnotice]%></font>
+
+<p>
+<table>
+<tr><td>Shipping Price</td><td>:</td><td>$<input type="text" name="ship_price" id="ship_price" value="<%=@config.configuration_value%>" /></td></tr>
+<tr><td></td><td></td><td><input type="submit" name="sub" value="Update" /></td></tr>
+</table>
+</p>
+</form>
+<br>
+

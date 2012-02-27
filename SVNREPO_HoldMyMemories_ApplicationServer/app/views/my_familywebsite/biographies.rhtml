@@ -1,0 +1,379 @@
+<font color="#ff5b09"><%=flash[:share_familypage]%></font>
+<font color="#ff0000"><%=flash[:share_unsuccefull]%></font>
+<%= javascript_include_tag 'modalbox/prototype' %>
+<script type="text/javascript" src="/javascripts/modalbox/scriptaculous.js?load=effects"></script>
+<script type="text/javascript" src="/javascripts/modalbox/modalbox.js"></script>
+<%= stylesheet_link_tag 'modalbox/modalbox' %>
+<table width="100%" border="0" cellspacing="0" cellpadding="0">
+
+  <% for i in @hmmuserid%>
+    <tr>
+      <td width="233" align="left" valign="top" background="/images/left_cont2_bg2.gif">
+
+
+        <%if (@theme_check[0]['themes'] == 'familywebsite_pink_left' or @theme_check[0]['themes'] == 'familywebsite_brown_bar' or @theme_check[0]['themes'] == 'familywebsite_brown_left' or @theme_check[0]['themes'] == 'familywebsite_white_left' or @theme_check[0]['themes'] == 'familywebsite_brown_bar')%>
+        <%else%>
+
+          <table width="100%" border="0" cellspacing="0" cellpadding="0">
+
+            <tr>
+              <td align="left" valign="top"  id="left_hr_bg"><table width="100%" border="0" cellspacing="0" cellpadding="0">
+                  <tr>
+                    <td width="13" align="left" valign="top"></td>
+                    <td width="220" height="26" align="left" valign="middle" class="leftconthr">About Us</td>
+                  </tr>
+                </table></td>
+            </tr>
+            <tr>
+              <td align="left" valign="top" background="/images/left_cont_bg2.jpg" id="leftcontbg2"><table width="100%" border="0" cellpadding="0" cellspacing="0"  id="leftcontbg">
+                  <tr>
+                    <td align="left" valign="top"></td>
+                    <td height="18" align="left" valign="middle" class="leftcont"></td>
+                  </tr>
+                  <tr>
+                    <td width="13" align="left" valign="top"></td>
+
+
+
+                    <td width="220" height="100" align="left" valign="top" class="leftcont" style="text-align:justify">
+                      <%if @userid[0].about_family != '' %>
+                        <%=@userid[0].about_family%>
+                      <%else%>
+                                                      Thank-you for becoming an HMM member through
+                        <% if (@userid[0]['emp_id'] == '' || @userid[0]['emp_id'] == nil)%>
+                                                        Studio One to One.
+                        <%else%>
+                          <%@studio = EmployeAccount.find(:all, :conditions => "id='#{@userid[0]['emp_id']}' ")
+                          for l in @studio%>
+                            <%@hmm_studios = HmmStudio.find(:all, :conditions => "id='#{l.store_id}'")
+                            for j in @hmm_studios%>
+                              <%@hmm_studiogroups = HmmStudiogroup.find(:all, :conditions => "id='#{j.studio_groupid}'")
+                              for k in @hmm_studiogroups%>
+                                <%if k.hmm_franchise_studio == "S121"%>
+                                                                                                Studio One to One.
+                                <%elsif k.hmm_franchise_studio == "testing studio"%>
+                                                                                                Studio One to One.
+                                <%elsif k.hmm_franchise_studio == "click studios"%>
+                                                                                                Click Portrait Studio.
+                                <%end%>
+                              <%end%>
+                            <%end%>
+                          <%end%>
+                        <%end%>
+                                                      We work hard to capture memories that will last a lifetime!  Use your HMM
+                                                      site to hold personal memories (photos and videos) that are special to you, then share
+                                                      with your family and friends!
+                        <br>
+                                                      (Go to the "Manage My Site" button above to edit this section and tell us about your family!)
+                      <%end%>
+                    </td>
+
+
+                    <td width="13" align="left" valign="top"></td>
+                  </tr>
+                  <tr>
+                    <td align="left" valign="top"></td>
+                    <td height="25" align="left" valign="middle" class="leftcont"></td>
+                  </tr>
+
+
+
+
+
+                </table></td>
+            </tr>
+            <tr>
+              <td height="60" align="left" valign="top" ><table width="100%" border="0" cellspacing="0" cellpadding="0">
+                  <tr>
+                    <td height="23" colspan="4" align="left" valign="top"></td>
+                  </tr>
+                  <tr>
+                    <td width="13" align="right" valign="bottom">&nbsp;</td>
+                    <td width="159" align="left" valign="middle"><table width="159" border="0" cellspacing="0" cellpadding="0">
+                        <tr>
+                          <td width="18" align="right" valign="middle" >&nbsp;
+                            <!-- img src="/images/search_form_icon.gif" width="18" height="16" / --></td>
+                          <td width="134" height="16" align="left" valign="middle"><label>&nbsp;
+                              <!-- input name="textfield" type="text" class="searchbox"  style="border:0px;" id="textfield" / -->
+                            </label></td>
+                          <td width="11" align="left" valign="middle">&nbsp;
+                            <!-- img src="/images/search_form_cor.gif" width="7" height="16" / --></td>
+                        </tr>
+                      </table></td>
+                    <td width="34" align="right" valign="middle">&nbsp;
+                      <!--a href="#" onmouseout="MM_swapImgRestore()" onmouseover="MM_swapImage('Image20','','/images/search_family_ovr.gif',1)">
+                                    <img src="/images/search_family_def.gif" name="Image20" width="44" height="18" border="0" id="Image20" /></a --></td>
+                    <td width="24" align="left" valign="bottom"></td>
+                  </tr>
+                </table></td>
+            </tr>
+            <tr>
+              <td align="left" valign="top" id="left_hr_bg">
+                <table width="100%" border="0" cellspacing="0" cellpadding="0">
+                  <tr>
+                    <td width="13" align="left" valign="top"></td>
+                    <td width="220" height="26" align="left" valign="middle" class="leftconthr">Links</td>
+                  </tr>
+                </table></td>
+            </tr>
+
+
+            <tr>
+              <td align="left" valign="top">
+
+                <%if (@userid[0].v_link1 != '' || @userid[0].v_link2 != '' || @userid[0].v_link3 != '')%>
+                  <table width="100%" border="0" cellpadding="0" cellspacing="0"  id="leftcont2bg">
+                    <tr>
+                      <td align="left" valign="top"></td>
+                      <td height="18" align="left" valign="middle" class="leftcont"></td>
+                    </tr>
+                    <tr>
+                      <td width="13" align="left" valign="top"></td>
+                      <td width="220" align="left" valign="middle" class="leftcont2">
+
+                        <a href="http://<%= i.v_link1%>" target="_blank"  class="leftcont_link"><%= i.v_link1%></a><br />
+                        <a href="http://<%= i.v_link2%>" target="_blank"  class="leftcont_link"><%= i.v_link2%></a><br />
+                        <a href="http://<%= i.v_link3%>" target="_blank"  class="leftcont_link"><%= i.v_link3%></a></td>
+                    </tr>
+                    <tr>
+                      <td align="left" valign="top"></td>
+                      <td height="40" align="left" valign="middle" class="leftcont"></td>
+                    </tr>
+                    <tr>
+                      <td align="left" valign="top"></td>
+                      <td height="25" align="center" valign="middle" class="leftcont">
+
+                        </a>
+                    </tr>
+                    <tr>
+                      <td align="left" valign="top"></td>
+                      <td height="15" align="left" valign="middle" class="leftcont"></td>
+                    </tr>
+                  </table>
+
+                <%else%>
+                  <table width="100%" border="0" cellpadding="0" cellspacing="0" id="leftcont2bg">
+                    <tr>
+                      <td align="left" valign="top"></td>
+                      <td height="18" align="left" valign="middle" class="leftcont"><br>
+                        <% if (@userid[0]['emp_id'] == '' || @userid[0]['emp_id'] == nil)%>
+                          <a href="/book_sessions/create_booksession/<%=@family_name_tag%>" target="_blank" class="leftcont_link">
+                                                                                www.S121.com</a>
+                        <%else%>
+                          <%@studio = EmployeAccount.find(:all, :conditions => "id='#{@userid[0]['emp_id']}' ")
+                          for l in @studio%>
+                            <%@hmm_studios = HmmStudio.find(:all, :conditions => "id='#{l.store_id}'")
+                            for j in @hmm_studios%>
+                              <%@hmm_studiogroups = HmmStudiogroup.find(:all, :conditions => "id='#{j.studio_groupid}'")
+                              for k in @hmm_studiogroups%>
+                                <%if k.hmm_franchise_studio == "S121"%>
+                                  <a href="/book_sessions/create_booksession/<%=@family_name_tag%>" target="_blank" class="leftcont_link">
+                                                                                                                                www.S121.com</a>
+                                <%elsif k.hmm_franchise_studio == "testing studio"%>
+                                  <a href="/book_sessions/create_booksession/<%=@family_name_tag%>" target="_blank" class="leftcont_link">
+                                                                                                                                www.S121.com</a>
+                                <%elsif k.hmm_franchise_studio == "click studios"%>
+                                  <a href="http://www.clickportraitsnow.com" target="_blank" class="leftcont_link">www.ClickPortraitsNow.com</a>
+                                <%end%>
+                              <%end%>
+                            <%end%>
+                          <%end%>
+
+                        <%end%>
+                        <br /></td>
+                    </tr>
+                    <tr>
+                      <td width="13" align="left" valign="top"></td>
+                      <td width="220" align="left" valign="middle" class="leftcont2">
+                        <a href="/" target="_blank"  class="leftcont_link">www.HoldMyMemories.com</a><br />
+                      </td>
+                    </tr>
+                    <tr>
+                      <td align="left" valign="top"></td>
+                      <td height="40" align="left" valign="top" class="leftcont">
+                        <br />
+                      </td>
+                    </tr>
+                    <tr>
+                      <td align="left" valign="top"></td>
+                      <td height="25" align="center" valign="middle" class="leftcont">
+
+                        </a>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td align="left" valign="top"></td>
+                      <td height="15" align="left" valign="middle" class="leftcont"></td>
+                    </tr>
+                  </table>
+                <%end%>
+
+
+              </td>
+            </tr>
+
+
+          </table>
+        <%end%>
+
+
+      </td>
+      <td width="668" align="center" valign="top"><table width="632" border="0" cellspacing="0" cellpadding="0" >
+          <tr>
+            <td align="left" valign="top"><table width="100%" border="1" cellpadding="0" cellspacing="0" id="table_br">
+                <tr>
+                  <td align="left" valign="middle"  id="table_br" ><table width="100%" border="0" cellspacing="0" cellpadding="0">
+                      <tr>
+                        <td width="12" align="left" valign="top"></td>
+                        <td width="600" height="42" align="left" valign="middle" class="conthr_biog">The <%=i.v_lname.capitalize%>&rsquo;s History</td>
+                        <td width="14" align="left" valign="top"></td>
+                      </tr>
+
+                    </table></td>
+                </tr>
+                <tr>
+                  <td align="left" valign="middle"  id="table_br" ><table width="100%" border="0" cellspacing="0" cellpadding="0">
+
+                      <tr>
+                        <td width="12" align="left" valign="top"></td>
+                        <td width="600" align="left" valign="top"><table width="100%" border="0" cellspacing="0" cellpadding="0">
+
+                            <tr>
+                              <td align="left" valign="top"><table width="100%" border="0" cellspacing="0" cellpadding="0">
+                                  <tr>
+                                    <td height="20" align="left" valign="top"></td>
+                                  </tr>
+                                  <tr>
+                                    <td align="left" valign="top" class="cont" style="text-align:justify">
+                                      <%=i.family_history%>
+                                    </td>
+                                  </tr>
+
+
+                                  <tr>
+                                    <td height="20" align="left" valign="top" class="cont"></td>
+                                  </tr>
+
+                                </table></td>
+                            </tr>
+
+                          </table></td>
+                        <td width="14" align="left" valign="top"></td>
+                      </tr>
+                    </table>                          </td>
+                </tr>
+
+              </table></td>
+          </tr>
+          <% for j in @biographies%>
+            <tr>
+              <td height="20" align="left" valign="top"></td>
+            </tr>
+            <tr>
+              <td align="left" valign="top"><table width="100%" border="1" cellpadding="0" cellspacing="0" id="table_br">
+
+
+
+                </table></td>
+            </tr>
+
+
+            <tr>
+              <td height="20" align="left" valign="top">
+
+
+                <table width="100%" border="1" cellpadding="0" cellspacing="0" id="table_br">
+                  <tr>
+
+                    <td align="left" valign="middle"  id="table_br"><table width="100%" border="0" cellspacing="0" cellpadding="0">
+                        <tr>
+                          <td width="12" align="left" valign="top"></td>
+                          <td width="600" height="42" align="left" valign="middle" class="conthr_biog"><%=j.familymember_name%></td>
+                          <td width="14" align="left" valign="top"></td>
+                        </tr>
+
+                      </table></td>
+                  </tr>
+                  <tr>
+                    <td align="left" valign="middle"  id="table_br"><table width="100%" border="0" cellspacing="0" cellpadding="0">
+
+                        <tr>
+                          <td width="12" align="left" valign="top"></td>
+                          <td width="600" align="left" valign="top"><table width="100%" border="0" cellspacing="0" cellpadding="0">
+
+                              <tr>
+                                <td align="left" valign="top"><table width="100%" border="0" cellspacing="0" cellpadding="0">
+                                    <tr>
+                                      <td height="20" align="left" valign="top"></td>
+                                    </tr>
+
+
+                                    <tr>
+                                      <td align="left" valign="top" class="cont"><table width="100%" border="0" cellspacing="0" cellpadding="0">
+                                          <tr>
+                                            <td width="178" align="center" valign="top">
+                                              <a href="/my_familywebsite/subchapters/<%=j.chap_id%>?familyname=<%=params[:id]%>">
+                                                <img src="<%=j.img_url%>/hmmuser/family_members/thumbs/<%=j.member_image %>" border="0" onMouseDown="callme(this.id)" onContextMenu="return false;"/></a></td>
+                                            <td width="423" align="left" valign="top"><table width="100%" border="0" cellspacing="0" cellpadding="0">
+
+                                                <tr>
+                                                  <td align="left" valign="top" class="cont" >
+                                                    <%=j.biographie%>
+                                                  </td>
+                                                </tr>
+                                                <tr>
+                                                  <td height="20" align="left" valign="top"></td>
+                                                </tr>
+
+
+                                              </table>
+                                            </td>
+                                          </tr>
+                                        </table>
+                                      </td>
+                                    </tr>
+
+
+                                    <tr>
+                                      <td height="65" align="right" valign="middle" class="cont"><a href="/my_familywebsite/subchapters/<%=j.chap_id%>?familyname=<%=params[:id]%>" title="view chapter"><div class="view_chapter_btn"></div></a></td>
+                                    </tr>
+
+                                  </table></td>
+                              </tr>
+
+                            </table></td>
+                          <td width="14" align="left" valign="top"></td>
+                        </tr>
+                      </table>                          </td>
+
+                  </tr>
+
+                </table>
+              <%end%>
+            </td>
+          </tr>
+          <tr>
+            <td height="20" align="left" valign="top"></td>
+          </tr>
+          <tr>
+            <td align="left" valign="top"></td>
+          </tr>
+          <tr>
+             <td align="right" valign="top"><%= render :partial => "sharesocialnetwork" %></td>
+          </tr>
+          <tr>
+             <td align="left" valign="top"></td>
+          </tr>
+          <tr>
+            <td align="left" valign="top">
+            </td>
+          </tr>
+          <tr>
+            <td height="20" align="left" valign="top"></td>
+          </tr>
+        </table></td>
+    </tr>
+  </table>
+<%end%>
+
+

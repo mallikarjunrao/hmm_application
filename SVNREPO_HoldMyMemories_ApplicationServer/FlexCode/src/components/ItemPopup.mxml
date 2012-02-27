@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:TitleWindow xmlns:mx="http://www.adobe.com/2006/mxml" width="400" height="300" showEffect="{fade}" showCloseButton="true" close="handleCloseClick()">
+	<mx:Fade id="fade" alphaFrom="0" alphaTo="1" duration="1000"/>
+	
+	<mx:Script>
+		<![CDATA[
+			import mx.managers.PopUpManager;
+			
+			protected function handleCloseClick() : void
+			{
+				PopUpManager.removePopUp(this);
+			}
+			
+		]]>
+	</mx:Script>
+</mx:TitleWindow>

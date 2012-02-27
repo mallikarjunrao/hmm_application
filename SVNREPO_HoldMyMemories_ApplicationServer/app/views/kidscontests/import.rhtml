@@ -1,0 +1,54 @@
+<style type="text/css">
+  <!--
+  .style1 {
+    color: #ECE9D8;
+    font-weight: bold;
+  }
+  -->
+</style>
+<%if(@emails_list == '' || @emails_list == nil ) %>
+  <p align="center"><font color="white" size="3">Sorry, User name and password do not match!</font></p>
+<%else%>
+  <form name="frm" action="vote_request" method="post">
+    <input type="hidden" name="momentid" id="momentid" value="<%=params[:momentid]%>">
+    <table border="0" class="border">
+      <tr><td colspan="3"><font color="#ffffff" >Please select the check box next to your friends email address to invite them for voting on this contest entry.</font></td></tr>
+      <tr><td bgcolor="#333333"><span class="style1"><font color="##ffffff" size="2"  >Select</font></span></td>
+        <td bgcolor="#333333"><span class="style1"><font color="#ffffff" size="2" >Email Address</span>
+        <td bgcolor="#333333"><span class="style1"><font color="#ffffff" size="2" >Name</span></td>
+      </tr>
+      <%
+      j=0
+      for i in @emails_list %>
+        <tr bgcolor="#000000">
+          <td><input type="checkbox" name="email_id[]" id="email_id[]" value="<%=i%>" /></td>
+          <td align="left" ><font color="#ffffff" size="2" ><%=i%></font></td>
+          <td align="left"><font color="#ffffff" size="2" ><%=@email_names[j]%></font></td>
+        </tr>
+        <%
+        j=j+1
+      end
+    %>
+      <tr><td>&nbsp;</td></tr>
+      <%
+      childname=session[:vote_url].split('/')
+      i=childname.size
+      k=i-2
+      if(childname[k] == 'videomoment_details')
+        contesttitle = "Super Mom Super Dad 2010 Video contest"
+      else
+        contesttitle = "Super Mom Super Dad 2010 Photo contest"
+      end
+    %>
+
+      <% message = "Hello Friends!<br><br>I have entered my family in the HoldMyMemories.com #{contesttitle}. Please click the link below to vote for my family! <br><br> Thank-you!  " %>
+      <tr><td colspan="3"><table border="0">
+            <tr><td valign="top"><font color="#ffffff" size="2" >Message to your friend: </font></td><td><textarea id="message" name="message" cols="50" rows="6" ><%=message%></textarea> </td></tr>
+            <tr><td valign="top"><font color="#ffffff" size="2" >Contest entry link: </td><td><a href="<%=session[:vote_url]%>" target="_blank"><%=session[:vote_url]%></a> </font></td></tr>
+            <tr><td>&nbsp;</td></tr>
+            <tr><td>&nbsp;</td><td><input type="submit" name="sub" value="Invite To Vote" /></td></tr></table>
+        </td></tr>
+      <tr><td>&nbsp;</td></tr>
+    </table>
+  </form>
+<%end%>

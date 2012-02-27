@@ -1,0 +1,31 @@
+<table width="100%" cellpadding="0" cellspacing="0" border="0">
+	<tr valign="top" >
+		<td width="170" valign="top" >
+			<%= render :partial => "leftnav", :locals => { :current => "journal"} %>
+		</td>
+		<td valign="top">
+<%for @i in @gal_j 
+
+if(@i.v_gallery_image=='picture.png' || @i.v_gallery_image=='audio.png' ||@i.v_gallery_image=='video.png') 
+        			imgpath=@i.img_url + '/user_content/photos/icon_thumbnails/'+@i.v_gallery_image
+     			 else
+        			imageName  = @i.v_gallery_image
+        			imageName.slice!(-3..-1)
+        			 imgpath=@i.img_url + '/user_content/photos/icon_thumbnails/'+imageName+'png'
+    			 end
+
+%>
+<table align="left" align="100%"><tr><td><img src="<%=imgpath%>" width="80"/><td>
+<font size=5 color="#FFFFFF" style=face="Arial, Helvetica, sans-serif">
+&nbsp;&nbsp;Edit journal entry for "<%= @i.v_gallery_name %>" <!--Gallery--></font>
+</td></tr></table><br><br><br><br><br><br>
+<%end%>
+
+<% form_tag :action => 'update_gallery_journal' do %>
+<input type="hidden" name="familyname" id="familyname" value="<%=params[:id]%>">
+  <input type="hidden" name="jid" id="jid" value="<%=params[:jid]%>">
+  <%= render :partial => 'form_edit_gallery_journal' %>
+  
+<% end %>
+</td></tr></table>
+

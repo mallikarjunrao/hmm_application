@@ -1,0 +1,158 @@
+<script type="text/javascript">
+	function val_email()
+	{
+		if(document.getElementById('email').value == '')
+		{
+			alert('please enter your email id to vote!');
+			 return false;
+		}
+		{
+			var reg = /^([A-Za-z0-9_\-\.])+\@([A-Za-z0-9_\-\.])+\.([A-Za-z]{2,4})$/;
+			var address = document.getElementById('email').value;
+			if(reg.test(address) == false)
+			{
+				alert('Invalid Email Address')
+				;return false;
+			}
+		}
+	}
+</script>
+<%= javascript_include_tag 'modalbox/prototype' %>
+<script type="text/javascript" src="/javascripts/modalbox/scriptaculous.js?load=effects"></script>
+<script type="text/javascript" src="/javascripts/modalbox/modalbox.js"></script>
+<%= stylesheet_link_tag 'modalbox/modalbox' %>
+
+<%  session[:video_vote]='1'%>
+<%  session[:image_vote]=nil %>
+<% url="http://www.holdmymemories.com/my_familywebsite/videomoment_details/#{params[:id]}?familyname=#{params[:familyname]}" %>
+<% session[:vote_url] = url %>
+
+<%= javascript_include_tag 'modalbox/prototype' %>
+<script type="text/javascript" src="/javascripts/modalbox/scriptaculous.js?load=effects"></script>
+<script type="text/javascript" src="/javascripts/modalbox/modalbox.js"></script>
+<%= stylesheet_link_tag 'modalbox/modalbox' %>
+<p align="center">
+	<% session[:vote_url] = url %>
+	<!--<form id="myspacepostto" method="post" action="http://www.myspace.com/index.cfm?fuseaction=postto"
+target="_blank">
+<input type="hidden" name="t" value="Hi friends!!" />
+<input type="hidden" name="c" value="Please vote for this contest entry by clicking on the above given link: Thank you." />
+<input type="hidden" name="u" value="<%=url%>" />
+<input type="hidden" name="l" value="2" />
+	<font color="white" face="arial" size="3">Invite friends from
+	<a href="http://www.holdmymemories.com/face_book_invite/vote/?url=<%=url%>" target="_blank"><img src="/images/facebookhmmlogo.jpg"  border="0" /></a>&nbsp;
+	<a href="/contests/import_form/<%=params[:id]%>?url=<%=url%>"><img src="/images/gmail_yahoo_icon.jpg"   border="0" /></a>&nbsp;<a href="#" onclick="document.getElementById('myspacepostto').submit();return false;">
+<img src="/images/myspace_icon.jpg" border="0" alt="Post to MySpace!" />
+</a>to vote for &nbsp;<img src="/images/thats_my_baby_video.gif" border="0"  align="absmiddle"/>
+
+</font>
+</form>--></p>
+<table width="62%" align="center">
+	<tr><td>&nbsp;</td></tr>
+	<tr>
+		<td  align="left" ><img src="/images/family_video_contest_logo.jpg" border="0"> </td>
+	</tr>
+	<tr><td>&nbsp;</td></tr>
+
+
+	<tr>
+		<td align="center">
+			<input type="hidden" id="contentId" value="<%=@moment_details[0].img_url%>/user_content/videos/<%=@moment_details[0].v_filename%>.flv">
+										<input type="hidden" id="type" value="video">
+                                        <input type="hidden" id="proxyurl" value="<%=@moment_details[0].img_url%>">
+			<input type="hidden" id="swfName" value="/MediaPlayer">
+									<script src="/AC_OETags.js" language="JavaScript"></script>
+									<script src="DWConfiguration/ActiveContent/IncludeFiles/AC_RunActiveContent.js" type="text/javascript"></script>
+									<script type="text/javascript">
+										var galId = document.getElementById("contentId").value;
+										var flashName = document.getElementById("swfName").value;
+										var hmmtype = document.getElementById("type").value;
+                                        var proxyurl = document.getElementById("proxyurl").value;
+										AC_FL_RunContent( 'codebase','http://download.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=7,0,19,0',
+														'width','500',
+														'height','401',
+														'src', flashName,
+														'quality', 'high',
+														'pluginspage','http://www.macromedia.com/go/getflashplayer',
+														'movie',flashName,
+                                                        'bgcolor','#000000',
+														'wmode','transparent',
+														'allowFullScreen','true',
+														'flashvars', 'hmmtype='+hmmtype+'&content='+galId+"&hide_slideshow=1&proxyurl="+proxyurl
+														); //end AC code
+									</script><noscript><object classid="clsid:D27CDB6E-AE6D-11cf-96B8-444553540000" codebase="http://download.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=7,0,19,0" width="500" height="401">
+  									<param name="movie" value="/Chapter.swf" />
+									<param name="quality" value="high" />
+  									<param name="FlashVars"  />
+  									<embed src="/MediaPlayer.swf" quality="high" FlashVars=""  pluginspage="http://www.macromedia.com/go/getflashplayer" type="application/x-shockwave-flash" width="500" height="401"></embed>
+									</object></noscript>
+
+		</td>
+	</tr>
+	<tr><th>&nbsp;</th></tr>
+	 <tr>
+		 <td  align="center" valign="middle" colspan="3" >
+
+                                <a href="/my_familywebsite/vote/<%=@contests_fname[0].id%>?familyname=<%=params[:familyname]%>"  onclick="Modalbox.show(this.href, {title: 'My Image', width: 1000, height:1000}); return false;">
+					<img src="/images/vote_btn1.jpg" alt="vote" name="Image4413" width="61" height="20" border="0" id="Image4413" /></a>
+                                </td>
+
+	</tr>
+	<tr>
+		<th align="center" >
+			<%=@contests_fname[0].first_name %>
+		</th>
+	</tr>
+
+        <tr>
+         <td  align="center" valign="middle" >
+
+
+                                </td>
+                              </tr>
+       <tr><th>&nbsp;</th></tr>
+       <%for @j in @journal %>
+	<tr>
+		<th align="center" valign="middle" scope="col"><span class="heading-journal">
+
+			<table width="600" class="border">
+
+				<tr>
+					<th align="left" bgcolor="#191919" colspan="2">
+						<font size="3"> Journal</font>
+					</th>
+				</tr>
+				<tr><th colspan="2">&nbsp;</th></tr>
+				<tr>
+					<th>&nbsp;&nbsp;</th>
+					<th align="left" class="heading-journal">
+
+							 <%= @j.v_title %> -
+					  				<% ActiveSupport::CoreExtensions::Time::Conversions::DATE_FORMATS.merge!(
+    									:date => "%Y-%m-%d",
+    									:presentable_datetime => "%a %b %d, %Y %H:%M",
+    									:presentable_date => "%a %b %d, %Y")
+										@created_date=@j.date_added%>
+					   				<%= @created_date.to_s(:presentable_date) %></span>
+					</th>
+				</tr>
+				<tr><th colspan="2">&nbsp;</th></tr>
+				<tr>
+					<th>&nbsp;&nbsp;</th>
+					<th align="left">
+						<%=@j.v_image_comment.gsub("\n", "<br />\n") %>
+					</th>
+				</tr>
+				<tr><th>&nbsp;</th></tr>
+				<tr><th>&nbsp;</th></tr>
+			</table>
+		</th>
+	</tr>
+	<tr>
+		<th>
+			&nbsp;
+		</th>
+	</tr>
+
+	<%end%>
+</table>

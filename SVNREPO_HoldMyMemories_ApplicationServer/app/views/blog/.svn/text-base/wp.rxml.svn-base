@@ -1,0 +1,63 @@
+begin
+  headers['Content-Type'] = 'application/xml'; charset="utf-8";
+  headers['Content-Disposition'] = 'attachment; filename="wordpress.xml"'
+  headers['Cache-Control'] = ''
+rescue
+  logger.info("unable to create  these records")
+end
+
+xml.instruct!
+xml.rss("version"=>"2.0","xmlns:dc"=>"http://purl.org/dc/elements/1.1/","xmlns:excerpt"=>"http://wordpress.org/export/1.0/excerpt/","xmlns:content"=>"http://purl.org/rss/1.0/modules/content/","xmlns:wfw"=>"http://wellformedweb.org/CommentAPI/","xmlns:wp"=>"http://wordpress.org/export/1.0/") do
+
+
+  xml.channel do
+    xml.title("My Blogs")
+    xml.link("http://tech-shiku.blogspot.com/")
+    xml.description("Tesintng file")
+    xml.pubDate("Sun, 26 Sep 2010 23:19:04 -0700")
+    xml.generator("http://blogger2wordpress.appspot.com")
+    xml.language("en")
+    xml.wp:wxr_version,"1.0"
+
+    i=1
+    @allblogs.each do |blog|
+      xml.item do
+        xml.title(blog.title, "type" => "text")
+        xml.pubDate(blog.created_at.strftime("%Y-%m-%dT%I:%M:00"))
+        xml.dc:creator,blog.user_id
+        xml.content:encoded, blog.description
+        xml.post_id("post-#{i}")
+        xml.category("scheme"=>"http://schemas.google.com/g/2005#kind", "term"=>"http://schemas.google.com/blogger/2008/kind#post")
+     
+        xml.wp :post_id, blog.id
+        xml.wp :post_date, blog.created_at.strftime("%Y-%m-%d %H:%M:%S")
+        xml.wp :comment_status, 'closed'
+        xml.wp :ping_status, 'closed'
+        xml.wp :post_name, blog.title
+        xml.wp :status, 'publish'
+        xml.wp :post_parent, '0'
+        xml.wp :post_type, 'post'
+
+      end
+
+      j=1
+      @blogcomment=BlogComment.find(:all,:conditions=>"blog_id=#{blog.id}")
+      @blogcomment.each do |blogcomm|
+        xml.entry do
+          xml.category("scheme"=>"http://schemas.google.com/g/2005#kind", "term"=>"http://schemas.google.com/blogger/2008/kind#comment")
+          xml.id("post-#{i}.comment-#{j}")
+          xml.title(blog.title, "type" => "text")
+          xml.content:encoded, blogcomm.comment
+     
+          xml.published(blogcomm.created_at.strftime("%Y-%m-%dT%I:%M:00"))
+          xml.author do
+            xml.name(blogcomm.name, "type" => "text")
+          end
+        end
+        j=j+1
+      end
+      i = i+1
+    end
+  end
+end
+

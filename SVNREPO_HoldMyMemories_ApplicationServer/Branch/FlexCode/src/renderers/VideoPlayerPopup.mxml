@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:VBox xmlns:mx="http://www.adobe.com/2006/mxml" horizontalAlign="center" width="200" height="200" verticalScrollPolicy="off" horizontalScrollPolicy="off">
+		<mx:Canvas  id="videoPlayer" width="100%" height="100%" creationComplete="handleCreationComplete(event)" clipContent="true" verticalScrollPolicy="off" horizontalScrollPolicy="off">
+			<mx:VideoDisplay id="video" width="100%" height="100%" source="{videoSource}"  />
+		</mx:Canvas>
+		
+	<mx:Script>
+		<![CDATA[
+		
+			import mx.controls.Alert;
+			import mx.managers.PopUpManager;
+			import mx.controls.Label;
+			import mx.events.SliderEvent;
+			import mx.effects.Fade;
+			import mx.controls.Button;
+			import mx.controls.HSlider;
+			import mx.controls.VideoDisplay;
+			import mx.containers.HBox;
+		
+		private var hbox : HBox = new HBox();
+		private var volumeSlider : HSlider = new HSlider();
+		private var fil : BlurFilter = new BlurFilter();
+		private var play : Button = new Button();
+		private var time : Label;
+		[Bindable]
+		private var videoSource : String;
+		public function setVideoSrc(src : String): void
+    	{
+    		if(src != '' ) videoSource = src;
+    		else Alert.show("No Video selected!");
+    	}
+		
+		
+		private function handleCreationComplete(event : Event) : void
+		{
+			video.stop();
+			play.addEventListener(MouseEvent.CLICK, handlePlay);
+			play.width = 16;
+			play.height = 16;
+			play.styleName = "playPauseStyle";
+			play.toggle = true;
+			var stop : Button = new Button();
+			stop.addEventListener(MouseEvent.CLICK, handleStop);
+			stop.width = 16;
+			stop.height = 16;
+			stop.styleName = "stopStyle";
+			hbox.addChild(play);
+			hbox.addChild(stop);
+			video.playheadUpdateInterval = 1000;
+			time = new Label();
+			time.filters = [fil];
+		 	videoPlayer.addChild(hbox);
+			hbox.styleName = "controllerStyle";
+			var fadeIn1 : Fade = new Fade();
+			fadeIn1.alphaFrom = 0;
+			fadeIn1.alphaTo = 1;
+			hbox.setStyle("rollOverEffect", fadeIn1);
+			
+			hbox.percentHeight = 15;
+			var fadeOut1 : Fade = new Fade();
+			fadeOut1.alphaFrom = 1;
+			fadeOut1.alphaTo = 0.2;
+			hbox.setStyle("rollOutEffect", fadeOut1);
+		    hbox.x = (videoPlayer.width - hbox.width)/2;
+			hbox.y = (videoPlayer.height - hbox.height-  50);
+		    videoPlayer.clipContent = true;
+		   	//addVolumeslider();
+		   	//hbox.addChild(volumeSlider);
+		    hbox.addChild(time);
+		   
+		}
+		
+		private function handleReportUser(event : Event) : void
+		{
+			//dispatch the event to report user for now use  a alert box
+			Alert.show("Video deleted and User Flagged");
+		}
+		
+		private function handlePlay(event : Event) : void
+		{
+			if(video.playing)
+			{ 
+			 	video.pause();
+			}
+			else
+			{
+				video.play();
+			}
+		}
+		
+		private function handleStop(event : Event) : void
+		{
+			play.selected = false;
+			video.stop();
+		}
+			
+		private function addVolumeslider() : void
+ 		{
+ 			volumeSlider.width = 60;
+ 			volumeSlider.toolTip = " Volume";
+ 			volumeSlider.value = video.volume * 100;
+ 			volumeSlider.minimum = 0;
+			volumeSlider.maximum = 100;
+			volumeSlider.snapInterval = 1;
+			volumeSlider.tickInterval = 10; 
+			volumeSlider.liveDragging = true;
+			volumeSlider.addEventListener(SliderEvent.CHANGE, volumeChangeHandler);
+ 		}
+ 		
+ 		private function volumeChangeHandler(event : SliderEvent) : void
+ 		{
+ 			video.volume = event.value/100;
+ 		}
+ 		
+ 		override public function set data(value:Object):void
+ 		{
+ 			super.data = value;
+ 			setVideoSrc(value.icon);
+ 		}
+ 		
+		]]>
+	</mx:Script>
+</mx:VBox>

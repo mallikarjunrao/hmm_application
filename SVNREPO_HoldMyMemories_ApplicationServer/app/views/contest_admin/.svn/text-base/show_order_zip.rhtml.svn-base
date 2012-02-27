@@ -1,0 +1,9 @@
+<h2>Users Gallery Contents Zip file </h2>
+<table border="0" cellpadding="0" cellspacing="0" width="1100">
+  <tr class="<%= cycle('odd', 'even') %>"><th background="/images/body_hor.JPG">User Name</th><th background="/images/body_hor.JPG">Gallery Icon</th><th background="/images/body_hor.JPG">Gallery Name</th><th background="/images/body_hor.JPG">Download Link</th><th background="/images/body_hor.JPG">Download</th></tr>
+  <% for gallery in @galleries %>
+  <% @gallry_icon= Galleries.find(:first,:conditions=>"id=#{gallery.gallery_id}") %>
+   <% @hmmuser= HmmUser.find(:first,:conditions=>"id=#{gallery.user_id}") %>
+  <tr><td><%= @hmmuser.v_user_name%></td><td><img src="<%=@gallry_icon.img_url%>/user_content/photos/icon_thumbnails/<%=@gallry_icon.v_gallery_image%>"></td><td><%=@gallry_icon.v_gallery_name%></td><td><%=gallery.img_url%>/user_content/photos/order_prints/downloads/<%=gallery.file_name%></td><td><a href="<%=gallery.img_url%>/user_content/photos/order_prints/downloads/<%=gallery.file_name%>" target="_blank">Download</a></td></tr>
+  <%end%>
+</table>

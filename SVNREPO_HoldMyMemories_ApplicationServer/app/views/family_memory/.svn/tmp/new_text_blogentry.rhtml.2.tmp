@@ -1,0 +1,126 @@
+<%= javascript_include_tag 'themes/formcheck/core' %>
+<%= javascript_include_tag 'themes/formcheck/more' %>
+<%= javascript_include_tag 'themes/formcheck/en' %>
+<%= javascript_include_tag 'themes/formcheck/formcheck' %>
+<%= stylesheet_link_tag 'themes/formcheck/formcheck'%>
+  <script type="text/javascript">
+    function check()
+    {
+      if(document.getElementById('title').value=='')
+      {
+        alert('Please enter title!');
+        document.getElementById('title').focus();
+        return false;
+      }
+      if(document.getElementById('desc').value=='')
+      {
+        alert('Please enter Description!');
+        document.getElementById('desc').focus();
+        return false;
+      }
+      return true;
+    }
+
+    function close_modal()
+    {
+      $j.nyroModalRemove();
+      //window.location.reload();
+    }
+  </script>
+<% unless flash[:message].blank?%>
+  <table align="center" cellpadding="4" cellspacing="4">
+    <tr ><td height="200" valign="middle" class="content" align="center"><%= flash[:message] %><br/><br/><br/><a href="#" class="nyroModalClose">( close )</a></td></tr>
+  </table>
+  <% flash[:message] = ""
+else %>
+  <table width="100%" border="0" cellspacing="0" cellpadding="0" style="color:#000000">
+    <tr>
+      <td height="10" align="left" valign="top"></td>
+    </tr>
+    <tr>
+      <td height="35" align="left" valign="bottom" class="msgHead">Create a text blog entry</td>
+    </tr>
+    <tr>
+      <td height="10" align="center" valign="top" class="error-message"><%=flash[:message]%></td>
+    </tr>
+    <tr>
+      <td height="10" align="left" valign="top"></td>
+    </tr>
+    <tr>
+      <td height="1" align="left" valign="top" bgcolor="#454545"></td>
+    </tr>
+    <tr>
+      <td height="10" align="left" valign="top"></td>
+    </tr>
+    <tr>
+      <td align="left" valign="top"><table width="100%" border="0" cellspacing="0" cellpadding="0">
+          <tr>
+            <td height="10" align="left" valign="top"></td>
+          </tr>
+          <tr>
+            <td align="left" valign="top" class="content-trans-bg"><table width="100%" border="0" cellspacing="0" cellpadding="0">
+                <tr>
+                  <td width="30" align="left" valign="top">
+
+                    <form name="frm" id="frm" action="/family_memory/new_text_blogentry/<%=params[:id]%>" method="post">
+                      <table width="100%" border="0" cellspacing="0" cellpadding="0">
+                        <tr>
+                          <td align="left" valign="top">&nbsp;</td>
+                        </tr>
+                        <tr>
+                          <td height="25" align="left" valign="top" class="msgHead">Title </td>
+                        </tr>
+                        <tr>
+                          <td align="left" valign="top">
+                            <input type="text" name="title" id="title"   />
+                          </td>
+                        </tr>
+                        <tr>
+                          <td align="left" valign="top">&nbsp;</td>
+                        </tr>
+                        <tr>
+                          <td height="25" align="left" valign="top" class="msgHead">Blog Entry Date</td>
+                        </tr>
+                        <tr>
+                          <td align="left" valign="top"><%= date_select "blog", "added_date", :order => [:month, :day, :year], :start_year => Time.now.year - 100, :end_year => Time.now.year   %></td>
+                        </tr>
+                        <tr>
+                          <td align="left" valign="top">&nbsp;</td>
+                        </tr>
+                        <tr>
+                          <td height="25" align="left" valign="top" class="msgHead">Description</td>
+                        </tr>
+                        <tr>
+                          <td align="left" valign="top"><label>
+
+                              <textarea name="desc"  id="desc"  rows="10" cols="80"></textarea>
+
+                            </label></td>
+                        </tr>
+                        <tr>
+                          <td align="left" valign="top">&nbsp;</td>
+                        </tr>
+                        <tr>
+                          <td align="center" valign="top"><label>
+                              <input type="submit" class="cmnBtnB cmnBtnMar" value="Submit" onclick="return check();"/>
+                              &nbsp;
+                              <input type="button" class="cmnBtnB cmnBtnMar nyroModalClose" value="Cancel" />
+                            </label></td>
+                        </tr>
+                        <tr>
+                          <td align="left" valign="top">&nbsp;</td>
+                        </tr>
+                      </table></form></td>
+                </tr>
+              </table></td>
+          </tr>
+          <tr>
+            <td align="left" valign="top">&nbsp;</td>
+          </tr>
+
+        </table></td>
+    </tr>
+
+  </table>
+
+<% end %>

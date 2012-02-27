@@ -1,0 +1,41 @@
+begin
+  headers['Content-Type'] = 'application/xml';
+  headers['Content-Disposition'] = 'attachment; filename="blogspot-'+Time.now.strftime("%m-%d-%Y")+'.xml"'
+  headers['Cache-Control'] = ''
+rescue
+  logger.info("unable to create excel sheet for these records")
+end
+xml.instruct! :xml, :version=>"1.0"
+xml.feed("xmlns"=>'http://www.w3.org/2005/Atom') do
+  xml.title("My Blogs","type"=>"html")
+  xml.updated("2010-09-23T07:35:45")
+  xml.generator("Blogger")
+  i=1
+  @allblogs.each do |blog|
+    xml.entry do
+
+      xml.category("scheme"=>"http://schemas.google.com/g/2005#kind", "term"=>"http://schemas.google.com/blogger/2008/kind#post")
+      xml.id("post-#{i}")
+      xml.content(blog.description, "type" => "html")
+      xml.published(blog.created_at.strftime("%Y-%m-%dT%I:%M:00"))
+      xml.title(blog.title, "type" => "text")
+    end
+    j=1
+    @blogcomment=BlogComment.find(:all,:conditions=>"blog_id=#{blog.id}")
+    @blogcomment.each do |blogcomm|
+      xml.entry do
+        xml.category("scheme"=>"http://schemas.google.com/g/2005#kind", "term"=>"http://schemas.google.com/blogger/2008/kind#comment")
+        xml.id("post-#{i}.comment-#{j}")
+        xml.title(blog.title, "type" => "text")
+        xml.content(blogcomm.comment, "type" => "html")
+        xml.published(blogcomm.created_at.strftime("%Y-%m-%dT%I:%M:00"))
+        xml.author do
+          xml.name(blogcomm.name)
+        end
+      end
+      j=j+1
+    end
+    i = i+1
+  end
+
+end

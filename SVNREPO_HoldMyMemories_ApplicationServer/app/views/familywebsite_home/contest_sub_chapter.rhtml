@@ -1,0 +1,198 @@
+<link href="/stylesheets/main.css" media="screen" rel="Stylesheet" type="text/css" />
+<link href="/stylesheets/hmm.css" media="screen" rel="Stylesheet" type="text/css" />
+<link href="/stylesheets/mystyle_black_left.css" rel="stylesheet" type="text/css" />
+<%= stylesheet_link_tag 'hmmout' %>
+
+
+<table width="970" border="0" cellspacing="0" cellpadding="0" id="tab_bgcolor_repeat">
+  
+  <tr>
+    <td align="left" valign="top"><table width="100%" border="0" cellspacing="0" cellpadding="0">
+        <tr>
+          <td width="13" align="left" valign="top"></td>
+          <td width="944" align="left" valign="top"><table width="100%" border="0" cellspacing="0" cellpadding="0">
+              <tr>
+                <td height="10" align="left" valign="top"></td>
+              </tr>
+              <tr>
+                <td height="35" align="left" valign="bottom" class="header-page">Manage My Site</td>
+              </tr>
+              <tr>
+                <td height="10" align="left" valign="top"></td>
+              </tr>
+              <tr>
+                <td height="1" align="left" valign="top" bgcolor="#454545"></td>
+              </tr>
+              <tr>
+                <td height="10" align="left" valign="top"></td>
+              </tr>
+              <tr>
+                <td align="left" valign="top"><table width="100%" border="0" cellspacing="0" cellpadding="0">
+                    <tr>
+                      <td width="173" align="left" valign="top" id="tab_bgcolor_repeat">
+                        <%= render :partial => "partials/manage_website_menu", :locals => { :current_item => "#{@current_item}"} %>
+                      </td>
+                      <td width="17" align="left" valign="top"></td>
+                      <td width="754" align="left" valign="top"><table width="100%" border="0" cellspacing="0" cellpadding="0">
+                          <tr>
+                            <td class="content-trans-bg"><table width="100%" border="0" cellspacing="0" cellpadding="0">
+                                <tr>
+                                  <td height="10" colspan="3" align="left" valign="top"></td>
+                                </tr>
+                                <tr>
+                                  <td width="20" align="left" valign="top"></td>
+                                  <td align="left" valign="top"><% for i in @chapter_belongs_to%>
+
+<%end%>
+<%chap_check = Tag.count(:all, :conditions => "id=#{params[:tagid]} and uid=#{logged_in_hmm_user.id} ")
+if chap_check == 1
+%>
+
+          <table align="center" width="700" border="0" cellspacing="0" cellpadding="0">
+<input type="hidden" name="order" value="<%=params[:order]%>" />
+
+
+<tr>
+		<td valign="middle" colspan="2"> 
+			<table align="left"><tr>
+		
+			<%= sort_header_tag('d_updated_on', :text => "<img  src='/images/date1_sort.gif' border='0'/>", :tagid => params[:tagid], :tagtype => params[:tagtype]) %>
+&nbsp;&nbsp;&nbsp;&nbsp;
+<%= sort_header_tag('sub_chapname', :text => "<img  src='/images/name1_sort.gif'   border='0'/>" , :tagid => params[:tagid], :tagtype => params[:tagtype])  %>
+</tr></table>
+		</td>
+		
+		
+	</tr>
+
+    
+	<tr>
+		<% @tag = Tag.find(:all, :conditions => "id=#{params[:tagid]}")
+		for @i in @tag 
+			@chapname=@i.v_tagname
+		%><th height="10" valign="top" colspan="2" align="left"><font size="3"></font></th>
+		
+		<%end%></tr>
+<tr>
+ 
+  <th height="128" align="left" valign="top" scope="col" colspan="4">
+	 <table width="99%" border="0"  cellspacing="0" align="left" cellpadding="0">
+        <tr>
+           <th height="4" colspan="10" align="left" valign="top" scope="col" ></th>
+        </tr>   <tr>
+                     <th height="9"  align="left" valign="top" scope="col">&nbsp;&nbsp;&nbsp;&nbsp;</th><th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th><th></th><th></th><th></th>
+                    </tr>
+      		<% 
+				j=0	
+				if @total == 0 %>
+				<p>No items found...</p>
+			<% else %>
+ 			   <% @subchaps.each do |@sub_chapter|
+			   
+			   
+			%>
+			<% if j == 0 %>
+
+			<tr>
+
+			<% else if j >= 3 
+			j=0
+				
+			%>
+            </tr>
+				<tr>
+					<th height="20"  align="center" valign="top" scope="col" ></th><th></th><th></th>
+	   <th></th>
+	   <th></th>
+	   <th></th>
+	   <th></th>
+	   <th></th>
+	   <th></th>
+	   <th></th>
+	   <th></th>
+	   <th></th>
+                </tr>
+			<tr>
+			<% end %>	
+			<% end %>
+			
+            <th width="2%" align="left" valign="top" scope="col"><% j=j+1%></th>
+            <th width="73" align="left" valign="top" scope="col" >
+            	<%gal =  Galleries.count(:all, :conditions => "subchapter_id=#{@sub_chapter.id} and e_gallery_type='#{session[:contests_type]}'")%>
+				<%gallery =  Galleries.find(:all, :conditions => "subchapter_id=#{@sub_chapter.id} and e_gallery_type='#{session[:contests_type]}'")%>
+			    <%for v in gallery%>
+				
+				<% if gal > 1%>
+            	<a href='/<%=familywebsite_controller_name%>/contest_gallery/<%=params[:id]%>?subchapid=<%=  @sub_chapter.id %>'>
+				<%else%>
+				<a href='/<%=familywebsite_controller_name%>/contest_moments/<%=params[:id]%>?moment_id=<%= v.id %>' >
+
+            	<%end%>	<%end%>
+            		<img src="<%= @sub_chapter.img_url %>/user_content/photos/icon_thumbnails/<%= @sub_chapter.v_image %>" border="0" /></a></th>
+            <th width="10" align="left" valign="top" scope="col">&nbsp;</th>
+            <th width="139" align="left" valign="top" scope="col">
+            	<table width="100%" border="0" cellspacing="0" cellpadding="0">
+                	<tr>
+                		<th height="13" align="left" valign="top" scope="col"></th>
+                	</tr>
+                	<tr>
+               		  <th height="21" align="left" valign="top" class="content-white" scope="col" ><strong><%= @sub_chapter.sub_chapname %></strong></th>
+                 	</tr>
+					
+                    <tr>
+                 	  <th align="left" valign="top" class="content-note" scope="col" colspan="2">last updated <br>
+					  <%= @sub_chapter.d_updated_on.strftime("%a %b #{@sub_chapter.d_updated_on.day.ordinalize} %Y,   %I:%M %p") %>
+					  </th>
+                    </tr>
+              </table>			 </th>
+   <% end %></tr>	  
+    </table></th>
+  </tr>
+  <tr>
+  
+    	<th valign="bottom" scope="col" align="center" colspan="10" class="content">
+		<%=will_paginate @subchaps%></th>
+</th>
+  </tr>
+ </table>
+      <% end %> 
+<%else%>
+<p>Records not found</p>
+<%end%>
+	  <table border="0"><tr><th colspan="5">&nbsp;</th></tr></table>
+	  
+	  
+
+</td>
+                                  <td width="20" align="left" valign="top"></td>
+                                </tr>
+                                <tr>
+                                  <td height="10" colspan="3" align="left" valign="top"></td>
+                                </tr>
+
+                              </table></td>
+                          </tr>
+                          <tr>
+                            <td>&nbsp;</td>
+                          </tr>
+                        </table></td>
+                    </tr>
+                    <tr>
+                      <td align="left" valign="top">&nbsp;</td>
+                      <td align="left" valign="top"></td>
+                      <td align="left" valign="top">&nbsp;</td>
+                    </tr>
+                  </table></td>
+              </tr>
+
+            </table></td>
+          <td width="13" align="left" valign="top"></td>
+        </tr>
+      </table></td>
+  </tr>
+</table>

@@ -1,0 +1,228 @@
+
+xml.instruct! :xml, :version=>"1.0"
+xml.root {
+  #chapters listing
+  xml.chapters{
+  xml.userid("#{@userid}")
+  for chapter_value in @results
+    xml.chapter{
+      xml.id(chapter_value.id)
+      xml.access(chapter_value.e_access)
+      xml.name(chapter_value.v_tagname)
+      xml.icon(chapter_value.img_url + "/user_content/photos/icon_thumbnails/#{chapter_value.v_chapimage}")
+      xml.tags(chapter_value.v_chapter_tags)
+      xml.description(chapter_value.v_desc)
+      xml.defaulttag(chapter_value.default_tag)
+      xml.tagtype(chapter_value.tag_type)
+      
+       if (chapter_value.tag_type != "chapter")
+         @sub_chapters = UserContent.find(:all, :conditions => "tagid = #{chapter_value.id} and status='active' " , :order => 'id' )
+                #files within Gallery
+                xml.subchapters{
+                 for user_content in @sub_chapters
+                  xml.subchapter{
+                   xml.id("#{user_content.id}")
+                   xml.access(user_content.e_access)
+                   xml.galleryid(user_content.gallery_id)
+                   xml.name("#{user_content.v_tagphoto}")
+                   xml.type("#{user_content.e_filetype}")
+                   if(user_content.e_filetype == "image")
+                    xml.icon(user_content.img_url + "/user_content/photos/big_thumb/#{user_content.v_filename}")
+                   end
+                   if(user_content.e_filetype == "video" || user_content.e_filetype == "swf")
+                    xml.icon(user_content.img_url + "/user_content/videos/thumbnails/#{user_content.v_filename}.jpg")
+                  end
+                  if(user_content.e_filetype == "audio")
+                    xml.icon(user_content.img_url + "/user_content/audios/#{user_content.v_filename}")
+                  end
+                   xml.tags(user_content.v_tagname)
+                   xml.description(user_content.v_desc)
+                   xml.creationdate(user_content.d_momentdate)
+                  }
+                 end
+                }
+       else
+       
+       
+      @sub_chapters = SubChapter.find(:all ,:conditions =>" tagid = #{chapter_value.id} and status='active'" )
+      #subchapters listing
+      xml.subchapters{
+         for subchapter123 in @sub_chapters
+           xml.subchapter{
+            xml.id(subchapter123.id)
+            xml.tagid(subchapter123.tagid)
+            xml.access(subchapter123.e_access)
+            xml.name(subchapter123.sub_chapname)
+            xml.icon(subchapter123.img_url + "/user_content/photos/icon_thumbnails/#{subchapter123.v_image}")
+            xml.tags(subchapter123.v_subchapter_tags)
+            xml.description(subchapter123.v_desc)
+            
+            @galleries = Galleries.find(:all ,:conditions =>"subchapter_id = #{subchapter123.id} and status='active'", :order =>'e_gallery_type')
+            #galleries listing
+            xml.galleries{
+             for gallery123 in @galleries
+              xml.gallery{
+                xml.id(gallery123.id)
+                xml.access(gallery123.e_gallery_acess)
+                xml.galleryid(gallery123.subchapter_id)
+                xml.name(gallery123.v_gallery_name)
+                xml.icon(gallery123.img_url + "/user_content/photos/icon_thumbnails/#{gallery123.v_gallery_image}")
+                xml.type(gallery123.e_gallery_type)
+                xml.tags(gallery123.v_gallery_tags)
+                xml.subchapterid(gallery123.subchapter_id)
+                xml.description(gallery123.v_desc)
+                @user_content = UserContent.find(:all, :conditions => "gallery_id = #{gallery123.id} and status='active' " , :order => 'id' )
+                #files within Gallery
+                xml.files{
+                 for user_content in @user_content
+                  xml.file{
+                   xml.id("#{user_content.id}")
+                   xml.access(user_content.e_access)
+                   xml.galleryid(user_content.gallery_id)
+                   xml.name("#{user_content.v_tagphoto}")
+                   xml.type("#{user_content.e_filetype}")
+                   if(user_content.e_filetype == "image")
+                    xml.icon(user_content.img_url + "/user_content/photos/big_thumb/#{user_content.v_filename}")
+                   end
+                   if(user_content.e_filetype == "video" || user_content.e_filetype == "swf")
+                    xml.icon(user_content.img_url + "/user_content/videos/thumbnails/#{user_content.v_filename}.jpg")
+                  end
+                  if(user_content.e_filetype == "audio")
+                    xml.icon(user_content.img_url + "/user_content/audios/#{user_content.v_filename}")
+                  end
+                   xml.tags(user_content.v_tagname)
+                   xml.description(user_content.v_desc)
+                   xml.creationdate(user_content.d_momentdate)
+                  }
+                 end
+                }
+               }
+            end
+           }
+          }
+       end
+     }
+     end
+   }
+ end
+ }
+}
+
+#
+#xml.instruct! :xml, :version=>"1.0"
+#xml.root {
+#  #chapters listing
+#  
+#  xml.chapters{
+#  xml.userid("#{@userid}")
+#  chapid=''
+#  subid=''
+#  for chapter_value in @results
+#    
+#    if(chapid!=chapter_value.tagid)
+#     xml.chapter{
+#       xml.id("#{chapter_value.tagid}")
+#       xml.access(chapter_value.e_access)
+#       xml.name(chapter_value.v_tagname)
+#       xml.icon("/user_content/photos/icon_thumbnails/#{chapter_value.v_chapimage}")
+#       xml.tags(chapter_value.v_chapter_tags)
+#       xml.description(chapter_value.v_desc)
+#       xml.subchapter{
+#             xml.id("#{chapter_value.subid}")
+#             xml.tagid(chapter_value.chapinsub)
+#             xml.access(chapter_value.e_access)
+#             xml.name("#{chapter_value.sub_chapname}")
+#             xml.icon("/user_content/photos/icon_thumbnails/#{chapter_value.v_image}")
+#             xml.tags(chapter_value.v_subchapter_tags)
+#             xml.description(chapter_value.v_desc)
+#         }
+#      } 
+#    else
+#       if(subid!=chapter_value.subid && chapid==chapter_value.chapinsub)
+#        xml.subchapter{
+#             xml.id("#{chapter_value.subid}")
+#             xml.tagid(chapter_value.chapinsub)
+#             xml.access(chapter_value.e_access)
+#             xml.name("#{chapter_value.sub_chapname}")
+#             xml.icon("/user_content/photos/icon_thumbnails/#{chapter_value.v_image}")
+#             xml.tags(chapter_value.v_subchapter_tags)
+#             xml.description(chapter_value.v_desc)
+#         }
+#        end
+#    end 
+#       chapid=chapter_value.tagid
+#       subid=chapter_value.subid
+#    
+#    
+#   end
+#   }
+#   }
+#  
+#
+#
+#
+##
+##      
+##      
+##      @sub_chapters = SubChapter.find(:all ,:conditions =>" tagid = #{chapter_value.id} and status='active'")
+##      #subchapters listing
+##      xml.subchapters{
+##         for subchapter123 in @sub_chapters
+##           xml.subchapter{
+##            xml.id("#{subchapter123.id}")
+##            xml.tagid(subchapter123.tagid)
+##            xml.access(subchapter123.e_access)
+##            xml.name("#{subchapter123.sub_chapname}")
+##            xml.icon("/user_content/photos/icon_thumbnails/#{subchapter123.v_image}")
+##            xml.tags(subchapter123.v_subchapter_tags)
+##            xml.description(subchapter123.v_desc)
+##            @galleries = Galleries.find(:all ,:conditions =>"subchapter_id = #{subchapter123.id} and status='active'", :order =>'e_gallery_type')
+##            #galleries listing
+##            xml.galleries{
+##             for gallery123 in @galleries
+##              xml.gallery{
+##                xml.id("#{gallery123.id}")
+##                xml.access(gallery123.e_gallery_acess)
+##                xml.galleryid(gallery123.subchapter_id)
+##                xml.name("#{gallery123.v_gallery_name}")
+##                xml.icon("/user_content/photos/icon_thumbnails/#{gallery123.v_gallery_image}")
+##                xml.type("#{gallery123.e_gallery_type}")
+##                xml.tags(gallery123.v_gallery_tags)
+##                xml.subchapterid(gallery123.subchapter_id)
+##                xml.description(gallery123.v_desc)
+##                @user_content = UserContent.find(:all, :conditions => "gallery_id = #{gallery123.id} and status='active' " , :order => 'id' )
+##                #files within Gallery
+##                xml.files{
+##                 for user_content in @user_content
+##                  xml.file{
+##                   xml.id("#{user_content.id}")
+##                   xml.access(user_content.e_access)
+##                   xml.galleryid(user_content.gallery_id)
+##                   xml.name("#{user_content.v_tagphoto}")
+##                   xml.type("#{user_content.e_filetype}")
+##                   if(user_content.e_filetype == "image")
+##                    xml.icon("/user_content/photos/big_thumb/#{user_content.v_filename}")
+##                   end
+##                   if(user_content.e_filetype == "video" || user_content.e_filetype == "swf")
+##                    xml.icon("/user_content/videos/thumbnails/#{user_content.v_filename}.jpg")
+##                  end
+##                  if(user_content.e_filetype == "audio")
+##                    xml.icon("/user_content/audios/#{user_content.v_filename}")
+##                  end
+##                   xml.tags(user_content.v_tagname)
+##                   xml.description(user_content.v_desc)
+##                   xml.creationdate(user_content.d_momentdate)
+##                  }
+##                 end
+##                }
+##               }
+##            end
+##           }
+##          }
+##       end
+##     }
+##   }
+## end
+## }
+##}
+##

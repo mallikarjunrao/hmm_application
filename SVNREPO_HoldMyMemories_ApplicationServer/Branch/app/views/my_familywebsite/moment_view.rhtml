@@ -1,0 +1,355 @@
+<p><%=flash[:share_familypage]%></p>
+<% 
+if @norecords=="" 
+for @i in @user_content
+
+ #code added to display the count of views in gallery
+   @view_count = @usercontent.views + 1
+   sql = ActiveRecord::Base.connection()
+	tm=Time.now
+tm=tm.strftime("%Y-%m-%d %I:%M:%S")
+puts tm
+   if(session[:friend]==nil || session[:friend]=='')	 
+   else
+	  sql.update "insert into memories_count (usercontent_id, content_type, user_id, view_type, view_date) values('#{@i.id}','#{@i.e_filetype}','#{session[:friend]}', 'friend', '#{tm}')"
+   end
+   
+   if(session[:shid]==nil || session[:shid]=='')	
+   else
+	sql.update "insert into memories_count (usercontent_id, content_type, user_id, view_type, view_date) values('#{@i.id}','#{@i.e_filetype}','0','friend', '#{tm}')"
+   end
+  
+   if((session[:friend]==nil || session[:friend]=='') && (session[:shid]==nil || session[:shid]==''))
+  	sql.update "insert into memories_count (usercontent_id, content_type, user_id, view_type, view_date) values('#{@i.id}','#{@i.e_filetype}','#{logged_in_hmm_user.id}', 'self', '#{tm}')"
+   end
+	
+
+
+%>
+
+<%@type = @i.e_filetype%>
+
+<script src="/AC_OETags.js" language="JavaScript"></script>
+<script src="DWConfiguration/ActiveContent/IncludeFiles/AC_RunActiveContent.js" type="text/javascript"></script>
+ <font color="#f5dfa6"><%= flash[:share_moment123] %></font>
+<table width="100%" align="center" border="0" cellspacing="0" cellpadding="0">
+	<tr>
+		<th>
+			
+		</th>
+	</tr>
+     <tr>
+         <th height="276" colspan="3" align="left" valign="top" scope="col" >   
+		                                    
+			<table width="95%" align="center" border="0" cellspacing="0" cellpadding="0">
+				<tr>
+					
+              		<th height="12" colspan="9" align="center" valign="top" class="btmtxt" scope="col">
+              			
+              		</th>
+              	</tr>
+            	<tr>
+              		<th align="center" colspan="9" valign="top" scope="col" >
+						<table width="100%" border="0" align="center" cellspacing="0" cellpadding="0">
+							<tr  background="/images/bg_chapter1_photo1.jpg">
+                            	<th width="44" height="44" valign="top"><br>
+									<%= link_to '<img src="/images/arrow_left_def.png" name="Image23"  border="0" id="Image23" />', { :page => @user_content_pages.current.previous, :id => params[:id] },{ :onMouseOver => "MM_swapImage('Image23','','/images/arrow_left_over.png',1)"} if @user_content_pages.current.previous %>
+								</th>
+								<th colspan="5" align="center" valign="middle" scope="col" >
+           					  	<%if (@i.e_filetype=="video" || @i.e_filetype=='audio')%>
+									
+									
+									<%if (@i.e_filetype == "video")%>
+										<input type="hidden" id="contentId" value="/user_content/videos/<%=@i.v_filename%>.flv">
+										<input type="hidden" id="type" value="video">
+									<% elsif( @i.e_filetype == "audio")%>
+										<input type="hidden" id="contentId" value="/user_content/audios/<%=@i.v_filename%>">
+										<input type="hidden" id="type" value="audio">
+									<%end%>
+								
+									<input type="hidden" id="swfName" value="/MediaPlayer">
+									<script src="/AC_OETags.js" language="JavaScript"></script>
+									<script src="DWConfiguration/ActiveContent/IncludeFiles/AC_RunActiveContent.js" type="text/javascript"></script>
+									<script type="text/javascript">
+										var galId = document.getElementById("contentId").value;
+										var flashName = document.getElementById("swfName").value;
+										var hmmtype = document.getElementById("type").value;
+										AC_FL_RunContent( 'codebase','http://download.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=7,0,19,0',
+														'width','500',
+														'height','401',
+														'src', flashName,
+														'quality', 'high',
+														'pluginspage','http://www.macromedia.com/go/getflashplayer',
+														'movie',flashName,
+                                                                                                                'allowFullScreen','true',
+														'flashvars', 'hmmtype='+hmmtype+'&content='+galId 
+														); //end AC code
+									</script><noscript><object classid="clsid:D27CDB6E-AE6D-11cf-96B8-444553540000" codebase="http://download.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=7,0,19,0" width="500" height="401">
+  									<param name="movie" value="/Chapter.swf" />
+									<param name="quality" value="high" />
+  									<param name="FlashVars"  />
+  									<embed src="/MediaPlayer.swf" quality="high" FlashVars=""  pluginspage="http://www.macromedia.com/go/getflashplayer" type="application/x-shockwave-flash" width="500" height="401"></embed>
+									</object></noscript>
+
+									<%elsif(@i.e_filetype == "image")%>
+							    		<img src="/user_content/photos/journal_thumb/<%=@i.v_filename%>" />
+									<%elsif(@i.e_filetype == "swf")%>
+										<input type="hidden" id="swfFile" value="/<%= @sshowSwf%>" >
+										<input type="hidden" id="filename" value="<%= @i.v_filename%>" >
+										<script language="JavaScript" type="text/javascript">
+											var flash = document.getElementById("swfFile").value;
+											var xmlfilename = document.getElementById("filename").value;
+											AC_FL_RunContent( 'codebase','http://download.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=7,0,19,0',
+                                                                                                            'width','810',
+                                                                                                            'height','450',
+                                                                                                            'src',flash,
+                                                                                                            'quality','high',
+                                                                                                            'pluginspage','http://www.macromedia.com/go/getflashplayer',
+                                                                                                            'movie',flash,
+                                                                                                            'bgcolor','#000000',
+                                                                                                            'allowFullScreen','true',
+                                                                                                            'flashvars', 'xmlfile=/user_content/videos/'+xmlfilename); 
+										</script><noscript><object classid="clsid:D27CDB6E-AE6D-11cf-96B8-444553540000" codebase="http://download.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=7,0,19,0" width="810" height="450"></object></noscript>
+									<%end%>							  
+								</th>
+								<th width="44" height="44" valign="top"><br>
+							<%= link_to "<img src='/images/arrow_right_def.png' name='Image22'  border='0' id='Image22' />",  { :page => @user_content_pages.current.next , :id => params[:id] }, {:onMouseOver =>"MM_swapImage('Image22','','/images/arrow_right_over.png',1)"} if @user_content_pages.current.next %> 
+								</th>
+		  					</tr>
+            		   </table>	
+					</th>
+				</tr>
+			 	<tr> 
+					<th width="100%" height="0" align="center" valign="bottom"  scope="col" >
+						<h3><br><% if @i.v_tagphoto %>&nbsp;&nbsp;&nbsp;&nbsp;<%@imagename=@i.v_tagphoto.split('.')%><%=@imagename[0]%> <%else%> No name <%end%></h3>
+						<%if(@i.e_filetype == "image")%>
+						<%if session[:friend]==nil || session[:friend]==''%>
+						<p><a href="/myphotos/rotate_image_anticlock/<%=@i.id%>"  onMouseOver = "MM_swapImage('Image23','','/images/rotate_cw_over.png',1)"><img src="/images/rotate_cw_def.png"  border=0/></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="/myphotos/rotate_image_clock/<%=@i.id%>"onMouseOver = "MM_swapImage('Image23','','/images/rotate_ccw_over.png',1)"><img src="/images/rotate_ccw_def.png" border=0 /></a></p> <%end%><%end%></th>
+          		</tr>
+  				<tr>
+		  			<td align="right">
+		  				<% if session[:friend]!='' 
+						else %>
+						<% @JournalsPhoto_cnt = JournalsPhoto.count(:all, :conditions => "user_content_id=#{@i.id}") %>
+						
+							<%if (@JournalsPhoto_cnt < 1 || @JournalsPhoto_cnt == "") %>
+								<a href='/myphotos/write_journal/<%=@i.id%>'>
+              					<img src="/images/journal-this_btn.jpg" border='0'  align="right" valign="absmiddle">
+								</a>
+							<%else%>
+								<a href='/journals_photos/edit/<%=@i.id%>'>
+              					<img src="/images/journal-this_btn.jpg" border='0'>
+								</a>
+							<%end%>		
+							
+					</td>
+					
+		  		</tr>
+				<tr><td height="10">&nbsp;</td></tr>
+				<tr>
+					<td align="right" valign="bottom">
+						
+						&nbsp;&nbsp;&nbsp;
+						<% comnt_photo=PhotoComment.find_by_sql("select count(*) as cnt from photo_comments where e_approved='pending'")           
+  							for cmt_photo in comnt_photo
+   							count_photo=cmt_photo['cnt']
+  							end%> 
+		
+						<%= link_to_remote("View Comments ",:update =>'me', 
+							:url => {:controller => :share_comments, :action => :photo_comnt, :id=> @i.id , :id_journal => 0, :page => params[:page] }  ) %>
+							
+						<%else%>
+						<% if session[:friend]=='' || session[:friend]==nil%>
+						<%else%>
+	
+						<%= link_to_remote("Add a Comment" , :update =>'me', 
+							:url => {:controller => :photo_comments , :action => :new, :id=> @i.id ,  :id_journal => 0, :page => params[:page], :orgid=> @usercontent.id }  ) %>
+							
+						&nbsp;&nbsp;&nbsp;<%end%>
+						<% comnt_photo=PhotoComment.find_by_sql("select count(*) as cnt from photo_comments where e_approved='pending'")           
+  							for cmt_photo in comnt_photo
+   							count_photo=cmt_photo['cnt']
+  							end%> 
+						
+						<% @photo_comment_count = PhotoComment.count(:all,:conditions => "user_content_id=#{params[:id]}")
+						if(@photo_comment_count>0)%>
+								
+						<%= link_to_remote("View Comments",:update =>'me', 
+							:url => {:controller => :photo_comments, :action => :photo_comnt, :id=> @i.id , :id_journal => 0, :page => params[:page] }  ) %>
+						<%end%>
+						<%end%>
+					</th>
+					
+              	</tr>
+			  	<tr>
+			  		<th align="center"><br>
+						<div id ='me'></div><br>
+					</th>
+				</tr>
+          	</table>
+		 </th>
+  	</tr>
+		  
+	<tr>
+        <th colspan="4" align="center" valign="top" scope="col">
+    		<%if session[:share]=="check" %>
+			<%else%>
+				<% @journals_photo_count = JournalsPhoto.count(:all,:conditions => "user_content_id=#{@i.id}")
+			if (@journals_photo_count >0)%>
+						
+			<table width="100%" align="center"  border="0"  class="border" cellspacing="0" cellpadding="0">
+            	<tr>
+                 	<th height="295" align="center" valign="top" scope="col">
+                 		<table align="center" width="100%" cellspacing="0" cellpadding="0">
+				 			<font color="#f5dfa6"><%= flash[:notice_pjc] %></font>
+				  			<font color="#f5dfa6"><%= flash[:notice_pje] %></font>
+				  			<font color="#f5dfa6"><%=flash[:notice2]%></font>
+                 			<%  @journals_photo =JournalsPhoto.find(:all,:conditions=>"user_content_id=#{@i.id}",:order=>"id  desc" )
+ 
+							 for @j in @journals_photo %>
+                 			<tr>
+                      			<th align="left" colspan="2" height="32" valign="middle" bgcolor="#191919" scope="col"><span class="btmtxt">&nbsp;&nbsp;Journal</span><th bgcolor="#191919" scope="col" align="right">
+                      			<%if session[:friend]==nil || session[:friend]=='' %>	<a href="/journals_photos/destroying/<%=@i.id%>?page=<%=params[:page]%>" onclick="if(confirm('Do you want to delete this Journal?')){return true; } else return false;">Delete</a><%end%>&nbsp;&nbsp;</th>
+                    		</tr>
+				   			<tr>
+                      			<th  align="left" valign="top" scope="col">&nbsp;</th>
+                      			<th align="left" valign="middle" scope="col"><span class="heading-journal"> <%= @j.v_title %> -
+					  				<% ActiveSupport::CoreExtensions::Time::Conversions::DATE_FORMATS.merge!(
+    									:date => "%Y-%m-%d",
+    									:presentable_datetime => "%a %b %d, %Y %H:%M",
+    									:presentable_date => "%a %b %d, %Y") 
+										@created_date=@j.date_added%>  
+					   				<%= @created_date.to_s(:presentable_date) %></span>
+								</th>
+                   			</tr>
+                    		<tr>
+                      			<th height="65" align="left" valign="top" scope="col">&nbsp;</th>
+                      			<th align="left" valign="top" class="text-journal" scope="col"><%= @j.v_image_comment.gsub("\n", "<br />\n") %></th>
+                   			</tr>
+					
+<!-- comments to be viewed once approved -->			
+							<tr>
+								<th>
+								</th>
+								<th>
+		
+
+									<% @tag_cnt = PhotoComment.count(:joins => "as a , journals_photos as c " , :conditions => "c.user_content_id=#{@i.id} and c.id=a.journal_id and a.e_approved = 'approve'") %>
+	
+									<% if @tag_cnt != 0 %>
+									<table width="100%" border="0" cellspacing="0" cellpadding="3">
+    									<tr>
+      										<th width="20" height="20" align="left" valign="top" bgcolor="#191919" scope="col">&nbsp;</th>
+      										<th colspan="2" align="left" valign="middle" bgcolor="#191919" scope="col"><span class="btmtxt"><%if session[:friend]==''%>Approved<%end%> journal Comments</th>
+      									</tr>
+										<input type="hidden" value="<%= @j.id %>" name="journal_id" />
+
+										<% @tag_c = PhotoComment.find_by_sql("select a.*,b.*,c.*, a.id as cid, c.id as jid from photo_comments as a , hmm_users as b, journals_photos as c where c.user_content_id=#{params[:id]} and c.id=a.journal_id and a.uid=b.id and a.e_approved = 'approve' ORDER BY a.id DESC")
+										for x in @tag_c 
+										journal_id=x.jid
+%>
+		
+										<tr>
+      										<th height="6" align="left" valign="top" scope="col">&nbsp;
+											</th>
+      										<th width="148" align="left" valign="top" class="text-journal" scope="col"><span class="style1">Commented By</span>
+											</th>
+      										<th width="675" align="left" valign="top" scope="col"><span class="text-journal">
+      											<%= x.v_fname %></span>
+											</th>
+    									</tr>
+	
+										<tr>
+      										<th height="6" align="left" valign="top" scope="col">&nbsp;</th>
+      										<th align="left" valign="top" class="text-journal" scope="col"><span class="style1">Description</span></th>
+      										<th align="left" valign="top" scope="col"><span class="text-journal"><%= x.v_comment.gsub("\n", "<br />\n") %></span></th>
+    									</tr>
+	
+										<tr>
+      										<th height="14" align="left" valign="top" bgcolor="#191919" scope="col">&nbsp;</th>
+      										<th colspan="2" align="right" valign="middle" bgcolor="#191919" class="text-journal" scope="col">
+       											<a href='/photo_comments/comt_destroy/<%= x.cid %>'>Delete</a>	  		
+											</th>
+	  									</tr>
+										<%end%>   
+									</table>
+								</th>
+							</tr>
+							<%end%>
+		<!-- comments to be viewed once approved-->		
+   							<tr>
+								<th>&nbsp;</th>
+							</tr>                 
+					
+							<tr>
+                      			<th height="28" align="left" valign="top" bgcolor="#191919" scope="col">&nbsp;</th>
+                       			<th align="right" valign="middle" colspan="2" bgcolor="#191919" class="text-journal" scope="col">
+      							<% if session[:friend]=='' || session[:friend]==nil%>
+								<%else%>
+	                 	
+								<%= link_to_remote("Add a Comment", :update =>'me2', 
+									:url => {:controller => :photo_comments , :action => :new, :id=> params[:id] , :id_journal => journal_id, :page => params[:page], :orgid=> @usercontent.id }  ) %>
+
+								&nbsp;&nbsp;&nbsp;<%end%>
+								<% comnt_photo=JournalsPhoto.find_by_sql("SELECT count( * ) as cnt 
+											FROM journals_photos AS a, photo_comments AS b
+											WHERE a.user_content_id ='#{params[:id]}'
+											AND a.id = b.journal_id
+											AND b.e_approved = 'pending'
+											AND b.journal_id !=0 ")           
+  								for cmt_photo in comnt_photo
+   								count_photo=cmt_photo['cnt']
+  								end %>
+								 
+         						<%if session[:friend]==''%>
+								<%= link_to_remote("View Comments"+" ("+count_photo+")",:update =>'me2', 
+									:url => {:controller => :photo_comments, :action => :photo_comnt, :id=> params[:id] , :id_journal => @j.id }  ) %>
+								<%end%>
+
+                 			</tr>
+							<tr>
+								<td colspan="2">
+									<font color="#f5dfa6"><%=  flash[:notice_pcc]%></font>
+									<font color="#f5dfa6"><%=  flash[:notice_pca]%></font>
+									<font color="#f5dfa6"><%=  flash[:notice_pcr]%></font>
+									<font color="#f5dfa6"><%=  flash[:notice_pcd]%></font>
+								</td>
+			  				</tr>
+							<tr>
+                      			<th height="65" align="left" valign="top" scope="col">&nbsp;</th>
+                      			<th align="left" valign="top" class="text-journal" scope="col">
+                      				<div id='me2'></div>
+								</th>
+                    		</tr>
+							<%end%>
+                   		</table>
+                  	</th>
+                </tr>
+        	</table>
+			<%end%>
+			<table>
+				<tr>
+					<td>
+						<div id=writej></div>
+					</td>
+				</tr>
+			</table>
+		</th>
+  	</tr>
+	<tr>
+		<td>
+		</td>
+	</tr>
+</table>
+
+<%end%>
+
+<%end%>
+
+<%else%>
+ <table class="border" width="100%" align="center"><tr><td align="center" >
+		  <font color="#f5dfa6">	No Moments found. 
+			
+			</td></tr></table>
+<%end%>
+</table>

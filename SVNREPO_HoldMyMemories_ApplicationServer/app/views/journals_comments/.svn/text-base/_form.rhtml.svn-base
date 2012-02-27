@@ -1,0 +1,19 @@
+<%= error_messages_for 'journals_comment' %>
+
+
+<p><label for="journals_comment_v_title">V title</label><br/>
+<%= text_field 'journals_comment', 'v_title'  %></p>
+
+<p><label for="journals_comment_v_comment">V comment</label><br/>
+<%= datetime_select 'journals_comment', 'v_comment'  %></p>
+
+<p><label for="journals_comment_d_added_date">D added date</label><br/>
+<%= text_field 'journals_comment', 'd_added_date'  %></p>
+
+<p><label for="journals_comment_v_comment_by">V comment by</label><br/>
+<%= text_field 'journals_comment', 'v_comment_by'  %></p>
+
+<p><label for="journals_comment_e_friend_request">E friend request</label><br/>
+<%= text_field 'journals_comment', 'e_friend_request'  %></p>
+
+

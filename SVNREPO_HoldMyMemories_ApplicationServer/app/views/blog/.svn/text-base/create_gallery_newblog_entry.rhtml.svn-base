@@ -1,0 +1,122 @@
+<form name="emailusform" id="blogform" action="/blog/create_gallery_newblog_entry/<%= params[:id]%>?gallery_id=<%= params[:gallery_id] %>" method="post">
+ <input type="hidden" name="gallery_journal[galerry_id]" value="<%= params[:gallery_id] %>">
+  <table width="970" border="0" cellspacing="0" cellpadding="0">
+    <tr>
+      <td align="center" valign="top" class="tab-dots"><table width="970" border="0" cellspacing="0" cellpadding="0" id="tab_bgcolor_repeat">         
+          <tr>
+            <td align="left" valign="top">   
+                <table width="100%" border="0" cellspacing="0" cellpadding="0">
+                  <tr>
+                    <td width="13" align="left" valign="top"></td>
+                    <td width="944" align="left" valign="top"><table width="100%" border="0" cellspacing="0" cellpadding="0">
+                        <tr>
+                          <td height="10" align="left" valign="top"></td>
+                        </tr>
+                        <tr>
+                          <td height="35" align="left" valign="bottom" class="headers"><img src="<%= @image %>" width="100"/>&nbsp;<%= @title %></td>
+                        </tr>
+                        <tr>
+                          <td height="10" align="left" valign="top"></td>
+                        </tr>
+                        <tr>
+                          <td height="1" align="left" valign="top" bgcolor="#454545"></td>
+                        </tr>
+                        <tr>
+                          <td height="10" align="left" valign="top"></td>
+                        </tr>
+                        <tr>
+                          <td align="left" valign="top" class="content-trans-bg"><table width="100%" border="0" cellspacing="0" cellpadding="0">
+                              <tr>
+                                <td width="30" align="left" valign="top">&nbsp;</td>
+                                <td width="912" align="left" valign="top">                                  
+                                  <%= javascript_include_tag 'themes/formcheck/core' %>
+<%= javascript_include_tag 'themes/formcheck/more' %>
+<%= javascript_include_tag 'themes/formcheck/en' %>
+<%= javascript_include_tag 'themes/formcheck/formcheck' %>
+<%= stylesheet_link_tag 'themes/formcheck/formcheck'%>
+<table width="100%" border="0" cellspacing="0" cellpadding="0">
+  <tr>
+    <td align="left" valign="top">&nbsp;</td>
+  </tr>
+  <tr>
+    <td height="25" align="left" valign="top" class="content">Title </td>
+  </tr>
+  <tr>
+    <td align="left" valign="top"><label>
+        
+        <% if @blog %>
+        <input type="text" name="title" value="<%=@blog['title']%>" class="validate['required']" />
+        <%else %>
+        <input type="text" name="title" value="" class="validate['required']" />
+        <%end%>
+      </label></td>
+  </tr>
+  <tr>
+    <td align="left" valign="top">&nbsp;</td>
+  </tr>
+  <tr>
+    <td height="25" align="left" valign="top" class="content">Blog Entry Date</td>
+  </tr>
+  <tr>
+    <td align="left" valign="top"><%= date_select "blog", "added_date", :order => [:month, :day, :year], :start_year => Time.now.year - 100, :end_year => Time.now.year   %></td>
+  </tr>
+  <tr>
+    <td align="left" valign="top">&nbsp;</td>
+  </tr>
+  <tr>
+    <td height="25" align="left" valign="top" class="content">Description</td>
+  </tr>
+  <tr>
+    <td align="left" valign="top"><label>
+        <% if @blog %>
+        <textarea name="desc" class = "validate['required']" rows="10" cols="80"><%=@blog['description']%></textarea>
+        <%else %>
+         <textarea name="desc" class = "validate['required']" rows="10" cols="80"></textarea>
+        <%end%>
+      </label></td>
+  </tr>
+  <tr>
+    <td align="left" valign="top">&nbsp;</td>
+  </tr>
+  <tr>
+    <td align="left" valign="top"><label>
+        <input type="submit" class="cmd-btn" value="Submit" />
+        &nbsp;
+        <input type="button" class="cmd-btn" value="Cancel"  onClick="javascript:history.back();"/>
+      </label></td>
+  </tr>
+  <tr>
+    <td align="left" valign="top">&nbsp;</td>
+  </tr>
+</table>
+<script type="text/javascript">
+  window.addEvent('domready', function(){
+    new FormCheck('blogform');
+  });
+</script>
+<% @hide_float_menu = true %>
+                                </td>
+                              </tr>
+                            </table></td>
+                        </tr>
+                        <tr>
+                          <td align="left" valign="top">&nbsp;</td>
+                        </tr>
+
+                      </table></td>
+                    <td width="13" align="left" valign="top"></td>
+                  </tr>
+                </table>
+            </td>
+          </tr>
+        </table></td>
+    </tr>
+   
+    <tr>
+      <td height="19"></td>
+    </tr>
+  </table>
+  <% unless params[:redirect_url].blank? %>
+  <input type="hidden" name="redirect_url" value="<%= params[:redirect_url] %>">
+  <% end %>
+</form>

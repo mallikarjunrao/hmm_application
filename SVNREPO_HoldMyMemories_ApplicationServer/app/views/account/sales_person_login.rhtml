@@ -1,0 +1,21 @@
+<%= stylesheet_link_tag 'SpryAssets/SpryValidationTextField' %>
+<%= javascript_include_tag 'SpryAssets/SpryValidationTextField' %>
+
+<h2 >Sales Person Login</h2>
+<p><%= error_messages_for :account %></p>
+<% form_for :sales_person, :url => {:action => 'authenticate_sales_person'} do |f| -%>
+<font color="red"><%=flash[:error]%></font>
+<font color="#f5dfa6"><%=flash[:emp_create]%></font> 
+<font color="#f5dfa6"><%=flash[:notice_emp]%></font> 
+<p>User name:<br /><span id="sprytextfield1"><span id="sprytextfield1"><input type="text" name="username" value=""><span class="textfieldRequiredMsg"><br>User Name is required.</br></span></span></p>
+<p>Password:<br /><span id="password"><span id="password"><input type="password" name="password" value=""><span class="textfieldRequiredMsg"><br>Password is required.</br></span></span></p>
+
+<%= submit_tag 'Login' %>
+<% end %>
+
+<script type="text/javascript">
+<!--
+var sprytextfield1 = new Spry.Widget.ValidationTextField("sprytextfield1", "none", {validateOn:["blur"]});
+var password = new Spry.Widget.ValidationTextField("password", "none", {validateOn: ["blur"]});
+//-->
+</script>

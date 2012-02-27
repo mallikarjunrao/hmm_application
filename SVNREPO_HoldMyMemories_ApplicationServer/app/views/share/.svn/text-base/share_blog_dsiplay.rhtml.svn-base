@@ -1,0 +1,9 @@
+BLOG COUNT :  <%=@blogcount%>
+
+<% for i in  @recent_entries %>
+
+<%=i.message%><br>
+<%=i.presenter_id%>
+
+
+<% end%>

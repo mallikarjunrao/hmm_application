@@ -1,0 +1,67 @@
+<h1>Manage Ecommerce Coupons</h1>
+<table>
+  <tr>
+    <th colspan="8" align="left"><a href="/cupons/new_ecommerce_studiocoupon">Create Coupon</a></th>
+  </tr>
+  <%if(@cpcnt>0)%>
+    <tr><td align="center" colspan="8"><font color="red"><%=flash[:notice]%></font></td></tr>
+    <tr>
+      <th background="/images/body_hor.JPG"><font class='txt'><table> <tr><th><%= sort_header_tag('coupon_id', :text => "Coupon Number") %></th></tr></table></font></th>
+      <th background="/images/body_hor.JPG"><font class='txt'>Discount</font></th>
+      <th background="/images/body_hor.JPG"><font class='txt'>Free Shipping</font></th>
+      <th background="/images/body_hor.JPG"><font class='txt'>Start Date</font></th>
+      <th background="/images/body_hor.JPG"><font class='txt'>Expiry Date</font></th>
+      <th background="/images/body_hor.JPG"><font class='txt'><table> <tr><th><%= sort_header_tag('status', :text => "Status") %></th></tr></table></font></th>
+      <th background="/images/body_hor.JPG"><font class='txt'>Created By</font></th>
+      <th background="/images/body_hor.JPG" colspan="2"><font class='txt'>Actions</font></th>
+    </tr>
+    <%
+    odd_or_even = 0
+    i = 0
+    for cp_detail in @cp_details
+      i = i + 1
+      odd_or_even = 1 - odd_or_even
+
+    %>
+      <tr class='ListLine<%=odd_or_even %>'>
+        <td><%=cp_detail.coupon_id %></td>
+        <td>
+          <%if(cp_detail.discount!='' && cp_detail.discount!=nil)%>
+            <%=cp_detail.discount %>%
+          <%else%>
+            -
+          <%end%>
+        </td>
+        <td><%=cp_detail.free_shipping %></td>
+        <td><%=cp_detail.start_date.strftime("%m / %d / %Y ") %></td>
+        <td><%=cp_detail.end_date.strftime("%m / %d / %Y ") %></td>
+        <td><%=cp_detail.status %></td>
+        <td>
+          <%if(cp_detail.studio_owner_id==0)%>
+            Admin
+          <%else
+            @stdgrp=HmmStudiogroup.find(cp_detail.studio_owner_id)
+          %>
+            <%=@stdgrp.hmm_franchise_studio%>
+          <%end%>
+        </td>
+        <td class="cont"><%= link_to '<font color=#000000>View Studios</font>', :action => 'view_studios', :id => cp_detail %></td>
+        <td class="cont">      <a href="/cupons/delete_coupon/<%=cp_detail.id%>" onclick="return confirm('Are you sure you want to delete?')" class='txt'><font color=#000000>Delete</font></a>
+        </td>
+      </tr>
+    <% end %>
+  <%else%>
+    <tr>
+      <th colspan="8"><font class='txt'>No Records Found</font></th>
+    </tr>
+  <%end%>
+</table>
+<table>
+  <tr>
+    <th align="left">
+      <%=will_paginate @cp_details%>
+    </th>
+  </tr>
+</table>
+<br />
+

@@ -1,0 +1,22 @@
+<table width="100%" cellpadding="0" cellspacing="0" border="0">
+	<tr valign="top" >
+		<td width="170" valign="top" >
+			<%= render :partial => "my_familywebsite/leftnav", :locals => { :current => "edit_profile"} %>
+		</td>
+		<td valign="top">
+			<font color="white" size="3" face="arial" ><b>Edit Your Profile</b></font>			
+    <% form_tag ("#{request_content_url}/manage_hmm_account/update_profile_mysite/", {:multipart => true, :style => 'display:inline;'}) do %>
+    <% session[:friend]=''%>
+	<input type="hidden" name="familyname"  id="familyname" value="<%=params[:id]%>" />
+
+    <table width="800" border="0" cellspacing="0" cellpadding="0">
+                <tr><td height="227" align="left" valign="top" ><%= render :partial => 'form1' %></td></tr>
+                
+                
+    </table>
+<% end %>
+			
+		</td>
+	</tr>
+</table>
+

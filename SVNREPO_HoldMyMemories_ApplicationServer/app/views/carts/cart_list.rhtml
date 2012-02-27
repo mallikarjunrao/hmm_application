@@ -1,0 +1,191 @@
+<%= javascript_include_tag 'prototype' %>
+<link rel="stylesheet" href="/stylesheets/nyroModal.css" type="text/css" media="screen" />
+<script type="text/javascript" src="/javascripts/jquery-1.3.2.min.js"></script>
+<script type="text/javascript" src="/javascripts/jquery.nyroModal-1.5.2.pack.js"></script>
+<%= stylesheet_link_tag 'SpryAssets/SpryValidationTextField' %>
+<%= javascript_include_tag 'SpryAssets/SpryValidationTextField' %>
+<%= stylesheet_link_tag 'SpryAssets/SpryValidationTextarea' %>
+<%= javascript_include_tag 'SpryAssets/SpryValidationTextarea' %>
+<script type="text/javascript">
+  var $j = jQuery.noConflict();
+</script>
+
+<script type="text/javascript">
+  //<![CDATA[
+  // Demo NyroModal
+  $j(function() {
+    function preloadImg(image) {
+      var img = new Image();
+      img.src = image;
+    }
+    preloadImg('/images/ajaxLoader.gif');
+<%if @shipping_address == nil %>
+      $j.nyroModalManual({
+        url: '/carts/shipping/<%=params[:id]%>?v=<%=params[:v]%>',
+        modal:true
+      });
+<%end%>
+    $j.nyroModalSettings({
+      closeButton: false,
+      Close:false
+    });
+  });
+
+</script>
+<table width="970" border="0" cellspacing="0" cellpadding="0" id="tab_bgcolor_repeat" align="center">
+  <tr>
+    <td align="left" valign="top"><table width="100%" border="0" cellspacing="0" cellpadding="0">
+        <tr>
+          <td width="13" align="left" valign="top"></td>
+          <td width="944" align="left" valign="top"><table width="100%" border="0" cellspacing="0" cellpadding="0">
+              <tr>
+                <td height="10" align="left" valign="top"></td>
+              </tr>
+              <%if params[:v]=="v4"%>
+                <%= render :partial => "family_memory/partials/heading"%>
+              <%end%>
+
+              <tr>
+                <td height="35" align="left" valign="bottom" class="header-page">Shopping Cart</td>
+              </tr>
+              <tr>
+                <td height="10" align="left" valign="top"></td>
+              </tr>
+              <tr>
+                <td height="1" align="left" valign="top" bgcolor="#454545"></td>
+              </tr>
+              <tr>
+                <td height="10" align="left" valign="top"></td>
+              </tr>
+              <% if @cart_items.length == 0 %>
+                <tr>
+                  <td align="center" valign="middle" class="content" height="300">Your shopping cart is empty!<br>
+                    <% @user=HmmUser.find(:first,:conditions=>"family_name='#{params[:id]}'") %>
+                    <% if @user.studio_id.to_i!=0 %>
+                      <%@userstudio=HmmStudio.find(:first,:conditions=>"id=#{@user.studio_id}")%>
+                      <%  if @userstudio.family_website_version == 3 %>
+                        <input name="button" type="submit" class="cmd-btn" id="button" value="Continue Shopping" onClick="window.location='/studio_session_orders/print_orders/<%= params[:id]  %>'" />
+                      <%  elsif params[:v]=="v4" %>
+                        <input name="button" type="submit" class="cmd-btn" id="button" value="Continue Shopping" onClick="window.location='/family_memory/order_prints/<%=params[:id]  %>?moment_id=<%=@Contents.id%>'" />
+                      <% else %>
+                        <input name="button" type="submit" class="cmd-btn" id="button" value="Continue Shopping" onClick="window.location='/order_prints/gallery_list/<%= params[:id]  %>'" />
+                      <%end%>
+                    <% else %>
+                      <input name="button" type="submit" class="cmd-btn" id="button" value="Continue Shopping" onClick="window.location='/order_prints/gallery_list/<%= params[:id]  %>'" />
+                    <%end%>
+                  </td>
+                </tr>
+              <%else%>
+                <tr>
+                  <td align="left" valign="top" class="content-trans-bg"><table width="100%" border="0" cellspacing="0" cellpadding="0">
+                      <tr>
+                        <td width="30" align="left" valign="top">&nbsp;</td>
+                        <td width="882" align="center" valign="top" class="content"><font color="#FF0000"><%=flash[:notice]%></font></td>
+                        <td width="30" align="left" valign="top">&nbsp;</td>
+                      </tr>
+                      <tr>
+                        <td align="left" valign="top">&nbsp;</td>
+                        <td align="left" valign="top" class="content-trans-bg">
+                          <table width="901" border="0" cellspacing="0" cellpadding="0">
+                            <tr>
+                              <td align="center" valign="top"><table width="890" border="0" cellspacing="2" cellpadding="2">
+                                  <tr>
+                                    <td align="center" valign="top" width="15"></td>
+                                    <td width="527" align="left" valign="middle" ><br>
+                                      <%if @shipping_address !=nil %>
+                                        <%= render :partial => "shipping_address", :locals => { :shipping_address => "#{@shipping_address}"} %>
+                                      <% end %>
+                                    </td>
+                                    <%if params[:v]=="v4"%>
+                                      <%link="?v=v4"%>
+                                    <% else%>
+                                      <%link=""%>
+                                    <%end%>
+
+                                    <td width="109" align="left" valign="middle" class="leftconthr"><input name="button" type="submit" class="cmd-btn" id="button" value="Clear Cart" onClick="if(confirm('Are you sure to delete ?')) window.location='/carts/clear_cart/<%= params[:id]  %><%=link%>'" /></td>
+                                    <td width="136" align="left" valign="middle"> <% @user=HmmUser.find(:first,:conditions=>"family_name='#{params[:id]}'") %>
+                                      <% if @user.studio_id.to_i!=0 %>
+                                        <%@userstudio=HmmStudio.find(:first,:conditions=>"id=#{@user.studio_id}")%>
+                                        <%online_credit=@userstudio.online_credit_redemption%>
+                                        <%  if @userstudio.family_website_version == 3 %>
+                                          <input name="button" type="submit" class="cmd-btn" id="button" value="Continue Shopping" onClick="window.location='/studio_session_orders/print_orders/<%= params[:id]  %>'" />
+                                        <%  elsif @userstudio.family_website_version == 4 %>
+                                          <input name="button" type="submit" class="cmd-btn" id="button" value="Continue Shopping" onClick="window.location='/family_memory/order_prints/<%=params[:id]  %>?moment_id=<%=@Contents.id%>'" />
+                                        <% else %>
+                                          <input name="button" type="submit" class="cmd-btn" id="button" value="Continue Shopping" onClick="window.location='/order_prints/gallery_list/<%= params[:id]  %>'" />
+                                        <%end%>
+                                      <% else %>
+                                        <%online_credit="NO"%>
+                                        <input name="button" type="submit" class="cmd-btn" id="button" value="Continue Shopping" onClick="window.location='/order_prints/gallery_list/<%= params[:id]  %>'" />
+                                      <%end%></td>
+
+                                    <td width="118" align="left" valign="middle"><input name="button" type="submit" class="cmd-btn" id="button" value="Check Out" onClick="window.location='<%=@secure_url%>/carts/billing_process/<%= params[:id]  %><%=link%>'" />
+                                    </td>
+                                  </tr>
+                                  <tr>
+                                    <td height="10" colspan="5" align="left" valign="middle" ></td>
+                                  </tr>
+                                </table></td>
+                            </tr>
+                            <% unless @cart_items.length == 0 %>
+                              <tr>
+                                <td width="901" align="center" valign="top"><%= render :partial => "cartitems", :locals => { :cart_items => @cart_items,:userstudio=>online_credit} %></td>
+                              </tr>
+                              <!--tr>
+                                <td width="901" align="center" valign="top" >
+                                  <table class="content-trans-bg">
+                                    <tr><td width="830" height="50" class="content" align="right" style="padding-right:20px;"><b>Grand Total : $<%#= session[:grand_total] %>  </b></td></tr>
+                                  </table>
+                                </td>
+                              </tr -->
+                            <% end %>
+                            <tr>
+                              <td><table width="890" border="0" cellspacing="2" cellpadding="2">
+                                  <tr>
+                                    <td align="center" valign="top" width="15"></td>
+                                    <td width="527" align="left" valign="middle" ><br>
+                                      <%if @shipping_address !=nil %>
+                                        <%= render :partial => "shipping_address", :locals => { :shipping_address => "#{@shipping_address}"} %>
+                                      <% end %></td>
+                                    <td width="109" align="left" valign="middle" class="leftconthr"><input name="button" type="submit" class="cmd-btn" id="button" value="Clear Cart" onClick="if(confirm('Are you sure to delete ?')) window.location='/carts/clear_cart/<%= params[:id]  %><%=link%>'" /></td>
+                                    <td width="136" align="left" valign="middle"><% @user=HmmUser.find(:first,:conditions=>"family_name='#{params[:id]}'") %>
+                                      <% if @user.studio_id.to_i!=0 %>
+                                        <%@userstudio=HmmStudio.find(:first,:conditions=>"id=#{@user.studio_id}")%>
+                                        <%online_credit=@userstudio.online_credit_redemption%>
+                                        <%  if @userstudio.family_website_version == 3 %>
+                                          <input name="button" type="submit" class="cmd-btn" id="button" value="Continue Shopping" onClick="window.location='/studio_session_orders/print_orders/<%= params[:id]  %>'" />
+                                        <%  elsif @userstudio.family_website_version == 4 %>
+                                      <input name="button" type="submit" class="cmd-btn" id="button" value="Continue Shopping" onClick="window.location='/family_memory/order_prints/<%=params[:id]  %>?moment_id=<%=@Contents.id%>'" />
+                       <% else %>
+                                          <input name="button" type="submit" class="cmd-btn" id="button" value="Continue Shopping" onClick="window.location='/order_prints/gallery_list/<%= params[:id]  %>'" />
+                                        <%end%>
+                                      <% else %>
+                                        <%online_credit="NO"%>
+                                        <input name="button" type="submit" class="cmd-btn" id="button" value="Continue Shopping" onClick="window.location='/order_prints/gallery_list/<%= params[:id]  %>'" />
+                                      <%end%></td>
+                                    <td width="118" align="left" valign="middle"><input name="button" type="submit" class="cmd-btn" id="button" value="Check Out" onClick="window.location='<%=@secure_url%>/carts/billing_process/<%= params[:id]  %><%=link%>'" />
+                                    </td>
+                                  </tr>
+                                  <tr>
+                                    <td height="10" colspan="5" align="left" valign="middle" ></td>
+                                  </tr>
+                                </table></td>
+                            </tr>
+                          </table>
+                        </td>
+                        <td align="left" valign="top">&nbsp;</td>
+                      </tr>
+                      <tr>
+                        <td align="left" valign="top">&nbsp;</td>
+                        <td align="left" valign="top">&nbsp;</td>
+                        <td align="left" valign="top">&nbsp;</td>
+                      </tr>
+                    </table></td>
+                </tr>
+              <%end%>
+            </table></td>
+          <td width="13" align="left" valign="top"></td>
+        </tr>
+      </table></td>
+  </tr>
+</table>

@@ -1,0 +1,305 @@
+
+<script type="text/javascript">
+function chk_verify()
+{
+	if(document.form1.sname.value=="")
+	{
+		alert("Please enter Studio Name")
+		document.form1.sname.focus()
+		return false;
+  	}
+
+	if(document.form1.sphone.value=="")
+	{
+		alert("Please enter Studio Phone Number")
+		document.form1.sphone.focus()
+		return false;
+  	}
+
+	if(document.form1.name.value=="")
+	{
+		alert("Please enter Name")
+		document.form1.name.focus()
+		return false;
+  	}
+	if(document.form1.phone.value=="")
+	{
+		alert("Please enter Phone Number")
+		document.form1.phone.focus()
+		return false;
+  	}
+	if(document.form1.email.value=="")
+	{
+		alert("Please enter Email Address")
+		document.form1.email.focus()
+		return false;
+ 	}
+	var email = document.form1.email.value
+	var regexpr=/^([\w-]+(?:\.[\w-]+)*)@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$/i  //email check
+	if (!regexpr.test(email))
+	{
+		alert("Please input a valid Email Address")
+		document.form1.email.value=""
+		document.form1.email.focus();
+		return false;
+	}
+	
+
+
+	return true;
+
+}
+
+function verify_accesscode()
+{
+	if(document.frm.password.value=="")
+	{
+		alert("Please enter the Access Code")
+		document.frm.password.focus()
+		return false;
+  	}
+
+	return true;
+
+}
+
+
+</script>
+<table width="945" border="0" cellspacing="0" cellpadding="0">
+      <tr>
+        <td width="221" height="70" align="right" valign="top" class="gray_gradient"><table width="221" border="0" cellspacing="0" cellpadding="0">
+          <tr>
+            <td align="left" valign="top">
+            <form name="form1" method="post" action="/studio_intro/create" onSubmit="return chk_verify();">
+            <table width="205" border="0" cellspacing="0" cellpadding="0">
+              <tr>
+                <td colspan="2">&nbsp;</td>
+              </tr>
+              <tr>
+                <td height="20" colspan="2" align="left" valign="top" class="grayheaderhome">How Do I Get Started?</td>
+              </tr>
+              <tr>
+                <td height="1" colspan="2" align="left" valign="top" bgcolor="#4b4949"></td>
+              </tr>
+              <tr>
+                <td height="35" colspan="2" align="left" valign="middle" class="grayfont">To receive more detailed information on how your studio can benefit from offering HoldMyMemories.com to your clients, please fill out the following information. </td>
+              </tr>
+              <tr>
+                <td height="7" align="left" valign="top"></td>
+                <td align="right" valign="middle"></td>
+              </tr>
+              <tr>
+                <td width="87" align="left" valign="middle" class="grayfont_small">Studio Name:</td>
+                <td width="118" align="left" valign="middle"><input type="text" name="sname" id="sname" class="textbox2"/></td>
+              </tr>
+              <tr>
+                <td height="5" align="left" valign="middle" class="grayfont"></td>
+                <td align="left" valign="top"></td>
+              </tr>
+              <tr>
+                <td width="87" align="left" valign="top" class="grayfont_small">Street Address:</td>
+                <td align="left" valign="top"><input type="text" name="address" id="address"  class="textbox2" /></td>
+              </tr>
+
+              <tr>
+                <td height="5" align="left" valign="middle" class="grayfont"></td>
+                <td align="left" valign="top"></td>
+              </tr>
+              <tr>
+                <td width="87" align="left" valign="middle" class="grayfont_small">City,State,Zip:</td>
+                <td align="left" valign="top"><input type="text" name="city" id="city" class="textbox2"/></td>
+              </tr>
+              <tr>
+                <td height="5" align="left" valign="middle" class="grayfont"></td>
+                <td align="left" valign="top"></td>
+              </tr>
+              <tr>
+                <td width="87" align="left" valign="middle" class="grayfont_small">Country:</td>
+                <td align="left" valign="top"><input type="text" value="United States" name="country" id="country" class="textbox2" readonly/></td>
+              </tr>
+              <tr>
+                <td height="5" align="left" valign="middle" class="grayfont"></td>
+                <td align="left" valign="top"></td>
+              </tr>
+              <tr>
+                <td width="87" align="left" valign="middle" class="grayfont_small">Studio Phone Number:</td>
+                <td align="left" valign="middle"><input type="text" name="sphone" id="sphone" class="textbox2"/></td>
+              </tr>
+              <tr>
+                <td height="5" align="left" valign="middle" class="grayfont"></td>
+                <td align="left" valign="top"></td>
+              </tr>
+              <tr>
+                <td width="87" align="left" valign="middle" class="grayfont_small">Studio Website:</td>
+                <td align="left" valign="middle"><input type="text" name="website" id="website" class="textbox2"/></td>
+              </tr>
+              <tr>
+                <td height="15" align="left" valign="middle" class="grayfont"></td>
+                <td align="left" valign="top"></td>
+              </tr>
+              <tr>
+                <td width="87" align="left" valign="middle" class="grayfont_small">Your Name:</td>
+                <td align="left" valign="top"><input type="text" name="name" id="name" class="textbox2"/></td>
+              </tr>
+              <tr>
+                <td height="5" align="left" valign="middle" class="grayfont"></td>
+                <td align="left" valign="top"></td>
+              </tr>
+              <tr>
+                <td width="87" align="left" valign="middle" class="grayfont_small">Your Phone Number:</td>
+                <td align="left" valign="middle"><input type="text" name="phone" id="phone" class="textbox2"/></td>
+              </tr>
+              <tr>
+                <td height="5" align="left" valign="middle" class="grayfont"></td>
+                <td align="left" valign="top"></td>
+              </tr>
+              <tr>
+                <td width="87" align="left" valign="middle" class="grayfont_small">Your Email Address:</td>
+                <td align="left" valign="middle"><input type="text" name="email" id="email" class="textbox2"/></td>
+              </tr>
+              <tr>
+                <td height="5" align="left" valign="middle" class="grayfont"></td>
+                <td align="left" valign="top"></td>
+              </tr>
+               <tr>
+                <td width="87" align="left" valign="middle" class="grayfont_small">&nbsp;</td>
+                <td align="left" valign="middle">&nbsp;</td>
+              </tr>
+               <tr>
+                            <td align="left" valign="top" class="grayfont_small">What types of sessions does your studio photograph :</td>
+                            <td align="left" valign="bottom" class="grayfont_small"><input type="checkbox" name="children" value="yes" >Children</td>
+                          </tr>
+                          <tr>
+                            <td align="left" valign="top" class="grayfont_small">&nbsp;</td>
+                 	         <td align="left" valign="top" class="grayfont_small"><input type="checkbox" name="family" value="yes">Family</td>
+                          </tr>
+                          <tr>
+                            <td align="left" valign="top" class="grayfont_small">&nbsp;</td>
+                            <td align="left" valign="top" class="grayfont_small"><input type="checkbox" name="maternity" value="yes">Maternity</td>
+                          </tr>
+                          <tr>
+                            <td align="left" valign="top" class="grayfont_small">&nbsp;</td>
+                            <td align="left" valign="top" class="grayfont_small"><input type="checkbox" name="glamour" value="yes">Glamour</td>
+                          </tr>
+
+
+
+
+                          <tr>
+                            <td align="left" valign="top" class="grayfont_small">&nbsp;</td>
+                            <td align="left" valign="top" class="grayfont_small"><input type="checkbox" name="high_school" value="yes">High School Seniors</td>
+                          </tr>
+                          <tr>
+                            <td align="left" valign="top" class="grayfont_small">&nbsp;</td>
+                            <td align="left" valign="top" class="grayfont_small"><input type="checkbox" name="bridal" value="yes">Bridal</td>
+                          </tr>
+                          <tr>
+                            <td align="left" valign="top" class="grayfont_small">&nbsp;</td>
+                            <td align="left" valign="top" class="grayfont_small"><input type="checkbox" name="weddings" value="yes">Weddings</td>
+                          </tr>
+                          <tr>
+                            <td align="left" valign="top" class="grayfont_small">Other :</td>
+                            <td align="left" valign="top" class="grayfont_small"><input type="text" name="other_session" value="" class="textbox2" ></td>
+                          </tr>
+              <tr>
+                <td height="5" align="left" valign="middle" class="grayfont"></td>
+                <td align="left" valign="top"></td>
+              </tr>
+               <tr>
+                <td width="87" align="left" valign="top" class="grayfont_small">Average Number of Sessions per week:</td>
+                <td align="left" valign="middle"><input type="text" name="avg_session" id="avg_session" class="textbox2"/></td>
+              </tr>
+               <tr>
+                <td height="5" align="left" valign="middle" class="grayfont"></td>
+                <td align="left" valign="top"></td>
+              </tr>
+          
+              <tr>
+                <td align="left" valign="middle">&nbsp;</td>
+                <td align="left" valign="top"><input name="Submit" class="cmd-btn" value="Submit" style="cursor:pointer;" type="submit" />   </td>
+              </tr>
+              <tr>
+                <td height="5" align="left" valign="middle" class="grayfont"></td>
+                <td align="left" valign="top"></td>
+              </tr>
+              <tr>
+                <td height="5" align="left" valign="middle" class="grayfont"></td>
+                <td align="left" valign="top">&nbsp;</td>
+              </tr>
+            </table>
+            </form></td>
+            <td width="1"></td>
+          </tr>
+        </table>
+        </form>
+        </td>
+        <td width="407" align="left" valign="top" id="paddingleft"><table width="370" border="0" cellspacing="0" cellpadding="0">
+  <tr>
+    <td class="grayheaderhome">&nbsp;</td>
+  </tr>
+
+  <tr>
+    <td align="center" valign="top" class="grayfont"><script src="/AC_OETags.js" language="JavaScript"></script>
+
+   	   <object classid="clsid:D27CDB6E-AE6D-11cf-96B8-444553540000"
+             id="ExternalInterfaceExample" width="320" height="285"
+             codebase="http://download.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=7,0,19,0">
+         <param name="movie" value="/MiniVideoPlayer.swf" />
+         <param name="quality" value="high" />
+         <param name="bgcolor" value="#000000" />
+         <param name="allowScriptAccess" value="always" />
+         <param name="allowFullScreen" value="true" />
+	     <param name="flashVars" value="xml_file=/small_player_playlist.xml&proxyurl=<%=request_content_url%>" />
+         <embed src="/MiniVideoPlayer.swf" quality="high" bgcolor="#000000"
+             width="320" height="285" name="HomePageMediaPlayer" align="middle"
+             play="true" loop="false" quality="high" allowScriptAccess="always"
+             allowFullScreen ="true"
+             type="application/x-shockwave-flash"
+             pluginspage="http://www.macromedia.com/go/getflashplayer"
+			 flashVars='xml_file=/small_player_playlist.xml&proxyurl=<%=request_content_url%>' >
+         </embed>
+     </object>&nbsp;</td>
+  </tr>
+  <tr>
+    <td align="left" valign="top">&nbsp;</td>
+  </tr>
+  <tr>
+    <td align="left" valign="top">&nbsp;</td>
+  </tr>
+</table></td>
+        <td width="317" align="left" valign="top"><table width="280" align="left" border="0" cellspacing="0" cellpadding="0">
+                <tr>
+                  <td colspan="3" align="left" valign="top">&nbsp;</td>
+                </tr>
+                <tr>
+                  <td colspan="3" align="left" valign="top"><a href="http://studioplussoftware.com" target="_blank"><img src="/new_images/studiopluslogo.png" width="278" height="71" border="0" /></a></td>
+                </tr>
+                <tr>
+                  <td height="140" colspan="3" align="left" valign="top">&nbsp;</td>
+                </tr>
+
+                <tr>
+                  <td colspan="3" align="left" valign="top" class="grayfont">If you received an access code please enter it here:</td>
+                </tr>
+                <tr>
+                  <td colspan="3" align="center" valign="top" class="grayfont"><font color="#FF0000"><%=flash[:conform_mesg]%></font></td>
+                </tr>
+                <form name="frm" action="/studio_intro/authenticate" method="post" onSubmit="return verify_accesscode();">
+<tr>
+            <td colspan="4" align="left" valign="top"><input type="text" name="password" id="password" class="textbox3"/>&nbsp;
+                  <input name="Enter" class="cmd-btn" value="Enter" style="cursor:pointer;" type="submit" style="width:80px" /></td>
+                </tr>
+
+
+                </form>
+                <tr>
+                  <td height="13" colspan="3" align="left" valign="top"></td>
+          </tr>
+                <tr>
+                  <td colspan="3"  align="left" valign="middle"><a href="http://www.facebook.com/HoldMyMemories" target="_blank"><img src="/new_images/facebook_1.jpg" width="64" height="20" border="0" /></a>&nbsp;&nbsp;<a href="http://www.youtube.com/HoldMyMemories" target="_blank"><img src="/new_images/youtube_1.jpg" width="47" height="20" border="0" /></a>&nbsp;&nbsp;<a href="http://www.twitter.com/HoldMyMemories" target="_blank"><img src="/new_images/twitter_1.jpg" width="48" height="20" border="0" /></a></td>
+
+                </tr>
+              </table></td>
+      </tr>
+
+    </table>

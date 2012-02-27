@@ -1,0 +1,138 @@
+<div id="nonfnf_del">
+<table width="100%" border="0"  align="center">
+	<tr>
+		<td width="10%" valign="top">&nbsp;</td>
+		<td width="5%" valign="top">&nbsp;</td>
+		<td width="10%" valign="top">&nbsp;</td>
+		<td width="5%" valign="top">&nbsp;</td>
+		<td width="10%" valign="top">&nbsp;</td>
+		<td width="5%" valign="top">&nbsp;</td>
+		<td width="10%" valign="top">&nbsp;</td>
+		<td width="5%" valign="top">&nbsp;</td>
+		<td width="10%" valign="top">&nbsp;</td>
+		<td width="30%" valign="top" rowspan="10">
+    	</td>
+</tr>
+<tr>
+	<% j=0	
+	   if @total == 0 
+    %>
+		<td colspan="10" valign="top"><p>No Contacts Found...</p></td></tr>
+	 
+	 <%else%>
+	 <tr>
+	 	<% @hmm_users.each do |i|
+			
+			
+			conditions2 = "v_e_mail LIKE '#{i.v_email}%'"
+			@hmmtotal = HmmUser.count(:conditions =>  "#{conditions2}")
+			@hmm = HmmUser.find(:all,:conditions =>  "#{conditions2}",:limit=>1)
+			
+				
+
+			if @hmmtotal== 0
+			
+			imagepath='/user_content/photos/big_thumb/blank.jpg'
+			name=i.v_name
+			alttag='Non Hmm Contact'	
+			link="/manage_site/contact_details/#{params[:id]}?uid=#{i.id}&type=1&fname="
+			
+			else		
+			for colmn in @hmm
+
+			imagepath="#{colmn.img_url}/hmmuser/photos/thumb/#{colmn.v_myimage}"
+			hpath='/images/HMM-icon.ico'	
+			alttag='Hmm Contact'
+			name=i.v_name
+
+			if colmn.family_name == ''
+
+			link="/manage_site/contact_details/#{params[:id]}?uid=#{i.id}&type=2&fname="
+
+			else
+
+			@ulink=colmn.family_name 
+			link="/manage_site/contact_details/#{params[:id]}?uid=#{i.id}&fname=#{@ulink}"
+
+			end
+
+			end
+		   end
+
+		%>
+		
+		<% if j >=5 
+			  j=0	
+		%>
+			</tr><tr><tr>
+	<td width="10%" valign="top">&nbsp;</td>
+	<td width="5%" valign="top">&nbsp;</td>
+	<td width="10%" valign="top">&nbsp;</td>
+	<td width="5%" valign="top">&nbsp;</td>
+	<td width="10%" valign="top">&nbsp;</td>
+	<td width="5%" valign="top">&nbsp;</td>
+	<td width="10%" valign="top">&nbsp;</td>
+	<td width="5%" valign="top">&nbsp;</td>
+	<td width="10%" valign="top">&nbsp;</td>
+	</tr><tr>
+		<%end%>
+		<%j=j+1%>
+		<td valign="top">
+			
+				<table  border="0" cellpadding="0" cellspacing="0" align="left"  >
+							 <tr align="left" >
+			          			<td  align="center" >
+									<a href="<%=link%>"   > 
+										<img src="<%=imagepath%>" width="77" height="78" border="0" alt="<%=alttag%>"/>
+									</a>
+								</td>
+			        		</tr>
+			       			<tr>
+			          			<th align="center" valign="top"  scope="col">
+			          				<a href='<%=link%>' class="name-friendsandfamily" >
+			          					<%=name %>
+									</a>
+								</th>
+			        		</tr>
+				</table>   
+					
+			
+		</td>
+		<td></td>
+		<%end%>
+			
+				
+		
+	    <%end%>	
+</tr>
+<tr><td height="10" colspan="8" align="center">&nbsp;</td></tr>
+
+<tr><td height="10" colspan="8" align="center">&nbsp;</td></tr>
+<tr><td height="10" colspan="8" align="center"><%=will_paginate @hmm_users%></td></tr>
+<tr>
+	<td colspan="8">
+		<table border="0"  align="center">
+	<tr>
+		
+		<th align="right">
+			
+		</th>
+		<th>&nbsp;&nbsp;&nbsp;</th>
+		<th align="center" width="100%" >
+                    
+		</th>
+		<th>&nbsp;&nbsp;&nbsp;</th>
+		<th align="left">
+			
+		</th>
+																
+		</th>
+	</tr>
+</table>
+		
+	</td>
+</tr>
+</table>
+
+
+</div>

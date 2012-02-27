@@ -1,0 +1,70 @@
+<div  id="studio">
+  <table align="center" >
+    <tr>
+      <td colspan="8">
+        <%to_date=todate.split('-')
+        from_date=fromdate.split('-')
+        if to_date[1]==2.to_s
+          if to_date[2]==28.to_s
+            todate="#{to_date[0]}-#{to_date[1]}-31"
+          end
+        else
+          if to_date[2]>=30.to_s
+            todate="#{to_date[0]}-#{to_date[1]}-31"
+          end
+        end
+
+        if from_date[1]==2.to_s
+          if from_date[2]>=28.to_s
+            fromdate="#{from_date[0]}-#{from_date[1]}-31"
+          end
+        else
+          if from_date[2]>=30.to_s
+            fromdate="#{from_date[0]}-#{from_date[1]}-31"
+          end
+        end
+
+        %>
+        <font size="3" color="#ffffff">Studio Commission Report - <%=from_date[1]%>/<%=from_date[2]%>/<%=from_date[0]%> to <%=to_date[1]%>/<%=to_date[2]%>/<%=to_date[0]%></font>
+      </td>
+    </tr>
+    <tr>
+      <td colspan="8">
+      </td>
+    </tr>
+    <tr>
+      <td  background="/images/body_hor.JPG">List of studios</td>
+      <td  background="/images/body_hor.JPG">Commissions</td>
+    </tr>
+    <%for i in @hmm_studios%>
+      <tr class="<%= cycle('odd', 'even') -%>">
+        <td>
+          <a href="/account/studio_customers_new/<%=i.id%>?fromdate=<%=fromdate%>&todate=<%=todate%>"><%=i.studio_branch%></a>
+        </td>
+        <%@commision_cal12 = PaymentCount.count(:all, :select => "DISTINCT a.uid" ,:joins => "as a, employe_accounts as b, hmm_users as c ", :conditions => " c.studio_id='#{i.id}' and b.id=a.emp_id and c.id=a.uid and  c.studio_id=b.store_id and a.amount = '$9.95' and a.account_type='platinum_user' and  recieved_on between '#{fromdate}' and '#{todate}' and a.recieved_on > b.employe_join_date")%>
+        <%@commision_cal = PaymentCount.count(:all, :select => "DISTINCT a.uid", :joins => "as a, employe_accounts as b, hmm_users as c", :conditions => " c.studio_id='#{i.id}' and b.id=a.emp_id and c.id=a.uid and  c.studio_id=b.store_id and (a.amount = '$49.95' or a.amount = '$99.95') and a.account_type='platinum_user' and  recieved_on between '#{fromdate}' and '#{todate}' and recieved_on > b.employe_join_date ")%>
+        <% @deduct_commission = DeductManagerCommission.find(:all, :select => "sum(amount) as deduction", :conditions => "studio_id='#{i.id}' and deduction_date between '#{fromdate}' and '#{todate}' ")  %>
+        <td align="center">
+          <%if @commision_cal == 0 && @commision_cal12 == 0 %>
+            NIl
+          <%else%>
+            <%@commision_cal12 = (@commision_cal12 * 4.00)%>
+            <%@commision_cal = (@commision_cal * 3.33)%>
+            <%@total = @commision_cal12 + @commision_cal - @deduct_commission[0].deduction.to_f %>
+            $<%=@total%>
+          <%end%>
+        </td>
+      </tr>
+    <%end%>
+    <tr>
+      <td>
+        &nbsp;
+      </td>
+    </tr>
+    <tr>
+      <th>
+        <input type="button" value="Print Commission Report" name="print" onclick="printIt(document.getElementById('studio').innerHTML);return false" />
+      </th>
+    </tr>
+  </table>
+</div>

@@ -1,0 +1,63 @@
+<table width='90%' border='0' cellspacing='0' cellpadding='0' class="content">
+  <tr>
+    <td colspan="2" align="center">Order Prints </td>
+  </tr>
+  <tr>
+    <td align='left' valign='top'>Subtotal :</td>
+    <td align='left' valign='top' >$<%=number_with_precision(Float(params[:subtotal]), :precision => 2)%>
+    </td>
+  </tr>
+  <!-- Digital Download -->
+  <% unless @subtotal_digital.to_i == 0 %>
+    <tr>
+      <td colspan="2" align="center">Digital Download</td>
+    </tr>
+    <tr>
+      <td align="left" valign="top">Subtotal :</td>
+      <td align="left" valign="top" >$<%= number_with_precision(@subtotal_digital, :precision => 2) %>
+      </td>
+    </tr>
+  <% end %>
+  <tr>
+    <td align='left' valign='top' >&nbsp;</td>
+    <td align='center' valign='top'>&nbsp;</td>
+  </tr>
+  <tr>
+    <td align='left' valign='top' >&nbsp;</td>
+    <td align='center' valign='top'>&nbsp;</td>
+  </tr>
+
+  <tr>
+    <td align='left' valign='top' >Shipping :</td>
+    <td align='left' valign='top' >$<%=number_with_precision(Float(@shipping.ship_price).round(2), :precision => 2)%>
+    </td>
+  </tr>
+    <tr>
+    <td align='left' valign='top' >&nbsp;</td>
+    <td align='center' valign='top' >&nbsp;</td>
+  </tr>
+  <% unless params[:sales_tax] == "0" %>
+    <tr>
+      <td align='left' valign='top' >Sales Tax (<%= Float(params[:sales_tax]) %> %) :</td>
+      <td align='left' valign='top' >$<%=number_with_precision(Float(@salestax.round(2)), :precision => 2)%>
+      </td>
+    </tr>
+    <tr>
+      <td align='left' valign='top' >&nbsp;</td>
+      <td align='center' valign='top'>&nbsp;</td>
+    </tr>
+  <%end%>
+  <tr>
+    <td align='left' valign='top' >Total :</td>
+    <td align='left' valign='top' >$<%=number_with_precision(Float(@total), :precision => 2)%>
+    </td>
+  </tr>
+  <tr>
+    <td align='left' valign='top' >&nbsp;</td>
+    <td align='center' valign='top' >&nbsp;</td>
+  </tr>
+  <tr>
+    <td align='left' valign='top' >&nbsp;</td>
+    <td align='left' valign='top' ></td>
+  </tr>
+</table>

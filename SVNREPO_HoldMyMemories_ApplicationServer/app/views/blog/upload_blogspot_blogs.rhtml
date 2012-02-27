@@ -1,0 +1,100 @@
+<%= stylesheet_link_tag '/stylesheets/themes/nyromodal/nyroModal'%>
+
+<script type="text/javascript">
+   function check_file(field){
+
+
+    if( !/(\.xml|\.XML)$/i.test(field.value)){
+      alert("Invalid file type.. Please Upload only BloggerExport file(.xml) extension!!");
+      field.focus();
+      field.value = '';
+      return false;
+    }
+    return true;
+  }
+
+  function verification(){
+    var uploaded_file = document.getElementById('uploaded_file_uploaded_file').value ;
+
+    if(uploaded_file == "") {
+        alert("Upload Blog file");
+        return false;
+    }
+    return true;
+  }
+</script>
+<%  if flash[:msg]%>
+  <p class="content" style ="align:center;"> <%= flash[:msg]%> </p>
+  <%flash.discard%>
+<% else %>
+
+   <form action="/blog/upload_blogspot_blogs/<%= @family_website_owner.family_name %>" enctype="multipart/form-data" method="post" onsubmit ="return verification();">
+   <br/><br/><br/>
+
+    <p class="content-white">
+      <label for="uploaded_file_uploaded_file">Upload your file.</label>
+      <input id="uploaded_file_uploaded_file" name="uploaded_file[uploaded_file]" size="30" type="file" onchange ="return check_file(this);">
+    </p>
+    <p><input id="uploaded_file_submit" name="commit" value="upload" type="submit"></p></p><br/>
+    <p class="content-white" style ="text-align:center;"><strong>Note:-</strong> &nbsp;&nbsp;&nbsp;&nbsp; Upload an Blogger export file only</p>
+    
+  </form>
+
+
+ <!-- < % form_for(:uploaded_file, @feed, :url => {:action=>'upload_blogspot_blogs'}, :html=> {:multipart=>true}) do |f| %>
+
+    <p class="content-white"> < %= f.label :uploaded_file, 'Upload your file.' %><br />
+
+      < %= f.file_field :uploaded_file %></p>
+
+    <p>< %= f.submit 'upload'%></p>
+    <p><input id="uploaded_file_submit" name="commit" type="submit" value="upload" onclick = "return verification();"  /></p>< %  flash[:msg].destroy %> 
+
+    
+  < % end %>-->
+
+<% end %>
+
+<!--< % form_for(:uploaded_file, @feed, :url => {:action=>'upload_blogspot_blogs'}, :html=> {:multipart=>true}) do |f| %>
+  <table>
+    <tr>
+      <td class="headers">< %= f.label :uploaded_file, 'Upload your file.' %></td>
+    </tr><br/>
+    <tr>
+      < %= f.file_field :uploaded_file %>
+    </tr>
+    <tr>
+      < %= f.submit 'upload' %>
+    </tr>
+
+  </table>
+< % end %>-->
+<!--< %if  @rss %>
+< %# for arr in @datas%>
+< %#=arr['title']%>
+< %#end%>
+
+< % @rss.items.each do |item| %>
+   < %=item.description%>
+  < % "\n" %>
+    < %=item.title%>
+   < % "\n" %>
+  < %=item.content%>
+  < % "\n" %>
+
+  < %end%>
+
+< %#=  @rss.channel.title%>
+< %#=  @rss.channel.description%>
+< %#=  @rss.channel.pubDate%>
+
+<%# @f.elements.each('entry') do |entry|
+ puts 'title: ' + entry.elements['title'].text
+   logger.info(entry.elements['title'].text)
+  puts 'type: ' + entry.elements['category'].attribute('label').value
+    logger.info(entry.elements['category'].attribute('label').value)
+  puts 'updated: ' + entry.elements['updated'].text
+  puts 'id: ' + entry.elements['id'].text
+  end
+  %>#
+< %end%>-->

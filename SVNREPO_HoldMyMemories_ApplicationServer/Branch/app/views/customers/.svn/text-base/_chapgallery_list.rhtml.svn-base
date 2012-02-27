@@ -1,0 +1,108 @@
+
+<table width="100%" border="0"  align="center"  cellspacing="0" cellpadding="0">
+    
+		 <tr>
+		<% j=0 %>
+		<% for i in @user_content
+			photo_comments = PhotoComment.count(:conditions => "user_content_id = #{i.id}")%>
+
+		 <% @viewmoment_count = HmmUser.find_by_sql(" SELECT count( * ) as cnt
+								FROM memories_count
+								WHERE usercontent_id = #{i.id} ") %> 
+		<% %>
+		<% if j==3 %>
+			<% j=0 %>
+			</tr><tr>
+	<%end%> 		
+	<th width="100" height="14" align="left" valign="top" bgcolor="#010101" scope="col">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th>	
+		<th width='197' height='227' background="/images/bg_photos.gif" style="background-repeat:no-repeat;" align="center"  >
+			<table  width="117%" height="80" border="0" align="center">
+  <tr>
+					<th align="left" valign="top" scope="col" >
+				    	<table width="215" border="0" align="center" cellpadding="0"  cellspacing="0" onkeyup=""  >
+<tr>
+					      	 <td height="192" align="center" valign="middle" scope="col"  > 
+							 	<a href="/myphotos/photo_journal/<%= i.id %>"> 
+                                <% if @gal_type == 'video'
+									filename=i.v_filename+'.jpg'	
+%>
+								
+							 	 <img  width="192"  src="<%=i.img_url%>/user_content/videos/thumbnails/<%=filename%>"  border="0"  id="img1" onmousedown="callme(this.id)" onContextMenu="return false;"/>
+						         <% else if @gal_type == 'audio'%>
+								 <img  width="192"  src="<%=i.img_url%>/user_content/audios/speaker.jpg/<%=filename%>" border="0" id="img2" onmousedown="callme(this.id)" onContextMenu="return false;" />
+								<%else%>
+                                                                  <img  width="192"  src="<%=i.img_url%>/user_content/photos/big_thumb/<%= i.v_filename %>" border="0" id="img3" onmousedown="callme(this.id)" onContextMenu="return false;"     />
+                         
+                               <%end%><%end%>
+                                 </a></td><td>&nbsp;&nbsp;&nbsp;</td>
+					   		</tr>
+					    	<tr>
+					        	 <td height="6" align="left" valign="top" scope="col"></td>
+					       </tr>
+					       <tr>
+					             <td height="24" width="" align="center" valign="middle" class="text-journal" scope="col"><% if (i.v_tagphoto.nil?) %> No name <% else %>  <% if (i.v_tagphoto.slice(0,25)) %> <%= i.v_tagphoto.slice(0,25) %> <%else%> No Name <%end%><%end%></td>
+					       </tr>
+					       <tr >
+								<td heigth="50" align="center" valign="top" class="signedtxtwhite" id="padding_photos" scope="col"><span class="photoname">
+									 
+									<%if i.d_momentdate != nil %>
+									
+									Moment Date:
+									<%= i.d_momentdate.strftime("%a %b #{i.d_momentdate.day.ordinalize} %Y %I:%M %p") %><br />
+									
+									<%else if i.d_createddate != nil %>
+									Uploaded Date:
+									<%= i.d_createddate.strftime("%a %b #{i.d_createddate.day.ordinalize} %Y %I:%M %p") %><br />
+									<%else%>
+									Unknown Date<br />
+									<%end%><%end%>
+								<%= @viewmoment_count[0]['cnt'] %> Views  /</span>  <span class="yellowtext"><%=photo_comments%> Comments</span><br><br><br></td>
+						   </tr>
+	   				    </table>					 </th>
+				</tr>
+			</table>
+			<% j= j+1 %>
+		<%end%>
+		<tr>
+          <th height="53" align="left" valign="top" bgcolor="#010101" scope="col"></th>
+          
+          
+          <th align="center" colspan="5" valign="top" class="signedtxtwhite" id="padding_photos" scope="col">
+          	<span class="nextprevioustxt-act"></span>&nbsp;  <span class="nextprevioustxt">
+          	
+			<% if @user_contents_pages.page_count > 1 %>
+			<font size="3"><%= link_to('Previous', {:params => params.merge('page' => @user_contents_pages.current.previous)}) if @user_contents_pages.current.previous %> &nbsp;&nbsp;&nbsp;</font>
+			<% for page in @user_contents_pages -%>
+			<font size="3"><%= link_to_unless((params[:page].to_i == page.number),
+				 page.number, :page => page) %></font> 
+			<% end -%>
+			<font size="3">&nbsp;&nbsp;&nbsp;&nbsp;<%= link_to('Next', {:params => params.merge('page' => @user_contents_pages.current.next)}) if @user_contents_pages.current.next %></font>
+			</th>
+				<th align="left" valign="top" bgcolor="#010101" scope="col"></th>
+			<% end %><td width="95"></span><td width="95"></th> 
+          <th width="95" align="left" valign="top" bgcolor="#010101" scope="col"></th>
+        </tr>
+		<tr>
+		
+		  <th colspan="10" align="center" valign="top" height="0" scope="col">	
+		  	<% if session[:friend]=='' || session[:friend]==nil%>
+		<%else%>
+	
+		  <%= link_to_remote("Add Comments for : &nbsp;&nbsp; \""+@gal_name+"\" ", :update =>"me", 
+		:url => {:controller => :gallery_comment, :action => :new, :id_journal => '0', :id=> params[:id]}, :layout => false  ) %>
+
+		&nbsp;&nbsp;&nbsp; <%end%>
+	
+	<%  @gallery_comment_count = GalleryComment.count(:all,:conditions => "gallery_id=#{params[:id]}")
+		if(@gallery_comment_count>0)
+%>
+	<%= link_to_remote("View Comments for Gallery: &nbsp;&nbsp; \""+@gal_name+"\" ", :update =>"me", 
+		:url => {:controller => :gallery_comment, :action => :comnt_list, :gal_id=> params[:id] , :id => 0 }, :layout => false  ) %>
+	<%end%>	
+	</th>
+  </tr>
+		<tr>
+		  
+		  <th colspan="10" align="center" valign="top" scope="col"><div id="me"></div></th>
+		  </tr>
+</table><br><br><br><br>

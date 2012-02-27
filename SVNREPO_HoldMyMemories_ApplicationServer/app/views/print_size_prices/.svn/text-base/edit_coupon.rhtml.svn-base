@@ -1,0 +1,175 @@
+<script type="text/javascript">
+
+  function makenone(a){
+  var e=document.getElementById(a);
+   if(!e)return true;
+  if(e.style.display=="none"){
+    e.style.display="inline"
+  } else {
+    e.style.display="none"
+  }
+  return true;
+}
+
+   function select(a) {
+    var theForm = document.frm;
+    for (i=0; i<theForm.elements.length; i++) {
+        if (theForm.elements[i].name=='studios[]')
+            theForm.elements[i].checked = a;
+    }
+}
+  function formcheck()
+  {
+    var x1= document.getElementById('discount_coupon_start_date_2i').value;
+    var x2= document.getElementById('discount_coupon_start_date_3i').value;
+    var x3= document.getElementById('discount_coupon_start_date_1i').value;
+    var y1= document.getElementById('discount_coupon_end_date_2i').value;
+    var y2= document.getElementById('discount_coupon_end_date_3i').value;
+    var y3= document.getElementById('discount_coupon_end_date_1i').value;
+    var date1 = new Date(x3,x1,x2);
+    var date2 = new Date(y3,y1,y2);
+
+     if(date1 > date2)
+     {
+       alert("Start date is greater than End date");
+       return false;
+     }
+
+
+    var field=document.getElementsByName('studios[]');
+    var haschecked=false;
+    //alert(document.getElementsByName('studios[]').length);
+    if(document.getElementById('coupon_id').value=='')
+    {
+      alert("Please Enter the coupon Id");
+      return false;
+    }
+    if(document.getElementById('coupon_title').value=='')
+    {
+      alert("Please Enter the coupon Title");
+      return false;
+    }
+
+    if((document.getElementById('discount_amount').value=='') && (document.getElementById('discount_amount1').checked==false))
+    {
+      alert("Please Enter the Discount Amount");
+      return false;
+    }
+     if((document.getElementById('min_discount').value=='') && document.getElementById('purchase_required').checked == true)
+    {
+      alert("Please Enter the Minimum Purchase Amount");
+      return false;
+    }
+    for (i = 0; i < field.length; i++)
+    {
+
+      if(field[i].checked==true)
+      {
+        haschecked=true;
+        break;
+      }
+    }
+    if(haschecked==false)
+    {
+      alert("Select the studios");
+      return false;
+    }
+    return true;
+  }
+
+</script>
+<script type="text/javascript">
+  function toggleMe(makeminimum)
+  {
+    var e=document.getElementById(makeminimum);
+    e.style.display="inline"
+  }
+  function toggleMe1(makeminimum)
+  {
+    var e=document.getElementById(makeminimum);
+    e.style.display="none"
+  }
+  var r={'special':/[\W]/g}
+  function valid(o,w)
+  {
+    o.value = o.value.replace(r[w],'');
+  }
+</script>
+ <% form_tag ({:action => 'edit_coupon'}, :name => 'frm',:id=>@discount_coupon) do %>
+<table width="800" align="center">
+  <input type="hidden" name="discount_coupon[id]" value="<%=@discount_coupon[id]%>" />
+
+    <tr><td><h2>Edit Discount codes for <%= @discount_coupon.coupon_title %></h2></td></tr>
+</table>
+  <table width="600" align="center">
+    <tr><td> Discount Coupon ID&nbsp;*</td><td><input type="label" name="discount_coupon[coupon_id]" id="coupon_id" value="<%=@discount_coupon.coupon_id%>" readonly/>
+    <tr><td></td><td><font color="red" size="2"> read only</font></td></tr>
+    <%#*<br>%>
+      <%#= observe_field   :'coupon_id',
+        :with       => "coupon_id",
+        :frequency  => 0.25,
+        :url        => {:action => :validate_coupon  },
+        :update     => :message
+    %>
+      <%#*<span id="message"></span>%></td></tr>
+    <tr height="10"><td></td><td></td></tr>
+    <tr><td> Discount Title&nbsp;*</td><td><input type="text" name="discount_coupon[coupon_title]" id="coupon_title" value="<%=@discount_coupon.coupon_title%>" onKeyUp="valid(this,'special')"/></td></tr>
+    <tr><td></td><td>(Ex: ImagingUSA001,HMMOnline100 etc...)</td></tr>
+    <tr height="10"><td></td><td></td></tr>
+    <tr><td> Discount Amount on this item&nbsp;*</td><td><div id="dis" style="display: inline"><input type="text" name="discount_coupon[discount]" id="discount_amount" value="<%=@discount_coupon.discount%>"  onKeyUp="valid(this,'special')"/>$</div> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Free:<input type="checkbox"  id="discount_amount1"  name="discount_coupon[discount]" value="FREE" onclick="makenone('dis')"/></td></tr>
+    <tr height="10"><td></td><td></td></tr>
+<% if  @discount_coupon.min_purchase=="Yes" %>
+    <% @vis= "display: inline" %>
+    <tr><td> Minimum Purchase Required:</td><td><input type="radio" name="discount_coupon[min_purchase]" value="Yes" id="purchase_required" onclick="return toggleMe('makeminimum')" checked/>Yes</td></tr>
+<%else%>
+<tr><td> Minimum Purchase Required:</td><td><input type="radio" name="discount_coupon[min_purchase]" value="Yes"  onclick="return toggleMe('makeminimum')" />Yes</td></tr>
+<%end%>
+<% if  @discount_coupon.min_purchase=="No" %>
+ <% @vis= "display: none" %>
+    <tr><td></td><td><input type="radio" name="discount_coupon[min_purchase]" value="No" onclick="return toggleMe1('makeminimum')" checked/>No</td></tr>
+<%else%>
+<tr><td></td><td><input type="radio" name="discount_coupon[min_purchase]" value="No" onclick="return toggleMe1('makeminimum')" />No</td></tr>
+<%end%>
+    <tr height="10"><td></td> <td></td></tr>
+    <tr id="makeminimum" style=<% @vis %>><td> Minimum Amount Of Purchase: </td><td><input type="text" name="discount_coupon[min_amount]"  id ="min_discount" value="<%=@discount_coupon.min_amount%>" onKeyUp="valid(this,'special')" onKeyUp="valid(this,'special')"/>$</td></tr>
+    <tr height="10"><td></td><td></td></tr>
+    <tr><td ><label for="cupon_start_date">Start Date :</label></td>
+      <td><%= date_select 'discount_coupon', 'start_date', :id => 'start_date' ,  :order => [:month, :day, :year], :start_year => Time.now.year , :end_year => Time.now.year + 1    %>
+      </td>
+    </tr>
+    <tr height="10"><td></td></tr>
+    <tr>
+      <td><label for="cupon_expire_date">Expire Date :</label></td>
+      <td><%= date_select  'discount_coupon','end_date', :id => 'expire_date' ,  :order => [:month, :day, :year], :start_year => Time.now.year , :end_year => Time.now.year + 1    %>
+      </td>
+    </tr>
+    <tr height="10"><td></td></tr>
+      <tr height="10"><td></td></tr>
+      <tr>
+          <td valign="top"><label for="cupon_cupon_type">Studios :</label></td>
+          <td> <%  if(@hmmstudiocnt > 0)
+             if @studarr.include?("0") && @studiogroups[0].id.to_i ==1 %>
+       <input type='checkbox' name='studios[]' id='studios[]' value=0  checked/>&nbsp;&nbsp; All Dirrect Customers<br>
+       <%elsif !@studarr.include?("0") && @studiogroups[0].id.to_i ==1 %>
+       <input type='checkbox' name='studios[]' id='studios[]' value=0  />&nbsp;&nbsp; All Dirrect Customers<br>
+       <%end
+              for k in @hmmstudios
+                   if @studarr.include?(k.id.to_s) %>
+                    <input type='checkbox' name='studios[]' id='studios' value=<%= k.id %> checked >&nbsp;&nbsp;<%= k.studio_name%><br />
+                  <%  else %>
+                    <input type='checkbox' name='studios[]' id='studios'  value=<%= k.id %> >&nbsp;&nbsp;<%= k.studio_name%><br />
+                  <% end %>
+                <%end%>
+              <br /><a href='javascript:select(1)'>Check all</a> |
+              <a href='javascript:select(0)'>Uncheck all</a><br />
+            <%  else   %>
+              No Studios Found
+            <%  end  %>
+          </td>
+        </tr>
+      <tr><td><input type="hidden" name="studio_id" value="<%=  @discount_coupon.studio_id %>" />
+       <input type="hidden" name="studio_group" value="<%=  @studiogroups[0].id %>" /></td></tr>
+    <tr height="25"><td></td></tr>
+    <tr align="center"><td><input type="submit" name="create" value="Update" onClick="return formcheck();"/></td></tr>
+</table>
+<%end%>

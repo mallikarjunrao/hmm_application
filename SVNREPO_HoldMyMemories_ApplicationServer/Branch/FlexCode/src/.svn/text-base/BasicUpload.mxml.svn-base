@@ -1,0 +1,626 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:Application xmlns:mx="http://www.adobe.com/2006/mxml" layout="vertical" verticalAlign="top" verticalGap="0" xmlns:local="*" backgroundColor="0" 
+	width="100%" height="100%" paddingTop="0" creationComplete="handleCreationComplete()" xmlns:components="components.*"
+	preloader="custompreloader.PreloaderHourGlass" backgroundAlpha="0" horizontalScrollPolicy="off" verticalScrollPolicy="off" initialize="handleInitialize()">
+	<mx:HBox height="0" width="100%" horizontalAlign="left" verticalAlign="top" horizontalGap="0" id="breadCrumBox">
+		<mx:LinkButton label="Chapter:" fontSize="14" color="0xf79646" click="handleChapterLinkClick()" paddingTop="0"/>
+		<mx:LinkBar id="breadCrum" itemClick="handleBreadCrumItemClick(event)" paddingTop="0"/>	
+	</mx:HBox>
+	<mx:ViewStack id="basicViewStack" change="handleViewStackIndexChange()" width="100%" height="100%">
+		<components:BasicUserChapters name="chapter" id="chapterView" width="100%" height="100%" borderThickness="0"/>
+		<components:BasicUserSubChapters name="subchapter" id="subchapterView" width="100%" height="100%" borderThickness="0"/>	
+        <components:BasicUserGalleries name="gallery" id="galleryView" width="100%" height="100%" borderThickness="0"/>
+    </mx:ViewStack>
+	<mx:HBox width="100%" height="100%" id="nextBaxkBox"  verticalAlign="top" paddingTop="0" verticalGap="0">
+		<mx:VBox width="100%" id="backBox" height="100%" horizontalAlign="left" verticalAlign="top" visible="false">
+			<mx:Button id="back" styleName="back" click="handleBack()"   useHandCursor="true" buttonMode="true"/>
+			<mx:Label text="Back" styleName="labelstyle" paddingLeft="20"/>
+		</mx:VBox>
+		<mx:VBox width="100%" id="nextBox" height="100%" horizontalAlign="right" verticalAlign="top" paddingTop="0" verticalGap="0">
+			<mx:Button id="next" styleName="next" click="handleNext()"  useHandCursor="true" buttonMode="true"/>
+			<mx:Label text="Next" styleName="labelstyle" paddingRight="20"/>
+		</mx:VBox>
+	</mx:HBox>
+	<mx:HTTPService id="service" url="/customers/chapters_list" result="handleResult(event)" fault="handleFault(event)"/>
+	<mx:Style>
+		 .firstButtonStyle
+		{
+			 fillColors: #000000, #000000, #000000, #cccccc;
+			corner-radius : 0;
+			color : #Ffffff;
+			selection-color : #ff6633;
+			theme-color : #ff6633;
+		}
+		
+		Alert 
+		{
+		    corner-radius: 8;
+		    header-height: 27;
+		    header-colors: #999999, #000000;
+		    background-color: #000000;
+		    color: #ffffff;
+		    border-thickness: 4;
+		    border-color: #000000;
+		    panel-border-style: roundCorners;
+		    shadow-distance: 4;
+		    shadow-direction: bottom;
+		    button-style-name: "firstButtonStyle";
+		  }
+		  
+	     LinkBar
+	     {
+	     	separator-skin: Embed(source='assets/arrow.3.png');
+	     	font-size:  14;
+	     	horizontal-gap: 20;
+	     	color: #f79646;
+	     }
+	     .labelstyle
+	     {
+	     	font-size: 18;
+	     	font-family: Arial;
+	     	color: #ffffff;
+	     }
+        .back
+        {
+         /*  icon: Embed(source='assets/arrow_prev_def.png');*/ 
+         up-skin: Embed(source='assets/arrow_prev_def.jpg');
+		  down-skin: Embed(source='assets/arrow_prev_down.jpg');
+		  over-skin:  Embed(source='assets/arrow_prev_ovr.jpg'); 
+          /* background-alpha: 0; */	
+        }
+        
+        
+        .next
+        {
+        	/* icon: Embed(source='assets/arrow_next_def.png');*/ 
+         	up-skin: Embed(source='assets/arrow_next_def.jpg');
+		  down-skin: Embed(source='assets/arrow_next_down.jpg');
+		  over-skin:  Embed(source='assets/arrow_next_ovr.jpg'); 
+        	/* background-alpha: 0; */
+        	
+        }
+         	  
+		LinkButton 
+		{
+   			cornerRadius: 0;
+   			paddingLeft: 1;
+   			rollOverColor: #000000;
+   			selectionColor: #f79646;
+   			color: #f79646;
+   			textRollOverColor: #f79646;
+   			textSelectedColor: #f79646;
+   			fontFamily: Verdana;
+   			fontWeight: normal;
+   			font-size: 14;
+   			/* textDecoration: underline; */
+		}
+		
+		 VScrollBar 
+		 {
+    			downArrowUpSkin: Embed(source="assets/downArrow.png");
+    			downArrowOverSkin: Embed(source="assets/downArrow.png");
+    			downArrowDownSkin: Embed(source="assets/downArrow.png");
+    			upArrowUpSkin: Embed(source="assets/upArrow.png");
+    			upArrowOverSkin: Embed(source="assets/upArrow.png");
+    			upArrowDownSkin: Embed(source="assets/upArrow.png");
+    			thumbDownSkin: Embed(source="assets/thumb.png",scaleGridLeft="7", scaleGridTop="5", scaleGridRight="8", scaleGridBottom="7");
+        
+    			thumbUpSkin: 
+        			Embed(source="assets/thumb.png",
+        			scaleGridLeft="7", scaleGridTop="5", 
+        			scaleGridRight="8", scaleGridBottom="7");
+        
+    			thumbOverSkin: 
+        			Embed(source="assets/thumb.png",
+        			scaleGridLeft="7", scaleGridTop="5", 
+        			scaleGridRight="8", scaleGridBottom="7");
+        
+    			trackSkin: 
+        			Embed(source="assets/scrolltrack.png",
+        			scaleGridLeft="7", scaleGridTop="4", 
+        			scaleGridRight="8", scaleGridBottom="6" );       
+			}
+		/* VSlider
+		{
+			/*thumb-over-skin: Embed(source="/assets/scrollThumbOver.png");
+			thumb-down-skin: Embed(source="/assets/scrollThumb.png");
+			thumb-up-skin: Embed(source="/assets/scrollThumb.png");
+			 thumb-width: 2;
+			thumb-height: 2; */
+			/*thumb-skin: Embed(source="/assets/scrollThumb.png");
+			track-margin: 2;
+			thumb-upIcon: Embed(source="/assets/scrollThumb.png");
+			thumb-downIcon: Embed(source="/assets/scrollThumb.png");
+			thumb-overIcon: Embed(source="/assets/scrollThumbOver.png");
+		} */
+	</mx:Style>
+	<mx:Script>
+		<![CDATA[
+			import mx.olap.aggregators.CountAggregator;
+			import mx.controls.Alert;
+			import mx.controls.Alert;
+			import mx.collections.ArrayCollection;
+			import vo.ChapterVO;
+			import components.ChaptersView;
+			import mx.collections.ArrayCollection;
+			import vo.SubChapterVO;
+			import mx.events.ItemClickEvent;
+			import vo.GalleryVO;
+			import vo.SubChapterVO;
+			import mx.controls.Alert;
+			import vo.ChapterVO;
+			import model.HmmChaptersModel;
+			import mx.managers.PopUpManager;
+			import mx.containers.Canvas;
+			import mx.core.IFlexDisplayObject;
+			import mx.collections.ArrayCollection;
+			import mx.rpc.events.FaultEvent;
+			import mx.rpc.events.ResultEvent;
+			
+			private var dataset : ArrayCollection;
+			public var popup : IFlexDisplayObject;
+			private var currentFolder : Object;	
+			private var breadCrumData : ArrayCollection;
+			public  var ready : Boolean = false;
+			public var currentGalleryType : int;
+			public var currentChapterId : int;
+			public var currentSubChapterId : int;
+			public var currentGalleryId : int;
+			public var currentGallery : Object;
+			public var folderCreated : Boolean = false;
+			public var createType : int;
+			public var selectedChild : Object;
+			public var currentChapter : Object;
+			public var currentSubchapter : Object;
+			private var nextBoxHeight : Number;
+			public var proxyName : String;
+			public var proxyUrl : String;
+			
+			private function handleChapterLinkClick() : void
+			{
+				basicViewStack.selectedChild = chapterView;
+				breadCrum.dataProvider = null;
+				breadCrumData.removeAll();
+				
+			}
+			
+			
+			private function handleInitialize() : void
+			{
+				if(Application.application.parameters.hasOwnProperty("proxyurls"))
+				{
+					var proxyurls : String = Application.application.parameters.proxyurls;
+					var urls : Array = proxyurls.split(",");
+					for(var i : int = 0; i < urls.length; i++)
+					{
+						Security.loadPolicyFile("http://12.156.60.97/crossdomain.xml");
+					}
+				}
+				else
+				{
+					Security.loadPolicyFile(urls[i]+"/crossdomain.xml");
+				}
+				if(Application.application.parameters.hasOwnProperty("proxyname"))
+				{
+					proxyName = Application.application.parameters.proxyname;
+				}
+				else
+				{
+					proxyName = "csrv";
+				}
+				if(Application.application.parameters.hasOwnProperty("proxyurl"))
+				{
+					proxyUrl = Application.application.parameters.proxyurl;
+				}
+				else
+				{
+					proxyUrl = "http://12.156.60.97";
+				}
+				proxyUrl = "http://12.156.60.97";
+			}
+			
+			
+			public function set nextVisble(value : Boolean) : void
+			{
+				nextBox.visible = value;
+			}
+			
+			public function minimizeBradcrumAndNextBack() : void
+			{
+				
+				nextBoxHeight = nextBaxkBox.height;
+				breadCrumBox.height = 0;
+				nextBaxkBox.height = 0;
+			}
+			
+			public function normalizeBradCrumAndNextBack() : void
+			{
+				breadCrumBox.height = 25;
+				nextBaxkBox.height = nextBoxHeight;
+			}
+			
+			public function maximizeBradcrumAndNextBack() : void
+			{
+				breadCrumBox.height = 25;
+				nextBaxkBox.height = nextBoxHeight;
+			}
+			private function handleViewStackIndexChange() : void
+			{
+				if(basicViewStack.selectedIndex)
+				{ 
+					backBox.visible = true;
+					breadCrumBox.height = 20;
+					
+				} 
+				else
+				{ 
+					backBox.visible=false;
+					breadCrumBox.height = 0;
+				}
+				if(basicViewStack.selectedChild.name == "contents")
+				{
+					nextBox.visible = false;
+				}
+				else
+				{
+					nextBox.visible = true;
+				}
+				switch(basicViewStack.selectedChild.name)
+				{
+					case "chapter":
+					      	selectedChild = chapterView;
+					       break;
+					case "subchapter":
+					       selectedChild = subchapterView;
+					       break;
+					case "gallery":
+							selectedChild = galleryView;
+					       break;
+					       
+					 
+				}
+			}
+			
+			private function handleCreationComplete() : void
+			{
+				
+				dataset = new ArrayCollection();
+				service.send();
+				popup = PopUpManager.createPopUp(this, Canvas, true);
+				popup.width = 0;
+				popup.height = 0;
+				selectedChild = chapterView;
+				
+			}
+			
+			private function handleResult(event : ResultEvent) : void
+			{
+				var myModel : HmmChaptersModel = new HmmChaptersModel();
+				myModel.data = event.result.root;
+				HmmChaptersModel.setInstance(myModel);
+				chapterView.model = myModel;
+				PopUpManager.removePopUp(popup);
+				ready = true;
+			}
+			
+			private function handleFault(event : FaultEvent) : void
+			{
+				
+			}
+			
+			private function handleNext() : void
+			{
+				if(folderCreated)
+				{
+					if(!selectedChild.renamed)
+					 {
+					 	switch(basicViewStack.selectedIndex)
+						{
+							case 0:
+							      Alert.show("Please enter the name for Chapter in the box");
+							      return;
+							      break;
+							case 1:
+							      Alert.show("Please enter the name for Subchapter in the box");
+							      return;
+							      break;
+							case 2:
+							      Alert.show("Please enter the name for Gallery in the box");
+							      return;
+							      break;
+						}
+					 }
+					 else
+					 {
+					 	folderCreated= false;
+					 }
+				}
+				switch(basicViewStack.selectedChild.name)
+				{
+					case "chapter":
+					       if(chapterView.chapterTileList.selectedItem == null)
+					       	Alert.show("Please select a chapter to go to next step");
+					       else
+					        loadSubChapters();	
+					       break;
+					case "subchapter":
+					       if(subchapterView.subchapterTileList.selectedItem == null)
+					        Alert.show("Please select a sub-chapter to go to next step");
+					       else
+					        loadGalleries();
+					       break;
+					case "gallery":
+							if(galleryView.galleryTileList.selectedItem == null)
+					        Alert.show("Please select a gallery to go to next step");
+					       else
+					        loadContents();
+					       break;
+					       
+					 
+				}
+				
+			}
+			
+			private function handleBack() : void
+			{
+				if(folderCreated)
+				{
+					if(!selectedChild.renamed)
+					 {
+					 	switch(basicViewStack.selectedIndex)
+						{
+							case 0:
+							      Alert.show("Please enter the name for Chapter in the box");
+							      return;
+							      break;
+							case 1:
+							      Alert.show("Please enter the name for Subchapter in the box");
+							      return;
+							      break;
+							case 2:
+							      Alert.show("Please enter the name for Gallery in the box");
+							      return;
+							      break;
+						}
+					 }
+					 else
+					 {
+					 	folderCreated= false;
+					 }
+				}
+				switch(basicViewStack.selectedChild.name)
+				{
+					case "subchapter":
+							basicViewStack.selectedIndex = basicViewStack.selectedIndex - 1;
+							/* breadCrumData.removeItemAt(1);
+							breadCrum.dataProvider = breadCrumData; */
+							var count : int = breadCrumData.length -1;
+						    for(; count >= 0; count --)
+						      breadCrumData.removeItemAt(count);
+						    breadCrum.dataProvider = breadCrumData;
+						   break;
+					case "gallery":
+					        	if(galleryView.handleBack())
+								{
+									
+									var count : int = breadCrumData.length -1;
+						    		for(; count > 0; count --)
+						      			breadCrumData.removeItemAt(count);
+						    		breadCrum.dataProvider = breadCrumData;
+						        	basicViewStack.selectedIndex = basicViewStack.selectedIndex - 1;
+								}
+								 else
+								{
+									
+									var count : int = breadCrumData.length -1;
+						    		for(; count > 1; count --)
+						      			breadCrumData.removeItemAt(count);
+						    		breadCrum.dataProvider = breadCrumData;
+								} 
+						   		break;
+					 
+				}
+			}
+			
+			private function loadSubChapters() : void
+			{
+					currentFolder = chapterView.chapterTileList.selectedItem as ChapterVO;
+					if(currentFolder)
+					{
+						currentChapter = currentFolder;
+						var contents : ArrayCollection = new ArrayCollection(currentFolder["subchapters"]);
+						subchapterView.data = contents;
+						subchapterView.chapterID = currentFolder.id;
+						currentChapterId = currentFolder.id;
+						breadCrumData = new ArrayCollection();
+						var dataObj : Object = new Object();
+						dataObj.label = currentFolder.name;
+						dataObj.type = currentFolder.classType;
+						breadCrumData.addItem(dataObj);
+						breadCrum.dataProvider = breadCrumData;
+						basicViewStack.selectedIndex = basicViewStack.selectedIndex+1;
+						
+					}
+					
+					 
+					
+			}
+			
+			private function loadGalleries() : void
+			{
+					currentFolder = subchapterView.subchapterTileList.selectedItem as SubChapterVO;
+					if(currentFolder)
+					{
+						currentSubchapter = currentFolder;
+						var contents :ArrayCollection = new ArrayCollection(currentFolder["gallery"]);
+				        galleryView.data = contents;
+				        currentSubChapterId = currentFolder.id;
+				        var dataObj : Object = new Object();
+						dataObj.label = currentFolder.name;
+						dataObj.type = currentFolder.classType;
+						breadCrumData.addItem(dataObj);
+						breadCrum.dataProvider = breadCrumData;
+						
+			  		}
+			        basicViewStack.selectedIndex = basicViewStack.selectedIndex + 1; 
+					
+				
+			}
+			
+			private function loadContents() : void
+			{
+					
+					if(galleryView.checkForRenameGallery())
+					{
+						currentFolder = galleryView.galleryTileList.selectedItem as GalleryVO;
+						var galleryType : String = (currentFolder as GalleryVO).type;
+						if(breadCrumData.length < 3)
+						{
+							var dataObj : Object = new Object();
+							dataObj.label = currentFolder.name;
+							dataObj.type = currentFolder.classType;
+							breadCrumData.addItem(dataObj);
+							breadCrum.dataProvider = breadCrumData;
+						} 
+						switch((currentFolder as GalleryVO).type)
+						{
+							
+						  case "image":
+									   currentGalleryType = 0;
+									   break
+						  case "video":
+						  			   currentGalleryType = 1;
+									   break
+						  case "audio":
+						  			   currentGalleryType = 2;
+									   break
+						  	 
+						}
+						currentGalleryId = currentFolder.id;
+						currentGallery = currentFolder;
+						galleryView.galleryViewStack.selectedIndex = 3;
+					}
+					else
+					{
+						galleryView.galleryViewStack.selectedIndex = 1;
+					}	 
+			}
+			
+			private function handleBreadCrumItemClick(event : ItemClickEvent) : void
+			{
+				if(folderCreated)
+				{
+					if(!selectedChild.renamed)
+					 {
+					 	switch(basicViewStack.selectedIndex)
+						{
+							case 0:
+							      Alert.show("Please enter the name for Chapter in the box");
+							      return;
+							      break;
+							case 1:
+							      Alert.show("Please enter the name for Subchapter in the box");
+							      return;
+							      break;
+							case 2:
+							      Alert.show("Please enter the name for Gallery in the box");
+							      return;
+							      break;
+						}
+					 }
+					 else
+					 {
+					 	folderCreated= false;
+					 }
+				}
+				switch(event.item.type)
+				{
+					case "chapterVO":
+					    // basicViewStack.selectedChild = chapterView;
+					    if(breadCrumData.length > 0)
+					    {
+						    basicViewStack.selectedChild = subchapterView;
+						    var count : int = breadCrumData.length -1;
+						    for(; count >0; count --)
+						      breadCrumData.removeItemAt(count);
+						    breadCrum.dataProvider = breadCrumData;
+						}  
+					    break;
+					case "subChapterVO":
+					      if(breadCrumData.length > 1)
+					      {
+					      	basicViewStack.selectedChild = galleryView;
+					      	galleryView.galleryViewStack.selectedIndex = 0;
+						    var count : int = breadCrumData.length -1;
+						    for(; count >1; count --)
+						      breadCrumData.removeItemAt(count);
+						    breadCrum.dataProvider = breadCrumData;
+					      }
+					      break;
+					case "galleryVO":
+					      /* galleryView.handleBack(); 
+					      if(breadCrumData.length > 2)
+					      {  
+                          	breadCrumData.removeItemAt(2);
+					      	breadCrum.dataProvider = breadCrumData;
+						  } */
+					      break;
+				}
+			}
+			
+			public function addSubChapter(subchapter : SubChapterVO, chapterid : int) : void
+			{
+				var chapDataProvider : ArrayCollection = chapterView.dataprovider;
+				for(var i : int = 0; i < chapDataProvider.length; i++)
+				{
+					if(chapDataProvider[i].id == chapterid)
+					{
+						chapDataProvider[i].subchapters.push(subchapter);
+					}
+				}
+				chapterView.dataprovider = chapDataProvider;
+				 
+			}
+			
+			public function set chapterIcon(url : String) : void
+			{
+				for(var i : int = 0; i < chapterView.dataprovider.length; i++)
+				{
+					if(currentChapter == chapterView.dataprovider[i])
+					{
+						chapterView.dataprovider[i].icon = url;
+						break;
+					}
+				}
+			}
+			
+			public function set subchapterIcon(url : String) : void
+			{
+				
+				for(var i : int = 0; i < subchapterView.dataprovider.length; i++)
+				{
+					if(currentSubchapter == subchapterView.dataprovider[i])
+					{
+						subchapterView.dataprovider[i].icon = url;
+						break;
+					}
+				}
+			}
+			
+			
+			public function set galleryIcon(url : String) : void
+			{
+				for(var i : int = 0; i < galleryView.dataprovider.length; i++)
+				{
+					if(currentGallery == galleryView.dataprovider[i])
+					{
+						galleryView.dataprovider[i].icon = url;
+						break;
+					}
+				}
+			}
+			
+			
+		]]>
+	</mx:Script>
+</mx:Application>

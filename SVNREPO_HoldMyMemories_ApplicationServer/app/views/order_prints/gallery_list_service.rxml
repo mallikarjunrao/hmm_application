@@ -1,0 +1,72 @@
+xml.instruct! :xml, :version=>"1.0"
+xml.root {            
+  #galleries listing
+  xml.galleries{
+    if(@cnt>0)
+      xml.gallery{
+          xml.id(@selected_gallery.id)
+          if @selected_gallery.tag_type=='chapter'
+            xml.gallery_name(@selected_gallery.v_gallery_name)
+            xml.icon(@selected_gallery.img_url + "/user_content/photos/icon_thumbnails/#{@selected_gallery.v_gallery_image}")
+          else
+            xml.gallery_name(@selected_gallery.v_tagname)
+            xml.icon(@selected_gallery.album_img_url + "/user_content/photos/icon_thumbnails/#{@selected_gallery.v_chapimage}")
+          end
+          xml.chapter_name(@selected_gallery.v_tagname)
+          gallerydet=Galleries.find(@selected_gallery.id)
+        subchapterdet=SubChapter.find(gallerydet.subchapter_id)
+        #logger.info("studio id => #{subchapterdet.store_id}")
+        if(subchapterdet.store_id)
+
+        #if item.v_tagname!=nil && item.v_tagname.downcase == 'studio sessions' #if the usercontent belongs to studio sessions apply particular studio size and rate
+
+         # if @selected_gallery.v_tagname!=nil && @selected_gallery.v_tagname.downcase == 'studio sessions' #if the usercontent belongs to studio sessions apply particular studio size and rate
+              @contdet=Galleries.find(:first,:select=>"a.*,b.*,b.store_id as studio_id",:joins=>"as a , sub_chapters as b ",:conditions=>"a.id=#{@selected_gallery.id} and b.id=a.subchapter_id")
+              @findstudiosizes = PrintSizePrice.find(:all,:conditions=>"studio_id = '#{@contdet.studio_id}' and default_size ='1'")
+              if(@findstudiosizes.length>0)
+              sizeflag = 1
+              else
+              sizeflag = 0
+              end
+            else #if the usercontent uploaded by user or user doesn't belong to any employee apply hmm size and price
+              sizeflag = 1
+            end
+          xml.sizeflag(sizeflag)
+          xml.subchapter_name(@selected_gallery.sub_chapname)
+      }
+    end
+    for gallery123 in @galleries
+      xml.gallery{
+        xml.id(gallery123.id)        
+        if gallery123.tag_type=='chapter'
+          xml.gallery_name(gallery123.v_gallery_name)
+          xml.icon(gallery123.img_url + "/user_content/photos/icon_thumbnails/#{gallery123.v_gallery_image}")          
+        else
+          xml.gallery_name(gallery123.v_tagname)
+          xml.icon(gallery123.album_img_url + "/user_content/photos/icon_thumbnails/#{gallery123.v_chapimage}")
+        end
+        xml.chapter_name(gallery123.v_tagname)
+         gallerydet=Galleries.find(gallery123.id)
+         subchapterdet=SubChapter.find(gallerydet.subchapter_id)
+         #logger.info("studio id => #{subchapterdet.store_id}")
+         if(subchapterdet.store_id!='' || subchapterdet.store_id!=nil || subchapterdet.store_id > 0 )
+
+        #if gallery123.v_tagname!=nil && gallery123.v_tagname.downcase == 'studio sessions' #if the usercontent belongs to studio sessions apply particular studio size and rate
+              @contdet=Galleries.find(:first,:select=>"a.*,b.*,b.store_id as studio_id",:joins=>"as a , sub_chapters as b ",:conditions=>"a.id=#{gallery123.id} and b.id=a.subchapter_id")
+              @findstudiosizes = PrintSizePrice.find(:all,:conditions=>"studio_id = '#{@contdet.studio_id}' and default_size ='1'")
+              if(@findstudiosizes.length>0)
+              sizeflag = 1
+              else
+              sizeflag = 0
+              end
+            else #if the usercontent uploaded by user or user doesn't belong to any employee apply hmm size and price
+              sizeflag = 1
+            end
+        xml.sizeflag(sizeflag)
+        xml.subchapter_name(gallery123.sub_chapname)
+      }
+    end
+  }
+}
+  
+  

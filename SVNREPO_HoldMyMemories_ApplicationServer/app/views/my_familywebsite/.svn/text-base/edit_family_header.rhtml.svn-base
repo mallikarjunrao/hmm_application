@@ -1,0 +1,233 @@
+<table width="100%" cellpadding="0" cellspacing="0" border="0">
+	<tr valign="top" >
+		<td width="170" valign="top" >
+			<%= render :partial => "my_familywebsite/leftnav", :locals => { :current => "header"} %>
+		</td>
+		<td valign="top">
+<script type="text/javascript">
+	function validateFileExtension(fld) {
+	if(!/(\.bmp|\.gif|\.jpg|\.jpeg)$/i.test(fld.value)) {
+		alert("Invalid file type.. Please enter only image files!!");
+		fld.focus();
+		return false;
+	}
+	return true;
+}
+</script>
+<style>
+
+.familyheading {
+font-family:Arial, Helvetica, sans-serif;
+font-size: 16px;
+color: #d04c00;
+
+
+}
+.border10 {
+	border-top: none;
+	border-bottom: none;
+}
+
+
+.notetext{
+	font-family: "Book Antiqua";
+	font-size: 12px;
+	color: #888888;
+}
+
+.notetext_bor{
+	font-family: "Book Antiqua";
+	font-size: 12px;
+	color: #888888;
+	border-bottom: thin solid #333333;
+}
+
+.notetext_bor1{
+	font-family: "Book Antiqua";
+	font-size: 12px;
+	color: #888888;
+	border-top: thin solid #333333;
+}
+.border_top {
+	border-top: thin solid #333333;
+}
+
+</style>
+<%= stylesheet_link_tag 'SpryAssets/SpryValidationTextField' %>
+<%= javascript_include_tag 'SpryAssets/SpryValidationTextField' %>
+
+<%= javascript_include_tag 'effects' %>
+<%= javascript_include_tag 'popup.js' %>
+<%= stylesheet_link_tag 'popup.css' %>
+
+<%= javascript_include_tag 'modalbox/prototype' %>
+<script type="text/javascript" src="/javascripts/modalbox/scriptaculous.js?load=effects"></script>
+<script type="text/javascript" src="/javascripts/modalbox/modalbox.js"></script>
+<%= stylesheet_link_tag 'modalbox/modalbox' %>
+
+<%session[:sharepath]='fnf'%>
+<% session[:friend]=''%>
+<% form_tag ("#{request_content_url}/familywebsite_setup/step2_update/#{@hmm_user.id}" ,{:multipart => true}) do %>
+<table width="100%" border="0" class="border" bordercolor="#333333" cellpadding="0" cellspacing="0">
+	<font color="#f5dfa6"><%=flash[:notice_step1succes]%></font>
+	<tr><th  align="center" colspan="2" valign="bottom" scope="col" class="border10">
+</th></tr> 
+	<tr>
+	  <th rowspan="7"  align="top"><img src="<%=@hmm_user.img_url%>/hmmuser/familyphotos/thumbs/<%=@hmm_user.family_pic%>"></th>
+	  <th  align="center" valign="bottom" scope="col" class="border10"><font color="#f5dfa6"><%=flash[:notice_step2succes]%></font></th>
+  </tr>
+	<tr>
+	  <th colspan="4"  align="left" valign="middle" scope="col" class="border10">
+      <%= javascript_include_tag 'SpryAssets/SpryValidationPassword' %>
+<%= javascript_include_tag 'SpryAssets/SpryValidationConfirm' %>
+<%= stylesheet_link_tag 'SpryAssets/SpryValidationPassword' %>
+<%= stylesheet_link_tag 'SpryAssets/SpryValidationConfirm' %>
+<div style="margin-left:60px;"></div>
+					<table>
+						<tr>
+							<td class="conthr">&nbsp;							</td>
+						</tr>
+						<tr>
+							<td class="conthr"><span class="style1"><font size="3px" color="#ffffff">Customize your Family Website header..</font></span></td><td> &nbsp;&nbsp;<span class="popup_link" id="passlink">
+					<img src="/images/question.gif" border="0"></span>
+		            <div id="info1" class="popup" style="display:none;">
+                    <table>
+
+						<tr>
+							<td >
+							Tips:							</td>
+						</tr>
+						<tr>
+							<td >
+							You can customize your family header..							</td>
+						</tr>
+					</table>
+                    </div>
+													</td>
+						</tr>
+					</table>							</th>
+  </tr>
+  <tr><td align="left" colspan="2" class="border10">
+				<table border="0" width="445" class="banner_main_bg">
+	<tr>
+		<th colspan="0" align="left" valign="top" width="43" class="contsignup" scope="col">		</th>
+<th width="363" align="left" valign="middle"><span id="sprytextfield1">
+<input type="text" name="hmm_user[family_header]" id="hmm_user_family_header" size = "20" value="<%=@hmm_user.family_header%>" class="textbox-signup" maxlength="15">
+		<span class="textfieldRequiredMsg">Mandatory field.</br></span></span>		</th>
+		<th align="right">&nbsp;</th>
+	</tr>
+	<tr>
+		<th colspan="0" width="43">&nbsp;</th>
+<th align="left" valign="middle" colspan="2">
+	     
+			<span id="sprytextfield2">
+			&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+			<input type="text" name="hmm_user[familyname_select]" id="hmm_user_familyname_select" size = "20" <%if (@hmm_user.familyname_select == '' || @hmm_user.familyname_select == nil )%> value="<%=@hmm_user.v_fname%>" <%else%> value="<%=@hmm_user.familyname_select%>" <%end%> class="textbox-signup" maxlength="12" >
+			<span class="textfieldRequiredMsg">Mandatory field.</br></span></span>		</th>
+    </tr>
+    
+	<tr>
+		<th colspan="0" width="43">&nbsp;</th>
+<th align="left" valign="middle" colspan="2">
+			<span id="sprytextfield3">
+			&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+			<input type="text" name="hmm_user[family_footer]" id="hmm_user_family_footer" size = "20" value="<%=@hmm_user.family_footer%>" class="textbox-signup" maxlength="20" >
+			<span class="textfieldRequiredMsg">Mandatory field.</br></span></span>				</th>
+    </tr>
+</table></td></tr>		
+	
+	<tr>
+	  <th  align="left" valign="bottom" scope="col" class="border10">&nbsp;</th>
+  </tr>
+	<tr>  
+            		<th  align="left" valign="bottom" scope="col" class="border10">
+              		<table width="522" valign="bottom" border="0" cellspacing="0" cellpadding="0">
+<tr>
+              			<th  width="171"  align="right" valign="middle" scope="col" class="conthr"><font size="3px" color="#ffffff">Upload Family Image:</font></span></th>
+		  <th width="9" align="left" valign="bottom" scope="col" rowspan="2">&nbsp;</th>
+              			<th align="left" width="310" valign="bottom" scope="col">
+              			<%= file_field 'hmm_user', 'family_pic', :size => 30,:onchange => "return validateFileExtension(this)"%>
+                         &nbsp;&nbsp;</th>
+    <th width="32" align="left" valign="bottom">
+						<span class="popup_link" id="infolink">
+						<img src="/images/question.gif" border="0"></span>
+<div id="info" class="popup">
+					<table>
+						<tr>
+							<td >
+							Tips:							</td>
+						</tr>
+						<tr>
+							<td >
+
+							Family Image will be displayed on the header of your family website...							</td>
+						</tr>
+						<tr>
+							<td >
+							Please upload Your family image...							</td>
+						</tr>
+						<tr>
+							<td >
+
+								
+								<a href="/bob" target="_blank">  Click hear to view Sample Family Website </a>							</td>
+						</tr>
+					</table>
+					</div>					</th>
+            		</tr>
+              		</table>					</th>
+            	</tr>
+				
+				<tr><td class="border10">&nbsp;</td></tr>
+				<tr>
+            		
+              		<th  align="left" valign="top" scope="col" class="border10">&nbsp;</th>
+  </tr>
+				<tr><td class="border10">&nbsp;</td></tr>
+				<tr>
+            		<th rowspan="2" align="top">&nbsp;</th>
+              		<th  align="left" valign="top" scope="col" class="border10"><div align="center"><span class="border_top">
+              		  <input type='image' src="/images/preview_save.png" value="Create" onClick="return validate();" />
+           		    </span></div></th>
+  </tr>
+           		<tr>
+           			<td colspan="2">&nbsp;</td>
+           		</tr>
+				<tr>
+					<td align="center"  class="border_top" colspan="2">&nbsp;</td>
+				</tr>
+</table>
+<%end%>
+
+<script type="text/javascript">
+	new Popup('info1','passlink');
+    new Popup('info','infolink');
+	new Popup('aboutinfo','aboutlink');
+	new Popup('historyinfo','historylink');
+  </script>
+<script type="text/javascript">
+function escapeSpecialCharacters(field)
+{
+	var name = document.getElementById(field).value;
+	name =  name.replace(/[^a-zA-Z0-9]+/g,'');
+	document.getElementById('family_name').value=name;
+}
+
+if (document.getElementById('family_edit_header').checked) {
+	new Ajax.Updater('family_edit_header', '/family_members/edit_familypassword/<%=logged_in_hmm_user.id%>', {
+		asynchronous: true,
+		evalScripts: true,
+		onLoading: function(request){
+			Effect.Appear('fnf');
+		}
+	});
+}
+</script>
+<script type="text/javascript">
+var sprytextfield1 = new Spry.Widget.ValidationTextField("sprytextfield1", "none", {validateOn:["blur", "submit"],isRequired:true});
+var sprytextfield2 = new Spry.Widget.ValidationTextField("sprytextfield2", "none", {validateOn:["blur", "submit"]});
+var sprytextfield3 = new Spry.Widget.ValidationTextField("sprytextfield3", "none", {validateOn:["blur", "submit"]});
+</script>
+	</td>
+	</tr>
+</table>

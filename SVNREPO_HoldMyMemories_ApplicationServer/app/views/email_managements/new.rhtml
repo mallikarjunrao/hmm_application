@@ -1,0 +1,77 @@
+<script type="text/javascript">
+	function verify()
+	{
+		//alert('i am in');
+		
+		
+		if (document.getElementById('email_management_to_email').value == 'select')
+		{
+			alert("Please enter the users accounts!");
+			document.getElementById('email_management_to').focus();
+			return false;
+		}
+		
+ 				
+		if (document.getElementById('email_management_subject').value == '') 
+		{
+			alert("Please enter the subject!");
+			document.getElementById('email_management_subject').focus();
+			return false;
+		}
+		
+		/*if (document.getElementById('email_management_message').value == '') 
+		{
+			alert("Please enter the message!");
+			document.getElementById('email_management_message').focus();
+			return false;
+		}*/
+		
+		if (document.getElementById('email_management_footer_message').value == '') 
+		{
+			alert("Please enter the email signature!");
+			document.getElementById('email_management_footer_message').focus();
+			return false;
+		}
+					
+		if (document.getElementById('email_management_email_interval').value == 'select') 
+		{
+			alert("Please enter the interval period you want to send the email!");
+			document.getElementById('email_management_email_interval').focus();
+			return false;
+		}
+	}
+	
+	function check_email()
+	{
+		
+		if (document.getElementById('email_management_email_type').checked == true)
+		{
+			document.getElementById('newsletter').style.display = 'block';
+			document.getElementById('text').style.display = 'none';
+		}
+		else
+		{
+			document.getElementById('newsletter').style.display = 'none';
+			document.getElementById('text').style.display = 'block';
+		}
+	}
+	function text_email()
+	{
+		
+		if (document.getElementById('email_management_email_type').value == 'newsletter')
+		{
+			document.getElementById('newsletter').style.display = 'none';
+			document.getElementById('text').style.display = 'block';
+		}
+	}
+</script>
+
+<h2>Auto Email Management</h2>
+
+<form action="http://content.holdmymemories.com/setup_auto_email/setup_admin_emails"  method="post" onsubmit="return verify()" enctype="multipart/form-data" >
+
+  <%= render :partial => 'form' %>
+  <center> <%= submit_tag "Create" %></center>
+</form>
+
+<%= link_to 'Back', :action => 'list' %>

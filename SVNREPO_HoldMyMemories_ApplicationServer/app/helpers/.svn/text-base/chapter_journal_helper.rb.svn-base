@@ -1,0 +1,2 @@
+module ChapterJournalHelper
+end

@@ -1,0 +1,120 @@
+<table width="100%" border="0" cellspacing="0" cellpadding="0">
+          <tr>
+            
+			<td align="center" valign="middle" class="orangetextmenu">
+                		<% if (params[:controller]!='manage_site' && params[:controller]!='mysite_security' && params[:action]!='login')%>
+                		<%if(request.request_uri == "/my_familywebsite/journals/#{@userid[0]['family_name']}" || request.request_uri == "/my_familywebsite/messageboard/#{@userid[0]['family_name']}" ) %>
+                  		<a href="/my_familywebsite/share/<%=@family_name_tag%>/?link=<%=request.request_uri%>" onMouseOut="MM_swapImgRestore();" onMouseOver="MM_swapImage('Image55','','/images/share-ths_btn_ovr.jpg',1);" onclick="Modalbox.show(this.href, {title: this.title, width: 625}); return false;" >
+                        	<span class="orangetextmenu">Share This Page</span>
+						</a>
+						<%else%>
+					     <% if @path=='moment_page' %>
+						 <% link= "#{request.request_uri}" %>
+						 <% link = link.squeeze(" ").strip  %>
+						 
+						<a href="/my_familywebsite/share/<%=@family_name_tag%>/?id=<%=@family_name_tag%>&link=<%=link%>&pa=moment_page" class="orangetextmenu" >
+                        	<span class="orangetextmenu">Share This Page</span>
+						</a>
+						<%else%>
+						<a href="/my_familywebsite/share/<%=@family_name_tag%>/?link=<%=request.request_uri%>&id=<%=@family_name_tag%>" class="orangetextmenu" >
+                        	<span class="orangetextmenu" >Share This Page</span>
+						</a>
+						<%end%>
+						<%end%>
+						<%else%>
+						
+						<%end%>
+					</td>
+			
+          </tr>
+          <tr>
+            <td height="14" align="center" valign="middle"></td>
+          </tr>
+          <tr>
+           
+			
+			<td align="center" valign="middle">
+                  	<a href="/my_familywebsite/home/<%=@family_name_tag%>" class="blacktext">
+                  		<% if(request.request_uri == "/my_familywebsite/home/#{@userid[0]['family_name']}" ) %>
+						Home
+						<%else%>
+						Home
+						<%end%>
+						</a>
+						</td>
+          </tr>
+          <tr>
+            <td height="14" align="center" valign="middle"></td>
+          </tr>
+          <tr>
+            
+			<td align="center" valign="middle">
+             	<a href="/my_familywebsite/biographies/<%=@family_name_tag%>" class="blacktext">
+                  	<% if(request.request_uri == "/my_familywebsite/biographies/#{@userid[0]['family_name']}" ) %>
+						Biography
+					<%else%>
+						Biography
+					<%end%>
+				</a>
+			</td>
+          </tr>
+          <tr>
+            <td height="14" align="center" valign="middle"></td>
+          </tr>
+          <tr>
+              <td align="center" valign="middle">
+                  <a href="/my_familywebsite/journals/<%=@family_name_tag%>" class="blacktext">
+                  	<% if(request.request_uri == "/my_familywebsite/journals/#{@userid[0]['family_name']}" ) %>
+						Journal
+                  	<%else%>
+						Journal
+					<%end%>
+				  </a>
+			  </td>
+          </tr>
+          <tr>
+            <td height="14" align="center" valign="middle"></td>
+          </tr>
+          <tr>
+            <td align="center" valign="middle">
+              	<a href="/my_familywebsite/messageboard/<%=@family_name_tag%>" class="blacktext">
+                  	<% if(request.request_uri == "/my_familywebsite/messageboard/#{@userid[0]['family_name']}" ) %>
+						Guest Book
+					<%else%>
+						Guest Book
+					<%end%>
+				</a>
+			</td>
+          </tr>
+          <tr>
+            <td height="14" align="center" valign="middle"></td>
+          </tr>
+          
+          <tr>
+            <td align="center" valign="middle">
+               	<a href="/my_familywebsite/contactus/<%=@family_name_tag%>" class="blacktext">
+                	<% if(request.request_uri == "/my_familywebsite/contactus/#{@userid[0]['family_name']}" ) %>
+						Email Us
+					<%else%>
+						Email Us
+					<%end%>
+				</a>
+			</td>
+          </tr>
+          <tr>
+            <td height="14" align="center" valign="middle"></td>
+          </tr>
+          <tr>
+            
+			<td align="center" valign="middle">
+                <a href="/manage_site/home/<%=@family_name_tag%>" class="blacktext">
+                 	<% if(request.request_uri == "/manage_site/home/#{@userid[0]['family_name']}" || request.request_uri == "/manage_site/advance_upload/#{@userid[0]['family_name']}" || request.request_uri == "/manage_site/fnf_index/#{@userid[0]['family_name']}" || request.request_uri == "/manage_site/slideshowTemplates/#{@userid[0]['family_name']}" || request.request_uri == "/manage_site/edit_profile/#{@userid[0]['family_name']}" || request.request_uri == "/manage_site/manage_biography/#{@userid[0]['family_name']}" || request.request_uri == "/manage_site/manage_journals/#{@userid[0]['family_name']}" || request.request_uri == "/manage_site/comments_list/#{@userid[0]['family_name']}" || request.request_uri == "/manage_site/edit_familyname/#{@userid[0]['family_name']}" || request.request_uri == "/mysite_security/password_settings/#{@userid[0]['family_name']}" || request.request_uri == "/manage_site/edit_family_header/#{@userid[0]['family_name']}" || request.request_uri == "/mysite_security/change_admin_password/#{@userid[0]['family_name']}" || request.request_uri == "/mysite_security/change_website_password/#{@userid[0]['family_name']}" || request.request_uri == "/mysite_security/change_website_password/#{@userid[0]['family_name']}") %>
+						Manage Your Site
+					<%else%>
+						Manage Your Site
+					<%end%>
+				</a>
+			</td>
+          </tr>
+          
+        </table>

@@ -1,0 +1,120 @@
+<script type="text/javascript">
+
+ function home(type){
+
+      var ajax = new Ajax();
+      ajax.responseType =type;
+      ajax.ondone = function(data) {
+        document.getElementById('main_content').setInnerFBML(data);
+      }
+      ajax.onerror = function() {
+        new Dialog().showMessage('Error!','Ajax failed for some reason. Please try again.');
+      }
+      ajax.post('<%=@path.proxyname%>/face_book_invite/familywebsite/?facebook_profile_id='+<%=@family_website_owner.facebook_profile_id%>);
+
+  }
+  function biography(type){
+
+      var ajax = new Ajax();
+      ajax.responseType =type;
+      ajax.ondone = function(data) {
+        document.getElementById('main_content').setInnerFBML(data);
+      }
+      ajax.onerror = function() {
+        new Dialog().showMessage('Error!','Ajax failed for some reason. Please try again.');
+      }
+      ajax.post('<%=@path.proxyname%>/face_book_invite/biography/?facebook_profile_id='+<%=@family_website_owner.facebook_profile_id%>);
+
+  }
+
+  function blog(type){
+
+      var ajax = new Ajax();
+      ajax.responseType =type;
+      ajax.ondone = function(data) {
+        document.getElementById('main_content').setInnerFBML(data);
+      }
+      ajax.onerror = function() {
+        new Dialog().showMessage('Error!','Ajax failed for some reason. Please try again.');
+      }
+      ajax.post('<%=@path.proxyname%>/face_book_invite/blog/?facebook_profile_id='+<%=@family_website_owner.facebook_profile_id%>);
+
+  }
+
+
+  function display_comments(type){
+
+      var ajax = new Ajax();
+      ajax.responseType =type;
+      ajax.ondone = function(data) {
+        document.getElementById('main_content').setInnerFBML(data);
+      }
+      ajax.onerror = function() {
+        new Dialog().showMessage('Error!','Ajax failed for some reason. Please try again.');
+      }
+      ajax.post('<%=@path.proxyname%>/face_book_invite/display_comments/?facebook_profile_id='+<%=@family_website_owner.facebook_profile_id%>);
+
+  }
+
+  function intro(type){
+
+      var ajax = new Ajax();
+      ajax.responseType =type;
+      ajax.ondone = function(data) {
+        document.getElementById('main_content').setInnerFBML(data);
+      }
+      ajax.onerror = function() {
+        new Dialog().showMessage('Error!','Ajax failed for some reason. Please try again.');
+      }
+      ajax.post('<%=@path.proxyname%>/face_book_invite/intro/?facebook_profile_id='+<%=@family_website_owner.facebook_profile_id%>);
+
+  }
+
+
+  function emailus(type){
+
+      var ajax = new Ajax();
+      ajax.responseType =type;
+      ajax.ondone = function(data) {
+        document.getElementById('main_content').setInnerFBML(data);
+      }
+      ajax.onerror = function() {
+        new Dialog().showMessage('Error!','Ajax failed for some reason. Please try again.');
+      }
+     ajax.post('<%=@path.proxyname%>/face_book_invite/emailus/?facebook_profile_id='+<%=@family_website_owner.facebook_profile_id%>);
+  }
+
+
+  function mw_home(type){
+
+      var ajax = new Ajax();
+      ajax.responseType =type;
+      ajax.ondone = function(data) {
+        document.getElementById('main_content').setInnerFBML(data);
+      }
+      ajax.onerror = function() {
+        new Dialog().showMessage('Error!','Ajax failed for some reason. Please try again.');
+      }
+      ajax.post('<%=@path.proxyname%>/face_book_invite/mw_home/?facebook_profile_id='+<%=@family_website_owner.facebook_profile_id%>);
+
+  }
+
+
+
+</script>
+
+
+<div id="navcontainer" align="center" style="width:<%=@app_width%>px;" >
+  <ul id="navlist">
+    <li><a href="#" onclick="home(Ajax.FBML); return false;">Home</a></li>
+    <li><a href="#" onclick="biography(Ajax.FBML); return false;">Biography</a></li>
+    <li><a href="#" onclick="blog(Ajax.FBML); return false;">Blog</a></li>
+    <li><a href="#" onclick="display_comments(Ajax.FBML); return false;">Guest Book</a></li>
+    <!--<li><a href="http://staging.holdmymemories.com/guest_book/display_comments/# @family_website_owner.family_name %>" target="_blank">Guest Book</a></li>-->
+    <li><a href="#" onclick="intro(Ajax.FBML); return false;">Contest</a></li>
+    
+        <li><a href="#" onclick="emailus(Ajax.FBML); return false;">Email Us</a></li>
+   
+    <li><a href="#" onclick="mw_home(Ajax.FBML); return false;">Site</a></li>
+  </ul>
+</div>

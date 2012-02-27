@@ -1,0 +1,355 @@
+<script type="text/javascript">
+	
+	
+	function show_text_boxes(i)
+	{
+		var txt; 
+		for(j=1; j<=15; j++)
+		{
+			
+			document.getElementById(j).style.display='none';
+			
+		}	
+		for(j=1; j<=i; j++)
+		{
+			
+			document.getElementById(j).style.display='block';
+			
+		}
+	}
+	
+	function checkrelation(val,i)
+	{
+	 
+	    var leng=document.getElementById('count').value;
+		
+		for (j = 1; j <= leng; j++) 
+		{
+			
+			if (val == "mother" || val == "father" ||  val == "husband" || val == "wife" )
+			{
+				
+				if (j != i) {
+				
+					var len = document.getElementById('relation' + j).options.length
+					for (x = 0; x < len-1; x++) {
+						
+						if (document.getElementById('relation' + j).options[x].value == val) {
+							
+							
+							document.getElementById('relation' + j).options[x] = null;
+						}
+					}
+				}
+			}
+			
+			if (document.getElementById('relation' + j).value == 'other'){
+				
+				document.getElementById('other_rel' + j).style.display='block';
+			}
+			else {
+				document.getElementById('other_rel' + j).style.display='none';
+			}
+		}		
+			
+	}
+		
+
+	function check_chapter(i,k)
+	{
+		
+		var x = document.getElementById('count').value;
+		for (l = 1; l <= 2; l++) {
+			
+			if (l == k) {
+			
+			}
+			else {
+			
+			
+				if (document.getElementById('chapter' + k).value == document.getElementById('chapter' + l).value) {
+					
+					document.getElementById('chapter' + k).value="default"
+					alert("this chapter is already selected");
+					return false;
+				}
+			}
+		}
+	}
+
+	function verify(i)
+	{
+		var x = document.getElementById('count').value;
+		if (x == 0) {
+			alert("Please select how many family members do you want to add!")
+			return false;
+		}
+		else
+		{	
+			for (j = 1; j <= x; j++) 
+			{
+				if(document.getElementById('relation' + j).value=='other' && document.getElementById('other_relation' + j).value==''){
+					alert("please enter the Relationship");
+					document.getElementById('other_relation' + j).focus();
+					return false;
+				}
+				if (document.getElementById('family' + j).value == '') 
+				{
+					alert("please enter family member name");
+					document.getElementById('family' + j).focus();
+					return false;
+				}
+				if (document.getElementById('relation' + j).value == 'select') 
+				{
+					alert("please select family member Relation");
+					document.getElementById('relation' + j).focus();
+					return false;
+				}
+				if (document.getElementById('bio' + j).value == '') 
+				{
+					alert("please enter family member Biography");
+					document.getElementById('bio' + j).focus();
+					return false;
+				}
+				
+				if (document.getElementById('chapterselect' + j)=='yes' + j && document.getElementById('chapter' + j).value == 'default') 
+				{
+					alert("please select a chapter");
+					document.getElementById('chapter' + j).focus();
+					return false;
+				}
+			
+			}
+		
+		}
+	}
+	
+	
+	
+</script>
+<style>
+
+.familyheading {
+font-family:Arial, Helvetica, sans-serif;
+font-size: 16px;
+color: #d04c00;
+
+
+}
+
+
+.notetext{
+	font-family: "Book Antiqua";
+	font-size: 12px;
+	color: #888888;
+}
+</style>
+<%session[:sharepath]='fnf'%>
+<% session[:friend]=''%>
+<table border="0" width="100%">
+<tr>
+  <th width="0" align="left" valign="top" scope="col"></th>
+  <th width="100%" align="left" valign="top" scope="col">
+  	<table width="100%" border="0" cellspacing="0" cellpadding="0">
+    <tr>
+      <th width="140" height="22" align="left" valign="top" scope="col">
+      	
+      	<a href="/customers/edit_profile/<%=logged_in_hmm_user.id%>" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('Image22','','/images/manage-profile_over.jpg',1)">
+      	<img src="/images/manage-profile_def.jpg" name="Image22" width="140" height="22" border="0" id="Image22" /></a>
+	  </th>
+      
+	  <th width="206" align="left" valign="top" scope="col">
+	  
+	  	<a href="/customers/FnF_Request" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('Image24','','/images/manage-fndsandfmly_over.jpg',1)">
+	  		<img src="/images/manage-fndsandfmly_def.jpg" name="Image24" width="206" height="22" border="0" id="Image24" /></a>
+			</th>
+      
+	  <th width="164" align="left" valign="top" scope="col">
+	  	<a href="/chapter_comment/allcmt_list/" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('Image25','','/images/manage-comments_over.jpg',1)">
+	  	<img src="/images/manage-comments_def.jpg" name="Image25" width="164" height="22" border="0" id="Image25" /></a>	  </th>
+		
+		<th width="140" align="left" valign="top" scope="col">
+	  	<a href="/share_moments/manageShare/" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('Image26','','/images/manage-share_over.jpg',1)">
+	  	<img src="/images/manage-share_def.jpg" name="Image26" width="140" height="22" border="0" id="Image26" /></a>	  
+		</th>
+		
+		<th width="206" align="left" valign="top" scope="col">
+			<img src="/images/mang_family_web_over.jpg" name="Image27" width="206" height="22" border="0" id="Image27" /></a>
+	  	
+		</th>
+		
+    </tr>
+  </table></th>
+  <th width="390" align="left" valign="top" scope="col"></th>
+</tr>
+</table>
+                                  
+<% form_tag ("http://content.holdmymemories.com/familywebsite_setup/create_familymember/#{@hmm_user.id}" ,{:multipart => true}) do %>
+<div align="right">
+<a href="/<%=logged_in_hmm_user.family_name%>" target="_blank"><img src="/images/pre_family_website.jpg" border="0" /></a>
+</div><br>
+
+<table width="100%" border="1" bordercolor="#333333" cellpadding="0" cellspacing="0">
+	
+	<tr>
+		<th bgcolor="#333333" ><span class="familyheading">Step 3</span></th>
+	</tr>
+	<tr><td class="notetext" align="center">This section allows you to create chapters for each member of your family and write biographies to be included in your list of chapters. The biographies are also displayed on your family website.
+	 <br> <a href="/my_familywebsite/biographies/eveleth" target="_blank">  click hear to view a sample </a></td></tr>
+	<tr>
+		<td class="border10">
+			<br>
+			<%@familymember_count = FamilyMember.count(:all, :conditions => "uid='#{logged_in_hmm_user.id}'")%>
+			<%if @familymember_count > 1%>
+			<font color="#ffffff">Please select how many family members do you want to add </font>&nbsp;
+			<%else%>
+			<font color="#ffffff">Please select how many family members do you have </font>&nbsp;
+			<%end%>
+			<select name="count" id="count" onchange="show_text_boxes(this.value)">
+	  		<option value="0">select</option>
+      		<%
+      		  i=0
+      		  until i == 15 
+			  i=i+1 %>
+      		<option value="<%=i%>"><%=i%></option>
+			
+			
+      		<%end%>
+			
+      		</select> 
+			
+		</td>
+	</tr>
+	
+	<tr><td class="border10">&nbsp;</td></tr>
+	
+		<tr>
+			
+			<td colspan="5" class="border10">
+			<% i=0
+      		   until i == 15 
+		       i=i+1 %>
+	  		<div id="<%=i%>"  style="display:none">
+      		<table width="890" border="0" class="border" cellspacing="0" cellpadding="0">
+      		<tr><th colspan="8">&nbsp;</th></tr>
+			<tr>
+         	<th height="0" width="10" align="left" valign="top" scope="col">&nbsp;</th>
+            
+           	<th align="left" width="200" valign="top" scope="col">Name</th>
+		   <th align="left" width="9" valign="top" scope="col">&nbsp;</th>
+           <th align="left" width="120"  valign="top" scope="col">Relation</th>
+              <th align="left" width="8" valign="top" scope="col">&nbsp;</th>
+       
+		   <th width="250" height="10" align="left"  valign="top" scope="col">Date Of Birth</th>
+		    <th align="left" width="9" valign="top" scope="col">&nbsp;</th>
+		   <th  width="188"  valign="top" scope="col" >Biography</th>
+		
+         </tr>
+		 <tr>
+         	<th height="0"  align="left" valign="top" scope="col">&nbsp;</th>
+            
+           <th align="left" width="200" valign="top" scope="col">
+       	   <input type="text" name="family<%=i%>" style="display:block" id="family<%=i%>" /></th>
+		   <th align="left" width="9" valign="top" scope="col">&nbsp;</th>
+           <th align="left" width="120"  valign="top" scope="col">  
+		   <% user=HmmUser.find(:all, :conditions => "id=#{logged_in_hmm_user.id}")
+				params[:id]=user.id
+			relation_check = FamilyMember.find(:all, :conditions => "uid='#{logged_in_hmm_user.id}'")
+				%>
+		   <select name="relation<%=i%>" style="display:block" id="relation<%=i%>" onChange="checkrelation(this.value,<%=i%>)" >
+          <option value="select">select</option>
+		   <%
+		  for k in relation_check
+			if k.relation == "mother"
+		    	m=1 
+ 			end
+			if k.relation == "father"
+		    	fa=1 
+ 			end
+			if k.relation == "husband"
+		    	ha=1 
+ 			end
+			if k.relation == "wife"
+		    	w=1 
+ 			end
+		  end
+		%>
+          <%if m==1%>
+		  <%else%>
+          <option value="mother">Mother</option>
+		  <%end%>
+		  <%if fa==1%>
+		  <%else%>
+		  <option value="father">Father</option>
+		  <%end%>
+          <option value="brother">Brother</option>
+          <option value="sister">Sister</option>
+		  <%if ha==1%>
+          <%else%>
+		  <option value="husband">Husband</option>
+		  <%end%>
+		  <%if w==1%>
+		  <%else%>
+          <option value="wife">Wife</option>
+		  <%end%>
+          <option value="son">Son</option>
+          <option value="daughter">Daughter</option>
+		  <option value="pet">Pets</option>
+		  <option value="other">Others</option>
+        </select></th>
+		<br>
+		
+              <th align="left"  valign="top" scope="col">&nbsp;</th>
+       
+		   <th width="250" valign="top" align="left" scope="col">
+		   	<%= date_select "family_members#{i}", "bdate",  :order => [:month, :day, :year], :start_year => Time.now.year - 100, :end_year => Time.now.year %></th>
+		    <th align="left" width="9" valign="top" scope="col">&nbsp;</th>
+		  <th width="188" ><textarea name="bio<%=i%>" style="display:block" id="bio<%=i%>" rows="5" cols="25" ></textarea></th>
+         
+		 </tr>
+		 
+		 <br><br>
+		 <tr> <td >&nbsp;</td><td colspan="6" align="left"  >
+		 	<div id='other_rel<%=i%>' style="display:none">
+			<font color="#ffffff" size="2">Other Relation</font>
+			&nbsp;&nbsp;<input type='text' name='other_relation<%=i%>' id='other_relation<%=i%>'>
+		</div>
+		<br>
+		 	<font color="#ffffff" size="2">Have You already created a chapter for this family member</font>
+		 &nbsp;&nbsp;
+		 <font color="#ffffff">Yes</font> <input type="radio" name="chapterselect<%=i%>" id="chapterselect<%=i%>" value="yes<%=i%>"  onclick="new Ajax.Updater('choose_chapter<%=i%>','/family_members/choose_chapter/<%=i%>', 
+					{asynchronous:true, evalScripts:true, onLoading:function(request) {Effect.Appear('fnf');}});return true;">
+		<font color="#ffffff">No</font> <input type="radio" name="chapterselect<%=i%>" id="chapterselect<%=i%>" value="no<%=i%>" checked="checked" onclick="new Ajax.Updater('choose_chapter<%=i%>','/family_members/choose_image/<%=i%>',
+					{asynchronous:true, evalScripts:true, onLoading:function(request) {Effect.Appear('fnf');}}); return true;">
+			
+		   <div id="choose_chapter<%=i%>">
+				<table>
+				<input type="hidden" value="<%=params[:id]%>" name="count" />
+				<%k=params[:id]%>
+				<tr>
+					<td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+						&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+						&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+						<input type="file" name="img<%=i%>" id="img<%=i%>"  >
+					</td>
+				</tr>
+				</table>	   	
+		</div>
+
+		   <br>
+			</td></tr>
+		 </table>
+	  	</p>	
+		<%end%>
+		</td>
+	</tr>
+    <tr><th colspan="5">
+    	<a href="/family_members/familypage_members/<%=logged_in_hmm_user.id%>" ><img src="/images/yes_btn_arrow.jpg" name="yes" value="yes" id="yes" border="0"></a>
+        <input type='image' src="/images/create_fml_wbsite.jpg" width="211" height="29" value="Create" onclick="return verify();" /></th>
+    </tr>
+		 
+</table>
+
+
+<%end%>
+

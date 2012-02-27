@@ -1,0 +1,184 @@
+<table width="100%" border="0" cellspacing="0" cellpadding="0">
+  <tr>
+    <td height="100%" align="right" valign="top" class="leftshad"></td>
+    <td width="990" height="500" align="center" valign="top"><table width="990" border="0" cellspacing="0" cellpadding="0">
+      <tr>
+        <td align="center" valign="top"><table width="970" border="0" cellspacing="0" cellpadding="0">
+          <tr>
+            <td align="center" valign="top" class="tab-dots"><table width="970" border="0" cellspacing="0" cellpadding="0" id="tab_bgcolor_repeat">
+              <tr>
+                <td height="36" align="left" valign="middle" background="/images/common/tab_trans.png"></td>
+                </tr>
+              <tr>
+                <td align="left" valign="top"><table width="100%" border="0" cellspacing="0" cellpadding="0">
+                  <tr>
+                    <td width="13" align="left" valign="top"></td>
+                    <td width="944" align="left" valign="top"><table width="100%" border="0" cellspacing="0" cellpadding="0">
+                      <tr>
+                        <td height="10" align="left" valign="top"></td>
+                        </tr>
+                      <tr>
+                        <td height="35" align="left" valign="bottom" class="header-page">Home</td>
+                        </tr>
+                      <tr>
+                        <td height="10" align="left" valign="top"></td>
+                        </tr>
+                      <tr>
+                        <td height="1" align="left" valign="top" bgcolor="#454545"></td>
+                        </tr>
+                      <tr>
+                        <td height="10" align="left" valign="top"></td>
+                        </tr>
+                      <tr>
+                        <td align="left" valign="top" class="content-trans-bg"><table width="100%" border="0" cellspacing="0" cellpadding="0">
+                          
+                          <tr>
+                            <td width="0" align="left" valign="top"></td>
+                            <td align="left" valign="top" style="padding-top:10px;"><table width="100%" border="0" cellspacing="0" cellpadding="0">
+                              <tr>
+                                <td align="left" valign="top" class="content"></td>
+                                <td width="200" align="right" valign="top" class="thummbimg_title"><a href="/familywebsite/home/<%=params[:id]%>">Coverflow View</a></td>
+                              </tr>
+
+                            </table></td>
+                            <td width="20" align="left" valign="top"></td>
+                            </tr>
+                            <tr>
+                              <td align="left" valign="top" colspan="3">
+                                <table align="left" cellspacing="4" border="0">
+                                  <tr>
+                                    <th>
+                                      <%= sort_header_tag('d_updateddate', :text => "<u>Sort By Date</u>",:title => "Sort By Date") %>
+                                      <%= sort_header_tag('v_tagname', :text => "<u>Sort By Name</u>",:title => "Sort By Name") %>
+                                  </th></tr>
+                                </table>
+                              </td>
+                          </tr>
+                          <tr>
+                            <td align="left" valign="top"></td>
+                            <td align="left" valign="top">&nbsp;</td>
+                            <td align="left" valign="top"></td>
+                          </tr>
+                          <tr>
+                            <td align="left" valign="top"></td>
+                            <td align="center" valign="top"><table align="center" cellpadding="0" cellspacing="0" border="0">
+                                  <% if @countcheck > 0 %>
+                                    <% j=0 %>
+                                    <% @tags.each do |@tag| %>
+                                      <% if j == 0 %> <tr>
+                                        <% elsif j >= 3 %>
+                                          <% j=0 %>
+                                    </tr>
+                                    <tr>
+                                      <th height="30" colspan="10" align="left" valign="top" scope="col"></th>
+                                    </tr>
+                                    <tr>
+                                      <% end %>
+                                      <% if @tag.tag_type=="chapter"
+                                            @link="/grid_view/subchapters/#{params[:id]}?chapter_id=#{@tag.id}"
+                                         else
+                                           @gallery_count = UserContent.count(:all,:conditions=>"tagid='#{@tag.id}'")
+                                           if @gallery_count >0
+                                              @gallery = UserContent.find(:all,:conditions=>"tagid='#{@tag.id}'")
+                                              @link="/grid_view/gallery_contents/#{params[:id]}?gallery_id=#{@gallery[0]['gallery_id']}"
+                                           else
+                                              @link="/grid_view/moment_nil/#{params[:id]}?chapter_id=#{@tag.id}"
+                                           end
+                                         end
+                                      %>
+                                    <th width="29" align="left" valign="top" scope="col"><% j=j+1%>&nbsp;&nbsp;&nbsp;</th>
+                                    <th width="73" align="left" valign="top" scope="col" ><a href='<%=@link%>' ><img src="<%= @tag.img_url %>/user_content/photos/icon_thumbnails/<%= @tag.v_chapimage %>" border="0"  height="85" alt=""/></a>
+                                      <br>
+                                    <th width="10" align="left" valign="top" scope="col">&nbsp;</th>
+                                    <th width="139" align="left" valign="top" scope="col">
+                                      <table width="100%" border="0" cellspacing="0" cellpadding="0">
+                                        <tr>
+                                          <th height="13" align="left" valign="top" scope="col"></th>
+                                        </tr>
+                                        <tr>
+                                          <th height="21" align="left" valign="top"  scope="col" ><a href='<%=@link%>' ><span class="content-white"><%= @tag.v_tagname %></span></a></th>
+                                        </tr>
+                                        <tr>
+                                         <th align="left" class="content" valign="top"  scope="col">Created <br>
+                                          <%= @tag.d_createddate.strftime("%a %b #{@tag.d_createddate.day.ordinalize} %Y,   %I:%M %p") %></th>
+                                         </tr>
+
+                                      </table>	 </th>
+
+                                  <% end %>
+                                <% else %>
+                                    <span class="header-paragraph">
+                                  No chapters found...
+                                    </span>
+                                <% end %>
+                                  </table></td>
+                            <td align="left" valign="top"></td>
+                          </tr>
+                          <tr>
+                            <td align="left" valign="top"></td>
+                            <td align="left" valign="top">&nbsp;</td>
+                            <td align="left" valign="top"></td>
+                          </tr>
+                          <tr>
+                            <td align="left" valign="top"></td>
+                            <td align="left" valign="top">&nbsp;</td>
+                            <td align="left" valign="top"></td>
+                          </tr>
+                          <tr>
+                            <td align="left" valign="top"></td>
+                            <td align="center" valign="top" class="side-heading"><%= will_paginate @tags%></td>
+                            <td align="left" valign="top"></td>
+                          </tr>
+                          <tr>
+                            <td align="left" valign="top"></td>
+                            <td align="left" valign="top">&nbsp;</td>
+                            <td align="left" valign="top"></td>
+                          </tr>
+                          <tr>
+                            <td align="left" valign="top"></td>
+                            <td align="left" valign="top">&nbsp;</td>
+                            <td align="left" valign="top"></td>
+                          </tr>
+                          <tr>
+                            <td align="left" valign="top"></td>
+                            <td align="left" valign="top"><table width="100%" border="0" cellspacing="0" cellpadding="0">
+                              <tr>
+                                <td width="200" align="left" valign="top">&nbsp;</td>
+                                <td align="center" valign="top" class="headers"><a href="#">Journal this</a></td>
+                                <td width="200" align="right" valign="top">&nbsp;</td>
+                              </tr>
+                            </table></td>
+                            <td align="left" valign="top"></td>
+                          </tr>
+                          <tr>
+                            <td align="left" valign="top"></td>
+                            <td align="left" valign="top">&nbsp;</td>
+                            <td align="left" valign="top"></td>
+                          </tr>
+                          </table></td>
+                        </tr>
+                      <tr>
+                        <td align="left" valign="top">&nbsp;</td>
+                        </tr>
+
+                      </table></td>
+                    <td width="13" align="left" valign="top"></td>
+                    </tr>
+                  </table></td>
+                </tr>
+              </table></td>
+            </tr>
+          <tr>
+            <td align="center" valign="top" class="tab-dots">&nbsp;</td>
+            </tr>
+          </table></td>
+      </tr>
+      <tr>
+            <td align="center" valign="top" height="25">&nbsp;</td>
+       </tr>
+    </table></td>
+    <td align="left" valign="top" class="rightshad"></td>
+  </tr>
+</table>
+</body>
+</html>

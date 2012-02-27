@@ -1,0 +1,143 @@
+<style type="text/css">
+table#hidden {display:none}
+div#nonprindiv {display:none}
+div#print {
+	display:block;
+	left: 0px;
+	top: 0px;
+	right: 0px;
+	bottom: 0px;
+	position: absolute;
+	height: 100%;
+	width: 100%;
+}
+object {
+display:none;
+}
+
+.orangeborder{
+border:2px solid #ff6407;
+}
+.cont_12{
+	font-family:Arial, Helvetica, sans-serif;
+	font-size:12px;
+	color:#000000;
+	font-weight:normal;
+	text-decoration:none;
+	line-height:18px;
+}
+</style>
+
+
+
+              <table width="601" style="border:2px solid #ff6407;"
+cellpadding="0" cellspacing="0" >
+
+              <tbody><tr>
+                <td colspan="2" class="cont_12_14bold" valign="bottom" 
+align="center">&nbsp;</td>
+              </tr>
+
+              <tr>
+                <td colspan="2" valign="top" align="center" height="30">
+                <table id="border3" width="564" border="0" cellpadding="0" 
+cellspacing="0">
+                  <tbody><tr>
+                    <td class="cont_12" valign="middle" width="254" 
+align="left"><img src="http://holdmymemories.com/images/hmmlogo.png" 
+border="0" ></td>
+                    <td class="cont_12" valign="middle" width="304" 
+align="center">&nbsp;</td>
+                  </tr>
+
+                  <tr>
+                    <td colspan="2" class="cont_12" valign="top" 
+align="center"><strong>Gift Certificate</strong></td>
+                    </tr>
+                 <tr>
+                    <td class="cont_12" valign="top" align="left" colspan="2">&nbsp;</td>
+                    
+                  </tr>
+                  <tr>
+                    <td class="cont_12" valign="top" align="left" colspan="2"><b>Dear <%=@name%>,</b>
+
+</td>
+                    
+                  </tr>
+                  <tr>
+                    <td class="cont_12" valign="top" align="left" colspan="2">&nbsp;
+
+</td>
+                    
+                  </tr>
+                  <tr>
+                    <td class="cont_12" valign="top" align="left" colspan="2"><%=@message%>
+
+</td>
+                    
+                  </tr>
+                  <tr>
+                    <td class="cont_12" valign="top" align="left" colspan="2">&nbsp;
+
+</td>
+                    
+                  </tr>
+                  <tr>
+                    <td class="cont_12" valign="top" align="left" colspan="2"><%=@fname%> <%=@lname%> has purchased a HoldMyMemories.com <%if(@payment_type=='platinum_user') %>
+                    Premium 
+                    <%else%>
+                    Family Website
+                    <%end%> membership for you.  Click the link below or visit a HoldMyMemories.com studio with your Gift Coupon Number to activate your account.
+
+
+
+</td>
+                    
+                  </tr>
+                   <tr>
+                    <td colspan="2" class="cont_12" 
+valign="top" align="center">&nbsp;</td>
+                    </tr>
+                  <tr>
+                    <td colspan="2" class="cont_12" 
+valign="top" align="center"><p><strong>Gift Coupon Number</strong></p>
+                      <p><%=@coupon_number%></p></td>
+                    </tr>
+                  <tr>
+                    <td class="cont_12" valign="top" align="left">&nbsp;</td>
+                    <td class="cont_12_coverflow" valign="top" align="left">&nbsp;</td>
+                  </tr>
+                  <tr>
+                    <td colspan="2" class="cont_12_121" valign="top" 
+align="center">&nbsp;</td>
+                    </tr>
+                  <tr>
+                    <td class="cont_12" valign="top" align="left" 
+height="15"></td>
+                    <td class="cont_12_coverflow" valign="top" align="left"></td>
+                  </tr>
+                </tbody></table>
+                </div></td>
+              </tr>
+              <tr>
+                <td colspan="2" valign="top" align="center" height="10"></td>
+              </tr>
+              <tr>
+                <td valign="middle" width="284" align="center" 
+height="30"><a href="http://holdmymemories.com/" class="cont_12" target="_blank">Return
+ to HoldMyMemories.com</a></td>
+                <td valign="top" width="317" align="center"><script type="text/javascript">
+<!--
+if (window.print) {
+document.write('<form class="hide"><p><input type="submit" value="Print This Page"></p></form>');
+document.forms[document.forms.length-1].onsubmit = function () {window.print(); return false};
+};
+// -->
+</script>
+</td>
+              </tr>
+              <tr>
+                <td valign="middle" align="center" height="60" colspan="2" class="cont_12">To Active Your Acount <a href="http://www.holdmymemories.com/gift_coupons/activate_gift_coupon/<%=@coupon_number%>" target="_blank">Click Here</a></td>
+                <td valign="top" align="center">&nbsp;</td>
+              </tr>
+          </tbody></table> 

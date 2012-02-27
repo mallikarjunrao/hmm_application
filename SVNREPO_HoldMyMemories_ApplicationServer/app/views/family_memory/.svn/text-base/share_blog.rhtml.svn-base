@@ -1,0 +1,165 @@
+<style type="text/css">
+
+  .loginBig{
+    background:transparent;
+    background:url(/images/family_memory/input-big.png);
+    border:none;
+    height:35px;
+    width:140px;
+    font-size:12px;
+    color:#87a3b5;
+  }
+  .loginBig:hover{
+    background:url(/images/family_memory/input-big-ovr.png);
+  }
+</style>
+<%= javascript_include_tag 'themes/prototype' %>
+<script type="text/javascript">
+  function imageswap(element,div) {
+    var i = document.getElementById(element).src;
+    var temp = i.split("/");
+    var source = temp[temp.length-1];
+
+    if(source=="arrow_down.png")
+    {
+      document.getElementById(element).src="/images/common/arrow_up.png";
+      document.getElementById(div).style.display="none";
+
+    }
+    else if(source=="arrow_up.png")
+    {
+      document.getElementById(element).src="/images/common/arrow_down.png"
+      document.getElementById(div).style.display="block";
+    }
+
+  }
+
+  function verify()
+  {
+    if(document.getElementById('nonhmmCheckbox').checked==false && document.getElementById('textfield2').value=='')
+    {
+      alert("Please select a Email from Address Book or enter a friend's Email Address");
+      document.getElementById('textfield2').focus();
+      return false;
+    }
+
+  }
+
+</script>
+
+
+ <%  @studio_header = HmmStudio.find(@family_website_owner.studio_id)
+  if @studio_header.studio_groupid==pp_studio_group
+
+    msghead = "msgHead_blog"
+      bgcolor="rightBarMdl"
+    postbtn = "cmnBtnB cmnBtnMar"
+  else
+  bgcolor=""
+     msghead = "msgHead"
+    postbtn = "loginBig"
+  end %>
+
+
+<table width="100%" border="0" cellspacing="0" cellpadding="0" class="<%= bgcolor %> ">
+      <tr>
+        <td width="23%">&nbsp;</td>
+        <td width="77%">
+          <%  @studio_header = HmmStudio.find(@family_website_owner.studio_id)
+  if @studio_header.studio_groupid==pp_studio_group %>
+          <% else %>
+<img src="/images/family_memory/hmm-logo.png" /> <% end %></td>
+      </tr>
+    </table>
+    <form name="share_blog" action="/family_memory/share_blog_email/<%=params[:id]%>?blog_id=<%=params[:blog_id]%>&blog_type=<%=params[:blog_type]%>" method="post" onsubmit="return verify();">
+
+      <table width="100%" border="0" cellspacing="0" cellpadding="0" class="<%= bgcolor %> ">
+        
+        <tr>
+          <td align="left" valign="top" class="content-trans-bg" width="375"><table width="100%" border="0" cellspacing="0" cellpadding="0">
+              <tr>
+                <td align="left" valign="top">&nbsp;</td>
+                <td align="left" valign="top">&nbsp;</td>
+              </tr>
+              <tr>
+                <td width="30" align="left" valign="top">&nbsp;</td>
+                <td align="left" valign="top"><table width="100%" border="0" cellspacing="0" cellpadding="0">
+                    <tr>
+                      <td align="left" valign="top" class="<%= msghead %> "> Address Book </td>
+                    </tr>
+                    <tr>
+                      <td height="25" align="left" valign="top" class="content">&nbsp;</td>
+                    </tr>
+                    <tr>
+                      <td align="left" valign="middle" class="<%= msghead %>">
+                        <% non_hmmcount = NonhmmUser.count_by_sql("SELECT count(*) FROM nonhmm_users where uid=#{logged_in_hmm_user.id}")%>
+                        <a href="#" onClick="new Ajax.Updater('nonhmm', '/chapter_journal/nonhmm_friendslist/nonhmm '+document.getElementById('nonhmmCheckbox').checked, {asynchronous:true, evalScripts:true});imageswap('nonhmmArrow','nonhmm'); return false;"><img src='/images/common/arrow_up.png' id='nonhmmArrow' border='0' alt="" ></a>&nbsp;
+                        <input type="checkbox" id="nonhmmCheckbox" name="nonhmm[]" onClick="new Ajax.Updater('nonhmm', '/chapter_journal/nonhmm_friendslist/nonhmm '+this.checked, {asynchronous:true, evalScripts:true});imageswap('nonhmmArrow','nonhmm'); return true;">
+			      Address book(<%=non_hmmcount%>)
+                        <div id="nonhmm" style="display:inline;"></div>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td height="25" align="left" valign="top" class="content">&nbsp;</td>
+                    </tr>
+                    <tr>
+                      <td height="25" align="left" valign="top" class="<%= msghead %>">Email</td>
+                    </tr>
+                    <tr>
+                      <td align="left" valign="top"><input name="email" type="text" class="form-field" id="textfield2" /></td>
+                    </tr>
+                    <tr>
+                      <td align="left" valign="top">&nbsp;</td>
+                    </tr>
+
+                    <tr>
+                      <td align="left" valign="top" class="<%= msghead %>">Please enter the email address of the person you would like to share <br />
+                        with-if sending to multiple friends, please separate each address with <br />
+                        a comma. </td>
+                    </tr>
+                    <tr>
+                      <td align="left" valign="top">&nbsp;</td>
+                    </tr>
+                  </table></td>
+              </tr>
+            </table></td>
+          <td width="375" align="left" valign="top" class="content-trans-bg"><table width="100%" border="0" cellspacing="0" cellpadding="0">
+              <tr>
+                <td width="30" align="left" valign="top">&nbsp;</td>
+                <td align="left" valign="top"><table width="100%" border="0" cellspacing="0" cellpadding="0">
+                    <tr>
+                      <td align="left" valign="top">&nbsp;</td>
+                    </tr>
+
+                    <tr>
+                      <td height="25" align="left" valign="top" class="<%= msghead %>">Message</td>
+                    </tr>
+                    <tr>
+                      <td align="left" valign="top"><label>
+                          <textarea name="message" cols="45" rows="5" class="cmt-field" id="textarea"></textarea>
+                        </label></td>
+                    </tr>
+                    <tr>
+                      <td align="left" valign="top">&nbsp;</td>
+                    </tr>
+                    <tr>
+                      <td align="left" valign="top"><label>
+                          <input type="submit" name="share_bt" class="<%= postbtn %>" value="Share Blog Entry" />
+                          &nbsp;
+                          <a style="cursor: pointer;" onClick="history.back();"><input type="button" class="<%= postbtn %> " value="Cancel" /></a>
+                        </label></td>
+                    </tr>
+                    <tr>
+                      <td align="left" valign="top">&nbsp;</td>
+                    </tr>
+                  
+                  </table></td>
+              </tr>
+            </table></td>
+        </tr>
+        <tr>
+          <td align="left" valign="top">&nbsp;</td>
+        </tr>
+      </table>
+   
+    </form><br />

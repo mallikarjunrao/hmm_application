@@ -1,0 +1,20 @@
+xml.instruct! :xml, :version=>"1.0"
+xml.contents("message" => ""){
+  for usercontent in @contents
+
+            if(usercontent.e_filetype == "image")
+              icon="#{usercontent.img_url}/user_content/photos/coverflow/#{usercontent.v_filename}"
+              xml.content( "icon" => icon, "name" => "", "id" => usercontent.id, "hmmtype" => usercontent.e_filetype)
+            end
+            if(usercontent.e_filetype == "video" || usercontent.e_filetype == "swf")
+              icon="#{usercontent.img_url}/user_content/videos/thumbnails/#{usercontent.v_filename}.jpg"
+              xml.content( "icon" => icon, "name" => "", "id" => usercontent.id, "hmmtype" => usercontent.e_filetype )
+            end
+            if(usercontent.e_filetype == "audio")
+              path = " #{usercontent.img_url}/user_content/audios/#{usercontent.v_filename}"
+              icon = "#{usercontent.img_url}/user_content/audios/speaker.jpg"
+              xml.content( "icon" => icon, "name" => "", "id" => usercontent.id, "hmmtype" => usercontent.e_filetype ,"path" => path)
+            end
+
+  end
+}

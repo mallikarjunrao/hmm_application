@@ -1,0 +1,116 @@
+<style type="text/css" media="print">
+table#hidden {display:none}
+div#nonprindiv {display:none}
+div#print {
+	display:block;
+	left: 0px;
+	top: 0px;
+	right: 0px;
+	bottom: 0px;
+	position: absolute;
+	height: 100%;
+	width: 100%;
+}
+object {
+display:none;
+}
+</style>
+
+<style type="text/css" media="print">
+<!--
+.hide {display:none}
+-->
+</style>
+
+
+<script language="javascript">
+  function print_win()
+  {
+    document.getElementById('butdiv').display='block';
+   window.print();
+    
+
+  }
+</script>
+
+<table width="601" border="0" cellspacing="0" cellpadding="0" id="container">
+
+             <tr>
+                <td colspan="2" align="center" valign="bottom" class="cont_14bold">&nbsp;</td>
+              </tr>
+
+              <tr>
+                <td height="30" colspan="2" align="center" valign="top"><div id="print"><fieldset style="width: 601"><table width="564" border="0" cellspacing="0" cellpadding="0" id="border3">
+                  <tr>
+                    <td width="254" align="left" valign="middle" class="cont_131"><img src="http://holdmymemories.com/images/logo-studio-email.gif" width="235" height="69" border="0" /></td>
+                    <td width="304" align="center" valign="middle" class="cont_131">Studio Special:             
+                     50% off Through the end of October </td>
+                  </tr>
+
+                  <tr>
+                    <td colspan="2" align="center" valign="top" class="cont_121"><strong>Please print this coupon and present it to Studio at the time of your session.</strong></td>
+                    </tr>
+                  <tr>
+                    <td align="left" valign="top" class="cont_131">&nbsp;</td>
+                    <td align="left" valign="top" class="cont_coverflow">&nbsp;</td>
+                  </tr>
+                  <tr>
+                    <td align="left" valign="top" class="cont_131">Name: <%=@special.first_name%> <%=@special.last_name%></td>
+                    <td align="left" valign="top" class="cont_coverflow">&nbsp;</td>
+                  </tr>
+                  <tr>
+                    <td height="5" align="left" valign="top" class="cont_131"></td>
+                    <td align="left" valign="top" class="cont_coverflow"></td>
+                  </tr>
+                  <tr>
+                    <td align="left" valign="top" class="cont_131">Contact Number: <%=  @special.contact_no %></td>
+                  </tr>
+                    <tr>
+                    <td height="5" align="left" valign="top" class="cont_131"></td>
+                    <td align="left" valign="top" class="cont_coverflow"></td>
+                  </tr>
+                  <tr>
+                    <td align="left" valign="top" class="cont_131">Offer ID: <%=  @special.codes %></td>
+                    <td align="right" valign="top" class="cont_131">Date of Issue: <%=@special.created_at.strftime("%m-%d-%Y")%></td>
+                  </tr>
+                  <tr>
+                    <td align="left" valign="top" class="cont_131">&nbsp;</td>
+                    <td align="left" valign="top" class="cont_coverflow">&nbsp;</td>
+                  </tr>
+                  <tr>
+                    <td align="left" valign="top" class="cont_131">&nbsp;</td>
+                    <td align="left" valign="top" class="cont_coverflow">&nbsp;</td>
+                  </tr>
+                  <tr>
+                    <td colspan="2" align="center" valign="top" class="cont_121">With coupon not valid with any other offer. New sessions only.</td>
+                    </tr>
+                  <tr>
+                    <td height="15" align="left" valign="top" class="cont_131"></td>
+                    <td align="left" valign="top" class="cont_coverflow"></td>
+                  </tr>
+                </table></fieldset></div></td>
+              </tr>
+              <tr>
+                <td height="10" colspan="2" align="center" valign="top"></td>
+              </tr>
+              
+              <div id="nonprindiv">
+              <tr>
+                <td width="284" height="30" align="center" valign="middle"><a href="/" class="cont_orange">Return to HoldMyMemories.com</a></td>
+                <td width="317" align="center" valign="top"><script type="text/javascript">
+<!--
+if (window.print) {
+document.write('<form class="hide"><p><input type="submit" value="Print This Page"></p></form>');
+document.forms[document.forms.length-1].onsubmit = function () {window.print(); return false};
+};
+// -->
+</script>
+</td>
+              </tr></div>
+              <tr>
+                <td height="60" align="center" valign="middle">&nbsp;</td>
+                <td align="center" valign="top">&nbsp;</td>
+              </tr>
+             
+          </table>
+  

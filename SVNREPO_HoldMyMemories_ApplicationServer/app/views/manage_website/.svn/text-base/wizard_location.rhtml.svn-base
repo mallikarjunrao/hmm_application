@@ -1,0 +1,501 @@
+<script type="text/javascript">
+function checkvaluenewyear(val)
+  {
+    document.getElementById('holidays').checked = true;
+  }
+	
+  function checkvaluefamily(val)
+  {
+    document.getElementById('events').checked = true;
+  }
+
+
+
+function isValidURL(url){ 
+    var RegExp = /^(([\w]+:)?\/\/)?(([\d\w]|%[a-fA-f\d]{2,2})+(:([\d\w]|%[a-fA-f\d]{2,2})+)?@)?([\d\w][-\d\w]{0,253}[\d\w]\.)+[\w]{2,4}(:[\d]+)?(\/([-+_~.\d\w]|%[a-fA-f\d]{2,2})*)*(\?(&?([-+_~.\d\w]|%[a-fA-f\d]{2,2})=?)*)?(#([-+_~.\d\w]|%[a-fA-f\d]{2,2})*)?$/; 
+    if(RegExp.test(url)){ 
+        return true; 
+    }else{ 
+        return false; 
+    } 
+} 
+function verify(){
+       	
+	if (document.getElementById('hmm_user_v_link1').value != '' && !isValidURL(document.getElementById('hmm_user_v_link1').value))
+	{
+            
+            flag=1;
+            document.getElementById('hmm_user_v_link1').focus();
+            alert("You must supply a valid URL.");
+            return false;
+	}
+	
+	if (document.getElementById('hmm_user_v_link2').value != '' && !isValidURL(document.getElementById('hmm_user_v_link2').value))	
+        {
+           
+            document.getElementById('hmm_user_v_link2').focus();
+             alert("You must supply a valid URL.");
+            flag=1;
+	    return false;
+	}
+	
+	if (document.getElementById('hmm_user_v_link3').value != '' && !isValidURL(document.getElementById('hmm_user_v_link3').value))
+        {
+            
+            document.getElementById('hmm_user_v_link3').focus();
+            alert("You must supply a valid URL.");
+            flag=1;
+            return false;
+	}
+	
+	
+	
+	return true;
+       
+}      
+
+</script>
+<table width="100%" border="0" cellspacing="0" cellpadding="0">
+                  <tr>
+                    <td height="10" align="left" valign="top"></td>
+                    </tr>
+                  <tr>
+                    <td height="35" align="left" valign="bottom" class="header-page">Manage My Site</td>
+                    </tr>
+                  <tr>
+                    <td height="10" align="left" valign="top"></td>
+                  </tr>
+                  <tr>
+                    <td height="1" align="left" valign="top" bgcolor="#454545"></td>
+                    </tr>
+                  <tr>
+                    <td height="10" align="left" valign="top"></td>
+                  </tr>
+                  <tr>
+                    <td align="left" valign="top"><table width="100%" border="0" cellspacing="0" cellpadding="0">
+                      <tr>
+                        <td width="183" align="left" valign="top" id="tab_bgcolor_repeat"><%= render :partial => "partials/manage_website_menu", :locals => { :current_item => "#{@current_item}"} %></td>
+                        <td width="17" align="left" valign="top"></td>
+                        <td width="744" align="left" valign="top"><table width="100%" border="0" cellspacing="0" cellpadding="0">
+                          <tr>
+                            <td class="content-trans-bg"><form name="frm" method="post" onsubmit="return verify()" >
+<table width="100%" border="0" cellspacing="0" cellpadding="0">
+                              <tr>
+                                <td height="10" colspan="3" align="left" valign="top"></td>
+                              </tr>
+                              <tr>
+                                <td width="20" align="left" valign="top"></td>
+                                <td align="left" valign="top"><table width="100%" border="0" cellspacing="0" cellpadding="0">
+                                  <tr>
+                                    <td align="center" valign="top" class="side-heading"><font color="#FF0000"><%=flash[:notice]%></font></td>
+                                  </tr>
+                                  <tr>
+                                    <td align="left" valign="middle" class="header-paragraph">Customize Site :</td>
+                                  </tr>
+                                  <tr>
+                                    <td height="20" align="left" valign="top"></td>
+                                  </tr>
+                                  <tr>
+                                    <td align="left" valign="top"><table width="100%" border="0" cellspacing="0" cellpadding="0">
+                                      <tr>
+                                        <td height="20" colspan="3" align="left" valign="top"></td>
+                                      </tr>
+                                      
+                                      <tr>
+                                        <td width="355" height="45" align="center" valign="top" class="headers">The information below will go on your <br />
+                                          profile page:</td>
+                                        <td width="20" align="center" valign="middle"></td>
+                                        <td width="352" align="center" valign="top" class="headers">The information below will go on your <br />
+                                        Family Website</td>
+                                      </tr>
+                                      <tr>
+                                        <td align="left" valign="top" class="content-trans-bg"><table width="100%" border="0" cellspacing="0" cellpadding="0">
+                                            <tr>
+                                              <td height="20" colspan="2" align="left" valign="top"></td>
+                                            </tr>
+                                            <tr>
+                                              <td width="20" align="left" valign="top"></td>
+                                              <td width="341" height="25" align="left" valign="middle" class="content-white">About Me :</td>
+                                            </tr>
+                                            <tr>
+                                              <td align="left" valign="top"></td>
+                                              <td height="25" align="left" valign="top"><textarea name="v_abt_me" class="cmt-field" id="v_abt_me" ><%=@user_det.v_abt_me%></textarea>
+                                                <strong><a href="#"><img src="images/question.gif" width="20" height="19" border="0" align="top" /></a></strong></td>
+                                            </tr>
+                                            <tr>
+                                              <td align="left" valign="top"></td>
+                                              <td height="25" align="left" valign="middle" class="content-white">&nbsp;</td>
+                                            </tr>
+                                            
+                                            <tr>
+                                              <td align="left" valign="top"></td>
+                                              <td height="25" align="left" valign="middle" class="content-white">My Web Links:</td>
+                                            </tr>
+                                            <tr>
+                                              <td align="left" valign="top"></td>
+                                              <td height="25" align="left" valign="top"><input name="v_link1" type="text" class="form-field" id="v_link1"  value="<%=@user_det.v_link1%>"/>
+                                                <strong><a href="#"><img src="images/question.gif" width="20" height="19" border="0" align="absmiddle" /></a></strong></td>
+                                            </tr>
+                                            <tr>
+                                              <td align="left" valign="top"></td>
+                                              <td height="25" align="left" valign="middle" class="side-heading">Example : www.holdmymemories.com </td>
+                                            </tr>
+                                            <tr>
+                                              <td align="left" valign="top"></td>
+                                              <td height="25" align="left" valign="middle" class="content-white">Link 2 &amp; 3</td>
+                                            </tr>
+                                            <tr>
+                                              <td align="left" valign="top"></td>
+                                              <td height="25" align="left" valign="top"><input name="v_link2" type="text" class="form-field" id="v_link2" value="<%=@user_det.v_link2%>"/></td>
+                                            </tr>
+                                             <tr>
+                                              <td align="left" valign="top"></td>
+                                              <td height="25" align="left" valign="middle" class="content-white">&nbsp;</td>
+                                            </tr>
+                                            
+                                            <tr>
+                                              <td align="left" valign="top"></td>
+                                              <td height="25" align="left" valign="top"><input name="v_link3" type="text" class="form-field" id="v_link3" value="<%=@user_det.v_link3%>"/></td>
+                                            </tr>
+                                            <tr>
+                                              <td align="left" valign="top"></td>
+                                              <td height="25" align="left" valign="middle" class="side-heading">Example : www.holdmymemories.com </td>
+                                            </tr>
+                                            <tr>
+                                              <td align="left" valign="top"></td>
+                                              <td height="25" align="left" valign="top">&nbsp;</td>
+                                            </tr>
+                                        </table></td>
+                                        <td align="left" valign="top"></td>
+                                        <td align="left" valign="top" class="content-trans-bg"><table width="97%" border="0" cellspacing="0" cellpadding="0">
+                                          <tr>
+                                              <td height="25" colspan="2" align="left" valign="top"></td>
+                                            </tr>
+                                    <tr>
+                                              <td width="20" align="left" valign="top"></td>
+                                              <td width="341" height="25" align="left" valign="middle" class="content-white">About Us :</td>
+                                            </tr>
+                                            <tr>
+                                              <td align="left" valign="top"></td>
+                                              <td height="25" align="left" valign="top"><textarea name="about_family" class="cmt-field" id="about_family" ><%=@user_det.about_family%></textarea>
+                                                <strong><a href="#"><img src="images/question.gif" width="20" height="19" border="0" align="top" /></a></strong></td>
+                                            </tr>
+                                              <tr>
+                                              <td height="25" colspan="2" align="left" valign="top"></td>
+                                            </tr>
+                                            <tr>
+                                              <td align="left" valign="top"></td>
+                                              <td height="25" align="left" valign="middle" class="content-white">Family History :</td>
+                                            </tr>
+                                            <tr>
+                                              <td align="left" valign="top"></td>
+                                              <td align="left" valign="top"><textarea name="family_history" class="cmt-field" id="family_history"  ><%=@user_det.family_history%></textarea>
+                                                <strong><a href="#"><img src="images/question.gif" width="20" height="19" border="0" align="top" /></a></strong></td>
+                                            </tr>
+                                            
+                                            <tr>
+                                              <td align="left" valign="top"></td>
+                                              <td height="25" align="left" valign="top">&nbsp;</td>
+                                            </tr>
+                                        </table></td>
+                                      </tr>
+                                      <tr>
+                                        <td height="20" colspan="3" align="left" valign="top"></td>
+                                      </tr>
+                                      <tr>
+                                        <td height="25" colspan="3" align="left" valign="top"class="headers"><table width="100%" border="0" cellspacing="0" cellpadding="0">
+                                          <tr>
+                                            <td height="20" colspan="3" align="left" valign="top" class="content-white"></td>
+                                          </tr>
+                                          
+                                          <tr>
+                                            <td width="50" align="left" valign="top" class="content-white">&nbsp;</td>
+                                            <td align="left" valign="top" class="content-white"> Let&rsquo;s set up a chapter for family events, please check those that apply: </td>
+                                            <td width="80" align="left" valign="top"></td>
+                                          </tr>
+                                          <tr>
+                                            <td height="20" colspan="3" align="left" valign="top" class="content-white"></td>
+                                            </tr>
+                                          <tr>
+                                            <td align="left" valign="top" class="content-white"></td>
+                                            <td align="left" valign="top"><table width="350" border="0" cellspacing="0" cellpadding="0" class="content-trans-bg">
+                                              <tr>
+                                                <td height="20" colspan="4" align="left" valign="top"></td>
+                                                </tr>
+                                                <% if(@familyvactioncnt > 0) %>
+                                                <tr>
+                                                <td width="20" align="left" valign="top"></td>
+                                                <td width="50" height="25" align="left" valign="middle"><input type="checkbox" checked disabled></td>
+                                                <td height="25" colspan="2" align="left" valign="middle" class="content-white"><strong><font color="#666666">Family Vacations</font></strong></td>
+                                                </tr>
+                                                <%else%>
+                                                <tr>
+                                                <td width="20" align="left" valign="top"></td>
+                                                <td width="50" height="25" align="left" valign="middle"><input type="checkbox" name="vocation" id="vocation" value="1"/></td>
+                                                <td height="25" colspan="2" align="left" valign="middle" class="content-white"><strong>Family Vacations</strong></td>
+                                                </tr>
+                                                <%end%>
+                                              
+                                              <tr>
+                                                <td height="25" colspan="4" align="left" valign="top"></td>
+                                              </tr>
+                                               <%if(@familyholidaycnt>0)%>
+                                               
+                                               <tr>
+                                                <td height="20" align="left" valign="top"></td>
+                                                <td height="25" align="left" valign="middle"><input type="checkbox" checked disabled></td>
+                                                <td height="25" colspan="2" align="left" valign="middle" class="content-white"><strong><font color="#666666">Family Holidays</font></strong>
+                                                <input type="hidden" name="holidays" id="holidays" value="1"/>
+                                                </td>
+                                              </tr>
+                                              <%if(@newyear>0)%>
+                                              <tr>
+                                                <td height="20" align="left" valign="top"></td>
+                                                <td height="25" align="left" valign="top"></td>
+                                                <td height="25" align="left" valign="middle"><input type="checkbox" checked disabled></td>
+                                                <td width="228" height="20" align="left" valign="middle" class="content-white"><strong><font color="#666666">New Year</font></strong></td>
+                                              </tr>
+                                              <%else%>
+                                                <tr>
+                                                <td height="20" align="left" valign="top"></td>
+                                                <td height="25" align="left" valign="top"></td>
+                                                <td height="25" align="left" valign="middle"><input type="checkbox" name="newyear" id="newyear" value="1"/></td>
+                                                <td width="228" height="20" align="left" valign="middle" class="content-white"><strong>New Year</strong></td>
+                                              </tr>
+                                              <%end%>
+                                               <%if(@christmas>0)%>
+                                              <tr>
+                                                <td height="20" align="left" valign="top"></td>
+                                                <td height="25" align="left" valign="top"></td>
+                                                <td height="25" align="left" valign="middle"><input type="checkbox" checked disabled></td>
+                                                <td height="20" align="left" valign="middle" class="content-white"><strong><font color="#666666">Christmas</font></strong></td>
+                                              </tr>
+                                              <%else%>
+                                               <tr>
+                                                <td height="20" align="left" valign="top"></td>
+                                                <td height="25" align="left" valign="top"></td>
+                                                <td height="25" align="left" valign="middle"><input type="checkbox" name="cristmas" id="cristmas" value="1"/></td>
+                                                <td height="20" align="left" valign="middle" class="content-white"><strong>Christmas</strong></td>
+                                              </tr>
+                                              <%end%>
+                                               <%if(@hanukah>0)%>
+                                              <tr>
+                                                <td height="20" align="left" valign="top"></td>
+                                                <td height="25" align="left" valign="top"></td>
+                                                <td height="25" align="left" valign="middle"><input type="checkbox" checked disabled></td>
+                                                <td height="20" align="left" valign="middle" class="content-white"><strong><font color="#666666">Hanukah</font></strong></td>
+                                              </tr>
+                                              <%else%>
+                                              <tr>
+                                                <td height="20" align="left" valign="top"></td>
+                                                <td height="25" align="left" valign="top"></td>
+                                                <td height="25" align="left" valign="middle"><input type="checkbox" name="hanukah" id="hanukah" value="1"/></td>
+                                                <td height="20" align="left" valign="middle" class="content-white"><strong>Hanukah</strong></td>
+                                              </tr>
+                                              <%end%>
+                                              <%if(@thanksgiving>0)%>
+                                              <tr>
+                                                <td height="20" align="left" valign="top"></td>
+                                                <td height="25" align="left" valign="top"></td>
+                                                <td height="25" align="left" valign="middle"><input type="checkbox" checked disabled></td>
+                                                <td height="20" align="left" valign="middle" class="content-white"><strong><font color="#666666">Thanksgiving</font></strong></td>
+                                              </tr>
+                                              <%else%>
+                                               <tr>
+                                                <td height="20" align="left" valign="top"></td>
+                                                <td height="25" align="left" valign="top"></td>
+                                                <td height="25" align="left" valign="middle"><input type="checkbox" name="thanksgiving" id="thanksgiving" value="1"/></td>
+                                                <td height="20" align="left" valign="middle" class="content-white"><strong>Thanksgiving</strong></td>
+                                              </tr>
+                                              <%end%>
+                                               <%if(@easter>0)%>
+                                              <tr>
+                                                <td height="20" align="left" valign="top"></td>
+                                                <td height="25" align="left" valign="top"></td>
+                                                <td height="25" align="left" valign="middle"><input type="checkbox" checked disabled></td>
+                                                <td height="20" align="left" valign="middle" class="content-white"><strong><font color="#666666">Easter</font></strong></td>
+                                              </tr>
+                                               <%else%>
+                                                <tr>
+                                                <td height="20" align="left" valign="top"></td>
+                                                <td height="25" align="left" valign="top"></td>
+                                                <td height="25" align="left" valign="middle"><input type="checkbox" name="easter" id="easter" value="1"/></td>
+                                                <td height="20" align="left" valign="middle" class="content-white"><strong>Easter</strong></td>
+                                              </tr>
+                                               <%end%>
+                                               
+                                               
+                                                <%else%>
+                                              <tr>
+                                                <td height="20" align="left" valign="top"></td>
+                                                <td height="25" align="left" valign="middle"><input type="checkbox" name="holidays" id="holidays" value="1"/></td>
+                                                <td height="25" colspan="2" align="left" valign="middle" class="content-white"><strong>Family Holidays</strong></td>
+                                              </tr>
+                                              
+                                              <tr>
+                                                <td height="20" align="left" valign="top"></td>
+                                                <td height="25" align="left" valign="top"></td>
+                                                <td height="25" align="left" valign="middle"><input type="checkbox" name="newyear" id="newyear" value="1" onClick="checkvaluenewyear(this.value)"/></td>
+                                                <td width="228" height="20" align="left" valign="middle" class="content-white"><strong>New Year</strong></td>
+                                              </tr>
+                                              <tr>
+                                                <td height="20" align="left" valign="top"></td>
+                                                <td height="25" align="left" valign="top"></td>
+                                                <td height="25" align="left" valign="middle"><input type="checkbox" name="cristmas" id="cristmas" value="1" onClick="checkvaluenewyear(this.value)"/></td>
+                                                <td height="20" align="left" valign="middle" class="content-white"><strong>Christmas</strong></td>
+                                              </tr>
+                                              <tr>
+                                                <td height="20" align="left" valign="top"></td>
+                                                <td height="25" align="left" valign="top"></td>
+                                                <td height="25" align="left" valign="middle"><input type="checkbox" name="hanukah" id="hanukah" value="1" onClick="checkvaluenewyear(this.value)"/></td>
+                                                <td height="20" align="left" valign="middle" class="content-white"><strong>Hanukah</strong></td>
+                                              </tr>
+                                              <tr>
+                                                <td height="20" align="left" valign="top"></td>
+                                                <td height="25" align="left" valign="top"></td>
+                                                <td height="25" align="left" valign="middle"><input type="checkbox" name="thanksgiving" id="thanksgiving" value="1" onClick="checkvaluenewyear(this.value)"/></td>
+                                                <td height="20" align="left" valign="middle" class="content-white"><strong>Thanksgiving</strong></td>
+                                              </tr>
+                                              <tr>
+                                                <td height="20" align="left" valign="top"></td>
+                                                <td height="25" align="left" valign="top"></td>
+                                                <td height="25" align="left" valign="middle"><input type="checkbox" name="easter" id="easter" value="1" onClick="checkvaluenewyear(this.value)"/></td>
+                                                <td height="20" align="left" valign="middle" class="content-white"><strong>Easter</strong></td>
+                                              </tr>
+                                              <%end%>
+                                              <tr>
+                                                <td height="25" colspan="4" align="left" valign="top"></td>
+                                                </tr>
+                                                <%if(@familyeventcnt>0)%>
+                                                
+                                                <tr>
+                                                <td align="left" valign="top"></td>
+                                                <td height="25" align="left" valign="middle"><input type="checkbox" checked disabled></td>
+                                                <td height="25" colspan="2" align="left" valign="middle" class="content-white"><strong><font color="#666666">Family events</font></strong>
+                                                <input type="hidden" name="events" id="events" value="1" />
+                                                </td>
+                                              </tr>
+                                              
+                                               <%if(@birthdayparties>0)%>
+                                              <tr>
+                                                <td height="20" align="left" valign="top"></td>
+                                                <td height="25" align="left" valign="top"></td>
+                                                <td height="25" align="left" valign="middle"><input type="checkbox" checked disabled></td>
+                                                <td height="20" align="left" valign="middle" class="content-white"><strong><font color="#666666">Birthday Parties</font></strong></td>
+                                              </tr>
+                                              <%else%>
+                                              <tr>
+                                                <td height="20" align="left" valign="top"></td>
+                                                <td height="25" align="left" valign="top"></td>
+                                                <td height="25" align="left" valign="middle"><input type="checkbox" name="birthday" id="birthday" value="1"/></td>
+                                                <td height="20" align="left" valign="middle" class="content-white"><strong>Birthday Parties</strong></td>
+                                              </tr>
+                                              <%end%>
+                                               <%if(@gettogethers>0)%>
+                                              <tr>
+                                                <td height="20" align="left" valign="top"></td>
+                                                <td height="25" align="left" valign="top"></td>
+                                                <td height="25" align="left" valign="middle"><input type="checkbox" checked disabled></td>
+                                                <td height="20" align="left" valign="middle" class="content-white"><strong><font color="#666666">Get Togethers</font></strong></td>
+                                              </tr>
+                                              <%else%>
+                                               <tr>
+                                                <td height="20" align="left" valign="top"></td>
+                                                <td height="25" align="left" valign="top"></td>
+                                                <td height="25" align="left" valign="middle"><input type="checkbox" name="gettogether" id="gettogether" value="1"/></td>
+                                                <td height="20" align="left" valign="middle" class="content-white"><strong>Get Togethers</strong></td>
+                                              </tr>
+                                              <%end%>
+                                              <tr>
+                                                <td height="20" align="left" valign="top"></td>
+                                                <td height="25" align="left" valign="top"></td>
+                                                <td height="25" align="left" valign="top"></td>
+                                                <td height="20" align="left" valign="top"></td>
+                                              </tr>
+                                              <tr>
+                                                <td height="20" colspan="4" align="left" valign="top"></td>
+                                              </tr>
+                                                
+                                                
+                                                
+                                                <%else%>
+                                                <tr>
+                                                <td align="left" valign="top"></td>
+                                                <td height="25" align="left" valign="middle"><input type="checkbox" name="events" id="events" value="1" /></td>
+                                                <td height="25" colspan="2" align="left" valign="middle" class="content-white"><strong>Family events</strong></td>
+                                              </tr>
+                                              <tr>
+                                                <td height="20" align="left" valign="top"></td>
+                                                <td height="25" align="left" valign="top"></td>
+                                                <td height="25" align="left" valign="middle"><input type="checkbox" name="birthday" id="birthday" value="1" onclick="checkvaluefamily(this.value)"/></td>
+                                                <td height="20" align="left" valign="middle" class="content-white"><strong>Birthday Parties</strong></td>
+                                              </tr>
+                                              <tr>
+                                                <td height="20" align="left" valign="top"></td>
+                                                <td height="25" align="left" valign="top"></td>
+                                                <td height="25" align="left" valign="middle"><input type="checkbox" name="gettogether" id="gettogether" value="1" onclick="checkvaluefamily(this.value)"/></td>
+                                                <td height="20" align="left" valign="middle" class="content-white"><strong>Get Togethers</strong></td>
+                                              </tr>
+                                              <tr>
+                                                <td height="20" align="left" valign="top"></td>
+                                                <td height="25" align="left" valign="top"></td>
+                                                <td height="25" align="left" valign="top"></td>
+                                                <td height="20" align="left" valign="top"></td>
+                                              </tr>
+                                              <tr>
+                                                <td height="20" colspan="4" align="left" valign="top"></td>
+                                              </tr>
+                                                <%end%>
+                                              
+                                              
+                                            </table></td>
+                                            <td align="left" valign="top"></td>
+                                          </tr>
+                                          <tr>
+                                            <td height="20" colspan="3" align="left" valign="top" class="content-white"></td>
+                                          </tr>
+                                          
+                                        
+                                        </table></td>
+                                      </tr>
+                                      
+                                      <tr>
+                                        <td height="20" colspan="3" align="left" valign="top"></td>
+                                      </tr>
+                                      
+                                    </table></td>
+                                  </tr>
+                                  
+                                  <tr>
+                                    <td align="center" valign="top"><label>
+                                      <input name="sub" type="submit" class="cmd-btn" id="button" value="Update My Account"  />
+                                    &nbsp;&nbsp;
+                                    
+                                    </label></td>
+                                  </tr>
+                                  <tr>
+                                    <td align="left" valign="top">&nbsp;</td>
+                                  </tr>
+                                  
+                                </table></td>
+                                <td width="20" align="left" valign="top"></td>
+                              </tr>
+                              <tr>
+                                <td height="10" colspan="3" align="left" valign="top"></td>
+                              </tr>
+                              
+                            </table>
+                            </form></td>
+                          </tr>
+                          <tr>
+                            <td>&nbsp;</td>
+                          </tr>
+                          
+
+                          
+                        </table></td>
+                      </tr>
+                    </table></td>
+                  </tr>
+                  
+                  </table>

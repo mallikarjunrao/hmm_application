@@ -1,0 +1,81 @@
+<style type="text/css">
+<!--
+.style1 {
+	font-family: Arial, Helvetica, sans-serif;
+	font-weight: bold;
+	font-size: 12px;
+	color:#e36500;
+}
+.style3 {font-family: Arial, Helvetica, sans-serif; font-weight: bold; font-size: 18px; }
+-->
+</style>
+
+<table width="100%" border="0" cellspacing="0" cellpadding="0">
+	<input type="hidden" value="<%=params[:id]%>" name="gallery_id" />
+    <tr>
+      <th width="22" align="left" valign="top" bgcolor="#191919" scope="col">&nbsp;</th>
+      <th width="22" height="32" align="left" valign="top" bgcolor="#191919" scope="col">&nbsp;</th>
+      <th align="left" valign="middle" bgcolor="#191919" scope="col" colspan="2"><span class="btmtxt">Comments for <%=session[:gallery_name]%> Gallery	  </th>
+      <th width="22" align="left" valign="top" bgcolor="#191919" scope="col">&nbsp;</th>
+    </tr>
+	
+	<tr>
+		<th align="right" colspan="4" >
+			
+		<font color="#f5dfa6" size=2><%=  flash[:notice_gca_list]%></font>
+		
+		<font color="#f5dfa6" size=2><%=  flash[:notice_gcr_list]%></font>
+		
+		<font color="#f5dfa6" size="2"><%=  flash[:notice_gcd_list]%></font>		</th>
+	</tr>
+	
+	 
+		<% for j in @gallery_comment
+			params[:id]=j.gallery_id
+			gal = Galleries.find(params[:id])
+			galleryname=gal.v_gallery_name %>
+	
+	<tr>
+	  <th rowspan="3" align="left" valign="top" scope="col"><a href="/galleries/gallery_fisheye/<%=gal.id%>" style="text-decoration:none"> <img src="/user_content/photos/icon_thumbnails/<%=gal.v_gallery_image%>" border="0"/></a></th>
+      <th height="6" align="left" valign="top" scope="col">&nbsp;</th>
+      <th height="6" align="left" valign="top" class="text-journal" scope="col"><span class="style1">Gallery &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span> </th>
+      <th width="680" align="left" valign="top" scope="col">
+      	<a href="/galleries/gallery_fisheye/<%=gal.id%>" style="text-decoration:none">  <%= galleryname%></a></th>
+    </tr>
+
+	<tr>
+	  <th height="6" align="left" valign="top" scope="col">&nbsp;</th>
+      <th height="6" align="left" valign="top" class="text-journal" scope="col"><span class="style1">Commented By&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span> </th>
+      <th width="680" align="left" valign="top" scope="col"><%= j.v_fname%></th>
+    </tr>
+	
+	<tr>
+	  <th height="6" align="left" valign="top" scope="col">&nbsp;</th>
+      <th align="left" valign="top" class="text-journal" scope="col"><span class="style1">Description&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></th>
+      <th width="680" align="left" valign="top" scope="col"> <%= j.v_comment.gsub("\n", "<br />\n") %></th>
+    </tr>
+	
+    <tr>
+      <th align="left" valign="top" bgcolor="#191919" scope="col">&nbsp;</th>
+      <th height="28" align="left" valign="top" bgcolor="#191919" scope="col">&nbsp;</th>
+      <th align="right" valign="middle" bgcolor="#191919" class="text-journal" scope="col" colspan="2">
+       		<% if j.e_approval=="pending" %>
+			 <a href='/gallery_comment/approve_cmt/<%= j.id %>'>Approve</a>&nbsp;&nbsp;&nbsp;
+			<a href='/gallery_comment/reject_cmt/<%= j.id %>'>Reject</a> 
+			<%else%>
+			
+			<a href='/gallery_comment/destroy_cmt/<%= j.id %>'>Delete</a>
+			<% end %>	  </th>
+	  <th align="left" valign="top" bgcolor="#191919" scope="col">&nbsp;</th>
+    </tr>
+     <%end%>
+	
+	<tr>
+  	<td colspan="3">
+  		<font color="#ffffff">
+  		<% if @gallery_comment_pages.page_count > 1 %>
+		Page&nbsp;:
+		<%= pagination_links_remote @gallery_comment_pages %>&nbsp;
+		<% end %> </font> 	</td>
+  </tr>
+</table>

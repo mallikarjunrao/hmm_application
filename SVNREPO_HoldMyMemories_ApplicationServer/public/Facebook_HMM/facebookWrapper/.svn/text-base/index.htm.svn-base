@@ -1,0 +1,47 @@
+<html>
+	<head>
+		<title>Flex Hello User Facebook Connect app</title>
+
+		<!-- include the API from facebook's server  -->
+		<script src="http://static.ak.facebook.com/js/api_lib/v0.4/FeatureLoader.js.php" type="text/javascript"></script> 
+		
+		<!-- include swfobject library -->
+		<script type="text/javascript" src="swf_object.js"></script>
+	</head>
+	
+	<body>
+	
+		<script type="text/javascript">
+			var api_key="e40673135dd04ccdaca5fb83c72c57a3";
+			var params = {wmode: "transparent"}; //wmode must be transparent or else ajax windows will not show up over swf
+			var flashVars={url:document.location.href};
+			swfobject.embedSWF("FaceBookImport.swf", "flashContent", "100%", "100%", "10.0.0", "expressInstall.swf", flashVars, params);
+			
+			FB_RequireFeatures(["Api"], function() {
+					FB.Facebook.init(api_key, 'xd_receiver.htm');				
+				});
+					
+			function fbconnectlogin(){
+				FB.Bootstrap.requireFeatures(["Connect"], function() {
+					FB.Connect.requireSession(function(exception) {
+						var sessionData = FB.Facebook.apiClient.get_session();
+						flashVars = {
+							as_swf_name: "flashContent",
+							session_key: sessionData.session_key,
+							secret:sessionData.secret,
+							uid:sessionData.uid,
+							api_key:api_key
+						};	
+						flashContent.onSession(flashVars);
+					});
+				});
+			};
+			function logout(){
+				FB.Connect.logout();
+			}
+		</script>
+		<!--  this is where your flash content will be placed when created -->
+		<div id="flashContent"></div>
+		
+	</body>
+</html>

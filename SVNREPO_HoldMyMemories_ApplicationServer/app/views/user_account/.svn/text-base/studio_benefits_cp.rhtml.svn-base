@@ -1,0 +1,55 @@
+<style>
+  .yellow_txt{
+    font-family:Arial, Helvetica, sans-serif;
+    font-size:14px;
+    font-weight:normal;
+    color:#d9c99f;
+  }
+
+  .orangetexthead {
+    font-family: Arial,Helvetica,sans-serif;
+    font-size: 18px;
+    color: #fe6809;
+    font-weight: bold;
+    text-decoration: none;
+  }
+</style>
+<link href="/stylesheets/hmmout.css" rel="stylesheet" type="text/css" />
+<body bgcolor="#000000">
+  <table width="100%" border="0" cellspacing="0" cellpadding="0">
+    <tr>
+      <td align="left" width="250" valign="top">
+        <div align="left"><% if (@studio.studio_logo==nil || @studio.studio_logo=='')%><%else%> <img src="<%=request_content_url%>/user_content/studio_logos/<%=@studio.studio_logo%>" width="189" height="60"><%end%></span><br><br>
+          <span class="orangetexthead"><%=@studio.studio_branch%></span><br>
+          <span class="whitext"><%=@studio.studio_address%></span><br>
+          <a  ><span class="contactlink"><%=@studio.zip_code%></span></a><br>
+          <span class="whitext">Phone Number :<%=@studio.studio_phone%></span><br>
+          <span class="whitext">Email :<%=@studio.contact_email%></span><br>
+          &nbsp;&nbsp;&nbsp;</td>
+          <td align="right" valign="top"><a href="/"><img src="/new_images/logo.jpg" width="225" height="46" border="0" style="margin-left:25px;"/></a></td>
+    </tr>
+    <tr>
+      <td>&nbsp;</td>
+      <td><table width="500" border="0" cellspacing="0" cellpadding="0">
+          <tr>
+            <th scope="col">&nbsp;</th>
+          </tr>
+          <tr>
+            <th align="center" valign="top" scope="col" style="padding-left:35px;"><span class="orangetexthead">Studio Benefits</span></th>
+          </tr>
+          <tr>
+            <th align="left" valign="top" class="cont" scope="col" style="line-height:20px;"><table width="100%"><tr><td width="20"></td><td align="center">&nbsp;</td></tr></table>
+              <ul>
+                <span class="yellow_txt">
+                  <% if(@benefits.length>0) %>
+                    <% for studio_benefit in @benefits %>
+                      <li><%=studio_benefit.content%></li>
+                    <%end%>
+                  <%end%>
+                </span>
+              </ul></th>
+          </tr>
+        </table></td>
+    </tr>
+  </table>
+</body>

@@ -1,0 +1,20 @@
+<table border="0" width="80%">
+  <tr> <h2 class="content-white">Upload Clicked Date</h2> </tr>
+    <tr valign='center' align='center'>
+
+       <th background="/images/body_hor.JPG">First Name</th>
+      <th background="/images/body_hor.JPG">Last Name</th>
+      <th background="/images/body_hor.JPG">Clicked Date</th>
+
+    </tr>
+
+<%  for user in @hmm_users%>
+
+  <t>
+    <td align="center" class="content-white"><%= user.v_fname%></td>
+      <td align="center" class="content-white"><%= user.v_lname%></td>
+      <td align="center"><table><% for upload in @upload_date %><tr><td class="content-white"><%=  upload.clicked_date %></td></tr> <%end%></table></td>
+  </tr>
+  <%end%>
+</table>
+<%=  will_paginate @upload_date %>

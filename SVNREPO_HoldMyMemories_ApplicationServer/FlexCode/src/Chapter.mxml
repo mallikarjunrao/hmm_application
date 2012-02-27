@@ -1,0 +1,196 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+Copyright (c) 2006 Adobe Systems Incorporated
+
+Permission is hereby granted, free of charge, to any person
+obtaining a copy of this software and associated documentation
+files (the "Software"), to deal in the Software without
+restriction, including without limitation the rights to use,
+copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the
+Software is furnished to do so, subject to the following
+conditions:
+
+The above copyright notice and this permission notice shall be
+included in all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES
+OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT
+HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY,
+WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
+FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
+OTHER DEALINGS IN THE SOFTWARE.
+-->
+<Application xmlns="http://www.adobe.com/2006/mxml" xmlns:local="*" width="100%" height="100%" 
+	layout="absolute" backgroundColor="0x010101" creationComplete="handleCreation()" clipContent="true" 
+	xmlns:components="components.*" preloader="custompreloader.PreloaderHourGlass" initialize="handleInitialize()">
+	
+	<!--<Binding source="sel.value" destination="shelf.selectedIndex" />
+	<Binding destination="sel.value" source="shelf.selectedIndex" />
+	
+	<Binding source="angle.value" destination="shelf.angle" />
+	<Binding source="pop.value" destination="shelf.popout" />-->
+	<!--<Binding source="angle.value" destination="shelf.gradientAngle"/>-->
+	<Array id="dataSet">
+						
+	</Array>
+	<HTTPService id="images"  method="POST" result="handleResult(event)" fault="handleFault(event)"/>
+	<Style>
+		Alert {
+		    corner-radius: 8;
+		    header-height: 27;
+		    header-colors: #999999, #000000;
+		    background-color: #000000;
+		    color: #ffffff;
+		    border-thickness: 4;
+		    border-color: #000000;
+		    panel-border-style: roundCorners;
+		    shadow-distance: 4;
+		    shadow-direction: bottom;
+		    button-style-name: "firstButtonStyle";
+		  }
+	</Style>
+	
+	<components:TitledDisplayShelf id="shelf"  horizontalCenter="0"  verticalCenter="0"  itemClick="handleItemClick(event)" dataField="icon" angle="28.6" 
+		popout=".17" selectedIndex="{Math.floor(dataSet.length/2)}" borderColor="0x010101"  
+		 dataProvider="{dataSet}" enableDoubleClick="true" enableHistory="false" width="100%" height="100%" selectOnClick="true"/>
+	<GlowFilter id="glow" color="0x909090"/>	
+	<Label width="300" id="chapterName" x="{(shelf.width - chapterName.width)*0.5}" color="#FFFFFF" filters="{[glow]}"
+		fontFamily="Arial" fontSize="19" y="{this.height*9/10}" textAlign="center" text="{seletectedObject.name}"/>
+	<Script>
+		<![CDATA[
+			import custompreloader.PreloaderHourGlass;
+			//import components.ExternalJsJournal;
+			import flash.net.navigateToURL;
+			import events.CoverFlowEvent;
+			import mx.events.ListEvent;
+			
+			import mx.controls.Alert;
+			import mx.collections.ArrayCollection;
+			import mx.rpc.events.FaultEvent;
+			import mx.rpc.events.ResultEvent;
+			
+			[Bindable]
+			private var seletectedObject : Object;
+			private var timer : Timer = new Timer(1700);
+			
+			public var myUrl : String = new String();
+			private var serviceUrl : String = "/customers/chapters_display/";
+			
+			private var navigateToUrl : String = "/tags/subchap_coverflow/";
+			
+			
+			private function handleInitialize() : void
+			{
+				if(Application.application.parameters.hasOwnProperty("proxyurls"))
+				{
+					var proxyurls : String = Application.application.parameters.proxyurls;
+					var urls : Array = proxyurls.split(",");
+					for(var i : int = 0; i < urls.length; i++)
+					{
+						Security.loadPolicyFile(urls[i]+"/crossdomain.xml");
+					}
+				}
+			}
+			
+			private function handleItemClick(event : Event) : void
+			{
+				var evt : ListEvent = event as ListEvent;
+				//chapterName.text = shelf.selectedItem.name;
+				seletectedObject = shelf.selectedItem;
+			} 
+			
+			private function handleResult(event : ResultEvent) : void
+			{
+				
+				trace(event.toString());
+				//Alert.show(event.result.toString());
+				if(event.result.contents && event.result.contents.content is ArrayCollection)
+				{	
+					var result : ArrayCollection = event.result.contents.content as ArrayCollection;
+					dataSet = result.source;
+				}else
+				{
+					if(event.result.contents)
+					{
+						result = new ArrayCollection([event.result.contents.content]);
+						dataSet = result.source;	
+					}else
+					{
+						Alert.show("There are no public chapters found!!!");
+					}
+					
+				}
+				shelf.addEventListener(CoverFlowEvent.NAVIGATE_TO, handleNavigateTo);
+				if(dataSet.length == 1)
+					seletectedObject = dataSet[0];
+			}
+			
+			private function handleNavigateTo(event : CoverFlowEvent) : void
+			{
+				trace(event.extra.id.toString());
+				var urlToNav : String = navigateToUrl + event.extra.id.toString();
+				var urlReq : URLRequest = new URLRequest(urlToNav);
+				navigateToURL(urlReq, "_self");
+				
+			}
+			
+			private function handleTimerEvent(event : TimerEvent) : void
+			{
+				shelf.selectedIndex = 0;
+			}
+			
+			private function handleFault(event : FaultEvent) : void
+			{
+				Alert.show(event.fault.toString());
+				trace(event.toString());
+			}
+			
+			private function handleCreation() : void
+			{
+				//Security.loadPolicyFile("http://192.168.4.116/crossdomain.xml");
+				trace(this.url);
+				var swfUrl : String = this.url;
+				var index : int = swfUrl.indexOf("Chapter.swf", 0);
+				myUrl = swfUrl.substr(0, index);
+				trace(myUrl);
+				//images.url = serviceUrl;
+				var serverUrl:String = Application.application.parameters.serverUrl;
+				var navUrl : String = Application.application.parameters.navigateToUrl;
+				if(serverUrl)
+					serviceUrl = serverUrl;
+				if(navUrl)
+					navigateToUrl = navUrl;
+				images.url = serviceUrl;
+				images.send();
+				//var ext : ExternalJsJournal = new ExternalJsJournal();
+				
+			}
+			
+			
+			 
+			
+		]]>
+	</Script>
+	<!--<VBox horizontalCenter="0" bottom="10"
+		horizontalAlign="center" verticalAlign="middle"  >	 	
+
+		<HBox>
+			<Label text="Angle:" visible="true" color="#FFFFFF"/>
+			<HSlider liveDragging="true" id="angle" maximum="75" value="28.6" minimum="{0}" snapInterval=".1" width="400" visible="true"/>
+		</HBox>
+
+		<HBox>
+			<Label text="Selection:" visible="true" color="#FFFFFF"/>
+			<HSlider liveDragging="true" id="sel" minimum="0" value="{dataSet.length/2}" maximum="{shelf.dataProvider.length}" snapInterval="1" width="400" visible="true"/>
+		</HBox>
+
+		<HBox>
+			<Label text="pop:" visible="true" color="#FFFFFF"/>
+			<HSlider liveDragging="true" id="pop" minimum="0" value=".17" maximum="1" snapInterval=".01" width="400" visible="true"/>
+		</HBox>
+
+	</VBox>-->
+</Application>

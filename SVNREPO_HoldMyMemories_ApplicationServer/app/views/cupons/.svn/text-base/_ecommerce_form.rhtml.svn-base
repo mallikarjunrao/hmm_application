@@ -1,0 +1,158 @@
+<script type="text/javascript">
+  function change_div()
+  {
+    val=document.getElementById('ecommerce_coupon_type').value;
+    if(val=='percentage')
+    {
+      var e=document.getElementById('percentage');
+      e.style.display="inline"
+      var e1=document.getElementById('dollar');
+      e1.style.display="none"
+    }
+    else if(val=='dollar')
+    {
+      var e=document.getElementById('dollar');
+      e.style.display="inline"
+      var e1=document.getElementById('percentage');
+      e1.style.display="none"
+    }
+    else
+    {
+      var e=document.getElementById('dollar');
+      var e1=document.getElementById('percentage');
+      e.style.display="none"
+      e1.style.display="none"
+    }
+  }
+</script>
+<%= error_messages_for 'cupon' %>
+<table>
+  <tr>
+    <td>&nbsp;</td>
+    <td>&nbsp;</td>
+    <td>&nbsp;</td>
+  </tr>
+  <tr>
+    <td colspan="3"><font color="red"><%=flash[:notice]%></font></td>
+  </tr>
+
+  <tr>
+    <td  align="right"><label for="cupon_start_date">Coupon Number *</label></td>
+    <td>&nbsp;</td>
+    <td>  <input type="text" name="coupon_id" id="coupon_id" class="carttxtbox"/> <br>(Ex: ImagingUSA001,HMMOnline100 etc...)
+      <br>
+      <%= observe_field   :'coupon_id',
+        :with       => "coupon_id",
+        :frequency  => 0.25,
+        :url        => {:action => :validate_coupon  },
+        :update     => :message
+    %>
+      <span id="message"></span>
+    </td>
+  </tr>
+  <tr>
+    <td colspan="3">&nbsp;</td>
+  </tr>
+  <tr>
+    <td  align="right"><label for="cupon_start_date">Start Date :</label></td>
+    <td>&nbsp;</td>
+    <td><%= date_select 'ecommerce_coupon', 'start_date', :id => 'start_date' ,  :order => [:month, :day, :year], :start_year => Time.now.year , :end_year => Time.now.year + 1    %>
+    </td>
+  </tr>
+  <tr>
+    <td colspan="3">&nbsp;</td>
+  </tr>
+  <tr>
+    <td align="right"><label for="cupon_expire_date">Expire Date :</label></td>
+    <td>&nbsp;</td>
+    <td><%= date_select 'ecommerce_coupon', 'end_date', :id => 'expire_date' ,  :order => [:month, :day, :year], :start_year => Time.now.year , :end_year => Time.now.year + 1    %>
+    </td>
+  </tr>
+  <tr>
+    <td colspan="3">&nbsp;</td>
+  </tr>
+  <tr>
+    <td align="right"><label for="cupon_expire_date">Discount in:</label></td>
+    <td>&nbsp;</td>
+    <td>
+      <select id="ecommerce_coupon_type" name="ecommerce_coupon[discount_type]" onchange="change_div();">
+        <option value="">Select</option>
+        <option value="dollar">Dollar</option>
+        <option value="percentage">Percentage</option>
+      </select>
+
+    </td>
+  </tr>
+  <tr>
+    <td colspan="3">&nbsp;</td>
+  </tr>
+  <tr>
+    <td align="right"><label for="cupon_expire_date">Discount:</label></td>
+    <td>&nbsp;</td>
+    <td id="dollar" style="display: none">   $<%= text_field 'ecommerce_coupon', 'discount_amount', :class => "textbox-signup" %>
+
+    </td>
+    <td id="percentage" style="display: none">   <%= text_field 'ecommerce_coupon', 'discount_percentage', :class => "textbox-signup" %>%
+
+    </td>
+  </tr>
+
+  <tr>
+    <td colspan="3">&nbsp;</td>
+  </tr>
+  <tr>
+    <td align="right"><label for="cupon_expire_date">Free Shipping :</label></td>
+    <td>&nbsp;</td>
+    <td><input type="radio" name="free_shipping" value="true" checked> Yes &nbsp;&nbsp;&nbsp;<input type="radio" name="free_shipping" value="false"> No</td>
+  </tr>
+  <tr>
+    <td colspan="3">&nbsp;</td>
+  </tr>
+  <%if(session[:franchise] && session[:franchise]) %>
+    <tr>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+    </tr>
+    <tr>
+      <td align="right" valign="top"><label for="cupon_cupon_type">Studios :</label></td>
+      <td>&nbsp;</td>
+      <td>
+        <% for k in @studios %>
+          <input type='checkbox' name='studios[]' value='<%=k.id%>'>&nbsp;&nbsp;<%=k.studio_name%><br>
+        <%end%>
+      </td>
+    </tr>
+  <%else%>
+    <tr>
+      <td align="right" valign="top"><label for="cupon_cupon_type">Studio Group :</label></td>
+      <td>&nbsp;</td>
+      <td><select name="studio_group" id='studio_group'  onChange="new Ajax.Updater('studio_div', '/cupons/get_studios?owner_id='+this.value, {asynchronous:true, evalScripts:true}); return false;">
+          <option value="">-Select-</option>
+          <%  for i in @studiogroups %>
+            <option value="<%=i.id%>" <%if(params[:id]==i.id)%> selected <%end%> ><%=i.hmm_franchise_studio%></option>
+          <%end%>
+        </select>
+      </td>
+    </tr>
+    <tr>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+    </tr>
+    <tr>
+      <td align="right" valign="top"><label for="cupon_cupon_type">Studios :</label></td>
+      <td>&nbsp;</td>
+      <td>
+        <div id="studio_div">
+        </div>
+      </td>
+    </tr>
+  <%end%>
+  <tr>
+    <td>&nbsp;</td>
+    <td>&nbsp;</td>
+    <td>&nbsp;</td>
+  </tr>
+</table>
+

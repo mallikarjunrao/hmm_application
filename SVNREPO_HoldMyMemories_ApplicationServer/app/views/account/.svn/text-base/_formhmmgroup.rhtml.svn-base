@@ -1,0 +1,38 @@
+<%= error_messages_for 'hmm_studiogroup' %>
+
+<!--[form:hmm_studiogroup]-->
+<table>
+	<tr>
+		<td colspan="3">&nbsp;</td>
+	</tr>
+	<tr>
+		<td align="right">
+			<label for="hmm_studiogroup_hmm_franchise_studio">Studio Owner Name</label>
+		</td>
+		<td>&nbsp;</td>
+		<td>
+			<%= text_field 'hmm_studiogroup', 'hmm_franchise_studio'  %>
+		</td>
+	</tr>
+    <tr>
+		<td align="right">
+			<label for="hmm_studiogroup_hmm_franchise_studio">Studio Owner/Company Email</label>
+		</td>
+		<td>&nbsp;</td>
+		<td>
+			<%= text_field 'hmm_studiogroup', 'contact_email'  %>
+		</td>
+	</tr>
+	<tr>
+		<td colspan="3">&nbsp;</td>
+	</tr>
+	
+	<tr>
+		<td colspan="3">&nbsp;</td>
+	</tr>
+</table>
+
+
+
+<!--[eoform:hmm_studiogroup]-->
+

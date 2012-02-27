@@ -1,0 +1,10 @@
+<table width="100%">
+	<%@rec = HmmUser.find(:all, :conditions => "id=#{logged_in_hmm_user.id}")%>
+	<%for i in @rec%>
+	<tr>
+		<td align="center">
+			<center><img src="<%=i.img_url%>/hmmuser/photos/<%=i.v_myimage%>" width="500" border="0" \></center>
+		</td>
+	</tr>
+	<%end%>
+</table>

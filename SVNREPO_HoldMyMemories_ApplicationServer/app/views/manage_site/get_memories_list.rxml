@@ -1,0 +1,45 @@
+
+xml.instruct! :xml, :version=>"1.0" 
+xml.contents{
+  for moment in @moments
+   if(moment.e_filetype != "swf")
+    xml.content{
+            xml.id(moment.id)
+            xml.name(moment.v_tagphoto)
+            if(moment.e_filetype == "image")
+              xml.icon(moment.img_url+"/user_content/photos/big_thumb/#{moment.v_filename}")
+              xml.original(moment.img_url+"/user_content/photos/#{moment.v_filename}")
+            end
+            if(moment.e_filetype == "video")
+              xml.icon(moment.img_url+"/user_content/videos/thumbnails/#{moment.v_filename}.jpg")
+              xml.path(moment.img_url+"/user_content/videos/#{moment.v_filename}.flv")
+            end
+            xml.tags(moment.v_tagname)
+            xml.description(moment.v_desc)
+            xml.type(moment.e_filetype)
+            xml.title(moment.v_tagphoto)
+            xml.familyname(@familyname[0]['family_name'])
+            checkjournal=JournalsPhoto.count(:conditions => "user_content_id='#{moment.id}'")
+            #@moments=UserContent.find(:all, :conditions => "gallery_id='#{params[:id]}'")
+            journal_pho=JournalsPhoto.find(:all, :conditions => "user_content_id='#{moment.id}'")
+             if(checkjournal > 0 )
+                xml.journal("yes")
+                xml.journalid(journal_pho[0].id)
+                xml.journaldate(journal_pho[0].date_added)
+                xml.journaltext(journal_pho[0].v_image_comment)
+                xml.journaltitle(journal_pho[0].v_title)
+                
+              else
+                xml.journal("no")
+              end
+            moment_check = Contest.count(:all, :conditions => "moment_id='#{moment.id}' and contest_phase = 'phase3'")
+              if(moment_check > 0)  
+                xml.moment("yes")
+              else
+                xml.moment("no")
+              end
+            
+      }
+      end
+  end
+}

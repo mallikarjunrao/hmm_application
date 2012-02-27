@@ -1,0 +1,30 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Untitled Document</title>
+<link rel="SHORTCUT ICON" href="/images/common/favicon.ico" type="image/x-icon" />
+    <%= stylesheet_link_tag "themes/common.css"%>
+    <%= stylesheet_link_tag "themes/#{@family_website_owner.theme}"%>
+    <%= javascript_include_tag 'themes/iepngfix/iepngfix_tilebg' %>
+    <style type="text/css">
+      img, div, table, tr, td { behavior: url(iepngfix.htc) }
+    </style>
+</head>
+
+<body class="body_bg">
+<table width="500" height="300" border="0" cellspacing="5" cellpadding="5">
+  <tr>
+    <td colspan="2">&nbsp;</td>
+  </tr>
+  <tr class="content"  style="padding:50px;">
+  	<td>&nbsp;</td>
+    <td><b>"To maintain access to your studio images, you may downgrade to a family membership for only $4.95 per month."</b></td>
+  </tr>
+  <tr align="center" >
+    <td colspan="2"><input name="button" type="submit" class="cmd-btn" id="button" value="Click here for Family Membership" onClick="javascript:opener.location='/family_memory/upgrade_account_form/<%=params[:id]%>?acc_type=family_website';self.close();" /> &nbsp;&nbsp;&nbsp;<input name="button" type="submit" class="cmd-btn" id="button" value="Cancel Account" onClick="javascript:opener.location='/family_memory/new_cancel_subscription/<%=params[:id]%>';self.close();" /></td>
+  </tr>
+</table>
+
+</body>
+</html>

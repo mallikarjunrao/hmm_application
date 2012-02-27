@@ -1,0 +1,22 @@
+MagicRouting
+============
+
+MagicRouting allows for the creation of more meaningful URLs than you get out-of-the-box with Rails. Even when you override to_param for an ActiveRecord model, you still get ID-junk that doesn't make sense to end users (e.g., person/123-foo-smith). 
+
+With this plugin, any path segment in a route that corresponds to an attribute on an ActiveRecord model object will be automatically retrieved from that object for the generated URL.
+
+Notice that this makes changing your URL scheme very easy - all you have to do is update the identifying segments of the route, and your application is using, e.g., usernames instead of IDs, or vice versa.
+
+Example
+=======
+
+Route:
+map.username 'person/:username', :controller => 'people', :action => 'show'
+map.id       'person/:id',       :controller => 'people', :action => 'show'
+
+Use:
+<%= url_for username_url(@person) %> => 'person/foo'
+<%= url_for id_url(@person) %>       => 'person/123'
+
+
+Copyright (c) 2007 Ben Scofield, released under the MIT license

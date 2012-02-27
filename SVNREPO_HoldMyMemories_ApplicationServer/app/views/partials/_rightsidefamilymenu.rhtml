@@ -1,0 +1,183 @@
+<style>
+  #rightsidemenu_button1
+  {
+    margin-top: 20px;
+    margin-left:30px;
+    float:left;
+  }
+
+  #rightsidemenu_button1 a
+  {
+
+  }
+
+  #rightsidemenu_button2
+  {
+    height:70px;
+    width:190px;
+    margin-top: 20px;
+    margin-left:30px;
+    float:left;
+  }
+
+  #rightsidemenu_button3
+  {
+    height:70px;
+    width:190px;
+    margin-top: 20px;
+    margin-left:30px;
+    float:left;
+  }
+
+  #rightsidemenu_button4
+  {
+    height:70px;
+    width:190px;
+    margin-top: 20px;
+    margin-left:30px;
+    float:left;
+  }
+
+  #rightsidemenu_button5
+  {
+    height:70px;
+    width:190px;
+    margin-top: 20px;
+    margin-left:30px;
+    float:left;
+  }
+
+  #rightsidemenu_buttons
+  {
+    background-image:url("/images/familywebsite_v3/image-bg.png");
+    height:545px;
+  }
+
+  #rightsidemenu_buttons_frame
+  {
+    text-align :center;
+  }
+
+  .buttons-new
+  {
+    background-image:url("/images/familywebsite_v3/button.png");
+    background-position:center center;
+    background-repeat:no-repeat;
+    color:#CCCCCC;
+    font-family:Arial,Helvetica,sans-serif;
+    font-size:18px;
+    font-weight:bold;
+    height:70px;
+    text-align:center;
+    text-decoration:none;
+    width:192px;
+  }
+
+  .buttons-new a
+  {
+    padding-top:10px;
+  }
+
+  #new_bg-border
+  {
+    background-image:url("/images/familywebsite_v3/image-bg.png");
+    background-repeat:repeat;
+    border:1px solid #202020;
+    width:252px;
+    margin-left: 22px;
+    margin-top: 20px;
+    height:545px;
+    float:left;
+  }
+</style>
+
+<div id="new_bgcolor" style="height:585px;">
+  <div id="new_bg-border">
+    <div id="rightsidemenu_button1">
+      <% if @family_website_owner.id == session[:hmm_user] or session[:hmm_user]  %>
+        <a href="/studio_session_orders/print_orders/<%=@family_website_owner.family_name%>">
+          <div class="buttons-new">
+            <br/>
+            Order Prints
+          </div>
+        </a>
+      <%else%>
+        <a href="/familywebsite_studio/order_prints_login/<%=params[:id]%>" class="nyroModal" rev="modal">
+          <div class="buttons-new">
+            <br/>
+            Order Prints
+          </div>
+        </a>
+      <%end%>
+    </div>
+    <div style="clear:both;"></div>
+
+    <div id="rightsidemenu_button2">
+
+      <% if @family_website_owner.id == session[:hmm_user] or session[:hmm_user]  %>     
+        <a href="/familywebsite_studio/share/<%=@family_website_owner.family_name%>">
+          <div class="buttons-new">
+            <br/>
+            Share
+          </div>
+        </a>
+      <%else%>     
+        <a href="/familywebsite_studio/user_login/<%=params[:id]%>" class="nyroModal" rev="modal">
+          <div class="buttons-new">
+            <br/>
+            Share
+          </div>
+        <%end%>
+      </a>
+
+    </div>
+
+    <div style="clear:both;"></div>
+
+    <div id="rightsidemenu_button3" class="buttons-new">
+
+      <a href="/familywebsite/home/?id=<%=@family_website_owner.family_name%>&version=3" >
+        <div class="buttons-new">
+          <br/>
+          Family Website
+        </div>
+      </a>
+
+    </div>
+
+    <div id="rightsidemenu_button4" class="buttons-new">
+      <% if @family_website_owner.studio_id.to_i == 0 %>
+        <a href="http://s121.com/bookonline.asp" TARGET="_blank">
+          <div class="buttons-new">
+            <br/>
+            Book A Session
+          </div>
+        </a>
+      <%else%>
+        <a href="/my_familywebsite/book_session?studio_id=<%=@family_website_owner.studio_id%>" TARGET="_blank">
+          <div class="buttons-new">
+            <br/>
+            Book A Session
+          </div>
+        </a>
+      <%end%>
+    </div>
+
+    <% if @family_website_owner.id == session[:hmm_user] or session[:hmm_user]  %>
+      <%if @creditpt_count==1%>
+        <div id="rightsidemenu_button5" class="buttons-new">
+          <a href="/manage_website/credit_more/<%=params[:id]%>" class="nyroModal" rev="modal">
+            <div class="buttons-new">
+              <br/>
+              <% if @studio_groups.credit_system =="Dollars" %>
+                Studio Credit: $<%=number_with_precision(@creditpt.available_credits, :precision => 2)%>
+              <%else%>
+                Studio Credit: <%=@creditpt.available_credits.round%>
+              <%end%>
+            </div>
+          </a>
+        </div>
+      <%end%>
+    <% end  %>
+  </div>
+</div>

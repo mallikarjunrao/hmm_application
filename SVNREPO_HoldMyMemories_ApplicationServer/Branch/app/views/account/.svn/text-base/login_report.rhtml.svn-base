@@ -1,0 +1,73 @@
+
+
+<style>
+
+</style>
+<table border="0" cellpadding="0" cellspacing="0" ><tr>
+	<td>
+<form name="form2"  action="/account/login_report/" method="post" onsubmit="return Check_Date(this.name);" >
+	<table bordercolor="#e5b467"  align="center" width="60%" border="10" cellpadding="4" cellspacing="4">
+		<tr  ><th background="/images/body_hor.JPG" colspan="4" align="center" style="backgrund:repeat;" >Search by Login Date</th></tr>
+		<tr><td>From Date</td><td><%= date_select  'from_bdate', :order => [:month, :day, :year], :start_year => Time.now.year - 100  %> </td></tr>
+		<td>To Date</td><td><%= date_select  'to_bdate', :order => [:month, :day, :year], :start_year => Time.now.year - 100  %></td ></tr>
+			<td align="center" colspan="4"><input type="submit" name="sub1" value="Search"/></td></tr>
+	
+	</table>
+</form>
+
+
+<table width="90%">
+	<h3><center>Login Report for HMM Users</center></h3>
+  <tr>
+  <tr valign='center' align='center'>
+  	
+  	 
+   <th background="/images/body_hor.JPG"><font class='txt'>IP Address</font></th>
+	<th background="/images/body_hor.JPG">
+		
+	<font class='txt'><table> <tr><%= sort_header_tag('uid', :text => "User ID") %></tr></table></font></th>
+	<th background="/images/body_hor.JPG"><font class='txt'>
+		<table><tr><%= sort_header_tag('v_user_name', :text => "User Name") %></tr></table></font></th>
+	<th background="/images/body_hor.JPG"><font class='txt'><table><tr><%= sort_header_tag('d_date_time', :text => "Last Login at") %></tr></table></font></th>
+	<th background="/images/body_hor.JPG"><font class='txt'><table><tr><%= sort_header_tag('e_logged_in', :text => "LogIn Status") %></tr></table></font></th>
+	<th background="/images/body_hor.JPG"><font class='txt'><table><tr><%= sort_header_tag('e_logged_out', :text => "LogOut Status") %></tr></table></font></th>
+
+	
+
+  </tr>
+  </tr>
+  
+<% 	odd_or_even = 0 
+	i = 0
+	for colmn in @user_sessionss
+	 i = i + 1
+	odd_or_even = 1 - odd_or_even
+ %>
+ 
+ <tr class='ListLine<%= odd_or_even %>'>
+  	
+   
+	
+	<td align="center"><%=h colmn.i_ip_add%></td>
+	
+	<td align="center"><%=h colmn.uid%></td>
+	<td align="center"><%=h colmn.v_user_name%></td>
+	<td align="center"><%=h colmn.d_date_time%></td>
+	<td align="center"><%=h colmn.e_logged_in.capitalize%></td>
+  	<td align="center"><%=h colmn.e_logged_out.capitalize%></td>
+    
+
+    </tr>
+  
+<% end %>
+<input type="hidden" name="len" id="len" value="<%= i %>"/>
+ <tr><td colspan=4> </td></tr>
+</table>
+
+<%= link_to 'Previous page', { :page => @user_sessions_pages.current.previous } if @user_sessions_pages.current.previous %>
+<%= link_to 'Next page', { :page => @user_sessions_pages.current.next } if @user_sessions_pages.current.next %> 
+
+<br />
+
+
+</td></tr></table>

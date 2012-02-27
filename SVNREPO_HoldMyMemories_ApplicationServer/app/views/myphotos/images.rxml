@@ -1,0 +1,13 @@
+
+xml.instruct! :xml, :version=>"1.0" 
+xml.instruct! :rss, :version=>"2.0" 
+
+xml.photos{
+  for photos in @user_contents
+    
+      xml.photo('/user_content/photos/big_thumb/'+photos.v_filename)
+     
+  
+  end
+}
+

@@ -1,0 +1,371 @@
+<style>
+  .cardheaders {
+    background-position: left top;
+    background-repeat: repeat-x;
+    color: #FFFFFF;
+    font-family: Arial,Helvetica,sans-serif;
+    font-size: 14px;
+    font-weight: bold;
+}
+</style>
+
+
+
+<table cellspacing="0" cellpadding="0" border="0" width="100%">
+  <tbody><tr>
+      <td align="left" width="13" valign="top"></td>
+      <td align="left" width="944" valign="top"><table cellspacing="0" cellpadding="0" border="0" width="100%">
+          <tbody><tr>
+              <td align="left" valign="top" height="10"></td>
+            </tr>
+            <tr>
+              <td align="left" valign="bottom" height="35" class="header-page">Shopping Cart</td>
+            </tr>
+            <tr>
+              <td align="left" valign="top" height="10"></td>
+            </tr>
+            <tr>
+              <td bgcolor="#454545" align="left" valign="top" height="1"></td>
+            </tr>
+            <tr>
+              <td align="left" valign="top" height="10"></td>
+            </tr>
+
+            <tr>
+              <td align="left" valign="top" class="content-trans-bg"><table cellspacing="0" cellpadding="0" border="0" width="100%">
+                  <tbody><tr>
+                      <td align="left" width="30" valign="top">&nbsp;</td>
+                      <td align="center" width="882" valign="top" class="content"><font color="#ff0000"></font></td>
+                      <td align="left" width="30" valign="top">&nbsp;</td>
+                    </tr>
+                    <tr>
+                      <td align="left" valign="top">&nbsp;</td>
+                      <td align="left" valign="top" class="content-trans-bg">
+                        <table cellspacing="0" cellpadding="0" border="0" width="901">
+                          <tbody><tr>
+                              <td align="center" valign="top"><table cellspacing="2" cellpadding="2" border="0" width="890">
+                                  <tbody><tr>
+                                      <td align="center" width="15" valign="top"></td>
+                                      <td align="left" width="527" valign="middle"><br>
+
+                                        <table cellspacing="0" cellpadding="0" border="0" align="left" width="289" class="content-trans-bg">
+                                          <tbody><tr>
+                                              <td align="left" valign="top" height="10" colspan="3"></td>
+                                            </tr>
+                                            <tr>
+                                              <td align="left" width="10" valign="top"></td>
+                                              <td align="left" valign="top">
+                                                  <%= render :partial=>"user_shipping_address",:locals=>{:card_carts=>@card_carts} %>
+                                              </td>
+                                              <td align="left" width="10" valign="top"></td>
+                                            </tr>
+                                            <tr>
+                                              <td align="left" valign="top" height="10" colspan="3"></td>
+                                            </tr>
+                                          </tbody></table>
+
+                                      </td>
+                                      <td align="left" width="109" valign="middle" class="leftconthr"><input type="submit" onclick="if(confirm('Are you sure to delete ?')) window.location='/cards_selector/clear_cart/<%= params[:id] %>'" value="Clear Cart" id="button" class="cmd-btn" name="button"></td>
+                                      <td align="left" width="136" valign="middle"><input type="submit" onclick="window.location='/cards_selector/home/<%= params[:id] %>'" value="Continue Shopping" id="button" class="cmd-btn" name="button"></td>
+                                      <td align="left" width="118" valign="middle"><input type="submit" onclick="window.location='https://holdmymemories.com/carts/billing_process/shrikanth'" value="Check Out" id="button" class="cmd-btn" name="button">
+                                      </td>
+                                    </tr>
+                                    <tr>
+                                      <td align="left" valign="middle" height="10" colspan="5"></td>
+                                    </tr>
+                                  </tbody></table></td>
+                            </tr>
+
+                            <tr>
+                              <td align="center" width="901" valign="top">
+
+                                <script type="text/javascript">
+                                  function coupons(sid,sales_tax,subtotal,subtotal_digital){
+                                    if (document.getElementById('coupon'+sid).value == ''){
+                                      alert('Enter the Coupon Number');
+                                      document.getElementById('coupon'+sid).focus();
+                                    }else{
+                                      var coupon_id = document.getElementById('coupon'+sid).value
+                                      new Ajax.Updater('studio_div'+sid, '/carts/get_discount?coupon_id='+coupon_id+'&amp;studio_id='+sid+'&amp;subtotal='+subtotal+'&amp;subtotal_digital='+subtotal_digital+'&amp;sales_tax='+sales_tax, {asynchronous:true, evalScripts:true});
+                                    }
+                                  }
+                                </script>
+                                <table cellspacing="0" cellpadding="0" border="0" width="860">
+                                  <tbody><tr>
+                                      <td width="860" align="center" valign="middle" colspan="3" height="40" class="content">  Order Processed by <%=  params[:processed_by] %> </td>
+                                    </tr>
+                                    <tr>
+                                      <td align="left" width="11" valign="top"><img width="11" height="11" src="/images/g_round1.jpg"></td>
+                                      <td background="/images/g_round2.jpg" align="left" width="868" valign="top"></td>
+                                      <td align="left" width="11" valign="top"><img width="11" height="11" src="/images/g_round3.jpg"></td>
+                                    </tr>
+                                    <tr>
+                                      <td background="/images/c_round7.jpg" align="left" valign="top"><img width="100%" height="25" src="/images/g_round4.jpg"></td>
+                                      <td bgcolor="#050505" background="/images/c_roundmid.jpg" align="center" valign="top"><table cellspacing="0" cellpadding="0" border="0" width="838">
+                                          <tbody><tr>
+                                              <td background="/images/g_round4.jpg" align="left" width="150" valign="top" height="25" class="cardheaders">Photo</td>
+                                              <td background="/images/g_round4.jpg" align="left" valign="top" class="cardheaders">Quantity</td>
+                                              <td background="/images/g_round4.jpg" align="left" width="100" valign="top" class="cardheaders">Unit Price</td>
+                                              <td background="/images/g_round4.jpg" align="left" width="100" valign="top" class="cardheaders">Price</td>
+                                              <td background="/images/g_round4.jpg" align="left" width="100" valign="top" class="cardheaders">Remove</td>
+                                            </tr>
+                                            <%
+                                              subtotal = 0
+                                              price = 0
+                                             
+                                            %>
+                                            <% @card_carts.each do |card_cart| %>
+                                              <tr>
+                                                <td align="left" valign="top" height="5" colspan="4"></td>
+                                              </tr>
+                                              <tr>
+                                                <td align="left" valign="top" height="90" class="content"><br>
+                                                  <%= link_to 'Edit Card',:controller=>"cards_selector",:action=>"edit_card",:card_id=>card_cart.card_id %>
+                                                  <img src="/images/<%= card_cart.image_data %>" width="100" height="100" /><br>
+                                                  <br>
+                                                </td>
+                                                <td align="left" valign="top" class="content">
+                                                  <form name="frm<%= card_cart.id%>" action="/update_card_cart_quantity/<%= card_cart.id%> ">
+                                                    <table cellspacing="0" cellpadding="0" border="0" width="136">
+
+                                                      <tbody><tr>
+                                                          <td><input type="text" maxlength="3" onkeyup="valid(this);" value="<%= card_cart.quantity %>" class="Qtextbox" id="qty" name="qty">
+                                                          </td>
+                                                          <td><input type="image" src="/images/update_btndef.jpg"></td>
+                                                        </tr>
+
+                                                      </tbody></table>
+                                                  </form>
+                                                </td>
+                                              
+                                                <%# card_price = CardPrice.find_by_card_id(card_cart.card_id) %>
+                                                
+                                                <td align="left" valign="top" class="content">$<%= card_cart.price rescue nil %> </td>
+                                                <td align="left" valign="top" class="content">$<% if card_cart.quantity == 1%><%= card_cart.price %><% else %><%=  card_cart.net_price rescue nil %><% end %></td>
+                                                <td align="left" valign="top" class="whitecontnormal"><a onclick="javascript:return confirm('Are you sure to delete ?')" href="/delete_item_cart/<%= card_cart.id %>"><img border="0" id="Image25" title="Remove from Cart" name="Image25" src="/images/delete.jpg"></a></td>
+                                              </tr>
+                                              
+                                              <tr>
+                                                <td bgcolor="#999999" align="left" valign="top" height="1" colspan="5"></td>
+                                              </tr>
+                                              <% if card_cart.quantity == 1%>
+                                                <% price = card_cart.price %>
+                                              <% else %>
+                                                <%  price = card_cart.net_price %>
+                                              <% end %>
+                                              <% subtotal = (subtotal + price.to_i) %>
+
+                                              
+                                            <% end %>
+                                           
+                                            <tr>
+                                              <td align="left" valign="top" height="5" colspan="4"></td>
+                                            </tr>
+                                           
+
+                                            <tr>
+                                              <td align="left" valign="top" height="5" colspan="4"></td>
+                                            </tr>
+                                            
+                                            <tr>
+                                              <td align="left" valign="top" height="5" colspan="4"></td>
+                                            </tr>
+                                           
+
+                                            <tr>
+                                              <td align="left" valign="top" height="5" colspan="4"></td>
+                                            </tr>
+                                           
+
+                                            <tr>
+                                              <td align="left" valign="top" height="10" colspan="5"></td>
+                                            </tr>
+                                            <tr>
+                                              <td align="right" valign="top" class="leftconthr" colspan="5"><table cellspacing="0" cellpadding="0" border="0" width="838">
+                                                  <tbody><tr>
+                                                      <td width="548">&nbsp;</td>
+                                                      <td align="right" width="290" valign="top">&nbsp;</td>
+                                                    </tr>
+                                                    <tr>
+                                                     <td width="100"></td>
+                                                     
+                                                      <td align="right" valign="top"><table cellspacing="0" cellpadding="0" border="0" width="289">
+                                                          <tbody><tr>
+                                                              <td align="left" width="11" valign="top"><img width="11" height="11" src="/images/c_round1.jpg"></td>
+                                                              <td background="/images/c_round2.jpg" align="left" width="668" valign="top"></td>
+                                                              <td align="left" width="11" valign="top"><img width="11" height="11" src="/images/c_round3.jpg"></td>
+                                                            </tr>
+                                                            <tr>
+                                                              <td background="/images/c_round7.jpg" align="left" valign="top"></td>
+                                                              <td bgcolor="#050505" background="/images/c_roundmid.jpg" align="center" valign="top" class="content"><div id="studio_div0">
+                                                                  <table cellspacing="0" cellpadding="0" border="0" width="90%" class="content">
+
+                                                                    <tbody><tr>
+                                                                        <td align="center" colspan="2">Order Prints </td>
+                                                                      </tr>
+                                                                      <tr>
+                                                                        <td align="left" valign="top">Subtotal :</td
+                                                                        <td align="left" valign="top">$<%= number_with_precision(subtotal, :precision => 2) %>
+                                                                        </td>
+                                                                      </tr>
+
+                                                                      <!-- Digital Download -->
+
+                                                                      <tr>
+                                                                        <td align="left" valign="top">&nbsp;</td>
+                                                                        <td align="center" valign="top">&nbsp;</td>
+                                                                      </tr>
+                                                                      <tr>
+                                                                        <td align="left" valign="top">&nbsp;</td>
+                                                                        <td align="center" valign="top">&nbsp;</td>
+                                                                      </tr>
+                                                                      <tr>
+                                                                        <td align="left" valign="top">Shipping :</td>
+
+                                                                        <td align="left" valign="top">$<%= number_with_precision(@shipping_price, :precision => 2) %>
+                                                                        </td>
+                                                                      </tr>
+                                                                      <tr>
+                                                                        <td align="left" valign="top">&nbsp;</td>
+                                                                        <td align="center" valign="top">&nbsp;</td>
+                                                                      </tr>
+                                                                      <!-- Sales Tax -->
+
+                                                                      <tr>
+                                                                        <% if @salestax == 0.0 %>
+                                                                          <% @salestax = 0.0 %>
+                                                                        <% else %>
+                                                                          <% @salestax = number_with_precision(Float(@salestax), :precision => 2) %>
+                                                                        <% end %>
+                                                                        <td align="left" valign="top">Sales Tax ( <%= @salestax %> % ) :</td>
+                                                                        <td align="left" valign="top">$<%=  number_with_precision(@salestax.round(2), :precision => 2) %></td>
+                                                                      </tr>
+                                                                      <tr>
+                                                                        <td align="left" valign="top">&nbsp;</td>
+                                                                        <td align="center" valign="top">&nbsp;</td>
+                                                                      </tr>
+
+
+                                                                      <tr>
+                                                                        <td align="left" valign="top">Total :</td>
+                                                                        <td align="left" valign="top">$<%= number_with_precision(@total, :precision => 2) %> </td>
+                                                                      </tr>
+                                                                      <tr>
+                                                                        <td align="left" valign="top">&nbsp;</td>
+                                                                        <td align="center" valign="top">&nbsp;</td>
+                                                                      </tr>
+                                                                      <tr>
+                                                                        <td align="left" valign="top">&nbsp;</td>
+                                                                        <td align="left" valign="top"></td>
+                                                                      </tr>
+                                                                    </tbody></table>
+                                                                </div></td>
+                                                              <td background="/images/c_round8.jpg" align="left" valign="top"></td>
+                                                            </tr>
+                                                            <tr>
+                                                              <td align="left" valign="top"><img width="11" height="11" src="/images/c_round4.jpg"></td>
+                                                              <td background="/images/c_round5.jpg" align="left" valign="top"></td>
+                                                              <td align="left" valign="top"><img width="11" height="11" src="/images/c_round6.jpg"></td>
+                                                            </tr>
+                                                          </tbody></table></td>
+                                                    </tr>
+                                                  </tbody></table></td>
+                                            </tr>
+                                          </tbody></table></td>
+                                      <td background="/images/c_round8.jpg" align="left" valign="top"><img width="100%" height="25" src="/images/g_round4.jpg"></td>
+                                    </tr>
+                                    <tr>
+                                      <td align="left" valign="top"><img width="11" height="11" src="/images/c_round4.jpg"></td>
+                                      <td background="/images/c_round5.jpg" align="left" valign="top"></td>
+                                      <td align="left" valign="top"><img width="11" height="11" src="/images/c_round6.jpg"></td>
+                                    </tr>
+                                  </tbody></table><br>
+
+                              </td>
+                            </tr>
+                            <!--tr>
+                              <td width="901" align="center" valign="top" >
+                                <table class="content-trans-bg">
+                                  <tr><td width="830" height="50" class="content" align="right" style="padding-right:20px;"><b>Grand Total : $  </b></td></tr>
+                                </table>
+                              </td>
+                            </tr -->
+
+                            <tr>
+                              <td><table cellspacing="2" cellpadding="2" border="0" width="890">
+                                  <tbody><tr>
+                                      <td align="center" width="15" valign="top"></td>
+                                      <td align="left" width="527" valign="middle"><br>
+
+                                        <table cellspacing="0" cellpadding="0" border="0" align="left" width="289" class="content-trans-bg">
+                                          <tbody><tr>
+                                              <td align="left" valign="top" height="10" colspan="3"></td>
+                                            </tr>
+                                            <tr>
+                                              <td align="left" width="10" valign="top"></td>
+                                              <td align="left" valign="top">
+                                               
+                                                <%= render :partial=>"user_shipping_address",:locals=>{:card_carts=>@card_carts} %>
+
+                                              </td>
+                                              <td align="left" width="10" valign="top"></td>
+                                            </tr>
+                                            <tr>
+                                              <td align="left" valign="top" height="10" colspan="3"></td>
+                                            </tr>
+                                          </tbody></table>
+                                      </td>
+                                      <td align="left" width="109" valign="middle" class="leftconthr"><input type="submit" onclick="if(confirm('Are you sure to delete ?')) window.location='/cards_selector/clear_cart/<%= params[:id] %>'" value="Clear Cart" id="button" class="cmd-btn" name="button"></td>
+                                      <td align="left" width="136" valign="middle"><input type="submit" onclick="window.location='/cards_selector/home/<%= params[:id] %>'" value="Continue Shopping" id="button" class="cmd-btn" name="button"></td>
+                                      <td align="left" width="118" valign="middle"><input type="submit" onclick="window.location='https://holdmymemories.com/carts/billing_process/shrikanth'" value="Check Out" id="button" class="cmd-btn" name="button">
+                                      </td>
+                                    </tr>
+                                    <tr>
+                                      <td align="left" valign="middle" height="10" colspan="5"></td>
+                                    </tr>
+                                  </tbody></table></td>
+                            </tr>
+                          </tbody></table>
+                      </td>
+                      <td align="left" valign="top">&nbsp;</td>
+                    </tr>
+                    <tr>
+                      <td align="left" valign="top">&nbsp;</td>
+                      <td align="left" valign="top">&nbsp;</td>
+                      <td align="left" valign="top">&nbsp;</td>
+                    </tr>
+                  </tbody></table></td>
+            </tr>
+
+          </tbody></table></td>
+      <td align="left" width="13" valign="top"></td>
+    </tr>
+  </tbody></table>
+
+<script type="text/javascript">
+  jQuery.noConflict();
+  var $j = jQuery;
+</script>
+
+<script type="text/javascript">
+  //<![CDATA[
+  // Demo NyroModal
+  $j(function() {
+    function preloadImg(image) {
+      var img = new Image();
+      img.src = image;
+    }
+    preloadImg('/images/ajaxLoader.gif');
+<%if @shipping_address == nil %>
+      $j.nyroModalManual({
+        url: '/carts/shipping/<%=params[:id]%>',
+        modal:true
+      });
+<%end%>
+    $j.nyroModalSettings({
+      closeButton: false,
+      Close:false
+    });
+  });
+
+</script>

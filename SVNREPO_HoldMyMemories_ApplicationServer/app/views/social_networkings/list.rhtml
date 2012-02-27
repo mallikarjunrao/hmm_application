@@ -1,0 +1,27 @@
+<h1>Listing social_networkings</h1>
+
+<table>
+  <tr>
+  <% for column in SocialNetworking.content_columns %>
+    <th><%= column.human_name %></th>
+  <% end %>
+  </tr>
+  
+<% for social_networking in @social_networkings %>
+  <tr>
+  <% for column in SocialNetworking.content_columns %>
+    <td><%=h social_networking.send(column.name) %></td>
+  <% end %>
+    <td><%= link_to 'Show', :action => 'show', :id => social_networking %></td>
+    <td><%= link_to 'Edit', :action => 'edit', :id => social_networking %></td>
+    <td><%= link_to 'Destroy', { :action => 'destroy', :id => social_networking }, :confirm => 'Are you sure?', :method => :post %></td>
+  </tr>
+<% end %>
+</table>
+
+<%= link_to 'Previous page', { :page => @social_networking_pages.current.previous } if @social_networking_pages.current.previous %>
+<%= link_to 'Next page', { :page => @social_networking_pages.current.next } if @social_networking_pages.current.next %> 
+
+<br />
+
+<%= link_to 'New social_networking', :action => 'new' %>

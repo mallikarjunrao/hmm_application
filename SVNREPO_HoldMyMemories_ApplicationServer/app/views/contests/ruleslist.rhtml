@@ -1,0 +1,13 @@
+<table  border="0" align="left">
+  <tr>
+    <th align="center" class="content-white"><font size="4" <% if params[:specific] %>color="black" <% else %> color="white"<% end %>> Contest Rules and Regulations</font></th>
+  </tr>
+  <tr><th>&nbsp;</th></tr>
+  <tr>
+    <th  class="content-white" align="left">
+      <font size="2" <% if params[:specific] %>color="black" <% else %> color="white"<% end %> >
+      <%= CGI.unescapeHTML(@contest.rules_regulations) %>
+    </font>
+  </th>
+</tr>
+</table>

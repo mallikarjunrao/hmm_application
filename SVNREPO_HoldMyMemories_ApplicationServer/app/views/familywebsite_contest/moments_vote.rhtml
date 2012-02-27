@@ -1,0 +1,198 @@
+<%= javascript_include_tag '/javascripts/themes/modalbox/prototype' %>
+<script type="text/javascript" src="/javascripts/themes/modalbox/scriptaculous.js?load=effects"></script>
+<script type="text/javascript" src="/javascripts/themes/modalbox/modalbox.js"></script>
+<%= stylesheet_link_tag '/stylesheets/themes/modalbox/modalbox' %>
+<script language=javascript>
+  var r={'special':/[\W]/g}
+  function valid(o,w)
+  {
+    o.value = o.value.replace(r[w],'');
+  }
+</script>
+    <table width="100%" border="0" cellspacing="0" cellpadding="0" id="tab_bgcolor_repeat" align="center">
+     
+      <tr>
+        <td align="left" valign="top"><table width="100%" border="0" cellspacing="0" cellpadding="0">
+            <tr>
+              <td width="13" align="left" valign="top"></td>
+              <td width="724" align="left" valign="top"><table width="100%" border="0" cellspacing="0" cellpadding="0">
+                  <tr>
+                    <td height="10" align="left" valign="top"></td>
+                  </tr>
+                  <tr>
+                    <td height="35" align="left" valign="bottom" class="header-page">Photo Contest</td>
+                  </tr>
+                  <tr>
+                    <td height="10" align="left" valign="top"></td>
+                  </tr>
+                  <tr>
+                    <td height="1" align="left" valign="top" bgcolor="#454545"></td>
+                  </tr>
+                  <tr>
+                    <td height="10" align="left" valign="top"></td>
+                  </tr>
+                  <tr>
+                    <td align="left" valign="top" class="content-trans-bg"><table width="100%" border="0" cellspacing="0" cellpadding="0">
+                        <tr>
+                          <td width="30" align="left" valign="top">&nbsp;</td>
+                          <td width="882" align="center" valign="top">&nbsp;</td>
+                          <td width="30" align="left" valign="top">&nbsp;</td>
+                        </tr>
+                        <tr>
+                          <td align="left" valign="top">&nbsp;</td>
+                          <td align="left" valign="top" class="content-trans-bg"><table width="100%" border="0" cellspacing="0" cellpadding="0">
+                              <tr>
+                                <td align="left" valign="top">&nbsp;</td>
+                                <td align="left" valign="top">&nbsp;</td>
+                                <td align="left" valign="top">&nbsp;</td>
+                              </tr>
+
+                              <tr>
+                                <td width="28" align="left" valign="top">&nbsp;</td>
+                                <td width="750" align="left" valign="top"><table width="100%" border="0" cellspacing="0" cellpadding="0">
+                                    <tr>
+                                      <td width="250" align="left" valign="top"><img src=<%=@contest_details.photo_logo%> border="0" width="250"></td>
+                                      <td align="left" valign="middle"><table width="100%" border="0" cellspacing="0" cellpadding="0">
+                                          <tr>
+                                            <td align="right" valign="top"><label>
+                                                <input name="button2" type="submit" class="cmd-btn-trans" id="button2" value="Switch to Video Contest"  style="cursor:pointer;" onClick="window.location='/familywebsite_contest/videomoment_vote/<%=params[:id]%>?p=<%=params[:p]%>'"/></a>
+                                              </label></td>
+                                          </tr>    <tr>
+                                            <td height="10" align="left" valign="top"></td>
+                                          </tr>
+                                          <tr>
+                                            <td align="left" valign="top"><table width="100%" border="0" cellspacing="0" cellpadding="0">
+                                                <tr>
+                                                  <td align="right" valign="middle" class="content" style="padding-right:5px;"><strong>Search Contest Submissions</strong></td>
+                                                  <td width="140" align="right" valign="middle"><label>
+                                                      <% form_remote_tag :update => 'table',
+                                                        :before => "Element.show('spinner1')",
+                                                        :success => "Element.hide('spinner1')",
+                                                        :url => {:action => 'moments_vote', :p => params[:p]},
+                                                        :method => 'post',
+                                                        :with => 'query' do %>
+                                                        <input type="text" class="name-field" id="query" name="query" onKeyUp="valid(this,'special')"/>
+                                                      </label></td>
+                                                    <td width="85" align="right" valign="middle"><label>
+                                                        <input name="button3" type="submit" class="cmd-btn" id="button3" value="Search" style="cursor:pointer;"/></label>
+                                                    <%end%> </td>
+                                                </tr>
+                                              </table></td>
+                                          </tr>
+                                          <tr>
+                                            <td height="10" align="left" valign="top"></td>
+                                          </tr>
+                                          <tr>
+                                            <td align="right" valign="top"><input name="button4" type="submit" class="cmd-btn-trans" id="button4" value="Sort by Date" style="cursor:pointer;" onClick="window.location='/familywebsite_contest/moments_vote/<%=params[:id]%>?sort_key=contest_entry_date&amp;sort_order=<%=@sort1%>&&p=<%=params[:p]%>'"/>
+                                              <input name="button5" type="submit" class="cmd-btn-trans" id="button5" value="Sort by Name" style="cursor:pointer;" onClick="window.location='/familywebsite_contest/moments_vote/<%=params[:id]%>?sort_key=first_name&amp;sort_order=<%=@sort3%>&&p=<%=params[:p]%>'"/>
+                                              <input name="button6" type="submit" class="cmd-btn-trans" id="button6" value="Sort by Votes" style="cursor:pointer;" onClick="window.location='/familywebsite_contest/moments_vote/<%=params[:id]%>?sort_key=votes&amp;sort_order=<%=@sort2%>&&p=<%=params[:p]%>'"/></td>
+                                          </tr>
+                                        </table></td>
+                                    </tr>
+                                  </table></td>
+                                <td width="28" align="left" valign="top">&nbsp;</td>
+                              </tr>
+                              <tr>
+                                <td align="left" valign="top">&nbsp;</td>
+                                <td align="center" valign="top"><font color="#f5dfa6" size="2"><%= flash[:notice_vote]%>  <% if  flash[:notice_vote] %> <br><br><a href="http://www.holdmymemories.com/customers/authorise_verify"><u>Click here</u></a> to sign up for your FREE HoldMyMemories.com account.<%end%><br></font>
+                                  <font color="#f5dfa6" size="3"><% if  flash[:notice_invite1] %> You have successfully Invited your friends to vote!! <%end%></font>	</td>
+                                <td align="left" valign="top">&nbsp;</td>
+                              </tr>
+                              <tr>
+                                <td height="20" align="left" valign="top"></td>
+                                <td align="left" valign="top"></td>
+                                <td align="left" valign="top"></td>
+                              </tr>
+                              <tr>
+                                <td align="left" valign="top"></td>
+                                <td align="left" valign="top">
+                                  <table><tr><th>&nbsp;</th><th>&nbsp;</th><th>&nbsp;</th><th>&nbsp;</th><th>&nbsp;</th><th>&nbsp;</th><th>&nbsp;</th></tr>
+                                    <tr>
+
+                                      <% j =  0
+                                      for i in @contest_cutekid
+
+                                        if  j==4
+                                          j=0
+                                          j=j+1
+                                        %>
+                                        </tr><tr><th>&nbsp;</th><th>&nbsp;</th><th>&nbsp;</th><th>&nbsp;</th><th>&nbsp;</th><th>&nbsp;</th><th>&nbsp;</th></tr>
+                                        <tr><%else
+                                          j=j+1
+                                        end
+                                      %><th>
+                                          <table width="192" border="0" cellpadding="0" cellspacing="0">
+                                            <tr>
+                                              <th height="134" align="center" valign="middle" style="border:solid; border-color:#383838; border-width:1px;">
+                                                <a href="/familywebsite_contest/manage_momentdetails/<%=params[:id]%>?contest_id=<%=i.moment_id%>&&p=<%=params[:p]%>" >
+                                                  <img src="<%= i.img_url %>/user_content/photos/big_thumb/<%= i.v_filename %>"  border="0" onmousedown="callme(this.id);" onContextMenu="return false;" height="134" /></a></th>
+                                            </tr>
+                                            <tr>
+                                              <th height="4" align="center" valign="middle"></th>
+                                            </tr>
+                                            <tr>
+                                              <th height="15" align="center" valign="middle" class="thummbimg_title" style="border:solid; border-color:#383838; border-width:1px;"><%=i.contest_fname%></th>
+                                            </tr>
+                                            <tr>
+                                              <th height="35" align="center" valign="top" class="content" style="padding-top:5px;">
+
+                                                <span class="text3" >
+                                                  <%if i.contest_entry_date.nil?%>
+                                                    <%=Time.now.strftime("Submitted : %m/%d/%Y") %>
+                                                  <%else%>
+                                                    <%=  i.contest_entry_date.strftime("Submitted : %m/%d/%Y") %></span >
+                                                <%end%>
+
+                                                <%@count = ContestVotes.count_by_sql("select COUNT(*) AS COUNT from contest_votes where contest_id='#{i.contest_id}' and conformed='yes'")  %>
+                                                <br><%=@count%> Votes</span></th>
+                                            </tr>
+                                            <%if Date.today <= @contest_details.vote_expire_date.to_date %>
+                                              <tr>
+                                                <th height="20" align="center" valign="top" class="cont2" style="padding-top:3px;">
+                                                  <a href="/familywebsite_contest/vote/<%=params[:id]%>?contest_id=<%=i.contest_id%>&&p=<%=params[:p]%>" onclick="Modalbox.show(this.href, {title: 'My Image', width: 1000, height:650}); return false;">
+                                                    <input type="button" id="Image4413" class="cmd-btn" value="Vote" style="cursor:pointer;" /></a>	</th>
+                                              </tr>
+                                            <%end%>
+                                          </table>
+                                        </th><th>&nbsp;</th>
+
+                                      <%end%>
+                                  </table>
+
+                                </td>
+                                <td align="left" valign="top"></td>
+                              </tr>
+                              <tr>
+                                <td align="left" valign="top"></td>
+                                <td align="left" valign="top"></td>
+                                <td align="left" valign="top"></td>
+                              </tr>
+                              <tr>
+                                <td align="left" valign="top">&nbsp;</td>
+                                <td align="center" valign="top" class="content"><%=will_paginate @contest_cutekid ,:params=>params%></td>
+                                <td align="left" valign="top">&nbsp;</td>
+                              </tr>
+                              <tr>
+                                <td align="left" valign="top">&nbsp;</td>
+                                <td align="left" valign="top">&nbsp;</td>
+                                <td align="left" valign="top">&nbsp;</td>
+                              </tr>
+                            </table></td>
+                          <td align="left" valign="top">&nbsp;</td>
+                        </tr>
+                        <tr>
+                          <td align="left" valign="top">&nbsp;</td>
+                          <td align="left" valign="top">&nbsp;</td>
+                          <td align="left" valign="top">&nbsp;</td>
+                        </tr>
+                      </table></td>
+                  </tr>
+
+
+
+                </table></td>
+              <td width="13" align="left" valign="top"></td>
+            </tr>
+          </table></td>
+      </tr>
+    </table>

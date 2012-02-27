@@ -1,0 +1,22 @@
+<% session[:visitor_id] = params[:id] %>
+<h2 align="center">Visitor account list</h2><br/>
+<table border="1">
+ <tr>
+    <th background="/images/body_hor.JPG">Family Logo</th>
+    <th background="/images/body_hor.JPG">First Name</th>
+    <th background="/images/body_hor.JPG">Last Name</th>
+    <th background="/images/body_hor.JPG">Family Name</th>
+    <th background="/images/body_hor.JPG" colspan="3" align="center">Visit</th>
+  </tr>
+  
+  <% @visitor_accounts.each do |visitor_account| %>
+    <% owner = HmmUser.find(visitor_account.owner_id) %>
+    <tr>
+       <td><% if owner.family_pic!=nil %><a href="<%=  @path.proxyname %>/studio_session_orders/print_orders/<%=  owner.family_name %>"><img src="<%=  owner.img_url %>/hmmuser/familyphotos/thumbs/<%=  owner.family_pic %>"  style="vertical-align: middle;margin-top: -1.5px;" height="131" border="0" /></a><% end %></td>
+       <td style="color:#DDDDDD;"><%= owner.v_fname %></td>
+       <td style="color:#DDDDDD;"><%= owner.v_lname %></td>
+       <td style="color:#DDDDDD;"><%= owner.family_name %></td>
+       <td><a href="<%=  @path.proxyname %>/studio_session_orders/print_orders/<%=  owner.family_name %>">Click here</a></td>
+    </tr>
+  <% end  %>
+</table>

@@ -1,0 +1,250 @@
+<script type="text/javascript">
+  function validateFileExtension(fld) {
+    if(!/(\.gif|\.jpg|\.jpeg)$/i.test(fld.value)) {
+      alert("Invalid file type.. Please enter only image files!!");
+      fld.form.reset();
+      fld.focus();
+      return false;
+    }
+    return true;
+  }
+
+  function validateFileExtension_video(fld) {
+    if(!/(\.mpg|\.mov|\.avi|\.flv|\.wmv|\.mpeg|\.mp4)$/i.test(fld.value)) {
+      alert("Invalid file type.. Please enter only video files!!");
+      fld.form.reset();
+      fld.focus();
+      return false;
+    }
+    return true;
+  }
+
+  function verify()
+  {
+    if (document.getElementById('hmm_user_v_myimage').value == "")
+    {
+
+      alert('Please upload a file!!');
+      return false;
+    }
+    else
+      if (document.getElementById('journal_v_image_comment').value == "")
+    {
+      alert('Please enter the journal!!');
+      return false;
+    }
+    if (document.getElementById('journal_v_title').value == "")
+    {
+
+      alert('Please enter the title!!');
+      return false;
+    }
+    if("<%= params[:contest_phase] %>" == "15" && "<%= params[:contest_type] %>" == "Image")
+    {
+      if (document.getElementById("age_groups").value == "")
+      {
+        alert("Select the age group");
+        return false;
+      }
+    }
+    if(document.getElementById('terms').checked == false)
+    {
+      document.getElementById('terms').focus();
+      alert("You must agree to the rules to proceed")
+      return false;
+    }
+    else
+      document.getElementById('loading').style.display='block';
+    return true;
+
+  }
+
+
+</script>
+<%= javascript_include_tag 'prototype' %>
+<%= javascript_include_tag 'scriptaculous' %>
+<%= javascript_include_tag 'SpryAssets/SpryValidationTextField' %>
+<%= stylesheet_link_tag 'SpryAssets/SpryValidationTextField' %>
+<%session[:friend]='' %>
+<% form_tag("#{request_content_url}/contest_upload/create_contest/#{params[:id]}", {:multipart => true}) do %>
+  <table width="890" border="0">
+    <input type="hidden" value="<%=@uid%>" name="uid" id="uid">
+    <input type="hidden" value="<%=@moment_type%>" name="moment" id="moment">
+    <input type="hidden" value="<%=@contest_phase%>" name="phase" id="phase">
+    <tr>
+      <td colspan="3"><font color="#ffffff" size="3">&nbsp;</font></td>
+    </tr>
+    <%if session[:contest] == "Video"%>
+      <tr>
+        <td colspan="3" align="center"><font color="#ffffff" size="4"> You have successfully registered for <%= @contest_details.name %>  Video Contest !!<br><br>Please Upload your Video now:<br>_______________________________________________________________________________</font></td>
+      </tr>
+    <%else%>
+      <tr>
+        <td colspan="3" align="center"><font color="#ffffff" size="4"> You have successfully registered for  <%= @contest_details.name %>  Photo Contest !!<br><br>Please Upload your Image now:<br>_______________________________________________________________________________</font></td>
+      </tr>
+    <%end%>
+    <tr>
+      <td colspan="3"><font color="#ffffff" size="3">&nbsp;</font></td>
+    </tr>
+    <%if session[:contest] == "Video"%>
+      <tr>
+        <td align="right" width="300">
+          <font color="#ffffff" size="2" ><b></b></font>
+        </td>
+        <td align="left" valign="top" scope="col">&nbsp;</td>
+        <td align="left" width="580"><font color="#ffffff" size="3">
+            Upload A Video for the Contest </font>
+        </td>
+      </tr>
+      <tr>
+        <td align="right" width="300">
+          <font color="#ffffff" size="2" ><b></b></font>
+        </td>
+        <td align="left" valign="top" scope="col">&nbsp;</td>
+        <td align="left" width="580">
+        </td>
+      </tr>
+      <tr>
+        <td align="right" width="300">
+          <font color="#ffffff" size="2" ><b>Upload Video:</b></font>
+        </td>
+        <td align="left" valign="top" scope="col">&nbsp;</td>
+        <td align="left" width="580">
+          <%= file_field 'hmm_user', 'v_myimage', :size => 30, :onchange => "validateFileExtension_video(this)"%>
+        </td>
+      </tr>
+    <%else%>
+      <tr>
+        <td align="right" valign="top" scope="col" width="350">
+          <font color="#ffffff" size="2" ><b>Upload Image</b></font>
+        </td>
+        <td align="left" valign="top" scope="col">&nbsp;</td>
+        <td align="left" width="530">
+          <%= file_field 'hmm_user', 'v_myimage', :size => 30, :onchange => "return validateFileExtension(this)"%>
+        </td>
+      </tr>
+    <%end%>
+    <tr>
+      <th colspan="3">
+        &nbsp;
+      </th>
+    </tr>
+    <tr>
+      <td align="right" width="300">
+        <font color="#ffffff" size="2" ><b>Contestant Name:</b></font>
+      </td>
+      <td align="left" valign="top" scope="col">&nbsp;</td>
+      <td align="left" width="580">
+        <%= text_field 'contest', 'first_name', :id =>'first_name',  :class => "textbox-journals"%>
+        <!--<%= observe_field :'first_name',
+          :with       => "firstname",
+          :frequency  => 0.25,
+          :url        => {:action => :validate_babyname, :id=>@moment_type },
+          :update     => :message_baby
+      %>
+                                             <span id="message_baby"></span >-->
+      </td>
+    </tr>
+    <tr>
+      <th colspan="3">
+        &nbsp;
+      </th>
+    </tr>
+    <tr>
+      <th colspan="3">
+        <font color="#ffffff" size="3">Tell us a little bit about this entry (this information will be included with your entry):</font>
+      </th>
+    </tr>
+    <tr>
+      <th colspan="3">
+        &nbsp;
+      </th>
+    </tr>
+    <tr>
+      <th align="right" valign="top" scope="col"><font color="#ffffff" size="2" >Title</font></th>
+      <th  align="left" valign="top" scope="col">&nbsp;</th>
+      <th width="91" align="left" valign="top" scope="col"><span id="sprytextfield1"><span id="sprytextfield1"><%= text_field 'journal', 'v_title', :size => 20, :class => "textbox-journals" %><span class="textfieldRequiredMsg"><br>Title is required.</br></span></span></span></th>
+    </tr>
+    <tr>
+      <th>&nbsp;</th>
+    </tr>
+
+
+    <tr>
+      <th>&nbsp;</th>
+    </tr>
+    <% if params[:contest_phase] == "15" && params[:contest_type] == "Image" %>
+      <tr>
+        <th align="right" valign="top" scope="col"><font color="#ffffff" size="2" >Age Group</font></th>
+        <th  align="left" valign="top" scope="col">&nbsp;</th>
+        <th width="91" align="left" valign="top" scope="col">
+            <select name="age_groups" id="age_groups">
+              <option value="">---</option>
+              <option value="0-2">0-2</option>
+              <option value="3-5">3-5</option>
+              <option value="6-9">6-9</option>
+              <option value="10-17">10-17</option>
+            </select>
+        </th>
+      </tr>
+    <% end %>
+    <tr>
+      <th align="right" valign="top" scope="col"><font color="#ffffff" size="2" >Date</font></th>
+      <th  align="left" valign="top" scope="col">&nbsp;</th>
+      <th  align="left" valign="top" scope="col">
+        <%= date_select 'journal', 'date_added',  :order => [:month, :day, :year], :start_year => Time.now.year, :end_year => Time.now.year - 100 %>
+    </tr>
+    <tr>
+      <th>&nbsp;</th>
+    </tr>
+    <tr>
+      <th align="right" valign="top" scope="col"><font color="#ffffff" size="2" >Description</font></th>
+      <th width="14" align="left" valign="top" scope="col">&nbsp;</th>
+      <th width="91" align="left" valign="top" scope="col"><span id="sprytextfield2"><span id="sprytextfield2"><%=text_area 'journal', 'v_image_comment', :rows =>"10", :cols=>"80",  :class => "textbox-journal"%><span class="textfieldRequiredMsg"><br>Description is required.</br></span></span></span></th>
+    </tr>
+    <tr>
+      <th height="12" colspan="9" align="center" valign="top" scope="col" class="signedtxtwhite">&nbsp;</th>
+    </tr>
+    <%if session[:contest] == "Video"%>
+      <tr>
+        <th height="12" colspan="9" align="center" valign="top" scope="col" >
+          <br /> <input type="checkbox" name="terms" id="terms" value="1"  /><font color="#ffffff" size="1">I agree to the <a href="/static/rules" target="_blank"><u><font color="#FFFFFF">Rules</font></u></a> of <%= @contest_details.name %> Video Contest</font><p>&nbsp</p>
+          </font><p>&nbsp</p>
+        </th>
+      </tr>
+    <%else%>
+      <tr>
+        <th height="12" colspan="9" align="center" valign="top" scope="col" >
+          <br /> <input type="checkbox" name="terms" id="terms" value="1"  /><font color="#ffffff" size="1">I agree to the <a href="/static/rules" target="_blank"><u><font color="#FFFFFF">Rules</font></u></a> of <%= @contest_details.name %>Photo Contest</font><p>&nbsp</p>
+        </th>
+      </tr>
+    <%end%>
+    <tr>
+      <th height="12" colspan="9" align="center" valign="top" scope="col" class="signedtxtwhite">
+        <!--<input type='image' src="/images/submit_btn.jpg" width="87" height="24" border="0" onclick="return verify();" />-->
+        <input type="submit" id="regsubmit" class="cmd-btn" value="Submit" style="cursor:pointer;" width="131" height="38" onclick="return verify();">
+        &nbsp;&nbsp;
+        <!--<a href="/manage_website/advance_upload/<%=logged_in_hmm_user.family_name%>" border="0"> <img src="/images/cancel_btn.jpg"  value="Cancel" name="cancel" id="cancel" width="87" height="25" border="0"></a>-->
+        <input type="button" id="Image42" class="cmd-btn" value="Cancel" style="cursor:pointer;" width="131" height="38" onClick="window.location='/manage_website/file_manager/<%=logged_in_hmm_user.family_name%>'">
+      </th>
+    </tr>
+    <tr>
+      <th>&nbsp;</th>
+    </tr>
+    <tr>
+      <th align="center">
+        <div id="loading" style="display:none">
+          <img src="/images/uploadfile.gif" name="load" id="load">
+        </div>
+      </th>
+    </tr>
+  </table>
+<%end%>
+
+<script type="text/javascript">
+  <!--
+  var sprytextfield1 = new Spry.Widget.ValidationTextField("sprytextfield1", "none", {validateOn:["blur"]});
+  var sprytextfield2 = new Spry.Widget.ValidationTextField("sprytextfield2", "none", {validateOn:["blur"]});
+
+  //-->
+</script>

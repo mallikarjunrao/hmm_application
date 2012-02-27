@@ -1,0 +1,36 @@
+<p>Hello <i><%= @name %></i>. </p>
+
+<p>Welcome to HoldMyMemories.com!</p>
+<p>Thank you for setting up your account. Below are your login details.<br></p>
+<p>Your HoldMyMemories.com Admin username is: <%= @username%></p>
+<p>Your HoldMyMemories.com Admin password is: <%= @password%></p> 
+<br>
+
+<p>Your Family Website Address is : <%=@link%></p>
+<%if @password_req == "no"%>
+<p> Your family website is not password protected.  It is viewable to anyone who knows your address.  To password protect your website please login to your Admin,click on Manage, then click on Manage Family Website to set a password.</p>
+<%else%>
+<p>Your Family Website Password is: <%=@pass%><br>
+</p>
+<%end%>
+<br>
+<p>We designed HoldMyMemories.com to give you an easy way to share not only your studio memories, but all your family memories.  <a href="www.holdmymeories.com/static/take_tour">Click here</a>to be taken to a page that will give you ideas on how to use your site.</p>
+<p>Some of our favorite features of HoldMyMemories.com (click any item below for more info)</p>
+<p>&bull; <a href="<%=@link%>"  target="_blank">YOUR FAMILY WEBSITE</a><br/>
+&bull; <a href="http://www.holdmymemories.com/my_familywebsite/gallery_fisheye/333?familyname=bob"  target="_blank">CHILDREN’S CHAPTERS</a><br/>
+&bull; <a href="http://www.holdmymemories.com/my_familywebsite/subchapters/11?familyname=bob"  target="_blank">FAMILY PORTRAIT SESSIONS AND FREE 8x10 EVERY MONTH!</a><br/>
+&bull; <a href="http://www.holdmymemories.com/my_familywebsite/journals/bob"  target="_blank">JOURNAL ENTRIES</a><br/>
+&bull; <a href="http://www.holdmymemories.com/my_familywebsite/gallery/1199?familyname=bob"  target="_blank">CHILDREN’S BIRTHDAYS</a><br/>
+&bull; <a href="http://www.holdmymemories.com/my_familywebsite/gallery_fisheye/333?familyname=bob"  target="_blank">ARTWORK</a><br/>
+&bull; <a href="http://www.holdmymemories.com/my_familywebsite/subchapters/41?familyname=bob"  target="_blank">FAMILY PHOTOS</a><br/>
+&bull; <a href="http://www.holdmymemories.com/my_familywebsite/gallery_fisheye/2334?familyname=bob"  target="_blank">SPECIAL VIDEOS</a><br/>
+&bull; <a href="http://www.holdmymemories.com/my_familywebsite/moment_page/102510?page=1&familyname=bob"  target="_blank">PHOTO VIDEO MONTAGE</a><br/>
+</p>
+<p>We are constantly adding new features to HoldMyMemories.com.If you have any features you would like to see added, or any suggestions on how we can make HoldMyMemories.com better, Please simply reply to this email.</p>
+<p>Your HoldMyMemories.com Team</p>
+<p>Thank You,<br>
+Bob<br>
+View my family site at:<br>
+<a href="www.holdmymemories.com/bob">www.holdmymemories.com/bob</a></p>
+<p>Contact us at:<br>
+Admin@HoldMyMemories.com</p>

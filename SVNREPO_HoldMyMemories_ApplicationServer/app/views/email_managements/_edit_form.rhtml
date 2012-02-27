@@ -1,0 +1,111 @@
+<%= error_messages_for 'email_management' %>
+
+<script type="text/javascript">
+	function verify()
+	{
+		
+		if (document.getElementById('email_management_subject').value == '') 
+		{
+			alert("Please enter the subject!");
+			document.getElementById('email_management_subject').focus();
+			return false;
+		}
+		
+		if (document.getElementById('email_management_message').value == '') 
+		{
+			alert("Please enter the message!");
+			document.getElementById('email_management_message').focus();
+			return false;
+		}
+		
+		if (document.getElementById('email_management_footer_message').value == '') 
+		{
+			alert("Please enter the email signature!");
+			document.getElementById('email_management_footer_message').focus();
+			return false;
+		}
+		
+	}
+</script>
+
+<table>
+	<!--tr>
+		<td align="right">
+			From
+		</td>
+		<td>&nbsp;</td>
+		<td>
+			< %= text_field 'email_management', 'from'  % >
+		</td>
+	</tr-->
+	<tr><td colspan="3">&nbsp;</td></tr>
+	<tr>
+		<td  align="right">
+			Account Type
+		</td>
+		<td>&nbsp;</td>
+		<td>
+			<select name="email_management[to]" id="email_management_to">
+				
+				<option value="premium" <%if @email_management.to == 'premium'%>selected="selected" <%end%>>Premium Users</option>
+				<option value="family_wb" <%if @email_management.to == 'family_wb'%>selected="selected" <%end%>>Family Website Users</option>
+				<option value="free_user" <%if @email_management.to == 'free_user'%>selected="selected" <%end%>>Free Users</option>
+			</select>
+		</td>
+	</tr>
+	<tr><td colspan="3">&nbsp;</td></tr>
+	<tr>
+		<td  align="right" valign="top">
+			Subject
+		</td>
+		<td>&nbsp;</td>
+		<td>
+			<%= text_field 'email_management', 'subject', :rows =>"9", :cols=>"40" %>
+		</td>
+	</tr>
+	<tr><td colspan="3">&nbsp;</td></tr>
+	<tr>
+		<td align="right" valign="top">
+			Message
+		</td>
+		<td>&nbsp;</td>
+		<td>
+			<%= text_area 'email_management', 'message', :rows =>"9", :cols=>"40",  :class => "textbox-1"    %>
+		</td>
+	</tr>
+	<tr><td colspan="3">&nbsp;</td></tr>
+	<tr>
+		<td align="right" valign="top">
+			Signature
+		</td>
+		<td>&nbsp;</td>
+		<td>
+			<%= text_area 'email_management', 'footer_message', :rows =>"9", :cols=>"40",  :class => "textbox-1"    %>
+		</td>
+	</tr>
+	<tr><td colspan="3">&nbsp;</td></tr>
+	<tr>
+		<td align="right">
+			Email interval
+		</td>
+		<td>&nbsp;</td>
+		<td>
+			<select name="email_management[email_interval]" id="email_management_email_interval">
+				
+				<option value="d1" <%if @email_management.email_interval == 'd1'%>selected="selected" <%end%>>Day 1</option>
+				<option value="d2" <%if @email_management.email_interval == 'd2'%>selected="selected" <%end%>>Day 2</option>
+				<option value="d3" <%if @email_management.email_interval == 'd3'%>selected="selected" <%end%>>Day 3</option>
+				<option value="1w" <%if @email_management.email_interval == '1w'%>selected="selected" <%end%>>1st Week</option>
+				<option value="2w" <%if @email_management.email_interval == '2w'%>selected="selected" <%end%>>2nd Week</option>
+				<option value="3w" <%if @email_management.email_interval == '3w'%>selected="selected" <%end%>>3rd Week</option>
+				<option value="4w" <%if @email_management.email_interval == '4w'%>selected="selected" <%end%>>4th Week</option>
+				<option value="1m" <%if @email_management.email_interval == '1m'%>selected="selected" <%end%>>1st Month</option>
+				<option value="3m" <%if @email_management.email_interval == '2m'%>selected="selected" <%end%>>3rd Month</option>
+				<option value="6m" <%if @email_management.email_interval == '3m'%>selected="selected" <%end%>>6th Month</option>
+			</select>
+			<!-- % = text_field 'email_management', 'email_interval'  % -->
+		</td>
+	</tr>
+	<tr><td colspan="3">&nbsp;</td></tr>
+
+</table>

@@ -1,0 +1,55 @@
+<table width="<%=@app_main_width%>" border="0" cellspacing="0" cellpadding="0" id="tab_bgcolor_repeat">
+
+          <tr>
+            <td align="left" valign="top"><table width="<%=@app_main_width%>" border="0" cellspacing="0" cellpadding="0">
+            
+              <tr>
+                <td width="13" align="left" valign="top"></td>
+               <td width="<%=@app_width%>" align="left" valign="top"><table width="<%=@app_main_width%>" border="0" cellspacing="0" cellpadding="0">
+                 
+                 <tr>
+                    <td height="10" align="left" valign="top"></td>
+                    </tr>
+                  <tr>
+                    <td height="35" align="left" valign="bottom" class="header-page">Contest</td>
+                    </tr>
+                  <tr>
+                    <td height="10" align="left" valign="top"></td>
+                  </tr>
+                  <tr>
+                    <td height="1" align="left" valign="top" bgcolor="#454545"></td>
+                    </tr>
+                  <tr>
+                    <td height="10" align="left" valign="top"></td>
+                  </tr>
+                  <tr>
+                    <td align="left" valign="top" class="content-trans-bg"><table width="<%=@app_main_width%>" border="0" cellspacing="0" cellpadding="0">
+                        
+                      <tr>
+                        <td width="30" align="left" valign="top">&nbsp;</td>
+                        
+                         <td width="<%=@app_main_width%>" align="left" valign="top">&nbsp;</td>
+                        <td width="30" align="left" valign="top">&nbsp;</td>
+                      </tr>
+                      <tr>
+                        <td align="left" valign="top">&nbsp;</td>
+                        <td align="left" valign="top" class="content-trans-bg">
+                        <%#= render :partial => "partials/contestintronew", :locals => { :website_type => "familywebsite", :topentries_photo => @topentries_photo, :topentries_video => @topentries_video , :id => params[:id]}  %></td>
+                        <td align="left" valign="top">&nbsp;</td>
+                      </tr>
+                      <tr>
+                        <td align="left" valign="top">&nbsp;</td>
+                        <td align="left" valign="top">&nbsp;</td>
+                        <td align="left" valign="top">&nbsp;</td>
+                      </tr>
+                    </table></td>
+                  </tr>
+
+                  
+                   </table></td>
+              <td width="13" align="left" valign="top"></td>
+              </tr>
+
+              </table></td>
+          </tr>
+          </table>

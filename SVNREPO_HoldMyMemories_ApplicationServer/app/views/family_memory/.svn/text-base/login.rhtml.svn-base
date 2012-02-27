@@ -1,0 +1,69 @@
+<tr>
+  <td height="400" align="center" class="rightBarMdl"><div id="loginBar">
+      <table width="100%" border="0" cellspacing="0" cellpadding="0">
+         <tr>
+          <td height="15"></td>
+        </tr>
+        <tr>
+          <td align="center" class="wcHmm">Welcome to HoldMy<span>Memories</span></td>
+        </tr>
+        <tr>
+          <td>&nbsp;</td>
+        </tr>
+        <tr>
+          <td align="center">Your personal portal for storing and sharing your Picture People images and other precious memories.</td>
+        </tr>
+        <tr>
+          <td height="60" align="center"> - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -</td>
+        </tr>
+        <%if !flash[:error].nil? && !flash[:error].blank? %>
+        <tr>
+          <td height="10" align="center"></td>
+        </tr>
+         <tr>
+          <td align="center">&nbsp;<%=flash[:error]%></td>
+        </tr>
+        <tr>
+          <td height="10" align="center"></td>
+        </tr>
+
+        <%end%>
+        <tr>
+          <td align="center">Log into your Hold My Memories account below:</td>
+        </tr>
+        <tr>
+          <td>&nbsp;</td>
+        </tr>
+        <tr>
+          <td>
+            <form name="emailusform" id="blogform" action="<%=request_server_url%>/family_memory/login/<%=params[:id]%>" method="post">
+              <table width="320" border="0" align="center" cellpadding="0" cellspacing="0">
+                <tr>
+                  <td width="155">Username :</td>
+                  <td width="245" align="left"><input type="text" name="username" id="textfield2" class="glrTxtfld" style="width:200px;"/></td>
+                </tr>
+                <tr>
+                  <td height="10" colspan="2"></td>
+                </tr>
+                <tr>
+                  <td>Password :</td>
+                  <td align="left"><input type="password" name="password" id="textfield" class="glrTxtfld" style="width:200px;" /></td>
+                </tr>
+                <tr>
+                  <td>&nbsp;</td>
+                  <td align="left"><a href="#" class="loginLnk" >Forgot Password?</a></td>
+                </tr>
+                <tr>
+                  <td height="10" colspan="2"></td>
+                </tr>
+                <tr>
+                  <td>&nbsp;</td>
+                  <td align="left"><input type="submit" name="login" class="cmnBtnS cmnBtnMar" value="Login" style="border: 0; cursor: pointer"/></td>
+                </tr>
+              </table>
+            </form>
+          </td>
+        </tr>
+      </table>
+    </div></td>
+</tr>

@@ -1,0 +1,263 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:Application xmlns:mx="http://www.adobe.com/2006/mxml" layout="absolute" initialize="handleInit()" creationComplete="handleCreationComplete()">
+	<mx:states>
+		<mx:State name="logout">
+			<mx:SetProperty target="{loginButton}" name="label" value="Log Out"/>
+		</mx:State>
+	</mx:states>
+	<!--<mx:Script>
+		<![CDATA[
+			import components.selectedData;
+		]]> 
+	</mx:Script>-->
+	<mx:HBox>
+		<mx:VBox>
+			<mx:Label id="loginLbl" text="Hello {user.name}"/>
+			<mx:Button id="loginButton" label="Log In" click="handle_login()"/>		
+			<mx:Image id="usrImg" height="30" width="30" source="{user.pic_square}"/>
+		</mx:VBox>
+		
+		<mx:List id="albumsDataGrid" dataProvider="{faceBookPhotoAlbums}" itemClick="showSelectedAlbum()" width="15%" height="100%">
+			<mx:itemRenderer>
+				<mx:Component>
+					<mx:Label text="{data.name}" /> 
+				</mx:Component>
+			</mx:itemRenderer>			
+		</mx:List>
+		
+		<mx:TileList id="photosList" dataProvider="{facebookPhotos}" rowHeight="100" columnWidth="100"
+			height="100%" width="70%">
+			<mx:itemRenderer>
+			<!--	<mx:Component>
+					<mx:HBox>
+						
+						<mx:Image source="{data.src_small}" />
+						<mx:CheckBox change="checkboxChange()"/>
+						
+					</mx:HBox>
+					
+				</mx:Component>-->
+				renderers.ImageWithCheckbox
+			</mx:itemRenderer>
+		</mx:TileList>
+		<mx:List id="selectedPhotosList" width="15%" height="100%" dataProvider="{selectedPhoto}" rowHeight="100" columnWidth="100">
+			<mx:itemRenderer>
+				<mx:Component>
+					<mx:Image source="{data.src_small}"/>
+				</mx:Component>
+			</mx:itemRenderer>
+		</mx:List>
+	</mx:HBox>
+	
+	
+	
+	<mx:Script>
+		<![CDATA[
+			import events.FBEvent;
+			import renderers.PhotoBookCreation.PhotoRenderer;
+			import renderers.ImageWithCheckbox;
+			import com.facebook.data.photos.GetPhotosData;
+			import com.facebook.commands.photos.GetPhotos;
+			import com.facebook.data.photos.GetAlbumsData;
+			import com.facebook.commands.photos.GetAlbums;
+			import com.facebook.session.WebSession;
+			import de.popforge.imageprocessing.filters.color.Extract;
+			import mx.collections.ArrayCollection;
+			import com.facebook.data.users.GetInfoData;
+			import com.facebook.data.users.FacebookUser;
+			import mx.binding.utils.BindingUtils;
+			import mx.controls.Alert;
+			import com.facebook.data.stream.StreamFilterCollection;
+			import com.facebook.utils.FacebookSessionUtil;		
+			import com.facebook.Facebook;
+			import com.facebook.commands.users.GetInfo;
+			import com.facebook.data.JSONResultData;
+			import com.facebook.data.users.GetInfoFieldValues;
+			import com.facebook.net.FacebookCall;
+			import com.facebook.events.FacebookEvent;
+			import flash.external.ExternalInterface;
+			import com.facebook.utils.FacebookSessionUtil;
+			
+			protected var facebook_Session:FacebookSessionUtil;	
+			private var fbook:Facebook;			
+			
+			[Bindable] private var faceBookPhotoAlbums:ArrayCollection;
+			[Bindable] private var facebookPhotos:ArrayCollection;
+			[Bindable] private var selectedPhoto:ArrayCollection;
+			[Bindable] protected var user:FacebookUser=new FacebookUser();
+			public static const API_KEY:String="e40673135dd04ccdaca5fb83c72c57a3";
+			public static const SECRET_KEY:String="db946cd418c06f47272b80896d955b0f";
+			private var facebookButton:Sprite;
+			protected var sessionData:Object={};
+			protected var session2:WebSession; 	
+			private var call:FacebookCall;  	
+		
+			private var photosResponseData:GetPhotosData;
+			//ExternalInterface.addCallback("onLogIn",this.onLogInCallBack);
+			
+			private function handleCreationComplete():void{
+				selectedPhoto=new ArrayCollection();
+				addEventListener(FBEvent.FBEVENT, checkboxChange);
+			}
+			
+			private function handleInit():void
+			{
+			 	fbook=new Facebook();
+			 	
+			}
+			
+			private function handle_login():void
+			{
+				var local:int=loaderInfo.parameters.url.search("http://localhost");
+				if(API_KEY!="" && SECRET_KEY!="" && local!=-1)
+				{
+					facebook_Session=new FacebookSessionUtil(API_KEY,SECRET_KEY,loaderInfo);
+					fbook=facebook_Session.facebook;
+					facebook_Session.addEventListener(FacebookEvent.CONNECT,onConnect);
+					facebook_Session.addEventListener(FacebookEvent.WAITING_FOR_LOGIN,onWaitLogin);
+					facebook_Session.login();
+			 	}
+				else if(local==-1)
+				{
+					ExternalInterface.addCallback("onSession",onSession);
+					ExternalInterface.call("fbconnectLogin");					
+				}
+				else
+				{
+					Alert.show("Error connecting to Facebook","Error");
+				} 
+				
+			}
+			
+			protected function onConnect(event:FacebookEvent):void
+			{
+				if(event.success)
+				{
+					currentState="logout";
+					if(facebook_Session) sessionData.uid=fbook.uid;
+					//var call:FacebookCall=fbook.post(new GetInfo([sessionData.uid],[GetInfoFieldValues.ALL_VALUES]));
+					call = fbook.post(new GetAlbums(fbook.uid));
+					loginButton.addEventListener(MouseEvent.CLICK,handleChange);
+					//call.addEventListener(FacebookEvent.COMPLETE,onGetInfo);
+					call.addEventListener(FacebookEvent.COMPLETE, handleGetAlbumsResponse);
+				}
+				else
+				{
+					Alert.show("Connection to facebook failed","Error");
+				}
+			}
+			
+			private function handleGetAlbumsResponse(event:FacebookEvent):void
+			{
+				var albumResponseData:GetAlbumsData=event.data as GetAlbumsData;
+				if(!albumResponseData || event.error)
+				{
+					
+					return;
+				}
+				faceBookPhotoAlbums=new ArrayCollection();
+				for(var i:int=0;i<albumResponseData.albumCollection.length;i++)
+				{
+					faceBookPhotoAlbums.addItem(albumResponseData.albumCollection.getItemAt(i));
+				}
+			}
+			
+			private function showSelectedAlbum():void
+			{
+				var selectedAlbumID:String=albumsDataGrid.selectedItem.aid;
+				call=fbook.post(new GetPhotos('',selectedAlbumID));
+				call.addEventListener(FacebookEvent.COMPLETE,handleGetPhotosResponse);
+			}
+			
+			private function handleGetPhotosResponse(event:FacebookEvent):void
+			{
+				photosResponseData=event.data as GetPhotosData;
+				if(!photosResponseData || event.error)
+				{
+					return;
+				}
+				facebookPhotos=new ArrayCollection();
+				for(var i:int = 0;i<photosResponseData.photoCollection.length;i++)
+				{
+					facebookPhotos.addItem(photosResponseData.photoCollection.getItemAt(i));
+				}
+			}
+			
+			protected function onWaitLogin(event:FacebookEvent):void
+			{
+				var alert:Alert = Alert.show("Click on OK after you login to Facebook","Waiting for login");
+				alert.addEventListener(Event.CLOSE,onClose);
+			}
+			
+			protected function onClose(event:Event):void
+			{
+				facebook_Session.validateLogin();
+			}
+			
+			/* protected function onGetInfo(event:FacebookEvent):void
+			{
+				if(event.success)
+				{
+					user=(event.data as GetInfoData).userCollection.getItemAt(0) as FacebookUser;
+				}
+				else
+				{
+					Alert.show("Error in getting Facebook user data","Error");					
+				}
+			} */
+			
+			protected function handle_logout():void
+			{
+				facebook_Session.logout();
+				/* facebook_Session.logout();
+				currentState="";
+				user=new FacebookUser(); */
+				if(session2 && session2.is_connected)
+				{
+					ExternalInterface.call("logout");
+				}
+			}
+			
+			private function handleChange(event:MouseEvent):void
+			{
+				if(currentState=="logout")
+				{
+					handle_logout();
+				}
+				else
+				{
+					handle_login();
+				}
+			}
+			
+			protected function onSession(data:Object):void
+			{
+				sessionData=data;
+				session2=new WebSession(sessionData.api_key,sessionData.secret,sessionData.session_key);
+				session2.addEventListener(FacebookEvent.CONNECT,onConnect);
+				fbook=new Facebook();
+				fbook.startSession(session2);
+				session2.verifySession();
+			}
+			
+			private function checkboxChange(event:FBEvent):void
+			{
+				var selectedID:int;
+				if(event.target.photoCheckBox.selected)
+				{
+					selectedPhoto.addItem(photosList.selectedItem);
+					selectedPhoto.refresh();
+				}
+				 if(!event.target.photoCheckBox.selected)
+				{
+					selectedPhoto.removeItemAt(selectedPhoto.getItemIndex(photosList.selectedItem));
+					selectedPhoto.refresh();
+				} 
+				
+			}
+			
+		]]>
+	</mx:Script>
+	
+
+</mx:Application>

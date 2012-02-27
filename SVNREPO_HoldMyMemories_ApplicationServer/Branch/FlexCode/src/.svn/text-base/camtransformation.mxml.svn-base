@@ -1,0 +1,301 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:Application xmlns:mx="http://www.adobe.com/2006/mxml" xmlns="*" layout="absolute" creationComplete="InitEngine()">
+	<mx:AnimateProperty id="animator" duration="4000" easingFunction="{Quadratic.easeOut}" effectEnd="handleEffectEnd()" fromValue="0" property="z"  toValue="150" tweenUpdate="CameraTransform()"/> 
+
+	<mx:Script>
+		<![CDATA[
+			import Xorange.ZUIComponent;
+			import mx.effects.easing.Quadratic;
+			import mx.collections.ArrayCollection;
+			import mx.controls.Alert;
+			import mx.charts.series.LineSeries;
+			import mx.charts.CategoryAxis;
+			import mx.charts.LineChart;
+			
+			// Global declarations done here.
+			[Bindable]
+			public var VertexBuffer:Array;				// The current VertexBuffer and the pseudo sceneGraph.
+			public var focalLength:Number;				// Camera property. Required for the perspective calculations.
+			public var Origin:Object;					// Global origin reference frame.
+			public var engineInit:Boolean;				// Checks wether the Engine is initialzed or not
+			//public var radius:Number;					// Global for the test code
+			//public var angle:Number;					// Global for the test code
+			public var Camera:ZUIComponent;					// Camera Object global. Next time implement a camera class
+			public var mouseDown:Boolean;
+			//Custom Chart declarations
+			[Bindable]
+			public var results: ArrayCollection;					// DataProvider for the chart.
+	        
+	        private var previousZ : Number = 0;
+			//Custom Chart declarations end here
+			
+			//! InitEngine() function intializes the internals of the engine. Initialzes all the 
+			//! globals. Nothing interesting done here.
+			
+			
+			private function handleEffectEnd() : void
+			{
+				Camera.z = 0;
+			}
+			
+			public function InitEngine():Boolean
+			{
+				VertexBuffer = new Array();
+				if(VertexBuffer == null)
+					return false;
+				focalLength = 10;
+				Origin = new Object();
+				Origin.x = drawPlane.width/2;
+				Origin.y = drawPlane.height/2;
+				
+				//test code
+				/*CursorPosition = new Object();
+				CursorPosition.x = 0;
+				CursorPosition.y = 0;
+				//angle = 2*Math.PI/8;
+				radius = 200;
+				//direction= "left";
+				//speed = 5;
+				mouseDown = false;*/
+				//test code ends
+				
+				
+				if(Origin == null)
+					return false;
+					var result : Array = new Array();
+        		    for (var i:uint=0; i<20; i++) {
+                	result.push({time: "", value: 20000+Math.round(Math.random()*10000)});
+            		}
+		            results = new ArrayCollection(result);
+					
+				Camera = new ZUIComponent;
+				Camera.x = 0;
+				Camera.y = 0;
+				Camera.z = 0;
+				//Camera.target = new Object();
+				Camera.target.x = -100;
+				Camera.target.y = 0;
+				Camera.target.z = 100;
+				
+				SetupScene();
+				drawPlane.focusEnabled = true;
+				engineInit = true;
+				
+				return true;
+			}
+			
+			
+			//! Setup scene function. Creates all the vertices. Creates all the charts. 
+			// Next time make sure this is implemented as a sceneManager.
+			public function SetupScene():void
+			{
+				var j:Number = 0;
+				for(var i:Number=0;i<15;i++)
+				{	
+					CreateVertex(-275+(10*i),-100 -(15*i),i*10 ,"a"+i); /* bottom half of box (low y value) */
+					j++;
+					
+				}
+				
+				for(var i:Number=0;i<5;i++)
+				{	
+					CreateVertex(250-(10*i),-100 -(15*i),i*10 ,"b"+i); /* bottom half of box (low y value) */
+					j++;
+				}
+				
+			}
+			
+			//! Vertex Creation function Creates the vertex object with the chart object embedded in it
+			public function CreateVertex(x:Number,y:Number,z:Number,id:String):void
+			{
+				var vertex:Object = new Object();
+				vertex.chart = new LineChart();
+				vertex.chart.id = id;
+				vertex.chart.dataProvider = results;
+				vertex.chart.toolTip = id; 
+				vertex.chart.series = new Array();
+				vertex.chart.series[0] = new LineSeries();
+				vertex.chart.series[0].dataProvider = results;
+				vertex.chart.series[0].yField = "value";
+				vertex.chart.scaleX = 0.2;
+				vertex.chart.scaleY = 0.2;
+				vertex.x = new Number();
+				vertex.x = x;
+				vertex.y = new Number();
+				vertex.y = y;
+				vertex.z = new Number();
+				vertex.z = z;
+				VertexBuffer.push(vertex);
+				drawPlane.addChild(vertex.chart);
+				
+							
+			}
+			
+			//! View transform function. Basically transforms the vectors to the camera space.
+			//!S Next time implement as a Matrix. Life is much easier that way.
+			public function ViewTransform(index:Number,vertexBuf:Object):void
+			{
+					
+					vertexBuf.x	= VertexBuffer[index].x - Camera.x;
+					vertexBuf.y = VertexBuffer[index].y - Camera.y;
+					vertexBuf.z = VertexBuffer[index].z - Camera.z;
+					
+			}
+			
+			//! Projects a 3D point into 2D cartesian space
+			public function ProjectionTransform(index:Number,pointBuf:Object):void
+			{
+				    // make an object to act as the 2D point on the screen
+					// develop a scale ratio based on focal length and the
+					// z value of this point
+					var scaleRatio:Number = focalLength/(focalLength + pointBuf.z);
+					// appropriately scale each x and y position of the 3D point based
+					// on the scale ratio to determine the point in 2D and assign it to the chart.
+					VertexBuffer[index].chart.x = pointBuf.x * scaleRatio + Origin.x;
+					VertexBuffer[index].chart.y = pointBuf.y * scaleRatio + Origin.y;
+
+					// Assign the scaling to the chart scales.					
+					VertexBuffer[index].chart.scaleX = Math.abs(scaleRatio)/2;
+					VertexBuffer[index].chart.scaleY = Math.abs(scaleRatio)/2;
+					
+					// Bound the minimum scaling 
+					if(VertexBuffer[index].chart.scaleX < 0.1)
+						VertexBuffer[index].chart.scaleX = 0.1;
+					if(VertexBuffer[index].chart.scaleY<0.1)
+						VertexBuffer[index].chart.scaleY = 0.1;
+					
+					
+			}
+			//! Main rendering loop. Transformation for all 3D points from 3D space to camera space.
+			//! Renders the different nodes.
+			
+			public function Render():void
+			{
+				if(engineInit)
+				{
+					// create a new Object tempVertex to contain the x and y positions for 2D points
+					// as they will exist on the screen.  This will be filled with the new
+					// 2D points which were created from converting the 3D points to 2D and the drawn.
+					// Same variable will be reused instead of creating an array for transformed points.
+					
+					var tempVertex:Object = new Object();
+					tempVertex.x =0;
+					tempVertex.y = 0;
+					tempVertex.z = 0;
+					var tempPoint:Object = new Object();
+					tempPoint.x = 0;
+					tempPoint.y = 0;
+					// Since this method is called once every frame rendering and we have
+					// an array of vertices to transform and render,
+					// too loop through each one here and change each one individually.
+					// here we'll move the points to the camera space calling ViewTransform
+					// then convert them to 2D points on screen using ProjectionTransform
+					// and call the drawing function. No need to save those points as the state machine
+					// evaluates the points in every loop.
+					for (var i:Number=0; i<VertexBuffer.length; i++){
+						// lets set a variable tempVertex to represent the current point
+						// in the loop to make things a little easier
+						// now we move each point.  
+						
+						// Test code for the circular ring representation of charts
+						//tempVertex = VertexBuffer[i];
+						//tempVertex.x = Math.sin(angle*i)*radius+Origin.x;
+						//tempVertex.z = Math.cos(angle*i)*radius+Origin.y ;
+						// doesn't work
+						//Test code ends here
+							 
+						ViewTransform(i,tempVertex);
+					
+						ProjectionTransform(i,tempVertex);
+						
+						//Check for wether the camera has gone past the chart
+						if((Camera.z - VertexBuffer[i].z) > 0 || (Camera.z - VertexBuffer[i].z)< -100)
+						{
+							// Switch off the chart since it is behind the cam
+							VertexBuffer[i].chart.visible = false;
+						}
+						else
+						{	// Switch on the chart as its in the near clip plane
+							VertexBuffer[i].chart.visible = true;
+						}
+						
+						
+					}// end of loop
+					
+					
+					
+					
+					
+				}
+			}
+			override protected function updateDisplayList(unscaledWidth:Number, unscaledHeight:Number):void
+			{
+				super.updateDisplayList(unscaledWidth, unscaledHeight);
+				
+				CameraTransform();
+			}
+			
+			//! Camera transform function. Event handler for MouseWheel event 
+			//! Basically changes the Z value and puts the camera in a position so that it maintains its Z path on Z
+			//! axes. 
+						
+			public function CameraTransform():void
+			{
+				if(Camera == null)
+					return;
+				//Camera.z = Camera.z + 1.5*event.delta;
+				var delta : Number = Number(Number(Camera.z) - previousZ);
+				previousZ = Camera.z;
+				if(Camera.z >163)
+					Camera.z = 163;
+				if(Camera.z <0)
+					Camera.z = 0;
+					var scaleRatio:Number = focalLength/(focalLength + Camera.z);
+				
+				if(Camera.y<0)
+				{	
+					Camera.y += 0.5*scaleRatio*delta;
+				}
+				else 
+				{
+					Camera.y -= 0.5*scaleRatio*delta;
+				}
+				// Check camera Y bounds
+				if(Camera.y > 2)
+					Camera.y = 2;
+				if(Camera.y < -2)
+					Camera.y = -2;
+				
+				trace("x: "+Camera.x+" y: "+Camera.y+" z: "+Camera.z);
+				
+			}
+			
+			//! Debug function used earlier. just kept there for now
+			public function showDebugInfo():void
+			{
+					//Alert.show("Told ya not to touch me");
+					animator.target = Camera;		
+					animator.play(); this.invalidateDisplayList();	
+			}
+			
+		]]>
+	</mx:Script>
+	
+
+<!-- this is something that could have been implemented as a class in action script. No need of this UIML junk. -->	
+	<mx:Canvas id="drawPlane" height="100%" width="100%" x="{this.width/2-drawPlane.width/2}" 
+		y="{this.height/2-drawPlane.height/2}" enterFrame="Render()" 
+		clipContent="false" horizontalLineScrollSize="0" horizontalPageScrollSize="0"
+		verticalLineScrollSize="0" verticalPageScrollSize="0"
+		maxHeight="{this.height}" maxWidth="{this.width}"  
+		toolTip="Click once and use mouse scroll to zoom in and out" backgroundColor="0x000000" >
+		
+		
+		
+			<mx:Button label="Don't Touch me" toggle="true" click="showDebugInfo()" >
+		
+			</mx:Button>
+		
+		
+	</mx:Canvas>
+</mx:Application>

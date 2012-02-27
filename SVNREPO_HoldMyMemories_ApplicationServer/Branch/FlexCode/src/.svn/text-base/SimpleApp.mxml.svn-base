@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Application xmlns="http://www.adobe.com/2006/mxml" xmlns:local="*" creationComplete="handleCreationComplete()">
+
+	<Script>
+		<![CDATA[
+			import mx.controls.Alert;
+			import com.adobe.crypto.MD5;
+			import com.adobe.utils.DictionaryUtil;
+			import events.WizardEvent;
+			import components.Wizard;
+			import mx.managers.PopUpManager;
+			import mx.core.IFlexDisplayObject;
+			import mx.containers.Canvas;
+			import mx.containers.VBox;
+			import mx.collections.ArrayCollection;
+			
+			
+			
+			private function handleCreationComplete() : void
+			{
+				var ac : ArrayCollection = new ArrayCollection();
+				
+				
+				//ac.addItem(Canvas);
+				var popup : IFlexDisplayObject = PopUpManager.createPopUp(this, Wizard);
+				Wizard(popup).addEventListener(WizardEvent.WIZARD_COMPLETE, handleWizardComplete);
+				Wizard(popup).dataProvider = ac;
+				Alert.show(MD5.hash(new Date().toString()));
+			}
+			
+			private function handleWizardComplete(event : WizardEvent) : void
+			{
+				var values : Array = DictionaryUtil.getValues(event.extra);
+				trace(values.join(","));
+			}
+		]]>
+	</Script>	
+</Application>

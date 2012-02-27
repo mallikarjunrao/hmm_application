@@ -1,0 +1,9 @@
+<h1>Add New advertiser </h1>
+
+<% form_tag :action => 'create' do %>
+  <%= render :partial => 'form' %>
+  <%= submit_tag "Create" %>
+<% end %>
+
+<%= link_to_remote("Back",
+:update => 'content', :url => {:controller =>:advertisers , :action => :index } ) %>

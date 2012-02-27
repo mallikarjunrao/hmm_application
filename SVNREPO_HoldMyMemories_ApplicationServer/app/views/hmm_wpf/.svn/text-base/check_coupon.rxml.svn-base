@@ -1,0 +1,11 @@
+xml.instruct! :xml, :version=>"1.0"
+xml.coupondetails{
+  xml.couponno(@coupon.unid)
+  xml.coupontype(@coupon.cupon_type)
+  xml.startdate(@coupon.begin_date)
+  xml.expirydate(@coupon.end_date)
+  xml.offerperiod("#{@coupon.valid_period} Month(s)")
+  xml.status(@status)
+}
+
+  

@@ -1,0 +1,222 @@
+<table align="center"> <tr><td>
+<table border="0" align="center"><tr>
+    <td height="40" align="center" valign="top" class="headers"> Member Login </td>
+  </tr>
+
+  <% if flash[:error] %>
+    <tr>
+      <td height="40" align="center" valign="top" class="error-message"><%= flash[:error] %> </td>
+    </tr>
+  <% end %>
+</table>
+<form name="login_info" id="login_info" action="/family_memory/popup_login/<%=params[:id]%>" method="post">
+  <table width="400" border="0" cellspacing="0" cellpadding="0" class="login-box">
+    <tr>
+      <td height="35" colspan="4" align="left" valign="top"></td>
+    </tr>
+
+    <tr>
+      <td width="30" align="left" valign="top"></td>
+      <td width="93" align="left" valign="middle" class="content-white">User Name<font color="#FF0000">*</font>:</td>
+      <td width="203" align="left" valign="middle">
+        <span><input type="text" name="username" id="username_order" value=""/><br/><span class="textfieldRequiredMsg"> User Name is required.<br/></span></span>
+      </td>
+      <td width="43" align="left" valign="top">&nbsp;</td>
+    </tr>
+
+    <tr>
+      <td height="10" colspan="4" align="left" valign="top"></td>
+    </tr>
+
+    <tr>
+      <td width="30"  align="left" valign="top"></td>
+      <td width="93" align="left" valign="middle" class="content-white">Password<font color="#FF0000">*</font>:</td>
+      <td width="203" align="left" valign="middle">
+        <span><input type="password" name="password" id="password_order" value=""/><br/><span class="textfieldRequiredMsg"> Password is required.<br/></span></span>
+      </td>
+      <td align="left" valign="top">&nbsp;</td>
+    </tr>
+
+    <tr>
+      <td height="20" colspan="4" align="left" valign="top"></td>
+    </tr>
+
+
+
+    <tr>
+      <td align="left" valign="top"></td>
+      <td align="left" valign="middle" class="content-white">&nbsp;</td>
+      <td align="left" valign="left">
+        <input type="submit" name="sub_bt" value="Submit" onclick="return login_form_validation();"/>
+      </td>
+      <td align="left" valign="top">&nbsp;</td>
+    </tr>
+
+    <tr>
+      <td align="left" valign="top"></td>
+      <td height="25" colspan="2" align="center" valign="middle" class="content-white">&nbsp;</td>
+      <td align="left" valign="top">&nbsp;</td>
+    </tr>
+    <!--
+    <tr>
+      <td align="left" valign="top"></td>
+      <td height="25" colspan="2" align="center" valign="middle" class="content-white"><a href="/familywebsite/forgot_password/<%= params[:id] %>">I cannot access my account</a></td>
+      <td align="left" valign="top">&nbsp;</td>
+    </tr>
+    <tr>
+      <td align="left" valign="top"></td>
+      <td height="25" colspan="2" align="center" valign="middle" class="content-white"><a href="/customers/authorise_verify"> Create an account </a> </td>
+      <td align="left" valign="top">&nbsp;</td>
+    </tr>
+    -->
+    <tr >
+      <td align="left" valign="top"></td>
+
+      <td align="left" valign="top">&nbsp;</td>
+    </tr>
+  </table>
+</form>
+
+
+<br/>
+<table border="0" align="center">
+  <tr>
+    <td height="40" align="center" valign="top" class="headers"> Non-Member Requesting Permission to order </td>
+  </tr>
+
+  <% if flash[:error] %>
+    <tr>
+      <td height="40" align="center" valign="top" class="error-message"><%= flash[:error] %> </td>
+    </tr>
+  <% end %>
+</table>
+
+
+
+<form action="/family_memory/requesting_owner/<%=params[:id]%>" name="form_req" >
+
+<table border="0" align="center">
+
+  <tr>
+    <td class="content-white">Name:<font color="#FF0000">*</font>:</td>
+    <td><%= text_field 'user','name',:id=>"fname" %></td>
+  </tr>
+
+  <tr>
+    <td align="left" valign="top" height="20" colspan="4"></td>
+  </tr>
+
+  <tr>
+    <td class="content-white">Email:<font color="#FF0000">*</font>:</td>
+    <td><%= text_field 'user','email',:id=>"user_email" %></td>
+  </tr>
+
+
+  <tr>
+    <td align="left" valign="top" height="20" colspan="4"></td>
+  </tr>
+
+  <tr>
+    <td class="content-white">Message:</td><td><%= text_area 'user','body',:rows=>12,:cols=>35 %></td>
+  </tr>
+
+  <tr>
+    <td align="left" valign="top" height="20" colspan="4"></td>
+  </tr>
+
+  <tr>
+    <td align="left" valign="top" height="20" colspan="4"> <%= recaptcha_tags :ajax=> true %> </td>
+  </tr>
+
+  <tr>
+    <td align="left" valign="top" height="20" colspan="4"></td>
+  </tr>
+
+  <tr>
+    <td>&nbsp;</td><td align="center"><label><%= submit_tag "Submit", :onClick=>"return request_validform();" %></label></td>
+  </tr>
+
+  <tr><td colspan="2">&nbsp;</td></tr>
+  <tr>
+    <td  height="25"></td><td align="center" valign="middle" class="content-white"><input type="Reset" value="Close" class="nyroModalClose"  /></td>
+  </tr>
+</table>
+</form>
+
+
+</td></tr></table>
+
+<script type="text/javascript">
+
+  var sprytextfield1 = new Spry.Widget.ValidationTextField("sprytextfield1", "none", {validateOn:["blur", "submit"]});
+  var sprytextfield2 = new Spry.Widget.ValidationTextField("sprytextfield2", "none", {validateOn:["blur", "submit"]});
+  var sprytextfield3 = new Spry.Widget.ValidationTextField("sprytextfield3", "none", {validateOn:["blur", "submit"]});
+  var sprytextfield4 = new Spry.Widget.ValidationTextField("sprytextfield4", "none", {validateOn:["blur", "submit"]});
+
+  $("#login_info").validate({
+	submitHandler: function(form) {
+		$(form).nyroModalManual();
+	}
+  });
+
+
+ // var family_name = <%= params[:id] %>
+
+
+  function login_form_validation()
+  {
+    var uname = document.getElementById('username_order');
+    var password = document.getElementById('password_order');
+    if(uname.value == "" || password.value == "")
+    {
+      alert('Invalid login details');
+      return false;
+    }
+
+  }
+
+  function request_validform()
+  {
+    var name = document.getElementById('fname');
+    var email = document.getElementById('user_email');
+    var email_format = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
+    //var captcha = document.getElementById('captcha');
+
+    //alert(captcha.value);
+    //alert(captcha.value.lenght);
+
+    if(name.value == "")
+    {
+      alert('Please Enter Name');
+      //window.location("/familywebsite_studio/home/<%#= params[:id] %>");
+      return false;
+    }
+     if(email.value == "")
+    {
+      alert('Please Enter your Email ID');
+      //window.location("/familywebsite_studio/home/<%#= params[:id] %>");
+      return false;
+    }
+
+     if (email_format.test(email.value))
+    {
+      return true;
+    }
+    else
+    {
+     alert('Invalid email address');
+     return false;
+    }
+
+    //if(captcha.value == "")
+    //{
+      //alert('Invalid captcha and mandatory');
+      //return false;
+    //}
+  }
+
+
+
+
+</script>
+

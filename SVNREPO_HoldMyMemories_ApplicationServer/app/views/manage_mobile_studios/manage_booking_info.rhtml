@@ -1,0 +1,154 @@
+<script type="text/javascript">
+  function check_form()
+  {
+    var addresses = document.getElementById( 'email' ).value.split( ',' );
+    var ok=true;
+    var filter = /^([a-zA-Z0-9_\.\-])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/;
+    if(document.getElementById('email').value=='')
+    {
+      alert('Please enter an email address ');
+      return false;
+    }
+    else{
+      if(document.getElementById('email').value!='')
+      {
+        for ( var i = 0; i < document.getElementById( 'email' ).value.split( ',' ).length; ++i )
+        {
+          if ( !addresses[i].match(filter) )
+          {
+            ok = false;
+            break;
+          }
+        }
+        if ( ok )
+        {
+        }
+        else
+        {
+          alert( 'Booking e-mail(s) are not valid. Please remember not to put any space or special characters other than comma between the two e-mails.' );
+          return false;
+        }
+      }
+      else{
+        return true;
+      }
+    }
+
+    //for phone number
+    var phone= document.getElementById('phone').value.split( ',' );
+    var ok=true;
+    var filter = /^([0-9])+$/;
+    if(document.getElementById('phone').value=='')
+    {
+      alert('Please enter an Phone Number');
+      return false;
+    }
+    else{
+      if(document.getElementById('phone').value!='')
+      {
+        for ( var i = 0; i < document.getElementById( 'phone' ).value.split( ',' ).length; ++i )
+        {
+
+          var digits = "0123456789";
+          // non-digit characters which are allowed in phone numbers
+          var phoneNumberDelimiters = "()- ";
+          // characters which are allowed in international phone numbers
+          // (a leading + is OK)
+          var validWorldPhoneChars = phoneNumberDelimiters + "+";
+          // Minimum no of digits in an international phone no.
+          var minDigitsInIPhoneNumber = 10;
+          function checkInternationalPhone(strPhone){
+              var counter1=0;
+              var counter2=0;
+              for (j=0;j<strPhone.length;j++)
+              {
+                if (strPhone[j] == "(")
+                {
+                  counter1++;
+                }
+                if (strPhone[j] == ")")
+                {
+                  counter2++;
+                }
+              }
+             
+              var bracket=3
+              if(strPhone.indexOf("+")>1) return false
+              if(strPhone.indexOf("-")!=-1)bracket=bracket+1
+               if(counter1!=counter2)return false
+              if(strPhone.indexOf("(")!=-1 && strPhone.indexOf("(")>bracket)return false
+              var brchr=strPhone.indexOf("(")
+              if(strPhone.indexOf("(")!=-1 && strPhone.charAt(brchr+2)==")")return false
+              if(strPhone.indexOf("(")==-1 && strPhone.indexOf(")")!=-1)return false
+              return (strPhone.length >= minDigitsInIPhoneNumber);
+            }
+
+
+            if (checkInternationalPhone(phone[i])==false){
+            alert("Please Enter a Valid Phone Number")
+            ok=false;
+            // phone[i].focus();
+            return false;
+          }
+          if ( ok )
+          {
+          }
+          else
+          {
+            alert( 'Booking Phone No(s) are not valid. Please remember not to put any space or special characters other than comma between the two Phone Numbers.' );
+            return false;
+          }
+        }
+      }
+      
+    }
+    var theurl=document.getElementById('url').value;
+    var tomatch= /http:\/\/[A-Za-z0-9\.-]{3,}\.[A-Za-z]{3}/
+    if (tomatch.test(theurl))
+    {
+         
+      return true;
+    }
+    else
+    {
+      window.alert("URL invalid. Try again.");
+      return false;
+    }
+  }
+  var r={'special':/[\' ']/}
+  function valid(o,w)
+  {
+    o.value = o.value.replace(r[w],'');
+  }
+</script>
+
+
+<table width="900"  border="0" cellspacing="0" cellpadding="0">
+  <tr><td valign="top">
+      <%= render :partial => 'links' %>
+    </td><td>
+      <form name="frm" action="/manage_mobile_studios/manage_booking_info" method="post" >
+
+        <table width="600" border="0" cellspacing="0" cellpadding="0">
+          <tr><td class="leftconthr"> <h3><font color="#ff6400">Create your iPhone App in 5 Easy Steps</h3></td></tr>
+          <tr><td class="leftconthr"> <h3><u>Step4: Upload Booking Info</u></h3></td></tr>
+          <tr><td class="leftconthr"> <%if flash[:notice] %><font color="#ff6400"><%=flash[:notice] %></font><%end%></td></tr>
+        </table>
+        <table border="0">
+          <%if @info !=  0 %>
+            <tr><td height="50"  align="left">Booking Telephone : </td><td align="left" class="leftconthr"><input type="text" name="phone_no" id="phone" size="30" value='<%=@infos.phone_no%>'  onKeyUp="valid(this,'special')" /></td></tr>
+             <tr><td></td><td>  Separate multiple Phone Numbers with a comma	</td></tr>
+            <tr><td height="50" align="left">Booking Email :</td><td align="left" class="leftconthr"> <input type="text" name="email" id="email" size="30"  value='<%=@infos.email%>' onKeyUp="valid(this,'special')" /></td></tr>
+            <tr><td></td><td>  Separate multiple email addresses with a comma	</td></tr>
+            <tr><td height="50" align="left">Booking URL :</td><td align="left" class="leftconthr"> <input type="text" name="url" id="url" size="30"  value="http://holdmymemories.com/manage_iphone_studio/booking_info/?studio_id=<%=session[:store_id]%>" /></td></tr>
+            <tr><td><input type="hidden" name="id" value='<%=@infos.id%>' /></td></tr>
+          <%else%>
+            <tr><td height="50"  align="left">Booking Telephone : </td><td align="left" class="leftconthr"><input type="text" name="phone_no" id="phone" size="30" /></td></tr>
+            <tr><td height="50" align="left">Booking Email :</td><td align="left" class="leftconthr"> <input type="text" name="email" id="email" size="30" /></td></tr>
+            <tr><td height="50" align="left">Booking URL :</td><td align="left" class="leftconthr"> <input type="text" name="url" id="url" value="http://holdmymemories.com/manage_iphone_studio/booking_info/?studio_id=<%=session[:store_id]%>" size="30"/></td></tr>
+          <%end%>
+
+          <tr><td></td><td height="50" ><input type="submit" id="sub" name="sub" class="cmd-btn" value="Update" style="cursor:pointer;" onClick="return check_form();" /></td></tr>
+        </table>
+      </form>
+    </td></tr></table>

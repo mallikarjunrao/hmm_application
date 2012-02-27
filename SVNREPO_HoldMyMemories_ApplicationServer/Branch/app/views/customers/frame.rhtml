@@ -1,0 +1,49 @@
+
+
+
+<form  id="myform" action="../frame1" method="post">
+
+
+<table>
+<h1><font color=#000000>Add Your Comments</font></h1>
+<tr>
+	<td>
+		<tr>
+		<font color=#000000 size='2'><b>Add Comment </b></font>
+		</tr>
+		<tr>
+		<%= text_area 'commentss', 'v_comment', :rows =>"5", :cols=>"40"%>
+		</tr>
+	</td>
+</tr>
+<tr>
+	<td>
+		<tr>
+			<font color=#000000 size='2'><b>Name</b></font>
+		</tr>
+		<%= text_field  "commentss", "v_name" %>
+	</td>
+</tr>
+
+<tr>
+	<td>
+		<tr>
+			<font color=#000000 size='2'><b>E-mail</b></font>
+		</tr>
+		<%= text_field  "commentss", "v_email" %>
+	</td>
+</tr>
+
+
+
+	<tr>
+		&nbsp;&nbsp;&nbsp;&nbsp;
+	</tr>
+	
+	<tr>
+		<center> <input type="submit" value="Submit" onclick="Modalbox.show('../frame1/<%=params[:id] %>', {title: 'Sending status', params: Form.serialize('myform') }); return false;" /> 
+</center>
+	</tr>
+</table>
+</form>
+

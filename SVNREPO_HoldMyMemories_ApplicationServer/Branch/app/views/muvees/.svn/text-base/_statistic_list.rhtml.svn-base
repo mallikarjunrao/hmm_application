@@ -1,0 +1,132 @@
+<% if params[:jobid]==nil%>
+<%else%>
+<br> <br> <br> <br>
+<p align="center">
+<%
+
+jobid=params[:id]
+puts jobid
+
+i=0
+while(i<=10)
+i=i+1
+wsdl_url = 'http://whampoa-staging.muvee.com:8080/axis/services/MuveeService?wsdl'
+	begin
+    soap = SOAP::WSDLDriverFactory.new(wsdl_url).create_rpc_driver
+    logger.info("sucessful soap rpc driver")
+    rescue
+     logger.info("Error soap rpc driver")
+    end 
+    muveePassport = {
+    'username' => 'mfanwar',
+    'passcode' => 'softway'
+   }
+
+   status = soap.viewStatus(muveePassport,jobid)
+   sucess_story=status.status
+   @file_progress=status.progress
+   @remaining=status.remaining
+   @rendered=status.rendered
+   @duration=status.duration
+   @status=status.status
+
+		
+puts @file_progress
+	
+%>
+
+<% if @file_progress == 100 %>
+
+ 
+ <%
+	  begin
+     ftp = Net::FTP.new("whampoa-staging.muvee.com")
+     puts("sucessful ftp connection")
+     ftp.login("mfanwar","softway")
+      logger.info("logged in successfully")
+    rescue
+       logger.info("Error ftp connection")
+    end
+    ftp.passive = true
+       
+    begin
+      if (check=ftp.getbinaryfile("./out/#{jobid}.flv","#{RAILS_ROOT}/public/video_images/#{jobid}.flv",1024))
+		@file_download=1
+	  end		 	
+      logger.info("sucessful ftp file downloaded ")
+    rescue
+      logger.info("Error ftp file download failed")
+    end 
+    
+    begin
+      ftp.close
+      logger.info("sucessful ftp server close ")
+    rescue
+      logger.info("Error ftp connection closing failed")
+    end 
+	break;
+ %>
+ 
+
+ 
+<%
+	else
+	
+	%>
+	
+	
+
+<%end%>
+<%end%>	
+
+<% if @file_progress < 100%>
+The Video file creation is taking time more than expected <br> Muvee creation server busy.  Please try again after some time by hittting the below given button again.
+ 
+ <br> <br> 
+Video Creation progress:  <%=@file_progress%> % completed
+<br>
+<%if @status=='new' %>
+The job hasn’t been picked up yet by Muvee creation software...<br>
+This may take a some more time. <br> Please hit the below button once again after some time. <br>
+Note: This is for temperory purpose. Once the background procedure is done this procedure will be no longer required.
+<br>
+
+<%end%>
+Video Creation Status: <%=@status%>
+
+<br>
+Video Creation duration: <%=@duration%>
+
+<br>
+Video remaining duration: <%=@remaining%>
+
+
+<br>
+Video rendered duration: <%=@rendered%>
+
+
+
+<br>
+<%else%>
+	<a href="/video_images/<%=params[:id]%>.flv" >New Video file "<%=params[:id]%>.flv" has been generated. Click here to download this video into your PC.</a>
+ 
+ <br> <br> 
+Video Creation progress:  <%=@file_progress%> % completed
+<br>
+Video Creation Status: <%=@status%>
+
+<br>
+Video Creation duration: <%=@duration%>
+
+<br>
+Video remaining duration: <%=@remaining%>
+
+
+<br>
+Video rendered duration: <%=@rendered%>
+<br>
+
+
+<%end%>
+
+<%end%>

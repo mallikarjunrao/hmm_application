@@ -1,0 +1,13 @@
+<%= javascript_include_tag 'modalbox/prototype' %>
+<script type="text/javascript" src="/javascripts/modalbox/scriptaculous.js?load=effects"></script>
+<script type="text/javascript" src="/javascripts/modalbox/modalbox.js"></script>
+<%= stylesheet_link_tag 'modalbox/modalbox' %>
+<script type="text/javascript">
+    window.onload = loadpage();
+ function loadpage()
+ {
+ Modalbox.show("http://holdmymemories.com/kidscontests/fblike",{width: 340,height:720});return false;
+ }
+
+</script>
+

@@ -1,0 +1,64 @@
+<%= stylesheet_link_tag 'SpryAssets/SpryValidationTextField' %>
+<%= javascript_include_tag 'SpryAssets/SpryValidationTextField' %>
+<% form_tag({:action => "create_journal",:id=>@chapters.id}) do %>
+
+<table width="100%" border="0" cellspacing="0" cellpadding="0">
+        <tr>
+          <th width="220" height="79" align="center" valign="middle" scope="col" class="signedtxtwhite" style="background-color:#000000"><h3>Chapter <!--<%=@chapters.id %>--> : <%=@chapters.v_tagname %></h3></th>
+          <th width="64" align="left" valign="top" background="/images/bg1_chapter1.jpg" scope="col">&nbsp;</th>
+          <th width="417" align="left" valign="bottom" background="/images/bg2_chapter1.jpg" scope="col"><table width="100%" border="0" cellspacing="0" cellpadding="0">
+            <tr>
+ <th width="101" align="left" valign="top" scope="col"><a href='/customers/chapterindex/'><img src="/images/backtochap_btn.jpg" border='0'></a></th>
+              <th width="14" align="left" valign="top" scope="col">&nbsp;</th>
+              <th width="91" align="left" valign="top" scope="col"><a href='/customers/write_journal/<%=@chapters.id %>'><img src="/images/writeajournal_btn.jpg" border='0'></a></th>
+</th>
+              <th width="13" align="left" valign="top" scope="col">&nbsp;</th>
+              <th width="62" align="left" valign="top" scope="col"><a href="#"><img src="/images/organize_btn.jpg" width="62" height="23" border="0" /></a></th>
+              <th width="13" align="left" valign="top" scope="col">&nbsp;</th>
+              <th width="35" align="left" valign="top" scope="col"><a href="#"><img src="/images/edit_btn.jpg" width="35" height="23" border="0" /></a></th>
+              <th width="13" align="left" valign="top" scope="col">&nbsp;</th>
+              <th align="left" valign="top" scope="col"><a href='/customers/chapter_journal/<%=@chapters.id %>'><img src="/images/viewall_btn.jpg" border='0'></a>
+                          </tr>
+             <tr>
+              <th height="12" colspan="9" align="left" valign="top" scope="col" class="signedtxtwhite">&nbsp;</th>
+              </tr>
+          </table></th></tr>
+		  
+		  </table>
+		  <table width="80%" border="0" cellspacing="0" cellpadding="0" align='center'>
+		  	 <tr>
+              <th width="101" align="left" valign="top" scope="col"></th>
+              <th width="14" align="left" valign="top" scope="col"></th>
+              <th width="91" align="left" valign="top" scope="col"> </tr><div style='display:none;'>
+<p><label for="user_content_v_desc" ></label><br/>
+<%= date_select 'journal', 'd_create_date' %></p></th>
+                                               
+</div>
+        <tr>
+          <th width="101" align="left" valign="top" scope="col">Title</th>
+          <th width="14" align="left" valign="top" scope="col">:</th>
+          <th width="91" align="left" valign="top" scope="col"><span id="sprytextfield1"><span id="sprytextfield1"><%= text_field 'journal', 'v_title'  %><span class="textfieldRequiredMsg"><br>Title is required.</br></span></span></span></th>
+            </tr>
+			  <tr>
+          <th width="101" align="left" valign="top" scope="col">Description</th>
+          <th width="14" align="left" valign="top" scope="col">:</th>
+          <th width="91" align="left" valign="top" scope="col"><span id="sprytextfield2"><span id="sprytextfield2"><%=text_area  'journal', 'v_large_description', "cols" => 40, "rows" => 5 %><span class="textfieldRequiredMsg"><br>Description is required.</br></span></span></span></th>
+            </tr>
+		<tr>
+          <th height="12" colspan="9" align="center" valign="top" scope="col" class="signedtxtwhite">&nbsp;</th>
+          </tr>
+        <tr>
+          <th height="12" colspan="9" align="center" valign="top" scope="col" class="signedtxtwhite"><input type='image' src="/images/submit_btn.jpg" width="87" height="24" border="0" />
+</th>
+          </tr>
+      </table>
+	  <% end %>
+	  <script type="text/javascript">
+<!--
+var sprytextfield1 = new Spry.Widget.ValidationTextField("sprytextfield1", "none", {validateOn:["blur"]});
+var sprytextfield2 = new Spry.Widget.ValidationTextField("sprytextfield2", "none", {validateOn:["blur"]});
+
+//-->
+</script>
+
+					

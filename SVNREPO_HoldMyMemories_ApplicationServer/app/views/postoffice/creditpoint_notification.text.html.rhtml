@@ -1,0 +1,109 @@
+<table width="880" border="0" cellspacing="10" cellpadding="0">
+  <tr>
+    <td><table width="100%" border="0" cellspacing="0" cellpadding="0">
+        <tr>
+          <td style="border: 3px dashed #ff7900;"><table width="100%" border="0" cellspacing="0" cellpadding="0">
+              <tr>
+                <td width="450" align="left" valign="top" bgcolor="#ffa200"><table width="100%" border="0" cellspacing="0" cellpadding="0">
+                  <tr>
+                    <td height="50" align="center" valign="top">&nbsp;</td>
+                  </tr>
+                  <tr>
+                    <td height="44" align="center" valign="top" style="font-family:Century Gothic, Arial, Helvetica, sans-serif; font-size: 36px; font-style: normal; color: #FFFFFF;"><%=@first_name%> <%=@last_name%>,</td>
+                  </tr>
+                  <tr>
+                    <td height="44" align="center" valign="top" style="font-family:Century Gothic, Arial, Helvetica, sans-serif; font-size: 36px; font-style: normal; color: #FFFFFF;">you have a</td>
+                  </tr>
+                  <tr>
+                    <td height="43" align="center" valign="top"><span style="font-family:Century Gothic, Arial, Helvetica, sans-serif; font-size: 36px; font-style: normal; color: #FFFFFF;">Studio Credit</span></td>
+                  </tr>
+                  <tr>
+                    <td height="60" align="center" valign="top" style="	font-family:Century Gothic, Arial, Helvetica, sans-serif; font-size: 60px; font-style: normal; color: #FFFFFF;"><span style="font-family:&quot;Century Gothic&quot;, Arial, Helvetica, sans-serif; font-size: 36px; font-style: normal; color: #FFFFFF;">of</span></td>
+                  </tr>
+                  <tr>
+                    <td height="56" align="center" valign="top"><span style="	font-family:Century Gothic, Arial, Helvetica, sans-serif; font-size: 60px; font-style: normal; color: #FFFFFF;">$<%= number_with_precision(@credit_points, :precision => 2) %></span></td>
+                  </tr>
+                  <tr>
+                    <td align="center" valign="top" style="font-family:Century Gothic, Arial, Helvetica, sans-serif; font-size: 36px; font-style: normal; color: #FFFFFF;">&nbsp;</td>
+                  </tr>
+                  <% unless @benefits_empty == true %>
+                  <tr>
+                    <td height="25" align="center" valign="top" style="font-family:Century Gothic, Arial, Helvetica, sans-serif; font-size: 20px; font-style: normal; color: #FFFFFF;" >Plus</td>
+                  </tr>
+                  <tr>
+                    <td height="52" align="center" valign="top" style="font-family:Century Gothic, Arial, Helvetica, sans-serif; font-size: 14px; font-style: normal; color: #FFFFFF;" >as a HoldMyMemories.com Member<br/>
+                      you also receive:</td>
+                  </tr>
+                  <tr>
+                    <td height="41" align="center" valign="top" style="font-family:Century Gothic, Arial, Helvetica, sans-serif; font-size: 14px; font-style: normal; color: #FFFFFF;" ><% for benefit in @benefits_list %>
+                        <%= benefit %> <br/>
+                        <%  end %>
+                      and <a href="<%=@server_path%>/user_account/studio_benefits_cp?studio_id=<%=@studio_id%>" target="_blank" style="font-family:Century Gothic, Arial, Helvetica, sans-serif;	font-size: 12px; font-style: normal;
+                               color:#CC3300;	line-height:18px;">much more</a>!</td>
+                  </tr>
+                  <% end %>
+                  <tr>
+                    <td height="26" align="center" valign="top">&nbsp;</td>
+                  </tr>
+
+                </table></td>
+                <td width="430" align="left" valign="top"><table width="100%" border="0" cellspacing="0" cellpadding="0">
+                  <tr>
+                    <td align="center" valign="top">&nbsp;</td>
+                  </tr>
+                  <tr>
+                    <td align="center" valign="top" style="font-family:Century Gothic, Arial, Helvetica, sans-serif; font-size: 30px;	font-style: normal;	color: #000000;">Visit <br />
+                       Studio One to One Baybrook Mall<br />
+                      to redeem this credit!</td>
+                  </tr>
+                  <tr>
+                    <td height="40" align="center" valign="top">&nbsp;</td>
+                  </tr>
+                  <tr>
+                    <td align="center" valign="top" style="	font-family:Century Gothic, Arial, Helvetica, sans-serif; font-size: 16px; font-style: normal; color: #000000; 	line-height:25px;">Please present this credit voucher at the<br />
+                      time of your session to redeem.</td>
+                  </tr>
+                  <tr>
+                    <td height="20" align="center" valign="top">&nbsp;</td>
+                  </tr>
+                  <tr>
+                    <td align="center" valign="top" style="font-family:Century Gothic, Arial, Helvetica, sans-serif; font-size: 16px; font-style: normal; color: #000000; 	line-height:25px;">Valid through <%=(1.month.to_i.from_now).strftime("%m/%d/%Y")%>.</td>
+                  </tr>
+                  <tr>
+                    <td height="20" align="center" valign="top">&nbsp;</td>
+                  </tr>
+                  <tr>
+                    <td align="center" valign="top" style="font-family:Century Gothic, Arial, Helvetica, sans-serif; font-size: 12px; font-style: normal; color: #404040; line-height:18px;">Access your Account:<br />
+                      <a href="<%=@family_website_url%>" target="_blank" style="font-family:Century Gothic, Arial, Helvetica, sans-serif;	font-size: 12px; font-style: normal;
+                           color: #ffa200;	line-height:18px;"><%=@family_website_url%></a></td>
+                  </tr>
+                  <tr>
+                    <td height="10" align="center" valign="top"></td>
+                  </tr>
+                  <tr>
+                    <td align="center" valign="top"><a href="http://holdmymemories.com/" target="_blank" style="text-decoration: none"><img src="http://holdmymemories.com/images/logo-studio-email.gif" width="342" height="84" border="0" /></a></td>
+                  </tr>
+                  <tr>
+                    <td align="center" valign="top" style="font-family:Century Gothic, Arial, Helvetica, sans-serif; font-size: 14px; font-style: normal; color: #000000; line-height:18px;">Limited time offer.<br />
+                      Contact <%=@studio_branch%> at (<%=@studio_phone[0..2]%>) <%=@studio_phone[3..5]%>-<%=@studio_phone[6..9]%> or <br />
+                      <a href="mailto:<%=@studio_email%>" style="font-family:Century Gothic, Arial, Helvetica, sans-serif;	font-size: 12px; font-style: normal;
+                           color: #ffa200;	line-height:18px;"><%=@studio_email%></a> for details.</td>
+                  </tr>
+                  <tr>
+                    <td height="62" align="center" valign="top">&nbsp;</td>
+                  </tr>
+                  <tr>
+
+                  </tr>
+                </table></td>
+              </tr>
+              <tr>
+                <td height="10" align="center" valign="top" bgcolor="#FFA200"><a href="http://holdmymemories.com/my_familywebsite/book_session?studio_id=<%=@studio_id%>" target="_blank" style="text-decoration: none"><img src="http://holdmymemories.com/images/logos/BookSession_Button.jpg" border="0" width="415" valign="center" /></a> </td>
+                <td align="center" valign="center" style="font-family:Century Gothic, Arial, Helvetica, sans-serif; font-size: 14px; font-style: normal; color: #000000; line-height:18px;"><a href="http://holdmymemories.com/contests/like?id=<%=@user_id%>&amp;like_from=credit_point" target="_blank" style="text-decoration: none"><img src="http://holdmymemories.com/images/logos/FBLike_Button1.jpg" border="0" width="430" valign="center"/></a></td>
+              </tr>
+
+          </table></td>
+        </tr>
+      </table></td>
+  </tr>
+</table>

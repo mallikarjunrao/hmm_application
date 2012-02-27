@@ -1,0 +1,175 @@
+<script type="text/javascript">
+	function grow_text_boxes(textareaid,divid,profileimg)
+	{
+		document.getElementById(divid).style.display='block';
+		document.getElementById(textareaid).style.width='300px';
+		document.getElementById(textareaid).style.height='100px';
+		document.getElementById(profileimg).style.display='block';
+		if (document.getElementById(textareaid).value == 'Type your comments here...') {
+			document.getElementById(textareaid).value = '';
+		}
+	}
+	function shrink_text_boxes(textareaid,divid,profileimg)
+	{
+		if (document.getElementById(textareaid).value == '') {
+			document.getElementById(textareaid).style.width = '300px';
+			document.getElementById(textareaid).style.height = '50px';
+			document.getElementById(textareaid).value='Type your comments here...';
+			document.getElementById(divid).style.display='none';
+			document.getElementById(profileimg).style.display='none';
+		}
+	}
+</script>  
+<table align="center" width="899" border="0" cellspacing="0" cellpadding="0">
+            <input type="hidden" name="order" value="<%=params[:order]%>" />
+			<tr><td><font color="#f5dfa6"><%=flash[:notice_mycart]%></font></td></tr>
+<tr><td valign="middle">
+	
+	<table align="left">
+		
+		<tr>
+		
+			
+</tr></table>
+
+</td>
+<td align="right">
+	<% if session[:friend]!='' 
+				else
+%>
+			 <%if (@subchap_cnt < 1 || @subchap_cnt == "") %>
+                   </span>
+                  <%else if @subchap_cnt >= 1 %>
+                  <% for @i in @sub_chapter_journal %>
+                <%end%><%end%><%end%><%end%>
+			
+			
+			<a href="/my_familywebsite/gallery/<%=params[:id]%>/?familyname=<%=params[:familyname]%>"><img src="/images/photoflowicon.jpg" border="0"></a>
+	
+</td>
+</tr>
+    <tr>
+        <% @sub_chap = SubChapter.find(:all, :conditions => "id=#{params[:id]}")
+             for @i in @sub_chap 
+		@subname=@i.sub_chapname;
+	%><th height="10" colspan="2" align="left"><h3></h3></th>
+             <%end%></tr>
+             
+             
+     
+      <th height="128" align="left" valign="top" scope="col" colspan="4">
+        <table width="99%" border="0"  cellspacing="0" align="left" cellpadding="0">
+        <tr>
+           <th height="4" colspan="10" align="left" valign="top" scope="col" ></th>
+        </tr>
+                <% 
+                    j=0	
+                    if @countcheck == 0 %>
+                    <p>No items found...</p>
+                <% else %>
+                   <% @sub_chapters_gallerie.each do |@sub_chapter|
+					
+					@sub_chapter_count=UserContent.count(:all, :conditions => " gallery_id=#{@sub_chapter.id} and status='active'")	
+                   
+                   
+                %>
+                <% if j == 0 %>
+                <tr>
+                     <th height="9"  align="left" valign="top" scope="col">&nbsp;&nbsp;&nbsp;&nbsp;</th><th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th><th></th><th></th><th></th>
+                    </tr><tr>
+                <% else if j >= 3 
+                j=0
+                    
+                %>
+                </tr>
+                    <tr>
+                       
+                <tr>
+                <% end %>	
+                <% end %>
+                <%if @sub_chapter_count > 0 %>
+                <th width="1" align="left" valign="top" scope="col"><% j=j+1%></th>
+                
+				<th width="20" align="left" valign="top" scope="col" ><a href='/my_familywebsite/chapter_gallery/<%=@sub_chapter.id %>/?familyname=<%=params[:familyname]%>' >
+					<img src="<%=@sub_chapter.img_url %>/user_content/photos/icon_thumbnails/<%= @sub_chapter.v_gallery_image %>" border="5" style="border-color:#000000;"  /></a>
+					<br><br>
+				<%if @sub_chapter.e_gallery_type == 'image'%>	
+				<%@find_tagincart = MyCart.count(:all, :conditions => "added_item = 'gallery' and moment_id='#{@sub_chapter.id}'")%>
+					<%if @find_tagincart > 0 %>
+						 </th>
+					<%else%>	
+						</th>
+					<%end%>
+				<%else%>
+				&nbsp;&nbsp;</th>
+				<%end%>
+                <th width="10" align="left" valign="top" scope="col">&nbsp;</th>
+                <th width="200" align="left" valign="top" scope="col">
+                    <table width="100%" border="0" cellspacing="0" cellpadding="0">
+                        <tr>
+                            <th height="13" align="left" valign="top" scope="col"></th>
+                        </tr>
+                        <tr>
+                          <th height="21" align="left" valign="top" class="chapindex-text" scope="col"><span class="cont"><%=@sub_chapter.v_gallery_name %></span></th>
+                        </tr>
+                        
+                        <tr>
+                          <th align="left" valign="top" class="chapindex-text2" scope="col"><span class="topicscont">last updated <br>
+                          <%=@sub_chapter.d_gallery_date.strftime("%a %b #{@sub_chapter.d_gallery_date.day.ordinalize} %Y   %I:%M %p") %></span></th>
+                        </tr>
+                  </table></th><%end%>
+       <% end %></tr>	  
+        </table></th>
+
+      </tr>
+      <tr>
+      
+        <th valign="bottom" scope="col" align="center" colspan="10">
+   <%=will_paginate @sub_chapters_gallerie%>
+   </th>
+      </tr>
+      <tr>
+      
+        <th valign="middle" scope="col" align="center" colspan="10" height="50">
+        	<br>
+				<font color="#f5dfa6"><%=  flash[:notice_scc_add]%></font>
+					<font color="#f5dfa6"><%=  flash[:notice_sca]%></font>
+					<font color="#f5dfa6"><%=  flash[:notice_scr]%></font>
+					<font color="#f5dfa6"><%=  flash[:notice_scd]%></font>
+					 <font color="#f5dfa6"><%=  flash[:notice_cca]%></font>
+			<br>
+			
+			<% if session[:friend]=='' || session[:friend]==nil%>
+						<%else%>
+						<%end%>
+&nbsp;&nbsp;&nbsp;
+<% @subchap_comment_count = SubchapComment.count(:all,:conditions => "subchap_id=#{params[:id]}") %>
+<% if @subchap_comment_count >0 %>
+<%= link_to_remote("View Comments for Sub Chapter:  "+" &nbsp; \""+@subname+"\"", :update =>"me", 
+            :url => {:controller => :subchap_comment, :action => :comnt_list, :id => 0, :subchap_id => params[:id] } ,:layout => false  ) %>
+<%end%>
+        </th>
+      </tr>
+      <tr>
+        
+        <th valign="bottom" scope="col" align="center" colspan="5" height="10" ><div id="me"></div></th>
+      </tr>
+    </table>
+      
+         <% end %>
+      
+       <%    @sub_chap_journal_count = SubChapJournal.count(:all,:conditions => "sub_chap_id=#{params[:id]}")
+ %>
+	  <%if @sub_chap_journal_count>0%>
+	   <table width="88%" border="0" class="border" cellspacing="0" cellpadding="0">
+            <tr>
+              <th align="left" valign="top" scope="col">&nbsp;</th>
+           </tr>
+    </table>
+	<%end%>
+  

@@ -1,0 +1,32 @@
+<form name="frm" action="/manage_site/update_family_history">
+	
+
+<table width="700" align="center">
+	<input type="hidden" value="<%=params[:id]%>" name="family_name" id="family_name">
+	<input type="hidden" value="<%=params[:uid]%>" name="uid" id="uid">
+	      <tr>
+	      	<td width="300">&nbsp;</td>
+              <th height="39" align="left" valign="middle" class="contmanagepage" scope="col">
+              	<font size="4">Family History</font></th>
+			  
+            </tr>
+         <tr>
+         		<td width="300">&nbsp;</td>
+              <th height="179" align="left" valign="top" scope="col">
+              	<%= text_area 'hmm_user', 'family_history', :rows =>"9", :cols=>"40",  :class => "textarea-mngpage" %>
+				</textarea></th>
+            </tr>
+			<tr>
+					<td width="300">&nbsp;</td>
+              <th height="20" align="left" valign="top" scope="col">
+              	&nbsp;
+				</th>
+            </tr>
+			<tr>
+					<td width="300">&nbsp;</td>
+              <th height="20" align="left" valign="top" scope="col">
+              	<input type="image" src="/images/save_btn_ovr.gif" id="sub" name="submit">
+				</th>
+            </tr>
+			</table>
+</form>

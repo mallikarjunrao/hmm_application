@@ -1,0 +1,116 @@
+<form method="post" action="/account/activation_report">
+<table border="0"  cellpadding="0" cellspacing="0">
+  <tr><td><h2>Activation Report</h2></td></tr>
+  <tr height="50"><td>Activated By:</td><td><select name="activatedby">
+    
+        <option value="">Select</option>
+        <% if @activateby  =="admin" %>
+        <option value="admin" selected>Admin</option>
+        <%else%>
+        <option value="admin" >Admin</option>
+          <%end%>
+         <% if   @activateby  == "employee" %>
+        <option value="employee" selected>Employee</option>
+          <%else%>
+          <option value="employee">Employee</option>
+          <%end%>
+      </select>
+    </td></tr>
+  <tr height="30"><td></td><td><input type="submit" name="sub" value="view" /></td>   </tr>
+</table>
+</form>
+<%if @activate%>
+<table border="0" width="80%">
+    <tr valign='center' align='center'>
+
+
+   <th background="/images/body_hor.JPG"><font class='txt'><table> <tr>First Name</tr></table></font></th>
+	<th background="/images/body_hor.JPG"><font class='txt'><table> <tr>Last Name</tr></table></font></th>
+	<th background="/images/body_hor.JPG"><font class='txt'><table> <tr>sex</tr></table></font></th>
+	<th background="/images/body_hor.JPG"><font class='txt'><table> <tr>User Name</tr></table></font></th>
+
+	<th background="/images/body_hor.JPG"><font class='txt'><table> <tr>Email Address</tr></table></font></th>
+	<th background="/images/body_hor.JPG"><font class='txt'><table> <tr>Account Created Date</tr></table></font></th>
+        <th background="/images/body_hor.JPG"><font class='txt'><table> <tr><th>Number of days left for the next renewal date</th></tr></table></font></th>
+        <th background="/images/body_hor.JPG"><font class='txt'><table> <tr>Next Recurring charge date</tr></table></font></th>
+
+        <th background="/images/body_hor.JPG"><font class='txt'><table> <tr>Status</tr></table></font></th>
+          <th background="/images/body_hor.JPG"><font class='txt'><table> <tr><td>Cancellation Request sent on</td></tr></table></font></th>
+
+		<th background="/images/body_hor.JPG"><font class='txt'><table> <tr>Reason for Cancellation</tr></table></font></th>
+                		<th background="/images/body_hor.JPG"><font class='txt'><table> <tr>Reactivation Comments</tr></table></font></th>
+
+
+
+  </tr>
+
+<% 	odd_or_even = 0
+	i = 0
+	for colmn in @activate
+	 i = i + 1
+	odd_or_even = 1 - odd_or_even
+ %>
+
+  <tr class='ListLine<%= odd_or_even %>'>
+<td align="center"><%= colmn.v_fname%></td>
+<td align="center"><%= colmn.v_lname%></td>
+<td align="center"><%= colmn.e_sex%></td>
+<td align="center"><%= colmn.v_user_name%></td>
+<td align="center"><%= colmn.v_e_mail%></td>
+<td align="center"><%= colmn.d_created_date.strftime("%m - %d - %Y")%></td>
+
+<%
+            cur_time=Time.now.strftime("%Y-%m-%d")
+        @hmm_user_check =  HmmUser.count(:all, :conditions =>" account_expdate <= '#{cur_time}' and id='#{colmn.id}'")
+            if @hmm_user_check > 0
+                @hmm_user_max =  HmmUser.find_by_sql(" select ADDDATE(account_expdate,INTERVAL 1 MONTH) as m from hmm_users where id='#{colmn.id}'")
+                nextbilingdate = @hmm_user_max[0]['m']
+
+           else
+                nextbilingdate = "#{colmn.account_expdate}"
+
+           end
+            if(nextbilingdate == nil || nextbilingdate == "")
+              nextbilingdate2 = "Subscription Expired/cancelled"
+              renewal_days = "Subscription already expired"
+            else
+                nextbilingdate1=nextbilingdate.split('-');
+                nextbilingdate2="#{nextbilingdate1[1]} - #{nextbilingdate1[2]} - #{nextbilingdate1[0]}"
+                @hmm_leftdays=HmmUser.find_by_sql("  SELECT DATEDIFF('#{nextbilingdate1}',CURDATE( ) ) as d  ")
+                renewal_days = @hmm_leftdays[0]['d']
+            end
+
+
+        %>
+   <td align="center"><%=  nextbilingdate2%></td>
+<td align="center"><%=  renewal_days%> days</td>
+<td align="center"><%= colmn.e_user_status%></td>
+<td><% if colmn.cancellation_request_date == '0000-00-00' || colmn.cancellation_request_date=='' || colmn.cancellation_request_date == nil %>
+			Sorry, Requested date not found!!
+
+			<%else%>
+			<%=h colmn.cancellation_request_date.strftime("%m - %d - %Y")%>
+			<%end%></td>
+
+ <td>
+<%  if(colmn.cancel_reason) %>
+  <%=h colmn.cancel_reason%>
+ <%else%>
+   <% crcount=CancellationRequest.count(:all,:conditions=>"uid=#{colmn.id}")
+    if(crcount)
+   cr=CancellationRequest.find(:first,:conditions=>"uid=#{colmn.id}")
+   if(cr)
+  %>
+   <%=cr.reason_for_cancellation%>
+   <%else%>
+   -
+   <%end%>
+   <%end%>
+   <%end%>
+ </td>
+ <td align="center"><% if @activateby =='admin' %> <%= colmn.reactivated_admin %><%= colmn.notes_link_to_customer %><%else%><%= colmn.studio_management_notes %><%end%></td>
+  </tr>
+<%end%>
+  </table>
+<%=will_paginate @activate%>
+<%end%>

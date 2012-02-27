@@ -1,0 +1,201 @@
+<script type="text/javascript">
+  function sub()
+  {
+    if(document.getElementById('agree_down').checked == false)
+    {
+      alert('Inorder to enter the contest, please agree to the terms and conditions!!')
+      return false;
+    }
+    else
+      return true;
+  }
+  function sub_up()
+  {
+    if(document.getElementById('agree').checked == false)
+    {
+      alert('Inorder to enter the contest, please agree to the terms and conditions!!')
+      return false;
+    }
+    else
+      window.location="/contests/submit_entry?contest_id=<%=params[:contest_id]%>&user_id=<%=params[:user_id]%>&&moment_type=<%=params[:moment_type]%>&&moment_id=<%=params[:moment_id]%>";
+    return true;
+  }
+</script>
+
+
+
+<table width="100%" border="0" align="center" cellspacing="0" cellpadding="0">
+  <tr>
+    <th height="20" align="center" valign="top" class="content-white" scope="col"></th>
+  </tr>
+  <tr>
+    <th align="center" valign="top" class="content-white" scope="col">
+      <% contest = ContestDetail.find(params[:contest_id]) %>
+      <%if params[:moment_type] == 'video'%>
+        <img width="256" height="132" src=<%= contest.video_logo %> border="0" />
+      <%else%>
+        <img width="256" height="132" src=<%= contest.photo_logo %> border="0" />
+      <%end%>
+    </th>
+  </tr>
+  <tr >
+    <th align="center" valign="top" class="content-white" scope="col" height="20">&nbsp;</th>
+  </tr>
+  <tr class="cont">
+
+    <td align="left" valign="top" class="content-white" scope="col" height="20"><input type="radio" name="agree" id="agree" value="agree" />I agree to the Terms and Conditions
+      <input type="hidden" name="contest_type" value="<%= params[:moment_type] %>"/></td>
+  </tr>
+  <tr class="cont">
+    <td align="left" valign="top">
+      <input type="radio" name="agree" id="agree" value="disagree" /> I do not agree to the Terms and Conditions</td>
+  </tr>
+  <tr class="cont">
+    <td align="left" valign="top">
+      <input type="submit" id="Image4413" class="whiteButton" value="NEXT" onclick="return sub_up();" style="cursor:pointer;" /></td>
+  </tr>
+
+  <tr>
+
+    <th height="42" align="center" valign="top" class="content-white" scope="col">&nbsp;</th>
+
+  </tr>
+  <tr class="cont">
+
+    <th height="42" align="center" valign="top" class="content-white" scope="col">You must first read the following:</th>
+
+  </tr>
+
+  <tr class="cont">
+
+    <th align="left" valign="top" class="content-white" scope="col">HoldMyMemories.com contests Terms and Conditions:</th>
+
+  </tr>
+
+  <tr>
+
+    <th height="26" align="left" valign="top" class="cont" scope="col">&nbsp;</th>
+
+  </tr>
+  <tr>
+
+    <th align="left" valign="top" class="cont" scope="col"><p><b>Eligibility:</b>  Any HoldMyMemories.com account member who is 18 years of age or older at the time of
+        entry may submit an entry to a HoldMyMemories.com contest. Contests are not open to employees of
+        HoldMyMemories.com, or any affiliates, including employees of a HoldMyMemories.com studio. No purchase is
+        necessary to enter contest.</p></th>
+
+  </tr>
+  <tr>
+
+    <th height="26" align="left" valign="top" class="cont" scope="col">&nbsp;</th>
+
+  </tr>
+  <tr>
+
+    <th align="left" valign="top" class="cont" scope="col"><p><b>Registration:</b> Only one entry. Each contest listed on the “contest” page is considered a separate contest. Entries into the photo contest are limited to 18 years of age or older.</p></th>
+
+  </tr>
+  <tr>
+
+    <th height="26" align="left" valign="top" class="cont" scope="col">&nbsp;</th>
+
+  </tr>
+  <tr>
+
+    <th align="left" valign="top" class="cont" scope="col"><p><b>Submission:</b>  Member warrants that it owns the copyright to any files or combination of files that are entered
+        into any HoldMyMemories.com contest, or entrant warrants that the files submitted were created at a
+        HoldMyMemories.com (HMM) studio, and may be used for submission.</p></th>
+
+  </tr>
+
+  <tr>
+
+    <th height="26" align="left" valign="top" class="cont" scope="col">&nbsp;</th>
+
+  </tr>
+  <tr>
+
+    <th align="left" valign="top" class="cont" scope="col"><p><b>Right to use by HoldMyMemories.com and/or its affiliates:</b> By entering a HoldMyMemories.com contest, member
+        agrees to grant HoldMyMemories.com and its affiliates the non-exclusive right to make available the member’s
+        entry on its (HoldMyMemories.com) website in perpetuity, and without compensation.</p></th>
+
+  </tr>
+  <tr>
+
+    <th height="26" align="left" valign="top" class="cont" scope="col">&nbsp;</th>
+
+  </tr>
+  <tr>
+
+    <th align="left" valign="top" class="cont" scope="col"><p><b>Contest Submission Deadlines: </b>Each contest will have its submission and voting deadlines posted. Voting for
+        any contest may begin at any time HoldMyMemories.com determines, including allowing voting prior to entry
+        submission deadlines. HoldMyMemories.com reserves the right to suspend or cancel any contest at its sole
+        discretion. HoldMyMemories.com reserves the right to modify the terms of any contest in any way or at any time.
+        HoldMyMemories.com will continue to hosts contests on a regular basis, and may carry over entrants from one
+        contest into another contest.</p></th>
+
+  </tr>
+  <tr>
+
+    <th height="26" align="left" valign="top" class="cont" scope="col">&nbsp;</th>
+
+  </tr>
+  <tr>
+
+    <th align="left" valign="top" class="cont" scope="col"><p><b>Judging Criteria:</b> Finalists will be chosen by website voting. One vote will be permitted per validated email address
+        during the timeframes indicated on the contest page. Grand Prize winners will be chosen by a panel of judges.</p></th>
+
+  </tr>
+  <tr>
+
+    <th height="26" align="left" valign="top" class="cont" scope="col">&nbsp;</th>
+
+  </tr>
+  <tr>
+
+    <th align="left" valign="top" class="cont" scope="col"><p><b>Prizes:</b> Prizes will be indicated on the contest page, and may vary by contest.</b></p></th>
+
+  </tr>
+  <tr>
+
+    <th height="26" align="left" valign="top" class="cont" scope="col">&nbsp;</th>
+
+  </tr>
+  <tr>
+
+    <th align="left" valign="top" class="cont" scope="col"><p><b>Miscellaneous: </b>By participating in any HoldMyMemories.com contest, members agree to be bound by
+        the contest rules, and the decisions of HoldMyMemories.com. Member also agrees that the decisions of
+        HoldMyMemories.com are final. Member agrees that HoldMyMemories.com may remove any contest submission
+        that it deems inappropriate. Member/entrant agrees that it will indemnify HoldMyMemories.com and its affiliates
+        and contest sponsors from any and all claims involving the submission of entries that may be in violation of
+        copyright law, or found to be infringing upon the rights of others. Any HoldMyMemories.com contest is void
+        where prohibited. Any questions or further inquiries regarding any contest should be directed by email to:
+        Contest@HoldMyMemories.com.</p></th>
+
+  </tr>
+  <tr>
+
+    <th height="20" align="left" valign="top" scope="col"></th>
+  </tr>
+
+  <tr class="cont">
+
+    <td align="left" valign="top" class="content-white" scope="col" height="20"><input type="radio" name="agree_down" id="agree_down" value="agree" />I agree to the Terms and Conditions
+      <input type="hidden" name="contest_type" value="<%= params[:moment_type] %>"/></td>
+  </tr>
+  <tr class="cont">
+    <td align="left" valign="top">
+      <input type="radio" name="agree_down" id="agree_down" value="disagree" /> I do not agree to the Terms and Conditions</td>
+  </tr>
+  <tr class="cont">
+    <td align="left" valign="top">
+      <input type="submit" id="Image4413" class="whiteButton" value="NEXT" onclick="return sub();" style="cursor:pointer;" /></td>
+  </tr>
+
+  <tr>
+    <th align="center" valign="top" scope="col">&nbsp;</th>
+  </tr>
+  <tr>
+    <th height="50" align="center" valign="top" scope="col">&nbsp;</th>
+  </tr>
+</table>

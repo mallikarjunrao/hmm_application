@@ -1,0 +1,205 @@
+<% familyname= params[:id]
+@userid = HmmUser.find(:all, :conditions => "(family_name='#{familyname}' || alt_family_name='#{familyname}')") %>
+<%= javascript_include_tag 'modalbox/prototype' %>
+<script type="text/javascript" src="/javascripts/modalbox/scriptaculous.js?load=effects"></script>
+<script type="text/javascript" src="/javascripts/modalbox/modalbox.js"></script>
+<%= stylesheet_link_tag 'modalbox/modalbox' %>
+<table width="100%" border="0"  align="center"  cellspacing="0" cellpadding="0">
+  <tr><td colspan="10"><font color="#f5dfa6"><%=flash[:notice_mycart]%></font></td></tr>
+  <tr>
+    <td valign="top" colspan="5">
+      <table align="left" cellspacing="10">
+        <tr>
+          <%= sort_header_tag('d_createddate', :text => "<u>Sort By Date</u>",:title => "Sort By Date") %>
+          <%= sort_header_tag('v_tagphoto', :text => "<u>Sort By Name</u>",:title => "Sort By Name") %>
+        </tr>
+      </table>
+    </td>
+    <td align="left" width="15%" valign="top" colspan="4">
+    	
+		<a href="/my_familywebsite/gallery_fisheye/<%=params[:gallery_id]%>?familyname=<%=params[:id]%>" class="orangelinkswitch">Coverflow View<!-- img src="/images/photoflowicon.jpg" border="0" title="Clicking this button will switch to coverflow view" --></a><br><br>
+                <%if @gallery[0].e_gallery_type == "image" %>
+		<a href="/my_familywebsite/simple_slideshow/<%=params[:gallery_id]%>?familyname=<%=params[:id]%>" class="orangelinkswitch">
+				Slideshow<!--img src="/images/gridicon2.jpg" border="0"-->
+			</a>
+                <%end%>
+		</td>
+  
+  </tr>
+  </table>
+  <table>
+   <tr> <td height="25"></td></tr>
+  <% if @countcheck > 0 %>
+    <tr>
+      <% j=0 %>
+      <% for i in @user_content
+        photo_comments = PhotoComment.count(:conditions => "user_content_id = #{i.id}")%>
+
+        <% @viewmoment_count = HmmUser.find_by_sql(" SELECT count( * ) as cnt
+      FROM memories_count
+      WHERE usercontent_id = #{i.id} ") %>
+        <% if j==3 %>
+          <% j=0 %>
+        </tr><tr>
+        <%end%>
+        <th width="100" height="14" align="left" valign="top"  scope="col">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th>
+        <th width='197' height='227'  style="background-repeat:no-repeat;" align="center"  >
+          <table  width="117%" height="80" border="0" align="center">
+            <tr>
+              <th align="left" valign="top" scope="col" >
+                <table width="215" border="0" align="center" cellpadding="0"  cellspacing="0" onkeyup=""  >
+                  <tr>
+                    <td height="192" align="center" valign="middle" scope="col"  >
+                      <a href="/my_familywebsite/moment_page/<%= i.id %>?familyname=<%=params[:id]%>">
+                         <% @gal = Galleries.find(:all, :conditions => "id=#{params[:gallery_id]}")
+                          for @i in @gal
+                          @gal_name=@i.v_gallery_name
+                          @gal_type=@i.e_gallery_type
+                          end %>
+                        <% if @gal_type == 'video'
+                          filename=i.v_filename+'.jpg'
+                        %>
+                          <img  width="192"  src="<%=i.img_url%>/user_content/videos/thumbnails/<%=filename%>"  border="0"  id="img1" onmousedown="callme(this.id)" onContextMenu="return false;"/>
+                        <% else if @gal_type == 'audio'%>
+                            <img  width="192"  src="<%=i.img_url%>/user_content/audios/speaker.jpg" border="0" id="img2" onmousedown="callme(this.id)" onContextMenu="return false;" />
+                          <%else%>
+                            <img  width="192"  src="<%=i.img_url%>/user_content/photos/big_thumb/<%= i.v_filename %>" border="0" id="img3" onmousedown="callme(this.id)" onContextMenu="return false;"     />
+
+                          <%end%><%end%>
+                      </a></td><td>&nbsp;&nbsp;&nbsp;</td>
+                  </tr>
+                  <tr>
+                    <td height="6" align="left" valign="top" scope="col"></td>
+                  </tr>
+                  <tr>
+                    <td height="24" width="" align="center" valign="middle" class="text-journal" scope="col"> <a href="/my_familywebsite/moment_page/<%= i.id %>?familyname=<%=params[:id]%>"><% if (i.v_tagphoto.nil?) %> No name <% else %>  <% if (i.v_tagphoto.slice(0,25)) %> <%= i.v_tagphoto.slice(0,25) %> <%else%> No Name <%end%><%end%></a></td>
+                  </tr>
+                  <tr>
+             <th align="center" class="chapindex-text2" valign="top"  scope="col">Created</th>
+             </tr>
+                  <tr>
+             <th align="center" class="chapindex-text2" valign="top"  scope="col">
+              <%= i.d_createddate.strftime("%a %b #{i.d_createddate.day.ordinalize} %Y,   %I:%M %p") %></th>
+             </tr>
+                  <tr>
+                    <td heigth="50" align="center" valign="top" class="signedtxtwhite" id="padding_photos" scope="col"><span class="photoname">
+
+                        
+                   <!--  <a>   < %= @viewmoment_count[0]['cnt'] %> Views  /</span>  <span class="yellowtext">< %=photo_comments%> Comments</span></a><br>-->
+
+                      <br><br> 
+                    </td>
+                  </tr>
+                </table></th>
+            </tr>
+          </table>
+          <% j= j+1 %>
+        <%end%>
+      <% else %>
+    <tr><td>
+        <font size=4 face="Arial, Helvetica, sans-serif" color="#eeeeee">
+        No Moment's found...
+        </font>
+      </td></tr>
+  <% end %>
+  <tr>
+    <th height="53" align="left" valign="top"  scope="col"></th>
+    <th align="center" colspan="5" valign="top" class="signedtxtwhite" id="padding_photos" scope="col">
+      <%=will_paginate @user_content%>
+    </th>
+    <th width="95" align="left" valign="top"  scope="col"></th>
+  </tr>
+  <tr>
+    <th colspan="10" align="center" valign="top" scope="col"><div id="me"></div></th>
+  </tr>
+ 
+</table>
+
+<!-- Journal Code for gallery -->
+<table width='800'>
+  <tr><td align="center" >
+      <%if session[:hmm_user] && logged_in_hmm_user.family_name == params[:id] %><a href="/manage_content/new_galjournal/<%=params[:gallery_id]%>?familyname=<%=params[:id]%>&view=grid" class="journal_txt_link"><font style="text-decoration: underline;" color="#fe6809"><b>Journal this</b></font></a><%else%>
+    <tr><td colspan="3" align="center">
+        <font color="white" face="arial" size="2"><u><%= link_to_remote("<span class='commentcont'>Add Comment</span>", :update =>"add_comment",
+            :url => {:controller => :my_familywebsite, :action => :new_contentgrid_comment, :familyname=> params[:id] , :gallery_id => params[:gallery_id]} ,:layout => false  ) %></u>
+          &nbsp; <%  @subchapter_comment_count = GalleryComment.count(:all,:conditions => "gallery_id=#{params[:gallery_id]} and (gallery_jid='0' or gallery_jid='')  and e_approval='approve'")
+          if @subchapter_comment_count > 0 %>
+
+            <u><%= link_to_remote("<span class='commentcont'>View Comments</span>", :update =>"add_comment",
+              :url => {:controller => :my_familywebsite, :action => :view_gallery_comments, :gallery_id => params[:gallery_id], :jid => 0, :familyname => params[:id]  } ,:layout => false  ) %></u>
+          <%end%>
+        </font>
+        <p align="center"><font color="#ff0000"><%=flash[:notice_cc]%></font>
+          <font color="#ff0000"><%=flash[:notice_gca]%></font>
+          <font color="#ff0000"><%=flash[:notice_gcr]%></font>
+          <font color="#ff0000"><%=flash[:notice_gcd]%></font></p>
+        <p>
+        <div id="add_comment"></div>
+        </p>
+      </td></tr>
+  <%end%>&nbsp;&nbsp;
+  <font color="#ff0000"><%= flash[:notice_gcc]%></font>
+</table>
+
+<%@gallery_journal_count = GalleryJournal.count(:all, :conditions =>" galerry_id=#{params[:gallery_id]}")
+if(@gallery_journal_count>0)
+%>
+  <table width="800" border="0"  align="center" cellspacing="0" cellpadding="0">
+    <tr>
+      <th width="783" height="295" align="left" valign="top" scope="col">
+        <table width="100%" border="0" cellspacing="0" cellpadding="4" id="table_br">
+          <tr>
+            <td height="32" align="left" valign="middle" id="table_bar_bg" scope="col" colspan="2" class="btmtxt"><span class="btmtxt">Journal</span>
+          <% for @i in @gallery_journal %></tr>
+            <tr>
+              <th width="20" height="32" align="left" valign="top" scope="col">&nbsp;</th>
+              <th align="left" valign="middle" scope="col"><span class="commenthr"><%= @i.v_title%> &nbsp;&nbsp;
+                <%=@i.d_created_on.strftime("%a %b %d, %Y")%></span></th>
+            </tr>
+            <tr>
+              <th height="65" align="left" valign="top" scope="col">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th>
+              <th align="left" valign="top" class="commentcont" scope="col"><%= @i.v_journal.gsub("\n", "<br />\n") %></th>
+            </tr>
+            <tr>
+              <th height="100" align="left" valign="top" scope="col">&nbsp;</th>
+              <th align="right">
+                <% if session[:hmm_user]
+                else %>
+                  <div id="show_comment" style="display:none" >
+                    <table >
+                      <tr>
+                        <td valign="top">&nbsp;</td>
+                        <td>
+                          <form name="frm1" action="/gallery_comment/gallery_cmt">
+                            <input type="hidden" value="<%= params[:id]%>" name="gallery_id" />
+                            <input type="hidden" value="<%= @i.id%>" name="gallery_jid" />
+                            <input type="hidden" value="<%=request.request_uri%>" name="re_send" id="re_send"/>
+                            <table>
+                              <tr>
+                                <td>
+                                  <textarea class='textbox-1' cols='40' id='gallery_comment_j_v_comment' name='gallery_comment[v_comment]' rows='2'>Type your comments here...</textarea>										</td>
+                              </tr>
+                              <tr>
+                                <td>
+                                  <table>
+                                    <tr>
+                                      <td>
+                                        <input type="submit" value="Create" name="Create" id="Create">													</td>
+                                    </tr>
+                                  </table></td>
+                              </tr>
+                            </table>
+                          </form></td>
+                      </tr>
+                    </table>
+                  </div></th>
+              <%end%>
+            </tr>
+            <font color="#ff0000"><%=flash[:notice_gjc]%></font>
+            <font color="#ff0000"><%=flash[:notice_gju]%></font>
+          <%end%>
+        </table></th>
+    </tr>
+  </table>
+<%end%>
+

@@ -1,0 +1,50 @@
+<%= javascript_include_tag "flash/swfobject" %>
+<% javascript_include_tag 'SpryAssets/SpryValidationTextField' %>
+<% stylesheet_link_tag 'SpryAssets/SpryValidationTextField' %>
+
+<script src="/AC_OETags.js" language="javascript"></script>
+<table border="0" width="820">
+		<tr><td colspan="2" align="center"><font size="3" color="#cccccc"><%=@fname%>'s Shared Memories</font></td></tr>
+        <tr>
+
+		<td colspan="2">
+
+		<script language="JavaScript" type="text/javascript">
+		var galId = "<%=@galleryUrl%>";
+		var flashName = "<%=  @versions.file_url%>?v=<%=  @versions.major %>_<%=@versions.minor %>";
+		var returnId = "<%=@shid%>";
+		var visibility = "<%=@buttonVisibility%>";
+		 var flashvars = {};
+                flashvars.serverUrl = galId;
+                flashvars.navigateToUrl ="/familywebsite/moments/<%= @presenter_name[0]['family_name']%>?moment_id=";
+                flashvars.backid = returnId;
+                flashvars.butttonsVisible = visibility;
+                flashvars.contenturl = "<%=@path%>";
+                var params = {};
+                params.wmode = "transparent";
+		</script>
+                <div id="flash_content" style="width:820"/>
+                 <script type="text/javascript">
+                  swfobject.embedSWF(flashName, "flash_content", "820", "300", "9.0.0", "/expressInstall.swf",flashvars,params);
+                </script>
+</td>
+		</tr>
+
+
+</table>
+
+
+<table width="100%"><tr><td align="center">
+	<tr><td align="center">
+	<font color="#f5dfa6"><%=flash[:notice_pcc]%></font></td></tr>
+	<tr><td align="center"><%= link_to_remote("Add Comments", :update =>"me",
+		:url => {:controller => :share_comments, :action => :new1, :id=> @shid}, :layout => false  ) %>
+		&nbsp;&nbsp;&nbsp;
+		<%#= link_to_remote("View Comments", :update =>"me",
+		:url => {:controller => :share_comments, :action => :share_comnt, :id=> @shid }, :layout => false  ) %>
+
+</td></tr>
+<tr><td align="center"> <div id="me"></div> </td></tr></table>
+
+
+

@@ -1,0 +1,13 @@
+<script type="text/javascript">
+	
+</script>
+
+<h3><u>Edit Family & Friend's Group</u></h3>
+<form action="/fnf_group/update/<%=@fnf_groups.id%>" method="post" onsubmit="return editval()">
+
+  <%= render :partial => 'form' %>
+  <input type="submit" name="commit"  value="Edit" />
+</form>
+
+
+

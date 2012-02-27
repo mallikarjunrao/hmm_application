@@ -1,0 +1,132 @@
+
+<script type="text/javascript">
+	function chg(val)
+	{
+
+		if (document.getElementById('pcode').style.display == 'none' && document.getElementById('cty').style.display == 'block' && val=='USA') {
+			document.getElementById('pcode').style.display = 'block';
+			document.getElementById('cty').style.display = 'none';
+		}else{
+			document.getElementById('pcode').style.display = 'none';
+			document.getElementById('cty').style.display = 'block';
+		}
+
+	}
+</script>
+<%= javascript_include_tag 'modalbox/prototype' %>
+<script type="text/javascript" src="/javascripts/modalbox/scriptaculous.js?load=effects"></script>
+<script type="text/javascript" src="/javascripts/modalbox/modalbox.js"></script>
+<%= stylesheet_link_tag 'modalbox/modalbox' %>
+<%= javascript_include_tag 'SpryAssets/SpryValidationTextField' %>
+<%= javascript_include_tag 'SpryAssets/SpryValidationTextarea' %>
+<%= stylesheet_link_tag 'SpryAssets/SpryValidationTextarea' %>
+<%= stylesheet_link_tag 'SpryAssets/SpryValidationTextField' %>
+	<% @userid = HmmUser.find(:all, :conditions => "(family_name='#{params[:id]}'  || alt_family_name='#{params[:id]}')")
+		@uid = @userid[0]['id']%>
+	<font color="#ff5b09"><%=flash[:share_familypage]%></font>
+	<font color="#ff0000"><%=flash[:share_unsuccefull]%></font>
+
+ <form name="myform" method="post" action="/my_familywebsite/addcontact/<%=params[:id]%>" >
+<table width="100%" border="0" cellspacing="0" cellpadding="0" align="left">
+  <tr>
+
+                            <td width="600" height="42" align="left" valign="middle" class="conthr">Email Us</td>
+                            <td width="14" align="left" valign="top"></td>
+                          </tr>
+  <tr>
+     <td align="left" valign="top">
+<table border="0" width="100%" cellpadding="0" cellspacing="0" align="left">
+	<tr class="cont">
+		<td align="right" width="207" valign="top">
+			<label for="contact_u_first_name">Name *</label>
+		</td>
+		<td width="4">&nbsp;</td>
+		<td width="741" align="left"><span id="sprytextfield1">
+			<%= text_field 'contact_u', 'first_name' , :class => "textbox-journals"  %>
+			<span class="textfieldRequiredMsg"><br>
+			Name is required.</br></span></span>
+		</td>
+	</tr>
+	<tr><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr>
+
+
+	<tr class="cont">
+		<td align="right" width="207" valign="top">
+			<label for="contact_u_email">Email *</label>
+		</td>
+		<td>&nbsp;</td>
+		<td align="left"><span id="sprytextfield8">
+			<%= text_field 'contact_u', 'email', :class => "textbox-journals"   %>
+			<span id="message_email"></span>
+			<span class="textfieldRequiredMsg"><br>E-mail Required</br></span><span class="textfieldInvalidFormatMsg"><br>Invalid E-mail</br></span></span></span>
+		</td>
+	</tr>
+
+	<tr><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr>
+	<tr class="cont">
+		<td align="right" width="207" valign="top">
+			<label for="contact_u_message">Message *</label>
+
+		</td>
+		<td>&nbsp;</td>
+		<td align="left"><span id="sprytextarea10">
+			<%= text_area 'contact_u', 'message',:class => "textbox-journal", :rows =>"12", :cols=>"40"  %>
+			<span class="textareaRequiredMsg">A value is required.</span></span>
+
+		</td>
+	</tr>
+	<tr><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr>
+	<tr><td colspan="3" align="center" valign="middle" style="padding-left:15px;"><!--< %= show_simple_captcha %>--></td></tr>
+	<tr><td align="center" valign="top" colspan="3"><font color="red"><!--< % = @flash[:error] %>--></font></td></tr>
+	<tr><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr>
+	<tr><td colspan="3" align="center">
+
+
+</td>
+	</tr>
+    </table>
+    </td></tr>
+<tr><td>
+<table width="100%" border="0" cellspacing="0" cellpadding="0">
+      <tr>
+		 <td width="34%" align="right" valign="top" scope="col"><label>
+
+   	          <div align="right">
+   	            <input name="Send" type="submit" class="button" id="Send" value="Send" style="cursor:pointer;"/>
+   	          </div>
+		 </label></td>
+         <td width="1%"><div align="center"></div></td>
+        <td width="65%"  align="left" valign="top" scope="col"><label>
+
+              <div align="left">
+                <input name="Reset" type="reset"  class="button" id="Reset" value="Reset" style="cursor:pointer;"/>
+              </div>
+        </label></td>
+      </tr>
+      <tr>
+        <td align="center" valign="top" scope="col" colspan="5">&nbsp;		</td>
+	</tr>
+      <tr>
+        <td align="center" valign="top" scope="col" colspan="5" class="cont">
+         	Note: This email will be sent to the family that owns this website.		</td>
+	</tr>
+    </table>
+                </td>
+         </tr>
+	</table>
+		  </form>
+
+<script type="text/javascript">
+
+var sprytextfield1 = new Spry.Widget.ValidationTextField("sprytextfield1", "none", {validateOn:["blur"]} );
+var sprytextfield2 = new Spry.Widget.ValidationTextField("sprytextfield2", "none", {validateOn:["blur"]} );
+var sprytextfield3 = new Spry.Widget.ValidationTextField("sprytextfield3", "none", {validateOn:["blur"]} );
+var sprytextfield4 = new Spry.Widget.ValidationTextField("sprytextfield4", "none", {validateOn:["blur"]} );
+var sprytextfield5 = new Spry.Widget.ValidationTextField("sprytextfield5", "none", {validateOn:["blur"]} );
+var sprytextfield6 = new Spry.Widget.ValidationTextField("sprytextfield6", "none", {validateOn:["blur"]} );
+var sprytextfield7 = new Spry.Widget.ValidationTextField("sprytextfield7", "none", {validateOn:["blur"]} );
+var sprytextfield8 = new Spry.Widget.ValidationTextField("sprytextfield8", "email", {validateOn:["blur"]} );
+var sprytextfield9 = new Spry.Widget.ValidationTextField("sprytextfield9", "none", {validateOn:["blur"]} );
+var sprytextarea10 = new Spry.Widget.ValidationTextarea("sprytextarea10", "none", {validateOn:["blur"]} );
+
+</script>

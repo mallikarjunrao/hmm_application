@@ -1,0 +1,52 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Hold My Memories -- SHARE YOUR MOMENTS</title>
+
+<style type="text/css">
+<!--
+.style1 {
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 12px;
+}
+.style4 {font-family: Arial, Helvetica, sans-serif; font-size: 12px; color: #000000; }
+.style7 {font-size: 11px}
+.style8 {
+	font-size: 14px;
+	font-family: Arial, Helvetica, sans-serif;
+	color: #000000;
+}
+.style10 {
+	font-size: 14px
+}
+-->
+</style>
+
+
+</head>
+
+<body>
+<p class="style4">Hello,</p>
+<table width="100%"   cellspacing="0" cellpadding="0">
+              <tr>
+                <th height="25" align="left" valign="top" scope="col"> <h3 class="style3 style8 style10"><%=@my_name %> wants to share memories with you!</h3></th>
+              </tr>
+            
+              
+              <tr>
+                <th align="left" valign="middle"  class="text-journal" scope="col"> <p class="style4"><br />
+                <u>Message from your friend:</u> <span class="style7"><%=@message.gsub("\n", "<br />\n")%></span></p>
+                  <p class="style1"><span class="style3"> </span><span class="style7">Please visit the below given link to see the memories shared by your friend...&nbsp; </span></p>
+                  <p class="style1"><span class="style7"><a href="http://www.holdmymemories.com/share/memories/<%=@shareunid%>" class="style1><font color="#CCCCCC"><b>http://www.holdmymemories.com/share/memories/<%=@shareunid%></b></a></span></p>
+                  <p class="style4">Thank you!</p>
+                  <p class="style4">HoldMyMemories Team<br />
+                  </p></th>
+              </tr>
+</table>
+
+
+
+
+</body>
+</html>

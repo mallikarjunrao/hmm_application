@@ -1,0 +1,285 @@
+
+<%= javascript_include_tag 'scriptaculous' %>
+<%= javascript_include_tag 'effects' %>
+<%= javascript_include_tag 'popup.js' %>
+<%= stylesheet_link_tag 'popup.css' %>
+<%= javascript_include_tag 'SpryAssets/SpryValidationPassword' %>
+<%= javascript_include_tag 'SpryAssets/SpryValidationConfirm' %>
+<%= javascript_include_tag 'SpryAssets/SpryValidationTextField' %>
+<%= stylesheet_link_tag 'SpryAssets/SpryValidationTextField' %>
+<%= stylesheet_link_tag 'SpryAssets/SpryValidationPassword' %>
+<%= stylesheet_link_tag 'SpryAssets/SpryValidationConfirm' %>
+<script language="JavaScript">
+	function verify(){
+		if (document.getElementById('valid').value == 'false') {
+			document.getElementById('family_name').focus();
+			return false;
+			}
+			
+		else 
+		return true;
+			
+		
+}
+
+function verify_editwarning(){
+	
+	if (document.getElementById('valid').value == 'false') {
+		document.getElementById('family_name').focus();
+		return false;
+	}
+	
+	else {
+		var res = editwarning();
+		if (res == true) {
+			return true;
+		}
+		else {
+			return false;
+		}
+	}
+}
+
+	function editwarning(){
+		
+			if(confirm('Are you Sure you want to edit family name? You may have to share your new family webisite URL with your family and friends!!')){return true; } else return false;
+	}
+</script>
+<style>
+
+.familyheading {
+font-family:Arial, Helvetica, sans-serif;
+font-size: 16px;
+color: #d04c00;
+
+}
+.border10 {
+	border-top: none;
+	border-bottom: none;
+}
+.border11 {
+	border-right: none;
+	
+}
+
+.border12 {
+border-left: none;	
+}
+.notetext{
+	font-family: "Book Antiqua";
+	font-size: 12px;
+	color: #888888;
+}
+</style>
+
+
+
+<%session[:sharepath]='fnf'%>
+<% session[:friend]=''%>
+<table border="0">
+<tr>
+  <th width="0" align="left" valign="top" scope="col"></th>
+  <th width="510" align="left" valign="top" scope="col">
+  	<table width="100%" border="0" cellspacing="0" cellpadding="0">
+    <tr>
+      <th width="140" height="22" align="left" valign="top" scope="col">
+      	
+      	<a href="/customers/edit_profile/<%=logged_in_hmm_user.id%>" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('Image22','','/images/manage-profile_over.jpg',1)">
+      	<img src="/images/manage-profile_def.jpg" name="Image22" width="140" height="22" border="0" id="Image22" /></a>
+	  </th>
+      
+	 
+	  <th width="206" align="left" valign="top" scope="col">
+	  
+	  	<a href="/customers/FnF_Request" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('Image24','','/images/manage-fndsandfmly_over.jpg',1)">
+	  		<img src="/images/manage-fndsandfmly_def.jpg" name="Image24" width="206" height="22" border="0" id="Image24" /></a>
+			</th>
+      
+	  <th width="164" align="left" valign="top" scope="col">
+	  	<a href="/chapter_comment/allcmt_list/" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('Image25','','/images/manage-comments_over.jpg',1)">
+	  	<img src="/images/manage-comments_def.jpg" name="Image25" width="164" height="22" border="0" id="Image25" /></a>	  </th>
+		
+		<th width="164" align="left" valign="top" scope="col">
+	  	<a href="/share_moments/manageShare/" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('Image26','','/images/manage-share_over.jpg',1)">
+	  	<img src="/images/manage-share_def.jpg" name="Image25" width="140" height="22" border="0" id="Image26" /></a>	  
+		</th>
+		
+		<th width="206" align="left" valign="top" scope="col">
+			<img src="/images/mang_family_web_over.jpg" name="Image27" width="206" height="22" border="0" id="Image27" /></a>
+	  	
+		</th>
+		
+    </tr>
+  </table></th>
+  <th width="390" align="left" valign="top" scope="col"></th>
+</tr>
+</table>
+
+<% form_tag :action => 'step1_update', :id => @hmm_user do %>
+<table width="890" border="1" bordercolor="#333333" cellspacing="0" cellpadding="0">
+	<%@rec = HmmUser.find(:all, :conditions => "id=#{logged_in_hmm_user.id}")%>
+	<% for i in @rec %>
+	<font color="#f5dfa6"><%=flash[:notice_step1fail]%></font>
+	<tr>
+		<th height="20" colspan="2" bgcolor="#333333">
+			<font size="3" ><span class="familyheading">Step 1</span></font>
+		</th>
+	</tr>
+	<tr><td colspan="2" class="notetext" align="center" >You can Create / Edit your family website in 3 steps.. Please Enter your family details.. <br> <a href="/bob" target="_blank">  click hear to view Sample Family Website <br></a></td></tr>
+	<tr><td  colspan="2" align="center" ><font size="3" ><span class="familyheading">Create / Edit your Family Website</span></font></td></tr>
+	<tr>
+        <th height="90" colspan="2" align="center" valign="middle" scope="col" class="border10">
+        <table width="100%" border="0" cellspacing="0" cellpadding="0">
+        	<tr>
+               <th width="324" height="29" align="right" valign="top" class="contmanagepage" scope="col">Family Name:</th>
+               <th width="13" align="left" valign="top" scope="col" rowspan="2"><center><%= error_messages_for 'hmm_user' %></center></th>
+               <th align="left" valign="top" scope="col" width="264" >
+                  			<span id="sprytextfieldfname" name="sprytextfieldfname">
+                  			<%= text_field "hmm_user", "family_name", :id =>'family_name', :onkeyup => "escapeSpecialCharacters('family_name')", :class => "textbox-journals", :size => 20%>
+							<%= observe_field :'family_name',                         
+                        						:with       => "familyname",              
+                        						:frequency  => 0.25,                    
+                        						:url        => {:action => :validate_familyname }, 
+                        						:update     => :message_family %>
+												
+											
+							
+								 <span id="message_family"></span>
+							<span class="textfieldRequiredMsg"><br>Family Name is required.</br></span></span>
+				</th>
+                <th align="left" valign="top" scope="col" class="border10" >
+                	
+					<span class="popup_link" id="infolink">
+					<img src="/images/question.gif" border="0"></span>
+					
+					<div id="info" class="popup" style="display:none;">
+					
+					<table>
+						<tr>
+							<td class="TTtext">
+							Tips:
+							</td>
+						</tr>
+						<tr>
+							<td class="TTtext">
+							Please Enter the Family Name...
+							</td>
+						</tr>
+						
+						<tr>
+							<td class="TTtext">
+								Your family name you register with will go on the URl of your family web site 
+								<br>
+								http://holdmymemories.com/<font color="#d04c00">yourfamilyname</font></a>
+							</td>
+						</tr>
+						<tr>
+							<td>
+								<font color="#f5dfa6" size="1">Note : You cant enter special character's in Family Name.</font>
+							</td>
+						</tr>
+					</table>
+					</div>
+				</th>
+                
+           	</tr>
+		</table>
+		</th>
+     </tr>
+					
+	
+					
+	<tr>
+       <th height="39" colspan="2"  align="center" valign="middle" scope="col" class="border10">
+              			
+					<font size="3">	Would you like to secure your family website with a password? </font>
+					<span class="popup_link" id="passlink">
+					<img src="/images/question.gif" border="0"></span>
+					
+					<div id="passinfo" class="popup" style="display:none;">
+					
+					<table align="left">
+						<tr>
+							<td class="TTtext" align="left">
+							Tips:
+							</td>
+						</tr>
+						<tr>
+							<td class="TTtext" align="left">
+								Password Security for your website ensure no one view's your family website except password owners...
+							</td>
+						</tr>
+						<tr>
+							<td class="TTtext" align="left">
+								If you want to share your family moments(Images, audios, videos) who's permision is set as public then please select No for password security...
+							</td>
+						</tr>
+						
+					</table>
+					</div>
+					
+                          &nbsp;&nbsp;<br>
+							Yes <input type="radio" name="familypassword" id="familypassword1" value="yes" <%if i.password_required=="yes"%> checked="checked" <%end%> onclick="new Ajax.Updater('family_password','/family_members/edit_familypassword/<%=logged_in_hmm_user.id%>', 
+					{asynchronous:true, evalScripts:true, onLoading:function(request) {Effect.Appear('fnf');}}); return true;">
+							No <input type="radio" name="familypassword" id="familypassword2" value="no" <%if i.password_required=="no"%> checked="checked" <%end%> onclick="new Ajax.Updater('family_password','/family_members/nofamily_password/',
+					{asynchronous:true, evalScripts:true, onLoading:function(request) {Effect.Appear('fnf');}}); return true;">
+		
+		
+		
+		</th>
+		
+    </tr>
+			<tr><td align="left" colspan="2" class="border10">
+				 &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+		   &nbsp;<div id="family_password"></div></td></tr>		
+	
+    
+	<tr>
+        <th width="100%" class="border11" height="29" align="center" valign="top" scope="col">
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+		<%if @check_familyname > 0%>
+			<input type='image' src="/images/pro_nextstep1.jpg" width="200" height="29" value="Create" onclick="return verify_editwarning();" />
+		<%else%>
+			<input type='image' src="/images/pro_nextstep1.jpg" width="200" height="29" value="Create" onclick="return verify();" />
+		<%end%>
+		
+		</th>
+		<th class="border12">
+			<%if @check_familyname > 0%>
+			
+			<a href="/family_members/familypage_step2"><img src="/images/skip_arrow.jpg" border="0"></a>&nbsp;&nbsp;
+			<%end%>
+			</th>
+    </tr>
+	          		
+</table>
+<%end%>
+<%end%>
+<script type="text/javascript">
+<!--
+var sprytextfieldfname = new Spry.Widget.ValidationTextField("sprytextfieldfname", "none", {validateOn:["blur"]});
+
+//-->
+</script>
+<script type="text/javascript">
+    new Popup('info','infolink');
+	new Popup('passinfo','passlink');
+  </script>
+<script type="text/javascript">
+function escapeSpecialCharacters(field)
+{
+	var name = document.getElementById(field).value;
+	name =  name.replace(/[^a-zA-Z0-9]+/g,'');
+	document.getElementById('family_name').value=name;
+}
+
+if (document.getElementById('familypassword1').checked) {
+	new Ajax.Updater('family_password', '/family_members/edit_familypassword/<%=logged_in_hmm_user.id%>', {
+		asynchronous: true,
+		evalScripts: true,
+		onLoading: function(request){
+			Effect.Appear('fnf');
+		}
+	});
+}
+</script>

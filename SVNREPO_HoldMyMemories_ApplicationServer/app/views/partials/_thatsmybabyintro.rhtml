@@ -1,0 +1,238 @@
+<%= javascript_include_tag 'modalbox/prototype' %>
+<script type="text/javascript" src="/javascripts/modalbox/scriptaculous.js?load=effects"></script>
+<script type="text/javascript" src="/javascripts/modalbox/modalbox.js"></script>
+<%= stylesheet_link_tag 'modalbox/modalbox' %>
+<style type="text/css">
+  .img-txt {
+    font-family:"Comic Sans MS", Arial;
+    font-size:17px;
+    color: #ffffff;
+    text-decoration:none;
+    font-weight:normal;
+  }
+
+
+  .img-txt1 {	font-family:"Times New Roman", Times, serif;
+              font-size:12px;
+              color: #49392a;
+              text-decoration:none;
+              font-weight:bold;
+  }
+</style>
+<table width="912" border="0" align="center" cellpadding="0" cellspacing="0" style=" margin-top:10px;">
+  <tr>
+    <td bgcolor="#FFFFFF" style="padding:10px 0px;"><table width="892" border="0" align="center" cellpadding="0" cellspacing="0" style="background:url(/images/thatsmybaby/background.jpg) repeat-y">
+        <tr>
+          <td width="227" align="center" valign="top"><table width="142" border="0" align="center" cellpadding="0" cellspacing="0">
+              <tr>
+                <td height="60" colspan="3" align="left" valign="top">&nbsp;</td>
+              </tr>
+              <tr>
+                <td colspan="3" align="center" valign="top"><img src="/images/thatsmybaby/top-entries.png" width="160" height="143" /></td>
+              </tr>
+              <tr>
+                <td height="24" colspan="3" align="left" valign="top">&nbsp;</td>
+              </tr>
+              <%
+              cnt = 1
+              for photo in @topentries_photo
+                count = ContestVotes.count_by_sql("select COUNT(*) AS COUNT from contest_votes where contest_id='#{photo.contest_id}' and conformed='yes'")
+
+                unless cnt%2 == 0
+
+                %>
+                  <tr>
+                    <td width="64" align="left" valign="top">
+
+                      <table width="100%" border="0" cellspacing="0" cellpadding="0">
+                        <tr>
+                          <td><table width="100%" border="0" cellspacing="0" cellpadding="0">
+                              <tr>
+                                <td height="54" >
+                                  <% if website_type == "familywebsite" %>
+                                    <%if(session[:hmm_user]) %>
+                                      <a href="/familywebsite_thatsmybaby/manage_momentdetails/<%=id%>?contest_id=<%=photo.moment_id%>">
+                                      <%else%>
+                                        <a href="/familywebsite_thatsmybaby/momentdetails/<%=id%>?contest_id=<%=photo.moment_id%>">
+                                        <%end%>
+
+                                      <%else%>
+                                        <a href="/thatsmybaby/momentdetails/<%=photo.moment_id%>">
+                                        <%end%>
+                                        <img src="<%= photo.img_url %>/user_content/photos/big_thumb/<%= photo.v_filename %>" width="64"  style="z-index:0;" border="0"/></a></td>
+                                      </tr>
+                                      </table></td>
+                                      </tr>
+                                      <tr>
+                                        <td height="36" align="center" valign="top" class="img-txt"><%=count%> <% if count.to_i > 1 %> Votes<%else%>Vote<%end%> </td>
+                                      </tr>
+                                      </table> </td>
+
+                                    <%else%>
+
+
+                                      <td width="14" align="left" valign="top">&nbsp;</td>
+                                      <td width="64" align="left" valign="top">
+                                        <table width="100%" border="0" cellspacing="0" cellpadding="0">
+                                          <tr>
+                                            <td><table width="100%" border="0" cellspacing="0" cellpadding="0">
+                                                <tr>
+                                                  <td height="54">
+                                                    <% if website_type == "familywebsite" %>
+                                                      <%if(session[:hmm_user]) %>
+                                                        <a href="/familywebsite_thatsmybaby/manage_momentdetails/<%=id%>?contest_id=<%=photo.moment_id%>">
+                                                        <%else%>
+                                                          <a href="/familywebsite_thatsmybaby/momentdetails/<%=id%>?contest_id=<%=photo.moment_id%>">
+                                                          <%end%>
+
+                                                        <%else%>
+                                                          <a href="/thatsmybaby/momentdetails/<%=photo.moment_id%>">
+                                                          <%end%>
+                                                          <img src="<%= photo.img_url %>/user_content/photos/big_thumb/<%= photo.v_filename %>" width="64"  style="z-index:0;" border="0" /></a></td>
+
+                                                        </tr>
+                                                        </table></td>
+                                                        </tr>
+                                                        <tr>
+                                                          <td height="36" align="center" valign="top" class="img-txt"><%=count%> <% if count.to_i > 1 %> Votes<%else%>Vote<%end%> </td>
+                                                        </tr>
+                                                        </table>
+
+                                                        </td>
+                                                        </tr>
+                                                      <%end%>
+                                                      <%
+                                                      cnt = cnt + 1
+                                                    end%>
+                                                   
+                                                    </table></td>
+                                                    <td width="430" valign="top"><table width="430" border="0" cellpadding="0" cellspacing="0">
+                                                        <tr>
+                                                          <td height="87" align="center" valign="bottom"></td>
+                                                        </tr>
+                                                        <tr>
+                                                          <td height="174" align="center" valign="top"><img src="/images/thatsmybaby/logo.jpg" width="416" height="110" border="0" align="absbottom" /></td>
+                                                        </tr>
+                                                        <tr>
+                                                          <td height="68" align="center" valign="top"><img src="/images/thatsmybaby/price-winner-img.png" width="324" height="35" /></td>
+                                                        </tr>
+                                                        <tr>
+                                                          <td height="67" align="center" valign="top"><img src="/images/thatsmybaby/text-1.png" width="347" height="52" /></td>
+                                                        </tr>
+                                                        <tr>
+                                                          <td height="68" align="center" valign="top"><img src="/images/thatsmybaby/text-2.png" width="347" height="49" /></td>
+                                                        </tr>
+                                                        <tr>
+                                                          <td align="center" valign="top"><img src="/images/thatsmybaby/text-3.png" width="347" height="51" /></td>
+                                                        </tr>
+                                                        <tr>
+                                                          <td height="50" align="left" valign="top"></td>
+                                                        </tr>
+                                                        <%logger.info Date.today.to_date %>
+                                                        <%logger.info  entry_end_date.to_date %>
+                                                        <tr>
+                                                          <td align="center" valign="top"><a href="/thatsmybaby/enter_contest?type=enter&website_type=<%=website_type%>&id=<%=id%>"  onclick="Modalbox.show(this.href, {title:'My Image', width: 400, height:430});return false;"><img src="/images/thatsmybaby/enter-contest.png" width="349" height="65"  border="0"/></a></td>
+                                                        </tr>
+                                                        <tr>
+                                                          <td height="23" align="center" valign="top"></td>
+                                                        </tr>
+                                                        <tr>
+                                                          <td align="center" valign="top"><a href="/thatsmybaby/enter_contest?type=view_vote&website_type=<%=website_type%>&id=<%=id%>"  onclick="Modalbox.show(this.href, {title:'My Image', width: 400, height:430});return false;"><img src="/images/thatsmybaby/view-vote.png" width="349" height="65"  border="0"/></a></td>
+                                                        </tr>
+                                                        <tr>
+                                                          <td height="23" align="center" valign="top"></td>
+                                                        </tr>
+                                                        <tr>
+                                                          <td align="center" valign="top"><a href="/thatsmybaby/rules"  onclick="Modalbox.show(this.href, {title:'My Image', width: 650, height:650});return false;"><img src="/images/thatsmybaby/rules-regulations.png" width="349" height="65"  border="0"/></a></td>
+                                                        </tr>
+                                                        <tr>
+                                                          <td height="40" align="left" valign="top">&nbsp;</td>
+                                                        </tr>
+                                                      </table></td>
+                                                    <td width="235" align="center" valign="top"><table width="142" border="0" align="center" cellpadding="0" cellspacing="0">
+                                                        <tr>
+                                                          <td height="60" colspan="3" align="left" valign="top">&nbsp;</td>
+                                                        </tr>
+                                                        <tr>
+                                                          <td colspan="3" align="center" valign="top"><img src="/images/thatsmybaby/top-entries-videos.png" width="160" height="143" /></td>
+                                                        </tr>
+                                                        <tr>
+                                                          <td height="24" colspan="3" align="left" valign="top">&nbsp;</td>
+                                                        </tr>
+                                                        <%
+                                                        cnt = 1
+                                                        for video in @topentries_video
+                                                          count = ContestVotes.count_by_sql("select COUNT(*) AS COUNT from contest_votes where contest_id='#{video.contest_id}' and conformed='yes'")
+
+                                                          unless cnt%2 == 0
+
+                                                          %>
+                                                            <tr>
+                                                              <td width="64" align="left" valign="top">
+
+                                                                <table width="100%" border="0" cellspacing="0" cellpadding="0">
+                                                                  <tr>
+                                                                    <td><table width="100%" border="0" cellspacing="0" cellpadding="0">
+                                                                        <tr>
+                                                                          <td height="54" >
+                                                                            <% if website_type == "familywebsite" %>
+                                                                              <%if(session[:hmm_user]) %>
+                                                                                <a href="/<%=familywebsite_controller_name%>/manage_videomoment_details/<%=id%>?contest_id=<%=video.moment_id%>">
+                                                                                <%else%>
+                                                                                  <a href="/<%=familywebsite_controller_name%>/videomoment_details/<%=id%>?contest_id=<%=video.moment_id%>">
+                                                                                  <%end%>
+
+                                                                                <%else%>
+                                                                                  <a href="/<%=controller_name%>/videomoment_details/<%=video.moment_id%>">
+                                                                                  <%end%>
+                                                                                  <img src="<%= video.img_url %>/user_content/videos/thumbnails/<%= video.v_filename+'.jpg' %>" width="56" height="50" style="z-index:0;" border="0"/></a></td>
+                                                                                </tr>
+                                                                                </table></td>
+                                                                                </tr>
+                                                                                <tr>
+                                                                                  <td height="36" align="center" valign="top" class="img-txt"><%=count%> <% if count.to_i > 1 %> Votes<%else%>Vote<%end%> </td>
+                                                                                </tr>
+                                                                                </table> </td>
+
+                                                                              <%else%>
+
+
+                                                                                <td width="14" align="left" valign="top">&nbsp;</td>
+                                                                                <td width="64" align="left" valign="top">
+                                                                                  <table width="100%" border="0" cellspacing="0" cellpadding="0">
+                                                                                    <tr>
+                                                                                      <td><table width="100%" border="0" cellspacing="0" cellpadding="0">
+                                                                                          <tr>
+                                                                                            <td height="54">
+                                                                                                <% if website_type == "familywebsite" %>
+                                                                                                  <%if(session[:hmm_user]) %>
+                                                                                                    <a href="/<%=familywebsite_controller_name%>/manage_videomoment_details/<%=id%>?contest_id=<%=video.moment_id%>">
+                                                                                                    <%else%>
+                                                                                                      <a href="/<%=familywebsite_controller_name%>/videomoment_details/<%=id%>?contest_id=<%=video.moment_id%>">
+                                                                                                      <%end%>
+
+                                                                                                    <%else%>
+                                                                                                      <a href="/<%=controller_name%>/videomoment_details/<%=video.moment_id%>">
+                                                                                                      <%end%>
+                                                                                                      <img src="<%= video.img_url %>/user_content/videos/thumbnails/<%= video.v_filename+'.jpg' %>" width="56" height="50" style="z-index:0;" border="0" /></a></td>
+                                                                                                    </tr>
+                                                                                                    </table></td>
+                                                                                                    </tr>
+                                                                                                    <tr>
+                                                                                                      <td height="36" align="center" valign="top" class="img-txt"><%=count%> <% if count.to_i > 1 %> Votes<%else%>Vote<%end%> </td>
+                                                                                                    </tr>
+                                                                                                    </table>
+
+                                                                                                    </td>
+                                                                                                    </tr>
+                                                                                                  <%end%>
+                                                                                                  <%
+                                                                                                  cnt = cnt + 1
+                                                                                                end%>
+                                                                                               
+                                                                                               
+                                                                                                </table></td>
+                                                                                                </tr>
+                                                                                                </table></td>
+                                                                                                </tr>
+                                                                                                </table>

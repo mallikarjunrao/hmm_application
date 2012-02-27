@@ -1,0 +1,69 @@
+<table width="550" bordercolor="#e5b467" border="4" cellpadding="0" cellspacing="0">
+	<tr>
+		<th>
+			
+<table width="550" bordercolor="#e5b467" border="1" cellpadding="0" cellspacing="0">
+	<tr>
+		<td colspan="3">
+			<h2><center>Chapter Management</center></h2>
+		</td>
+		
+	</tr>
+	<tr>
+		<td >
+			<font size="2"> No of Chapter's Created </font>
+		</td>
+		<td width="100">
+			&nbsp;&nbsp;<font size="2"><%=@chap_stat%></font>
+		</td>
+	</tr>
+	<tr>
+		<td>
+			<font size="2">No of Sub-chapters Uploaded </font>
+		</td>
+		<td>
+			&nbsp;&nbsp;<font size="2"><%=@sub_stat%></font>
+		</td>
+	</tr>
+	<tr>
+		<td>
+			<font size="2">No of Galleries Uploaded </font>
+		</td>
+		<td>
+			&nbsp;&nbsp;<font size="2"><%=@gal_stat%></font>
+		</td>
+	</tr>
+	
+	<tr>
+		<td>
+			<font size="2">Total No of Chapters / Sub-Chapters / Galleries</font>
+		</td>
+		<td>
+			&nbsp;&nbsp;<font size="2"><%=@allcomment_count%></font>
+		</td>
+	</tr>
+	
+</table>
+	
+ <% form_remote_tag :update => 'table123',
+         							
+         							:url => {:action => 'chapReport'},
+		 							:with => 'from_bdate',
+									:with => 'to_bdate' do %>
+
+	<table bordercolor="#e5b467"  align="center" width="60%" border="10" cellpadding="4" cellspacing="4">
+		<tr  ><th background="/images/body_hor.JPG" colspan="4" align="center" style="backgrund:repeat;" >Search by Chapter Created Date</th></tr>
+		<tr><td>From Date</td><td><%= date_select  'from_bdate', :order => [:month, :day, :year], :start_year => Time.now.year - 100  %> </td></tr>
+		<td>To Date</td><td><%= date_select  'to_bdate', :order => [:month, :day, :year], :start_year => Time.now.year - 100  %></td ></tr>
+			<td align="center" colspan="4"><input type="submit" name="sub1" value="Search"/></td></tr>
+	
+	</table>
+<%end%>
+<div id="table123">
+<%= render :partial => "statchap", :layout => 'false' %>
+</div>
+
+
+		</th>
+	</tr>
+	</table>

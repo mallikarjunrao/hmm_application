@@ -1,0 +1,14 @@
+<h2>Certificate details</h2>
+<table border="0" cellpadding="0" cellspacing="0">
+  <tr>
+    <td height="30">Certificate Number:</td><td><%=@customer.cid%></td> </tr>
+  <tr><td height="30">First Name:</td><td><%=@customer.first_name%></td> </tr>
+  <tr><td height="30">Last Name:</td><td><%=@customer.last_name%></td> </tr>
+  <tr><td height="30">Phone:</td><td><%=@customer.telephone%></td> </tr>
+  <tr><td height="30">Email:</td><td><%=@customer.email%></td> </tr>
+  <tr> <td height="30">Total Amount:</td><td>$<%=number_with_precision(Float(@customer.amount).round(2), :precision => 2)%></td> </tr>
+  <tr> <td height="30">Status:</td><td><%=@customer.status%></td> </tr>
+  <tr> <td height="30">Purchased Date:</td><td><%if @customer.purchased_date%><%=@customer.purchased_date.strftime("%m - %d - %Y")%><%end%></td> </tr>
+  <tr> <td height="30">Redeemed Date:</td><td><%if @customer.redeemed_date%><%=@customer.redeemed_date.strftime("%m - %d - %Y")%><%end%></td> </tr>
+
+</table>

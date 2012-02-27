@@ -1,0 +1,355 @@
+<!-- JAVA SCRIPT FUNCTION FOR PASSWORD STRENGTH -->
+<script type="text/javascript">
+	function chg(val)
+	{
+		
+		if (document.getElementById('pcode').style.display == 'none' && document.getElementById('cty').style.display == 'block' && val=='USA') {
+			document.getElementById('pcode').style.display = 'block';
+			document.getElementById('cty').style.display = 'none';
+		}else{
+			document.getElementById('pcode').style.display = 'none';
+			document.getElementById('cty').style.display = 'block';
+		}
+		
+	}
+	
+	function checkvaluenewyear(val)
+	{
+		document.getElementById('holidays').checked = true;
+	}
+	
+	function checkvaluefamily(val)
+	{
+		document.getElementById('events').checked = true;
+	}
+	
+
+	function show_text_boxes(i)
+	{
+		var txt; 
+		for(j=1; j<=15; j++)
+		{
+			//document.getElementById(j).style.visibility='visible';
+			document.getElementById(j).style.display='none';
+			//document.getElementById('a'+j).style.visibility='visible';
+			//document.getElementById('thebox').innerHTML='<input type="text">';
+			document.getElementById('family'+j).style.display='none'
+			document.getElementById('relation'+j).style.display='none'
+			document.getElementById('img'+j).style.display='none'
+		}	
+		for(j=1; j<=i; j++)
+		{
+			//document.getElementById(j).style.visibility='hidden';
+			document.getElementById(j).style.display='block';
+			//document.getElementById('a'+j).style.visibility='hidden';
+			//document.getElementById('thebox').innerHTML='<input type="text">';
+			document.getElementById('family'+j).style.display='block'
+			document.getElementById('relation'+j).style.display='block'
+			document.getElementById('img'+j).style.display='block'
+			document.getElementById('bio'+j).style.display='block'
+			//alert("show textbox");
+		}
+	}
+	
+	function checkrelation(val,i)
+	{
+	    leng=document.getElementById('count').options.value
+		
+		for (j = 1; j <= leng; j++) 
+		{
+		
+			if (val == "mother" || val == "father" ||  val == "husband" || val == "wife" )
+			{
+				//alert(j)
+				if (j != i) {
+				
+					var len = document.getElementById('relation' + j).options.length
+					for (x = 0; x < len-1; x++) {
+						
+						if (document.getElementById('relation' + j).options[x].value == val) {
+							
+							//alert(document.getElementById('relation' + j).options[x].value)
+							document.getElementById('relation' + j).options[x] = null;
+						}
+					}
+					
+				}
+				
+			}
+		}		
+			
+	}
+		
+function passwordStrength(v_password)
+ { 
+ 	var desc = new Array();
+	 desc[0] = "Very Weak"; 
+	 desc[1] = "Weak"; 
+	 desc[2] = "Better"; 
+	 desc[3] = "Medium";
+	 desc[4] = "Strong"; 
+	 desc[5] = "Strongest"; 
+	 var score = 0; //if password bigger than 6 give 1 point 
+	 if (v_password.length > 6) score++; //if password has both lower and uppercase characters give 1 point 
+	 if ( ( v_password.match(/[a-z]/) ) && ( v_password.match(/[A-Z]/) ) ) score++; //if password has at least one number give 1 point 
+	 if (v_password.match(/\d+/)) score++; //if password has at least one special caracther give 1 point 
+	 if ( v_password.match(/.[!,@,#,$,%,^,&,*,?,_,~,-,(,)]/) ) score++; //if password bigger than 12 give another 1 point 
+	 if (v_password.length > 12) score++; document.getElementById("passwordDescription").innerHTML = desc[score]; 
+	 document.getElementById("passwordStrength").className = "strength" + score; 
+  } 
+</script>
+
+
+<%= javascript_include_tag 'SpryAssets/SpryValidationRadio' %>
+<%= javascript_include_tag 'SpryAssets/SpryValidationPassword' %>
+<%= javascript_include_tag 'SpryAssets/SpryValidationConfirm' %>
+<%= stylesheet_link_tag 'SpryAssets/SpryValidationRadio' %>
+<%= stylesheet_link_tag 'SpryAssets/SpryValidationPassword' %>
+<%= stylesheet_link_tag 'SpryAssets/SpryValidationConfirm' %>
+<style type="text/css">
+<!--
+.style3 {color: #999999}
+-->
+</style>
+
+<center><%= error_messages_for 'hmm_user' %></center>
+
+<input type="hidden" name="content_path" id="content_path" value="<%=$content_path%>"/>
+<input type="hidden" name="hmmid" id="hmmid" value="<%=params[:id]%>"/>
+
+
+
+<div >&nbsp;&nbsp;&nbsp;&nbsp;<%= flash[:notice] %></div>
+<div >&nbsp;&nbsp;&nbsp;&nbsp;<%= flash[:error] %></div>
+   <table width="100%" border="0" cellspacing="0" cellpadding="0">
+   	<tr>
+   		<th width="179" height="44" align="left" valign="top" scope="col">&nbsp;</th>
+        <th width="84" align="left" valign="top" scope="col">&nbsp;</th>
+        <th width="10" align="left" valign="top" scope="col">&nbsp;</th>
+        <th width="307" align="center" valign="top" scope="col"><a href="https://www.holdmymemories.com/user_account/login/?sucess=2" onmouseout="MM_swapImgRestore()" onmouseover="MM_swapImage('Image42','','/images/skipthisoption_btn.jpg',1)"><img src="/images/skipthisoption_btn.jpg" name="Image42"  border="0" id="Image42" /></a><br><br></th>
+        <th width="236" align="left" valign="top" scope="col">&nbsp;</th>
+    </tr>
+    
+	<%=@uid%>
+                    
+		<tr>
+        	<th height="10" align="left" valign="top" scope="col"></th>
+            <th align="right" valign="top" class="contsignup" scope="col"></th>
+            <th align="left" valign="top" scope="col"></th>
+            <th align="left" valign="middle" scope="col"></th>
+            <th align="left" valign="top" scope="col"></th>
+        </tr>
+        
+		<tr>
+      		<th align="left" valign="top" class="contsignup" scope="col" colspan="5">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Step 1: How many people in your  immediate family&nbsp; (Example: Children, Spouse, Parents, Siblings  and exclude yourself) 
+	  		<select name="count" id="count" onchange="show_text_boxes(this.value)">
+	  		<option value="0">select</option>
+      		<%
+      		  i=0
+      		  until i == 15 
+			  i=i+1 %>
+      		<option value="<%=i%>"><%=i%></option>
+      		<%end%>
+      		</select>           
+			</th>
+       	 </tr>
+         	
+		<tr>
+         	<th>&nbsp;</th>
+          	<th align="left" valign="top" class="contsignup" scope="col" colspan="4">  &nbsp;    </th>
+       	</tr>
+		<tr>
+         	<th height="10" align="left" valign="top" scope="col"></th>
+            <th align="right" valign="top" class="contsignup" scope="col"></th>
+            <th align="left" valign="top" scope="col"></th>
+            <th align="left" valign="middle" scope="col"></th>
+            <th align="left" valign="top" scope="col"></th>
+        </tr>
+		 <tr>	
+		 	<th height="0" align="left" valign="top" scope="col">&nbsp;</th>
+         	<th height="0" align="left" valign="top" scope="col" colspan="4">
+		 	</th>
+		</tr>
+		 
+		<tr>
+			
+			<td colspan="5">
+			<% i=0
+      		   until i == 15 
+		       i=i+1 %>
+	  		<div id="<%=i%>" align="left" style="display:none"  width="100%" >
+      		<table width="830" border="0" class="border" cellspacing="0" cellpadding="0">
+      			<tr><th colspan="8">&nbsp;</th></tr>
+      	 	<tr>
+         	<th height="0" width="10" align="left" valign="top" scope="col">&nbsp;&nbsp;</th>
+            
+           	<th align="left" width="490" valign="top" scope="col">Name</th>
+		   <th align="left" width="10" valign="top" scope="col">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th>
+           <th align="left" width="20"  valign="top" scope="col">Relation</th>
+            <th align="left" width="40" valign="top" scope="col">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th>
+       		<th width="220" valign="top">Date Of Birth</th>
+		    
+		    <th align="left" width="10" valign="top" scope="col">&nbsp;&nbsp;</th>
+		   <th width="20" width="20"  valign="top" scope="col" >Biography</th>
+         </tr>
+		 <tr>
+         	<th height="0"  align="left" valign="top" scope="col">&nbsp;</th>
+            
+           <th align="left" valign="top" scope="col">  <input type="text" name="family<%=i%>" style="display:block" id="family<%=i%>" /></th>
+		   <th align="left" width="10" valign="top" scope="col">&nbsp;&nbsp;</th>
+           <th align="left" width="20"  valign="top" scope="col">  <select name="relation<%=i%>" style="display:block" id="relation<%=i%>" onChange="checkrelation(this.value,<%=i%>)" >
+          <option value="select">select</option>
+          <option value="mother">Mother</option>
+          <option value="father">Father</option>
+          <option value="brother">Brother</option>
+          <option value="sister">Sister</option>
+          <option value="husband">Husband</option>
+          <option value="wife">Wife</option>
+          <option value="son">Son</option>
+          <option value="daughter">Daughter</option>
+		  <option value="pet">Pets</option>
+          </select></th>
+          <th align="left" width="10" valign="top" scope="col">&nbsp;&nbsp;</th>
+       		<th width="100%" valign="top">
+	   		<%= date_select "family_members#{i}", "bdate",  :order => [:month, :day, :year], :start_year => Time.now.year - 100, :end_year => Time.now.year %></th>
+		   
+		    <th align="left" width="10" valign="top" scope="col">&nbsp;&nbsp;</th>
+		  <th width="20" ><textarea name="bio<%=i%>" style="display:block" id="bio<%=i%>" rows="5" cols="25" ></textarea></th>
+         </tr>
+		 <tr>
+		 	<th align="right" valign="center" colspan="5" scope="col">Image&nbsp;&nbsp;</th>
+		   	<th width="20" valign="top"><input type="file"  name="img<%=i%>" style="display:block" id="img<%=i%>"  /></th>
+		 	<th colspan="2">&nbsp;</th>
+		 </tr>
+		 <tr><td colspan="8">&nbsp;</td></tr></table>
+	  	</div>
+		<%end%>
+		</td>
+	</tr>
+    <tr>
+        <th colspan="5">&nbsp;</th>
+    </tr>
+		 
+    <tr>
+        
+      <th align="left" valign="top" class="contsignup" scope="col" colspan="5">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Step 2: Let’s set up a chapter for family events, please check those that apply:         </th>
+       	 </tr>
+         	
+	<tr>
+       <th>&nbsp;</th>
+       <th align="left" valign="top" class="contsignup" scope="col" colspan="4">  &nbsp;    </th>
+    </tr>
+		 <tr>
+         	<th height="10" align="left" valign="top" scope="col"></th>
+            <th align="right" valign="top" class="contsignup" scope="col"></th>
+            <th align="left" valign="top" scope="col"></th>
+            <th align="left" valign="middle" scope="col"></th>
+            <th align="left" valign="top" scope="col"></th>
+         </tr>
+		 <tr>	
+		 	<tr>	<th height="0" align="left" valign="top" scope="col">&nbsp;</th>
+         <th height="0" align="left" valign="top" scope="col" colspan="4">
+		 </td></tr>
+		 <tr><td></td><td colspan="4">
+        
+	  
+      <table width="60%" >
+      	
+		 <tr>
+         	<th height="0"  align="left" valign="top" scope="col">&nbsp;</th>
+            
+           <th align="left" width="32" valign="top" scope="col"><input type="checkbox" value="1" name="vocation" id="vocation"/></th>
+		   <th align="left" valign="top" scope="col" colspan="2">&nbsp;&nbsp; Family Vacations</th>
+         </tr>
+         <tr>
+		   <th height="0"  align="left" valign="top" scope="col">&nbsp;</th>
+		   <th align="left" valign="top" scope="col">&nbsp;</th>
+		   <th align="left" valign="top" scope="col" colspan="2">&nbsp;</th>
+	    </tr>
+		 <tr>
+		   <th height="0"  align="left" valign="top" scope="col">&nbsp;</th>
+		   <th align="left" valign="top" scope="col"><input type="checkbox" value="1" name="holidays" id="holidays"/></th>
+		   <th align="left" valign="top" scope="col" colspan="2">&nbsp;&nbsp;&nbsp;Family Holidays</th>
+	    </tr>
+		 <tr>
+		   <th height="0"  align="left" valign="top" scope="col">&nbsp;</th>
+		   <th align="left" valign="top" scope="col">&nbsp;</th>
+		   <th align="left" valign="top" scope="col" colspan="2">&nbsp;</th>
+	    </tr>
+        
+		 <tr>
+		   <th height="0"  align="left" valign="top" scope="col">&nbsp;</th>
+		   <th align="left" valign="top" scope="col">&nbsp;</th>
+		   <th width="30" align="left" valign="top" scope="col"><input type="checkbox" value="1"  name="newyear" id="newyear" onClick="checkvaluenewyear(this.value)"/></th>
+           <th width="361" align="left" valign="top" scope="col">&nbsp;&nbsp;&nbsp;New Year</th>
+	    </tr>
+        <tr>
+		   <th height="0"  align="left" valign="top" scope="col">&nbsp;</th>
+		   <th align="left" valign="top" scope="col">&nbsp;</th>
+		   <th width="30" align="left" valign="top" scope="col"><input type="checkbox" value="1" name="cristmas" id="cristmas" onClick="checkvaluenewyear(this.value)"/></th>
+           <th width="361" align="left" valign="top" scope="col">&nbsp;&nbsp;&nbsp;Christmas</th>
+	    </tr>
+        <tr>
+		   <th height="0"  align="left" valign="top" scope="col">&nbsp;</th>
+		   <th align="left" valign="top" scope="col">&nbsp;</th>
+		   <th width="30" align="left" valign="top" scope="col"><input type="checkbox" value="1" name="hanukah" id="hanukah" onClick="checkvaluenewyear(this.value)"/></th>
+           <th width="361" align="left" valign="top" scope="col">&nbsp;&nbsp;&nbsp;Hanukah</th>
+	    </tr>
+        <tr>
+		   <th height="0"  align="left" valign="top" scope="col">&nbsp;</th>
+		   <th align="left" valign="top" scope="col">&nbsp;</th>
+		   <th width="30" align="left" valign="top" scope="col"><input type="checkbox" value="1" name="thanksgiving" id="thanksgiving" onClick="checkvaluenewyear(this.value)" /></th>
+           <th width="361" align="left" valign="top" scope="col">&nbsp;&nbsp;&nbsp;Thanksgiving</th>
+	    </tr>
+        <tr>
+		   <th height="0"  align="left" valign="top" scope="col">&nbsp;</th>
+		   <th align="left" valign="top" scope="col">&nbsp;</th>
+		   <th width="30" align="left" valign="top" scope="col"><input type="checkbox" value="1" name="easter" id="easter" onClick="checkvaluenewyear(this.value)"/></th>
+           <th width="361" align="left" valign="top" scope="col">&nbsp;&nbsp;&nbsp;Easter</th>
+	    </tr>
+        
+		 <tr>
+		   <th height="0"  align="left" valign="top" scope="col">&nbsp;</th>
+		   <th align="left" valign="top" scope="col">&nbsp;</th>
+		   <th align="left" valign="top" scope="col">&nbsp;</th>
+		   <th align="left" valign="top" scope="col">&nbsp;</th>
+	    </tr>
+        <tr>
+		   <th height="0"  align="left" valign="top" scope="col">&nbsp;</th>
+		   <th align="left" valign="top" scope="col">&nbsp;</th>
+		   <th align="left" valign="top" scope="col" colspan="2">&nbsp;</th>
+	    </tr>
+        <tr>
+		   <th height="0"  align="left" valign="top" scope="col">&nbsp;</th>
+		   <th align="left" valign="top" scope="col"><input type="checkbox" value="1" name="events" id="events"/></th>
+		   <th align="left" valign="top" scope="col" colspan="2">&nbsp;&nbsp;&nbsp;Family events</th>
+	    </tr>
+		 <tr>
+		   <th height="0"  align="left" valign="top" scope="col">&nbsp;</th>
+		   <th align="left" valign="top" scope="col">&nbsp;</th>
+		   <th align="left" valign="top" scope="col" colspan="2">&nbsp;</th>
+	    </tr>
+		 <tr>
+		   <th height="0"  align="left" valign="top" scope="col">&nbsp;</th>
+		   <th align="left" valign="top" scope="col">&nbsp;</th>
+		   <th width="30" align="left" valign="top" scope="col"><input type="checkbox" value="1" name="birthday" id="birthday" onclick="checkvaluefamily(this.value)"/></th>
+           <th width="361" align="left" valign="top" scope="col">&nbsp;&nbsp;&nbsp;Birthday Parties</th>
+	    </tr>
+        <tr>
+		   <th height="0"  align="left" valign="top" scope="col">&nbsp;</th>
+		   <th align="left" valign="top" scope="col">&nbsp;</th>
+		   <th width="30" align="left" valign="top" scope="col"><input type="checkbox" value="1" name="gettogether" id="gettogether" onclick="checkvaluefamily(this.value)"/></th>
+           <th width="361" align="left" valign="top" scope="col">&nbsp;&nbsp;&nbsp;Get Togethers</th>
+	    </tr>
+      </table>
+	  
+	  
+	    
+	 
+		  
+		  </td></tr>
+					
+					
+					
+                  </table>
+

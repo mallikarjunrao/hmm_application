@@ -1,0 +1,155 @@
+<%= error_messages_for 'employe_account' %>
+<%= stylesheet_link_tag 'SpryAssets/SpryValidationTextField' %>
+<%= stylesheet_link_tag 'SpryAssets/SpryValidationPassword' %>
+<%= stylesheet_link_tag 'SpryAssets/SpryValidationConfirm' %>
+
+<%= javascript_include_tag 'SpryAssets/SpryValidationPassword' %>
+<%= javascript_include_tag 'SpryAssets/SpryValidationConfirm' %>
+<%= javascript_include_tag 'SpryAssets/SpryValidationTextField' %>
+
+<table width="890" border="0" cellpadding="0" cellspacing="0">
+	
+	<tr>
+		<td align="right" width="340" valign="middle">
+			<label for="employe_account_employe_name">Employe name</label>
+		</td>
+		<td>&nbsp;</td>
+		<td><span id="sprytextfield1">
+			<%= text_field 'employe_account', 'employe_name', :class => "textbox-signup"  %>
+			<span class="textfieldRequiredMsg">Name is required.</span></span>
+		</td>
+	</tr>
+	
+	
+	
+	
+	<tr><td colspan="3">&nbsp;</td></tr>
+	<tr>
+		<td align="right" width="340" valign="middle">
+			<label for="employe_account_employe_name">Password</label>
+		</td>
+		<td>&nbsp;</td>
+		<td> <span class="" id="sprypassword12">
+			<%= password_field 'employe_account', 'password', :class => "textbox-signup"  %>
+			<span class="passwordRequiredMsg">A value is required.</span> <span class="passwordMinCharsMsg">The minimum number of characters not met.</span> </span>
+		</td>
+	</tr>
+	<tr><td colspan="3">&nbsp;</td></tr>
+	<tr>
+		<td align="right" width="340" valign="middle">
+			<label for="employe_account_employe_name">Re-type Password</label>
+		</td>
+		<td>&nbsp;</td>
+		<td><span class="" id="spryconfirm5">
+			<%= password_field 'employe_account', 'password', :class => "textbox-signup"  %>
+			<span class="confirmRequiredMsg">A value is required.</span> <span class="confirmInvalidMsg">The values don't match</span> </span></span>
+		</td>
+	</tr>
+	<tr><td colspan="3">&nbsp;</td></tr>
+	<tr>
+		<td align="right">
+			<label for="employe_account_branch">Branch</label>
+		</td>
+		<td>&nbsp;</td>
+		<td>
+			<select name="employe_account[branch]" id='branch' class => "combobox1">
+			<option value="select">Select</option>
+			<option value="baybrook"<%if @employe_account.branch == 'baybrook'%> selected="selected" <%end%>>HOUSTON,TX: Baybrook</option>
+			<option value="memorial_city_mall"<%if @employe_account.branch == 'memorial_city_mall'%> selected="selected" <%end%>>HOUSTON,TX: Memorial City Mall</option>
+			<option value="woodlands_mall"<%if @employe_account.branch == 'woodlands_mall'%> selected="selected" <%end%>>HOUSTON,TX: The Woodlands Mall</option>
+			<option value="willowbrook_mall"<%if @employe_account.branch == 'willowbrook_mall'%> selected="selected" <%end%>>HOUSTON,TX: Willowbrook Mall</option>
+			<option value="concord_mills"<%if @employe_account.branch == 'concord_mills'%> selected="selected" <%end%>>NORTH CAROLINA: Concord Mills</option>
+			<option value="hanes_mall"<%if @employe_account.branch == 'hanes_mall'%> selected="selected" <%end%>>NORTH CAROLINA: Hanes Mall</option>
+			<option value="carolina_place"<%if @employe_account.branch == 'carolina_place'%> selected="selected" <%end%>>NORTH CAROLINA: Carolina Place</option>
+			<option value="woodfield_mall"<%if @employe_account.branch == 'woodfield_mall'%> selected="selected" <%end%>>CHICAGO,IL: Woodfield Mall</option>
+			<option value="grapevine_mills"<%if @employe_account.branch == 'grapevine_mills'%> selected="selected" <%end%>>DALLAS,TX: Grapevine Mills</option>
+			<option value="dallas_galleria"<%if @employe_account.branch == 'dallas_galleria'%> selected="selected" <%end%>>DALLAS,TX: Dallas Galleria</option>
+			<option value="stonebriar"<%if @employe_account.branch == 'stonebriar'%> selected="selected" <%end%>>DALLAS,TX: Stonebriar</option>
+			<option value="parks_mall"<%if @employe_account.branch == 'parks_mall'%> selected="selected" <%end%>>DALLAS,TX: The Parks Mall</option>
+			<option value="wellington_green"<%if @employe_account.branch == 'wellington_green'%> selected="selected" <%end%>>FLORIDA: The Mall at Wellington Green</option>
+			<option value="westshore_plaza_tampa"<%if @employe_account.branch == 'westshore_plaza_tampa'%> selected="selected" <%end%>>FLORIDA: WestShore Plaza Tampa</option>
+			<option value="westfield_brandon"<%if @employe_account.branch == 'westfield_brandon'%> selected="selected" <%end%>>FLORIDA: Westfield Brandon</option>
+			<option value="sawgrass_millsn"<%if @employe_account.branch == 'sawgrass_millsn'%> selected="selected" <%end%>>FLORIDA: Sawgrass Millsn</option>
+			<option value="dolphin_mall_miami"<%if @employe_account.branch == 'dolphin_mall_miami'%> selected="selected" <%end%>>FLORIDA: Dolphin Mall Miami</option>
+			</select>
+		</td>
+	</tr>
+	
+	<tr><td colspan="3">&nbsp;</td></tr>
+	<tr>
+		<td align="right">
+			<label for="employe_account_employe_id">Emp Id</label>
+		</td>
+		<td>&nbsp;</td>
+		<td><span id="sprytextfield2">		
+			<%= text_field 'employe_account', 'employe_id', :class => "textbox-signup"  %>
+			<span class="textfieldRequiredMsg">employee id is required.</span></span>
+		</td>
+	</tr>	
+	
+	<tr><td colspan="3">&nbsp;</td></tr>
+	<tr>
+		<td align="right">
+			<label for="employe_account_branch">Designation</label>
+		</td>
+		<td>&nbsp;</td>
+		<td>
+			<select name="employe_account[emp_type]" id='emp_type' class => "combobox1">
+			<option value="select">Select</option>
+			
+			<option value="store_manager"<%if @employe_account.emp_type == 'store_manager'%> selected="selected" <%end%>>Store Manager</option>
+			<option value="employee"<%if @employe_account.emp_type == 'employee'%> selected="selected" <%end%>>Employee</option>
+			</select>
+		</td>
+	</tr>
+	
+	
+	<tr><td colspan="3">&nbsp;</td></tr>
+	<tr>
+		<td align="right">
+			<label for="employe_account_e_mail">E mail</label>
+			
+		</td>
+		<td>&nbsp;</td>
+		<td><span id="sprytextfield11">	
+			<%= text_field 'employe_account', 'e_mail', :class => "textbox-signup"  %>
+			<span class="textfieldRequiredMsg">E-mail Required</span><span class="textfieldInvalidFormatMsg">Invalid E-mail</span></span></span>
+		</td>
+	</tr>
+	
+	<tr><td colspan="3">&nbsp;</td></tr>
+	<tr>
+		<td align="right">
+			<label for="employe_account_phone_no">Phone no</label>
+		</td>
+		<td>&nbsp;</td>
+		<td><span id="sprytextfield4">	
+			<%= text_field 'employe_account', 'phone_no', :class => "textbox-signup"  %>
+			<span class="textfieldRequiredMsg">Please Enter your Contact No.</span><span class="textfieldMinCharsMsg">Not a valid No</span><span class="textfieldInvalidFormatMsg">Not a valid No</span></span></span>
+		</td>
+	</tr>	
+	
+	<tr><td colspan="3">&nbsp;</td></tr>
+	<tr>
+		<td align="right" valign="top">
+			<label for="employe_account_address">Address</label>
+		</td>
+		<td>&nbsp;</td>
+		<td>	
+			<%= text_area 'employe_account', 'address', :rows =>"9", :cols=>"40",  :class => "textbox-1"  %>
+		</td>
+	</tr>		
+	<tr><td colspan="3">&nbsp;</td></tr>
+</table>
+
+<script type="text/javascript">
+
+var sprytextfield1 = new Spry.Widget.ValidationTextField("sprytextfield1", "none", {validateOn:["blur"]});
+var sprytextfield2 = new Spry.Widget.ValidationTextField("sprytextfield2", "none", {validateOn:["blur"]});
+var sprytextfield3 = new Spry.Widget.ValidationTextField("sprytextfield3", "none", {validateOn:["blur"]});
+var sprytextfield11 = new Spry.Widget.ValidationTextField("sprytextfield11", "email", {validateOn:["blur"]});
+var sprytextfield4 = new Spry.Widget.ValidationTextField("sprytextfield4", "integer", {validateOn:["blur", "change"], minChars:7});
+
+var sprypassword12 = new Spry.Widget.ValidationPassword("sprypassword12",{validateOn:["blur"]});
+var spryconf5 = new Spry.Widget.ValidationConfirm("spryconfirm5", "sprypassword12", {validateOn: ['blur']});
+	</script>

@@ -1,0 +1,40 @@
+<table border="1" cellpadding="0" cellspacing="0" align="center" width="900" style="margin-top: 30px">
+  <tr>
+    <td>Certificate Number</td>
+    <td>First Name</td>
+    <td>Last Name</td>
+    <td>Phone</td>
+    <td>Email</td>
+    <td>Membership Price</td>
+    <td>Certificate Fees</td>
+    <td>Total Amount</td>
+    <td>Status</td>
+    <td> Purchased Studio</td>
+    <td>Purchased Date</td>
+    <td>Redeemed Date</td>
+    <td>Redeemed At</td>
+    <td>Employee Name</td>
+  </tr>
+  <%for customer in @customers%>
+    <tr class="<%= cycle('odd', 'even')%>">
+      <td height="20" align="center"><%=customer.cid%></td><td align="center"><%=customer.first_name%></td><td align="center"><%=customer.last_name%></td>
+      <td align="center"><%=customer.telephone%></td><td align="center"><%=customer.email%></td>
+      <td align="center"><%=customer.membership_fee%></td>
+      <td align="center"><%=customer.certificate_price%></td>
+      <td align="center"><%=customer.amount%></td><td align="center"><%=customer.status%></td>
+       <%purchased_studio=HmmStudio.find_by_id(customer.studio_id)%>
+      <td align="center"><%=purchased_studio.studio_name%></td>
+      <td align="center"><%if customer.purchased_date%><%=customer.purchased_date.strftime("%m - %d - %Y")%><%end%></td>
+      <td align="center"><%if customer.redeemed_date%><%=customer.redeemed_date.strftime("%m - %d - %Y")%><%end%></td>
+      <%if customer.redeemed_studio.blank? || customer.redeemed_studio.nil? %>
+        <td align="center"></td>
+      <% elsif customer.redeemed_studio.to_i!= 0
+        studio=HmmStudio.find_by_id(customer.redeemed_studio)%>
+        <td align="center"><%=studio.studio_name%></td>
+      <%else%>
+        <td align="center">Admin</td>
+      <%end%>
+      <td align="center"><%=customer.employee_name%></td>
+    </tr>
+  <%end%>
+</table>

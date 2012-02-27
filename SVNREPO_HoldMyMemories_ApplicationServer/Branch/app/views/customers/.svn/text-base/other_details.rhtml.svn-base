@@ -1,0 +1,149 @@
+<script>
+function verify(){
+
+	if (document.getElementById('fname').value == 'First Name') {
+		alert("Please enter First Name");
+		return false;
+	}
+	if (document.getElementById('lname').value == 'Last Name') {
+		alert("Please enter Last Name");
+		return false;
+	}
+	if (document.getElementById('hmm_user_v_security_q').value == '') {
+		alert('Please Select Account Security Question');
+		return false;
+		
+	}
+	if (document.getElementById('hmm_user_v_password').value == document.getElementById('hmm_user_v_security_a').value) {
+		alert('Accout Security Answer Cant be a Password!!');
+		return false;
+	}
+	if (document.getElementById('hmm_user_v_link1').value != "") {
+		var v = new RegExp();
+		v.compile("^[A-Za-z0-9-_]+\\.[A-Za-z0-9-_%&\?\/.=]+$");
+		if (!v.test(document.getElementById('hmm_user_v_link1').value)) {
+			alert("You must supply a valid URL.");
+			document.getElementById('hmm_user_v_link1').focus();
+			return false;
+		}
+	}
+	if (document.getElementById('hmm_user_v_link2').value != "") {
+		var v = new RegExp();
+		v.compile("^[A-Za-z0-9-_]+\\.[A-Za-z0-9-_%&\?\/.=]+$");
+		if (!v.test(document.getElementById('hmm_user_v_link2').value)) {
+			alert("You must supply a valid URL.");
+			document.getElementById('hmm_user_v_link2').focus();
+			return false;
+		}
+	}
+	if (document.getElementById('hmm_user_v_link3').value != "") {
+		var v = new RegExp();
+		v.compile("^[A-Za-z0-9-_]+\\.[A-Za-z0-9-_%&\?\/.=]+$");
+		if (!v.test(document.getElementById('hmm_user_v_link3').value)) {
+			alert("You must supply a valid URL.");
+			document.getElementById('hmm_user_v_link3').focus();
+			return false;
+		}
+	}
+	document.getElementById('imgmsg').style.display = 'block';
+	return true;
+}
+
+function validate_things()
+{
+	for(j=1; j<=15; j++)
+		{
+			//document.getElementById(j).style.visibility='visible';
+			//document.getElementById(j).style.display='none';
+			//document.getElementById('a'+j).style.visibility='visible';
+			//document.getElementById('thebox').innerHTML='<input type="text">';
+			//alert(document.getElementById('family'+j).value)
+			if(document.getElementById('family'+j).value!="" && document.getElementById('relation'+j).options.value=="select" )
+			{
+				alert("please select relation  for  name")
+				return false
+			}
+			else
+			if(document.getElementById('family'+j).value=="" && document.getElementById('relation'+j).options.value!="select" )
+			{
+				alert("Please enter the name for selected relation")
+				return false
+			}
+			
+			document.getElementById('imgmsg').style.display = 'block';
+			
+			return true
+		}	
+}
+</script>
+<form name="form1" method="post" action="http://content.holdmymemories.com/manage_hmm_account/add_other_details/<%=params[:id]%>" enctype="multipart/form-data" onsubmit="return validate_things()"
+<input type="hidden" name="id" value="<%=params[:id]%>" />
+
+<table width="930" border="0" cellspacing="0" cellpadding="0" bgcolor=#000000>
+     <tr>
+      <th height="" align="center" valign="top"  scope="col">
+        <font size="3" color="white" face="arial"><%=params[:message]%></font><br>
+           <font size="3" color="white" face="arial"><%=flash[:sucess]%></font><br>
+           <font size="3" color="white" face="arial"><%=flash[:sucess_id]%></font><br><br>
+            <% if flash[:sucess_id].nil? 
+            else
+              hmm_user=HmmUser.find(params[:id])
+            %>
+              <p align="center" ><a href="http://www.holdmymemories.com/customers/generate_receipt/<%=hmm_user.unid%>" target="_blank"><font size="2" color="white" face="arial"><u>Click here to  download your Subscription Receipt.</u></font></a><br><br>
+            <%end%>
+              <font size="3" color="white" face="arial">Set Up Your HoldMyMemories.com Chapters</font>
+                
+              
+              
+           
+           
+	  </th>
+	  </tr>
+    <tr>
+    <tr><td align="right">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td></tr>
+	<tr>
+      <th height="227" align="left" valign="top"  scope="col"><%= render :partial => 'formother' %>
+	  </td>
+	  </tr>
+    <tr>
+      <th height="120" align="left" valign="top" bgcolor="#000000" scope="col">
+      	<table width="100%" border="0" cellspacing="0" cellpadding="0">
+        <tr>
+          <th width="322" height="30" align="left" valign="top" scope="col">&nbsp;</th>
+          <th width="131" align="left" valign="top" scope="col">&nbsp;</th>
+          <th width="20" align="left" valign="top" scope="col">&nbsp;</th>
+          <th width="115" align="left" valign="top" scope="col">&nbsp;</th>
+          <th width="257" align="left" valign="top" scope="col">&nbsp;</th>
+        </tr>
+        <tr>
+          <th height="30" align="left" valign="top" scope="col">&nbsp;</th>
+		
+          <th align="left" valign="top" scope="col"><input type='image' src="/images/creat-chapters_btn.jpg"   value="Create" /></th>
+          <th align="left" valign="top" scope="col">&nbsp;</th>
+		  <th align="left" valign="top" scope="col"</th>
+          <th align="left" valign="top" scope="col">&nbsp;</th>
+        </tr>
+		 <tr>
+          <th  align="left" valign="top" scope="col">&nbsp;</th>
+		
+          <th align="left" valign="top" scope="col"></th>
+          
+		  <th align="left" valign="top" scope="col" colspan="2"><div id="imgmsg" style="display:none;">Please wait as your account is being created...</div></th>
+          <th align="left" valign="top" scope="col">&nbsp;</th>
+        </tr>
+      </table>
+	 </th>
+    </tr>
+  </table>
+            
+      <table width="100%" border="0" cellspacing="0" cellpadding="0">
+        <tr>
+          <td width="16" align="left" valign="top"></td>
+          <td height="50" align="center" valign="middle" class="footerbg"><span class="copyrightstxt">Copyright 2008 Hold My Memories. All rights reserved. Website Designed by <a href="http://www.softwaysolutions.com" target="_blank" class="copyrightstxt">Softway Solutions, Inc.</a>&nbsp;</span></td>
+          <td width="16" align="left" valign="top"></td>
+        </tr>
+		
+      </table>
+</form>
+ 
+ 

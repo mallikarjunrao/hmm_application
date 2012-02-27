@@ -1,0 +1,156 @@
+<head>
+  <%#*<link href="/jquery.selectbox-0.1.3/css/jquery.selectbox.css" rel="stylesheet" type="text/css" />%>
+  <style type="text/stylesheets">
+    
+  </style>
+  <script type="text/javascript" src="/jquery.selectbox-0.1.3/js/jquery-1.5.1.min.js"></script>
+  <script type="text/javascript" src="/jquery.selectbox-0.1.3/js/jquery.selectbox-0.1.3.js"></script>
+  <script type="text/javascript">
+    var comboopenflag;
+    function init() {
+      var combo = document.getElementById('radius').value = "";
+      comboopenflag = "off";
+    }
+    function showOptions() {
+      if (comboopenflag != "on") {
+        document.getElementById('combodiv').style.display = "block";
+        comboopenflag = "on";
+      } else if (comboopenflag == "on") {
+        document.getElementById('combodiv').style.display = "none";
+        comboopenflag = "off";
+      }
+    }
+
+    function setOption(selection) {
+
+      var combo = document.getElementById('radius').value = selection;
+      document.getElementById('combodiv').style.display = "none";
+      comboopenflag = "off";
+    }
+
+
+    function handleLostFocus(){
+      comboopenflag = "off";
+      showOptions();
+    }
+
+    //drop down options
+    function showOptions3() {
+      if (comboopenflag != "on") {
+        document.getElementById('combodiv').style.display = "block";
+        comboopenflag = "on";
+      } else if (comboopenflag == "on") {
+        document.getElementById('combodiv').style.display = "none";
+        comboopenflag = "off";
+      }
+    }
+
+    function setOption3(selection) {
+
+      var combo = document.getElementById('gift').value = selection;
+      document.getElementById('combodiv').style.display = "none";
+      comboopenflag = "off";
+    }
+
+    function handleLostFocus3(){
+      comboopenflag = "off";
+      showOptions3();
+    }
+
+    function check_zipcode()
+    {
+      var zip_val = document.getElementById('zipcode').value;
+      if( zip_val == "" || zip_val == "zipcode" || !/^\d+$/.test(zip_val))
+      {
+        document.getElementById('zipcode').focus;
+        document.getElementById('zipcode').value = "";
+        alert("Please enter a valid zipcode");
+        return false;
+      }
+      else return true;
+    }
+  </script>
+</head>
+
+<div class="IphoneImg">
+  <div class="Find">
+
+    <table width="400" border="0" align="center" cellpadding="0" cellspacing="0">
+
+
+      <tr>
+        <td height="70" align="left" valign="top" ></td>
+      </tr>
+      <tr>
+        <td height="40" align="left" valign="top" style="border-bottom:1px  dotted #666666;">Find a Studio Near You</td>
+      </tr>
+      <tr>
+        <td height="10" align="left" valign="top"></td>
+      </tr>
+      <tr>
+        <td align="left" valign="top"><span>Enter your zip code and select a distance to search for a Studio near you.</span></td>
+      </tr>
+      <tr>
+        <td height="20" align="center" valign="top"></td>
+      </tr>
+    </table>
+    <form name="form" action="/user_account/studios_list" method="post" enctype="multipart/form-data" onsubmit="return check_zipcode();">
+
+      <table width="252" border="0" align="center" cellpadding="0" cellspacing="0">
+
+        <tr>
+          <td height="10" align="left" valign="top"></td>
+        </tr>
+        <tr>
+
+          <td height="30" align="center" valign="top"/>
+
+        <input type="text" name="zipcode" value="zipcode" style="height: 20px;width: 198px; font-family:Arial, sans-serif;font-size:14px;" class="TextField" id="zipcode" size="34" onfocus="if(this.value=='zipcode'){ this.value=''; this.style.color='#ddd'; this.style.background='#14374C';}" onblur="if(this.value=='') {this.value='zipcode'; this.style.color='#ddd'; this.style.background='#14374C';}"/>
+
+
+        </tr>
+        <tr>
+          <td height="10" align="left" valign="top"></td>
+        </tr>
+
+
+
+        <tr>
+          <td align="center" valign="top" height="30">
+            <select name="radius" id="radius">
+              <option> <a onclick="setOption('25 Miles')" href="javascript:void(0);" class="option">25 Miles</a></option>
+              <option><a onclick="setOption('50 Miles')" href="javascript:void(0);" class="option">50 Miles</a></option>
+              <option><a onclick="setOption('50 Miles')" href="javascript:void(0);" class="option">75 Miles</a></option>
+              <option><a onclick="setOption('50 Miles')" href="javascript:void(0);" class="option">100 Miles</a></option>
+              <option><a onclick="setOption('50 Miles')" href="javascript:void(0);" class="option">200 Miles</a></option>
+            </select>
+          </td>
+        </tr>
+
+        <tr>
+          <td height="20" align="center" valign="top"></td>
+        </tr>
+        <tr>
+          <td align="center" valign="top">
+            <input type="submit" name="button" id="button" value="Submit" class="ContSubBtn" style="padding-top: 5px; padding-bottom: 6px; padding-right: 6px;"/></td>
+        </tr>
+        </center>
+      </table>
+    </form>
+  </div>
+</div>
+<script type="text/javascript">
+  //<![CDATA[
+  var Ddown = jQuery.noConflict();
+  Ddown(function () {
+    Ddown("#radius").selectbox();
+    Ddown("html").live('mousedown', function(e) {
+      e.stopPropagation();
+      Ddown("select").selectbox('close');
+    });
+    Ddown('.sbHolder, .sbSelector').mousedown(function(event){
+      event.stopPropagation();
+    });
+  });
+  //]]>
+</script>

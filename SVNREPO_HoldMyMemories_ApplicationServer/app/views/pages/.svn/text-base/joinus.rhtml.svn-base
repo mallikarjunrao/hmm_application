@@ -1,0 +1,244 @@
+
+<style type="text/css">
+</style>
+
+
+<script language="JavaScript">
+  function chk_verify()
+{
+	if(document.form1.sname.value=="")
+	{
+		alert("Please enter Studio Name")
+		document.form1.sname.focus()
+		return false;
+  	}
+
+	if(document.form1.sphone.value=="")
+	{
+		alert("Please enter Studio Phone Number")
+		document.form1.sphone.focus()
+		return false;
+  	}
+        else
+        {
+            if(!document.form1.sphone.value.match(/^[0-9]|[-]$/))
+           {
+              alert("Enter numeric value for Studio Phone Number")
+              document.form1.sphone.focus()
+              return false;
+           }
+           
+
+        }
+
+	if(document.form1.name.value=="")
+	{
+		alert("Please enter Name")
+		document.form1.name.focus()
+		return false;
+  	}
+	if(document.form1.phone.value=="")
+	{
+		alert("Please enter Phone Number")
+		document.form1.phone.focus()
+		return false;
+  	}
+        else
+        {
+            if(isNaN(document.form1.phone.value))
+           {
+              alert("Enter numeric value for Phone Number")
+              document.form1.phone.focus()
+              return false;
+           }
+        }
+	if(document.form1.email.value=="")
+	{
+		alert("Please enter Email Address")
+		document.form1.email.focus()
+		return false;
+ 	}
+	var email = document.form1.email.value
+	var regexpr=/^([\w-]+(?:\.[\w-]+)*)@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$/i  //email check
+	if (!regexpr.test(email))
+	{
+		alert("Please input a valid Email Address")
+		document.form1.email.value=""
+		document.form1.email.focus();
+		return false;
+	}
+
+
+
+	return true;
+
+
+
+
+
+
+}
+
+
+</script>
+
+
+
+<form name="form1" action="/studio_intro/create" method="post" onsubmit="return chk_verify();" enctype="multipart/form-data"   >
+  <table width="760" border="0" align="left" cellpadding="0" cellspacing="0" class="cont">
+          <tr>
+            <td height="46" colspan="2" align="center" valign="top" class="reg">Join Us</td>
+          </tr>
+          <tr>
+            <td height="30" colspan="2" align="left" valign="top" class="HeadingOrange">How Do I Get Started?</td>
+          </tr>
+          <tr>
+            <td colspan="2" align="left" valign="top">To receive more detailed information on how your studio can benefit from offering HoldMyMemories.com to your clients, please fill out the following information. </td>
+          </tr>
+          <tr>
+            <td height="18" colspan="2" align="left" valign="top"></td>
+          </tr>
+         
+          <tr>
+           
+            <td width="188" height="30" align="left" valign="middle"> <font color="orange">*</font>&nbsp;&nbsp;Studio Name:</td>
+            <td width="572" align="left" valign="middle"><input type="text" name="sname" class="TextField" id="textfield" size="40" /></td>
+          </tr>
+          <tr>
+            <td height="10" colspan="2" align="left" valign="top"></td>
+          </tr>
+          <tr>
+            <td width="188" height="30" align="left" valign="middle">&nbsp;&nbsp;&nbsp;Street Address:</td>
+            <td width="572" align="left" valign="middle"><input type="text" name="address" class="TextField" id="textfield" size="40" /></td>
+          </tr>
+          <tr>
+            <td height="10" colspan="2" align="left" valign="top"></td>
+          </tr>
+          <tr>
+            <td width="188" height="30" align="left" valign="middle">&nbsp;&nbsp;&nbsp;City,State,Zip:</td>
+            <td width="572" align="left" valign="middle"><input type="text" name="city" class="TextField" id="textfield" size="40" /></td>
+          </tr>
+          <tr>
+            <td height="10" colspan="2" align="left" valign="top"></td>
+          </tr>
+           <tr>
+            <td width="188" height="30" align="left" valign="middle">&nbsp;&nbsp;&nbsp;Country:</td>
+            <td width="572" align="left" valign="middle"><input type="text" name="country" class="TextField" id="textfield" size="40" value="United States" /></td>
+          </tr>
+          <tr>
+            <td height="10" colspan="2" align="left" valign="top"></td>
+          </tr>
+           <tr>
+            <td width="188" height="30" align="left" valign="middle"> <font color="orange">*</font>&nbsp;&nbsp;Studio Phone Number:</td>
+            <td width="572" align="left" valign="middle"><input type="text" name="sphone" class="TextField" id="textfield" size="40" /></td>
+          </tr>
+          <tr>
+            <td height="10" colspan="2" align="left" valign="top"></td>
+          </tr>
+          <tr>
+            <td width="188" height="30" align="left" valign="middle">&nbsp;&nbsp;&nbsp;Studio Website:</td>
+            <td width="572" align="left" valign="middle"><input type="text" name="website" class="TextField" id="textfield" size="40" /></td>
+          </tr>
+          <tr>
+            <td height="10" colspan="2" align="left" valign="top"></td>
+          </tr>
+          <tr>
+            <td width="188" height="30" align="left" valign="middle"> <font color="orange">*</font>&nbsp;&nbsp;Your Name:</td>
+            <td width="572" align="left" valign="middle"><input type="text" name="name" class="TextField" id="textfield" size="40" /></td>
+          </tr>
+          <tr>
+            <td height="10" colspan="2" align="left" valign="top"></td>
+          </tr>
+          <tr>
+            <td width="188" height="30" align="left" valign="middle"> <font color="orange">*</font>&nbsp;&nbsp;Your Phone Number:</td>
+            <td width="572" align="left" valign="middle"><input type="text" name="phone" class="TextField" id="textfield" size="40" /></td>
+          </tr>
+          <tr>
+            <td height="10" colspan="2" align="left" valign="top"></td>
+          </tr>
+          <tr>
+            <td width="188" height="30" align="left" valign="middle"> <font color="orange">*</font>&nbsp;&nbsp;Your Email Address:</td>
+            <td width="572" align="left" valign="middle"><input type="text" name="email" class="TextField" id="textfield" size="40" /></td>
+          </tr>
+          <tr>
+            <td height="10" colspan="2" align="left" valign="top"></td>
+          </tr>
+          <tr>
+            <td width="188" height="30" align="left" valign="top">&nbsp;&nbsp;&nbsp;What types of sessions does &nbsp;&nbsp;&nbsp;your studio photograph:</td>
+            <td width="572" align="left" valign="top"><table width="300" border="0" align="left" cellpadding="0" cellspacing="0">
+              <tr>
+                <td width="30" align="left" valign="top"><input type="checkbox" name="children" id="checkbox"  value="yes"/></td>
+                <td width="270" align="left" valign="top">Children</td>
+              </tr>
+
+              <tr>
+                <td height="5" colspan="2" align="left" valign="top"></td>
+                </tr>
+                <tr>
+                <td width="30" align="left" valign="top"><input type="checkbox" name="family" id="checkbox"  value="yes"/></td>
+                <td width="270" align="left" valign="top">Family</td>
+              </tr>
+              <tr>
+                <td height="5" colspan="2" align="left" valign="top"></td>
+                </tr>
+                <tr>
+                <td width="30" align="left" valign="top"><input type="checkbox" name="maternity" id="checkbox"  value="yes"/></td>
+                <td width="270" align="left" valign="top">Maternity</td>
+              </tr>
+              <tr>
+                <td height="5" colspan="2" align="left" valign="top"></td>
+                </tr>
+                <tr>
+                <td width="30" align="left" valign="top"><input type="checkbox" name="glamour" id="checkbox"  value="yes"/></td>
+                <td width="270" align="left" valign="top">Glamour</td>
+              </tr>
+              <tr>
+                <td height="5" colspan="2" align="left" valign="top"></td>
+                </tr>
+                <tr>
+                <td width="30" align="left" valign="top"><input type="checkbox" name="high_school" id="checkbox"  value="yes"/></td>
+                <td width="270" align="left" valign="top">High School Seniors</td>
+              </tr>
+              <tr>
+                <td height="5" colspan="2" align="left" valign="top"></td>
+                </tr>
+                <tr>
+                <td width="30" align="left" valign="top"><input type="checkbox" name="bridal" id="checkbox"  value="yes"/></td>
+                <td width="270" align="left" valign="top">Bridal</td>
+              </tr>
+              <tr>
+                <td height="5" colspan="2" align="left" valign="top"></td>
+                </tr>
+                <tr>
+                <td width="30" align="left" valign="top"><input type="checkbox" name="weddings" id="checkbox"  value="yes"/></td>
+                <td width="270" align="left" valign="top">Weddings</td>
+              </tr>
+              <tr>
+                <td height="5" colspan="2" align="left" valign="top"></td>
+                </tr>
+            </table></td>
+          </tr>
+          <tr>
+            <td height="10" colspan="2" align="left" valign="top"></td>
+          </tr>
+           <tr>
+            <td width="188" height="30" align="left" valign="middle">&nbsp;&nbsp;&nbsp;Other :</td>
+            <td width="572" align="left" valign="middle"><input type="text" name="other_session" class="TextField" id="textfield" size="40" /></td>
+          </tr>
+          <tr>
+            <td height="10" colspan="2" align="left" valign="top"></td>
+          </tr>
+           <tr>
+            <td width="188" height="30" align="left" valign="middle">&nbsp;&nbsp;&nbsp;Average Number of Sessions<br />&nbsp;&nbsp; per week:</td>
+            <td width="572" align="left" valign="middle"><input type="text" name="avg_session" class="TextField" id="textfield" size="40" /></td>
+          </tr>
+          <tr>
+            <td height="10" colspan="2" align="left" valign="top"></td>
+          </tr>
+          <tr>
+            <td align="left" valign="top">&nbsp;</td>
+            <td align="left" valign="top"><input type="submit" name="button" id="button" value="Submit" class="ContSearBtn" /></td>
+          </tr>
+
+        </table>
+</form>

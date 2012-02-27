@@ -1,0 +1,24 @@
+xml.instruct! :xml, :version=>"1.0"
+xml.root {
+  xml.chapters{
+    for chapter_value in @results
+      xml.chapter{
+        xml.id(chapter_value.id)
+        xml.access(chapter_value.e_access)
+        xml.name(chapter_value.v_tagname)
+        xml.icon(chapter_value.img_url + "/user_content/photos/icon_thumbnails/#{chapter_value.v_chapimage}")
+        xml.tags(chapter_value.v_chapter_tags)
+        xml.description(chapter_value.v_desc)
+        xml.defaulttag(chapter_value.default_tag)
+        xml.tagtype(chapter_value.tag_type)
+        subchaptercheck=SubChapter.count(:all,:conditions => "store_id is not null and tagid='#{chapter_value.id}'")
+        if(subchaptercheck > 0 || chapter_value.default_tag =="no" || chapter_value.tag_type=="event" || chapter_value.tag_type=="journal" )
+          xml.editable("false")
+        else
+          xml.editable("true")
+        end
+        xml.subchaptercount(chapter_value.subchapter_count)
+      }
+    end
+  }
+}

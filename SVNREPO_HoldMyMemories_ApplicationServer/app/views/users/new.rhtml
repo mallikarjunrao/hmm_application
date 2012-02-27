@@ -1,0 +1,56 @@
+<%= javascript_include_tag 'SpryAssets/SpryValidationTextField' %>
+<%= javascript_include_tag 'SpryAssets/SpryValidationPassword' %>
+<%= javascript_include_tag 'SpryAssets/SpryValidationConfirm' %>
+<%= stylesheet_link_tag 'SpryAssets/SpryValidationTextField' %>
+<%= stylesheet_link_tag 'SpryAssets/SpryValidationPassword' %>
+<%= stylesheet_link_tag 'SpryAssets/SpryValidationConfirm' %>
+
+
+<h2><center>Signup</center></h2>
+<%= error_messages_for :user %>
+<form name='frm1' action="/users/create" >
+
+<span id="sprytextfield16"><span id="sprytextfield16">
+<p>&nbsp;&nbsp;Username:<br />
+&nbsp;&nbsp;<%= text_field "user", "username", :class => "textbox-signup", :id =>"username", :size => 20, :maxlength => 25 %>
+						
+<span class="textfieldRequiredMsg">&nbsp;&nbsp;User Name Required</span></span></span></p>
+
+<p>&nbsp;&nbsp;Email:
+<span id="sprytextfield11"><span id="sprytextfield11"><br />
+&nbsp;&nbsp;<%= text_field "user", "email", :class => "textbox-signup", :id =>"email", :size => 20 %>
+<span class="textfieldRequiredMsg">&nbsp;&nbsp;E-mail Required</span><span class="textfieldInvalidFormatMsg">&nbsp;&nbsp;Invalid E-mail</span></span></span></p>
+
+<p>&nbsp;&nbsp;Password:<br />
+<span class="" id="sprypassword12">&nbsp;&nbsp;<%= password_field 'user', 'password', :size => 20, :class => "textbox-signup", :onkeyup => "passwordStrength(this.value)",  :id => 'password' %>
+<span class="passwordRequiredMsg">&nbsp;&nbsp;A value is required.</span> <span class="passwordMinCharsMsg">The minimum number of characters not met.</span> </span> 
+
+<p>&nbsp;&nbsp;Password Confirmation:
+<span class="" id="spryconfirm2"><br />
+&nbsp;&nbsp;<%= password_field 'user', 'password_confirmation', :size => 20, :class => "textbox-signup", :onkeyup => "passwordStrength(this.value)",  :id => 'password_confirmation' %>
+<span class="confirmRequiredMsg">&nbsp;&nbsp;A value is required.</span> <span class="confirmInvalidMsg">The values don't match</span> </span></span></p>
+<p>&nbsp;&nbsp;Profile:<br />&nbsp;&nbsp;<%= text_area "user", "profile", :class => "textbox-signup", :id =>"profile", :rows =>"9", :cols=>"40",  :class => "textbox-1"%></p>
+<p>&nbsp;&nbsp;User type:<br />&nbsp;&nbsp;<select name="user[acess_level]">
+					<option value=1>Master Administrator</option>
+					<option value=2>Administrator</option>
+				   </select>
+</p>		
+<center><%= submit_tag 'Sign Up' %></center>
+</form>
+
+
+
+<script type="text/javascript">
+
+
+var sprytextfield2 = new Spry.Widget.ValidationTextField("sprytextfield2", "none", {validateOn:["blur"]});
+
+var sprytextfield11 = new Spry.Widget.ValidationTextField("sprytextfield11", "email", {validateOn:["blur"]});
+
+
+var sprytextfield16 = new Spry.Widget.ValidationTextField("sprytextfield16", "none", {validateOn:["blur"]});
+var sprypassword12 = new Spry.Widget.ValidationPassword("sprypassword12",{validateOn:["blur"]});
+var spryconf2 = new Spry.Widget.ValidationConfirm("spryconfirm2", "sprypassword12", {validateOn: ['blur']});
+var RadioWidget  = new Spry.Widget.ValidationRadio("RadioWidget",2);
+
+	</script>

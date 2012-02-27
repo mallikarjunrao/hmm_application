@@ -1,0 +1,195 @@
+<script language="JavaScript">
+  var image_count = 0;
+   var video_count = 0;
+  function delete_image(value,count)
+  {
+   
+    var where_to= confirm("Are you sure to delete this Contest Winner ?");
+    if (where_to== true)
+    {
+      document.getElementById('winner_image_name'+value).value="hidden";
+      document.getElementById('winner_image_url'+value).value="hidden";
+      document.getElementById('winner_image_link'+value).value="hidden";
+      document.getElementById('delete'+value).style.display="none";
+      
+      image_count++;
+      if(count == image_count)
+        {
+       document.getElementById('winner_names').style.display = "none";
+
+        
+        }
+       
+      return true;
+
+    }
+    else
+    {
+      return false;
+    }
+    
+  }
+  function delete_video(value,count)
+  {
+    var where_to= confirm("Are you sure to delete this Contest Winner ?");
+    if (where_to== true)
+    {
+      document.getElementById('winner_video_name'+value).value="hidden";
+      document.getElementById('winner_video_url'+value).value="hidden";
+      document.getElementById('winner_video_link'+value).value="hidden";
+      document.getElementById('delete'+value).style.display="none";
+       video_count++;
+      if(count == video_count)
+        {
+       document.getElementById('winner_names').style.display = "none";
+
+
+        }
+
+      return true;
+
+    }
+    else
+    {
+      return false;
+    }
+
+  }
+
+
+
+  function validate_winner()
+  {
+
+    
+    if('<%= params[:contest_type] %>' == 'image')
+    {
+   
+      var count = parseInt("<%= @details.count %>");
+      var ret_val = true;
+      for(var i = 0; i < count; i++)
+      {
+        
+        var winner_image_name = document.getElementById("winner_image_name"+i);
+        var winner_image_url = document.getElementById("winner_image_url"+i);
+        var winner_image_link = document.getElementById("winner_image_link"+i);
+       
+        if(winner_image_name.value == "" || winner_image_url.value == "" || winner_image_link.value == "")
+        {
+          alert("Complete photo winner Details")
+          return false;
+
+
+        }
+
+      }
+    }
+       if('<%= params[:contest_type] %>'== 'video')
+    {
+     
+      var count = parseInt("<%= @details.count %>");
+      var ret_val = true;
+      for(var i = 0; i < count; i++)
+      {
+       
+        var winner_video_name = document.getElementById("winner_video_name"+i);
+        var winner_video_url = document.getElementById("winner_video_url"+i);
+        var winner_video_link = document.getElementById("winner_video_link"+i);
+        
+        if(winner_video_name.value == "" || winner_video_url.value == "" || winner_video_link.value == "")
+        {
+          alert("Complete photo winner Details")
+          return false;
+
+
+        }
+
+      }
+    }
+
+    
+    return true;
+  }
+
+</script>
+<table width="512" border="1" align="center" cellpadding="0" cellspacing="0" id="winner_names">
+
+  <tr>
+    <% if @contest_type=='image' %>
+      <td align="center" height="10" colspan="6"><h2>Photo Winners</h2></td>
+    </tr>
+    <% i = 0 %>
+    <% @details.each do |d| %>
+      <% moment = UserContent.find(d.moment_id)
+      if !moment.nil?
+        moment_url = "#{moment.img_url}/user_content/photos/journal_thumb/#{moment.v_filename}.jpg"
+      else
+        moment_url = "Coundnt find image link!"
+      end
+      moment_link = "http://www.holdmymemories.com/contests/momentdetails?contest_id=#{d.contest_phase.gsub('phase', '')}&&moment_id=#{d.moment_id}"
+    %>
+      <tr id="delete<%= i %>"  >
+        <td align="center" height="40">Winner's name:</td><td><input style="visibility:visible" type="text" name="photo_winner_name[<%= i %>][name]" value="<%= d.v_user_name %> "id="winner_image_name<%= i %>" onclick="return empty1(this.value)"/></td>
+
+        <td align="center" height="40">Winner's image URL:</td><td><input style="visibility:visible" type="text" name="photo_winner_name[<%= i %>][url]" value="<%= moment_url %> " id="winner_image_url<%= i %>" /></td>
+
+        <td align="center" height="40">Winner's image Link:</td><td><input style="visibility:visible" type="text" name="photo_winner_name[<%= i %>][link]" value="<%= moment_link %> " id="winner_image_link<%= i %>" /></td>
+      
+        <td align="right"><a href="#"  onClick="return delete_image(<%= i %>,<%= @details.count %>);" ><font color="red" >Delete</font></a></td></tr>
+
+    </tr>
+
+    <% i =i+1 %>
+  <% end %>
+   
+    <input type="hidden" value="image" name="type"/>
+  <tr>
+    <td align="center" colspan="6" height="40">
+      <input type="submit" name="Submit" value="Submit" id="submit2" class="sub-btn" />
+    </td>
+  </tr>
+  
+<% end %>
+
+
+
+<% if @contest_type=='video' %>
+
+
+  <tr>
+    <td align="center" height="10" colspan="6"><h2>Video Winners</h2></td>
+  </tr>
+
+  <% i = 0 %>
+
+  <% @details.each do |d| %>
+    <% moment = UserContent.find(d.moment_id)
+    if !moment.nil?
+      moment_url = "#{moment.img_url}/user_content/videos/thumbnails/#{moment.v_filename}.jpg"
+
+    else
+      moment_url = "Coundnt find image link!"
+    end
+
+    moment_link = "http://www.holdmymemories.com/contests/videomoment_details?contest_id=#{d.contest_phase.gsub('phase', '')}&&moment_id=#{d.moment_id}"
+  %>
+
+    <tr id="delete<%= i %>">
+      <td align="center" height="40">Winner's name:</td><td><input type="text" name="video_winner_name[<%= i %>][name]" value="<%= d.v_user_name %>"  id="winner_video_name<%= i %>"/></td>
+      <td align="center" height="40">Winner's video image URL:</td><td><input type="text" name="video_winner_name[<%= i %>][url]" value="<%= moment_url %> " id="winner_video_url<%= i %>"/></td>
+      <td align="center" height="40">Winner's video Link:</td><td><input type="text" name="video_winner_name[<%= i %>][link]" value="<%= moment_link %> " id="winner_video_link<%= i %>"/></td>
+      <td align="right"><a href="#" onClick="return delete_video(<%= i %>,<%= @details.count %>);" ><font color="red">Delete</font></a></td></tr>
+    </tr>
+    <% i =i+1 %>
+  <% end %>
+    <input type="hidden" value="video" name="type"/>
+  <tr>
+    <td align="center" colspan="6" height="40">
+      <input type="submit" name="Submit" value="Submit" id="submit2" class="sub-btn" />
+    </td>
+  </tr>
+  
+<% end %>
+
+
+</table>

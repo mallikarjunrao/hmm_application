@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:Application xmlns:mx="http://www.adobe.com/2006/mxml" layout="horizontal"  width="100%" height="100%" backgroundColor="0" backgroundAlpha="0" 
+	xmlns:local="*" horizontalAlign="center" verticalAlign="middle">
+			<local:ImageRotationSpriteTweener />
+	<mx:Style>
+			.fullScreen
+		{
+			 icon : Embed("assets/maximize.1.jpg");
+			 border-style:none;
+			 border-thickness: 0;
+			
+		}
+		
+		.normalScreen
+		{
+			icon : Embed("assets/minimize.1.jpg");
+		}
+	
+	</mx:Style>
+		
+	<mx:Script>
+		<![CDATA[
+			import mx.effects.easing.Quadratic;
+			import mx.effects.Blur;
+			import mx.effects.easing.*;
+			
+			private var timer :Timer = new Timer(5000);
+			
+			private var glowFinish : Boolean = false;
+			private var containerAlpha : Number = 1;
+			public var duration : Number = 1.5;
+			public var song : String = "/shine.mp3";
+			public var delay : Number = 2.5;
+			public var alphaDuration : Number = .5;
+			public var alphaDelay : Number = 3.5;
+			
+		]]>
+	</mx:Script>
+</mx:Application>

@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:Application xmlns:mx="http://www.adobe.com/2006/mxml" layout="horizontal"  width="100%" height="100%" backgroundColor="0" backgroundAlpha="0" 
+	xmlns:local="*" horizontalAlign="center" verticalAlign="middle" initialize="handleInitialize()">
+	<local:ImageRotationSpriteTweener/>
+	<mx:Style>
+			.fullScreen
+		{
+			 icon : Embed("assets/maximize.1.jpg");
+			 border-style:none;
+			 border-thickness: 0;
+			
+		}
+		
+		.normalScreen
+		{
+			icon : Embed("assets/minimize.1.jpg");
+		}
+	
+	</mx:Style>
+	<mx:Script>
+		<![CDATA[
+			import mx.effects.easing.Quadratic;
+			import mx.effects.Blur;
+			import mx.effects.easing.*;
+			
+			private var timer :Timer = new Timer(5000);
+			
+			private var glowFinish : Boolean = false;
+			private var containerAlpha : Number;
+			public var duration : Number;
+			public var song : String;
+			public var delay : Number;
+			public var alphaDuration : Number;
+			public var alphaDelay : Number;
+			
+			private function handleInitialize() : void
+			{
+				Security.loadPolicyFile("http://12.156.60.97/crossdomain.xml");
+			}
+		]]>
+	</mx:Script>
+</mx:Application>

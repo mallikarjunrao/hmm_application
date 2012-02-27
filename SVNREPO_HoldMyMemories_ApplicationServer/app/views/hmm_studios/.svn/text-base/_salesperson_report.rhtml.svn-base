@@ -1,0 +1,31 @@
+ <table width="865" border="0">
+        <tr><td colspan="15">&nbsp;</td></tr>
+
+        <tr>
+          </td></tr>
+        <tr valign='center' align='center'>
+          <th background="/images/body_hor.JPG"><font class='txt'>Sales Person</font></th>
+
+            <th background="/images/body_hor.JPG"><font class='txt'>No of Accounts</font></th>
+
+        </tr>
+     <%
+     i=0
+	 odd_or_even = 0
+     for m in @datas 
+     i = i + 1
+     odd_or_even = 1 - odd_or_even
+     %>
+          <tr class='ListLine<%= odd_or_even %>'>
+            <td align="center"><%=m.membership_sold_by%> </td>
+
+            <td align="center"><%=m.cnt%> </td>
+            
+            </tr>
+            <%end%>
+     	<tr><td colspan="4">&nbsp;
+          </td>
+        </tr>
+      </table>
+      
+    

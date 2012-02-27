@@ -1,0 +1,227 @@
+<td class="combg">
+  <%  @studio_header = HmmStudio.find(@family_website_owner.studio_id)
+  if @studio_header.studio_groupid==pp_studio_group
+    textarea = "glrTxtArea"
+    textbox = "glrTxtfld"
+    postbtn = "cmnBtnS cmnBtnMar"
+    commentHead = "commentTxthead"
+    commentSmall = "commentTxtsmall"
+  else
+    textarea = "comTxtArea"
+    textbox = "textfield"
+    postbtn = "contactBtn"
+    commentHead = "msgHead"
+    commentSmall = "msgSmall"
+  end %>
+<% if session[:hmm_user] && logged_in_hmm_user.id == @family_website_owner.id %>
+  <form name="emailusform" id="blogform" action="/family_memory/create_moment_newblog_entry/<%= params[:id]%>?moment_id=<%= @first_img.id %>" method="post" onsubmit="return check_comment();">
+    <table width="100%" border="0" cellspacing="0" cellpadding="0" class="panel" id="panel" style="display:none">
+      <tr>
+        <td width="95%" align="center"><textarea name="desc" wrap="virtual" class="<%= textarea %>" id="desc"  onblur="if(this.value=='') { this.value='Comment on this moment'; }" onfocus="if(this.value == 'Comment on this moment') { this.value = ''; }">Comment on this moment</textarea></td>
+        <td width="3%"><input type="hidden" name="redirect_url" value="<%=request.url%>" />
+          <input type="hidden" name="gallery_id" id="gallery_id" value="<%= params[:gallery_id] %>" />
+          <input type="hidden" name="user_content_id" value="<%=  @first_img.id %>" />
+        </td>
+      </tr>
+      <tr >
+        <td width="100%" colspan="2" class="msgHead" align="left" style="padding-left: 8px;">
+          <p><input type="checkbox" name="make_blog" id="make_blog1" value="unchecked" onclick="toggleshow(this,'titles')" /> <label for="make_blog1"  class="msgHead">Post to blog</label></p></td>
+      </tr>
+      <tr>
+        <td id="titles" style="display: none; padding-left: 10px;" width="100%" colspan="2" class="<%= commentHead %>" align="left">Title : <input type="text" name="title"  id="titl"  class="<%= textbox %>"/></td>
+      </tr>
+      <tr>
+        <td width="100%" colspan="2">&nbsp;</td>
+      </tr>
+      <tr>
+        <td width="100%" align="left" class="msgHead"  colspan="2" ><p style="display: inline;" class="msgHead"  ><label for="e"  class="msgHead">Apply to:</label></p>
+          <% if @first_img.e_filetype=='video'  %>
+            <p style="display: inline"> <input type="radio" id="apply_to2" name="apply_to" value="video" checked="yes"  /><label for="apply_to2">Video</label></p>
+          <% else %>
+            <p style="display: inline"> <input type="radio" id="apply_to" name="apply_to" value="image" checked="yes"  /><label for="apply_to">Image</label></p>
+          <% end %>
+          <p style="display: inline"> <input type="radio" id="apply_to1" name="apply_to" value="album" /><label for="apply_to1">Album</label></p>
+        </td>
+      </tr>
+      <tr>
+        <td width="100%" colspan="2">&nbsp;</td>
+      </tr>
+      <tr>
+        <td width="100%" colspan="2" class="msgHead"  align="left"><p style="display: inline;" class="msgHead"  ><label for="e"  class="msgHead">Make:&nbsp;&nbsp;&nbsp;&nbsp;</label></p>
+          <p style="display: inline">  <input type="radio" id="access" name="access" value="public" checked="checked" onclick="like_a_radio(this);" /><label for="access">Public</label></p>
+          <p style="display: inline"> <input type="radio" id="access1" name="access" value="private" onclick="like_a_radio(this);" /><label for="access1">Private</label></p>
+        </td>
+      </tr>
+      <tr>
+        <td height="45" colspan="2" align="center" class="img" valign="bottom"><input type="submit" class="<%= postbtn %>" name="post" value="Post" onclick="return check_comment();"/></td>
+      </tr>
+    </table>
+  </form>
+
+<% else %>
+
+  <table width="100%" border="0" cellpadding="0" cellspacing="0" class="panel" id="panel" style="display:none">
+    <tr>
+      <td width="95%" align="center">
+        <textarea id="comment_content"  name="moment_comment[v_comment]" wrap="virtual" class="<%= textarea %>" id="desc"  onblur="if(this.value=='') { this.value='Comment on this moment'; }" onfocus="if(this.value == 'Comment on this moment') { this.value = ''; }">Comment on this moment</textarea><br/>
+        <input type="text" size="18" id="comment_name"  class="<%= textbox %>" name="moment_comment[v_name]" style="height: 26px;" value="Your name" onblur="if(this.value=='') { this.value='Your name'; }" onfocus="if(this.value == 'Your name') { this.value = ''; }"/></td>
+      <td width="3%"><input type="hidden" name="redirect_url" value="<%=request.url%>" />
+        <input type="hidden" name="gallery_id" id="gallery_id" value="<%= params[:gallery_id] %>" />
+        <input type="hidden" name="user_content_id" value="<%=  @first_img.id %>" />
+      </td>
+    </tr>
+    <tr><td > <input type="hidden" name="moment_comment[user_content_id]" value="<%= @first_img.id %>" /><input type="hidden" name="redirect_url" value="<%=request.url%>" /></td></tr>
+
+    <tr>
+      <td align="center" valign="top"  colspan="2" align="center">
+        <a href="#">
+          <input type="button" class="<%= postbtn %>" value="Post" onclick="check_user_comment();" />
+        </a>
+      </td>
+    </tr>
+  </table>
+<% end %>
+
+<table id="comments" class="comments" width="91%" border="0" cellspacing="0" cellpadding="0" height="300px" style="display:none">
+  <tr><td><div id="wn">
+        <div id="lyr1" >
+          <table border="0" style="background-image: url(/images/themes/classic/tab_trans1.png); background-repeat: repeat;">
+            <tbody>
+              <tr>
+                <% if !@first_img.nil? && !@first_img.v_desc.nil?
+                  desc = @first_img.v_desc.gsub(/\s+/, "")
+                  desc = desc.upcase
+                end
+                if !@gallery_blog.nil? && !@gallery_blog.description.nil?
+                  gal_blog_desc = @gallery_blog.description.gsub(/\s+/, "")
+                  gal_blog_desc = gal_blog_desc.upcase
+                end
+              %>
+                <td valign="top" align="center" class="<%= commentHead %>" height="20"></td></tr>
+              <% if !@first_img.v_desc.blank? && @first_img.v_desc != "" && !desc.match(/^ENTERDESCRIPTION/) %>
+                <tr>
+                  <td width="100%">
+                    <table width="100%">
+                      <td valign="top" align="left" class="<%= commentHead %>" height="20" colspan="2" ><b>Description</b></td>
+                      <td align="right" class="<%= commentSmall %>"><%= @first_img.d_createddate.strftime("%b %d, %Y") %></td>
+                    </table>
+                  </td>
+                </tr>
+              <% end %>
+              <%if !@first_img.v_desc.blank? && @first_img.v_desc != "" && !desc.match(/^ENTERDESCRIPTION/) %>
+                <tr><td align="left" class="<%= commentSmall %>">  <%= @first_img.v_desc.gsub("\n", "<br />\n") %></td></tr>
+                <tr><td align="right" class="<%= commentSmall %>" height="10"></td></tr>
+                <tr>
+                  <td colspan="2" align="center"><img src="/images/family_memory/images/com-dvd.jpg" border="0" /></td>
+                </tr>
+                <tr><td align="right" class="<%= commentSmall %>" height="10"></td></tr>
+              <%end%>
+              <% if !@blog.nil? %>
+                <tr>
+                  <td width="100%">
+                    <table width="100%">
+                      <td valign="top" align="left" class="<%= commentHead %>" height="20" colspan="2" ><b>Photo Blog Entry</b></td>
+                      <td align="right" class="<%= commentSmall %>"><%= @blog.added_date.strftime("%b %d, %Y") %></td>
+                    </table>
+                  </td>
+                </tr>
+              <% end %>
+              <%if !@blog.nil?%>
+                <% desc=@blog.description %>
+                <tr><td align="left" class="<%= commentSmall %>">  <%=desc.gsub("\n", "<br />\n") %></td></tr>
+                <tr><td align="right" class="<%= commentSmall %>" height="10"></td></tr>
+                <tr>
+                  <td colspan="2" align="center"><img src="/images/family_memory/images/com-dvd.jpg" border="0" /></td>
+                </tr>
+                <tr><td align="right" class="<%= commentSmall %>" height="10"></td></tr>
+              <%end%>
+              <% if !@gallery_blog.nil? && @gallery_blog.description != "" && !gal_blog_desc.match(/^ENTERDESCRIPTION/)%>
+                <tr>
+                  <td width="100%">
+                    <table width="100%">
+                      <td valign="top" align="left" class="<%= commentHead %>" height="20" colspan="2" ><b>Gallery Blog Entry</b></td>
+                      <td align="right" class="<%= commentSmall %>"><%= @gallery_blog.added_date.strftime("%b %d, %Y") %></td>
+                    </table>
+                  </td>
+                </tr>
+              <% end %>
+              <%if !@gallery_blog.nil? && @gallery_blog.description != "" && !gal_blog_desc.match(/^ENTERDESCRIPTION/) %>
+                <% desc=@gallery_blog.description %>
+                <tr><td align="left" class="<%= commentSmall %>">  <%=desc.gsub("\n", "<br />\n") %></td></tr>
+                <tr><td align="right" class="<%= commentSmall %>" height="10"></td></tr>
+                <tr>
+                  <td colspan="2" align="center"><img src="/images/family_memory/images/com-dvd.jpg" border="0" /></td>
+                </tr>
+                <tr><td align="right" class="<%= commentSmall %>" height="10"></td></tr>
+              <%end%>
+
+              <% if (!@gallery_comments.nil? && @gallery_comments.length>0)%>
+                <tr><td align="left" class="<%= commentHead %>" height="30" width="100%" ><b>Album Comments </b></td></tr>
+              <%end%>
+              <% if !@gallery_comments.nil? && @gallery_comments.length>0
+                for gal_comment in @gallery_comments%>
+                  <tr><td width="100%"><table width="100%">
+                        <tr><td align="left" class="<%= commentHead %>">From <%=gal_comment.commenter%></td>
+                          <td align="right" class="<%= commentSmall %>"><%=gal_comment.commented_date.to_date.strftime("%b %d, %Y")%></td></tr>
+                      </table>
+                    </td>
+                  </tr>
+                  <tr><td align="left" class="<%= commentSmall %>"> <%=gal_comment.comment%></td></tr>
+                  <tr><td align="right" class="<%= commentSmall %>" height="10"></td></tr>
+                <%end%>
+                <tr>
+                  <td colspan="2" align="center"><img src="/images/family_memory/images/com-dvd.jpg" border="0" /></td>
+                </tr>
+                <tr><td align="right" class="<%= commentSmall %>" height="10"></td></tr>
+              <%end%>
+              <% if (!@blogcomments.nil? && @blogcomments.length>0)%>
+                <tr><td align="left" class="<%= commentHead %>" height="30" width="100%" ><b>Blog Comments  </b></td></tr>
+              <%end%>
+              <% if !@blogcomments.nil? && @blogcomments.length>0
+                for blogcomment in @blogcomments%>
+                  <tr><td width="100%"><table width="100%">
+                        <tr><td align="left" class="<%= commentHead %>">From <%=blogcomment.name%></td>
+                          <td align="right" class="<%= commentSmall %>"><%=blogcomment.created_at.strftime("%b %d, %Y")%></td></tr>
+                      </table>
+                    </td>
+                  </tr>
+                  <tr><td align="left" class="<%= commentSmall %>"> <%=blogcomment.comment%></td></tr>
+                  <tr><td align="right" class="<%= commentSmall %>" height="10"></td></tr>
+                <%end%>
+                <tr>
+                  <td colspan="2" align="center"><img src="/images/family_memory/images/com-dvd.jpg" border="0" /></td>
+                </tr>
+                <tr><td align="right" class="<%= commentSmall %>" height="10"></td></tr>
+              <%end%>
+              <% if (!@comments.nil? && @comments.length>0)%>
+                <tr><td align="left" class="<%= commentHead %>" height="30" width="100%" ><b>Photo Comments  </b></td></tr>
+              <%end%>
+              <% if !@comments.nil? && @comments.length>0
+                for comment in @comments%>
+                  <tr><td width="100%"><table width="100%">
+                        <tr><td align="left" class="<%= commentHead %>">From <%=comment.commenter%></td>
+                          <td align="right" class="<%= commentSmall %>"><%=comment.commented_date.to_date.strftime("%b %d, %Y")%></td></tr>
+                      </table>
+                    </td>
+                  </tr>
+                  <tr><td align="left" class="<%= commentSmall %>"> <%=comment.comment%></td></tr>
+                  <tr><td align="right" class="<%= commentSmall %>" height="10"></td></tr>
+                <%end%>
+                <tr>
+                  <td colspan="2" align="center"><img src="/images/family_memory/images/com-dvd.jpg" border="0" /></td>
+                </tr>
+              <%end%>
+            </tbody>
+          </table>
+        </div>
+      </div></td>
+    <td><div id="scrollbar" class="comments" id="comments">
+        <div id="up"><a class="mouseover_up" href=""><img src="/javascripts/image_slider/js/btn-up.gif" width="11" height="11" alt="" border="0" /></a></div>
+        <div id="track">
+          <div id="dragBar"></div>
+        </div>
+        <div id="down"><a class="mouseover_down" href=""><img src="/javascripts/image_slider/js/btn-dn.gif" width="11" height="11" alt="" border="0" /></a></div>
+      </div></td>
+  </tr>
+</table>
+</td>

@@ -1,0 +1,65 @@
+<style type="text/css">
+<!--
+.style2 {color: #FFFFFF}
+-->
+</style>
+<p>Hello <i>,</i></p>
+<form name="frm" method="post" >
+
+<table width="820" cellpadding="0" cellspacing="0" border="0"><tr>
+  <th width="5" align="left" valign="top" scope="col"></th>
+  <th width="817" align="left" valign="top" scope="col">
+  	<table width="100%" border="0" cellspacing="0" cellpadding="0">
+    
+  </table></th>
+  <th width="5" align="left" valign="top" scope="col"></th>
+</tr>
+</table>
+
+
+<table width="100%" border="0" cellspacing="0" cellpadding="0">
+    <tr>
+     
+      <th colspan="3" align="left" valign="middle" bgcolor="#191919" scope="col"><strong>
+      	<font color="#FFFFFF"  face="areal"><%=@from_name %><em> would like to share <%=@sha_type%>'s with you</em></font></strong></th>
+    </tr>
+	<tr>
+		<th colspan="3">
+			&nbsp;
+		</th>
+	</tr>
+	<tr>
+      <th  width="10" align="left" valign="top" scope="col">Message:</th>
+      <th colspan="2" align="left" valign="middle" scope="col"><i><%=@reciepent_message.gsub("\n", "<br />\n")%></i>
+      	</th>
+    </tr>
+	<tr>
+		<th colspan="3">
+			&nbsp;
+		</th>
+	</tr>
+	
+	
+	
+	<tr>
+      
+      <th align="left" valign="middle" colspan="3" bgcolor="#191919" class="text-journal" scope="col">
+   	  <a href="http://www.holdmymemories.com<%=@link%>"><font color="#CCCCCC"><b>Click here to view <%=@from_name %>'s Family Website <%=@sha_type%></b></font></a></th>
+    </tr>
+	<tr>
+		<th colspan="3">&nbsp;</th>
+	</tr>
+	<tr>
+      
+      <th align="left" valign="middle" colspan="3" bgcolor="#191919" class="text-journal" scope="col">
+   		<a href="http://www.holdmymemories.com/customers/new"><font color="#CCCCCC"><b>Click here to Sign Up with HoldMyMemories.com</b></font></a></th>
+    </tr>
+	
+
+</table>
+
+</form>
+
+<p>&nbsp;</p>
+<p>Thank you!</p>
+<p>HoldMyMemories.com Team </p>

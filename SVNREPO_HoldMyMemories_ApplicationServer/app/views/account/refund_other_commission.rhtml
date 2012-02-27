@@ -1,0 +1,66 @@
+
+<script language="javascript">
+     function verify()
+        {
+            if(document.getElementById('reason').value == "")
+                {
+
+                    document.getElementById('reason').value="No reason Provided";
+                    return false;
+                }
+
+            return true;
+
+
+        }
+</script>
+
+<form name="frm"  method="post" onSubmit="return verify()">
+
+  <table  border="0" align="left">
+
+    <tbody>
+
+
+    <tr>
+                                              <td align="left" valign="top" class="header-paragraph">Refund Commission Amount</td>
+                                            </tr>
+                                            <tr>
+                                              <td align="left" valign="top">&nbsp;</td>
+                                            </tr>
+
+<tr align="center">
+  <td class="main"><font color="white" size="2">Please let us know the reason for the refund in this commission amount.</font><b>
+         <center>
+       </center>
+
+
+       </b></td>
+      </tr>
+
+      <tr align="center" >
+        <td><table  border="0" cellpadding="2" cellspacing="1" width="100%" class="content-trans-bg">
+          <tbody><tr >
+            <td><table border="0" cellpadding="2" cellspacing="2" width="100%">
+              <tbody><tr>
+                  <td  align="right" valign="top"  class="manage-theme-bg">Reason for Deduction*</td>
+                <td  align="left" class="main">
+
+					<textarea name="reason" cols="50" rows="3" id="reason" type="text"></textarea>				</td>
+
+              </tr>
+                <tr>
+                  <td align="right" valign="top" class="main">&nbsp;</td>
+                  <td align="left" class="main"><input type="submit" name="sub1"  value="Submit"/></td>
+                </tr>
+              </tbody>
+            </table></td>
+          </tr>
+        </tbody></table></td>
+      </tr>
+      <tr>
+      	<td>&nbsp;</td>
+      </tr>
+
+    </tbody>
+  </table></form>

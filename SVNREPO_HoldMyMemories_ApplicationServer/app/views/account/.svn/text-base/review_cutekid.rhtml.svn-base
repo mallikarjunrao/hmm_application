@@ -1,0 +1,44 @@
+<h1>That's My Baby 2009 Photo Contest review list</h1>
+<font color="#f5dfa6"><%=flash[:contest_rej]%></font>
+<font color="#f5dfa6"><%=flash[:contest_approve]%></font>
+<table>
+  <tr>
+  <% session['redirect'] = '111' %>
+  	<th background="/images/body_hor.JPG">Name</th>
+    <th background="/images/body_hor.JPG">User Name</th>
+	<th background="/images/body_hor.JPG">Email</th>
+	<th background="/images/body_hor.JPG">Moment Type</th>
+	<th background="/images/body_hor.JPG">Contest Title</th>
+	<th background="/images/body_hor.JPG">Kids Name</th>
+	<th background="/images/body_hor.JPG">Entrants Date</th>
+	<th background="/images/body_hor.JPG">Status</th>
+	<th background="/images/body_hor.JPG" colspan="3" align="center">Action</th>
+
+   </tr>
+  
+<%	odd_or_even = 0 
+	i = 0 
+	for contest in @contests 
+	i = i + 1
+	odd_or_even = 1 - odd_or_even %>
+	
+  <tr class='ListLine<%= odd_or_even %>'>
+  	<%@hmmuser_name = HmmUser.find(:all, :conditions => "id='#{contest.uid}'")%>
+	<% for username in @hmmuser_name %><td ><a class='ListLine<%= odd_or_even %>'  href="/user_account/authenticate/?id=1&hmm_user[v_user_name]=<%=username.v_user_name%>&hmm_user[v_password]=<%=username['v_password']%>" target="_blank" ><%=username.v_fname%>&nbsp;<%=username.v_lname%> <%end%></a></td>
+  	<td><% for username in @hmmuser_name %><%=username.v_user_name%><%end%></td>
+	<td><% for email in @hmmuser_name %><%=email.v_e_mail%><%end%></td>
+	<td><%=contest.moment_type%></td>
+	<td>That's My Baby 2009 Photo Contest</td>
+	<td><%=contest.first_name%></td>
+	<td><%=contest.contest_entry_date.strftime("%a %b #{contest.contest_entry_date.day.ordinalize} %Y")%></td>
+	<td><%=contest.status%></td>
+  
+    <td><a href="/account/cutekid_moment_view/<%=contest.moment_id%>" class='ListLine<%= odd_or_even %>'>Show</a></td>
+    	</td>
+    <td><a href="/account/contest_approve/<%= contest.id %>"  class='ListLine<%= odd_or_even %>'>Approve</a></td>
+	<td><a href="/account/reject_email/<%= contest.id %>"  class='ListLine<%= odd_or_even %>'>Reject </a></td>
+    
+  </tr>
+<% end %>
+</table>
+<%=will_paginate @contests%>

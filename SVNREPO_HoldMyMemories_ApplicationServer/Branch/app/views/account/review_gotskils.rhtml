@@ -1,0 +1,44 @@
+<h1>Got Skills Contest review list</h1>
+<font color="#f5dfa6"><%=flash[:contest_rej]%></font>
+<font color="#f5dfa6"><%=flash[:contest_approve]%></font>
+<table>
+  <tr>
+  <% session['redirect'] =  '101' %>
+  	<th background="/images/body_hor.JPG">Name</th>
+    <th background="/images/body_hor.JPG">User Name</th>
+	<th background="/images/body_hor.JPG">Moment Type</th>
+	<th background="/images/body_hor.JPG">Contest Title</th>
+	<th background="/images/body_hor.JPG">Kids Name</th>
+	<th background="/images/body_hor.JPG">Entrants Date</th>
+	<th background="/images/body_hor.JPG">Status</th>
+	<th background="/images/body_hor.JPG" colspan="3" align="center">Action</th>
+
+   </tr>
+  
+<%	odd_or_even = 0 
+	i = 0 
+	for contest in @contests 
+	i = i + 1
+	odd_or_even = 1 - odd_or_even %>
+	
+  <tr class='ListLine<%= odd_or_even %>'>
+  	<%@hmmuser_name = HmmUser.find(:all, :conditions => "id='#{contest.uid}'")%>
+	<td><% for name in @hmmuser_name %><%=name.v_fname%>&nbsp;<%=name.v_lname%> <%end%></td>
+  	<td><% for username in @hmmuser_name %><%=username.v_user_name%><%end%></td>
+	<td><%=contest.moment_type%></td>
+	<td>Got skills Contest</td>
+	<td><%=contest.first_name%></td>
+	<td><%=contest.contest_entry_date.strftime("%a %b #{contest.contest_entry_date.day.ordinalize} %Y")%></td>
+	<td><%=contest.status%></td>
+  
+    <td><a href="/account/gotskils_moment_view/<%=contest.moment_id%>" class='ListLine<%= odd_or_even %>'>Show</a></td>
+    	</td>
+    <td><a href="/account/contest_approve/<%= contest.id %>"  class='ListLine<%= odd_or_even %>'>Approve</a></td>
+	<td><a href="/account/contest_reject/<%= contest.id %>"  class='ListLine<%= odd_or_even %>'>Reject </a></td>
+    
+  </tr>
+<% end %>
+</table>
+
+<%= link_to 'Previous page', { :page => @contest_pages.current.previous } if @contest_pages.current.previous %>
+<%= link_to 'Next page', { :page => @contest_pages.current.next } if @contest_pages.current.next %> 

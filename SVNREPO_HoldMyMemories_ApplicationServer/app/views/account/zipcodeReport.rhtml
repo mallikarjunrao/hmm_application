@@ -1,0 +1,103 @@
+<script type="text/javascript">
+	function chg(val)
+	{
+		
+		if (document.getElementById('pcode').style.display == 'none' && document.getElementById('cty').style.display == 'block' && val=='USA') {
+			document.getElementById('pcode').style.display = 'block';
+			document.getElementById('cty').style.display = 'none';
+		}else{
+			document.getElementById('pcode').style.display = 'none';
+			document.getElementById('cty').style.display = 'block';
+		}
+		
+	}
+</script>
+<style></style>
+
+
+
+<form name="frm" action="" method="post">
+<table cellpadding="4" cellspacing="4" border="1" bordercolor="#e5b467" align="center">
+	<tr>
+		<td align="center" colspan="4" height="48">
+			<font size="4">Search Zipcodes </font>		</td>
+	</tr>
+	
+	<tr>
+		<td>
+			Zipcode
+		</td>
+		<td>
+			<input type="text" name="zipcode" id="zipcode" value="<%=params[:zipcode]%>" size="20" class="textbox-signup" />
+		</td>
+	
+		
+			<td>
+			Miles
+		</td>
+		<td>
+			<input type="text" name="miles" id="miles" value="<%=params[:miles]%>" size="20" class="textbox-signup" />
+		</td>
+		
+	</tr>
+	
+	<tr>
+		<td colspan="2" align="center">
+		<input type="image" name="sub" id="search" src="/images/search_over.jpg"  border="0" />
+		</td>
+	</tr>
+
+</table>
+
+<table border="0">
+  <tr><td>&nbsp;</td></tr>
+  <tr><td><a href="/account/export_zipcode">Export to Excel</a></td></tr>
+
+	<tr><td colspan="15"><h2>Zipcode Entries</h2> </td></tr>
+  <tr>
+
+ </td></tr>
+
+  <tr valign='center' align='center'>
+  	
+  	 
+   <th background="/images/body_hor.JPG"><font class='txt'><table><tr><%= sort_header_tag('zip_code', :text => "Zip Code") %></tr></table></font></th>
+	<th background="/images/body_hor.JPG"><font class='txt'><table> <tr><%= sort_header_tag('miles', :text => "Miles") %></tr></table></font></th>
+	<th background="/images/body_hor.JPG"><font class='txt'>IP Address</font></th>
+	<th background="/images/body_hor.JPG"><font class='txt'><table> <tr><%= sort_header_tag('created_at', :text => "Added Date") %></tr></table></font></th>
+</th>
+	
+
+  </tr>
+
+<% 	odd_or_even = 0 
+	i = 0
+	for colmn in @zips
+	 i = i + 1
+	odd_or_even = 1 - odd_or_even
+ %>
+
+  <tr class='ListLine<%= odd_or_even %>'>
+	<td align="center"><%=h colmn.zip_code%></td>
+	<td align="center"><%=h colmn.miles%></td>
+  	<td align="center"><%=h colmn.ip_address%></td>
+    <td align="center"><%=h colmn.created_at%>
+		</td>
+  </tr>
+ 
+<% end %>
+<tr><td>
+	<%=will_paginate @zips%>
+	</td>
+</tr>
+
+</table>
+
+
+
+</td></tr></table>
+</form>
+
+
+
+<br />

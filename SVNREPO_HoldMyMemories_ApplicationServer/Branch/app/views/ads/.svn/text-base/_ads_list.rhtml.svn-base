@@ -1,0 +1,51 @@
+
+<% if @total == 0 %>
+
+<p>No items found...</p>
+
+<% else %>
+
+<p>Number of items found : <b><%= @total %></b></p>
+
+
+
+
+<table>
+  <thead>
+  	<tr><td colspan="8">
+			<%= link_to_remote("Add Advertisement",
+:update => 'content', :url => {:controller =>:ads , :action => :new } ) %>
+ 	</td>
+ 	</tr>
+    <tr>
+      <th <%= sort_td_class_helper "v_adtitle" %>>
+        <%= sort_link_helper "Ad title", "v_adtitle" %>
+      </th>
+      <th <%= sort_td_class_helper "v_filename" %>>
+        <%= sort_link_helper "Ad File Name", "v_filename" %>
+      </th>
+	  <th colspan="3"  align="center">Action</th>
+	  </tr>
+  </thead>
+  <tbody>
+    <% 
+
+@advertisement_details.each do |i| %>
+    <tr class="ListLine1">
+      <td><%= i.v_adtitle %></td>
+      <td><%= i.v_filename %></td>
+	    <td><%= link_to 'Show', :action => 'show', :id => i.id %></td>
+    <td><%= link_to 'Edit', :action => 'edit', :id => i.id %></td>
+    <td><%= link_to 'Destroy', { :action => 'destroy', :id => i.id }, :confirm => 'Are you sure?', :method => :post %></td>
+     </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<% end %>
+<p>
+<% if @advertisement_detail_pages.page_count > 1 %>
+Page&nbsp;:
+<%= pagination_links_remote @advertisement_detail_pages %>
+<% end %>
+</p>

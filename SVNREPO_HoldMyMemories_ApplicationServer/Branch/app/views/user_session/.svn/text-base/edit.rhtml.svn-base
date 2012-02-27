@@ -1,0 +1,9 @@
+<h1>Editing user_sessions</h1>
+
+<% form_tag :action => 'update', :id => @user_sessions do %>
+  <%= render :partial => 'form' %>
+  <%= submit_tag 'Edit' %>
+<% end %>
+
+<%= link_to 'Show', :action => 'show', :id => @user_sessions %> |
+<%= link_to 'Back', :action => 'list' %>

@@ -1,0 +1,34 @@
+<% if(session[:cemploye]) %>
+<p><a href="/account/commissionReport_studio_manager" >Back to  Studio manager commission Report: </a></p><br>
+     <%else%>
+<p><a href="/account/commissionReport_new" >Back to  commission Report: </a></p><br>
+<%end%>
+<p><u><%=@studio_manager.employe_name %></u>'s Commission deductions report:</p>
+<br> <a href="/account/deduct_manager_commission/<%=@studio_manager.id%>"> <u>Add new deduction for manager : <%=@studio_manager.employe_name %></u></a></p>
+<table border="1" cellpadding="6" cellspacing="6" align="center"  width="100%">
+  <tr><td align="center">Deduction id</td><td align="center">Deduction amount</td> <td align="center">Reason</td> <td align="center">Deduction Date</td>
+     <% if(session[:cemploye]) %>
+     <%else%>
+    <td align="center">Action </td></tr>
+  <%end%>
+  <%i=0%>
+<% for deduct_manager_commission in @deduct_manager_commission %>
+  
+ 
+   <tr><td align="center"><%=deduct_manager_commission.id%></td><td align="center"><%=deduct_manager_commission.amount%></td><td align="center"><%=deduct_manager_commission.reason%></td> <td align="center"><%=deduct_manager_commission.deduction_date%></td>
+     <% if(session[:cemploye]) %>
+     <%else%>
+     <td align="center"><a href ="/account/delete_deduction?id=<%=deduct_manager_commission.id%>&store_manager_id=<%=deduct_manager_commission.studio_manager_id%>">Delete</a></td></tr>
+     <%end%>
+  <% end %>
+
+</table>
+<p>
+  <br>
+<%=will_paginate @deduct_manager_commission%></p>
+
+<br />
+
+
+
+ 

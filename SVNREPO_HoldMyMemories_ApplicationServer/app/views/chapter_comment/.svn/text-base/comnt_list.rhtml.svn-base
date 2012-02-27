@@ -1,0 +1,111 @@
+<style type="text/css">
+<!--
+.style1 {
+	font-family: Arial, Helvetica, sans-serif;
+	font-weight: bold;
+	font-size: 12px;
+	color:#e36500;
+}
+.style3 {font-family: Arial, Helvetica, sans-serif; font-weight: bold; font-size: 18px; }
+-->
+</style>
+
+
+<%if @total==0%>
+<font color='#fdf1ca' >There are no Comments!!</font>
+<br><font color="#f5dfa6"> <%=flash[:notice_cca]%></font>
+		<br><font color="#f5dfa6"> <%=flash[:notice_ccd]%></font> 
+		<font color="#f5dfa6"> <%=flash[:notice_ccr]%></font>
+<%else%>
+<br><font color="#f5dfa6"> <%=flash[:notice_cca]%></font>
+		<br><font color="#f5dfa6"> <%=flash[:notice_ccd]%></font> 
+		<font color="#f5dfa6"> <%=flash[:notice_ccr]%></font>
+<table width="88%" border="0" class="border" height="30" cellspacing="0" cellpadding="10">
+  
+	
+	<tr bordercolor="#000000">
+     
+      <th align="left" valign="middle" bgcolor="#191919" scope="col" colspan="3"><span class="btmtxt"><% if(params[:id]=='0') %> <%else%><%end %>Comments for <% if(params[:id]=='0') %><%=session[:chap_name]%> Chapter <%else%> Journal <%end%></th>
+    </tr>
+	<input type="hidden" value="<%= params[:id] %>" name="tag_id" />
+	<input type="hidden" value="<%= params[:redirect] %>" name="redirect" />
+	
+		<%
+		for j in @tag_c %>
+		
+		
+	<tr bordercolor="#000000">
+      
+      <th width="16%" align="left" valign="top" class="text-journal" scope="col"><span class="style1">Commented By&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>  </th>
+      <th width="84%" colspan="2" align="left" valign="top" scope="col"><%= j.v_fname %></th>
+    </tr>
+	
+	<tr bordercolor="#000000">
+      
+      <th align="left" valign="top" class="text-journal" scope="col"><span class="style1">Comment&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>  </th>
+      <th align="left" valign="top" scope="col"><%= j.v_comment.gsub("\n", "<br />\n") %></th>
+    </tr>
+	<% if  j.reply ==nil || j.reply =='' %>
+	<%else%>
+	<tr bordercolor="#000000">
+      
+      <th align="left" valign="top" class="text-journal" scope="col"><span class="style1">Reply&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>  </th>
+      <th align="left" valign="top" scope="col"><%= j.reply %></th>
+    </tr>
+	<%end%>
+	<tr>
+      <th colspan="2" align="left" valign="middle" bgcolor="#191919" class="text-journal" scope="col">
+       		
+			<% if session[:friend]!='' %> &nbsp;
+			<%	else
+				%>
+			
+			<% if j.e_approval=="pending" %>
+			 <%= link_to_remote("Approve",
+				:update => @update, :url => { :controller => :chapter_comment,  :action =>:add_comment, :page => @page, :tag_id => @tagid, :cid => j.cid, :id => @id}  ) %>
+	
+			&nbsp;&nbsp;&nbsp; <%= link_to_remote("Reject",
+				:update => @update, :url => { :controller => :chapter_comment,  :action =>:reject_comment, :page => @page, :tag_id => @tagid, :cid => j.cid, :id => @id}  ) %>
+	
+			<%else%>
+			<a href="#" onclick="if(confirm('Are you sure you want to delete this comment?')){new Ajax.Updater('me2', '/chapter_comment/comt_destroy/<%=@id%>?tag_id=<%=@tagid%>&amp;page=<%=@page%>&amp;cid=<%=j.cid%>', {asynchronous:true, evalScripts:true}); return false;}else return false">Delete</a>
+			
+			&nbsp;&nbsp;&nbsp;
+			 <%= link_to_remote("Reply",
+			:update => j.cid, :url => { :controller => :chapter_comment,  :action =>:reply_comnt, :page => @page, :tag_id => @tagid, :cid => j.cid, :id => @id, :table => 'chapter_comments'}  ) %>
+	
+			
+			<% end %>	 <% end %> <br><br>
+			<div id=<%=j.cid%>></div>
+			  </th>
+    </tr>
+
+  <%end%>   
+</table>
+<table class="border"  width="88%" align="center"><tr><td align="right" >
+		  	
+			<%if @page==0 %>
+			
+			<% if @nonext==1%>
+			<%else%>
+			<%= link_to_remote("Next >> ",
+				:update => @update, :url => {  :action =>:comnt_list, :page => @nextpage, :tag_id => @tagid, :id => @id} ) %>
+			<%end%>
+			<%else%>
+			
+			<%= link_to_remote("  << Previous ",
+				:update => @update, :url => {  :action =>:comnt_list, :page => @previouspage, :tag_id => @tagid, :id => @id } ) %>
+			&nbsp;&nbsp;&nbsp; 
+			<% if @nonext==1%>
+			<%else%>
+			<%= link_to_remote("Next >> ",
+				:update => @update, :url => {  :action =>:comnt_list, :page => @nextpage, :tag_id => @tagid, :id => @id } ) %>
+			<%end%>
+			
+			<%end%>&nbsp;&nbsp;&nbsp; (Pages <%= @page+1 %> of <%=@numberofpages+1%>) 
+			
+			</td></tr></table>
+			<%end%>
+          
+<p></p>
+<p></p>

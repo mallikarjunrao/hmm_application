@@ -1,0 +1,291 @@
+
+      <%session[:edit_journal]=4%> 
+<table width="100%" border="1" bordercolor="#191919" align="center"cellspacing="0" cellpadding="0">
+           
+	<font color="#f5dfa6"><%=  flash[:notice_cc_jlist]%></font>
+            <font color="#f5dfa6"><%=  flash[:notice_scc_jadd]%></font>
+		  <font color="#f5dfa6"><%=  flash[:notice_gcc_jadd]%></font>
+		    <font color="#f5dfa6"><%=  flash[:notice_pc_jadd]%></font>
+			
+		<%   @tagid = ChapterJournal.find_by_sql("(select a.id as id, a.tag_id as master_id, a.v_tag_title as title, a.v_tag_journal as descr, a.jtype as jtype, a.d_created_at as d_created_at, a.d_updated_at as d_updated_at from chapter_journals as a) 
+union 
+(select b.id as id, b.sub_chap_id as master_id, b.journal_title as title, b.subchap_journal as descr, b.jtype as jtype, b.created_on as d_created_at, b.updated_on as d_updated_at from sub_chap_journals  as b) 
+union 
+(select c.id as id, c.galerry_id as master_id, c.v_title as title, c.v_journal as descr, c.jtype as jtype, c.d_created_on as d_created_at, c.d_updated_on as d_updated_on from gallery_journals   as c) 
+union 
+(select d.id as id, d.user_content_id as master_id, d.v_title as title, d.v_image_comment as descr, d.jtype as jtype, d.date_added as d_created_at, d.date_added  as d_updated_on from journals_photos   as d)
+order by d_updated_at desc")
+
+if(session[:friend]!='')
+	uid1=session[:friend]
+else
+	uid1=logged_in_hmm_user.id
+end
+for @i in @tagid 
+
+
+%>	
+
+<% if (@i.jtype=='chapter') %>
+				<% params[:id]=@i.master_id
+					tag=Tag.find(params[:id])
+					type1="Chapter"
+					status=tag.status
+					name=tag.v_tagname	
+					uid=tag.uid
+
+%>
+							<%else%>
+<% if (@i.jtype=='subchap') %>
+				<% params[:id]=@i.master_id
+					subchap=SubChapter.find(params[:id])
+					type1="Sub Chapter"
+					name=subchap.sub_chapname	
+					status=subchap.status
+					uid=subchap.uid	
+%>
+				<%else%>
+<% if (@i.jtype=='gallery') %>
+				<% params[:id]=@i.master_id
+					gal=Galleries.find(params[:id])
+					type1="Gallery"
+					name=gal.v_gallery_name
+					status=gal.status
+					params[:id]=gal.subchapter_id
+					subchap1=SubChapter.find(params[:id])
+					uid=subchap1.uid
+			%>
+				<%else%>
+				<% if (@i.jtype=='photo') %>
+				<% params[:id]=@i.master_id
+					photo=UserContent.find(params[:id])
+					type1="Moment"
+					status=photo.status
+					name=photo.v_tagphoto
+					uid=photo.uid		
+
+%>
+					<%end%><%end%>
+				<%end%><%end%>
+	<% if status=='active' && uid==uid1 %>			
+	    <tr bordercolor="#00000">
+              <th height="32" colspan="3" align="left" valign="middle" bgcolor="#191919" scope="col">
+           	  <span class="btmtxt">&nbsp;&nbsp;Journal for <%=name%> <%=type1%>			  </span></th>
+  </tr>
+<tr bordercolor="#00000">
+              <th width="271" height="10" align="left" valign="top" bgcolor="#000000" scope="col">&nbsp;</th>
+          <th width="667" align="left" valign="middle" bgcolor="#000000" scope="col"></th>
+            </tr>
+            <tr bordercolor="#00000">
+              <th height="32" align="left" valign="top" scope="col">&nbsp;</th>
+              <th align="left" valign="middle" scope="col" bordercolor="#191919" ><span class="heading-journal">
+              	
+				<%= @i.title %>&nbsp;&nbsp;
+				<% ActiveSupport::CoreExtensions::Time::Conversions::DATE_FORMATS.merge!(
+    				:date => "%Y-%m-%d",
+    				:presentable_datetime => "%a %b %d, %Y %H:%M",
+    				:presentable_date => "%a %b %d, %Y") 
+					@created_date=@i.d_created_at%>  
+
+				<%=@created_date.to_s(:presentable_date)%></span></th>
+				
+              <th width="36" align="left" valign="top" scope="col">&nbsp;</th>
+  </tr>
+            <tr bordercolor="#00000">
+              <th height="65" align="left" valign="top" scope="col" >
+              &nbsp;&nbsp;&nbsp;&nbsp;	<% if (@i.jtype=='chapter') %>
+				<% params[:id]=@i.master_id
+					tag=Tag.find(params[:id])%>
+				<a href="/tags/subchap_coverflow/<%=tag.id%>"><img src="/user_content/photos/flex_icon/<%=tag.v_chapimage%>" style="border:#b64f0c" border="4"/>	</a>
+<%else%>
+<% if (@i.jtype=='subchap') %>
+				<% params[:id]=@i.master_id
+					subchap=SubChapter.find(params[:id])%>
+				<a href="/galleries/gallery_coverflow/<%=subchap.id%>"><img src="/user_content/photos/flex_icon/<%=subchap.v_image%>" style="border:#b64f0c" border="4"/></a>
+				<%else%>
+<% if (@i.jtype=='gallery') %>
+				<% params[:id]=@i.master_id
+					gal=Galleries.find(params[:id])%>
+				<a href="/galleries/gallery_fisheye/<%=gal.id%>">
+					<% if (gal.v_gallery_image=="picture.png" || gal.v_gallery_image=="video.png") %>
+						<img src="/user_content/photos/flex_icon/noimage.jpg" style="border:#b64f0c" border="4"/></a>
+					<%else%>
+					
+						<img src="/user_content/photos/flex_icon/<%=gal.v_gallery_image%>" style="border:#b64f0c" border="4"/>
+					<%end%>
+					</a>
+				<%else%>
+				
+				<% if (@i.jtype=='photo') %>
+				<a href="/myphotos/photo_journal/<%=@i.master_id%>">
+				<% if (photo.e_filetype == 'image') %>
+					<img src="/user_content/photos/big_thumb/<%=photo.v_filename%>" style="border:#b64f0c" border="4"/>
+				<%else%>
+				<% if (photo.e_filetype == 'VIDEO') %>
+					<img src="/user_content/video/thumbnails/<%=photo.v_filename%>" style="border:#b64f0c" border="4"/>
+				<%else%>
+				<% if (photo.e_filetype == 'AUDIO') %>
+					<img src="/user_content/audios/<%=photo.v_filename%>" style="border:#b64f0c" border="4"/>
+					
+				<%end%><%end%><%end%>
+				
+				</a>
+					<%else%>	
+				<img src="/user_content/photos/flex_icon/noimage.jpg" style="border:#b64f0c" border="4"/>
+				
+				<%end%><%end%><%end%><%end%>
+			  </th>
+              <th align="left" valign="top" class="text-journal" scope="col" bordercolor="#191919">
+              
+				<%= @i.descr %>
+				
+				</th>
+			</tr>
+			<tr>
+				<th height="30" valign="bottom" colspan="2" bordercolor="#000000">
+				<% if session[:friend]!='' 
+				else
+%>
+				<% if (@i.jtype=='chapter') %>
+					<% params[:id]=@i.master_id
+						tag=Tag.find(params[:id])%>
+					<%tagJ_id = ChapterJournal.find_by_sql("Select * from chapter_journals where tag_id='#{tag.id}'") %>
+          				<%for i in  tagJ_id %>
+							<a href="/chapter_journal/edit1/<%=i.id%>">
+							<img src="/images/editajounal_btn.jpg" border="0"></a>
+					 	<%end%>
+				
+				<%else%>
+				<% if (@i.jtype=='subchap') %>
+					<% params[:id]=@i.master_id
+						subchap=SubChapter.find(params[:id])%>
+						<%subchapJ_id = SubChapJournal.find_by_sql("Select * from sub_chap_journals where sub_chap_id='#{subchap.id}'") %>
+          				<%for j in  subchapJ_id %>
+					 		<a href="/sub_chap_journal/edit1/<%=j.id%>">
+					 		<img src="/images/editajounal_btn.jpg" border="0"></a>
+					 	<%end%>
+				
+				<%else%>
+				<% if (@i.jtype=='gallery') %>
+					<% params[:id]=@i.master_id
+						gal=Galleries.find(params[:id])%>
+					<%galJ_id = GalleryJournal.find_by_sql("Select * from gallery_journals where galerry_id='#{gal.id}'") %>
+          			<%for k in galJ_id %> 	
+						<a href="/gallery_journal/edit1/<%=k.id%>">
+						<img src="/images/editajounal_btn.jpg" border="0"></a>
+					<%end%> 
+				
+				<%else%>	 
+				<%if (@i.jtype=='photo') %>
+					<a href="/journals_photos/edit1/<%=@i.master_id%>">
+					<img src="/images/editajounal_btn.jpg" border="0"></a>
+				<%end%><%end%><%end%><%end%>
+				
+				<%end%>
+				</th>
+			</tr>			
+	
+<tr bordercolor="#00000">
+	<th></th>
+	<th>&nbsp;</th>
+</tr>
+			
+<tr bordercolor="#00000">
+	<th>&nbsp;</th>
+</tr>			
+		
+			
+			<tr bordercolor="#00000">
+             
+               <th align="right" valign="middle" bgcolor="#191919" class="text-journal" scope="col" colspan="3">
+      <% if (@i.jtype=='chapter') %>
+		 <% comnt_chap=ChapterComment.find_by_sql("select count(*) as cnt from chapter_comments  where e_approval='approve'")           
+  				for cmt_chap in comnt_chap
+   				count_chap=cmt_chap['cnt']
+  				end%> 
+		         	
+	<%= link_to_remote("Add Comment", :update =>@i.title, 
+		:url => {:controller => :chapter_comment, :action => :new_jcmt, :id=> tag.id , :id_journal => @i.id } ,:layout => false  ) %>
+
+		&nbsp;&nbsp;&nbsp;
+
+	<%= link_to_remote("View Comment"+" ("+count_chap+")", :update =>@i.title, 
+		:url => {:controller => :chapter_comment, :action => :jcomment_list, :tag_id => tag.id, :id => @i.id } ,:layout => false  ) %>
+	
+	<% else if (@i.jtype=='subchap')%>
+	<% comnt_sub=SubchapComment.find_by_sql("select count(*) as cnt from subchap_comments  where e_approval='approve'")           
+  				for cmt_sub in comnt_sub
+   				count_sub=cmt_sub['cnt']
+  				end%> 
+	 <%= link_to_remote("Add Comment", :update =>@i.title, 
+            :url => {:controller => :subchap_comment, :action => :new_jcmt, :id=> subchap.id , :id_journal => @i.id } ,:layout => false  ) %>
+    
+            &nbsp;&nbsp;&nbsp;
+    
+        <%= link_to_remote("View Comment"+" ("+count_sub+")", :update =>@i.title, 
+            :url => {:controller => :subchap_comment, :action => :jcomment_list, :id => @i.id } ,:layout => false  ) %>
+    
+	<%else if (@i.jtype=='gallery') %>
+		<% comnt_gal=GalleryComment.find_by_sql("select count(*) as cnt from gallery_comments  where e_approval='approve'")           
+  				for cmt_gal in comnt_gal
+   				count_gal=cmt_gal['cnt']
+  				end%> 
+		<%= link_to_remote("Add Comment", :update =>@i.title, 
+		:url => {:controller => :gallery_comment, :action => :new_jcmt, :id=> gal.id , :id_journal => @i.id }, :layout => false  ) %>
+
+		&nbsp;&nbsp;&nbsp;
+
+	<%= link_to_remote("View Comment"+" ("+count_gal+")", :update =>@i.title, 
+		:url => {:controller => :gallery_comment, :action => :jcomment_list, :id=> gal.id , :id => @i.id }, :layout => false  ) %>
+	
+	<%else if(@i.jtype=='photo')%>
+		<% comnt_photo=PhotoComment.find_by_sql("select count(*) as cnt from photo_comments  where e_approved='approve'")           
+  				for cmt_photo in comnt_photo
+   				count_photo=cmt_photo['cnt']
+  				end%> 
+	<%= link_to_remote("Add Comment", :update =>@i.title, 
+:url => {:controller => :photo_comments , :action => :new_jcmt, :id=> photo.id , :id_journal => @i.id }  ) %>
+
+&nbsp;&nbsp;&nbsp;
+
+<%= link_to_remote("View Comment"+" ("+count_photo+")",:update =>@i.title, 
+:url => {:controller => :photo_comments, :action => :jcomment_list, :id=> photo.id , :id_journal => @i.id }  ) %>
+
+	<%end%><%end%><%end%><%end%>
+&nbsp;&nbsp;
+                        </tr>
+
+			
+			<tr bordercolor="#00000">
+	           <th align="center" colspan="2" valign="top" class="text-journal" scope="col"><div id="<%= @i.title %>"></div></th>
+            </tr bordercolor="#00000">
+			<tr><td colspan="3" height="40"></td></tr>
+			
+ <%end%>
+	<%end%>		
+	<tr bordercolor="#00000">
+				<td colspan="2">
+						<font color="#f5dfa6"><%=  flash[:notice_cca_jlist]%></font>
+						<font color="#f5dfa6"><%=  flash[:notice_ccr_jlist]%></font>
+						<font color="#f5dfa6"><%=  flash[:notice_ccd_jlist]%></font>
+						
+						<font color="#f5dfa6"><%=  flash[:notice_sca_jlist]%></font>	
+						<font color="#f5dfa6"><%=  flash[:notice_scr_jlist]%></font>
+						<font color="#f5dfa6"><%=  flash[:notice_scd_jlist]%></font>
+						
+						<font color="#f5dfa6"><%=  flash[:notice_gca_jlist]%></font>	
+						<font color="#f5dfa6"><%=  flash[:notice_gcr_jlist]%></font>
+						<font color="#f5dfa6"><%=  flash[:notice_gcd_jlist]%></font>
+						
+						<font color="#f5dfa6"><%=  flash[:notice_pca_jlist]%></font>	
+						<font color="#f5dfa6"><%=  flash[:notice_pcr_jlist]%></font>
+						<font color="#f5dfa6"><%=  flash[:notice_pcd_jlist]%></font>		
+						</td>
+						
+						
+			</tr>
+			
+			
+          </table>
+          
+         

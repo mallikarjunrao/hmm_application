@@ -1,0 +1,16 @@
+<h1>New comments</h1>
+
+<%= error_messages_for :comments %>
+
+<% form_for(:comments, :url => comments_path) do |f| %>
+  <p>
+    <b>V name</b><br />
+    <%= f.text_field :v_name %>
+  </p>
+
+  <p>
+    <%= submit_tag "Create" %>
+  </p>
+<% end %>
+
+<%= link_to 'Back', comments_path %>

@@ -1,0 +1,2 @@
+module TipIdeasHelper
+end

@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:VBox width="100%" height="100%" xmlns:mx="http://www.adobe.com/2006/mxml" 
+	verticalAlign="middle" horizontalAlign="center" verticalGap="1" horizontalGap="1">
+	<mx:Image id="image" source="{source}" width="100%" height="100%">
+	<mx:Script>
+		<![CDATA[
+			[Bindable]
+			private var source : String;
+			
+			override public function set data(value:Object):void
+			{
+				super.data = value;
+				source = value.icon;
+			}
+		]]>
+	</mx:Script>
+	</mx:Image>
+	
+</mx:VBox>

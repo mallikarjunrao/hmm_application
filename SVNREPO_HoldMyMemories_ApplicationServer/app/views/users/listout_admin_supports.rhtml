@@ -1,0 +1,19 @@
+
+
+<table width="90%">
+  <tr><td><h3>All Support Admins</h3></td><td>&nbsp;</td><td><h3><u><a href="/users/create_admin_support">Create Admin Support</a></u></h3></td></tr>
+  <tr valign='center' align='center'>  	
+    <th background="/images/body_hor.JPG"><font class='txt'>Username</font></th>
+    <th background="/images/body_hor.JPG"><font class='txt'>Email Address</font></th>
+    <th background="/images/body_hor.JPG" colspan="2"><font class='txt'>Actions</font></th>
+  </tr>
+  <% @users.each do |user| %>
+  <tr class="<%= cycle('odd', 'even') -%>">
+    <td><%= user.username -%></td>
+    <td><%= user.email -%></td>
+    <td width="40"><a href="/users/edit_admin_support/<%=user.id%>">Edit</a></td>
+    <td width="50"><a href="/users/delete_admin_support/<%=user.id%>">Delete</a></td>
+  </tr>
+  <% end %>
+</table>
+

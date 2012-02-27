@@ -1,0 +1,112 @@
+<h1>My Photos</h1>
+
+<script type="text/javascript">
+
+/***********************************************
+* DHTML slideshow script-  © Dynamic Drive DHTML code library (www.dynamicdrive.com)
+* This notice must stay intact for legal use
+* Visit http://www.dynamicdrive.com/ for full source code
+***********************************************/
+
+var photos=new Array()
+var photoslink=new Array()
+var which=0
+document.write('<% i=0 %>')
+document.write('<%  for user_content in @user_contents %>')
+//define images. You can have as many as you want:
+photos['<%= i %>']="/user_content/photos/<%=user_content.v_filename%>"
+document.write('<% i = i + 1%>')
+document.write('<% end %>')
+
+//Specify whether images should be linked or not (1=linked)
+var linkornot=0
+
+//Set corresponding URLs for above images. Define ONLY if variable linkornot equals "1"
+//photoslink[0]=""
+//photoslink[1]=""
+//photoslink[2]=""
+
+//do NOT edit pass this line
+
+var preloadedimages=new Array()
+for (i=0;i<photos.length;i++){
+preloadedimages[i]=new Image()
+preloadedimages[i].src=photos[i]
+}
+
+
+function applyeffect(){
+if (document.all && photoslider.filters){
+photoslider.filters.revealTrans.Transition=Math.floor(Math.random()*23)
+photoslider.filters.revealTrans.stop()
+photoslider.filters.revealTrans.apply()
+}
+}
+
+
+
+function playeffect(){
+if (document.all && photoslider.filters)
+photoslider.filters.revealTrans.play()
+}
+
+function keeptrack(){
+window.status="Image "+(which+1)+" of "+photos.length
+}
+
+
+function backward(){
+if (which>0){
+which--
+applyeffect()
+document.images.photoslider.src=photos[which]
+playeffect()
+keeptrack()
+}
+}
+
+function forward(){
+if (which<photos.length-1){
+which++
+applyeffect()
+document.images.photoslider.src=photos[which]
+playeffect()
+keeptrack()
+}
+}
+
+function transport(){
+window.location=photoslink[which]
+}
+
+</script>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+<title>Untitled Document</title>
+</head>
+
+<body>
+<table border="0" cellspacing="0" cellpadding="0" align='center'>
+  <tr>
+    <td width="100%" colspan="2" height="22"><center>
+<script>
+if (linkornot==1)
+document.write('<center><a href="javascript:transport()">')
+document.write('<img src="'+photos[0]+'" width="400" height="400" name="photoslider" style="filter:revealTrans(duration=2,transition=23)" border=0>')
+if (linkornot==1)
+document.write('</a></center>')
+</script>
+</center></td>
+  </tr>
+  <tr>
+    <td width="50%" height="21"><p align="left"><a href="#" onClick="backward();return false"><< Previous</a></td>
+    <td width="50%" height="21"><p align="right"><a href="#" onClick="forward();return false">Next >></a></td>
+  </tr>
+</table>
+<br />
+<center>
+<%= link_to "Add Photo", { :action => "new"},
+{:class => 'lbOn'}
+%>
+</center> 
+</body>
+</html>

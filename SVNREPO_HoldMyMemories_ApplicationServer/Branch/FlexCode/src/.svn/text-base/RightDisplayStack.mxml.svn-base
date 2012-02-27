@@ -1,0 +1,239 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:Application 
+	xmlns:mx="http://www.adobe.com/2006/mxml" 
+	xmlns:flex="org.papervision3d.flex.*"
+	layout="absolute"
+	frameRate="60"
+	applicationComplete="initPV3D()" width="100%" height="100%" backgroundColor="0x0"
+	preloader="custompreloader.PreloaderHourGlass" initialize="handleInitialize()">
+	<mx:HTTPService id="dataService" url="/customers/chapters_list" result="handleDataResult(event)" fault="handleFault(event)"/>
+	<mx:Script>
+		<![CDATA[
+			import custompreloader.PreloaderHourGlass;
+			//import components.ExternalJsJournal;
+			import vo.SubChapterVO;
+			import vo.BaseVO;
+			import vo.ChapterVO;
+			import model.HmmChaptersModel;
+			import components.ExportControl;
+			import mx.managers.PopUpManager;
+			import mx.core.IFlexDisplayObject;
+			import flash.net.navigateToURL;
+			import events.CoverFlowEvent;
+			import mx.collections.ArrayCollection;
+			import mx.rpc.events.FaultEvent;
+			import mx.rpc.events.ResultEvent;
+			import hmm.StackCoverFlowLeft;
+			import hmm.StackCoverFlow;
+			import mx.controls.Image;
+			import org.papervision3d.examples.PlaneRendering;
+			import org.papervision3d.examples.FocusApp;
+			private var navigateToUrl : String;
+			private var focusApp:StackCoverFlow;
+			private var itemNameDictionary : Dictionary;
+			
+			private var chapterId : int;
+			//private var extInterface : ExternalJsJournal;
+			
+			private function handleInitialize() : void
+			{	
+				if(Application.application.parameters.hasOwnProperty("proxyurls"))
+				{
+					var proxyurls : String = Application.application.parameters.proxyurls;
+					var urls : Array = proxyurls.split(",");
+					for(var i : int = 0; i < urls.length; i++)
+					{
+						Security.loadPolicyFile(urls[i]+"/crossdomain.xml");
+					}
+				}
+			}
+			
+			private function initPV3D():void
+			{
+				var serverUrl:String = Application.application.parameters.serverUrl;
+				service.url = serverUrl;
+				var buttonsVisible : String = Application.application.parameters.buttonsVisible;
+				if(buttonsVisible == "false")
+					buttonBox.visible = false;
+				var explodedUrl : Array = serverUrl.split("/");
+				chapterId = int(explodedUrl[explodedUrl.length-1]);
+				navigateToUrl = Application.application.parameters.navigateToUrl;
+				itemNameDictionary = new Dictionary();
+				service.send();
+				
+				//focusApp.bitmapAssets = bitmaps;
+				 
+			}
+			
+			private function handleResult(event : ResultEvent) : void
+			{
+				trace(event.toString());
+				var bitmaps : Array = new Array();
+				if(event.result.contents && event.result.contents.content is ArrayCollection)
+				{
+					var result : ArrayCollection = event.result.contents.content as ArrayCollection;
+					for(var i : int =0; i<result.length; i++)
+					{
+						var obj : Object = new Object();
+						obj.icon = result[i].icon.toString();
+						obj.name = result[i].name.toString();
+						obj.id = result[i].id.toString();
+						bitmaps.push(obj);
+					}	
+				}else
+				{
+					if(event.result.contents)
+					{
+						obj = new Object();
+						obj.icon = event.result.contents.content.icon.toString();
+						obj.name = event.result.contents.content.name.toString();
+						obj.id = event.result.contents.content.id.toString();
+						bitmaps.push(obj);
+					}
+				}
+				
+				//Here our logic resides.
+				
+				focusApp = new StackCoverFlow(paperCanvas.canvas, bitmaps, 75, 0, 150, true);
+				focusApp.addEventListener(Event.CHANGE, handleSelectionChanged);
+				focusApp.addEventListener(CoverFlowEvent.NAVIGATE_TO, handleNavigateTo);
+				focusApp.dataField = "icon";
+				focusApp.labelField = "name"
+				focusApp.init();
+				
+				dataService.send();
+			}
+			
+			private function handleDataResult(event : ResultEvent) : void
+			{
+				buttonBox.enabled = true;
+				var myModel : HmmChaptersModel = new HmmChaptersModel();
+				myModel.data = event.result.root;
+				
+				//chapterId = event.result.chapterid;
+				//myModel.attachEventListeners(menu);
+				//service.send(event.result.root);
+				HmmChaptersModel.setInstance(myModel);
+				
+			}
+			
+			private function handleNavigateTo(event : CoverFlowEvent) : void
+			{
+				var urlstr : String = navigateToUrl+event.extra.id;
+				var urlreq : URLRequest = new URLRequest( urlstr);
+				navigateToURL(urlreq, "_self");
+			}
+			
+			private function handleSelectionChanged(event : CoverFlowEvent) : void
+			{
+				itemName.text = event.extra.toString();
+			}
+			
+			private function handleFault(event : FaultEvent) : void
+			{
+				
+				 trace(event.toString());
+			}
+			private function handleShare() : void
+			{
+				var popUp : IFlexDisplayObject = PopUpManager.createPopUp(Application.application as DisplayObject, ExportControl, true);
+				var ctrl : ExportControl = popUp as ExportControl;
+				//ctrl.title = "Share with a friend.";
+				ctrl.successMessage = "Share was successful. Your friends would receive an email in this regard.";
+				ctrl.serviceUrl = "/share/addShare/";
+				ctrl.isExport = false;
+				var ac : ArrayCollection = HmmChaptersModel.getInstance().folderList;
+				for(var i : int = 0; i < ac.length; i++)
+				{
+					var chapter : ChapterVO = ac[i] as ChapterVO;
+					if(chapter.id == chapterId)
+							break;
+					
+				}
+				ctrl.treeData = chapter as BaseVO;
+				/* popUp.width = Application.application.stage.width*2/3;
+				popUp.height = Application.application.stage.height; */
+				popUp.width = 650;//Application.application.stage.width*2/3;
+				popUp.height = 310;//Application.application.stage.height*2/3;
+				PopUpManager.centerPopUp(popUp);
+				
+			}
+			
+			private function handleExport() : void
+			{
+				var popUp : IFlexDisplayObject = PopUpManager.createPopUp(Application.application as DisplayObject, ExportControl, true);
+				var ctrl : ExportControl = popUp as ExportControl;
+				//ctrl.title = "Export to a friend.";
+				ctrl.successMessage = "Export was successful. Your friends would receive an email in this regard.";
+				ctrl.serviceUrl = "/export/exporter/";
+				ctrl.isExport = true;
+				var ac : ArrayCollection = HmmChaptersModel.getInstance().folderList;
+				for(var i : int = 0; i < ac.length; i++)
+				{
+					var chapter : ChapterVO = ac[i] as ChapterVO;
+					if(chapter.id == chapterId)
+							break;
+					
+				}
+				ctrl.treeData = chapter as BaseVO;
+				/* popUp.width = Application.application.stage.width*2/3;
+				popUp.height = Application.application.stage.height; */
+				popUp.width = 650;//Application.application.stage.width*2/3;
+				popUp.height = 310;//Application.application.stage.height*2/3;
+				PopUpManager.centerPopUp(popUp);
+			}
+			
+			private function handleJournal() : void
+			{
+				var req : URLRequest = new URLRequest("/chapter_journal/new/"+chapterId);
+				navigateToURL(req, "_self");
+			}
+			
+		]]>
+	</mx:Script>
+		<mx:Style>
+			.lastButtonStyle
+			{
+				fillColors: #000000, #000000, #000000, #cccccc;
+				corner-radius : 0;
+				selection-color : #ff6633;
+				color : #Ffffff;
+				theme-color : #ff6633;
+			}
+			
+			Alert {
+		    corner-radius: 8;
+		    header-height: 27;
+		    header-colors: #999999, #000000;
+		    background-color: #000000;
+		    color: #ffffff;
+		    border-thickness: 4;
+		    border-color: #000000;
+		    panel-border-style: roundCorners;
+		    shadow-distance: 4;
+		    shadow-direction: bottom;
+		    button-style-name: "firstButtonStyle";
+		  }
+		</mx:Style>
+	
+		<mx:HTTPService id="service" result="handleResult(event)" fault="handleFault(event)"/>
+		<!--Canvas3D canvas property should be used as the container for the scene-->
+		<mx:VBox width="100%" height="100%" backgroundColor="0">
+			<mx:HBox id="buttonBox"  enabled="true" horizontalAlign="left">
+				<mx:Button id="journal" click="handleJournal()" label="Journal this" styleName="lastButtonStyle" />
+			</mx:HBox>	
+			<flex:Canvas3D id="paperCanvas"
+				backgroundColor="#000000"
+				backgroundAlpha="1"
+				width="100%" 
+				height="100%"/>
+		</mx:VBox>		
+		<mx:Label color="#ffffff" id="itemName" filters="{[new GlowFilter()]}" fontFamily="Arial" 
+			fontSize="24" x="{(this.width-itemName.width)/2}" y="{(this.height-itemName.height- 10)}"/>
+		<!--mx:VBox id="buttonBox" x="{paperCanvas.width- buttonBox.width}" enabled="false" y="{paperCanvas.height - buttonBox.height}">
+			<mx:Button id="journal" click="handleJournal()" label="Journal" styleName="lastButtonStyle" visible="true" width="100%"/>
+				
+			<mx:Button id="export" click="handleExport()" label="Export" styleName="lastButtonStyle"  visible="true" width="100%"/>
+		</mx:VBox-->	
+		
+</mx:Application>

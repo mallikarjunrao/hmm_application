@@ -1,0 +1,29 @@
+<h1>List of HMM studios</h1>
+<font color="#f5dfa6"><%=flash[:notice_del]%></font>
+<table>
+  <tr>
+  
+    <th background="/images/body_hor.JPG">Studio Branch</th>
+	<th background="/images/body_hor.JPG">Studio address</th>
+ 
+  <th background="/images/body_hor.JPG" colspan="3" align="center">Actions</th>
+  </tr>
+  
+<% for hmm_studio in @hmm_studios %>
+  <tr class="<%= cycle('odd', 'even') -%>">
+  
+    <td><%=hmm_studio.studio_branch %></td>
+  	<td><%=hmm_studio.studio_address %></td>
+    <td><%= link_to 'Show', :action => 'show', :id => hmm_studio %></td>
+    <td><%= link_to 'Edit', :action => 'edit', :id => hmm_studio %></td>
+    <td><%= link_to 'Destroy', { :action => 'check', :id => hmm_studio }, :confirm => 'Are you sure?', :method => :post %></td>
+  </tr>
+<% end %>
+</table>
+
+<%= link_to 'Previous page', { :page => @hmm_studio_pages.current.previous } if @hmm_studio_pages.current.previous %>
+<%= link_to 'Next page', { :page => @hmm_studio_pages.current.next } if @hmm_studio_pages.current.next %> 
+
+<br />
+
+<%= link_to 'Add New HMM Studio', :action => 'new' %>

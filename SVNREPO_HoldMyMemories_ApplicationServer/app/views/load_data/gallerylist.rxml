@@ -1,0 +1,37 @@
+xml.instruct! :xml, :version=>"1.0"
+xml.galleries{
+    for gallery123 in @galleries
+        xml.gallery{
+            xml.id("#{gallery123.id}")
+            xml.access(gallery123.e_gallery_acess)
+            xml.galleryid(gallery123.subchapter_id)
+            if(gallery123.v_gallery_name=='' or gallery123.v_gallery_name==nil )
+               xml.name("Gallery")
+            else
+              xml.name("#{gallery123.v_gallery_name}")
+             
+            end
+
+             #Blog Data Read
+              blogcount=Blog.count(:conditions => "blog_type_id='#{gallery123.id}' and blog_type='gallery'")
+              if(blogcount>0)
+                 blogdata=Blog.find(:first, :conditions => "blog_type_id='#{gallery123.id}' and blog_type='gallery'")
+                 xml.blog_status("yes")
+                 xml.blog_id(blogdata.id)
+                 xml.blog_date(blogdata.added_date)
+                 xml.blog_description(blogdata.description)
+                 xml.blog_title(blogdata.title)
+                else
+                  xml.blog_status("no")
+              end
+
+
+            xml.icon(gallery123.img_url+"/user_content/photos/icon_thumbnails/#{gallery123.v_gallery_image}")
+            xml.type("#{gallery123.e_gallery_type}")
+            xml.tags(gallery123.v_gallery_tags)
+            xml.ordernum(gallery123.order_num)
+            xml.subchapterid(gallery123.subchapter_id)
+            xml.description(gallery123.v_desc)
+        }
+     end
+}             

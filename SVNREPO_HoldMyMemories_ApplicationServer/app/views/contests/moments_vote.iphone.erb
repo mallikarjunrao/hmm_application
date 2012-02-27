@@ -1,0 +1,209 @@
+<style type = "text/css">
+  .text3{
+    font-family:Arial, Helvetica, sans-serif;
+    font-size:12px;
+    font-weight:normal;
+    color:#ffffff;
+  }
+  .signedtxtwhite {
+
+    font-family: Verdana, Arial, Helvetica, sans-serif;
+    font-size: 10px;
+    font-style: normal;
+    line-height: normal;
+    font-weight: normal;
+    font-variant: normal;
+    text-transform: none;
+    color: #FFFFFF;
+    text-decoration: none;
+  }
+  a
+  {
+
+    color: #dddddd;
+
+  }
+  .cmd-btn {
+    background-image: url("/new_images/cmd-btn.gif");
+    background-repeat: repeat-x;
+    border: 1px solid #635E59;
+    color: #C3C3C3;
+    font-family: Verdana,Arial,Helvetica,sans-serif;
+    font-size: 12px;
+    font-weight: bold;
+    height: 21px;
+    padding: 0 15px;
+  }
+</style>
+<%  session[:video_vote]=nil %>
+<%  session[:image_vote]="1" %>
+<script language=javascript>
+  var r={'special':/[\W]/g}
+  function valid(o,w)
+  {
+    o.value = o.value.replace(r[w],'');
+  }
+  function resize_image( img )
+  {
+    //var img = document.getElementById( id );
+
+    var normal_width = "125";
+    var normal_height = "135";
+
+    // img.removeAttribute( "width" );
+    //img.removeAttribute( "height" );
+
+    var real_width = img.width;
+    var real_height = img.height;
+
+    var ratio = real_height / real_width;
+    if(real_width >= normal_width && ratio <= 1)
+    {
+      real_width = normal_width;
+      real_height = real_width * ratio;
+      img.height = real_height;
+      img.width = real_width;
+    }
+    else if(real_height >= normal_height)
+    {
+      real_height = normal_height;
+      real_width = real_height / ratio;
+      img.height = real_height;
+      img.width = real_width;
+    }
+  }
+
+</script>
+<table align="center" width="100%" border="0">
+  <input type="hidden" name="order" value="<%=params[:order]%>" />
+  <tr>
+    <th>
+      <font color="#f5dfa6" size="2"><%= flash[:notice_vote]%>   </font>
+      <!--font color="#f5dfa6" size="3">< % if  flash[:notice_invite1] % > You have successfully Invited your friends to vote!! < %end% ></font-->		</th>
+    <th>&nbsp;</th>
+  </tr>
+  
+  <tr>
+    <th>
+      <table width="100%" border="0" cellspacing="0" cellpadding="0">
+        <tr><td >&nbsp;</td>
+        </tr>
+        <tr>
+          <th width="284" align="center" valign="top">
+            <img src=<%= @contest_details.photo_logo %> border="0" width="284" />
+          </th>
+        </tr>
+        <tr>
+          <th colspan="2" align="center" valign="top">
+            <table width="100%" border="0" cellspacing="0" cellpadding="0">
+              <tr><th height="10">&nbsp;</th></tr>
+
+              <tr><th align="center" valign="top" style="color:#FFFFFF">Search Entrants:</th></tr>
+              <tr align="center" valign="top">
+                <th align="center" valign="top"><% form_remote_tag :update => 'table',
+                    :before => "Element.show('spinner1')",
+                    :success => "Element.hide('spinner1')",
+                    :url =>"/contests/moments_vote?contest_id=#{params[:contest_id]}",
+                    :method => 'post',
+                    :with => 'query' do %>
+                    <input size="10" id="query" name="query"  type="text" value="<%=params[:query]%>" onKeyUp="valid(this,'special')" /></th>
+
+                <%end%>
+              </tr>
+              <tr>
+                <th height="10" colspan="2"></th>
+              </tr>
+              <tr>
+                <th colspan="2" align="center">
+                  <table width="34" border="0" cellspacing="0" cellpadding="0">
+                    <tr>
+                      <td align="right" >
+                        <a href="/contests/moments_vote?contest_id=<%= params[:contest_id] %>&sort_key=contest_entry_date&amp;sort_order=<%=@sort1%>"><img src="/images/date1_sort.gif" border="0"/></a>
+                      </td>
+                      <td  align="right" ><a href="/contests/moments_vote?contest_id=<%= params[:contest_id] %>&sort_key=first_name&amp;sort_order=<%=@sort1%>"><img src="/images/name1_sort .gif" border="0"/></a></td>
+                      <td  align="right" >
+                        <a href="/contests/moments_vote?contest_id=<%= params[:contest_id] %>&sort_key=votes&amp;sort_order=<%=@sort2%>"><img src="/images/vote1_sort%20.gif" border="0"/></a>
+                      </td>
+                    </tr>
+                  </table></th>
+              </tr>
+              <tr>
+                <th height="10"></th>
+              </tr>
+              <%if !@contest_details.video_logo.blank?%>
+                <tr>
+                  <th  height="35" colspan="2" align="center" valign="top"><a href="/contests/videomoment_vote?contest_id=<%= @contest_phase %>"><img src="/images/switch1.gif" width="150" height="23" border="0"/></a></th>
+                </tr>
+              <%end%>
+            </table>
+          </th>
+        </tr>
+      </table>
+    </th>
+  </tr>
+  <tr align="center">
+    <th>
+      <table align="center">
+<%#*<tr><th>&nbsp;</th><th>&nbsp;</th><th>&nbsp;</th><th>&nbsp;</th><th>&nbsp;</th><th>&nbsp;</th><th>&nbsp;</th></tr>%>
+        <tr>
+
+          <% j =  0
+          k=0
+          for i in @contest_cutekid
+
+            if  j==2
+              j=0
+              j=j+1
+            %>
+            </tr>
+    <%#*<tr><th>&nbsp;</th><th>&nbsp;</th><th>&nbsp;</th><th>&nbsp;</th><th>&nbsp;</th><th>&nbsp;</th><th>&nbsp;</th></tr>%>
+            <tr>
+              <td colspan="2">&nbsp;</td>
+            </tr>
+            <tr><%else
+              j=j+1
+            end
+          %><th>
+              <table  border="0" cellpadding="0" cellspacing="0">
+                <tr>
+                  <th align="center" valign="middle" height="135px">
+                    <a href="/contests/momentdetails?moment_id=<%= i.moment_id %>&contest_id=<%= params[:contest_id] %>">
+
+                      <img id="image_<%= i.id %>"src="<%= i.img_url %>/user_content/photos/coverflow/<%= i.v_filename %>" onload="resize_image(this);"  border="0" onmousedown="callme(this.id);" onContextMenu="return false;" id="img<%=k%>"/></a></th>
+                  <% k = k+1 %>
+                </tr>
+                <tr>
+                  <th height="4" align="center" valign="middle"></th>
+                </tr>
+                <tr>
+                  <th height="15" align="center" valign="middle" class="text3" style="border:solid; border-color:#383838; border-width:1px;"><%=i.contest_fname%></th>
+                </tr>
+                <tr>
+                  <th height="35" align="center" valign="top" class="text3" style="padding-top:5px;">
+                    <%if i.contest_entry_date.nil?%>
+                      <%=Time.now.strftime("Submitted : %m/%d/%Y") %>
+                    <%else%>
+                      <%=  i.contest_entry_date.strftime("Submitted : %m/%d/%Y") %>
+                    <%end%>
+                    <%@count = ContestVotes.count_by_sql("select COUNT(*) AS COUNT from contest_votes where contest_id='#{i.contest_id}' and conformed='yes'")  %>
+                    <br /><%=@count%> Votes</th>
+                </tr>
+                <tr>
+                  <th height="20" align="center" valign="top">
+                    <a href="/contests/vote?entry_id=<%=i.contest_id%>&contest_id=<%= params[:contest_id] %>">
+                      <input type="button" id="Image4413" class="whiteButton" value="Vote" style="cursor:pointer;" width="131" height="38" /></a>	</th>
+                </tr>
+              </table>
+            </th><th align="center">&nbsp;</th>
+
+          <%end%>
+      </table>	  </th></tr>
+
+
+  <tr>
+    <th valign="bottom" scope="col" class="signedtxtwhite" id="padding_photos" align="center" colspan="5">
+      <%#params["action"]=params[:id]%>
+      <%#params["id"]='moments_vote'%>
+      <%=@contest_count%><h1><%=will_paginate @contest_cutekid ,:params=>params%></h1></th>
+  </tr>
+</table>

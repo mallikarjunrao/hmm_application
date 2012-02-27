@@ -1,0 +1,40 @@
+ xml.instruct! :xml, :version=>"1.0"
+ xml.gallery{
+         xml.userid(@userid)
+         xml.id(@gallery123.id)
+         xml.access(@gallery123.e_gallery_acess)
+         xml.galleryid(@gallery123.subchapter_id)
+         xml.name(@gallery123.v_gallery_name)
+         xml.ordernum(@gallery123.order_num)
+         xml.icon(@gallery123.img_url + "/user_content/photos/icon_thumbnails/#{@gallery123.v_gallery_image}")
+         xml.type(@gallery123.e_gallery_type)
+         xml.tags(@gallery123.v_gallery_tags)
+         xml.subchapterid(@gallery123.subchapter_id)
+         xml.description(@gallery123.v_desc)
+         @user_content = UserContent.find(:all, :conditions => "gallery_id = #{@gallery123.id} and status='active' " , :order => 'id' )
+         #files within Gallery
+         xml.files{
+           for user_content in @user_content
+              xml.file{
+              xml.id("#{user_content.id}")
+              xml.access(user_content.e_access)
+              xml.galleryid(user_content.gallery_id)
+              xml.name("#{user_content.v_tagphoto}")
+              xml.ordernum("#{user_content.order_num}")
+              xml.type("#{user_content.e_filetype}")
+              if(user_content.e_filetype == "image")
+                 xml.icon(user_content.img_url + "/user_content/photos/big_thumb/#{user_content.v_filename}")
+              end
+              if(user_content.e_filetype == "video" || user_content.e_filetype == "swf")
+                 xml.icon(user_content.img_url + "/user_content/videos/thumbnails/#{user_content.v_filename}.jpg")
+              end
+              if(user_content.e_filetype == "audio")
+                 xml.icon(user_content.img_url + "/user_content/audios/#{user_content.v_filename}")
+              end
+              xml.tags(user_content.v_tagname)
+              xml.description(user_content.v_desc)
+              xml.creationdate(user_content.d_momentdate)
+           }
+        end
+     }
+}

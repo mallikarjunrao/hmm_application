@@ -1,0 +1,168 @@
+
+
+<%= error_messages_for 'employe_account' %>
+<%= stylesheet_link_tag 'SpryAssets/SpryValidationTextField' %>
+<%= stylesheet_link_tag 'SpryAssets/SpryValidationPassword' %>
+<%= stylesheet_link_tag 'SpryAssets/SpryValidationConfirm' %>
+
+<%= javascript_include_tag 'SpryAssets/SpryValidationPassword' %>
+<%= javascript_include_tag 'SpryAssets/SpryValidationConfirm' %>
+<%= javascript_include_tag 'SpryAssets/SpryValidationTextField' %>
+
+<table width="890" border="0" cellpadding="0" cellspacing="0">
+	
+	<tr>
+		<td align="right" width="340" valign="middle">
+			<label for="employe_account_employe_name">Employee name *</label>
+		</td>
+		<td>&nbsp;</td>
+		<td><span id="sprytextfield1">
+			<%= text_field 'employe_account', 'employe_name', :class => "textbox-signup"  %>
+			<span class="textfieldRequiredMsg">Name is required.</span></span>
+		</td>
+	</tr>
+	
+	<tr><td colspan="3">&nbsp;</td></tr>
+	<tr>
+		<td align="right" width="340" valign="middle">
+			<label for="employe_account_employe_name">User Name *</label>
+		</td>
+		<td>&nbsp;</td>
+		<td><span id="sprytextfield3">
+			<%= text_field 'employe_account', 'employe_username', :size => 20, :class => "textbox-signup", :id =>'employe_username', :onclick => "disabled"  %>
+			<span class="textfieldRequiredMsg">User Name is required.</span></span>
+			<%= observe_field :'employe_username',                         
+                        :with       => "username",              
+                        :frequency  => 0.25,                    
+                        :url        => {:action => :validate }, 
+                        :update     => :message                 
+                      %>
+					   <span id="message"></span>
+		</td>
+	</tr>
+	
+	
+	<tr><td colspan="3">&nbsp;</td></tr>
+	<tr>
+		<td align="right" width="340" valign="middle">
+			<label for="employe_account_employe_name">Password *</label>
+		</td>
+		<td>&nbsp;</td>
+		<td> <span class="" id="sprypassword12">
+			<%= password_field 'employe_account', 'password', :class => "textbox-signup"  %>
+			<span class="passwordRequiredMsg">A value is required.</span> <span class="passwordMinCharsMsg">The minimum number of characters not met.</span> </span>
+		</td>
+	</tr>
+	<tr><td colspan="3">&nbsp;</td></tr>
+	<tr>
+		<td align="right" width="340" valign="middle">
+			<label for="employe_account_employe_name">Re-type Password *</label>
+		</td>
+		<td>&nbsp;</td>
+		<td><span class="" id="spryconfirm5">
+			<%= password_field 'employe_account', 'password', :class => "textbox-signup"  %>
+			<span class="confirmRequiredMsg">A value is required.</span> <span class="confirmInvalidMsg">The values don't match</span> </span></span>
+		</td>
+	</tr>
+	<tr><td colspan="3">&nbsp;</td></tr>
+	<tr>
+		<td align="right">
+			<label for="employe_account_branch">Branch *</label>
+		</td>
+		<td>&nbsp;</td>
+		<td>
+			<select name="employe_account[store_id]" id='store_id' class => "combobox1">
+			<option value="select">Select</option>
+			<%@hmm_studios = HmmStudio.find(:all)
+			for i in @hmm_studios%>
+			<option value="<%=i.id%>"><%=i.studio_branch%></option>
+			
+			<%end%>
+			</select>
+		</td>
+	</tr>
+	
+	<tr><td colspan="3">&nbsp;</td></tr>
+	<tr>
+		<td align="right">
+			<label for="employe_account_employe_id">Employee Id *</label>
+		</td>
+		<td>&nbsp;</td>
+		<td><span id="sprytextfield2">		
+			<%= text_field 'employe_account', 'employe_id', :class => "textbox-signup", :id =>'employe_id'  %>
+			<span class="textfieldRequiredMsg">employee id is required.</span></span>
+			<%= observe_field :'employe_id',                         
+                        :with       => "employe_id",              
+                        :frequency  => 0.25,                    
+                        :url        => {:action => :validate_empid }, 
+                        :update     => :message_id                 
+                      %>
+					   <span id="message_id"></span>
+		</td>
+	</tr>	
+	
+	<tr><td colspan="3">&nbsp;</td></tr>
+	<tr>
+		<td align="right">
+			<label for="employe_account_branch">Designation *</label>
+		</td>
+		<td>&nbsp;</td>
+		<td>
+			<select name="employe_account[emp_type]" id='emp_type' class => "combobox1">
+			<option value="select">Select</option>
+			<option value="store_manager">Store Manager</option>
+			<option value="employee">Employee</option>
+			</select>
+		</td>
+	</tr>
+	
+	
+	<tr><td colspan="3">&nbsp;</td></tr>
+	<tr>
+		<td align="right">
+			<label for="employe_account_e_mail">E mail *</label>
+			
+		</td>
+		<td>&nbsp;</td>
+		<td><span id="sprytextfield11">	
+			<%= text_field 'employe_account', 'e_mail', :class => "textbox-signup"  %>
+			<span class="textfieldRequiredMsg">E-mail Required</span><span class="textfieldInvalidFormatMsg">Invalid E-mail</span></span></span>
+		</td>
+	</tr>
+	
+	<tr><td colspan="3">&nbsp;</td></tr>
+	<tr>
+		<td align="right">
+			<label for="employe_account_phone_no">Phone no *</label>
+		</td>
+		<td>&nbsp;</td>
+		<td><span id="sprytextfield4">	
+			<%= text_field 'employe_account', 'phone_no', :class => "textbox-signup"  %>
+			<span class="textfieldRequiredMsg">Please enter your Contact No.</span><span class="textfieldMinCharsMsg">Not a valid No</span><span class="textfieldInvalidFormatMsg">Not a valid No</span></span></span>
+		</td>
+	</tr>	
+	
+	<tr><td colspan="3">&nbsp;</td></tr>
+	<tr>
+		<td align="right" valign="top">
+			<label for="employe_account_address">Address</label>
+		</td>
+		<td>&nbsp;</td>
+		<td>	
+			<%= text_area 'employe_account', 'address', :rows =>"9", :cols=>"40",  :class => "textbox-1"  %>
+		</td>
+	</tr>		
+	<tr><td colspan="3">&nbsp;</td></tr>
+</table>
+
+<script type="text/javascript">
+
+var sprytextfield1 = new Spry.Widget.ValidationTextField("sprytextfield1", "none", {validateOn:["blur"]});
+var sprytextfield2 = new Spry.Widget.ValidationTextField("sprytextfield2", "none", {validateOn:["blur"]});
+var sprytextfield3 = new Spry.Widget.ValidationTextField("sprytextfield3", "none", {validateOn:["blur"]});
+var sprytextfield11 = new Spry.Widget.ValidationTextField("sprytextfield11", "email", {validateOn:["blur"]});
+var sprytextfield4 = new Spry.Widget.ValidationTextField("sprytextfield4", "integer", {validateOn:["blur", "change"], minChars:7});
+
+var sprypassword12 = new Spry.Widget.ValidationPassword("sprypassword12",{validateOn:["blur"]});
+var spryconf5 = new Spry.Widget.ValidationConfirm("spryconfirm5", "sprypassword12", {validateOn: ['blur']});
+	</script>

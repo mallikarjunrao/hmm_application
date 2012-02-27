@@ -1,0 +1,205 @@
+<table width="100%" border="0" cellspacing="0" cellpadding="0" >
+	<tr>
+		<td width="170" valign="top" >
+			<%= render :partial => "leftnav", :locals => { :current => "address_book"} %>
+		</td>
+	<td width="10" valign="top" >&nbsp;</td>
+<td width="730" valign="top" >
+<table width="100%" border="0" cellspacing="0" cellpadding="0" >
+	<tr>
+		
+      <th height="13" align="left" valign="top" scope="col"></th>
+    </tr>
+    <tr align="left">
+      <th height="22" align="left" valign="top" scope="col">
+      	<table width="100%" height="40" border="0" cellspacing="0" cellpadding="0">
+          	<tr>
+          		
+				
+          		<th width="500" align="left" valign="top" scope="col" colspan='3' height="32"><font family="arial" size="3" >       		      Contact Details:</font>
+		   		<th width="313" align="right" valign="top" scope="col">
+          			&nbsp;&nbsp;
+		  		</th>
+          
+		  		<th width="128" align="left" valign="top" scope="col">
+		  			
+		  		</th>
+		  		<th width="6" align="left" valign="top" scope="col">&nbsp;
+		  			
+				</th>
+		  		<th width="56" align="left" valign="top" scope="col"><a href="#" onClick="history.back();"><img src="/images/back.jpg" border="0"></a>&nbsp;
+       			 
+		  		</th>
+       	  </tr>
+			<tr>
+				<td colspan="7" align="left">&nbsp;</td>
+			</tr>
+		</table>
+	</th>
+    </tr>
+	<tr>
+					<th colspan="5" align="left">&nbsp;</th>
+		</tr>
+	<tr ><td>
+		<table width="100%" height="100%" border="0" align="left">
+           
+			  <tr class="text-journal">
+               <td width="139"><div align="left"><strong>Name</strong></div></td>
+               <td width="10"><div align="left"><strong>:</strong></div></td>
+               <td width="268"><div align="left"><%=@nonhmm_user.v_name %></div></td>
+              </tr>
+              <tr class="text-journal">
+               <td width="139"><div align="left"><strong>Email</strong></div></td>
+               <td width="10"><div align="left"><strong>:</strong></div></td>
+               <td width="268"><div align="left"><%=@nonhmm_user.v_email %></div></td>
+              </tr>
+			   <tr class="text-journal">
+               <td width="139"><div align="left"><strong>Phone</strong></div></td>
+               <td width="10"><div align="left"><strong>:</strong></div></td>
+               <td width="268"><div align="left"><%=@nonhmm_user.v_phone %></div></td>
+              </tr>
+			   <tr class="text-journal">
+               <td width="139"><div align="left"><strong>Street Address</strong> </div></td>
+               <td width="10"><div align="left"><strong>:</strong></div></td>
+               <td width="268"><div align="left"><%=@nonhmm_user.v_street%></div></td>
+              </tr>
+               <tr class="text-journal">
+               <td width="139"> <% if params[:fname] !='' %><div align="left"><strong>Family Website Link</strong></div> <%end%></td>
+               <td width="10"><div align="left"><strong><% if params[:fname] !='' %>:<%end%></strong></div></td>
+               <td width="268"><div align="left">
+                 <% if params[:fname] !='' %>
+                 <a href="http://www.holdmymemories.com/<%=params[:fname]%>" target="_blank" class="name-friendsandfamily">http://www.holdmymemories.com/<%=params[:fname]%></a>
+                 <%end%>
+               </div></td>
+              </tr>
+               <tr class="text-journal">
+               <td width="139">&nbsp;</td>
+               <td width="10">&nbsp;</td>
+               <td width="268" align="left"><a href="javascript:void();" onClick="return call_cntbx();"><img src="/images/edit.png" border="0"></a>&nbsp;
+			   <a href="http://www.holdmymemories.com/manage_site/delete_contact/<%=params[:id]%>?did=<%=@nonhmm_user.id%>" class="button"><img src="/images/delete.png" border="0"></a>  
+</td>
+              </tr>
+			  
+	<tr id="cntbx" style="display:none;"><td colspan="5">
+		<table width="150" class="border" height="100%" border="0" align="left">
+	           <tr>
+					<th colspan="5">&nbsp;
+						
+						</th>
+				</tr>
+				<tr>
+					<td align="center" colspan="5">
+						<%= javascript_include_tag 'SpryAssets/SpryValidationTextField' %>
+<%= stylesheet_link_tag 'SpryAssets/SpryValidationTextField' %>
+<% form_tag :action => 'update_contact', :id => params[:id],:uid=>params[:uid] do %>
+ <%= javascript_include_tag 'SpryAssets/SpryValidationTextField' %>
+<%= stylesheet_link_tag 'SpryAssets/SpryValidationTextField' %>
+
+<%= error_messages_for 'nonhmm_user' %>
+
+<table width="472" height="100%" border="0" align="top">
+<tr>
+		<th width="108" valign="middle" colspan="2">
+	  <label for="nonhmm_user_v_fname">
+	  <div align="left">* Required Fields</div>
+      </label></th>
+	</tr>
+<tr>
+		<th width="108" valign="middle">&nbsp;&nbsp;
+	  <label for="nonhmm_user_v_fname">
+	  <div align="left">Name *</div>
+    </label></th>
+    <th width="354" valign="top">&nbsp;&nbsp;<span id="sprytextfield1">
+			<div align="left"><input class="textbox-signup" id="v_name" maxlength="25" name="nonhmm_user[v_name]" size="20" type="text" value="<%=@nonhmm_user.v_name%>" />
+			    <span class="textfieldRequiredMsg"><br>
+		        &nbsp;&nbsp;&nbsp;First Name is required</br>
+	      </span> </div></th>
+	</tr>
+	<tr>
+		<th valign="middle">&nbsp;&nbsp;<label for="nonhmm_user_v_e-mail">
+		  <div align="left">E-Mail *</div>
+	  </label></th>
+	  <th valign="top">&nbsp;&nbsp;
+		<div align="left"><span id="sprytextfield11">
+	    <input class="textbox-signup" id="v_email" maxlength="25" name="nonhmm_user[v_email]" size="20" type="text" value="<%=@nonhmm_user.v_email%>" />
+	    <span class="textfieldRequiredMsg"><br>
+	    &nbsp;&nbsp;&nbsp;E-mail Required</br>
+	    </span><span class="textfieldInvalidFormatMsg"><br>
+        &nbsp;&nbsp;&nbsp;Invalid E-mail</br>
+        </span></span> </div></th>
+	</tr>
+	<tr>
+		<th valign="middle">&nbsp;&nbsp;<label for="nonhmm_user_v_phone">
+		  <div align="left">Phone</div>
+	  </label></th>
+	  <th valign="top">&nbsp;&nbsp;&nbsp;
+      <div align="left"><input class="textbox-signup" id="v_phone" maxlength="25" name="nonhmm_user[v_phone]" size="20" type="text" value="<%=@nonhmm_user.v_phone%>" />
+	    </div></th>
+	</tr>
+	<tr>
+		<th valign="middle">&nbsp;&nbsp;<label for="nonhmm_user_v_city">
+		  <div align="left">Address</div>
+	  </label></th>
+	  <th valign="top">&nbsp;&nbsp;&nbsp;
+      <div align="left"><textarea class="textbox-1" cols="40" id="v_street" name="nonhmm_user[v_street]" rows="9"><%=@nonhmm_user.v_street%></textarea></div></th>
+	</tr>
+	
+   
+</table>
+
+  <center><input value="Edit Contact" type="submit" id="regsubmit">&nbsp;&nbsp;&nbsp;<input type="button" onClick="return call_cntbx();" value="Cancel"></center>  
+<% end %>		 
+<script type="text/javascript">
+var sprytextfield1 = new Spry.Widget.ValidationTextField("sprytextfield1", "none", {validateOn:["blur"]});
+var sprytextfield11 = new Spry.Widget.ValidationTextField("sprytextfield11", "email", {validateOn:["blur"]});
+</script>
+
+					</td>
+			   </tr>
+		</table>
+		
+	</td></tr>
+		</table>
+		
+	</td></tr>
+    <tr>
+    	
+
+      <th  width="100%" align="left" valign="top" scope="col">	
+	  	<div id="table">
+			
+		</div>
+	  </th>
+    </tr>
+	<tr>
+		<td>&nbsp;
+		</td>
+	</tr>
+</table>
+  </tr>
+  </table>
+  <script type="text/javascript">
+  	function call_cntbx()
+	{
+		if(document.getElementById('cntbx').style.display=='none')
+		{
+			document.getElementById('cntbx').style.display = 'block';
+			//document.getElementById('v_name').value='';
+			//document.getElementById('v_email').value='';
+			//document.getElementById('v_phone').value='';
+			//document.getElementById('v_street').value='';
+			
+		}else{
+			
+			document.getElementById('cntbx').style.display = 'none';
+			//document.getElementById('v_name').value='';
+			//document.getElementById('v_email').value='';
+			//document.getElementById('v_phone').value='';
+			//document.getElementById('v_street').value='';
+		
+		}
+		
+	}
+	
+  </script>
+    

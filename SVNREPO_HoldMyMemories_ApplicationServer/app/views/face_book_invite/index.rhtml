@@ -1,0 +1,204 @@
+<% profile = false
+facebookid = false
+%>
+<% unless @profile_id.nil?%>
+  <%  profile = true %>
+  <% unless @hmm_user.nil?
+    facebookid = true
+  end
+end%>
+<script type="text/javascript">
+
+  function authenticate(type){
+    var user_name = document.getElementById('user_name').getValue()
+    var email = document.getElementById('email').getValue()
+    if (user_name == '' ){
+      new Dialog().showMessage('Error!','Enter your HMM Username');
+      return false;
+    }else if(email == '' ){
+      new Dialog().showMessage('Error!','Enter your HMM Email');
+      return false;
+    }else{
+      var profile_id = document.getElementById('profile_id').getValue()
+      var ajax = new Ajax();
+      ajax.responseType =type;
+      ajax.ondone = function(data) {
+        document.getElementById('message').setInnerFBML(data);
+      }
+      ajax.onerror = function() {
+        new Dialog().showMessage('Error!','Ajax failed for some reason. Please try again.');
+      }
+      ajax.post('<%=@path.proxyname%>/face_book_invite/authenticate/?user_name='+user_name+'&email='+email+'&profile_id='+profile_id);
+    }
+  }
+</script>
+
+<link href="<%=@path.proxyname%>/stylesheets/main_facebook.css" rel="stylesheet" type="text/css" />
+<link href="<%=@path.proxyname%>/stylesheets/hmmout_facebook.css" rel="stylesheet" type="text/css" />
+
+<% if profile == false || (profile == true && facebookid == true) %>
+  <% if @website_password == true || @visitor_message == "Invalid Password"%>
+    <%= render :partial => "partials/vistorlogin_facebook",  :visitor_message => "#{@visitor_message}" %>
+  <% else %>
+    <fb:tabs>
+      <fb:tab_item href='face_book_invite/authenticate' title="Add Something" />
+      <fb:tab_item href="." title="Delete Something" />
+      <fb:tab_item href="." title="Help Me" />
+    </fb:tabs>
+    <table width="100%" border="0" cellspacing="0" cellpadding="0">
+      <tr>
+        <td  align="center" valign="top"><div id="flash_content_coverflow" align="center">
+            <fb:swf flashvars='serviceURL=<%=@path.proxyname%>/familywebsite/fx_list_chapters/<%=@family_website_owner.family_name%>?app_type=facebook&navigateToUrl=<%=@path.proxyname%>/familywebsite/subchapters/<%=@family_website_owner.family_name%>?chapter_id=&server_url=<%=@path.proxyname%>&proxyurl=<%=@content_server_url%>&familyname=<%=@family_website_owner.family_name%>&image_height=150&image_width=200'
+                    swfsrc='<%=@path.proxyname%><%= @versions.file_url %>?v=<%=  @versions.major %>_<%=@versions.minor %>' imgsrc='<%=@path.proxyname%>/images/facebookhomepageimage.png' width='<%=@coverflow_width%>' height='220' />
+          </div></td>
+      </tr>
+      <tr>
+        <td height="20"></td>
+      </tr>
+      <tr>
+        <td align="center" valign="top"><div align="center">
+            <table width="<%=@app_width%>" border="0" cellspacing="0" cellpadding="0">
+              <tr>
+                <td align="center" valign="top" class="tab-dots"><%= render :partial => "partials/recentmoments_facebook",  :collection => "#{@recent_moments}" %></td>
+              </tr>
+            </table>
+          </div></td>
+      </tr>
+      <tr>
+        <td height="19"></td>
+      </tr>
+      <tr>
+        <td align="center" valign="top"><div align="center">
+            <table width="96%" border="0" cellspacing="0" cellpadding="0">
+              <tr>
+                <td width="50%" align="left" valign="top" class="tab-dots"><%= render :partial => "partials/aboutme_facebook", :locals => { :content => "#{@family_website_owner.about_family}"} %></td>
+              <div align="right">
+                <td width="50%" align="right" valign="top" class="tab-dots"><%= render :partial => "partials/homepagelinks_facebook", :locals => { :link1 => "#{@family_website_owner.v_link1}",:link2 => "#{@family_website_owner.v_link2}",:link3 => "#{@family_website_owner.v_link3}"} %></td>
+              </div>
+              </tr>
+            </table>
+          </div></td>
+      </tr>
+      <tr>
+        <td height="19"></td>
+      </tr>
+      <tr>
+        <td align="center" valign="bottom">&nbsp;</td>
+      </tr>
+    </table>
+  <% end %>
+<%end%>
+<% if facebookid == false && profile == true %>
+  <table width="<%=@app_main_width%>" border="0" align="center" cellpadding="0" cellspacing="0" class="body_bg_design" bgcolor="#000000">
+    <tr>
+      <td width="25" height="100%" align="right" valign="top" class="leftshad_facebook"></td>
+      <td align="center" valign="top" ><table width="<%=@app_width%>" border="0" cellspacing="0" cellpadding="0">
+          <tr>
+            <td height="12"  align="left" valign="top"></td>
+          </tr>
+          <tr>
+            <td height="12"  align="left" valign="top"></td>
+          </tr>
+          <tr>
+            <td  align="center" valign="top"><table width="<%=@app_width%>" border="0" cellspacing="0" cellpadding="0" id="tab_bgcolor">
+                <tr>
+                  <td height="36" align="left" valign="bottom"><a href="http://holdmymemories.com" target="_blank"><img src="http://holdmymemories.com/images/hmm_logo2.png" width="157"  border="0" style="margin-left:25px;"/></a></td>
+                </tr>
+              </table></td>
+          </tr>
+          <tr>
+            <td  height="80" align="left" valign="top"></td>
+          </tr>
+          <tr>
+            <td align="left" valign="top" class="whitecont"><center>
+                Welcome To HoldMyMemories.com
+              </center></td>
+          </tr>
+          <tr>
+            <td  height="12" align="left" valign="top"></td>
+          </tr>
+          <tr>
+            <td align="left" valign="top" class="whitecont"><center>
+                To view the Familywebsite, the user should authenticate.
+              </center></td>
+          </tr>
+          <tr>
+            <td  height="12" align="left" valign="top"></td>
+          </tr>
+          <tr>
+            <td  height="12" align="left" valign="top"></td>
+          </tr>
+          <tr>
+            <td height="370"><table width="100%" border="0" cellspacing="0" cellpadding="0">
+                <tr>
+                  <td height="339" align="center" valign="top"><table width="100%" border="0" cellspacing="0" cellpadding="0" class="body_bg_design"   bgcolor="#000000">
+                      <tr>
+                        <td height="339" align="center" valign="top" >
+                          <table width="100%" border="0" cellspacing="0" cellpadding="0" bgcolor="#000000">
+                            <tr>
+                              <td ><div align="center" id="message">
+                                  <% if facebookid == false %>
+                                    <fb:visible-to-owner>
+                                    <%end%>
+                                    <table align="center" class="border" width="40%" border="1"  cellpadding="5" cellspacing="5"  bordercolor="#191919" style="background-color:transparent;">
+                                      <tr>
+                                        <td colspan="2" align="center" valign="middle" style="border:none" bgcolor="#191919" height="20"><span class="style1"><font size="3px" color="#ffffff">Member Login</font></span></td>
+                                      </tr>
+                                      <tr >
+                                        <td colspan="2" align="center" class="border1"></td>
+                                      </tr>
+                                      <tr >
+                                        <td align="right" class="style1" style="border:none"><font size="3px" color="#ffffff">Username </font></td>
+                                        <td width="49%" style="border:none" align="left"><input class="textbox-signup" id="user_name" name="user_name" size="30" type="text" /></td>
+                                      </tr >
+                                      <tr style="border:none">
+                                        <td align="right" class="style1" style="border:none"><font size="3px" color="#ffffff">Email</font></td>
+                                        <td align="left" style="border:none"><input class="textbox-signup" id="email" name="email" size="30" type="text" /></td>
+                                      </tr >
+                                      <tr style="border:none">
+                                        <td style="border:none">&nbsp;</td>
+                                        <td  style="border:none" colspan="" align="left"><input type="button" id="button" name="bt_sub" class="cmd-btn" value="Submit" style="cursor:pointer;" onclick="authenticate(Ajax.FBML); return false;"></td>
+                                      </tr>
+                                      <tr style="border:none">
+                                        <td class="border1" colspan="2" align="center"><p> <a href="<%=@path.proxyname%>/customers/authorise_verify" > <font face="Arial" color="#ffffff" size=2 >Click here to Register </font></a> </td>
+                                      </tr>
+                                    </table>
+                                    <% if facebookid == false %>
+                                    </fb:visible-to-owner>
+                                  <%end%>
+                                  <input type="hidden" name="profile_id" id="profile_id" value="<%=@profile_id%>"  />
+                                </div></td>
+                            </tr>
+                          </table>
+
+                        </td>
+                      </tr>
+                      <tr>
+                        <td align="center" valign="top"><table width="100%" border="0" cellspacing="0" cellpadding="0">
+                            <tr>
+                              <td align="center" valign="top" class="tab-dots"><table width="<%=@app_width%>" border="0" cellspacing="0" cellpadding="0" id="tab_bgcolor">
+                                </table></td>
+                            </tr>
+                          </table></td>
+                      </tr>
+                      <tr>
+                        <td height="19"></td>
+                      </tr>
+                      <tr>
+                        <td height="19"></td>
+                      </tr>
+                      <tr>
+                        <td align="center" valign="bottom">&nbsp;</td>
+                      </tr>
+                    </table></td>
+                </tr>
+                <tr>
+                  <td align="center" valign="top" height="25">&nbsp;</td>
+                </tr>
+              </table></td>
+            <td align="left" valign="top" class="rightshad_facebook" width="25"></td>
+          </tr>
+        </table></td>
+    </tr>
+  </table>
+<%end%>

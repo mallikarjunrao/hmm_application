@@ -1,0 +1,221 @@
+
+<script type="text/javascript">
+	function chg(val)
+	{
+		
+		if (document.getElementById('pcode').style.display == 'none' && document.getElementById('cty').style.display == 'block' && val=='USA') {
+			document.getElementById('pcode').style.display = 'block';
+			document.getElementById('cty').style.display = 'none';
+		}else{
+			document.getElementById('pcode').style.display = 'none';
+			document.getElementById('cty').style.display = 'block';
+		}
+		
+	}
+</script>
+<style>
+
+</style>
+
+<form name="frm" action="/account/mycustomer_search" method="post">
+<table><tr><td>
+<table cellpadding="0" cellspacing="0" width="80%" border="1" bordercolor="#e5b467" align="center">
+	<tr>
+		<td colspan="2" align="center" valign="middle">
+			<h3>Customers Report</h3>
+		</td>
+	</tr>
+	<tr>
+		<td colspan="2">
+			<center>
+			No of InActive Users&nbsp;&nbsp; :&nbsp; <%=@hmmuser_blockcnt%> <br></br>
+			&nbsp;&nbsp;No of Active Users &nbsp;&nbsp;&nbsp;:&nbsp; <%=@hmmuser_unblockcnt%></center>
+			<br></br>
+		</td>
+	</tr>
+	</table>
+	
+	<table cellpadding="4" cellspacing="4" border="1" bordercolor="#e5b467" align="center" align="center">
+	<tr>
+		<td align="center" colspan="4" height="48">
+			<font size="4">Search Users </font>
+		</td>
+	</tr>
+	
+	<tr>
+		<td>
+			Firstname
+		</td>
+		<td>
+			<input type="text" name="firstname" id="firstname" value="<%=@fname%>" size="20" class="textbox-signup" />
+		</td>
+	
+		
+			<td>
+			Lastname
+		</td>
+		<td>
+			<input type="text" name="lastname" id="lastname" value="<%=@lastname%>" size="20" class="textbox-signup" />
+		</td>
+		
+	</tr>
+	<tr>
+	
+			<td width="90">
+			Username
+		</td>
+		<td>
+				<input type="text" name="username" id="username" value="<%=@uname%>" size="20" class="textbox-signup" />
+			<input type="hidden" name="sort_key" value="id" />
+			<input type="hidden" name="sort_order" value="asc" />
+		</td>
+		<td width="90">
+			Account Type
+		</td>
+		<td>
+			<select name="account_type" id="account_type" class => "combobox1">
+			<option value="Select" selected='selected'>Select</option>
+			<option value="free_user" >free_user</option>
+			<option value="familyws_user" >Family Website User</option>
+			<option value="platinum_user" >premium_user</option>
+		</td>
+	</tr>
+	<tr>
+		<td>
+			Country
+		</td>
+		<td>
+			<select name="v_country" onchange='return chg(this.value)' class => "combobox1">
+				<option value="USA" selected='selected'>USA</option>
+				<option value="Others" >Others</option>
+		</td>
+	
+		<td>
+			<label for="hmm_user_zip">
+			<div id='pcode' style='display:block;'>Postal Code </div>
+			<div id='cty' style='display:none;'>City/Province</div></lable></th>
+		</td>
+		<td>
+			<input type="text" name="zip" id="zip" size="20" class="textbox-signup" />
+			
+		</td>
+	</tr>
+	
+	<tr>
+		<td colspan="2" align="center">
+		<input type="image" name="sub" id="search" src="/images/search_over.jpg"  border="0" />
+		</td>
+	</tr>
+
+</table>
+
+<table border="0">
+	
+	<tr><td colspan="15"><h2>HoldMyMemories.com Users</h2> </td></tr>
+  <tr>
+
+ </td></tr>
+
+  <tr valign='center' align='center'>
+  	
+  	 
+   <th background="/images/body_hor.JPG"><font class='txt'><table> <tr><%= sort_header_tag('v_fname', :text => "First Name") %></tr></table></font></th>
+	<th background="/images/body_hor.JPG"><font class='txt'><table> <tr><%= sort_header_tag('v_lname', :text => "Last Name") %></tr></table></font></th>
+	<th background="/images/body_hor.JPG"><font class='txt'><table> <tr><%= sort_header_tag('e_sex', :text => "sex") %></tr></table></font></th>
+	<th background="/images/body_hor.JPG"><font class='txt'><table> <tr><%= sort_header_tag('v_user_name', :text => "User Name") %></tr></table></font></th>
+	<th background="/images/body_hor.JPG"><font class='txt'><table> <tr><%= sort_header_tag('v_e_mail', :text => "Email Address") %></tr></table></font></th>
+        <th background="/images/body_hor.JPG"><font class='txt'><table> <tr><%= sort_header_tag('d_created_date', :text => "Account Created Date") %></tr></table></font></th>
+        <th background="/images/body_hor.JPG"><font class='txt'><table> <tr>Number of days left for the next renewal date</tr></table></font></th>
+        <th background="/images/body_hor.JPG"><font class='txt'><table> <tr><%= sort_header_tag('account_expdate', :text => "Next Recurring charge date") %></tr></table></font></th>
+	<th background="/images/body_hor.JPG"><font class='txt'><table> <tr><%= sort_header_tag('e_user_status', :text => "Status") %></tr></table></font></th>
+	<th colspan=3 background="/images/body_hor.JPG"><font class='txt'>Actions</font></th>
+	
+
+  </tr>
+
+<% 	odd_or_even = 0 
+	i = 0
+	for colmn in @hmm_users
+	 i = i + 1
+	odd_or_even = 1 - odd_or_even
+ %>
+
+  <tr class='ListLine<%= odd_or_even %>'>
+  	
+	<% hmmdet=HmmUser.find(:all,:conditions=>"id=#{colmn.id}")%>
+   
+	<td align="center"><a class='ListLine<%= odd_or_even %>' href="/user_account/authenticate/?id=1&hmm_user[v_user_name]=<%=colmn.v_user_name%>&hmm_user[v_password]=<%=hmmdet[0]['v_password']%>" target="_blank"><%=h colmn.v_fname%></a></td>
+	
+	<td align="center"><a class='ListLine<%= odd_or_even %>' href="/user_account/authenticate/?id=1&hmm_user[v_user_name]=<%=colmn.v_user_name%>&hmm_user[v_password]=<%=hmmdet[0]['v_password']%>" target="_blank"><%=h colmn.v_lname%></a></td>
+	<td align="center"><%=h colmn.e_sex%></td>
+	<td align="center"><%=h colmn.v_user_name%></td>
+	
+  	<td align="center"><%=h colmn.v_e_mail%></td>
+        <td align="center"><%=h colmn.d_created_date.strftime("%m - %d - %Y")%></td>
+        <% 
+            cur_time=Time.now.strftime("%Y-%m-%d")
+        @hmm_user_check =  HmmUser.count(:all, :conditions =>" account_expdate <= '#{cur_time}' and id='#{colmn.id}'")
+            if @hmm_user_check > 0
+                @hmm_user_max =  HmmUser.find_by_sql(" select ADDDATE(account_expdate,INTERVAL 1 MONTH) as m from hmm_users where id='#{colmn.id}'")
+                nextbilingdate = @hmm_user_max[0]['m']
+                
+                
+           else
+                nextbilingdate = "#{colmn.account_expdate}"
+               
+           end
+            if(nextbilingdate == nil || nextbilingdate == "")
+              nextbilingdate2 = "Subscription Expired/cancelled"
+              renewal_days = "Subscription already expired"
+            else
+                nextbilingdate1=nextbilingdate.split('-');
+                nextbilingdate2="#{nextbilingdate1[1]} - #{nextbilingdate1[2]} - #{nextbilingdate1[0]}"
+                @hmm_leftdays=HmmUser.find_by_sql("  SELECT DATEDIFF('#{nextbilingdate1}',CURDATE( ) ) as d  ")
+                renewal_days = @hmm_leftdays[0]['d']
+            end
+            
+                
+        %>
+        <td align="center"><%=  renewal_days%> days</td>
+        <td align="center"><%=  nextbilingdate2%></td>
+        <td align="center"><%=h colmn.v_user_name%></td>
+    <td align="center"><%if colmn.e_user_status=='blocked'%>
+		<font size="3" color="#ff0000"><b>
+    	<%=h colmn.e_user_status%></b></font>
+		<%else%>
+		<font size="3" color="#00bb00" ><b>
+    	<%=h colmn.e_user_status%></b></font>
+		<%end%>
+		</td>
+
+    <td>	
+	<a href="/account/show/<%=colmn.id%>"  class='ListLine<%= odd_or_even %>' >Show</a>
+	</td>
+    <td>
+    	<a href="/account/edit/<%=colmn.id%>"  class='ListLine<%= odd_or_even %>'>Edit</a>
+    	</td>
+		<%if logged_in_user%>
+    <td>
+    	<a href="/account/blockUblock/<%=colmn.id%>"  class='ListLine<%= odd_or_even %>'>Block/Unblock</a>
+    	</td></td>
+<%end%>
+  </tr>
+ 
+<% end %>
+<input type="hidden" name="len" id="len" value="<%= i %>"/>
+<tr><td>
+	<%= link_to 'Previous page', { :page => @hmm_user_pages.current.previous, "hmm_user['username']" => @uname, "hmm_user['firstname']" => @fname, "hmm_user['v_country']" => @country, "hmm_user['zip']" => @zip, :sort_key => @sort_key, :order => @order } if @hmm_user_pages.current.previous %>
+<%= link_to 'Next page', { :page => @hmm_user_pages.current.next , "hmm_user['username']" => @uname, "hmm_user['firstname']" => @fname, "hmm_user['v_country']" => @country, "hmm_user['zip']" => @zip, :sort_key => @sort_key, :order => @order } if @hmm_user_pages.current.next %> 
+</td>
+</tr>
+
+</table>
+
+
+
+</td></tr></table>
+</form>
+
+
+
+<br />

@@ -1,0 +1,26 @@
+<h1>PhotoBook Stickers List</h1>
+
+<table border=1>
+  <tr>
+
+    <th>Sticker Name</th>
+    <th>Sticker Image</th>
+
+
+
+  <th align="center" colspan="3">Actions</th>
+  </tr>
+
+<% for sticker in @sticker %>
+  <tr>
+
+    <td><%= sticker.sticker_image %></th>) </td>
+   <td><img width="40" src="<%=request_content_url%>/user_content/photobook_stickers/<%= sticker.sticker_image %>" /></td>
+    <td><%= link_to 'Destroy', { :action => 'destroy', :id => sticker }, :confirm => 'Are you sure?', :method => :post %></td>
+  </tr>
+<% end %>
+</table>
+<%=will_paginate @sticker%>
+
+
+

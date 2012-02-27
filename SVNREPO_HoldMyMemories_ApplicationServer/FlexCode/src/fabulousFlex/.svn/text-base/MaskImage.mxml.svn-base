@@ -1,0 +1,190 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:Canvas xmlns:mx="http://www.adobe.com/2006/mxml" width="400" height="300" creationComplete="init()"
+	horizontalScrollPolicy="off" verticalScrollPolicy="off" xmlns:fabulousFlex="fabulousFlex.*">
+	<mx:Script>
+		<![CDATA[
+			import mx.containers.TitleWindow;
+			import mx.effects.Effect;
+			/**
+				MaskImage - UI of the Mask Image Component.
+			 **/
+			[Bindable]
+			private var _startPosX:int = 0;
+			[Bindable]
+			private var _startPosY:int = 0;
+			private var _maskMove:MaskMove;
+			private var _positioned:Boolean = false;
+			private var _source:* = null;
+			//possible options are, center and custom
+			private var _startPositionMode:String = StartPositionMode.CENTER;
+			private var _unloadEffect:Effect = null;
+			[Bindable]
+			private var _completeEffect:Effect = null;
+			[Bindable]
+			private var _preloaderTitleWindow:Class = null;
+			
+			private function init():void
+			{
+				img.cacheAsBitmap = this.cacheAsBitmap;
+				_maskMove = new MaskMove(img);	
+				if(_source != null)
+				{
+				   if (_source is String)
+				   	 img.load(_source);
+				   else
+				     onImageDone(null);
+				}
+			}
+			
+			/** Source of the image for loading content (see mx Image class)**/
+			public function set source(val:*):void
+			{
+				if(img!=null)
+					img.source = val;
+				else
+					_source = val;
+			}
+			/** Source of the image for loading content (see mx Image class)**/
+			public function get source():*
+			{
+				return img.source;
+			}
+			/** The starting position of the image on the x axis. Top left.
+				Only when startPositionMode == custom**/
+			public function set startPosX(val:int):void
+			{
+				_startPosX = val;	
+			}
+			/** the starting position of the image on the x axis. Top left.
+			Only when startPositionMode == custom**/
+			public function get startPosX():int{
+				return _startPosX;
+			}
+			/** the starting position of the image on the y axis. Top left.
+			Only when startPositionMode == custom**/
+			public function set startPosY(val:int):void
+			{
+				_startPosY = val;	
+			}
+			/** the starting position of the image on the y axis. Top left.
+			Only when startPositionMode == custom**/
+			public function get startPosY():int{
+				return _startPosY;
+			}
+			/** load image from url (see mx Image.load)**/
+			public function load(val:String):void
+			{
+				img.visible = false;
+				img.load(val);
+			}
+			
+			private function onImageDone(event:Event):void
+			{
+				positionImage();
+				img.visible = true;
+			}
+			
+			/**
+			for source loading (complete event is not called)
+			**/
+			private function onResize(event:Event):void
+			{
+				if(!_positioned)
+					positionImage();
+			}
+			
+			/**positions the mask ove the center of the image**/
+			public function positionImage():void
+			{
+				if((img!=null)&&(img.content!=null)&&
+					(this.width!=0)&&(this.height!=0))
+				{
+					if(_startPositionMode == StartPositionMode.CENTER)
+						{
+							//center mask of image in canvas
+							img.x = (this.width-img.contentWidth)/2;
+							img.y = (this.height-img.contentHeight)/2;
+						}
+						else if(_startPositionMode == StartPositionMode.CUSTOM)
+						{
+							img.x = _startPosX;
+							img.y = _startPosY;
+						}
+						
+						_positioned = true;
+				}
+			}
+			
+			/**
+			possible values are 
+			(1) center - centers image under mask, (2) custom - uses 
+			startXPos and startYPos, which you must set.
+			**/
+			public function set startPositionMode(val:String):void
+			{
+				_startPositionMode = val;
+			}
+			
+			/** The time in Milisecs until the move check is triggered.
+		 	* affects the time from user movement until move effect happens**/
+			public function get responseTime():int
+			{
+				return _maskMove.responseTime;
+			}
+			/** The time in Milisecs until the move check is triggered.
+			 * affects the time from user movement until move effect happens**/
+			public function set responseTime(val:int):void
+			{
+				_maskMove.responseTime = val;
+			}
+			
+			/** The sensitivity of mouse movement effect triggering, <b>while</b>
+		 	*  mouse is moving**/
+			public function get sensitivity():int
+			{
+				return _maskMove.sensitivity;
+			}
+			
+			/** The sensitivity of mouse movement effect triggering, <b>while</b>
+		 	*  mouse is moving**/
+			public function set sensitivity(val:int):void
+			{
+				_maskMove.sensitivity = val;
+			}
+			
+			/** The minimum number of pixels (distance) the mouse has to go
+			 *  for moving the image to trigger**/
+			public function get minMoveDistance():int
+			{
+				return _maskMove.minMoveDistance;
+			}
+			/** The minimum number of pixels (distance) the mouse has to go
+			 *  for moving the image to trigger**/
+			public function set minMoveDistance(val:int):void
+			{
+				_maskMove.minMoveDistance = val;
+			}
+			
+			public function set completeEffect(val:Effect):void
+			{
+				_completeEffect = val;
+			}
+			
+			public function set preloaderTitleWindow(val:Class):void
+			{
+				_preloaderTitleWindow = val;
+			}
+			
+			public function stopMovement():void
+			{
+				_maskMove.stopMoveEffect();
+			}
+			
+		]]>
+	</mx:Script>
+	<fabulousFlex:PreloadingImage x="{_startPosX}" y="{_startPosY}" id='img' complete="onImageDone(event)"
+		resize="onResize(event)" showBusyCursor="false" cachePolicy="on" cacheAsBitmap="false"
+		completeEffect="{_completeEffect}"
+		preloaderTitleWindow="{_preloaderTitleWindow}"
+		preloadingCenterOverWindow="{this}"/>
+</mx:Canvas>

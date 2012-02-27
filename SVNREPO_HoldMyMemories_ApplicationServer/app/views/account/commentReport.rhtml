@@ -1,0 +1,101 @@
+<table width="750" border="0" cellpadding="0" cellspacing="0">
+	<tr>
+		<th>
+<table width="750" border="1" bordercolor="#e5b467"  cellpadding="4" cellspacing="4">
+	<tr>
+		<td colspan="13" align="center">
+			<h2>Comment Management</h2>
+		</td>
+	</tr>
+	<tr>
+		<td colspan="3" align="center"> Chapter Comments</td>
+		<td colspan="3" align="center"> Sub-chapters Comments</td>
+		<td colspan="3" align="center"> Gallery Comments</td>
+		<td colspan="3" align="center"> Moment Comments</td>
+		<td>Total</td>
+	</tr>
+	<tr>
+		<td colspan="3" align="center"><%=@chapcomment_count%> </td>
+		<td colspan="3" align="center"><%=@subComment_count%></td>
+		<td colspan="3" align="center"><%=@galComment_count%> </td>
+		<td colspan="3" align="center"><%=@momComment_count%> </td>
+		<td  rowspan="3" align="center" valign="top"><%=@allcomment_count%> </td>
+	</tr>
+	<tr>
+		<td>Approve</td>
+		<td>Reject</td>
+		<td>Pending</td>
+		<td>Approve</td>
+		<td>Reject</td>
+		<td>Pending</td>
+		<td>Approve</td>
+		<td>Reject</td>
+		<td>Pending</td>
+		<td>Approve</td>
+		<td>Reject</td>
+		<td>Pending</td>
+
+	</tr>
+	<tr>
+		<td align="center"><%= @chapcomment_count_app%></td>
+		<td align="center"><%= @chapcomment_count_rej%></td>
+		<td align="center"><%= @chapcomment_count_pen%></td>
+
+		<td align="center"><%= @subcomment_count_app%></td>
+		<td align="center"><%= @subcomment_count_rej%></td>
+		<td align="center"><%= @subcomment_count_pen%></td>
+
+		<td align="center"><%= @galcomment_count_app%></td>
+		<td align="center"><%= @galcomment_count_rej%></td>
+		<td align="center"><%= @galcomment_count_pen%></td>
+
+		<td align="center"><%= @momcomment_count_app%></td>
+		<td align="center"><%= @momcomment_count_rej%></td>
+		<td align="center"><%= @momcomment_count_pen%></td>
+
+	</tr>
+</table>
+
+
+ <% form_remote_tag :update => 'table123',
+
+         							:url => {:action => 'commentReport'},
+		 							:with => 'from_bdate',
+									:with => 'to_bdate' do %>
+
+
+	<table bordercolor="#e5b467"  align="center" width="60%" border="10" cellpadding="4" cellspacing="0">
+		<tr><th background="/images/body_hor.JPG" colspan="4" align="center" style="backgrund:repeat;" >Search Comment's Count by Date</th></tr>
+
+		<tr>
+			<td>
+				From Date
+			</td>
+			<td>
+				<%= date_select  'from_bdate', :order => [:month, :day, :year] %>
+			</td>
+		</tr>
+		<td>
+			To Date
+		</td>
+		<td>
+			<%= date_select  'to_bdate', :order => [:month, :day, :year] %>
+		</td >
+		</tr>
+			<td align="center" colspan="4"><input type="submit" name="sub1" value="Search"/>
+			</td>
+		</tr>
+
+	</table>
+<%end%>
+	<div id="table123">
+    <%= render :partial => "comntrep", :layout => false %>
+
+    </div>
+</th>
+	</tr>
+	</table>
+
+
+
+	

@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="utf-8"?>
+<degrafa:GraphicBorderSkin xmlns:mx="http://www.adobe.com/2006/mxml" xmlns:degrafa="http://www.degrafa.com/2007" >
+	
+	<mx:Script>
+        <![CDATA[
+        	import com.degrafa.core.IGraphicsFill;
+        
+        
+            [Bindable]
+            private var w:Number = 0;
+
+            [Bindable]
+            private var h:Number = 0;
+   
+            [Bindable]
+            public var isChildOne : Boolean = false; 
+            
+            
+            [Bindable]
+            public var backgroundColor : String;
+            
+            override protected function updateDisplayList(unscaledWidth:Number, unscaledHeight:Number):void
+            {	
+            	
+            	//make sure we set our variables first so that super.updateDisplayList will draw our skin
+            	//because we are binding below
+            	w = unscaledWidth;
+                h = unscaledHeight;
+            	
+            	isChildOne = this.getStyle("firstChild");
+            	
+            	backgroundColor = this.getStyle("backgroundColor") as String;
+            	
+            
+            	
+                super.updateDisplayList(unscaledWidth, unscaledHeight);
+               
+            }
+            
+           
+          
+            
+        ]]>
+    </mx:Script>
+	
+		
+		<degrafa:fills>
+			
+			 <degrafa:SolidFill id="fill" color="#000000"  />
+
+		</degrafa:fills>
+		
+		<degrafa:stroke>
+			
+			<degrafa:SolidStroke  id="stroke"
+                                color="#f0f0f0"
+                                alpha="1"
+                                weight="0"
+                                pixelHinting="true"/>
+                                
+           <!--
+            <degrafa:RadialGradientStroke    id="stroke"
+                                        weight="30">
+                <degrafa:GradientStop alpha=".3"
+                                    ratio=".8"
+                                    color="#62ABCD"/>
+                <degrafa:GradientStop alpha=".8"
+                                    ratio="1"
+                                    color="#FFFFFF"/>
+            </degrafa:RadialGradientStroke>-->
+			
+		</degrafa:stroke>
+	
+          
+
+    
+     
+	<degrafa:geometry>
+		
+		 <degrafa:Polygon id="poly1"  stroke="{stroke}" fill="{fill}">
+            <degrafa:GraphicPoint x="{(isChildOne)? 0 : -6}" y="0"/>
+            <degrafa:GraphicPoint x="{this.w}" y="0"/>
+            <degrafa:GraphicPoint x="{this.w + 6}" y="{this.h / 2}"/>
+            <degrafa:GraphicPoint x="{this.w}" y="{this.h}"/>
+            <degrafa:GraphicPoint x="{(isChildOne)? 0 : -6}" y="{this.h}"/>
+            <degrafa:GraphicPoint x="0" y="{this.h / 2}"/>
+        </degrafa:Polygon>
+        
+		
+	</degrafa:geometry>
+	
+	<degrafa:filters>
+		<mx:DropShadowFilter angle="90"  blurX="4" blurY="4"
+          distance="4" alpha="0.4" color="#000000" 
+          knockout="false" quality="1"
+          strength="1" inner="false" hideObject="false" />
+          
+	</degrafa:filters>
+	
+	
+	
+</degrafa:GraphicBorderSkin>

@@ -1,0 +1,206 @@
+<%= javascript_include_tag 'themes/formcheck/core' %>
+<%= javascript_include_tag 'themes/formcheck/more' %>
+<%= javascript_include_tag 'themes/formcheck/en' %>
+<%= javascript_include_tag 'themes/formcheck/formcheck' %>
+<%= stylesheet_link_tag 'themes/formcheck/formcheck'%>
+
+<table width="970" border="0" cellspacing="0" cellpadding="0" id="tab_bgcolor_repeat">
+  <tr>
+    <td align="left" valign="top"><table width="100%" border="0" cellspacing="0" cellpadding="0">
+        <tr>
+          <td width="13" align="left" valign="top"></td>
+          <td width="944" align="left" valign="top"><table width="100%" border="0" cellspacing="0" cellpadding="0">
+              <tr>
+                <td height="10" align="left" valign="top"></td>
+              </tr>
+              <tr>
+                <td height="35" align="left" valign="bottom" class="header-page">Manage My Site</td>
+              </tr>
+              <tr>
+                <td height="10" align="left" valign="top"></td>
+              </tr>
+              <tr>
+                <td height="1" align="left" valign="top" bgcolor="#454545"></td>
+              </tr>
+              <tr>
+                <td height="10" align="left" valign="top"></td>
+              </tr>
+              <tr>
+                <td align="left" valign="top"><table width="100%" border="0" cellspacing="0" cellpadding="0">
+                    <tr>
+                      <td width="173" align="left" valign="top" class="content-trans-bg">
+                        <%= render :partial => "partials/manage_website_menu", :locals => { :current_item => "#{@current_item}"} %>
+                      </td>
+                      <td width="17" align="left" valign="top"></td>
+                      <td width="754" align="left" valign="top">
+                        <table width="100%" border="0" cellspacing="0" cellpadding="0">
+                          <tr>
+                            <td class="content-trans-bg"><table width="100%" border="0" cellspacing="0" cellpadding="0">
+                                <tr>
+                                  <td height="10" colspan="3" align="left" valign="top"></td>
+                                </tr>
+                                <tr>
+                                  <td width="20" align="left" valign="top"></td>
+                                  <td align="left" valign="top">
+
+                                    <table width="100%" border="0" cellspacing="0" cellpadding="0">
+                                      <tr>
+                                        <td align="right" valign="top" class="side-heading">(  <a style="cursor:pointer;"  onClick="history.back();">BACK</a> )</td>
+                                      </tr>
+                                      <tr>
+                                        <td align="left" valign="top" class="header-paragraph">Contact Detail:</td>
+                                      </tr>
+                                      <tr>
+                                        <td align="left" valign="top">&nbsp;</td>
+                                      </tr>
+                                      <tr>
+                                        <td align="left" valign="top">
+                                          <table class="content-white" cellpadding="5" cellspacing="5" border="0">
+                                            <tr><td valign="top" width="150">Name </td><td align="center" width="10">:</td><td><%= @nonhmm_user.v_name %></td></tr>
+                                            <tr><td valign="top">Email </td><td align="center" width="10">:</td><td><%= @nonhmm_user.v_email %></td></tr>
+                                            <tr><td valign="top">Phone </td><td align="center" width="10">:</td><td><%= @nonhmm_user.v_phone %></td></tr>
+                                            <tr><td valign="top">Address </td><td align="center" width="10">:</td><td><%= @nonhmm_user.v_street %></td></tr>
+                                            <% unless @ulink.blank? %><tr><td>Family Website Link </td><td align="center" width="10">:</td><td><a href="<%=@ulink%>" target="_blank"><%=@ulink%></a></td></tr><% end %>
+                                            
+                                          </table>
+
+                                        </td>
+                                      </tr>
+                                      <tr>
+                                        <td align="left" valign="top">&nbsp;</td>
+                                      </tr>
+                                      <tr>
+                                        <td align="left" valign="top">
+                                          <form name="delete_contact" id="delete_contact" action="/manage_address_book/delete_contact/<%= params[:id]%>" >
+                                            <label><input name="edit" type="button" class="cmd-btn" id="button" value="Edit" onclick="document.getElementById('editform').style.display = 'block';" />&nbsp;</label>
+                                            <label>
+                                              <input type="hidden" name="uid" id="id" value="<%=params[:uid]%>">
+                                              <a onclick="if(confirm('Are you sure to delete this contact?')) return true; else return false;"><input name="delete" type="submit" class="cmd-btn" id="button" value="Delete" /></a>
+                                            </label>
+                                          </form>
+                                        </td>
+                                      </tr>
+                                      <tr>
+                                        <td align="left" valign="top">&nbsp;</td>
+                                      </tr>
+                                      <tr>
+                                        <td align="left">
+                                      <tr>
+                                        <td align="left" valign="top">
+                                          <div id="editform" style="display:none;">
+                                            <table width="100%" border="0" cellspacing="0" cellpadding="0">
+                                              <tr>
+                                                <td width="30" align="left" valign="top">&nbsp;</td>
+                                                <td width="912" align="left" valign="top">
+                                                  <form name="update_contact" id="update_contact" action="/manage_address_book/update/<%= params[:id]%>?uid=<%=params[:uid]%>" method="post">
+                                                    <table width="100%" border="0" cellspacing="0" cellpadding="0">
+                                                      <tr>
+                                                        <td align="left" valign="top">&nbsp;</td>
+                                                      </tr>
+                                                      <tr>
+                                                        <td height="25" align="left" valign="top" class="content">Name <span class="content-white">*</span></td>
+                                                      </tr>
+                                                      <tr>
+                                                        <td align="left" valign="top"><label>
+                                                            <input name="name" type="text" class="validate['required']" id="textfield" value="<%= @nonhmm_user.v_name %>" />
+                                                          </label></td>
+                                                      </tr>
+                                                      <tr>
+                                                        <td align="left" valign="top">&nbsp;</td>
+                                                      </tr>
+                                                      <tr>
+                                                        <td height="25" align="left" valign="top" class="content">Email <span class="content-white">*</span></td>
+                                                      </tr>
+                                                      <tr>
+                                                        <td align="left" valign="top"><input name="email" type="text" class="validate['required','email']" id="textfield" value="<%= @nonhmm_user.v_email %>"/></td>
+                                                      </tr>
+                                                      <tr>
+                                                        <td align="left" valign="top">&nbsp;</td>
+                                                      </tr>
+                                                      <tr>
+                                                        <td height="25" align="left" valign="top" class="content">Phone</td>
+                                                      </tr>
+                                                      <tr>
+                                                        <td align="left" valign="top"><input name="phone" type="text" class="textfield" id="textfield" value="<%= @nonhmm_user.v_phone %>"/></td>
+                                                      </tr>
+                                                      <tr>
+                                                        <td align="left" valign="top">&nbsp;</td>
+                                                      </tr>
+                                                      <tr>
+                                                        <td height="25" align="left" valign="top" class="content">Address </td>
+                                                      </tr>
+                                                      <tr>
+                                                        <td align="left" valign="top"><label>
+                                                            <textarea name="address" cols="45" rows="5"  class=""><%= @nonhmm_user.v_street %></textarea>
+                                                          </label></td>
+                                                      </tr>
+                                                      <tr>
+                                                        <td align="left" valign="top">&nbsp;</td>
+                                                      </tr>
+                                                      <tr>
+                                                        <td align="left" valign="top"><label>
+                                                            <input name="button" type="submit" class="cmd-btn" id="button" value="Update" />
+                                                            &nbsp;
+                                                          </label>
+                                                          <label>
+                                                            <input name="cancel" type="button" class="cmd-btn" id="cancel" value="Cancel" onclick="document.getElementById('editform').style.display = 'none';" />
+                                                          </label>
+                                                        </td>
+                                                      </tr>
+                                                      <tr>
+                                                        <td align="left" valign="top">&nbsp;</td>
+                                                      </tr>
+                                                    </table>
+                                                  </form>
+                                                </td>
+                                              </tr>
+                                            </table></div>
+                                        </td>
+                                      </tr>
+                                      <tr>
+                                        <td align="left" valign="top">&nbsp;</td>
+                                      </tr>
+                                      <tr>
+                                        <td align="center" valign="top"></td>
+                                      </tr>
+                                      <tr>
+                                        <td align="left" valign="top">&nbsp;</td>
+                                      </tr>
+                                      <tr>
+                                        <td align="left" valign="top">&nbsp;</td>
+                                      </tr>
+                                    </table>
+                                  </td>
+                                  <td width="20" align="left" valign="top"></td>
+                                </tr>
+                                <tr>
+                                  <td height="10" colspan="3" align="left" valign="top"></td>
+                                </tr>
+
+                              </table></td>
+                          </tr>
+                          <tr>
+                            <td>&nbsp;</td>
+                          </tr>
+                        </table>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td align="left" valign="top">&nbsp;</td>
+                      <td align="left" valign="top"></td>
+                      <td align="left" valign="top">&nbsp;</td>
+                    </tr>
+                  </table></td>
+              </tr>
+
+            </table></td>
+          <td width="13" align="left" valign="top"></td>
+        </tr>
+      </table></td>
+  </tr>
+</table>
+<script type="text/javascript">
+  window.addEvent('domready', function(){
+    new FormCheck('update_contact');
+  });
+</script>

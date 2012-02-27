@@ -1,0 +1,16 @@
+<%= error_messages_for 'my_cart' %>
+
+<!--[form:my_cart]-->
+<p><label for="my_cart_uid">Uid</label><br/>
+<%= text_field 'my_cart', 'uid'  %></p>
+
+<p><label for="my_cart_added_item">Added item</label><br/>
+<%= text_field 'my_cart', 'added_item'  %></p>
+
+<p><label for="my_cart_status">Status</label><br/>
+<%= text_field 'my_cart', 'status'  %></p>
+
+<p><label for="my_cart_no_of_copies">No of copies</label><br/>
+<%= text_field 'my_cart', 'no_of_copies'  %></p>
+<!--[eoform:my_cart]-->
+

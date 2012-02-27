@@ -1,0 +1,45 @@
+<h1>Re Assign Studio Owner </h1>
+
+<p align="center"><font color="#FF0000"><%=flash[:msg]%></font></p>
+<form name="frm" method="post" action="/sales_person/studiogroup_assign">
+<input type="hidden" name="old_studiogroup_id" id="old_studiogroup_id" value="<%=params[:id]%>">
+<table width="100%">
+ <tr>
+  
+    <th colspan="4"><h2>Current Studio Owner : <%=@stdgrp.hmm_franchise_studio%></h2></th>
+  </tr>
+  <tr>
+    <th >&nbsp;</th>
+  </tr>	
+  <tr>
+    <th background="/images/body_hor.JPG">Studios list</th>
+  </tr>
+  
+<% for hmm_studio in @hmm_studios %>
+  <tr class="<%= cycle('odd', 'even') -%>" align="center">
+	<td><%=h hmm_studio.studio_name %></td>
+  </tr>
+<% end %>
+<tr>
+    <th >&nbsp;</th>
+  </tr>	
+ <tr align="center">
+	<td>
+   Asssign To Studio Group : <select name="new_studiogroup_id">
+	<option value=''>-Select-</option>
+    <% for hmm_studiogroup in @hmm_studiogroups %>
+    <option value="<%=hmm_studiogroup.id%>"><%=hmm_studiogroup.hmm_franchise_studio%></option>
+	<% end %>
+    </select>
+    </td>
+  </tr>
+  <tr align="center">
+	<td>
+    <input type="submit" name="sub" value="Assign">
+    </td>
+  </tr>
+
+</table>
+</form>
+
+

@@ -1,0 +1,26 @@
+<table width="100%" border="0" cellspacing="0" cellpadding="0"><tr><td>
+      <div id="myContent" align="center">
+        <span style="color:#ffffff">HoldMyMemories.com requires Adobe Flash 10.0 or later to work properly.
+
+          <br>It appears you may be running an older version of Adobe Flash, or may have Java Script turned off.
+        </span>
+        <br><br><a href="http://www.adobe.com/go/getflashplayer"><u><font color=#FF6600>Get the latest Flash player from Adobe.</font></u></a>
+
+      </div>
+      <script src="/swfobject.js" language="JavaScript"></script>
+      <script type="text/javascript">
+<% photobook = Photobook.find(:all, :conditions => "id='#{params[:book_id]}' and uid='#{logged_in_hmm_user.id}' ")%>
+  var flashvars = {proxy:'<%=@servername%>',proxyurl:'<%=request_content_url%>',proxyurls:'<%=request_content_url%>',user_id:'<%=logged_in_hmm_user.id%>',familyname:'<%=logged_in_hmm_user.family_name%>',photobook_id:'<%=params[:book_id]%>'};
+  var params = {wmode: "transparent",allowFullScreen:'true'};
+  var attributes = {};
+
+  swfobject.embedSWF("/FlipBook.swf", "myContent", "898", "700", "9.0.0",
+  "expressInstall.swf", flashvars, params, attributes);
+
+      </script>
+
+
+
+    </td>
+  </tr>
+</table>

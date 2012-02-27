@@ -1,0 +1,44 @@
+<% form_for :hmm_user, :url => {:action => 'authenticate'} do |f| -%>
+
+<table width=100% height=402 class="bg_login"  align=center border=0>
+   
+   <tr>
+<th><center spry:hover="style1" class="style1">Welcome To HoldMyMemories.com</center></th>
+   </tr>
+<tr bordercolor="#000000"><td colspan="2" align="center"><br><div id="notice"><font color='#fdf1ca' ><b>&nbsp;&nbsp;&nbsp;&nbsp;<%= flash[:notice] %> </b></font></div></td>
+</tr>
+<tr bordercolor="#000000"><td align="center" valign="top"><table align="center" class="border" width="40%" border="1"  cellpadding="5" cellspacing="5" bordercolor="#191919">
+
+
+	
+    <tr ><td colspan="2" align="center" valign="middle" style="border:none" bgcolor="#191919" height="20"><span class="style1"><font size="3px" color="#ffffff">Member Login</font></span></td>
+  </tr>
+ 
+  <tr ><td colspan="2" align="center" class="border1"><% if flash[:error] -%>
+<div id="notice"><font size="1" color="#FF0000"><b><%= flash[:notice] %><span class="err-msg"> NOTE: User Name Or Password Incorrect!!</b></span></font></div>
+<%else if flash[:error1]%>
+<div id="notice"><font size="1" color="#FF0000"><b><%= flash[:notice] %><span class="err-msg"> NOTE: User is blocked.. Contact Admin!!</b></span></font></div>
+<% end -%>
+<% end -%> </td>
+</tr>
+    <tr >
+      <td align="right" class="style1" style="border:none"><font size="3px" color="#ffffff">Username </font></td>
+      <td width="49%" style="border:none" align="left"><%= f.text_field :v_user_name, :class => "textbox-signup", :size => 30 %></td>
+  </tr >
+     <tr style="border:none"><td align="right" class="style1" style="border:none"><font size="3px" color="#ffffff">Password</font></td>
+     <td align="left" style="border:none"><%= f.password_field :v_password, :class => "textbox-signup", :size => 30 %></td>
+    </tr >
+    <tr style="border:none"><td style="border:none"></td><td  style="border:none" colspan="" align="left"><input type="image" id="sign_in" src="/images/log_ovr.jpg"  border="0" /></td></tr>
+    <tr style="border:none">
+    <tr ><td class="border1" colspan="2" align="center"><a href="/user_account/forgot_password" style="text-decoration:none;">
+	
+		<font face="Arial" color="#ffffff" size=2 >I cannot access my account</font> </a></td>
+  </tr>
+        <tr style="border:none"><td class="border1" colspan="2" align="center"><p> <a href="/customers/new" style="text-decoration:none;" > <font face="Arial" color="#ffffff" size=2 >Create an account </font> </a>
+
+
+</td></tr>
+</table>
+</td></tr>
+</table> 
+    <% end %>

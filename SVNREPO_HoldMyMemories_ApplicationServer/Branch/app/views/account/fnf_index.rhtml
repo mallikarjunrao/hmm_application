@@ -1,0 +1,121 @@
+<%= javascript_include_tag 'defaults' %>
+
+<%= javascript_include_tag 'SpryAssets/SpryValidationTextField' %>
+<%= stylesheet_link_tag 'SpryAssets/SpryValidationTextField' %>
+
+<script language="javascript">
+
+
+</script>
+
+
+<table width="900" border="0" cellspacing="0" cellpadding="0" >
+	<tr>
+      <th height="13" align="left" valign="top" scope="col"></th>
+    </tr>
+    <tr align="left">
+      <th height="22" align="left" valign="top" scope="col">
+      	<table width="100%" height="40" border="0" cellspacing="0" cellpadding="0">
+          	<tr>
+          		<th width="500" align="left" valign="top" scope="col" colspan='3' height="32">
+          			<font family="arial" size="3" >
+          				<%if session[:friend]==nil || session[:friend]==''%>
+                                        <%else%>
+						 <% @friend=HmmUsers.find(session[:friend]) %> 
+                                               <%end%>
+					</font>
+				
+                                                <img src="/images/circle_load.gif" id="spinner1" style="display:none;" border="0" />
+                                                
+                                                </th>
+          		<th width="313" align="right" valign="top" scope="col">
+          			&nbsp;&nbsp;		  		</th>
+          
+		  		<th width="128" align="left" valign="top" scope="col">
+		  			<% if session[:friend] == "" %>
+                                        <%end%>		  		</th>
+		  		<th width="6" align="left" valign="top" scope="col">&nbsp;
+		  			
+				</th>
+		  		<th width="56" align="left" valign="top" scope="col">
+       			<% if session[:friend] == "" %><%end%>&nbsp;		  		</th>
+          	</tr>
+			<tr>
+				<td colspan="7">
+					<table border="0" cellpadding="0" cellspacing="0">
+						<tr>
+							<td width="896" height="39"  valign="top">
+								
+								<p>
+								  <% form_remote_tag :update => 'table',
+                                                                        :loading => "Element.show('spinner')",
+                                                                        :complete => "Element.hide('spinner')",
+                                                                        :url => {:action => 'fnf_index'},
+                                                                	:with => 'query_hmm_user',
+									:with => 'query_hmm_user1' do %>
+								  Statistical Report: &nbsp; </p>   
+								<p>From date:&nbsp;<%= date_select  'query_hmm_user',  :order => [:month, :day, :year], :start_year => Time.now.year - 100  %>	
+								  <br>
+                                                                   <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;To date:&nbsp;<%= date_select  'query_hmm_user1',  :order => [:month, :day, :year], :start_year => Time.now.year - 100  %>	<br>
+								  <br>  <br>
+								  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+								   &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type='image' src="/images/search.jpg" name=search value=search /> &nbsp; <a href="/account/fnf_index"">Show All</a>							
+						       <br>  <img src="/images/circle_load.gif" id="spinner" style="display:none;" border="0" />
+								  </p></td>
+							<% end %>
+			
+							<td width="3" valign="middle" align="center" background="images/bg_top_friendsandfamily.gif">							</td>
+						</tr>
+					</table>
+			  </td>
+			</tr>
+		</table>
+	</th>
+    </tr>
+    <tr>
+      <th  width="100%" align="left" valign="top" scope="col">	
+	  	<div id="table">
+			<%= render :partial => "fnf_list" %>
+		</div>
+	  </th>
+    </tr>
+</table>
+  
+  
+  <script language="JavaScript">
+  	function chg_hmm()
+	{
+			document.getElementById('hmm_user').style.display = 'block';
+			document.getElementById('non_hmm').style.display = 'none';
+	}
+	
+	function chg_nonhmm()
+	{
+			document.getElementById('hmm_user').style.display = 'none';
+			document.getElementById('non_hmm').style.display = 'block';
+	}
+	</script>
+
+<%= observe_field 'query',  :frequency => 0.1,
+         :update => 'table',
+      
+         :url => {:action => 'fnf_index'},
+		 :with => 'query' %> 
+	 
+		 
+<script type="text/javascript">
+var sprytextfield1 = new Spry.Widget.ValidationTextField("sprytextfield1", "none", {validateOn:["blur"]});
+var sprytextfield11 = new Spry.Widget.ValidationTextField("sprytextfield11", "email", {validateOn:["blur"]});
+</script>
+
+
+		
+	
+	
+	
+	
+	
+
+
+

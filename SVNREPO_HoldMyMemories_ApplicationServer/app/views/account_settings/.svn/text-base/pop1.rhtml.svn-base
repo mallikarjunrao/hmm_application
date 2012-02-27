@@ -1,0 +1,83 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Untitled Document</title>
+<link rel="SHORTCUT ICON" href="/images/common/favicon.ico" type="image/x-icon" />
+    <%= stylesheet_link_tag "themes/common.css"%>
+    <%= stylesheet_link_tag "themes/#{@family_website_owner.theme}"%>
+    <%= javascript_include_tag 'themes/iepngfix/iepngfix_tilebg' %>
+    <style type="text/css">
+      img, div, table, tr, td { behavior: url(iepngfix.htc) }
+    </style>
+	 <script type="text/javascript">
+function windowOpener(windowHeight, windowWidth, windowName, windowUri)
+{
+	//alert();
+    var centerWidth = (window.screen.width - windowWidth) / 2;
+    var centerHeight = (window.screen.height - windowHeight) / 2;
+
+	var features='resizable=0,scrollbars=yes,width='+ windowWidth + 
+        ',height='+ windowHeight + 
+        ',left='+ centerWidth + 
+        ',top='+ centerHeight;
+    newWindow = window.open(windowUri,'',features);
+
+    //newWindow.focus();
+    //return newWindow.name;
+}
+</script>
+</head>
+
+<body class="body_bg">
+<table width="500" height="300" border="0" cellspacing="5" cellpadding="5">
+  <tr>
+    <td colspan="2">&nbsp;</td>
+  </tr>
+  <tr class="content"  style="padding:50px;">
+  	<td>&nbsp;</td>
+    <td><%if(@credit_count!=0 and @studio_groups)
+                                                                  if @studio_groups.credit_system =="Dollars"
+                                                                    if(@credit_points)
+                                                                     @val=number_with_precision(@credit_points.available_credits, :precision => 2)
+                                                                    else
+                                                                      @val= 0.0
+                                                                    end
+
+                                                                    @msg='$'+@val.to_s+' studio credit.'
+                                                                    @sys='credit.'
+                                                                  else
+                                                                    if(@credit_points)
+                                                                     @val=@credit_points.available_credits.round
+                                                                    else
+                                                                      @val= 0.0
+                                                                    end
+                                                                    
+                                                                    @msg=@val.to_s+' studio points.'
+                                                                    @sys='points.'
+                                                                  end %>
+                                                                  
+                                                                  
+                                                                  If you terminate your Premium Membership, you will lose your <b><%=@msg%></b>
+																  <%end%><br><br>
+                                                                   By cancelling your Premium Membership, you will loose access to your studio images, as well as the following studio benefits: <br /><br />
+                                                                   <% if(@benefits.length>0) %> 
+                                                                   <% for studio_benefit in @benefits %>
+                                                                    <b><li><%=studio_benefit.content%></li></b>
+                                                                   <%end%>
+																   <%end%>
+                                                                   
+                                                                </td>
+  </tr>
+  <tr align="center" >
+    <td colspan="2" class='content'>
+	Click Yes to terminate your Premium Membership.<br /> Click No to keep your Premium Membership
+	<%if(@credit_count!=0)%>
+	 and your studio <%=@sys%>
+	<%end%><br><br>
+	<input name="button" type="submit" class="cmd-btn" id="button" value="Yes" onClick="javascript:window.location='/account_settings/pop2/<%=params[:id]%>'" /> &nbsp;&nbsp;&nbsp;<input name="button" type="submit" class="cmd-btn" id="button" value="No" onClick="javascript:window.close();" /></td>
+  </tr>
+</table>
+
+</body>
+</html>

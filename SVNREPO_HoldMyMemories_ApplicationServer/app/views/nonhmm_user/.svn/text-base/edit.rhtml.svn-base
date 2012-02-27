@@ -1,0 +1,11 @@
+<h4>Edit NonHmm User</h4>
+
+<% form_tag :action => 'update', :id => @nonhmm_user do %>
+  <%= render :partial => 'form' %>
+ <br>
+ <br>
+ 		<center> <input name="commit" value="Edit" type="submit" id="regsubmit"> </center>
+  	
+<% end %>
+
+

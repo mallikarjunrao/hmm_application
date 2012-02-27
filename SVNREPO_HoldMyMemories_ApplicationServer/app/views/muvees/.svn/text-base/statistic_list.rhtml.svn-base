@@ -1,0 +1,34 @@
+<% if params[:jobid]==nil%>
+<%else%>
+<p align="center">
+<%
+	jobid=params[:id]
+puts jobid
+wsdl_url = 'http://whampoa-staging.muvee.com:8080/axis/services/MuveeService?wsdl'
+	begin
+    soap = SOAP::WSDLDriverFactory.new(wsdl_url).create_rpc_driver
+    logger.info("successful soap rpc driver")
+   rescue
+    logger.info("Error soap rpc driver")
+   end 
+   muveePassport = {
+    'username' => 'farooq',
+    'passcode' => 'farooq123'
+   }
+   status = soap.viewStatus(muveePassport,jobid)
+   sucess_story=status.status
+   @file_progress=status.progress
+puts @file_progress
+	
+%>
+
+<% if @file_progress == "100" %>
+ Done
+<%else%>
+	<%=@file_progress%>
+	
+<%end%>
+
+</p>
+
+<%end%>

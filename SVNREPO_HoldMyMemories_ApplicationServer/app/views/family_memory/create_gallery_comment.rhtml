@@ -1,0 +1,4 @@
+<form method="post" name="commentform" id="commentform" class="nyroModal" action="/familywebsite_comments/create_gallery_comment/<%=params[:id]%>?gallery_id=<%= params[:gallery_id] %>">
+  <%= render :partial => "partials/commentform", :locals => { :model => "gallery_comment",:field1 => "v_name", :field2 => "v_comment", :label => "Save"} %>
+  <input type="hidden" name="gallery_comment[gallery_id]" value="<%= params[:gallery_id] %>">
+</form>

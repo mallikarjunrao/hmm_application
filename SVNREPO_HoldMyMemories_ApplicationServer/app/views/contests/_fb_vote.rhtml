@@ -1,0 +1,5 @@
+<%= fb_connect_javascript_tag %>
+<%= init_fb_connect "XFBML", {:js => :jquery ,  :app_settings => " { permsToRequestOnConnect : 'email' }"} %>
+<fb:login-button onlogin="window.location ='/user_account/facebook_vote/<%= @moment_details[0].id %>?type=momentdetails'" class=" fb_login_not_logged_in FB_login_button">
+  <a class="fbconnect_login_button" id="RES_ID_fb_login"><img id="RES_ID_fb_login_image" src="http://static.ak.fbcdn.net/rsrc.php/v1/yq/r/RwaZQIP0ALn.gif" alt="Connect"></a>
+</fb:login-button>

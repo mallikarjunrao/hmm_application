@@ -1,0 +1,88 @@
+<table align="center" width="500"  border="1" cellpadding="0" cellspacing="0" bordercolor="#000000">
+  <tr>
+  	<th width="88" height="100" background="/images/body_hor.JPG"><div align="center">Studio Name</div></th>
+    <th width="104" background="/images/body_hor.JPG"><div align="center">Address</div></th>
+	 <th width="99" background="/images/body_hor.JPG"><div align="center">City , State , Zipcode</div></th>
+	<th width="103" background="/images/body_hor.JPG"><div align="center">Studio Phone Number</div></th>
+    <th width="112" background="/images/body_hor.JPG"><div align="center">Studio Website </div></th>
+	<th width="77" background="/images/body_hor.JPG"><div align="center">Name</div></th>
+    <th width="103" background="/images/body_hor.JPG"><div align="center">Phone Number</div></th>
+	<th width="97" background="/images/body_hor.JPG"><div align="center">E-mail</div></th>
+    <th width="74" background="/images/body_hor.JPG"><div align="center">Children Session</div></th>
+    <th width="97" background="/images/body_hor.JPG"><div align="center">Family Session</div></th>
+    <th width="136" background="/images/body_hor.JPG"><div align="center">Maternity Session</div></th>
+    <th width="117" background="/images/body_hor.JPG"><div align="center">Glamour Session</div></th>
+    <th width="97" background="/images/body_hor.JPG"><div align="center">High school Session</div></th>
+    <th width="97" background="/images/body_hor.JPG"><div align="center">Bridal Session</div></th>
+    <th width="119" background="/images/body_hor.JPG"><div align="center">Wedding Session</div></th>
+    <th width="97" background="/images/body_hor.JPG"><div align="center">Other Session</div></th>
+    <th width="116" background="/images/body_hor.JPG"><div align="center">Average Number of Session per week</div></th>
+    <th width="151" background="/images/body_hor.JPG"><div align="center">Notes</div></th>
+    <th width="90" background="/images/body_hor.JPG"><div align="center">Follow Up Date Time</div></th>
+    <th width="90" background="/images/body_hor.JPG"><div align="center">Follow Up Person</div></th>
+    <th width="149" background="/images/body_hor.JPG"><div align="center">Submitted Date</div></th>
+  </tr>
+  
+<%	odd_or_even = 0 
+	i = 0 
+	for studiodet in @studiodet 
+	i = i + 1
+	odd_or_even = 1 - odd_or_even %>
+	
+  <tr class="<%= cycle('odd', 'even') -%>">
+  	
+	<td><div align="center"><%=studiodet.studio_name%></div></td>
+  	<td><div align="center"><%=studiodet.address%></div></td>
+	<td><div align="center"><%=studiodet.city%></div></td>
+	<td><div align="center"><%=studiodet.studio_phone%></div></td>
+	<td><div align="center"><%=studiodet.website%></div></td>
+	<td><div align="center"><%=studiodet.name%></div></td>
+	<td><div align="center"><%=studiodet.phone%></div></td>
+	<td><div align="center"><%=studiodet.email%></div></td>
+    <% if(studiodet.children!=nil) %>
+    <td><div align="center"><%=studiodet.children%></div></td>
+    <%else%>
+    <td><div align="center">no</div></td>
+    <%end%>
+     <% if(studiodet.family!=nil) %>
+    <td><div align="center"><%=studiodet.family%></div></td>
+    <%else%>
+    <td><div align="center">no</div></td>
+    <%end%>
+      <% if(studiodet.maternity!=nil) %>
+    <td><div align="center"><%=studiodet.maternity%></div></td>
+    <%else%>
+    <td><div align="center">no</div></td>
+    <%end%>
+      <% if(studiodet.glamour!=nil) %>
+    <td><div align="center"><%=studiodet.glamour%></div></td>
+    <%else%>
+    <td><div align="center">no</div></td>
+    <%end%>
+    <% if(studiodet.high_school!=nil) %>
+    <td><div align="center"><%=studiodet.high_school%></div></td>
+    <%else%>
+    <td><div align="center">no</div></td>
+    <%end%>
+    <% if(studiodet.bridal!=nil) %>
+    <td><div align="center"><%=studiodet.bridal%></div></td>
+    <%else%>
+    <td><div align="center">no</div></td>
+    <%end%>
+     <% if(studiodet.weddings!=nil) %>
+    <td><div align="center"><%=studiodet.weddings%></div></td>
+    <%else%>
+    <td width="44"><div align="center">no</div></td>
+  <%end%>
+      <td width="55"><div align="center"><%=studiodet.others%></div></td>
+    <td width="34" align="center"><div align="center"><%=studiodet.avg_sessions%></div></td>
+    <td width="151"><div align="center"><%=studiodet.notes%></div></td>
+    <td width="34"><div align="center"><%=studiodet.follow_datetime%></div></td>
+    <td width="34"><div align="center"><%=studiodet.follow_person%></div></td>
+    <td width="34"><div align="center"><%=studiodet.created_at.strftime("%m / %d / %Y %H:%M:%S") %></div></td>
+    
+  </tr>
+<% end %>
+  
+</table>
+	

@@ -1,0 +1,74 @@
+<table width="100%" border="0"  align="center">
+<tr>
+	 		
+		<td valign="top">
+			
+						<table width="100%"  border="1" cellpadding="0" cellspacing="0" align="left"  >
+
+<tr><td colspan="10" align="left"><b><font size="3"><%=@usertype1%> </font></b></td></tr>                                        <tr bgcolor="#990000">
+	<td width="2%"  valign="top">User Id</td>
+	<td width="1%"  valign="top">&nbsp;</td>
+        <td width="2%"  valign="top">Customer Name</td>
+	<td width="1%"  valign="top">&nbsp;</td>
+        
+	<td width="4%"  valign="top">username</td>
+	<td width="1%"  valign="top">&nbsp;</td>
+	<td width="2%"  valign="top">Email Id</td>
+	<td width="1%"  valign="top">&nbsp;</td>
+	<td width="3%" valign="top">Account Creation Date </td>
+        <td width="1%"  valign="top">&nbsp;</td>
+	
+	
+	
+	
+	
+	
+	</tr>
+
+						
+						<% @hmm_users.each do |i|%>	
+						
+						
+						
+			       			<tr>
+			       				<th align="left" valign="       				<a href='/customers/profile/<%= i.id %>' class="name-friendsandfamily" >
+			          					<%= i.id %>
+									</a>
+								</th>
+								<th align="left" valign="top"  scope="col">
+			          		&nbsp;&nbsp;&nbsp;	</th>
+                                                <th align="left" valign="       				<a href='/customers/profile/<%= i.id %>' class="name-friendsandfamily" >
+			          					<%= i.v_fname %>&nbsp;<%= i.v_lname %>
+									</a>
+								</th>
+								<th align="left" valign="top"  scope="col">
+			          		&nbsp;&nbsp;&nbsp;	</th>
+								<th align="left" valign="top"  scope="col">
+			          			
+			          						<%= i.v_user_name %>&nbsp;
+									
+								</th>
+								<th align="left" valign="top"  scope="col">
+			          		&nbsp;&nbsp;&nbsp;	</th>
+								<th align="left" valign="top"  scope="col">
+			          					<%= i.v_e_mail %>&nbsp;
+								</th>
+								<th align="left" valign="top"  scope="col">
+			          		&nbsp;&nbsp;&nbsp;	</th>
+			          			<th align="left" valign="top"  scope="col">
+			          					<%= i.d_created_date.strftime("%m-%d-%Y") %><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+								</th>
+							
+			          			
+							
+								
+							</tr>
+							<%end%>
+			
+				</table>   		
+			
+		</td>
+		<td></td>
+		
+</tr>
+</table>

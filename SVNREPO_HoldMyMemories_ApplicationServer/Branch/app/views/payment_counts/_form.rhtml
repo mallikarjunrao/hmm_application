@@ -1,0 +1,16 @@
+<%= error_messages_for 'payment_count' %>
+
+<!--[form:payment_count]-->
+<p><label for="payment_count_uid">Uid</label><br/>
+<%= text_field 'payment_count', 'uid'  %></p>
+
+<p><label for="payment_count_amount">Amount</label><br/>
+<%= text_field 'payment_count', 'amount'  %></p>
+
+<p><label for="payment_count_recieved_on">Recieved on</label><br/>
+<%= datetime_select 'payment_count', 'recieved_on'  %></p>
+
+<p><label for="payment_count_account_type">Account type</label><br/>
+<%= text_field 'payment_count', 'account_type'  %></p>
+<!--[eoform:payment_count]-->
+

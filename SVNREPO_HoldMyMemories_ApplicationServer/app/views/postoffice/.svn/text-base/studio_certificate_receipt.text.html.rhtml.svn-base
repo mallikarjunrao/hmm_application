@@ -1,0 +1,146 @@
+<link href="/stylesheets/main.css" media="screen" rel="Stylesheet" type="text/css" />
+<script type="text/javascript">window.print();</script>
+<table width="100%" cellpadding="0" cellspacing="0">
+  <tr>
+    <td width="100%" align="center"><table width="970" border="0" cellspacing="0" cellpadding="0" id="tab_bgcolor_repeat">
+        <tr>
+          <td align="left" valign="top"><table width="100%" border="0" cellspacing="0" cellpadding="0">
+              <tr>
+                <td width="13" align="left" valign="top"></td>
+                <td width="944" align="left" valign="top"><table width="100%" border="0" cellspacing="0" cellpadding="0">
+                    <tr>
+                      <td height="10" align="left" valign="top"></td>
+                    </tr>
+                    <tr>
+                      <td height="35" align="left" valign="bottom" class="header-page">Certificate Receipt</td>
+                    </tr>
+                    <tr>
+                      <td height="10" align="left" valign="top"></td>
+                    </tr>
+                    <tr>
+                      <td height="1" align="left" valign="top" bgcolor="#454545"></td>
+                    </tr>
+                    <tr>
+                      <td height="10" align="left" valign="top"></td>
+                    </tr>
+                    <tr>
+                      <td align="left" valign="top" class="content-trans-bg"><table width="100%" border="0" cellspacing="0" cellpadding="0">
+                          <tr>
+                            <td width="30" height="30" align="left" valign="top">&nbsp;</td>
+                            <td width="882" align="left" valign="top">&nbsp;</td>
+                            <td width="30" align="left" valign="top">&nbsp;</td>
+                          </tr>
+                          <tr>
+                            <td align="left" valign="top">&nbsp;</td>
+                            <td align="left" valign="top" class="content-trans-bg"><table width="100%" border="0" cellspacing="0" cellpadding="0">
+                                <tr>
+                                  <td height="20" colspan="3" align="left" valign="top"></td>
+                                </tr>
+                                <tr>
+                                  <td height="20" colspan="3" align="left" valign="top">&nbsp;</td>
+                                </tr>
+
+                                <tr>
+                                  <td align="left" valign="top"></td>
+                                  <td align="left" valign="top"><a href="http://www.holdmymemories.com" ><img src="http://www.holdmymemories.com/images/email_logo.gif" width="177" height="48" alt="Logo" border="0" /></a></td>
+                                  <td align="left" valign="top"></td>
+                                </tr>
+
+                                                                  <tr>
+                                      <td align="left" valign="top"></td>
+                                      <td align="left" valign="top"><table width="600" border="0" cellspacing="0" cellpadding="0" class="content-trans-bg">
+                                          <tr>
+                                            <td height="20" colspan="3" align="left" valign="top"></td>
+                                          </tr>
+                                          <tr>
+                                            <td width="20" align="left" valign="top"></td>
+                                            <td width="600" align="left" valign="top"><table width="600" border="0" cellspacing="0" cellpadding="0">
+                                                <tr>
+                                                  <td width="310" height="30" align="left" valign="middle" class="cont-white-title">Certificate ID: <%=@certificate_info.certificate_id%></td>
+                                                  <td width="50" align="left" valign="middle" class="cont-white-title">&nbsp;</td>
+                                                </tr>
+                                                <%if @certificate_info.certificate_name!=''%>
+                                                 <tr>
+                                                  <td width="310" height="30" align="left" valign="middle" class="cont-white-title">Certificate Name: <%=@certificate_info.certificate_name%></td>
+                                                  <td width="50" align="left" valign="middle" class="cont-white-title">&nbsp;</td>
+                                                </tr>
+                                                <%end%>
+                                                <tr>
+                                                  <td width="310" height="30" align="left" valign="middle" class="cont-white-title">Order Number: <%=@certificate.order_no%></td>
+                                                  <td width="50" align="left" valign="middle" class="cont-white-title">&nbsp;</td>
+                                                </tr>
+                                                <tr>
+                                                  <td width="310" height="30" align="left" valign="middle" class="cont-white-title">Date: <%=@certificate.purchased_date.strftime("%m / %d / %Y")%> </td>
+                                                  <td width="50" align="left" valign="middle" class="cont-white-title">&nbsp;</td>
+                                                </tr>
+                                                <tr>
+                                                  <td colspan="2" align="left" valign="top">&nbsp;</td>
+                                                </tr>
+                                                <tr>
+                                                  <td colspan="2" align="left" valign="top" class="content"><strong>Bill To:</strong></td>
+                                                </tr>
+                                                <tr>
+                                                  <td colspan="2" align="left" valign="top"><table width="100%" border="0" cellspacing="0" cellpadding="0">
+                                                      <tr>
+                                                        <td height="10" colspan="3" align="left" valign="top"></td>
+                                                      </tr>
+                                                      <tr>
+                                                        <td width="100" align="left" valign="top" class="content"><strong>Name</strong></td>
+                                                        <td width="10" align="left" valign="top" class="content"><strong>:</strong></td>
+                                                        <td width="159" align="left" valign="top" class="content"><%=@certificate.last_name%> <%=@certificate.first_name%></td>
+                                                      </tr>
+                                                      <tr>
+                                                        <td align="left" valign="top" class="content"><strong>Address</strong></td>
+                                                        <td align="left" valign="top" class="content"><strong>:</strong></td>
+                                                        <td align="left" valign="top" class="content"><%=@certificate.street_address%>,<br>
+                                                          <%=@certificate.city%>,
+                                                          <%=@certificate.state%>,<%=@certificate.zip%>. <br/>
+                                                         </td>
+                                                      </tr>
+                                                      <tr>
+                                                        <td align="left" valign="top" class="content"><strong>Phone Number</strong></td>
+                                                        <td align="left" valign="top" class="content"><strong>:</strong></td>
+                                                        <td align="left" valign="top" class="content"><%=@certificate.telephone%></td>
+                                                      </tr>
+                                                      <tr>
+                                                        <td align="left" valign="top" class="content"><strong>Email</strong></td>
+                                                        <td align="left" valign="top" class="content"><strong>:</strong></td>
+                                                        <td align="left" valign="top" class="content"><%=@certificate.email%></td>
+                                                      </tr>
+                                                      <tr>
+                                                        <td align="left" valign="top" class="content" height="50"><strong>&nbsp;</strong></td>
+                                                        <td align="left" valign="top" class="content"><strong></strong></td>
+                                                        <td align="left" valign="top" class="content"></td>
+                                                      </tr>
+                                                      <tr>
+                                                        <td align="left" valign="top" class="content"><strong>Total Cost</strong></td>
+                                                        <td align="left" valign="top" class="content"><strong>:</strong></td>
+                                                        <td align="left" valign="top" class="content"><strong>$<%=number_with_precision(Float(@certificate.amount).round(2), :precision => 2)%></strong></td>
+                                                      </tr>
+                                                    </table></td>
+                                                </tr>
+                                              </table></td>
+                                            <td width="20" align="left" valign="top"></td>
+                                          </tr>
+                                          <tr>
+                                            <td height="20" colspan="3" align="left" valign="top"></td>
+                                          </tr>
+                                        </table></td>
+                                      <td align="left" valign="top"></td>
+                                    </tr>
+                                    <tr>
+                                      <td height="20" colspan="3" align="left" valign="top">&nbsp;</td>
+                                    </tr>
+                               </table></td>
+                            <td align="left" valign="top">&nbsp;</td>
+                          </tr>
+                        </table></td>
+                    </tr>
+                  </table></td>
+                <td width="13" align="left" valign="top"></td>
+              </tr>
+            </table></td>
+        </tr>
+      </table></td>
+  </tr>
+</table>

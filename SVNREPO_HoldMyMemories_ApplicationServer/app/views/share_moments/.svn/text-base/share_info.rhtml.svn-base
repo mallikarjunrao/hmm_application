@@ -1,0 +1,123 @@
+<table><tr><td height="35"></td></tr></table>
+<table width="white" cellpadding="3" cellspacing="3" >
+	<tr>
+		<td colspan="2"><font color="white" size="2"><b>Album Information:</b></font></td>
+		<%	
+		if(params[:ctype]=="share")
+                  
+                   
+                  sharedmoments = SharedMomentId.find(:all, :conditions => "share_id=#{@share.id}")
+                  imagecount=SharedMomentId.count(:joins => "as a, user_contents as b ",:conditions =>"a.moment_id=b.id and a.share_id=#{@share.id} and b.e_filetype='image'")
+                  videocount=SharedMomentId.count(:joins => "as a, user_contents as b ",:conditions =>"a.moment_id=b.id and a.share_id=#{@share.id} and (b.e_filetype='video' or b.e_filetype='swf')")
+                  audiocount=SharedMomentId.count(:joins => "as a, user_contents as b ",:conditions =>"a.moment_id=b.id and a.share_id=#{@share.id} and b.e_filetype='audio'")
+                  
+                  for sharedmoment in sharedmoments
+                    
+                   moment=UserContent.find(:all,:conditions => "id= #{sharedmoment.moment_id}")
+                   if(moment[0]['e_filetype'] == "image")
+                       share_image="#{moment[0]['img_url']}/user_content/photos/big_thumb/#{moment[0]['v_filename']}"
+                       
+                       
+                   end
+                   if(moment[0]['e_filetype'] == "video" || moment[0]['e_filetype'] == "swf")
+                       share_image="#{moment[0]['img_url']}/user_content/videos/thumbnails/#{moment[0]['v_filename']}.jpg"
+                      
+                   end
+                   if(moment[0]['e_filetype'] == "audio")
+                       share_image = "#{moment[0]['img_url']}/user_content/audios/speaker.jpg"
+                       
+                   end
+                   hmmtype=moment[0]['e_filetype']
+                  end
+                   
+		else
+                  imagecount=0
+                        audiocount=0
+                        videocount=0
+                    usercontent=UserContent.find(@share.usercontent_id)
+                    path="/myphotos/photo_journal/#{usercontent.id}"
+                    if(usercontent.e_filetype=="image")
+			share_image="#{usercontent.img_url}/user_content/photos/journal_thumb/#{usercontent.v_filename}"  
+			hmmtype="image"
+			moment_count=1
+                        imagecount=1
+                        
+		    else
+                        if(usercontent.e_filetype=="audio")
+                            share_image="#{usercontent.img_url}/user_content/audio/speaker.png"
+                            hmmtype="audio"
+                            audiocount=1
+		  	else
+                            share_image="#{usercontent.img_url}/user_content/videos/thumbnails/#{usercontent.v_filename}"+".jpg"	  	
+                            hmmtype="video"	
+                            videocount=1
+			end			
+		    end	
+		end
+		%>
+		
+        <td rowspan="10" valign="top">
+        	
+			<a href="<%=path%>"><img border="0" src="<%=share_image%>" width="200" /></a>
+			
+        </td>
+	</tr>	
+	<tr>
+		<td></td>
+		<td><font color="white" size="2">Number of Images shared: &nbsp; <%=imagecount%></font> </td>
+	</tr>
+        <tr>
+		<td></td>
+		<td><font color="white" size="2">Number of Audios shared: &nbsp; <%=audiocount%></font> </td>
+	</tr>
+        <tr>
+		<td></td>
+		<td><font color="white" size="2">Number of Videos shared: &nbsp; <%=videocount%></font> </td>
+	</tr>
+	
+	<tr>
+		<td>
+			
+		</td>
+	</tr>
+	<tr>
+		<td colspan="2"><font color="white" size="2"><b>Created Date: &nbsp; <%=@share.created_date.strftime("%a %b #{@share.created_date.day.ordinalize} %Y,   %I:%M %p") %> </b></font></td>
+	</tr>
+	<tr>
+		<td>
+			
+		</td>
+	</tr>	
+	<tr>
+		<td colspan="2"><font color="white" size="2"><b>Expiry Date: &nbsp; <%=@share.expiry_date.strftime("%a %b #{@share.expiry_date.day.ordinalize} %Y,   %I:%M %p") %> </b></font></td>
+	</tr>
+	<tr>
+		<td>
+			
+		</td>
+	</tr>
+	<%if(params[:ctype]=="share")%>
+	<tr>
+		<%splitted=@share.email_list.split(',')
+		  emaillist=""
+		  for spl in splitted
+		 	emaillist=emaillist + "<a href='mailto:#{spl}'>" + spl + "</a>, "
+			
+		  end	
+%>
+		
+		<td colspan="2"><font color="white" size="2"><b>Shared With :  &nbsp; <%=emaillist %> </b></font></td>
+	</tr>
+	<%else%>
+	<% shared_emails=ShareMoment.find(:all, :conditions => " usercontent_id='#{@share.usercontent_id}' and message='#{@share.message}'") %>
+	<tr>
+		<td colspan="2"><font color="white" size="2"><b>Shared With:  &nbsp; 
+		<%for shared_e in shared_emails %>
+		
+		<a href="mailto:<%=shared_e.email %>"><%=shared_e.email %></a>,
+		<%end%>
+		 </b></font></td>
+	</tr>
+	<%end%>
+		
+	</table>

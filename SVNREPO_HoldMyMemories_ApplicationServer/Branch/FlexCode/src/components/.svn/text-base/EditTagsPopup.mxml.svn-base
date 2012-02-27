@@ -1,0 +1,170 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ItemPopup xmlns="components.*" xmlns:mx="http://www.adobe.com/2006/mxml" xmlns:fabulousFlex="fabulousFlex.*"
+	 backgroundColor="0" color="0xFfffff" verticalAlign="middle" horizontalAlign="center">
+	<mx:Script>
+		<![CDATA[
+			import fabulousFlex.SquaresSpinnerPreloadingWindow;
+		]]>
+	</mx:Script>
+	<mx:VBox id="tagBox" width="100%" height="100%" backgroundColor="0" >
+		<mx:Label color="0xffffff" text="Description"/>
+		<mx:TextArea id="descriptionText" width="100%" text="Set Description here" color="0" />
+		<mx:HBox width="100%" >
+			<mx:Label id="tags" text="Tags" width="20%" color="0xFfffff"/>
+			<mx:TextInput id="tagInput" text="Set tags here" color="0"  
+				width="80%" />
+		</mx:HBox>
+		<mx:HBox width="100%" visible="{data[0].hasOwnProperty('creationDate')}" id="hBox">
+			<mx:Label id="creationDate" text="Moment Date" width="20%" color="0xFfffff"/>
+			<!--<mx:DateField id="dateInput" focusOut="handleTagsUpdated()" yearNavigationEnabled="true" labelFunction="formatDate"
+				width="80%" color="0" editable="true" parseFunction="parseDate" formatString="MM/DD/YYYY"/> -->
+				<CustomDateField id="dateInput"  focusOut="handleTagsUpdated()" yearNavigationEnabled="true" 
+					width="200" color="0" editable="true" formatString="MM/DD/YYYY" close="handleClose()" />
+				
+		</mx:HBox>
+	</mx:VBox>
+	
+	<mx:Button label="Save" click="saveData()"/>		
+	
+
+<mx:Script>
+	<![CDATA[
+		import mx.controls.Alert;
+		import mx.formatters.DateFormatter;
+		import mx.managers.PopUpManager;
+		import mx.collections.ArrayCollection;
+		import mx.rpc.http.HTTPService;
+		import mx.rpc.events.FaultEvent;
+		import mx.rpc.events.ResultEvent;
+		private var count : int;
+		private var length : int;
+		public var update : Function;
+		
+		private function formatDate(currentDate:Date):String 
+		{
+			var format : String = "MM/DD/YYYY";
+			var dateFormatter : DateFormatter = new DateFormatter();
+			dateFormatter.formatString = format;
+			return dateFormatter.format(currentDate);
+		}
+		
+		public function parseDate(valueString:String, inputFormat:String):Date 
+		{
+			var newDate : Date = new Date();
+			newDate.time =  Date.parse(valueString);
+			if(newDate == null)
+			{
+				Alert.show("Invalid Date Entered");
+				newDate = new Date();
+			}	
+			 
+    		return newDate;
+		}
+
+
+		private function handleClose() : void
+		{
+			data.creationDate = dateInput.selectedDate;
+		}
+		private function handleTagsUpdated() : void
+		{
+			var datap : Array = data as Array;
+			for(var i : int = 0; i < datap.length; i++)
+			{
+				data[i].tags = tagInput.text;	
+			}
+			update();
+			
+		}
+		
+		private function handleDescriptionUpdated() : void
+		{
+			var datap : Array = data as Array;
+			for(var i : int = 0; i < datap.length; i++)
+			{
+				datap[i].description = descriptionText.text;	
+			}
+			
+			update();
+		}
+		
+		private function handleDateChanged() : void
+		{
+			var datap : Array = data as Array;
+			for(var i : int = 0; i < datap.length; i++)
+			{
+				data[i].creationDate = dateInput.selectedDate;	
+			}
+			
+			update();
+		}
+		
+		private function saveData() : void
+		{
+			var datap : Array = data as Array;
+			for(var i : int = 0; i < datap.length; i++)
+			{
+				var params : Object = new Object();
+				var renameService : HTTPService = new HTTPService();
+				params.id = data[i].id;
+				params.name = data[i].name
+				params.description = descriptionText.text;
+				params.tags = tagInput.text;
+				switch(data[i].classType)
+				{
+					case "chapterVO" : 
+						
+					 	renameService.url = "/tags/updateTag";
+						break;
+					case "galleryVO":
+						renameService.url = "/galleries/updateGallery";
+						break;
+					case "webFileVO" :
+						renameService.url = "/user_content/updateUserContent";
+						if(!dateInput.isDateValid)
+						{
+						 	Alert.show("Invalid Date \n Date Formate :- MM/DD/YYYY");
+						 	return;
+						}
+						else
+							params.creationDate = data.creationDate;		
+						break;
+					case "subChapterVO":
+						
+						renameService.url = "/sub_chapter/updateSubChapter";
+						break
+				}
+				
+				renameService.addEventListener(ResultEvent.RESULT, handleNameChangeResult);
+				renameService.addEventListener(FaultEvent.FAULT, handleNameChangeFault);
+				renameService.send(params);
+			}
+			length = datap.length;
+			count = 0;
+			update();
+		}
+		
+		private function handleNameChangeResult(event : ResultEvent) : void
+		{
+			trace(event.result.toString());
+			if(hBox.visible)
+			handleDateChanged();
+			handleDescriptionUpdated();
+			handleTagsUpdated();
+			if(count == length-1)
+			{
+				PopUpManager.removePopUp(this);
+			}else
+			{
+				count++;
+			}
+		}
+		
+		private function handleNameChangeFault(event : FaultEvent ) : void
+		{
+			trace(event.fault.toString());	
+		}
+	]]>
+</mx:Script>
+
+</ItemPopup>

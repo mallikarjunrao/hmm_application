@@ -1,0 +1,95 @@
+<%  session[:video_vote]=nil %>
+<%  session[:image_vote]="1" %>
+<%= javascript_include_tag 'modalbox/prototype' %>
+<script type="text/javascript" src="/javascripts/modalbox/scriptaculous.js?load=effects"></script>
+<script type="text/javascript" src="/javascripts/modalbox/modalbox.js"></script>
+<%= stylesheet_link_tag 'modalbox' %>
+<% @contests_approve1 = Contest.count(:all, :conditions => "moment_id='#{params[:id]}' and status='active'")
+   if @contests_approve1 > 0%>
+<p align="right"><font color="white" face="arial">Invite friends from <a href="/face_book_invite/vote/?url=http://www.holdmymemories.com/contests/momentdetails/<%=params[:id]%>"><img src="/images/facebook_icon.jpg" /></a> & <img src="/images/myspace_icon.jpg" /> to vote for this contest entry.<br></font></p>
+<%else%>
+<font color="#f5dfa6">Admin Approval Needed To vote and Invite Friends to vote for this Contest Moment</font>
+<%end%>
+<table border="0"  width="100%" align="center">
+	<tr><td>&nbsp;</td></tr>
+	<tr>
+		<td  align="center"><img src="/images/cute_kid_contest_heading.jpg" border="0"> </td>
+	</tr>
+	<tr><td>&nbsp;</td></tr>
+	
+
+	<tr>
+		<td align="center" ><img src="<%=@moment_details[0].img_url%>/user_content/photos/journal_thumb/<%=@moment_details[0].v_filename%>" id="img3"/></td>
+	</tr>
+	<tr><th>&nbsp;</th></tr>
+	
+	<tr>
+		<th align="center">
+			<%=@contests_fname[0].first_name %>
+		</th>
+	</tr>
+        <tr>
+		 <td  align="center" valign="middle" >
+				
+                                <% if session[:hmm_user].nil? %>
+                                <form name="myfrm" action="/contests/create_vote/" method="post"><br>
+                                   Please enter Email address to vote:  <input type="text" name="email" id="email" /><input type="hidden" name="mom_id" id="mom_id" value="<%=@contests_fname[0].id%>"/><br><br>
+                                      <input type="image" src="/images/vote_btn1.jpg" alt="vote" name="Image4413" width="61" height="20" border="0"  />
+                                </form>
+                                <%else if @contests_approve1 > 0%>
+									<a href="/contests/vote_cal/<%=@contests_fname[0].id%>">
+										<img src="/images/vote_btn1.jpg" alt="vote" name="Image4413" width="61" height="20" border="0" id="Image4413" />
+									</a>
+								<%else%>
+								     
+                                <%end%>    
+								<%end%>  
+                                </td>
+		
+	</tr>
+	<tr><th>&nbsp;</th></tr>
+	<%for @j in @journal %>
+	<tr>
+		<th align="center" valign="middle" scope="col"><span class="heading-journal">
+			
+			<table width="700" align="center" class="border">
+				
+				<tr>
+					<th align="left" bgcolor="#191919" colspan="2">
+						<font size="3"> Journal</font>
+					</th>
+				</tr>
+				<tr><th colspan="2">&nbsp;</th></tr>	
+				<tr>
+					<th>&nbsp;&nbsp;</th>
+					<th align="left" class="heading-journal">
+							 
+							 <%= @j.v_title %> -
+					  				<% ActiveSupport::CoreExtensions::Time::Conversions::DATE_FORMATS.merge!(
+    									:date => "%Y-%m-%d",
+    									:presentable_datetime => "%a %b %d, %Y %H:%M",
+    									:presentable_date => "%a %b %d, %Y") 
+										@created_date=@j.date_added%>  
+					   				<%= @created_date.to_s(:presentable_date) %></span>
+					</th>
+				</tr>
+				<tr><th colspan="2">&nbsp;</th></tr>		
+				<tr>
+					<th>&nbsp;&nbsp;</th>
+					<th align="left" >
+						<%=@j.v_image_comment.gsub("\n", "<br />\n") %>
+					</th>
+				</tr>
+				<tr><th>&nbsp;</th></tr>
+				<tr><th>&nbsp;</th></tr>
+			</table>
+		</th>
+	</tr>
+	<tr>
+		<th>
+			&nbsp;
+		</th>
+	</tr>
+	
+	<%end%>
+</table>

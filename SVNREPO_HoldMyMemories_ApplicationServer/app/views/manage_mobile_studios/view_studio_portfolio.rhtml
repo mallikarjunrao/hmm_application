@@ -1,0 +1,162 @@
+<%= javascript_include_tag 'check_flash' %>
+<%= stylesheet_link_tag 'main' %>
+<%= stylesheet_link_tag 'hmmout' %>
+<%= javascript_include_tag 'themes/formcheck/core' %>
+<%= javascript_include_tag 'themes/formcheck/more' %>
+<%= javascript_include_tag 'themes/formcheck/en' %>
+<%= javascript_include_tag 'themes/formcheck/formcheck' %>
+<%= stylesheet_link_tag 'themes/formcheck/formcheck'%>
+<%= javascript_include_tag 'themes/fancyzoom/FancyZoom' %>
+<%= javascript_include_tag 'themes/fancyzoom/FancyZoomHTML' %>
+<%= javascript_include_tag 'multifile' %>
+
+<script type="text/javascript">
+  function validateFileExtension() {
+
+    var eleme=document.getElementsByName('sample_image[]');
+    for(i=0;i<=eleme.length;i++)
+    {
+      var val=(eleme[i].value.lastIndexOf(".png"))+(eleme[i].value.lastIndexOf(".PNG"));
+      if((val < 0))
+      {
+        alert("Invalid file type.. Please Upload only transparent PNG image file!!");
+        return false;
+
+      }
+    }
+    return true;
+  }
+</script>
+
+
+<script type="text/javascript">
+  function check_terms()
+  {
+    var checked=false;
+    var elem=document.getElementsByName('sample_image[]');
+    for(i=0;i<elem.length;i++)
+    {
+      if(elem[i].value!='')
+      {
+        checked=true;
+        break;
+      }
+    }
+
+    if(checked==false)
+    {
+      alert("Please Upload a PNG transparent About Us Logo");
+      //document.frm.sample_image[0].focus();
+      return false;
+    }
+    for(i=1;i<=elem.length;i++)
+    {
+      //ext1=getFileExtension(elem[i].value);
+      var val=(elem[i].value.lastIndexOf(".png"))+(elem[i].value.lastIndexOf(".PNG"));
+      if((val < 0))
+      //if(!/(\.png|\.PNG)$/i.test(elem[i].value))
+      {
+        alert("Invalid file type.. Please Upload only transparent PNG image file!!");
+        // document.frm.sample_image[0].focus();
+        return false;
+        //}
+      }
+    }
+    return true;
+
+  }
+</script>
+
+  <script type="text/javascript">
+        function uploading() {
+         var e=document.getElementById('loadingMessage');
+           e.style.display="block"
+            var e1=document.getElementById('loadingMessage_images');
+           e1.style.display="none"
+          return true;
+       }
+    </script>
+<table width="900"  border="0" cellspacing="0" cellpadding="0">
+  <tr><td valign="top">
+      <%= render :partial => 'links' %>
+    </td><td>
+
+       <table width="93%" border="0" cellspacing="0" cellpadding="0" id="loadingMessage" align="center" style="display:none;">
+            <tr height="40"><td>
+                <img src="/images/ajax-loader.gif" /></td></tr><tr><td>Please wait until the images get uploaded...
+              </td></tr></table>
+      <form name="frm" id="frm1" action="<%=request_content_url%>/manage_mobile_studios_content/upload_studio_portfolio_samples/<%=params[:id]%>/?studio_id=<%=session[:store_id]%>" method="post" enctype="multipart/form-data" onsubmit="return uploading();">
+
+          <table width="93%" border="0" cellspacing="0" cellpadding="0" id="loadingMessage_images">
+          <tr><td valign="top" class="leftconthr" colspan="4" > <h3><font color="#ff6400">Create your iPhone App in 5 Easy Steps</h3></font></td></tr>
+          <tr>
+            <td colspan="4" align="left" valign="top" class="leftconthr"><h3><u>Step3: View Studio Portfolio Samples :</h3></td>
+          </tr>
+          <tr>
+            <td colspan="4" align="right" valign="top" class="leftconthr"><a href="/manage_mobile_studios/manage_studio_portfolios"><< Back</a>
+
+            </td>
+          </tr>
+          <tr>
+            <td colspan="4" align="center" valign="top" class="leftconthr">
+              <%if(params[:success]=='1')%>
+                <font color="#FF0000">Studio Portfolio Samples Added Successfully</font>
+              <%end%>           <br>
+              <font color="#FF0000"><%=flash[:notice]%></font>                 </td>
+          </tr>
+
+          <tr>
+            <td align="left" valign="top">&nbsp;</td>
+            <td align="left" valign="top">&nbsp;</td>
+            <td align="left" valign="top">&nbsp;</td>
+            <td align="left" valign="top">&nbsp;</td>
+          </tr>
+          <tr>
+            <td width="1%" align="left" valign="top" class="whitecont">&nbsp;</td>
+            <td width="42%" align="left" valign="top" class="whitecont">Upload Sample  Image * </td>
+            <td width="3%" align="left" valign="top" class="whitecont">:</td>
+            <td width="54%" align="left" valign="top"><input id="my_file_element" type="file" name="sample_image[]" multiple="25" onChange="return validateFileExtension()" ><br>
+              Size : 50x50 (WxH)<br />							 (Upload a PNG transparent image) <br>
+             (For Multiple image selection hold ctrl key and select)
+              <!-- This is where the output will appear -->
+              <div id="files_list_removethis"></div>
+              <script>
+                <!-- Create an instance of the multiSelector class, pass it the output target and the max number of files -->
+                var multi_selector = new MultiSelector( document.getElementById( 'files_list' ), 20 );
+                <!-- Pass in the file element -->
+                multi_selector.addElement( document.getElementById( 'my_file_element' ) );
+              </script>
+            </td>
+          </tr>
+          <tr>
+            <td align="left" valign="top">&nbsp;</td>
+            <td align="center" valign="top" colspan="3"><input type="submit" name="sub" id="sub" value="Upload" onClick="return check_terms();"></td>
+          </tr>
+
+          <tr>
+            <td align="left" valign="top">&nbsp;</td>
+            <td align="left" valign="top">&nbsp;</td>
+            <td align="left" valign="top">&nbsp;</td>
+            <td align="left" valign="top">&nbsp;</td>
+          </tr>
+          <tr>
+            <td>
+              <input type="hidden" name="category_name" value="<%=params[:name]%>" />
+            </td></tr>
+          </div>
+        </table>
+
+
+      </form>
+      <br />
+      <p><%=will_paginate @studio%></p>
+
+      <script type="text/javascript">
+        window.addEvent('domready', function(){
+          new FormCheck('frm');
+          setupZoom();
+        });
+
+      </script>
+    </td>
+  </tr></table>

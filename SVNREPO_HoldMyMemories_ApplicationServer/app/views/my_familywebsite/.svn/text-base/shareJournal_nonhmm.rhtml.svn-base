@@ -1,0 +1,371 @@
+<style>
+	.text-color{
+		font-family: Verdana, Arial, Helvetica, sans-serif;
+		color: #ffffff
+	}
+	.text-header{
+		font-family: Verdana, Arial, Helvetica, sans-serif;
+		font-size: larger;
+		color: #ffffff
+	}
+</style>
+<%session['redirect']='1'%> 
+<%@shareid = params[:id]
+	
+   @share_journal = ShareJournal.find(:all, :conditions => "unid='#{params[:id]}'")
+      params[:id] = @share_journal[0]['id']
+	  @journalshareid = params[:id] 
+      params[:id] = @share_journal[0]['jid']
+      @journalid = params[:id]  
+      params[:id] = @share_journal[0]['jtype']
+      @journaltype = params[:id]
+      @presenter_id = @share_journal [0]['presenter_id']
+	  @presenter_name=HmmUser.find(:all, :conditions => "id='#{@presenter_id}'")
+	  @name = @presenter_name[0]['v_fname']
+    %>
+
+<% if @journaltype == 'chapter' %>
+	<%@chap_journal = ChapterJournal.find(:all, :joins => "as a, tags as b", :select => "tag_id, v_chapimage, v_chapimage, img_url, v_tag_title, d_created_at, v_tag_journal", :conditions => "a.id=#{@journalid} and a.tag_id=b.id") %>
+	<% for @j in @chap_journal
+		@chap_id = @j.tag_id
+	   	@buttonVisibility = "false"%>
+		<table width="898" border="0">
+			<tr>
+				<td colspan="2" align="left" class="text-header" bgcolor="#191919">
+					<%=@name.capitalize %>'s Journal Entry 
+				</td>
+			</tr>
+			
+				<%if(@j.v_chapimage == "folder_img.png")
+					imgpath='/user_content/photos/big_thumb/noimage.jpg'
+	  			else	
+        			imageName  = @j.v_chapimage
+        			imageName.slice!(-3..-1)
+        			imgpath=@j.img_url+'/user_content/photos/flex_icon/'+imageName+'jpg'
+      			end %>
+				
+				<tr>
+					<td colspan="2">
+						<input type="text" name="chapter_id" id="chapter_id" value="<%=@chap_id%>">
+		<input type="text" name="buttonVisible" id="buttonVisible" value="<%=@buttonVisibility%>">
+        <input type="text" name="proxyurls" id="proxyurls" value="<%=@proxyurls%>"  />
+		<script language="JavaScript" type="text/javascript">
+
+		var chapid = document.getElementById("chapter_id").value;
+		var visibility = document.getElementById("buttonVisible").value;
+        var proxyurls  = document.getElementById("proxyurls").value;
+		AC_FL_RunContent( 'codebase','http://download.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=7,0,19,0',
+				'width','888',
+				'height','350',
+				'src','/RightDisplayStack',
+				'quality','high',
+				'pluginspage','http://www.macromedia.com/go/getflashplayer',
+				'movie','/RightDisplayStack',
+				'flashvars', 'serverUrl=/tags/coverFlowImages/'+chapid+'&navigateToUrl=/customers/authorise_verify/'+'&buttonsVisible='+visibility+'&proxyurls='+proxyurls,
+				'allowFullscreen', 'true',
+				'bgcolor','#000000' ); //end AC code
+		</script>
+		<noscript>
+			<object classid="clsid:D27CDB6E-AE6D-11cf-96B8-444553540000" codebase="http://download.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=7,0,19,0" width="888" height="350">
+				<param name="movie" value="/RightDisplayStack.swf" />
+				<param name="quality" value="high" />
+				<param name="FlashVars" />
+  				<embed src="/RightDisplayStack.swf" quality="high" FlashVars="serverUrl=tags/coverFlowImages/1"  pluginspage="http://www.macromedia.com/go/getflashplayer" type="application/x-shockwave-flash" width="898" height="317"></embed>
+			</object>
+		</noscript>
+					</td>
+				</tr>
+				
+			<tr>
+				<td width="25">
+					<!-- img src="< % =imgpat h >" border='0' width="192"/ -->
+				</td >
+				<td align="left" valign="top" class="heading-journal">
+					<%= @j.v_tag_title %>&nbsp;&nbsp;
+					<% ActiveSupport::CoreExtensions::Time::Conversions::DATE_FORMATS.merge!(
+    				:date => "%Y-%m-%d",
+    				:presentable_datetime => "%a %b %d, %Y %H:%M",
+    				:presentable_date => "%a %b %d, %Y") 
+					@created_date=@j.d_created_at%>  
+
+				<%=@created_date.to_s(:presentable_date)%></span>
+				<br><br>
+				<font color="#ffffff" size="2"><%=@j.v_tag_journal%></font>
+				</td>
+			</tr>
+		</table>
+		<table border="0">
+		<tr>
+			<td>
+				<%= link_to_remote("Add Comment", :update =>"me", 
+		:url => {:controller => :share_journalcomments, :action => :new, :id=> @journalshareid, :id_journal => @journalid, :type_journal => @journaltype, :redirect_id => @shareid }, :layout => false  ) %>
+				
+				<div id="me" ></div>
+				<font color="#f5dfa6"><%=flash[:noticenonhmm_jcmt]%></font>
+			</td>
+		</tr>
+	</table>
+	<%end%>
+
+<%else if @journaltype == 'subchap' %>
+	<%@subchap_journal = SubChapJournal.find(:all, :joins => "as a, sub_chapters as b", :select => "sub_chap_id, v_image, img_url, journal_title, created_on, subchap_journal", :conditions => "a.id=#{@journalid} and a.sub_chap_id=b.id") %>
+	<% 	for @k in @subchap_journal
+       	@subChapterid = @k.sub_chap_id
+	   	@buttonVisibility = "false" %>
+	<table width="898" border="0">
+			<tr>
+				<td colspan="2" align="left" class="text-header" bgcolor="#191919">
+					<%=@name.capitalize%>'s Journal Entry 
+				</td>
+			</tr>
+			
+				<%if(@k.v_image == "folder_img.png")
+					imgpath='/user_content/photos/big_thumb/noimage.jpg'
+	  			else	
+        			imageName  = @k.v_image
+        			imageName.slice!(-3..-1)
+        			imgpath=@k.img_url+'/user_content/photos/flex_icon/'+imageName+'jpg'
+      			end %>
+				
+			<tr>
+				<td colspan="2">
+					
+					<input type="hidden" id="subChapterid" name="subChapterid" value="<%=@subChapterid%>">
+					<input type="hidden" name="buttonVisible" id="buttonVisible" value="<%=@buttonVisibility%>">
+					<input type="hidden" id="proxyurls" name="proxyurls" value="<%=@proxyurls%>">
+
+					<script language="JavaScript" type="text/javascript">
+						var subChapId = document.getElementById("subChapterid").value;	
+						var visibility = document.getElementById("buttonVisible").value;
+						var proxyurls = document.getElementById("proxyurls").value;
+						AC_FL_RunContent( 'codebase','http://download.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=7,0,19,0',
+							'width','898',
+							'height','350',
+							'src','/LeftDisplayStack',
+							'quality','high',
+							'pluginspage','http://www.macromedia.com/go/getflashplayer',
+							'movie','/LeftDisplayStack',
+							'flashvars', 'serverUrl=/sub_chapter/coverFlowImages/'+subChapId+'&navigateToUrl=/customers/authorise_verify/'+'&buttonsVisible='+visibility+"&proxyurls="+proxyurls,
+							"allowFullscreen", "true",
+							'bgcolor','#000000' ); //end AC code
+					</script>
+					<noscript><object classid="clsid:D27CDB6E-AE6D-11cf-96B8-444553540000" codebase="http://download.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=7,0,19,0" width="898" height="350">
+					<param name="movie" value="/LeftDisplayStack.swf" />
+					<param name="quality" value="high" />
+					<param name="FlashVars" />
+  					<embed src="/LeftDisplayStack.swf" quality="high" FlashVars="serverUrl=sub_chapter/coverFlowImages/1"  pluginspage="http://www.macromedia.com/go/getflashplayer" type="application/x-shockwave-flash" width="898" height="350"></embed>
+					</object></noscript>
+					
+				</td>
+			</tr>
+				
+			<tr>
+				<td width="25">
+					<!-- img src="< %=imgpath% >" border='0' width="192"/ -->&nbsp;
+				</td >
+				<td align="left" valign="top" class="heading-journal">
+					<%= @k.journal_title %>&nbsp;&nbsp;
+					<% ActiveSupport::CoreExtensions::Time::Conversions::DATE_FORMATS.merge!(
+    				:date => "%Y-%m-%d",
+    				:presentable_datetime => "%a %b %d, %Y %H:%M",
+    				:presentable_date => "%a %b %d, %Y") 
+					@created_date=@k.created_on%>  
+
+				<%=@created_date.to_s(:presentable_date)%></span>
+				<br><br>
+				<font color="#ffffff" size="2"><%=@k.subchap_journal%></font>
+				</td>
+			</tr>
+		</table>
+		<table border="0">
+		<tr>
+			<td>
+				<%= link_to_remote("Add Comment", :update =>"me", 
+		:url => {:controller => :share_journalcomments, :action => :new, :id=> @journalshareid, :id_journal => @journalid, :type_journal => @journaltype, :redirect_id => @shareid }, :layout => false  ) %>
+				
+				<div id="me" ></div>
+				<font color="#f5dfa6"><%=flash[:noticenonhmm_jcmt]%></font>
+			</td>
+		</tr>
+	</table>
+	<%end%>
+
+<%else if @journaltype == 'gallery' %>
+	<%@gal_journal = GalleryJournal.find(:all, :joins => "as a, galleries as b", :select => "e_gallery_type, img_url, v_gallery_image, galerry_id, uid, v_title, v_journal, d_created_on, d_updated_on ", :conditions => "a.id=#{@journalid} and a.galerry_id=b.id") %>
+	<% for @l in @gal_journal
+		params[:gid] = @l.galerry_id
+		@galleryUrl = ""
+	if(@l.e_gallery_type == "video")
+		logger.info("Gallery Type Video")
+		@swfName = "CoverFlowVideo"
+		@galleryUrl = "/share/videoCoverflow/#{params[:gid]}"
+	elsif(@l.e_gallery_type == "image")
+		logger.info("Gallery Type Image")
+		@swfName = "PhotoGallery"
+		@galleryUrl = "/share/showGallery/#{params[:gid]}"
+	elsif(@l.e_gallery_type == "audio")
+		logger.info("Gallery Type Audio")
+		@swfName = "CoverFlowAudio"
+		@galleryUrl = "/share/showAudioGallery/#{params[:gid]}"
+	end
+		@buttonVisibility = "false"
+		@galleryId = @l.galerry_id %>
+	<table width="898" border="0">
+			<tr>
+				<td colspan="2" align="left" class="text-header" bgcolor="#191919">
+					<%=@name.capitalize%>'s Journal Entry 
+				</td>
+			</tr>
+			
+				<%if(@l.v_gallery_image == "folder_img.png")
+					imgpath='/user_content/photos/big_thumb/noimage.jpg'
+	  			else	
+        			imageName  = @l.v_gallery_image
+        			imageName.slice!(-3..-1)
+        			imgpath=@l.img_url+'/user_content/photos/flex_icon/'+imageName+'jpg'
+      			end %>
+				<tr>
+					<td >
+						<input type="hidden" id="galleryId" value="<%=@galleryUrl%>">
+						<input type="hidden" id="swfName" value="/<%=@swfName%>">
+						<input type="hidden" id="galleryIdVal" value="<%=@galleryId%>">
+						<input type="hidden" name="buttonVisible" id="buttonVisible" value="<%=@buttonVisibility%>">
+        				<input type="hidden" name="proxyurls" id="proxyurls" value="<%=@proxyurls%>" >
+        				<input type="hidden" name="servername" id="servername" value="<%=@servername%>" />
+        				<input type="hidden" name="serverurl" id="serverurl" value="<%=@serverurl%>" />
+						<script language="JavaScript" type="text/javascript">
+						var visibility = document.getElementById("buttonVisible").value;
+						var proxyurls = document.getElementById("proxyurls").value;
+						var galId = document.getElementById("galleryId").value;
+						var flashName = document.getElementById("swfName").value;
+       			 		var servername = document.getElementById('servername').value;
+        				var serverurl = document.getElementById('serverurl').value;
+						if(flashName == 'Chapter')
+		
+							var galleryIdValue = document.getElementById("galleryIdVal").value;
+							AC_FL_RunContent( 'codebase','http://download.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=7,0,19,0',
+								'width','898',
+								'height','350',
+								'src',flashName,
+								'quality','high',
+								'pluginspage','http://www.macromedia.com/go/getflashplayer',
+								'movie',flashName,
+								'flashvars', 'serverUrl='+galId+'&navigateTo=/customers/authorise_verify/'+'&backid='+galleryIdValue+'&buttonsVisible='+visibility+'&galleryid='+galleryIdValue+'&proxyurls='+proxyurls+'&proxy='+servername+'&proxyurl='+serverurl+'&proxyurls='+proxyurls,
+								'allowFullscreen', 'true',
+								'bgcolor','#000000'); //end AC code
+						</script><noscript><object classid="clsid:D27CDB6E-AE6D-11cf-96B8-444553540000" codebase="http://download.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=7,0,19,0" width="898" height="350">
+ 
+ 
+</object></noscript>
+					</td >
+				</tr>
+				
+			<tr>
+				
+				<td align="left" valign="top" class="heading-journal">
+					<%= @l.v_title %>&nbsp;&nbsp;
+					<% ActiveSupport::CoreExtensions::Time::Conversions::DATE_FORMATS.merge!(
+    				:date => "%Y-%m-%d",
+    				:presentable_datetime => "%a %b %d, %Y %H:%M",
+    				:presentable_date => "%a %b %d, %Y") 
+					@created_date=@l.d_created_on%>  
+
+				<%=@created_date.to_s(:presentable_date)%></span>
+				<br><br>
+				<font color="#ffffff" size="2"><%=@l.v_journal%></font>
+				</td>
+			</tr>
+			<tr><td>&nbsp;</td></tr>
+		</table>
+		<table border="0">
+		<tr>
+			<td>
+				<%= link_to_remote("Add Comment", :update =>"me", 
+		:url => {:controller => :share_journalcomments, :action => :new, :id=> @journalshareid, :id_journal => @journalid, :type_journal => @journaltype, :redirect_id => @shareid }, :layout => false  ) %>
+				
+				<div id="me" ></div>
+				<font color="#f5dfa6"><%=flash[:noticenonhmm_jcmt]%></font>
+			</td>
+		</tr>
+	</table>
+	<%end%>
+	
+<%else if @journaltype == 'photo' %>
+	<%@photo_journal = JournalsPhoto.find(:all, :joins => "as a, user_contents as b", :select => "e_filetype, v_filename, img_url, v_title, date_added, v_image_comment", :conditions => "a.id=#{@journalid} and a.user_content_id=b.id " ) %>
+	<% for @l in @photo_journal%>
+	<table width="898" border="0">
+			<tr>
+				<td colspan="2" align="left" class="text-header" bgcolor="#191919">
+					<%=@name.capitalize%>'s Journal Entry 
+				</td>
+			</tr>
+			<tr>
+				<td width="200">
+				<% if (@l.e_filetype == 'image') %>
+				<%if(@l.v_filename == "folder_img.png")
+					imgpath='/user_content/photos/big_thumb/noimage.jpg'
+	  			else	
+        			imageName  = @l.v_filename
+        			imageName.slice!(-3..-1)
+        			imgpath=@l.img_url+'/user_content/photos/big_thumb/'+imageName+'jpg'
+      			end %>
+				
+				<%for m in @user_contentID %>
+				<a href="/share/shareJournalnonhmm_momentview/<%=m.user_content_id%>">
+				<img src="<%=imgpath%>" border='0' width="192"/>
+				<font size="2">Click Here to view this Image</font></a>
+				<%end%>
+			
+			<%else%>
+			<% if (@l.e_filetype == 'video' || @l.e_filetype == 'swf' ) %>	
+			<%for m in @user_contentID %>
+			<a href="/share/shareJournalnonhmm_momentview/<%=m.user_content_id%>">
+				<img src="<%=@l.img_url%>/user_content/videos/thumbnails/<%=@l.v_filename%>.jpg" border='0' width="192"/>
+				<font size="2">Click Here to view this Video</font></a>
+				<%end%>
+			
+			<%else%>
+			<% if (@l.e_filetype == 'audio') %>
+			<%for m in @user_contentID %>
+			<a href="/share/shareJournalnonhmm_momentview/<%=m.user_content_id%>">
+				<img src="/user_content/audios/speaker.jpg" border='0' width="192"/>
+			<font size="2">Click Here to listen this Audio</font></a>
+			<%end%>			
+			<%end%><%end%><%end%>	
+			
+					
+				</td >
+				<td align="left" valign="top" class="heading-journal">
+					<%= @l.v_title %>&nbsp;&nbsp;
+					<% ActiveSupport::CoreExtensions::Time::Conversions::DATE_FORMATS.merge!(
+    				:date => "%Y-%m-%d",
+    				:presentable_datetime => "%a %b %d, %Y %H:%M",
+    				:presentable_date => "%a %b %d, %Y") 
+					@created_date=@l.date_added%>  
+
+				<%=@created_date.to_s(:presentable_date)%></span>
+				<br><br>
+				<font color="#ffffff" size="2"><%=@l.v_image_comment%></font>
+				</td>
+			</tr>
+		</table>
+		
+	
+	<table border="0">
+		<tr>
+			<td>
+				<%= link_to_remote("Add Comment", :update =>"me", 
+		:url => {:controller => :share_journalcomments, :action => :new, :id=> @journalshareid, :id_journal => @journalid, :type_journal => @journaltype, :redirect_id => @shareid }, :layout => false  ) %>
+				
+				<div id="me" ></div>
+				<font color="#f5dfa6"><%=flash[:noticenonhmm_jcmt]%></font>
+			</td>
+		</tr>
+	</table>
+	
+	<%end%>
+
+<%end%>
+<%end%>
+<%end%>
+<%end%>

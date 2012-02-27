@@ -1,0 +1,126 @@
+<style type="text/css">
+table#hidden {display:none}
+div#nonprindiv {display:none}
+div#print {
+	display:block;
+	left: 0px;
+	top: 0px;
+	right: 0px;
+	bottom: 0px;
+	position: absolute;
+	height: 100%;
+	width: 100%;
+}
+object {
+display:none;
+}
+
+.orangeborder{
+border:2px solid #ff6407;
+}
+.cont_12{
+	font-family:Arial, Helvetica, sans-serif;
+	font-size:12px;
+	color:#000000;
+	font-weight:normal;
+	text-decoration:none;
+	line-height:18px;
+}
+</style>
+
+
+
+              <table width="601" style="border:2px solid #ff6407;"
+cellpadding="0" cellspacing="0" >
+
+              <tbody><tr>
+                <td colspan="2" class="cont_12_14bold" valign="bottom" 
+align="center">&nbsp;</td>
+              </tr>
+
+              <tr>
+                <td colspan="2" valign="top" align="center" height="30">
+                <table id="border3" width="564" border="0" cellpadding="0" 
+cellspacing="0">
+                  <tbody><tr>
+                    <td class="cont_12" valign="middle" width="254" 
+align="left"><img src="http://holdmymemories.com/images/hmmlogo.png" 
+border="0" ></td>
+                    <td class="cont_12" valign="middle" width="304" 
+align="center">&nbsp;</td>
+                  </tr>
+
+                  <tr>
+                    <td colspan="2" class="cont_12" valign="top" 
+align="center"><strong>Gift Certificate</strong></td>
+                    </tr>
+                  <tr>
+                    <td class="cont_12" valign="top" align="left">&nbsp;</td>
+                    <td class="cont_12_coverflow" valign="top" align="left">&nbsp;</td>
+                  </tr>
+                   <tr> 
+                    <td class="cont_12" valign="top" align="left">Date :
+ <%=@created_date.strftime("%m/%d/%Y")%></td>
+                    <td class="cont_12" valign="top" align="left">Account type : 
+                    <%if(@payment_type=='platinum_user') %>
+                    Premium Membership
+                    <%else%>
+                    Family Website Membership
+                    <%end%>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td class="cont_12" valign="top" align="left">Gifted to :
+ <%=@name%></td>
+                    <td class="cont_12" valign="top" align="left">Amount : $<%=@amount%></td>
+                  </tr>
+                  
+                  <tr>
+                    <td class="cont_12" valign="top" align="left">Email Sent to:
+ <%=@email_id%> </td>
+                    <td class="cont_12" valign="top" align="left">Months : <%=@months%></td>
+                  </tr>
+                  <tr>
+                    <td class="cont_12" valign="top" align="left">&nbsp;</td>
+                    <td class="cont_12_coverflow" valign="top" align="left">&nbsp;</td>
+                  </tr>
+                  <tr>
+                    <td colspan="2" class="cont_12" 
+valign="top" align="center"><p><strong>Gift Coupon Number</strong></p>
+                      <p><%=@coupon_number%></p></td>
+                    </tr>
+                  <tr>
+                    <td class="cont_12" valign="top" align="left">&nbsp;</td>
+                    <td class="cont_12_coverflow" valign="top" align="left">&nbsp;</td>
+                  </tr>
+                  <tr>
+                    <td colspan="2" class="cont_12_121" valign="top" 
+align="center">&nbsp;</td>
+                    </tr>
+                  <tr>
+                    <td class="cont_12" valign="top" align="left" 
+height="15"></td>
+                    <td class="cont_12_coverflow" valign="top" align="left"></td>
+                  </tr>
+                </tbody></table>
+                </div></td>
+              </tr>
+              <tr>
+                <td colspan="2" valign="top" align="center" height="10"></td>
+              </tr>
+              <tr>
+                <td valign="middle" width="284" align="center" 
+height="30"><a href="http://holdmymemories.com/" class="cont_12" target="_blank">Return
+ to HoldMyMemories.com</a></td>
+                <td valign="top" width="317" align="center"><script type="text/javascript">
+<!--
+if (window.print) {
+document.write('<form class="hide"><p><input type="submit" value="Print This Page"></p></form>');
+document.forms[document.forms.length-1].onsubmit = function () {window.print(); return false};
+};
+// -->
+</script>
+</td>
+              </tr>
+             
+          </tbody></table> 

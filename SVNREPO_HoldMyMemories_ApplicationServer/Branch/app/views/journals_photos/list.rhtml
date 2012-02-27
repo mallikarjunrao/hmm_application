@@ -1,0 +1,43 @@
+<h2>Journals Photos</h2>
+<form name="myform"  onsubmit="return confirmation();" action='<%= url_for(:action => "deleteSelection") %>' method='POST'>
+<table>
+  <tr><td colspan="8"><h2>My Pic</h2> </td></tr>
+  <tr>
+	<tr><td colspan="8"><%= link_to_remote("add new photos",
+:update => 'content', :url => {:controller =>:journals_photos , :action => :new } ) %>
+ </td></tr>
+  <tr>
+  	 <th><input type="checkbox"  name="CheckAll" id="CheckAll" value="Check All"
+onClick="javascript:checkAll();"></th>
+    <th>pic name</th>
+	<th>pic preview</th>
+	<th colspan=3>Actions</th>
+	</tr>
+  
+  
+  <% 	 i = 0
+	for colmn in @journals_photos 
+	 i = i + 1
+ %>
+  
+<tr>
+    <td>
+	<input type="checkbox" id="colmn_<%=i.to_s%>"  name="colmn_<%=i.to_s%>" value="<%=colmn.id%>" /></td>
+	  <td><font color=#ffffff><%=h colmn.v_image_filename%></font></td>
+ <td><img src='/journals/photos/<%=colmn.v_image_filename%>' height='50' width='100' border=1 ></td>
+    <td><%= link_to 'Show', :action => 'show', :id => colmn.id %></td>
+    <td><%= link_to 'Edit', :action => 'edit', :id => colmn.id %></td>
+    <td><%= link_to 'Destroy', { :action => 'destroy', :id => colmn.id }, :confirm => 'Are you sure?', :method => :post %></td>
+  </tr>
+<% end %>
+
+<input type="hidden" name="len" id="len" value="<%= i %>"/>
+ <tr><td colspan=4><input  type='submit'  value='DELETE SELECTED' /> </td></tr>
+</table>
+
+<%= link_to 'Previous page', { :page => @journals_photo_pages.current.previous } if @journals_photo_pages.current.previous %>
+<%= link_to 'Next page', { :page => @journals_photo_pages.current.next } if @journals_photo_pages.current.next %> 
+
+<br />
+
+<%= link_to 'New journals_photo', :action => 'new' %>

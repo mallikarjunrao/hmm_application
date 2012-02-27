@@ -1,0 +1,145 @@
+<%= javascript_include_tag "themes/swfobject" %>
+<%= javascript_include_tag "themes/nyromodal/jquery-1.3.2.min" %>
+<%= javascript_include_tag "themes/nyromodal/jquery.nyroModal-1.5.2.pack.js" %>
+<script type="text/javascript">
+  var $j = jQuery.noConflict();
+</script>
+<%= stylesheet_link_tag '/stylesheets/themes/nyromodal/nyroModal'%>
+<table width="970" border="0" cellspacing="0" cellpadding="0">
+  <tr>
+    <td align="center" valign="top" class="tab-dots"><table width="970" border="0" cellspacing="0" cellpadding="0" id="tab_bgcolor_repeat">
+       
+        <tr>
+          <td align="left" valign="top"><table width="100%" border="0" cellspacing="0" cellpadding="0">
+              <tr>
+                <td width="13" align="left" valign="top"></td>
+                <td width="944" align="left" valign="top"><table width="100%" border="0" cellspacing="0" cellpadding="0">
+                    <tr>
+                      <td height="10" align="left" valign="top"></td>
+                    </tr>
+                    <tr>
+                      <td height="35" align="left" valign="bottom" class="header-page"><% if @detail.chapter_type!='photo' && @detail.chapter_type!='video' && @detail.chapter_type!='audio' %><%= @detail.gallery_name %><% else %><%= @detail.chapter_name %><% end %></td>
+                    </tr>
+                    <tr>
+                      <td height="10" align="left" valign="top"></td>
+                    </tr>
+                    <tr>
+                      <td height="1" align="left" valign="top" bgcolor="#454545"></td>
+                    </tr>
+                    <tr>
+                      <td height="10" align="left" valign="top"></td>
+                    </tr>
+                    <% if flash[:notice] %>
+                    <tr>
+                      <td align="center" valign="middle" class="error-message"><%= flash[:notice] %></td>
+                    </tr>
+                    <tr>
+                      <td height="10" align="left" valign="top"></td>
+                    </tr>
+                    <%  end %>
+                    <tr>
+                      <td align="left" valign="top" class="content-trans-bg"><table width="100%" border="0" cellspacing="0" cellpadding="0">
+                          <tr>
+                            <td align="left" valign="top"></td>
+                            <td width="902" align="left" valign="top">&nbsp;</td>
+                            <td align="left" valign="top"></td>
+                          </tr>
+                          <tr>
+                            <td width="20" align="left" valign="top"></td>
+                            <td align="left" valign="top">
+                              <table width="100%" border="0" cellspacing="0" cellpadding="0">
+                                <tr>
+                                  <td align="left" valign="top" class="content"> <a href="/familywebsite/home/<%= params[:id] %>">Home</a> &gt;&gt; <a href="/familywebsite/subchapters/<%= params[:id] %>?chapter_id=<%= @detail.chapter_id %>"><%= @detail.chapter_name  %></a> <% if @detail.chapter_type!='photo' && @detail.chapter_type!='video' && @detail.chapter_type!='audio' %>&gt;&gt; <a href="/familywebsite/galleries/<%= params[:id] %>?subchapter_id=<%= @detail.subchapter_id %>"><%= @detail.subchapter_name  %></a> &gt;&gt; <%= @detail.gallery_name  %><% end %></td>
+                                  <td width="200" align="right" valign="top" class="thummbimg_title"><a href="/grid_view/gallery_contents/<%=params[:id]%>?gallery_id=<%=params[:gallery_id]%>">Grid View</a><% if @detail.gallery_type == 'image' %><br/><br/><a href="/familywebsite/slideshow/<%= params[:id] %>?gallery_id=<%= @detail.gallery_id %> ">Slideshow</a><% end %></td>
+                                </tr>
+                              </table></td>
+                            <td width="20" align="left" valign="top"></td>
+                          </tr>
+                          <tr>
+                            <td align="left" valign="top"></td>
+                            <td align="left" valign="top">&nbsp;</td>
+                            <td align="left" valign="top"></td>
+                          </tr>
+                          <tr>
+                            <td align="left" valign="top"></td>
+                            <td align="center" valign="top" height="300">
+
+                             <div id="flash_content">
+        <h1>Get Flash Player</h1>
+        <p><a href="http://www.adobe.com/go/getflashplayer"><img src="http://www.adobe.com/images/shared/download_buttons/get_flash_player.gif" alt="Get Adobe Flash player" /></a></p>
+      </div>
+      <script type="text/javascript">
+        var flashvars = {};
+        flashvars.serviceURL = "/familywebsite/fx_list_gallery_contents/<%=params[:id]%>/?gallery_id=<%=params[:gallery_id]%>";
+        flashvars.proxyurl = "<%= @content_server_url %>";
+
+        var params = {};
+        params.wmode = "transparent";
+        swfobject.embedSWF("<%= @versions.file_url %>?v=<%=  @versions.major %>_<%=@versions.minor %>", "flash_content", "954", "300", "9.0.0", "/expressInstall.swf",flashvars,params);
+      </script>
+                            </td>
+                            <td align="left" valign="top"></td>
+                          </tr>
+                          <tr>
+                            <td align="left" valign="top"></td>
+                            <td align="left" valign="top">&nbsp;</td>
+                            <td align="left" valign="top"></td>
+                          </tr>
+                          <tr>
+                            <td align="left" valign="top"></td>
+                            <td align="left" valign="top"><table width="100%" border="0" cellspacing="0" cellpadding="0">
+                                <tr>
+                                  <td width="200" align="left" valign="top">&nbsp;</td>
+                                  <td align="center" valign="top" class="headers">
+                                     <% if logged_in_hmm_user && logged_in_hmm_user.id == @family_website_owner.id %>
+                                       <a href="/blog/create_gallery_newblog_entry/<%= params[:id] %>?gallery_id=<%= params[:gallery_id] %>&redirect_url=<%= request.url %>" >( Blog this )</a>
+                                    <% end %>&nbsp;<a href="/familywebsite_comments/create_gallery_comment/<%=params[:id]%>?gallery_id=<%=params[:gallery_id]%>" class="nyroModal" rev="modal">( Add comment )</a>
+                                  </td>
+                                  <td width="200" align="right" valign="top"></td>
+                                </tr>
+                              </table></td>
+                            <td align="left" valign="top"></td>
+                          </tr>
+                         <tr>
+                            <td align="left" valign="top"></td>
+                            <td align="left" valign="top">&nbsp;</td>
+                            <td align="left" valign="top"></td>
+                          </tr>
+                          <tr><td align="left" valign="top"></td>
+                            <td align="left" valign="top">
+                              <%= render :partial => "partials/comments", :locals => { :comments => @comments} %>
+
+                            </td>
+                            <td align="left" valign="top"></td></tr><tr>
+                            <td align="left" valign="top"></td>
+                            <td align="left" valign="top">&nbsp;</td>
+                            <td align="left" valign="top"></td>
+                          </tr>
+                          <tr><td align="left" valign="top"></td>
+                            <td align="left" valign="top">
+                              <%= render :partial => "partials/blogentry", :locals => { :blog => @blog} %>
+
+                            </td>
+                            <td align="left" valign="top"></td></tr>
+                          <tr>
+                            <td align="left" valign="top"></td>
+                            <td align="left" valign="top">&nbsp;</td>
+                            <td align="left" valign="top"></td>
+                          </tr>
+                        </table></td>
+                    </tr>
+                    <tr>
+                      <td align="left" valign="top">&nbsp;</td>
+                    </tr>
+
+                  </table></td>
+                <td width="13" align="left" valign="top"></td>
+              </tr>
+            </table></td>
+        </tr>
+      </table></td>
+  </tr>
+  <tr>
+    <td align="center" valign="top">&nbsp;</td>
+  </tr>
+</table>

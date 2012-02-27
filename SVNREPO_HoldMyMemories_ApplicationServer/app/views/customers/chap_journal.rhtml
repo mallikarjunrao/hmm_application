@@ -1,0 +1,97 @@
+<table width="100%" border="0" cellspacing="0" cellpadding="0">
+      <tr>
+          <th width="220" height="79" align="center" valign="middle" scope="col" class="signedtxtwhite" style="background-color:#000000"><h3>Chapter  : <%=@tags.v_tagname %></h3></th>
+          <th width="64" align="left" valign="top" background="/images/bg1_chapter1.jpg" scope="col">&nbsp;</th>
+          <th width="417" align="left" valign="bottom" background="/images/bg2_chapter1.jpg" scope="col"><table width="100%" border="0" cellspacing="0" cellpadding="0">  <tr>
+              <th width="101" align="left" valign="top" scope="col"><a href='/customers/chapterindex/'><img src="/images/backtochap_btn.jpg" border='0'></a></th>
+              <th width="14" align="left" valign="top" scope="col">&nbsp;</th>
+              <th width="91" align="left" valign="top" scope="col"><a href='/myphotos/write_journal/<%=@usercontent.id%>'><img src="/images/writeajournal_btn.jpg" border='0'></a></th>
+</th>
+              <th width="13" align="left" valign="top" scope="col">&nbsp;</th>
+              <th width="62" align="left" valign="top" scope="col" background="/images/photo1.jpg"><a href="#"><img src="/images/organize_btn.jpg" width="62" height="23" border="0" /></a></th>
+              <th width="13" align="left" valign="top" scope="col">&nbsp;</th>
+              <th width="35" align="left" valign="top" scope="col"><a href="#"><img src="/images/edit_btn.jpg" width="35" height="23" border="0" /></a></th>
+              <th width="13" align="left" valign="top" scope="col">&nbsp;</th>
+              <th align="left" valign="top" scope="col"><a href='/customers/chapter_journal/'><img src="/images/viewall_btn.jpg" border='0'></a>
+            <tr>
+              <th height="12" colspan="9" align="left" valign="top" scope="col"></th>
+              </tr>
+          </table></th>
+        </tr>
+        <tr>
+          <th height="276" colspan="3" align="left" valign="top" scope="col" >                                         
+			<table width="100%" border="0" cellspacing="0" cellpadding="0">
+				<tr>
+              		<th height="12" colspan="9" align="center" valign="top" class="btmtxt" scope="col"><%=@usercontent.v_tagphoto%></th>
+              	</tr>
+            	<tr>
+              		<th width="146"  align="left" colspan="3" valign="top" scope="col"></th>
+              		<th width="408"  align="left" colspan="2" valign="top" scope="col" class="bgcont-chapter1-photo1">
+              	
+						<table width="100%" border="0" cellspacing="0" cellpadding="0">
+							<tr  background="/images/bg_chapter1_photo1.jpg">
+								<th width="12"  align="left" valign="top" scope="col"></th>
+              					<th colspan="7" align="center" valign="top" scope="col" ><img src="/user_content/photos/journal_thumb/<%=@usercontent.v_filename%>" width="254" height="360" /></th>
+			  					<th width="12"  align="left"  valign="top" scope="col"></th>
+              				</tr>
+            		   </table>
+		  			</th>
+              		<th width="147"  align="left" colspan="3" valign="top" scope="col"></th>
+				</tr>
+              <tr>
+              		<th height="12" colspan="9" align="left" valign="top" scope="col"></th>
+              </tr>
+          </table>
+		  </th>
+          </tr>
+        <tr>
+          <th colspan="3" align="left" valign="top" scope="col"><table width="100%" border="0" cellspacing="0" cellpadding="0">
+                <tr>
+                  <th width="118" align="left" valign="top" bgcolor="#030303" scope="col">&nbsp;</th>
+                  <th width="465" height="295" align="left" valign="top" scope="col"><table width="100%" border="0" cellspacing="0" cellpadding="0">
+                    <tr>
+                      <th width="22" height="32" align="left" valign="top" bgcolor="#191919" scope="col">&nbsp;</th>
+                      <th align="left" valign="middle" bgcolor="#191919" scope="col"><span class="btmtxt">Journal</span></th>
+                      <th width="22" align="left" valign="top" bgcolor="#191919" scope="col">&nbsp;</th>
+                    </tr>
+					<% for @i in @journals_photo %>
+                    <tr>
+                      <th height="32" align="left" valign="top" scope="col">&nbsp;</th>
+                      <th align="left" valign="middle" scope="col"><span class="heading-journal"><%= @i.date_added %> - <%= @i.v_title %></span></th>
+                      <th align="left" valign="top" scope="col">&nbsp;</th>
+                    </tr>
+                    <tr>
+                      <th height="65" align="left" valign="top" scope="col">&nbsp;</th>
+                      <th align="left" valign="top" class="text-journal" scope="col"><%= @i.v_image_comment %></th>
+                      <th align="left" valign="top" scope="col">&nbsp;</th>
+                    </tr>
+                    <tr>
+                      <th height="28" align="left" valign="top" bgcolor="#191919" scope="col">&nbsp;</th>
+                       <th align="right" valign="middle" bgcolor="#191919" class="text-journal" scope="col">
+                                                   	
+<%= link_to_remote("Add Comment", :update =>@i.v_image_comment, 
+						:url => {:controller => :photo_comments , :action => :new, :id=> @usercontent.id , :id_journal => @i.id } ,:layout => false  ) %>
+			
+			&nbsp;&nbsp;&nbsp;
+
+<%= link_to_remote("View Comment",:update =>@i.v_image_comment, 
+						:url => {:controller => :photo_comments, :action => :photo_comnt, :id=> @usercontent.id , :id_journal => @i.id } ,:layout => false  ) %>
+				
+				
+                                                  <th align="left" valign="top" bgcolor="#191919" scope="col">&nbsp;</th>
+                                                </tr>
+												<tr>
+                                                  <th height="65" align="left" valign="top" scope="col">&nbsp;</th>
+                                                  <th align="left" valign="top" class="text-journal" scope="col"><div id="<%= @i.v_image_comment %>"></div></th>
+                                                  <th align="left" valign="top" scope="col">&nbsp;</th>
+                                                </tr>
+												
+												<%end%>
+                                               </table></th>
+                                              <th width="118" align="left" valign="top" bgcolor="#030303" scope="col">&nbsp;</th>
+                                            </tr>
+                                          </table>
+										  <table><tr><td><Td width="110"></Td></td><td><div id=writej></div></td></tr></table>
+										  </th>
+        </tr>
+</table>

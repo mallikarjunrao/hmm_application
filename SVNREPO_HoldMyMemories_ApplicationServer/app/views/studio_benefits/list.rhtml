@@ -1,0 +1,53 @@
+<table width="100%" cellpadding="0" cellspacing="0" border="0" style="padding-top: 10px;"  >
+  <tr><td align="left"><h2>Studio Benefits</h2></td></tr>
+  <tr><td align="right"><a href="/studio_benefits/add/<%= params[:id] %>">Add New Studio Benefit</a></td></tr>
+  <tr><td align="right">&nbsp;</td></tr>
+  <tr><td align="left">&nbsp;
+    </td></tr>
+  <tr><td align="right">&nbsp;</td></tr>
+  <% if flash[:notice] %>
+    <tr><td align="center" style="color:red;"><%= flash[:notice] %></td></tr>
+    <tr><td align="right">&nbsp;</td></tr>
+  <%  end%>
+    <tr><td align="left"><%= collection_select :search,:studio_id, HmmStudio.find(:all, :conditions => "status='active' and studio_groupid=#{session[:franchise]}"), :id, :studio_branch,{:prompt => "-All-"} ,{:onchange => "window.location='/studio_benefits/list/?studio_id='+this.value;"}%>
+      <script type="text/javascript">
+        document.getElementById('search_studio_id').value = "<%= params[:studio_id] %>";
+      </script>
+    </td></tr>
+     <tr><td align="left">&nbsp;
+    </td></tr>
+  <tr><td>
+      <% if @benefits!=nil && @benefits.length>0 %>
+        <form name="frm" method="post">
+          <table width="100%" cellpadding="0" cellspacing="0" border="0" height="500"  >
+            <tr><td align="left" valign="top">
+                <table border="0" cellpadding="5" cellspacing="1" width="500" align="center">
+                  <tr height="25" style="background-color: #cc5100;">
+                    <td align="center" width="10" ><font class='txt'>S.No</font></td>
+                    <td align="center" ><font class='txt'>Benefit</font></td>
+                    <td  align="center" width="100" ><font class='txt' >Action</font></td>
+                  </tr>
+                  <%
+                  i = 0
+                  for benefit in @benefits
+                    i=i+1 %>
+
+                    <tr height="20" class="<%= cycle('odd', 'even') %>">
+                      <td  ><%=  i %> </td>
+                      <td ><%= benefit.content %></td>
+                       <td ><%= link_to 'Edit', :action => 'edit', :id => benefit.id , :studio_id=>params[:id] %>&nbsp;&nbsp;<%= link_to 'Delete', {:action => 'delete', :id => benefit.id}, :confirm => 'Are you sure to delete this benefit?' %></td>
+                    </tr>
+                  <% end %>
+                </table>
+              </td></tr></table>
+        </form>
+      <% else %>
+        <table border="0" cellpadding="5" cellspacing="0" width="500" align="center" height="200">
+          <tr height="50" >
+            <td align="center" valign="middle" ><font class='txt' style="color: red;">Studio Benefits not found!</font></td>
+          </tr>
+        </table>
+      <% end %>
+
+    </td></tr>
+</table>

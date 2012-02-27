@@ -1,0 +1,76 @@
+<% form_remote_tag :update => 'table123',
+
+  :url => {:action => 'created_customers_report'},
+  :with => 'from_bdate',
+  :with => 'to_bdate',
+  :with => 'end_date' do %>
+
+  <table bordercolor="#e5b467"  align="center" width="100%" border="10" cellpadding="4" cellspacing="4">
+    <tr  ><th background="/images/body_hor.JPG" colspan="4" align="center" style="backgrund:repeat;" >Search </th>
+    </tr>
+    <tr><td>Accounts created from</td><td>
+        <%= date_select  'from_bdate', :order => [:month, :day, :year] %>
+        &nbsp;
+      </td></tr>
+    <tr><td>Accounts created till</td><td><%= date_select  'to_bdate', :order => [:month, :day, :year]  %>
+
+        &nbsp;</td></tr>
+    <tr><td>Account status on</td><td>
+        <%= date_select  'end_date', :order => [:month, :day, :year]  %>
+
+        &nbsp;
+      </td></tr>
+    <tr><td>Account Type</td><td>
+        <select name="account_type" id="account_type">
+          <option value="" <%if params[:account_type]=='' %>selected<%end%>>All Users</option>
+          <option value="free_user" <%if params[:account_type]=='free_user' %>selected<%end%>>Free Users </option>
+          <option value="familyws_user" <%if params[:account_type]=='familyws_user' %>selected<%end%>>Family Website Users  </option>
+          <option value="platinum_user" <%if params[:account_type]=='platinum_user' %>selected<%end%>>Premium Users </option>
+
+
+        </select>
+        &nbsp;</td></tr>
+
+    <tr><td>Studio Group</td><td>
+        <select name="studio_group" id="studio_group">
+
+          <option value="" <%if params[:studio_group]=='' %>selected<%end%>>All</option>
+           <% if session[:manager]
+           @hmmstudiogrps=HmmStudiogroup.find(:all,:conditions=> "id in (#{@stud_group_arr})")%>
+          <%else%>
+          <% @hmmstudiogrps=HmmStudiogroup.find(:all) %>
+          <%end%>
+          <%for k in @hmmstudiogrps %>
+            <option value="<%=k.id%>" <%if (k.id==params[:studio_group]) %>selected<%end%>><%=k.hmm_franchise_studio%></option>
+          <% end %>
+        </select>
+        &nbsp;</td></tr>
+    <tr><td>Studios</td><td>
+        <select name="studios" id="studios">
+
+          <option value="" <%if params[:studios]=='' %>selected<%end%>>All</option>
+         <% if session[:manager]
+           @hmmstudios=@stud
+          else%>
+          <% @hmmstudios=HmmStudio.find(:all) %>
+          <%end%>
+          <%for m in @hmmstudios %>
+            <option value="<%=m.id%>" <%if (m.id==params[:studios]) %>selected<%end%>><%=m.studio_name%></option>
+          <% end %>
+        </select>
+        &nbsp;</td></tr>
+    <tr><td align="center" >&nbsp;</td>
+      <td align="left" ><input type="submit" name="sub1" value="Search"/>&nbsp;&nbsp;<input type="button" name="view_all" value="View All" onClick="window.location='/hmm_studios/created_customers_report/?cpg=1'"/></td></tr>
+  </table>
+
+<%end%>
+
+
+<div id="table123">
+  <%= render :partial => "accountrep", :layout => false %>
+
+</div>
+
+
+</td></tr></table>
+<br />

@@ -1,0 +1,27 @@
+<h1>Listing share_momentcomments</h1>
+
+<table>
+  <tr>
+  <% for column in ShareMomentcomment.content_columns %>
+    <th><%= column.human_name %></th>
+  <% end %>
+  </tr>
+  
+<% for share_momentcomment in @share_momentcomments %>
+  <tr>
+  <% for column in ShareMomentcomment.content_columns %>
+    <td><%=h share_momentcomment.send(column.name) %></td>
+  <% end %>
+    <td><%= link_to 'Show', :action => 'show', :id => share_momentcomment %></td>
+    <td><%= link_to 'Edit', :action => 'edit', :id => share_momentcomment %></td>
+    <td><%= link_to 'Destroy', { :action => 'destroy', :id => share_momentcomment }, :confirm => 'Are you sure?', :method => :post %></td>
+  </tr>
+<% end %>
+</table>
+
+<%= link_to 'Previous page', { :page => @share_momentcomment_pages.current.previous } if @share_momentcomment_pages.current.previous %>
+<%= link_to 'Next page', { :page => @share_momentcomment_pages.current.next } if @share_momentcomment_pages.current.next %> 
+
+<br />
+
+<%= link_to 'New share_momentcomment', :action => 'new' %>

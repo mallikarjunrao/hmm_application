@@ -1,0 +1,38 @@
+<table width="100%" border="0">
+  <tr><td height="100" width="800">&nbsp;</td></tr>
+  <tr><td align="center">
+      <table  border="1" width="400" cellpadding="0" cellspacing="0" align="center"  >
+  <tr bgcolor="#990000" >
+    <td align="center">SNo</td>
+    <td >Theme</td>
+    <td align="center">No of Users</td>
+    
+  </tr>
+
+<% count=1 %>
+  <% @themes.each do |i|%>
+
+    <tr height="40">
+      <td align="center"><%=count%></td>
+      <td><%=i.name%></td>
+      <td align="center"><%=i.no_of_users%></td>
+    </tr>
+<%  count=count+1 %>
+  <%end%>
+     <% @unused_themes.each do |j|%>
+
+    <tr height="40">
+      <td align="center"><%=count%></td>
+      <td><%=j.name%></td>
+      <td align="center">0</td>
+    </tr>
+<%  count=count+1 %>
+  <%end%>
+
+</table> 
+    </td></tr>
+  <tr><td>&nbsp;</td></tr>
+</table>
+
+
+ 

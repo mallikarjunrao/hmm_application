@@ -1,0 +1,11 @@
+<input type="hidden" name="valid_email" id="valid_email" value="<%=@valid_email%>">
+<%=message_email%>
+<% if @valid == false %>
+<script type="text/javascript">
+document.getElementById('regsubmit').disabled = true;
+</script>
+<% else %>
+<script type="text/javascript">
+document.getElementById('regsubmit').disabled = false;
+</script>
+<% end %>

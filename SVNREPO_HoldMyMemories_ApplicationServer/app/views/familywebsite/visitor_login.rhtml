@@ -1,0 +1,106 @@
+<%= javascript_include_tag 'themes/formcheck/core' %>
+<%= javascript_include_tag 'themes/formcheck/more' %>
+<%= javascript_include_tag 'themes/formcheck/en' %>
+<%= javascript_include_tag 'themes/formcheck/formcheck' %>
+<%= stylesheet_link_tag 'themes/formcheck/formcheck'%>
+<form id="loginform" name="loginform" action="<%=request_server_url%>/familywebsite/visitor_login/<%= params[:id] %>" method="post">
+  <table width="970" border="0" cellspacing="0" cellpadding="0">
+    <tr>
+      <td align="center" valign="top" class="tab-dots"><table width="970" border="0" cellspacing="0" cellpadding="0" id="tab_bgcolor_repeat">
+         
+          <tr>
+            <td align="left" valign="top"><table width="100%" border="0" cellspacing="0" cellpadding="0">
+                <tr>
+                  <td width="13" align="left" valign="top"></td>
+                  <td width="944" align="left" valign="top"><table width="100%" border="0" cellspacing="0" cellpadding="0">                    <tr>
+                        <td height="13" align="left" valign="top"></td>
+                      </tr>
+                      <tr>
+                        <td align="left" valign="top" class="content-trans-bg"><table width="100%" border="0" cellspacing="0" cellpadding="0">
+
+                            <tr>
+                              <td align="center" valign="top">&nbsp;</td>
+                            </tr>
+                            <tr>
+                              <td align="center" valign="top" class="content-white">Welcome to <strong>HoldMy<span class="side-heading">Memories</span>.com </strong></td>
+                            </tr>
+                            <tr>
+                              <td height="30" align="center" valign="top">&nbsp;</td>
+                            </tr>
+
+                            <tr>
+                              <td height="40" align="center" valign="top" class="headers"> Family Website Login </td>
+                            </tr>
+                            <% if flash[:error] %>
+                              <tr>
+                                <td height="40" align="center" valign="top" class="headers"><%= flash[:error] %> </td>
+                              </tr>
+                            <% end %>
+
+
+                            <tr>
+                              <td align="center" valign="top"><table width="369" border="0" cellspacing="0" cellpadding="0" class="login-box">
+                                  <tr>
+                                    <td height="35" colspan="4" align="left" valign="top"></td>
+                                  </tr>
+
+                                  <tr>
+                                    <td width="30" align="left" valign="top"></td>
+                                    <td width="93" align="left" valign="middle" class="content-white">Password:</td>
+                                    <td align="left" valign="middle">
+                                      <label>
+                                        <input name="password" type="password" class="validate['required']" id="textfield" />
+                                      </label>
+                                    </td>
+                                    <td align="left" valign="top" width="43">&nbsp;</td>
+                                  </tr>
+                                  <tr>
+                                    <td height="20" colspan="4" align="left" valign="top"></td>
+                                  </tr>
+                                  <tr>
+                                    <td align="left" valign="top"></td>
+                                    <td align="left" valign="middle" class="content-white">&nbsp;</td>
+                                    <td align="right" valign="middle">
+                                      <label>
+                                        <input name="button" type="submit" class="cmd-btn" id="button" value="Submit" />
+                                      </label>
+                                    </td>
+                                    <td align="left" valign="top">&nbsp;</td>
+                                  </tr>
+                                  <tr>
+                                    <td align="left" valign="top"></td>
+                                    <td height="25" colspan="2" align="center" valign="middle" class="content-white">&nbsp;</td>
+                                    <td align="left" valign="top">&nbsp;</td>
+                                  </tr>
+
+                                </table></td>
+                            </tr>
+                            <tr>
+                              <td height="200" align="right" valign="top" class="side-heading">&nbsp;</td>
+                            </tr>
+                          </table></td>
+                      </tr>
+                      <tr>
+                        <td align="left" valign="top">&nbsp;</td>
+                      </tr>
+
+                    </table></td>
+                  <td width="13" align="left" valign="top"></td>
+                </tr>
+              </table></td>
+          </tr>
+        </table></td>
+    </tr>
+    <tr>
+      <td height="19"></td>
+    </tr>
+  </table>
+  <% if @redirect_url %>
+  <input type="hidden" name="redirect_url" value="<%= @redirect_url %>"/>
+  <% end %>
+</form>
+<script type="text/javascript">
+  window.addEvent('domready', function(){
+    new FormCheck('loginform');
+  });
+</script>

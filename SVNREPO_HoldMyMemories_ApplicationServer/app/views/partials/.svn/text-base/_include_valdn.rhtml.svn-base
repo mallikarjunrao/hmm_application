@@ -1,0 +1,257 @@
+<%= javascript_include_tag 'themes/formcheck/core' %><%= javascript_include_tag 'themes/formcheck/more' %><%= javascript_include_tag 'themes/formcheck/en' %><%= javascript_include_tag 'themes/formcheck/formcheck' %><%= stylesheet_link_tag 'themes/formcheck/formcheck'%><%= stylesheet_link_tag 'main' %><%= stylesheet_link_tag 'hmmout' %><%= javascript_include_tag 'prototype' %><%= javascript_include_tag 'SpryAssets/SpryValidationTextField' %><%= stylesheet_link_tag 'SpryAssets/SpryValidationTextField' %>
+<script language="javascript">
+
+  function echeck(str) {
+
+    var at="@"
+    var dot="."
+    var lat=str.indexOf(at)
+    var lstr=str.length
+    var ldot=str.indexOf(dot)
+    if (str.indexOf(at)==-1){
+      alert("Invalid E-mail ID");
+      return false
+    }
+
+    if (str.indexOf(at)==-1 || str.indexOf(at)==0 || str.indexOf(at)==lstr){
+      alert("Invalid E-mail ID");
+      return false
+    }
+
+    if (str.indexOf(dot)==-1 || str.indexOf(dot)==0 || str.indexOf(dot)==lstr){
+      alert("Invalid E-mail ID");
+      return false
+    }
+
+    if (str.indexOf(at,(lat+1))!=-1){
+      alert("Invalid E-mail ID");
+      return false
+    }
+
+    if (str.substring(lat-1,lat)==dot || str.substring(lat+1,lat+2)==dot){
+      alert("Invalid E-mail ID");
+      return false
+    }
+
+    if (str.indexOf(dot,(lat+2))==-1){
+      alert("Invalid E-mail ID");
+      return false
+    }
+
+    if (str.indexOf(" ")!=-1){
+      alert("Invalid E-mail ID");
+      return false
+    }
+
+    return true
+  }
+
+  function ver()
+  {
+
+    if(document.getElementById('contact_u_first_name').value=="")
+    {
+      alert("Name is a required field");
+      document.getElementById('contact_u_first_name').focus();
+      return false;
+    }
+    if(document.getElementById('contact_u_message').value=="")
+    {
+      alert("Message is a required field");
+      document.getElementById('contact_u_message').focus();
+      return false;
+    }
+    if(document.getElementById('contact_u_zip').value=="")
+    {
+      alert("Postal Code is a required field");
+      document.getElementById('contact_u_zip').focus();
+      return false;
+    }
+
+    if(document.getElementById('contact_u_email').value=="")
+    {
+      alert("Email is a required field");
+      document.getElementById('contact_u_email').focus();
+      return false;
+    }
+    var emailID=document.getElementById('contact_u_email')
+    if (echeck(emailID.value)==false){
+      emailID.value=""
+      emailID.focus()
+      return false
+    }
+
+    return true;
+
+
+  }
+
+</script>
+<style type="text/css">
+  <!--
+  td {
+    color:#FFFFFF;
+  }
+  -->
+</style>
+<%= javascript_include_tag 'SpryAssets/SpryValidationTextarea' %><%= stylesheet_link_tag 'SpryAssets/SpryValidationTextarea' %>
+<link href="hmmstudio_styles.css" rel="stylesheet" type="text/css" />
+<%= stylesheet_link_tag 'hmmstudio_styles' %><%= stylesheet_link_tag 'hmmout' %>
+
+<script type="text/javascript">
+  function valid() {
+    if(document.emailusform.name.value=='')
+    {
+      alert('Please enter your name!');
+      document.emailusform.name.focus();
+      return false;
+    }else if(document.emailusform.email.value=='')
+    {
+      alert('Please enter your email!');
+      document.emailusform.email.focus();
+      return false;
+    }else if(document.emailusform.email.value!='')
+    {
+      var reg = /^([A-Za-z0-9_\-\.])+\@([A-Za-z0-9_\-\.])+\.([A-Za-z]{2,4})$/;
+      var address = document.emailusform.email.value;
+      if(reg.test(address) == false)
+      {
+        alert('Invalid Email Address');
+        document.emailusform.email.value='';
+        document.emailusform.email.focus();
+        return false;
+      }
+    }
+    if(document.emailusform.message.value=='')
+    {
+      alert('Please enter your Message!');
+      return false;
+    }
+
+
+
+
+  }
+
+</script>
+
+
+
+
+<script type="text/javascript">
+
+function emailus(type){
+
+      var ajax = new Ajax();
+      ajax.responseType =type;
+      ajax.ondone = function(data) {
+        document.getElementById('main_content').setInnerFBML(data);
+      }
+      ajax.onerror = function() {
+        new Dialog().showMessage('Error!','Ajax failed for some reason. Please try again.');
+      }
+     ajax.post('<%=@path.proxyname%>/face_book_invite/emailus/?facebook_profile_id='+<%=@family_website_owner.facebook_profile_id%>);
+  }
+
+
+
+function emailuser(type){
+
+      var ajax = new Ajax();
+      ajax.responseType =type;
+      ajax.ondone = function(data) {
+        document.getElementById('main_content').setInnerFBML(data);
+      }
+      ajax.onerror = function() {
+        new Dialog().showMessage('Error!','Ajax failed for some reason. Please try again.');
+      }
+     ajax.post('<%=@path.proxyname%>/face_book_invite/emailuser/?facebook_profile_id='+<%=@family_website_owner.facebook_profile_id%>);
+  }
+
+  function emailHmm(type){
+
+      var ajax = new Ajax();
+      ajax.responseType =type;
+      ajax.ondone = function(data) {
+        document.getElementById('main_content').setInnerFBML(data);
+      }
+      ajax.onerror = function() {
+        new Dialog().showMessage('Error!','Ajax failed for some reason. Please try again.');
+      }
+     ajax.post('<%=@path.proxyname%>/face_book_invite/emailHmm/?facebook_profile_id='+<%=@family_website_owner.facebook_profile_id%>);
+  }
+
+  function emailCS(type){
+
+      var ajax = new Ajax();
+      ajax.responseType =type;
+      ajax.ondone = function(data) {
+        document.getElementById('main_content').setInnerFBML(data);
+      }
+      ajax.onerror = function() {
+        new Dialog().showMessage('Error!','Ajax failed for some reason. Please try again.');
+      }
+     ajax.post('<%=@path.proxyname%>/face_book_invite/emailCS/?facebook_profile_id='+<%=@family_website_owner.facebook_profile_id%>);
+  }
+
+
+  function guestbook_new(type){
+    var name = document.getElementById('name').getValue()
+     new Dialog().showMessage(name);
+    var email = document.getElementById('email').getValue()
+    var subject = document.getElementById('subject').getValue()
+    var message = document.getElementById('message').getValue()
+
+    var ajax = new Ajax();
+    ajax.responseType =type;
+
+    ajax.ondone = function(data) {
+      document.getElementById('main_content').setInnerFBML(data);
+
+    }
+    ajax.onerror = function() {
+      new Dialog().showMessage('Error!','Ajax failed for some reason. Please try again.');
+    }
+
+
+    ajax.post('<%=@path.proxyname%>/face_book_invite/guestbook_new/?facebook_profile_id='+<%=@family_website_owner.facebook_profile_id%>+'&name='+name+'&email='+email+'&subject='+subject+'&message='+message);
+    //ajax.post('http://staging.holdmymemories.com/face_book_invite/guestbook_new/?facebook_profile_id='+'&name='+name+'&email='+email+'&subject='+subject+'&message='+message);
+  }
+  
+</script>
+
+
+
+
+<script type="text/javascript">
+  window.addEvent('domready', function(){
+    new FormCheck('emailusform');
+  });
+</script>
+<script type="text/javascript">
+
+  var sprytextfield1 = new Spry.Widget.ValidationTextField("sprytextfield1", "none", {validateOn:["blur"]} );
+  var sprytextfield2 = new Spry.Widget.ValidationTextField("sprytextfield2", "none", {validateOn:["blur"]} );
+  var sprytextfield3 = new Spry.Widget.ValidationTextField("sprytextfield3", "none", {validateOn:["blur"]} );
+  var sprytextfield4 = new Spry.Widget.ValidationTextField("sprytextfield4", "none", {validateOn:["blur"]} );
+  var sprytextfield5 = new Spry.Widget.ValidationTextField("sprytextfield5", "none", {validateOn:["blur"]} );
+  var sprytextfield6 = new Spry.Widget.ValidationTextField("sprytextfield6", "none", {validateOn:["blur"]} );
+  var sprytextfield7 = new Spry.Widget.ValidationTextField("sprytextfield7", "none", {validateOn:["blur"]} );
+  var sprytextfield8 = new Spry.Widget.ValidationTextField("sprytextfield8", "email", {validateOn:["blur"]} );
+  var sprytextfield9 = new Spry.Widget.ValidationTextField("sprytextfield9", "none", {validateOn:["blur"]} );
+  var sprytextarea10 = new Spry.Widget.ValidationTextarea("sprytextarea10", "none", {validateOn:["blur"]} );
+  var sprytextfield12 = new Spry.Widget.ValidationTextField("sprytextfield12", "none", {validateOn:["blur"]} );
+
+</script>
+<%= stylesheet_link_tag 'main' %> <%= stylesheet_link_tag 'hmmout' %>
+<style type="text/css">
+  <!--
+  td {
+    color:#FFFFFF;
+  }
+
+  -->
+</style>
+<%= javascript_include_tag 'SpryAssets/SpryValidationTextarea' %> <%= stylesheet_link_tag 'SpryAssets/SpryValidationTextarea' %>
+<link href="hmmstudio_styles.css" rel="stylesheet" type="text/css" />
+<%= stylesheet_link_tag 'hmmstudio_styles' %> <%= stylesheet_link_tag 'hmmout' %>

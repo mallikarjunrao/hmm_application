@@ -1,0 +1,315 @@
+<br>
+<p align="right" class="heading"><a href='/business_opportunity/logout'><img src="/home_images/btn_logout.jpg" border="0"></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</p>
+<table width="80%" cellpadding="2" cellspacing="2">
+<tr><td>
+<p align="center" class="cont"><strong><u><font color="#FFFFFF">ON LINE APPLICATION FOR  HOLDMYMEMORIES CERTIFIED PHOTOGRAPHERS</font></u></strong></p>
+<p class="cont" ><strong><font color="#FFFFFF">READ THE FOLLOWING CAREFULLY BEFORE  COMPLETING THE ON LINE APPLICATION FORM:</font></strong></p>
+<p class="cont" align="left">This  is an on line application inviting eligible applicants for HOLDMYMEMORIES  Certified Photographers. There would be no physical or personal interview  conducted for the selection process, a thorough background check would be made  of each applicant based upon the information furnished to us by you in this  application. Any individual having a past history or present on going  conviction for any violent crime, substance abuse crime, property related  felony, tortuous liability, economic offences, sex offences, having a credit  score below 500 or directly involved in any kind of conviction/suspect under  any law of the land- <strong><font color="#FFFFFF">KINDLY REFRAIN FROM  APPLYING</font></strong></p>
+<p class="cont" align="left">Since  HOLDMYMEMORIES Certified Photographers work with children and family we would  appreciate honest and accurate information to be furnished to us in this  application. By completing and submitting this application you give us express  consent for verification of the authenticity of the information so furnished in  the application. </p>
+<p class="cont"><strong><em>NOTE: </em></strong></p>
+<ul class="cont">
+  <li><strong><em>The  application is strictly required to be filled in by the Applicant himself and  the information recorded in the submitted application shall be construed as the  information furnished by the applicant himself. </em></strong></li>
+  <li><strong><em>We  shall not be held liable for any civil or criminal prosecution or compensation  in the event of the application being filled-in by any other person other than  the applicant.   </em></strong></li>
+</ul>
+<p class="cont"><strong>      </strong><br />
+    <strong>IF  YOU ARE SATISFIED WITH THE ABOVE INSTRUCTIONS AND AGREE TO THE SAME, THEN  PROCEED WITH COMPLETING THE ON LINE APPLICATION AS GIVEN BELOW: </strong></p>
+<script type="text/javascript">
+function chk_values()
+{
+	if(document.frm.phone.value=="")
+	{
+		alert("Please enter Phone Number")
+		document.frm.phone.focus()
+		return false;
+  	}
+	
+	if(document.frm.email.value=="")
+	{
+		alert("Please enter Email Address")
+		document.frm.email.focus()
+		return false; 
+ 	}
+	var email = document.frm.email.value
+	var regexpr=/^([\w-]+(?:\.[\w-]+)*)@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$/i  //email check
+	if (!regexpr.test(email))
+	{
+		alert("Please input a valid Email Address")
+		document.frm.email.value=""
+		document.frm.email.focus();
+		return false;
+	}
+	if(document.frm.nationality_number.value=='')
+	{
+		alert('Please enter your Nationality Number');
+		document.frm.nationality_number.focus();
+		return false;
+	}
+	if(document.frm.passport_number.value=='')
+	{
+		alert('Please enter your Passport Number');
+		document.frm.passport_number.focus();
+		return false;
+	}
+	if(document.frm.license_number.value=='')
+	{
+		alert('Please enter your License Number');
+		document.frm.license_number.focus();
+		return false;
+	}
+	if(document.frm.incometax_number.value=='')
+	{
+		alert('Please enter your Income Tax Assessment Number');
+		document.frm.incometax_number.focus();
+		return false;
+	}
+	if(document.frm.chk.checked==false)
+	{
+		alert('Please check to Certify the Application to Complete');
+		document.frm.chk.focus();
+		return false;
+	}
+
+}
+</script>    
+<form name="frm" action="/business_opportunity/submit_form" method="post" onsubmit="return chk_values();">
+<table width="100%" border="0" cellpadding="2" cellspacing="2" class="cont">
+<tr>
+<td colspan="3">
+  <font color="#FFFFFF"><strong>I.</strong>  <strong><u>PERSONAL  INFORMATION :</u></strong></font></td>
+</tr>
+<tr><td width="242">&nbsp;</td>
+</tr>
+<tr>
+<td><div align="right">First Name</div></td><td width="3">:</td>
+<td width="307"><input type="text" name="fname" value=""></td>
+</tr>
+<tr>
+<td><div align="right">Middle Name</div></td><td>:</td><td><input type="text" name="mname" value=""></td>
+</tr>
+<tr>
+<td><div align="right">Last Name</div></td><td>:</td><td><input type="text" name="lname" value=""></td>
+</tr>
+<tr>
+<td><div align="right">Street Address</div></td><td>:</td><td><textarea name="address">
+</textarea></td>
+</tr>
+<tr>
+<td><div align="right">City</div></td><td>:</td><td><input type="text" name="city" value=""></td>
+</tr>
+<tr>
+<td><div align="right">State</div></td><td>:</td><td><input type="text" name="state_name" value=""></td>
+</tr>
+<tr>
+<td><div align="right">Zip Code</div></td><td>:</td><td><input type="text" name="zipcode" value=""></td>
+</tr>
+<tr>
+<td><div align="right"><font color="#FF0000">*</font> Phone Number</div></td><td>:</td><td><input type="text" name="phone" value=""></td>
+</tr>
+<tr>
+<td><div align="right"><font color="#FF0000">*</font> Email Address</div></td><td>:</td><td><input type="text" name="email" value=""></td>
+</tr>
+<tr>
+<td><div align="right">Date of Birth (YY/MM/DD)</div></td><td>:</td><td><input type="text" name="dob" value=""></td>
+</tr>
+<tr>
+<td><div align="right">Hobbies & Interest</div></td><td>:</td><td><input type="text" name="hobbies" value=""></td>
+</tr>
+<tr>
+<td><div align="right">Marital Status</div></td><td>:</td><td><input type="text" name="marital" value=""></td>
+</tr>
+<tr>
+<td><div align="right">Do you speak, write or understand any foreign languages? </div></td><td>:</td><td> <input type="radio" name="language" value="yes" checked>Yes &nbsp;&nbsp;<input type="radio" name="language" value="no">No</td>
+</tr>
+<tr>
+<td><div align="right">If yes, describe which languages(s) and how comfortable are you with it. </div></td><td>:</td>
+<td><textarea name="describe"></textarea></td>
+</tr>
+<tr><td>&nbsp;</td></tr>
+<tr>
+<td colspan="3">
+  <font color="#FFFFFF"><strong>II.</strong>  <strong><u>EDUCATIONAL BACKGROUND: </u></strong></font></td>
+</tr>
+<tr><td>&nbsp;</td></tr>
+<tr>
+<td><div align="right">Name and Address Of Educational Institution (including vocational training)</div></td><td>:</td>
+<td><textarea name="institution"></textarea></td>
+</tr>
+<tr>
+<td><div align="right">Degree or Diploma or Certificate</div></td><td>:</td>
+<td><textarea name="certificate"></textarea></td>
+</tr>
+<tr>
+<td><div align="right">Skills and Qualifications</div></td><td>:</td>
+<td><textarea name="qualification"></textarea></td>
+</tr>
+<tr>
+<td><div align="right">Licenses</div></td><td>:</td>
+<td><textarea name="license"></textarea></td>
+</tr>
+<tr>
+<td><div align="right">Skills</div></td><td>:</td>
+<td><textarea name="skills"></textarea></td>
+</tr>
+<tr>
+<td><div align="right">Additional Information if any</div></td><td>:</td>
+<td><textarea name="additional_info"></textarea></td>
+</tr>
+<tr><td>&nbsp;</td></tr>
+<tr>
+<td colspan="3">
+ <font color="#FFFFFF"> <strong>III.</strong>  <strong><u>ARE YOU APPLYING FOR?</u></strong></font></td>
+</tr>
+<tr><td>&nbsp;</td></tr>
+<tr>
+<td><div align="right">As a Hobby – such as summer or holiday activity? </div></td><td>:</td><td> <input type="radio" name="hobby" value="yes" checked>Yes &nbsp;&nbsp;<input type="radio" name="hobby" value="no">No</td>
+</tr>
+<tr>
+<td><div align="right">Regular part-time vocation? </div></td><td>:</td><td> <input type="radio" name="part_time" value="yes" checked>Yes &nbsp;&nbsp;<input type="radio" name="part_time" value="no">No</td>
+</tr>
+<tr>
+<td><div align="right">Regular full-time work? </div></td><td>:</td><td> <input type="radio" name="full_time" value="yes" checked>Yes &nbsp;&nbsp;<input type="radio" name="full_time" value="no">No</td>
+</tr>
+<tr>
+<td colspan="3"> <div align="right">How much time is a week can you dedicate to the business?</div></td>
+</tr>
+<tr>
+<td><div align="right">Days/Hours Available</div></td><td>:</td><td>&nbsp;</td>
+</tr>
+<tr>
+<td><div align="right">Monday </div></td><td>:</td><td><input type="text" name="monday" value="" /></td>
+</tr>
+<tr>
+<td><div align="right">Tuesday </div></td><td>:</td><td><input type="text" name="tuesday" value="" /></td>
+</tr>
+<tr>
+<td><div align="right">Wednesday </div></td><td>:</td><td><input type="text" name="wednesday" value="" /></td>
+</tr>
+<tr>
+<td><div align="right">Thursday </div></td><td>:</td><td><input type="text" name="thursday" value="" /></td>
+</tr>
+<tr>
+<td><div align="right">Friday </div></td><td>:</td><td><input type="text" name="friday" value="" /></td>
+</tr>
+<tr>
+<td><div align="right">Saturday </div></td><td>:</td><td><input type="text" name="saturday" value="" /></td>
+</tr>
+<tr>
+<td><div align="right">Sunday </div></td><td>:</td><td><input type="text" name="sunday" value="" /></td>
+</tr>
+<tr>
+<td><div align="right">Hours Available</div></td><td>:</td><td>From <input type="text" name="from_time" value="" size="3" />&nbsp;To <input type="text" name="to_time" value="" size="3" /></td>
+</tr>
+<tr><td>&nbsp;</td></tr>
+<tr>
+<td colspan="3">
+  <font color="#FFFFFF"><strong>IV.</strong>  <strong><u>	REFERENCES: </u></strong></font></td>
+</tr>
+<tr><td>&nbsp;</td></tr>
+<tr>
+<td><div align="right">Name </div></td><td>:</td><td><input type="text" name="reference_name" value="" /></td>
+</tr>
+<tr>
+<td><div align="right">Title </div></td><td>:</td><td><input type="text" name="reference_title" value="" /></td>
+</tr>
+<tr>
+<td><div align="right">Address </div></td><td>:</td><td><textarea name="reference_address"></textarea></td>
+</tr>
+<tr>
+<td><div align="right">Phone </div></td><td>:</td><td><input type="text" name="reference_phone" value="" /></td>
+</tr>
+<tr><td colspan="3"><p><strong><em>(for e.g., in case of students reference of one of  professor/teacher may be given OR in case of house wives reference of their  spouse or neighbors may be given)  </em></strong></p>
+</td></tr>
+<tr><td>&nbsp;</td></tr>
+<tr>
+<td colspan="3">
+ <font color="#FFFFFF"> <strong>V.</strong>  <strong><u>ELIGIBILITY :</u></strong></font></td>
+</tr>
+<tr><td>&nbsp;</td></tr>
+<tr>
+<td>(i)	Are you competent to enter into contracts/agreements as per the law of your country/state? </td><td>:</td><td> <input type="radio" name="competent" value="yes" checked>Yes &nbsp;&nbsp;<input type="radio" name="competent" value="no">No</td>
+</tr>
+<tr>
+<td>(ii) If you are under age 18, do you have an employment/age certificate?</td><td>:</td><td> <input type="radio" name="under_age" value="yes" checked>Yes &nbsp;&nbsp;<input type="radio" name="under_age" value="no">No</td>
+</tr>
+<tr>
+<td>(iii) Do you have any physical or mental impairment which could adversely affect your ability to perform your job? </td><td>:</td><td> <input type="radio" name="physical" value="yes" checked>Yes &nbsp;&nbsp;<input type="radio" name="physical" value="no">No</td>
+</tr>
+<tr>
+<td>(iv) Kindly provide the following documents details  to establish eligibility: </td><td>&nbsp;</td>
+<td>&nbsp; </td>
+</tr>
+<tr>
+<td><div align="right"><font color="#FF0000">*</font> Nationality Card Number (for e.g., US Citizenship card)& date of issue </div></td><td>:</td><td><input type="text" name="nationality_number" value="" /></td>
+</tr>
+<tr>
+<td><div align="right"><font color="#FF0000">*</font> Passport Number</div></td><td>:</td><td><input type="text" name="passport_number" value="" /></td>
+</tr>
+<tr>
+<td><div align="right"><font color="#FF0000">*</font> Driver’s License Number</div></td><td>:</td><td><input type="text" name="license_number" value="" /></td>
+</tr>
+<tr>
+<td><div align="right">Voters Identity Card/Any Identity card Number issued by your state or local government authority</div></td><td>:</td><td><input type="text" name="voters_number" value="" /></td>
+</tr>
+<tr>
+<td><div align="right"><font color="#FF0000">*</font> Income Tax Assessment Number</div></td><td>:</td><td><input type="text" name="incometax_number" value="" /></td>
+</tr>
+<tr>
+<td><div align="right">Social Security Number</div></td><td>:</td><td><input type="text" name="security_number" value="" /></td>
+</tr>
+<tr>
+<td><div align="right">School/College Identity Card Number</div></td><td>:</td><td><input type="text" name="collegeid_number" value="" /></td>
+</tr>
+<tr><td colspan="3"><p><strong><em>(Note that the items marked as (<font color="#FF0000">*</font>) are mandatory details to be furnished)  </em></strong></p>
+</td></tr>
+<tr><td>&nbsp;</td></tr>
+<tr>
+<td colspan="3">
+ <font color="#FFFFFF"> <strong>VI.	</strong>  <strong><u>BACKGROUND CHECK:</u></strong></font></td>
+</tr>
+<tr><td>&nbsp;</td></tr>
+<tr>
+<td>(i) Have you ever declared bankruptcy or Insolvency in any Court of Law?  </td><td>:</td><td> <input type="radio" name="bankruptcy" value="yes" checked>Yes &nbsp;&nbsp;<input type="radio" name="bankruptcy" value="no">No</td>
+</tr>
+<tr>
+<td>(ii) Have you ever been prosecuted as a Defendant or Accused in any civil or criminal proceedings in any Court of Law? </td><td>:</td><td> <input type="radio" name="criminal" value="yes" checked>Yes &nbsp;&nbsp;<input type="radio" name="criminal" value="no">No</td>
+</tr>
+<tr>
+<td>If yes, please state the nature of the crime(s), when and where prosecuted.</td><td>:</td>
+<td><textarea name="describe_crimes"></textarea></td>
+</tr>
+<tr>
+<td>(iii) Have you been ever convicted, fined, imprisoned, indicted or summoned for any charges or offences against human, animals, environment, cyber crimes or electronic media violation laws? </td><td>:</td><td> <input type="radio" name="imprisoned" value="yes" checked>Yes &nbsp;&nbsp;<input type="radio" name="imprisoned" value="no">No</td>
+</tr>
+<tr>
+<td>If yes, please state the nature of the crime(s), when and where prosecuted.</td><td>:</td>
+<td><textarea name="describe_imprisoned"></textarea></td>
+</tr>
+<tr>
+<td>(iv) Have you ever in the past or at present under the influence of any substance abuse such as prescription medicine or narcotics or alcohol? </td><td>:</td><td> <input type="radio" name="alcohol" value="yes" checked>Yes &nbsp;&nbsp;<input type="radio" name="alcohol" value="no">No</td>
+</tr>
+<tr>
+<td>(v)	Have you ever been placed at a rehabilitation center for recovery from any substance abuse in the past?  </td><td>:</td><td> <input type="radio" name="rehabilitation" value="yes" checked>Yes &nbsp;&nbsp;<input type="radio" name="imprisoned" value="no">No</td>
+</tr>
+<tr><td>&nbsp;</td></tr>
+<tr>
+<td colspan="3">
+  <font color="#FFFFFF"><strong>VII.</strong>  <strong><u>CURRENT FINANCIAL INFORMATION</u></strong></font></td>
+</tr>
+<tr><td>&nbsp;</td></tr>
+<tr>
+<td>(i) How much do you have available to invest in your photography business</td><td>:</td><td><input type="text" name="invest" value="" /></td>
+</tr>
+<tr>
+<td>(ii) How much would you like to earn, monthly, from your photographic work</td><td>:</td><td><input type="text" name="earn" value="" /></td>
+</tr>
+<tr><td>&nbsp;</td></tr>
+<tr>
+<td colspan="3"><input type="checkbox" name="chk" value="" /><b>I certify that information contained in this application is true and complete. I authorize the verification of any or all information listed above.</b></td>
+</tr>
+<tr><td>&nbsp;</td></tr>
+<tr><td align="center" colspan="3"><input type="submit" name="sub" value="Submit" /></td></tr>
+</table>
+</form>
+</td></tr>
+</table>
+<p align="center" class="cont"><a href="/business_opportunity/stillnotsure"  class="cont">Still not sure? Click for more information </a> |&nbsp;<a href="/business_opportunity/frequentlyaskedquestions"  class="cont">FAQ</a></p>

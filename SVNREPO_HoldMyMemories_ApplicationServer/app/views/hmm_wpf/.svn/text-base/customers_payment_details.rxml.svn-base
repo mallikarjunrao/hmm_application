@@ -1,0 +1,31 @@
+xml.instruct! :xml, :version=>"1.0"
+xml.HmmUsers{
+     xml.HmmUser{
+          xml.id(@results.id)
+          xml.account_type(@results.account_type)
+          xml.subscriptionnumber(@results.subscriptionnumber)
+          xml.family_name(@results.family_name)
+          xml.street_address(@results.street_address)
+          xml.city(@results.city)
+          xml.state(@results.state)
+          xml.country(@results.country)
+          xml.telephone(@results.telephone)
+          xml.v_e_mail(@results.v_e_mail)
+          xml.v_fname(@results.v_fname)
+          xml.v_lname(@results.v_lname)
+
+          xml.invoive_number(@results.invoicenumber)
+          xml.payment_amount(@results.amount)
+          xml.membership_sold_by(@results.membership_sold_by)
+          xml.family_website_link("http://www.holdmymemories.com/#{@results.family_name}")
+          xml.invoice_date(@results.d_created_date.strftime("%a, %d %b %Y"))
+           user_details = HmmUser.find_by_sql("select v_password as paswrd, v_user_name as username  from hmm_users where id='#{@results.id}'")
+                   for user in user_details
+                     xml.username(user.username)
+                     xml.password(user.paswrd)
+                   end
+          
+          
+       }
+   } 
+

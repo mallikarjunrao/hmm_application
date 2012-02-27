@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:Application xmlns:mx="http://www.adobe.com/2006/mxml" layout="absolute" xmlns:components="components.*"
+	 backgroundColor="0" fontFamily="Arial" color="#ffffff" preloader="custompreloader.PreloaderHourGlass">
+	<mx:Style>
+		Alert {
+		    corner-radius: 14;
+		    header-height: 27;
+		    header-colors: #999999, #000000;
+		    background-color: #000000;
+		    color: #ffffff;
+		    border-thickness: 4;
+		    border-color: #000000;
+		    panel-border-style: roundCorners;
+		    shadow-distance: 4;
+		    shadow-direction: bottom;
+		    button-style-name : "alertButton";
+		  }
+		  Button
+		{
+			 fillColors: #000000, #000000, #000000, #cccccc;
+			corner-radius : 0;
+			color : #ffffff;
+			selection-color : #ff6633;
+			theme-color : #ff6633;
+			text-roll-over-color : #ff6633;
+		}
+		  
+		  .alertButton
+		  {
+		  	 fillColors: #000000, #000000, #000000, #cccccc;
+			corner-radius : 0;
+			color : #ffffff;
+			selection-color : #ff6633;
+			theme-color : #ff6633;
+			text-roll-over-color : #ff6633;
+		  }
+		  	
+		  
+		  CheckBox {
+		   letterSpacing: 0;
+		   highlightAlphas: 0.33, 0;
+		   fillAlphas: 0.6, 0.76, 0.93, 0.74;
+		   fillColors: #ffffff, #cccccc, #999999, #333333;
+		   color: #009933;
+		   themeColor: #ff6633;
+		}
+		  Tree
+			{
+				
+				disclosureClosedIcon: ClassReference("Tree_disclosureClosedIcon");
+				disclosureOpenIcon: ClassReference("Tree_disclosureOpenIcon");
+				
+			}
+	</mx:Style>
+	<mx:ViewStack id="videoCreationStack" width="100%" height="100%" creationComplete="handleComplete()">
+		<components:VideoTemplates width="100%"/>
+		<components:SlideShowXmlCreator width="100%" height="100%"/>
+	</mx:ViewStack>
+	<mx:Script>
+		<![CDATA[
+			import custompreloader.PreloaderHourGlass;
+			import components.VolumeControlTrackSkin;
+			public var templateName : String;
+			public var isFromPreview : Boolean = false;
+			
+			private function handleComplete() : void
+			{
+				if(Application.application.parameters.flashName)
+				{
+				  videoCreationStack.selectedIndex = 1;
+				  isFromPreview = true;
+				}
+			}
+		]]>
+	</mx:Script>
+</mx:Application>

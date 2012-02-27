@@ -1,0 +1,43 @@
+<table border="0" cellpadding="0" cellspacing="0">
+  <tr><td>
+      <h2>Manage Gift Certificate</h2>
+    </td></tr>
+  <tr><td>
+      <%= flash[:notice] %>
+    </td></tr>
+</table>
+<form action="/gift_certificates/manage_gift_certificates" method="post">
+  <table border="1" cellpadding="0" cellspacing="0" align="center" width="450">
+    <tr><td align="center" colspan="2" height="30"><h3>Search Gift certificates</h3></td></tr>
+    <tr><td align="center" height="40">Certificate ID:</td><td><input type="text" name="certificate_id" value="<%= params[:certificate_id] %>"/><br></br>Search by keyword (Eg: "xyz123")</td></tr>
+    <tr><td align="center" colspan="2" height="40"><input type="submit" name="Search" value="Search" class="sub-btn"/></td></tr>
+  </table>
+</form>
+<br></br>
+<a href="/gift_certificates/new_gift_certificate"><u>Create Gift Certificate</u></a>
+<table border="1" cellpadding="0" cellspacing="0" width="900" style="margin-top: 20px">
+  <tr>
+    <td  background="/images/body_hor.JPG"><font class='txt'><table> <tr><th><%= sort_header_tag('id', :text => "Certificate Id") %></th></tr></table></font></td>
+    <td  background="/images/body_hor.JPG"><font class='txt'><table> <tr><th><%= sort_header_tag('certificate_name', :text => "Certificate Name") %></th></tr></table></font></td>
+    <td  background="/images/body_hor.JPG"><font class='txt'><table> <tr><th><%= sort_header_tag('membership_term_id', :text => "HMM Amount") %></th></tr></table></font></td>
+    <td  background="/images/body_hor.JPG"><font class='txt'><table> <tr><th><%= sort_header_tag('certificate_price', :text => "Product Amount") %></th></tr></table></font></td>
+    <td  background="/images/body_hor.JPG"><font class='txt'><table> <tr><th><%= sort_header_tag('total_price', :text => "Total Amount") %></th></tr></table></font></td>
+    <td  background="/images/body_hor.JPG"><font class='txt'><table> <tr><th><%= sort_header_tag('created_by', :text => "Created By") %></th></tr></table></font></td>
+    <td  background="/images/body_hor.JPG"><font class='txt'><table> <tr><th>Membership required</th></tr></table></font></td>
+    <td  colspan="3"  background="/images/body_hor.JPG" align="center">Actions</td></tr>
+  <% for certificate in @certificates %>
+    <tr class="<%= cycle('odd', 'even')%>"><td height="20"><%=certificate.certificate_id%></td>
+      <td height="20"><%=certificate.certificate_name%></td>
+      <td><%if certificate.membership_option=="no"%>
+          <%charge=0%>
+        <%else%>
+          <%charges=MembershipTerm.find(:first,:select=>"charge",:conditions=>"id=#{certificate.membership_term_id}")
+          charge=charges.charge%>
+        <%end%>
+        $<%=number_with_precision(Float(charge).round(2), :precision => 2)%></td>
+      <td>$<%=number_with_precision(Float(certificate.certificate_price).round(2), :precision => 2)%></td><td>$<%=number_with_precision(Float(certificate.total_price).round(2), :precision => 2)%></td><td><%=certificate.created_by%></td>
+      <td><%if certificate.membership_option=="no"%>No<%else%>Yes<%end%></td>
+      <td><a href="/gift_certificates/view_studios/<%=certificate.id%>">View Studios</a></td><td><%= link_to 'Delete', {:action => 'remove_certificate', :id =>certificate.id}, :confirm => 'Are you sure?' %></td><td><a href="/gift_certificates/view_redemption/<%=certificate.id%>">View Redemption</a></td></tr>
+  <%end%>
+</table>
+<%=will_paginate @certificates, :params => params%>

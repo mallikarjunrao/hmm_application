@@ -1,0 +1,243 @@
+<script type="text/javascript">
+	function hide_add_image()
+	{
+		//alert("Please Select the Group!!");
+		document.getElementById("image_hide").style.display='none'
+		//return false;
+	}
+</script>
+
+<%session['redirect']='11'%> 
+
+<%= javascript_include_tag 'AC_OETags' %>
+<% if @other_id %>
+<table width="100%" border="0" align="center" cellspacing="0" cellpadding="0">
+ <tr>
+    <th width="100%" align="center" valign="top" scope="col">
+    <table width="100%" border="0" cellspacing="0" cellpadding="0">
+      <tr>
+        <th width="220" align="center" valign="top" scope="col">
+        	<table width="333" border="0" cellpadding="0" cellspacing="0">
+          		<tr>
+            		<th width="399" height="31" align="left" valign="middle" background="/images/gradie.gif" scope="col">&nbsp;&nbsp;&nbsp;&nbsp;<span class="btmtxt"><%=@hmm_user1.v_fname%>'s Profile</span></th>
+          		</tr>
+          		
+          		<tr>
+            		<th height="56" align="left" valign="top" scope="col">
+            		<table width="100%" border="0" cellspacing="0" cellpadding="0">
+              			<tr>
+              			  <th width="53" align="left" valign="top" scope="col">
+                			<img src="<%= @hmm_user1.img_url%>/hmmuser/photos/thumb/<%=@hmm_user1.v_myimage%>"   /></th>
+                			<th width="7" align="left" valign="top" scope="col">&nbsp;</th>
+                			<th width="263">
+								<table class="border">
+									<tr>
+										<th width="45" align="left" valign="top" class="text-journal-small" scope="col">
+                Name  </th>
+										<th width="100%" align="left" valign="top" class="text-journal-small" scope="col">
+				:&nbsp;&nbsp;<%= @hmm_user1.v_fname %></th> 
+									</tr>
+									<tr>
+										
+				</tr>
+                
+                <tr>
+                	<th width="45" align="left" valign="top" class="text-journal-small" scope="col">
+                		Gender</th>   
+					<th width="100%" align="left" valign="top" class="text-journal-small" scope="col">:&nbsp;
+						<% if  @hmm_user1.e_sex == 'M' %> Male <%else%> Female <%end%>
+					</th>
+				</tr> 
+                <tr>
+                	<th width="45" align="left" valign="top" class="text-journal-small" scope="col">
+                		Location
+					</th>   
+					<th width="100%" align="left" valign="top" class="text-journal-small" scope="col">:&nbsp;
+						<%= @hmm_user1.v_country%>
+					</th>
+				</tr>
+              </tr></table></th>
+            </table></th>
+          </tr>
+
+          <tr>
+            <th height="23" align="left" valign="top" scope="col">&nbsp;</th>
+          </tr>
+          <tr>
+            <th height="24" align="left" valign="top" scope="col">
+            	<% if @hmm_user1.id != logged_in_hmm_user.id %>
+				<table width="100%" border="0" cellspacing="0" cellpadding="0">
+              <tr>
+                <th width="42" height="29" align="left" valign="top" scope="col">&nbsp;</th>
+				
+                
+				
+                <th width="14" align="left" valign="top" scope="col">&nbsp;</th>
+                <th align="left" valign="top" scope="col">
+                	
+                	<%if @block == 1 %>
+					<a href='/customers/block_fnf/<%= @hmm_user1.id %>' onclick="if(confirm('Are you sure you want to block your Friend?')){return true; } else return false;">
+				<img src="/images/block_btn.jpg" width="40" height="23" border="0"/></a>
+				<% else if @imposed_block == 1 %>
+					<font color='#fdf1ca' >You have been blocked by <%= @hmm_user1.v_fname %>!!</font>
+				<%else if @unblock == 1 %>
+				<a href='/customers/unblockFnf/<%= @hmm_user1.id %>'>
+					<img src="/images/unblock_btn.jpg" width="62" height="23" border="0"/></a>
+					<%else if @req_pending == 1 %>
+					<font color='#fdf1ca' >Friend Request has been sent to &nbsp;<%= @hmm_user1.v_fname %>!!</font>
+					<%else if @req_reject == 1 %>
+					<font color='#fdf1ca' ><%= @hmm_user1.v_fname %> has Rejected your Request!!</font>
+					<% else if @fnf_req == 1 %>
+					<font color='#fdf1ca' ><%= @hmm_user1.v_fname %> Wants to be your Friend!!</font>
+					<%= link_to_remote("Accept",
+						:update => 'content', :url => {:controller => :customers, :action => :group_fnf, :id => @hmm_user1.id }) %>
+						&nbsp;&nbsp;&nbsp;
+					<% for j in @fnf_rejectId %>
+	  				<a href="/customers/Reject_fnf/<%=j.frnid%>" >Reject</a></th>
+					<%end%>
+				
+				<th width="88" align="left" valign="top" scope="col"> 
+				<% else @cnt==1 %>
+				<div id="fnf_div">
+					
+				</div>
+				<%= link_to_remote("<img src='/images/add-to-friends_btn.jpg' width='88' height='23' border='0' onclick='hide_add_image();'  id='image_hide'/>",  
+						:update => 'fnf_div', :url => {:controller =>:customers, :action => :add_fnf, :id => @hmm_user1.id }) %>   
+				</th>
+				<%end%><%end%><%end%><%end%><%end%><%end%>
+				</th>
+              </tr>
+		
+			  <% if flash[:notice11] -%>
+			<div id="notice"><font color="fdf1ca"> <%= @hmm_user1.v_fname %>&nbsp; <%= flash[:notice11]%></font></div>
+			 <% end -%>
+			  
+            </table>
+			<%else%>
+			<table>
+			  <tr>
+                <th width="42" height="29" align="left" valign="top" scope="col">&nbsp;</th>
+				<th width="88" align="left" valign="top" scope="col"> <a href='/customers/edit_profile/<%= @hmm_user.id %>'>	<img src="/images/edit_btn.gif"  border="0" /></a></th>
+                <th width="14" align="left" valign="top" scope="col">&nbsp;</th>
+                <th align="left" valign="top" scope="col">&nbsp;</th>
+              </tr>
+			</table>
+			<% end %>
+			</th>
+          </tr>
+          <tr>
+            <th height="197" align="left" valign="top" bgcolor="#000000" scope="col"><table width="100%" border="0" cellspacing="0" cellpadding="0">
+              <tr>
+                <th width="8" height="21" bgcolor="#0f0f0f" align="left" valign="top" scope="col">&nbsp;</th>
+                <th align="left" height="21" bgcolor="#0f0f0f" valign="middle" scope="col">&nbsp;&nbsp;Links:</th>
+              </tr>
+              <tr>
+                <th align="left" valign="top" scope="col">&nbsp;</th>
+                <th align="left" valign="bottom" class="links" scope="col">
+                  <a href="http://<%= @hmm_user1.v_link1%>" target="_blank"><%= @hmm_user1.v_link1%></a><br />
+                  <a href="http://<%= @hmm_user1.v_link2%>" target="_blank"><%= @hmm_user1.v_link2%></a><br />
+                  <a href="http://<%= @hmm_user1.v_link3%>" target="_blank"><%= @hmm_user1.v_link3%></a></th>
+              </tr>
+			  <tr><th height="15"></th></tr>
+			  <tr>
+                <th height="20" bgcolor="#0f0f0f" align="left" valign="top" scope="col"></th>
+                <th align="left" height="20" bgcolor="#0f0f0f" valign="middle" scope="col">&nbsp;&nbsp;About Me:</th>
+              </tr>
+
+              <tr>
+                <th height="10" align="left" valign="top" scope="col">&nbsp;</th>
+                <th align="left" valign="middle" class="text-journal-small" scope="col">
+                	&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+					<%= @hmm_user1.v_abt_me%><br />
+                </th>
+              </tr>
+			  <tr>
+                <th height="10" align="left" valign="top" scope="col">&nbsp;</th>
+                <th align="left" valign="middle" class="text-journal-small" scope="col">&nbsp;</th>
+              </tr>
+			  <tr><th height="15"></th></tr>
+              <tr>
+                <th height="20" bgcolor="#0f0f0f" align="left"  valign="top" scope="col">&nbsp;</th>
+                <th align="left" valign="middle" height="20" bgcolor="#0f0f0f" class="text-journal-small" scope="col">
+                	&nbsp;&nbsp;<%= link_to_remote("Send Abuse Report ",
+						:update => "abuse_div", :url => {:controller =>:abuses, :action => :new, :id => @hmm_user1.id }) %>
+						<br>
+											
+				</th>
+              </tr>
+			  <tr><th height="10" align="left" valign="top" scope="col">&nbsp;</th>
+			  	<th>&nbsp;&nbsp;<div id="abuse_div" ></div></th></tr>
+              <tr>
+                <th height="10" align="left" valign="top" scope="col">&nbsp;</th>
+                <th align="left" valign="middle" class="text-journal-small" scope="col">&nbsp;</th>
+              </tr>
+              <tr>
+                <th height="10" align="left" valign="top" scope="col">&nbsp;</th>
+                <th align="left" valign="middle" class="text-journal-small" scope="col">&nbsp;</th>
+              </tr>
+              
+            </table></th>
+          </tr>
+        </table></th>
+        <th width="481" align="center" valign="top" scope="col"><table width="482" border="0" cellpadding="0" cellspacing="0">
+          
+          <tr>
+           
+            <th width="472" height="31" align="left" valign="middle" background="/images/gradie.gif" scope="col">&nbsp;&nbsp;&nbsp;&nbsp;<span class="text-journal"><%= @hmm_user1.v_fname%>'s Chapters</span></th>
+            
+          </tr>
+		  <tr>
+		  	<th height="7"></th>
+		  </tr>
+          <tr>
+          	<% if @imposed_block == 1 %>
+			<th height="279" align="center" valign="middle" scope="col">
+				<font color='#fdf1ca' >You dont have permission to view <%= @hmm_user1.v_fname %>'s chapters!! </font>
+			</th>
+			<%else%>
+             <input type="hidden" id="proxyurls" value="<%=@proxyurls%>"/>
+            <th height="279" align="left" valign="top" scope="col">
+				<script src="/AC_OETags.js" language="JavaScript"></script>
+<script src="DWConfiguration/ActiveContent/IncludeFiles/AC_RunActiveContent.js" type="text/javascript"></script>
+<script type="text/javascript">
+    var proxyurls = document.getElementById("proxyurls").value;
+AC_FL_RunContent( 'codebase','http://download.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=7,0,19,0','width','570','height','280','src','/Chapter','quality','high','flashvars','','pluginspage','http://www.macromedia.com/go/getflashplayer','movie','/Chapter', 'flashvars', 'serverUrl=/customers/friends_chapters/'+<%=params[:id]%>+'&navigateToUrl=/tags/subchap_coverflow/&proxyurls='+proxyurls ); //end AC code
+</script><noscript><object classid="clsid:D27CDB6E-AE6D-11cf-96B8-444553540000" codebase="http://download.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=7,0,19,0" width="570" height="280">
+  <param name="movie" value="/Chapter.swf" />
+  <param name="quality" value="high" />
+  <param name="FlashVars"  />
+  <embed src="/Chapter.swf" quality="high" FlashVars=""  pluginspage="http://www.macromedia.com/go/getflashplayer" type="application/x-shockwave-flash" width="570" height="280"></embed>
+</object></noscript><br><br><br><br>
+            </th>
+           <%end%>
+          </tr>
+          
+          
+          <tr>
+            
+             <th width="472" height="31" align="left" valign="middle" scope="col">&nbsp;&nbsp;&nbsp;&nbsp;<span class="text-journal"></span></th>
+          
+          </tr>
+          <% for i in @journals %>
+                <tr>
+                  
+                  <th align="left" valign="middle" scope="col"><span class="heading-journal"><%= i.d_create_date %> - <%= i.v_title %></span></th>
+                 
+                </tr>
+                <tr>
+                 
+                  <th align="left" valign="top" class="text-journal" scope="col"><%= i.v_large_description %></th>
+                  
+                </tr>
+                <tr>
+                  
+                   <th align="right" valign="middle" bgcolor="#191919" class="text-journal" scope="col"><span class="textorange">Add Comment</span>&nbsp;&nbsp;&nbsp;<span class="textorange">&nbsp;&nbsp;View Comments (2)</span></th>
+                 
+                </tr>
+		 <%end%>
+        </table></th>
+      </tr>
+    </table></td></tr></table>
+
+<%else%>
+<%end%>

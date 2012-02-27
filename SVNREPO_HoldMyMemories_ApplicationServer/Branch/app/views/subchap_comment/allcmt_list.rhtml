@@ -1,0 +1,79 @@
+<style type="text/css">
+<!--
+.style1 {
+	font-family: Arial, Helvetica, sans-serif;
+	font-weight: bold;
+	font-size: 12px;
+	color:#e36500;
+}
+.style3 {font-family: Arial, Helvetica, sans-serif; font-weight: bold; font-size: 18px; }
+-->
+</style>
+  
+
+
+  
+  <!--Sub Chapter Coment View-->
+<table width="100%" border="0" cellspacing="0" cellpadding="0">
+    <tr>
+      <th width="22" height="32" align="left" valign="top" bgcolor="#191919" scope="col">&nbsp;</th>
+      <th align="left" valign="middle" bgcolor="#191919" scope="col" colspan="2"><span class="btmtxt">Comments for  <%=session[:subchap_name]%> Sub chapter	   </th>
+      <th width="22" align="left" valign="top" bgcolor="#191919" scope="col">&nbsp;</th>
+    </tr>
+	
+	<tr>
+		<th align="right" colspan="2" >
+			
+		<font color="#f5dfa6" size=2><%=  flash[:notice_sca_list]%></font>
+		
+		<font color="#f5dfa6" size=2><%=  flash[:notice_scr_list]%></font>
+		
+		<font color="#f5dfa6" size="2"><%=  flash[:notice_scd_list]%></font>		</th>
+	</tr>
+	
+  
+<%	for j in @subchap_comment 
+		params[:id]=j.subchap_id
+		subchap = SubChapter.find(params[:id])
+		subchapname=subchap.sub_chapname %>
+
+	<tr>
+      <th height="0" rowspan="3" align="left" valign="top" scope="col"> <a href="/galleries/gallery_coverflow/<%=subchap.id%>" style="text-decoration:none"> <img src="/user_content/photos/icon_thumbnails/<%=subchap.v_image%>" border="0"/></a></th>
+      <th height="6" align="left" valign="top" class="text-journal" scope="col"><span class="style1">Sub-Chapter&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>  </th>
+      <th width="680"  align="left" valign="top" scope="col"> <a href="/galleries/gallery_coverflow/<%=subchap.id%>" style="text-decoration:none">  <%= subchapname %></a></th>
+    </tr>
+	
+	<tr>
+	  <th height="6" align="left" valign="top" class="text-journal" scope="col"><span class="style1">Commented By&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>  </th>
+      <th width="680"  align="left" valign="top" scope="col"><%= j.v_fname%></th>
+    </tr>
+	
+	<tr>
+      <th height="6" align="left" valign="top" class="text-journal" scope="col"><span class="style1">Description&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span> </th>
+      <th width="680"  align="left" valign="top" scope="col"><%= j.v_comments.gsub("\n", "<br />\n")  %></th>
+    </tr>
+	
+    <tr>
+      <th height="28" align="left" valign="top" bgcolor="#191919" scope="col">&nbsp;</th>
+      <th align="right" valign="middle" bgcolor="#191919" class="text-journal" scope="col" colspan="2">
+       		<% if j.e_approval=="pending" %>
+			 <a href='/subchap_comment/approve_cmt/<%= j.id %>'>Approve</a>&nbsp;&nbsp;&nbsp;
+			<a href='/subchap_comment/reject_cmt/<%= j.id %>'>Reject</a>
+			<%else%>
+			<a href='/subchap_comment/destroy_cmt/<%= j.id %>'>Delete</a> 
+			<% end %>	  </th>
+	  <th align="left" valign="top" bgcolor="#191919" scope="col">&nbsp;</th>
+     </tr>
+     <%end%>
+	 
+	 <tr>
+  	  <td colspan="2">
+  		<font color="#ffffff"><% if @subchap_comment_pages.page_count > 1 %>
+		Page&nbsp;:
+		<%= pagination_links_remote @subchap_comment_pages %>&nbsp;
+		<% end %></font>
+	 </td>
+    </tr>
+</table>
+<p></p>
+<p></p>

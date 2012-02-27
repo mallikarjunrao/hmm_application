@@ -1,0 +1,46 @@
+<%= javascript_include_tag 'check_flash' %>
+<%= stylesheet_link_tag 'main' %>
+<%= stylesheet_link_tag 'hmmout' %>
+<table width="900"  border="0" cellspacing="0" cellpadding="0">
+  <tr><td valign="top">
+      <%= render :partial => 'links1' %>
+    </td><td>
+
+
+      <table width="600" border="0" cellspacing="0" cellpadding="0">
+        <tr>
+          <td colspan="4" align="left" valign="top" class="leftconthr" ><h3><font color="#ff6400">Create your iPhone App in 5 Easy Steps</font></h3></td></tr>
+        <tr> <td colspan="4" align="left" valign="top" class="leftconthr" ><h3><u>Step 2B: Apple Store Description:</u></h3></td>
+        </tr>
+        <tr>
+          <td colspan="4" align="left" valign="top" class="leftconthr" >&nbsp;</td>
+        </tr>
+
+        <tr>
+          <td width="1%" align="left" valign="top" class="whitecont">&nbsp;</td>
+          <td width="34%" align="left" valign="top" class="whitecont">Apple Store Description * </td>
+          <td width="3%" align="left" valign="top" class="whitecont"></td>
+          <td width="62%" align="left" valign="top"></td></tr>
+        <tr>
+          <td width="1%" align="left" valign="top" class="whitecont">&nbsp;</td>
+          <td width="34%" align="left" valign="top" class="whitecont"> </td>
+          <td width="3%" align="left" valign="top" class="whitecont"></td>
+          <td width="62%" align="left" valign="top"></td></tr>
+        <tr>
+          <td width="1%" align="left" valign="top" class="whitecont">&nbsp;</td>
+          <td width="34%" align="left" valign="top" class="whitecont"> <textarea name="app_store_description" id="app_store_description" rows="8" cols="100"><%=@studio.app_store_description%></textarea></td>
+          <td width="3%" align="left" valign="top" class="whitecont"></td>
+          <td width="62%" align="left" valign="top"></td>
+        </tr>
+
+        <tr>
+          <td align="left" valign="top">&nbsp;</td>
+          <td align="left" valign="top">&nbsp;</td>
+          <td align="left" valign="top">&nbsp;</td>
+          <td align="left" valign="top">&nbsp;</td>
+        </tr>
+
+      </table>
+
+    </td>
+  </tr></table>

@@ -1,0 +1,67 @@
+<form name="myform"  onsubmit="return confirmation();" action='<%= url_for(:action => "deleteSelection") %>' method='POST'>
+<br><br>
+<style>
+
+</style>
+
+
+<table border="0">
+	
+	<tr><td colspan="15"><h2>HoldMyMemories Users</h2> </td></tr>
+  <tr>
+	<tr><td colspan="8"><%= link_to "Add New Users", :action => :new   %>
+ </td></tr>
+
+  <tr valign='center' align='center'>
+  	
+  	 <th background="/images/body_hor.JPG"><input type="checkbox"  name="CheckAll" id="CheckAll" value="Check All"
+onClick="javascript:checkAll();"></th>
+   <th background="/images/body_hor.JPG"><font class='txt'>First Name</font></th>
+	<th background="/images/body_hor.JPG"><font class='txt'>Last Name</font></th>
+	<th background="/images/body_hor.JPG"><font class='txt'>sex</font></th>
+	<th background="/images/body_hor.JPG"><font class='txt'>User Name</font></th>
+	<th background="/images/body_hor.JPG"><font class='txt'>Password</font></th>
+	<th background="/images/body_hor.JPG"><font class='txt'>Email Address</font></th>
+	<th background="/images/body_hor.JPG"><font class='txt'>Status</font></th>
+	<th colspan=3 background="/images/body_hor.JPG"><font class='txt'>Actions</font></th>
+	
+
+  </tr>
+
+<% 	odd_or_even = 0 
+	i = 0
+	for colmn in @hmm_users
+	 i = i + 1
+	odd_or_even = 1 - odd_or_even
+ %>
+
+  <tr class='ListLine<%= odd_or_even %>'>
+  	
+    <td>
+	<input type="checkbox" id="colmn_<%=i.to_s%>"  name="colmn_<%=i.to_s%>" value="<%=colmn.id%>" /></td>
+	
+	<td><%=h colmn.v_fname%></td>
+	
+	<td><%=h colmn.v_lname%></td>
+	<td><%=h colmn.e_sex%></td>
+	<td><%=h colmn.v_user_name%></td>
+	<td><%=h colmn.v_password%></td>
+  	<td><%=h colmn.v_e_mail%></td>
+    <td><%=h colmn.e_user_status%></td>
+
+    <td>	<%= link_to_remote("Show",
+:update => 'content', :url => {:controller =>:customers , :action => :show ,  :id => colmn.id } ) %></td>
+    <td><%= link_to_remote("Edit",
+:update => 'content', :url => {:controller =>:customers , :action => :edit ,  :id => colmn.id } ) %></td>
+    <td><%= link_to_remote("Delete",
+:update => 'content', :url => {:controller =>:customers , :action => :destroy ,  :id => colmn.id } , :confirm => "Are you sure?" , :method => :post ) %></td></td>
+  </tr>
+ 
+<% end %>
+<input type="hidden" name="len" id="len" value="<%= i %>"/>
+ <tr><td colspan=4><input  type='submit'  value='DELETE SELECTED' /> </td></tr>
+
+</table>
+
+
+<br />

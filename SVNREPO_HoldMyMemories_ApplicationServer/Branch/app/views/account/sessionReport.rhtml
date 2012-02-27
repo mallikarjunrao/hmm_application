@@ -1,0 +1,91 @@
+<table cellpadding="0" cellspacing="0" width="100%" border="0" bordercolor="#e5b467" align="right" valign="top">
+	<tr><td>
+<table cellpadding="0" cellspacing="0" width="100%" align="center" border="1" bordercolor="#e5b467" >
+	<tr>
+		<td colspan="2" align="center" valign="middle">
+			<h3>Customers Report</h3>
+		</td>
+	</tr>
+	<tr>
+		<td colspan="2">
+			<center>
+			Total Number of logins recorded  on the site till now: <%=@count1%> <br></br>
+			
+			<br></br>
+		</td>
+	</tr>
+	</table>
+<form name="form2"  action="/account/sessionReport/" method="post" onsubmit="return Check_Date(this.name);">
+	&nbsp;&nbsp;&nbsp;&nbsp;<table bordercolor="#e5b467" align="center" width="60%" border="1" cellpadding="4" cellspacing="4">
+		<tr  ><th background="/images/body_hor.JPG" colspan="4" align="center" style="backgrund:repeat;" >Search by Login Date</th></tr>
+		<tr><td>From Date</td><td><%= date_select  'from_bdate',  :order => [:month, :day, :year], :start_year => Time.now.year - 100  %> </td></tr>
+		<td>To Date</td><td><%= date_select  'to_bdate', :order => [:month, :day, :year], :start_year => Time.now.year - 100  %></td ></tr>
+			<td align="center" colspan="4"><input type="submit" name="sub1" value="Search"/></td></tr>
+	
+	</table>
+</form>
+
+
+<table width="100%" align="center">
+	<h3><center>User Session Management</center></h3>
+  <tr>
+  <tr valign='center' align='center'>
+  	
+  	
+   
+	<th background="/images/body_hor.JPG"><font class='txt'>User Name</font></th>
+	<th background="/images/body_hor.JPG"><font class='txt'>User Logged In Count</font></th>
+	<th background="/images/body_hor.JPG"><font class='txt'>Average of visit</font></th>
+	<th background="/images/body_hor.JPG"><font class='txt'>Frequency of visit</font></th>
+
+	</tr>
+  	</tr>
+  
+<% 	odd_or_even = 0 
+	i = 0
+	for colmn in @session
+	 i = i + 1
+	odd_or_even = 1 - odd_or_even
+ %>
+ 
+ <tr class='ListLine<%= odd_or_even %>'>
+  	
+   
+	
+	
+	<%if colmn.un %>
+       <%cnt = 0 %>
+
+	<td><%=h colmn.v_user_name%>&nbsp;</td>
+	<td><%=h colmn.cnt%> &nbsp;</td>
+	
+	<td><%=h colmn.avga%> &nbsp;</td>
+	<%
+	arr_avg=colmn.avga.split('.')
+	@avg=Integer(arr_avg[0])%>
+  	<td>&nbsp;<% if (@avg>=75)%> Daily <%else%> <%if @avg>=50 and @avg<75 %> Weekly <%else%><%if @avg>=25 and @avg<50 %> Monthly <%else%>Rarely <%end%><%end%><%end%>
+	<%else%>
+		<td><%=h colmn.v_user_name%></td>
+	<td><%=h 0%></td>
+	
+  
+<%end%>
+    </tr>
+ 
+<% end %>
+<input type="hidden" name="len" id="len" value="<%= i %>"/>
+ <tr><td colspan=4> </td></tr>
+</table>
+
+<%if @count_query<=5
+	else
+%>
+
+<%= link_to 'Previous page', { :page => @prev, :from_bdate => @orginal_fdate, :to_bdate => @orginal_tdate } if @prev!=-1 %>
+
+<%= link_to 'Next page', { :page => @next, :from_bdate => @orginal_fdate, :to_bdate => @orginal_tdate } if @next!=@cnt_page %> 
+
+<%end%>
+
+</td></tr>
+</table>

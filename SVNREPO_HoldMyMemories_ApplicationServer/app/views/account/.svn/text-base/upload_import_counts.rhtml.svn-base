@@ -1,0 +1,32 @@
+
+<center>
+<h1 class="content-white">Listing Upload and Import Counts</h1>
+<h3><a href="/account/count_upload_import_report">(Download Excel report)</a></h3>
+<table cellpadding="2" cellspacing="2" >
+  <tr><th background="/images/body_hor.JPG">UserName</th><th background="/images/body_hor.JPG" align="center">Studio Name</th><th background="/images/body_hor.JPG">Upload Counts</th><th background="/images/body_hor.JPG">Import Counts</th></tr>
+
+      <%  for user in @upload_import_users %>
+       
+          <tr bgcolor="#666666">
+            <td><p style ="text-align:center;" class="content-white"><%= user.hmm_user.v_user_name %></p></td>
+            <td><p style ="text-align:center;" class="content-white"><%studio_id = user.hmm_user.studio_id%><%= @controller.studio_name(studio_id)  %></p></td>
+            <td><p style ="text-align:center;" class="content-white"><%id = user.hmm_user_id%><%  count={} %> <%count = @controller.count_upload_import(id) %>
+                  <%if count['upload'] == 0 %>
+                      <%=count['upload']%>
+                  <%else%>
+                        <%= link_to "#{count['upload']}","/account/upload_date/#{user.hmm_user_id}",:style => "text-align:center;",:class => "content-white" %>
+                  <%end%></p>
+            </td>
+            <td><p style ="text-align:center;"><%id = user.hmm_user_id%>
+                  <%if count['import'] == 0 %>
+                      <p style ="text-align:center;" class="content-white"><%=count['import']%>
+                  <%else%>
+                       <%= link_to "#{count['import']}","/account/import_date/#{user.hmm_user_id}",:style => "text-align:center;",:class => "content-white" %>
+                  <%end%>
+                      </p>
+            </td>
+          </tr>
+       <%end%>
+</table>
+<%= will_paginate @upload_import_users %>
+</center>

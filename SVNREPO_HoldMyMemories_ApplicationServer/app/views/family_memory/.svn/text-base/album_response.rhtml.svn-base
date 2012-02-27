@@ -1,0 +1,12 @@
+<table style="background: #002841;" height="150" align="center" >
+  <tr>
+    <td valign="center"  align="center" >
+     <font color="#DD591D"> <%= flash[:notice_com] %></font>
+    </td>
+  </tr>
+  <tr>
+    <td  valign="bottom"  align="center" >
+      <a href="<%= params[:redirect_url] %>" class="nyroModalClose"><input type="button" class="contactBtn" value="Close" /></a>
+    </td>
+  </tr>
+</table>

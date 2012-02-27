@@ -1,0 +1,103 @@
+<table width="550" bordercolor="#e5b467" border="1" cellpadding="0" cellspacing="0">
+	<tr>
+		<td colspan="3">
+			<h2><center>Chapter's Management</center></h2>
+		</td>
+		
+	</tr>
+	<tr>
+		<td >
+			<font size="2"> No of Chapter's Created </font>
+		</td>
+		<td width="200">
+			:&nbsp;&nbsp;<font size="2"><%=@chap_stat%></font>
+		</td>
+	</tr>
+	<tr>
+		<td>
+			<font size="2">No of Sub-chapters Uploaded </font>
+		</td>
+		<td>
+			:&nbsp;&nbsp;<font size="2"><%=@sub_stat%></font>
+		</td>
+	</tr>
+	<tr>
+		<td>
+			<font size="2">No of Gallery's Uploaded </font>
+		</td>
+		<td>
+			:&nbsp;&nbsp;<font size="2"><%=@gal_stat%></font>
+		</td>
+	</tr>
+	
+	<tr>
+		<td>
+			<font size="2">Total No of Chapters / Sub-Chapters / Gallerys</font>
+		</td>
+		<td>
+			:&nbsp;&nbsp;<font size="2"><%=@total_stat%></font>
+		</td>
+	</tr>
+	
+</table>
+
+<form name="form2"  action="/account/chapstatReport/" method="post" >
+	<table bordercolor="#e5b467"  align="center" width="60%" border="10" cellpadding="4" cellspacing="4">
+		<tr  ><th background="/images/body_hor.JPG" colspan="4" align="center" style="backgrund:repeat;" >Search by Chapter Created Date</th></tr>
+		<tr><td>From Date</td><td><%= date_select  'from_bdate', :order => [:month, :day, :year], :start_year => Time.now.year - 100  %> </td></tr>
+		<td>To Date</td><td><%= date_select  'to_bdate', :order => [:month, :day, :year], :start_year => Time.now.year - 100  %></td ></tr>
+			<td align="center" colspan="4"><input type="submit" name="sub1" value="Search"/></td></tr>
+	
+	</table>
+</form>
+
+<table width="90%">
+	<h3>Chapter Management</h3>
+  <tr>
+  <tr valign='center' align='center'>
+  	
+  	 <th background="/images/body_hor.JPG"><input type="checkbox"  name="CheckAll" id="CheckAll" value="Check All"
+onClick="javascript:checkAll();"></th>
+   <th background="/images/body_hor.JPG"><font class='txt'>Chapter Name</font></th>
+	<th background="/images/body_hor.JPG"><font class='txt'>Permision</font></th>
+	<th background="/images/body_hor.JPG"><font class='txt'>Created On</font></th>
+	<th background="/images/body_hor.JPG"><font class='txt'>Updated On</font></th>
+	
+	<th background="/images/body_hor.JPG"><font class='txt'>Status</font></th>
+
+	
+
+  </tr>
+  </tr>
+  
+<% 	odd_or_even = 0 
+	i = 0
+	for colmn in @tags
+	 i = i + 1
+	odd_or_even = 1 - odd_or_even
+ %>
+ 
+ <tr class ='ListLine<%= odd_or_even %>'>
+  	
+    <td>
+	<input type="checkbox" id="colmn_<%=i.to_s%>"  name="colmn_<%=i.to_s%>" value="<%=colmn.id%>" /></td>
+	
+	<td><%=h colmn.v_tagname%></td>
+	
+	<td><%=h colmn.e_access%></td>
+	<td><%=h colmn.d_createddate%></td>
+	<td><%=h colmn.d_updateddate%></td>
+	<td><%=h colmn.status%></td>
+  	
+    
+
+    </tr>
+  
+<% end %>
+<input type="hidden" name="len" id="len" value="<%= i %>"/>
+
+</table>
+
+<%=will_paginate @tags%>
+
+

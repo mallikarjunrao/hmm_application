@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:Application xmlns:mx="http://www.adobe.com/2006/mxml" 
+	xmlns:flex="org.papervision3d.flex.*"
+	layout="absolute"
+	frameRate="60"
+	applicationComplete="initPV3D()" width="100%" height="100%">
+	<mx:Array id="dataset">
+		<mx:String>assets/photo01.jpg</mx:String>
+		<mx:String>assets/photo02.jpg</mx:String>
+		<mx:String>assets/photo03.jpg</mx:String>
+		<mx:String>assets/photo04.jpg</mx:String>
+		<mx:String>assets/photo05.jpg</mx:String> 
+		<mx:String>assets/photo06.jpg</mx:String>
+		<mx:String>assets/photo07.jpg</mx:String>
+		<mx:String>assets/photo08.jpg</mx:String>
+		<mx:String>assets/photo09.jpg</mx:String>
+		<mx:String>assets/photo10.jpg</mx:String>
+		<mx:String>assets/photo11.jpg</mx:String>
+		<mx:String>assets/photo12.jpg</mx:String>
+		<mx:String>assets/photo13.jpg</mx:String>
+		<mx:String>assets/photo14.jpg</mx:String>
+		<mx:String>assets/photo15.jpg</mx:String>
+		<mx:String>assets/photo16.jpg</mx:String>
+		<mx:String>assets/photo17.jpg</mx:String>
+		<mx:String>assets/photo18.jpg</mx:String>
+		<mx:String>assets/photo19.jpg</mx:String>
+		<mx:String>assets/photo20.jpg</mx:String>
+		<mx:String>assets/photo21.jpg</mx:String>
+		<mx:String>assets/photo22.jpg</mx:String>
+		<mx:String>assets/photo23.jpg</mx:String>
+		<mx:String>assets/photo24.jpg</mx:String>
+	</mx:Array>
+	<mx:Script>
+		<![CDATA[
+			import hmm.TimeFlyByCoverFlow;
+			import events.CoverFlowEvent;
+			import mx.collections.ArrayCollection;
+			import mx.rpc.events.FaultEvent;
+			import mx.rpc.events.ResultEvent;
+			import hmm.StackCoverFlowLeft;
+			import hmm.StackCoverFlow;
+			import mx.controls.Image;
+			import org.papervision3d.examples.PlaneRendering;
+			import org.papervision3d.examples.FocusApp;
+			private var navigateToUrl : String;
+			private var focusApp:StackCoverFlowLeft;
+			private var itemNameDictionary : Dictionary;
+			private function initPV3D():void
+			{
+				var serverUrl:String = Application.application.parameters.serverUrl;
+				service.url = serverUrl;
+				itemNameDictionary = new Dictionary();
+				navigateToUrl = Application.application.parameters.navigateToUrl;
+				service.send();
+				focusApp = new TimeFlyByCoverFlow(paperCanvas.canvas, dataset, 300, 50, 250, true);
+				focusApp.addEventListener(Event.CHANGE, handleSelectionChanged);
+				focusApp.addEventListener(CoverFlowEvent.NAVIGATE_TO, handleNavigateTo);
+				//focusApp.dataField = "icon";
+				//focusApp.labelField = "name"
+				focusApp.init();
+				//focusApp.bitmapAssets = bitmaps;
+				
+			}
+			
+			private function handleResult(event : ResultEvent) : void
+			{
+				trace(event.toString());
+				var bitmaps : Array = new Array();
+				if(event.result.contents.content is ArrayCollection)
+				{
+					var result : ArrayCollection = event.result.contents.content as ArrayCollection;
+					for(var i : int =0; i<result.length; i++)
+					{
+						var obj : Object = new Object();
+						obj.icon = result[i].icon.toString();
+						obj.name = result[i].name.toString();
+						obj.id = result[i].id.toString();
+						bitmaps.push(obj);
+					}	
+				}else
+				{
+					
+					obj = new Object();
+					obj.icon = event.result.contents.content.icon.toString();
+					obj.name = event.result.contents.content.name.toString();
+					obj.id = event.result.contents.content.id.toString();
+					bitmaps.push(obj);
+					
+				}
+				
+				//Here our logic resides.
+				
+				
+				focusApp.addEventListener(Event.CHANGE, handleSelectionChanged);
+				focusApp.addEventListener(CoverFlowEvent.NAVIGATE_TO, handleNavigateTo);
+				//focusApp.dataField = "icon";
+				//focusApp.labelField = "name"
+				focusApp.init();
+			}
+			
+			private function handleNavigateTo(event : CoverFlowEvent) : void
+			{
+				var urlstr : String = navigateToUrl+event.extra.id;
+				var urlreq : URLRequest = new URLRequest( urlstr);
+				navigateToURL(urlreq, "_self");
+			}
+			
+			private function handleSelectionChanged(event : CoverFlowEvent) : void
+			{
+				itemName.text = event.extra as String;
+			}
+			
+			private function handleFault(event : FaultEvent) : void
+			{
+				
+				 trace(event.toString());
+			}
+			
+		]]>
+	</mx:Script>
+	
+	 
+		<mx:HTTPService id="service" result="handleResult(event)" fault="handleFault(event)"/>
+		<!--Canvas3D canvas property should be used as the container for the scene-->
+		<flex:Canvas3D id="paperCanvas"
+			backgroundColor="#000000"
+			backgroundAlpha="1"
+			width="100%" 
+			height="100%"/>	
+		<mx:Label color="#ffffff" id="itemName" filters="{[new GlowFilter()]}" fontFamily="Arial" 
+			fontSize="24" x="{(this.width-itemName.width)/2}" y="{(this.height-itemName.height- 10)}"/>
+		
+</mx:Application>

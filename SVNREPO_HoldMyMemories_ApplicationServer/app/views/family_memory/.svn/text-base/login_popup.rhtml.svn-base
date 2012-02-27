@@ -1,0 +1,85 @@
+<script language="javascript">
+  function like_a_radio(oBox) {
+    var el, i = 0, f = oBox.form;
+    while (el = f[i++]) if (el.type == 'checkbox') el.checked = (el == oBox && el.checked);
+  }
+</script>
+<style type="text/css">
+
+  #nyroModalContent
+  {
+    background:  #002841;
+    width: 342px;
+    height: 200px;
+    overflow: auto;
+  }
+  #nyroModalWrapper
+  {
+    height: 221px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    display: block;
+    width: 346px;
+    margin-top: -164.5px;
+    margin-left: -177px;
+  }
+  #nyroModalBg
+  {
+    background-color: rgb(0, 0, 0);
+    position: absolute;
+    overflow: hidden;
+    top: 0px;
+    left: 0px;
+    height: 100%;
+    width: 100%;
+    opacity: 0.75;
+  }
+</style>
+<script type="text/javascript">
+  function check_form(){
+    var uname = document.getElementById('uname').value;
+    var pass = document.getElementById('pass').value;
+    var regex = /\S/;
+    var allow = false;
+
+    if (regex.test(uname) == true && regex.test(pass) == true){
+      allow = true;
+    }
+    else
+    {
+      alert("Incorrect User name or Password!");
+      uname = pass = "";
+      allow = false;
+    }
+    return allow;
+  }
+</script>
+
+<form method="post" name="commentform" id="blogform" action="/family_memory/login/<%= params[:id] %>?url=<%= params[:url] %>" onsubmit="return check_form();">
+  <table style="background: #002841;" align="center" height="200" >
+    <tr>
+      <td align="center"colspan="3" valign="middle" class="content-white">Please login to Comment</td>
+
+    </tr>
+    <tr>
+      <td align="left" width="93" valign="middle" class="content-white">User Name:</td>
+      <td>
+        <input id="uname" type="text" name="username"/>
+      </td>
+    </tr>
+    <tr>
+      <td align="left" width="93" valign="middle" class="content-white">Password:</td>
+      <td>
+        <input id="pass" type="password" name="password"/>
+      </td>
+    </tr>
+
+    <tr>
+      <td align="center" valign="top" colspan="2" class="content">
+        <input type="submit" class="contactBtn" value="LOGIN" /></td>
+    </tr>
+
+  </table>
+</form>
+

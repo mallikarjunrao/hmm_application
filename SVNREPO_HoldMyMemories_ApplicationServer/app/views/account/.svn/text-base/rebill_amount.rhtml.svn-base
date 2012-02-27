@@ -1,0 +1,13 @@
+<form name="frm" action="/account/rebill" method="post">
+<table align="center" cellpadding="3" cellspacing="3" class="border">
+<input type="hidden" name="hmmid" value="<%=@hmm_user.id%>"/>
+<tr><td colspan="2"><h2>Rebill the User Manually from authrize.net website.</h2></td></tr>
+<tr><td>Customer's Name</td><td><%=@hmm_user.v_fname%>&nbsp;<%=@hmm_user.v_lname%></td></tr>
+
+<tr><td>Customer's Subscription number</td><td><%=@hmm_user.subscriptionnumber%></td></tr>
+<tr><td>Amount to be charged</td><td>$9.95</td></tr>
+<tr><td>Subscription Failed Date:</td><td><%=@hmm_user.account_expdate%></td></tr>
+<tr><td>New subscription Date:</td><td>	<%= date_select 'rebill', 'billed_date',  :order => [:month, :day, :year], :start_year => Time.now.year, :end_year => Time.now.year + 100 %></td></tr>
+<tr><td></td><td><input type="submit" name="sub" value="Rebilled"/> <font size="1" color="white">Click this button only if you have manually rebilled this user from Authorize.net website.</font></td></tr>
+</table>
+</form>

@@ -1,0 +1,173 @@
+<script type="text/javascript">
+  var swfObject;
+  var orignalWidth = 700;
+  var orignalHeight = 600;
+  var windowHeight;
+  var windowWidth;
+
+  function zoomIn(){
+    calculateSize();
+    fitWindowSize();
+    swfObject.style.top = 0;
+    swfObject.style.left = 0;
+    swfObject.style.position = "fixed";
+    swfObject.style.zIndex = 100;
+    window.addEventListener('resize', onResize, false );
+    //setTimeout(zoomOut, 5000);
+  }
+
+  function onResize(){
+    calculateSize();
+    fitWindowSize();
+  }
+
+  function zoomOut(){
+    swfObject.width = orignalWidth;
+    swfobject.height = orignalHeight;
+    swfObject.style.position = "relative";
+    window.removeEventListener('resize', onResize, false);
+  }
+
+  function fitWindowSize(){
+    swfObject.width = windowWidth-20;
+    swfObject.height = windowHeight;
+  }
+
+  function calculateSize(){
+
+    if( typeof( window.innerWidth ) == 'number' ) {
+
+    //Non-IE
+
+      windowWidth = window.innerWidth;
+      windowHeight = window.innerHeight;
+
+    } else if( document.documentElement &&
+
+    ( document.documentElement.clientWidth || document.documentElement.clientHeight ) ) {
+
+    //IE 6+ in 'standards compliant mode'
+
+      windowWidth = document.documentElement.clientWidth;
+      windowHeight = document.documentElement.clientHeight;
+
+    } else if( document.body && ( document.body.clientWidth || document.body.clientHeight ) ) {
+
+    //IE 4 compatible
+
+      windowWidth = document.body.clientWidth;
+      windowHeight = document.body.clientHeight;
+
+    } 
+  }
+</script>
+<table width="970" border="0" cellspacing="0" cellpadding="0">
+  <tr>
+    <td align="center" valign="top" class="tab-dots"><table width="970" border="0" cellspacing="0" cellpadding="0" id="tab_bgcolor_repeat">
+        <tr>
+          <td align="left" valign="top"><table width="100%" border="0" cellspacing="0" cellpadding="0">
+              <tr>
+                <td width="13" align="left" valign="top"></td>
+                <td width="944" align="left" valign="top"><table width="100%" border="0" cellspacing="0" cellpadding="0">
+                    <tr>
+                      <td height="10" align="left" valign="top"></td>
+                    </tr>
+                    <tr>
+                      <td height="35" align="left" valign="bottom" class="header-page">Manage My Site</td>
+                    </tr>
+                    <tr>
+                      <td height="10" align="left" valign="top"></td>
+                    </tr>
+                    <tr>
+                      <td height="1" align="left" valign="top" bgcolor="#454545"></td>
+                    </tr>
+                    <tr>
+                      <td height="10" align="left" valign="top"></td>
+                    </tr>
+                    <tr>
+                      <td align="left" valign="top">
+                        <table width="100%" border="0" cellspacing="0" cellpadding="0">
+                          <tr>
+                            <td width="173" align="left" valign="top" class="content-trans-bg"><%= render :partial => "partials/manage_website_menu", :locals => { :current_item => "#{@current_item}"} %></td>
+                            <td width="27" align="left" valign="top"></td>
+                            <td width="744" align="left" valign="top" class="content-trans-bg"><table width="100%" border="0" cellspacing="0" cellpadding="0">
+                                <tr>
+                                  <td height="10" colspan="3" align="left" valign="top"></td>
+                                </tr>
+                                <tr>
+                                  <td width="10" align="left" valign="top"></td>
+                                  <td align="left" valign="top"><table width="100%" cellpadding="0" cellspacing="0" border="0" align="center">
+                                      <tr>
+                                        <td height="25" align="right" valign="top" class="side-heading">(  <a href="/manage_website/home/<%=  params[:id] %>">BACK</a> ) &nbsp;&nbsp;&nbsp;</td>
+                                      </tr>
+                                      <tr valign="top">
+                                        <td valign="top" align="center">
+                                          <script src="/AC_OETags.js" language="javascript" type="text/javascript"></script>
+                                          <form name="frm" action="create" enctype="multipart/form-data" method="post" onsubmit ="addimage();manualPB2.setPercentage('5'); manualPB2.setPercentage('10'); manualPB2.setPercentage('15'); manualPB2.setPercentage('25'); manualPB2.setPercentage('25'); manualPB2.setPercentage('25'); manualPB2.setPercentage('50'); manualPB2.setPercentage('50'); manualPB2.setPercentage('50'); manualPB2.setPercentage('75'); manualPB2.setPercentage('75'); manualPB2.setPercentage('75'); manualPB2.setPercentage('100');">
+                                            <table width="100%" align="center">
+                                              <tr>
+                                                <td align="center">
+                                                  <input type="hidden" name="user_content[e_filetype]" value="PHOTO"/>
+
+                                                  <input type="hidden" name="proxyurls" id="proxyurls" value="<%=@proxyurls%>" />
+                                                  <!--<input type="button" value="Zoom In" onclick="zoomIn()"/>-->
+                                                  <div id="uploadControl" align="center">
+                                                    <span style="color:#ffffff">HoldMyMemories.com requires Adobe Flash 10.0 or later to work properly.
+
+                                                      <br/>It appears you may be running an older version of Adobe Flash, or may have Java Script turned off.
+                                                    </span>
+                                                    <br/><br/><a href="http://www.adobe.com/go/getflashplayer"><u><font color=#FF6600>Get the latest Flash player from Adobe.</font></u></a>
+
+                                                  </div>
+                                                  <script src="/swfobject.js" language="JavaScript" type="text/javascript"></script>
+                                                  <script type="text/javascript">
+
+                                                    var flashvars = {proxy:'<%=@servername%>',proxyurls:'<%=request_content_url%>,<%=@paths.content_path %>,http://content.holdmymemories.com,http://content1.holdmymemories.com,http://stagingcontent1.holdmymemories.com',user_id:'<%=logged_in_hmm_user.id%>',familyname:'<%=logged_in_hmm_user.family_name%>',content_url:'http://stagingcontent.holdmymemories.com'};
+                                                    var params = {allowfullscreen:true,bgcolor:'#000000'};
+                                                    var attributes = {};
+
+                                                    window.onload = function(){
+                                                      swfobject.embedSWF
+                                                        ("/PhotoBookCreation.swf?v=<%=  @versions.major %>_<%=@versions.minor %>_<%= Time.now %> ",
+                                                        "uploadControl", orignalWidth, orignalHeight, "1.0.0","expressInstall.swf",
+                                                        flashvars, params, attributes);
+                                                      swfObject = document.getElementById("uploadControl");
+                                                    }
+                                                  </script>
+                                                  <div id="demo" style="display:none;">
+                                                    <span id="element6">[ Loading Progress Bar ]</span>
+                                                  </div>
+                                                </td>
+                                              </tr>
+                                            </table>
+                                          </form>
+                                        </td>
+                                      </tr>
+                                    </table></td>
+                                  <td width="10" align="left" valign="top"></td>
+                                </tr>
+                              </table>
+
+                            </td>
+                          </tr>
+                        </table>
+                      </td>
+                    </tr>
+                  </table>
+                </td>
+              </tr>
+              <tr>
+                <td align="left" valign="top">&nbsp;</td>
+              </tr>
+
+            </table></td>
+          <td width="13" align="left" valign="top"></td>
+        </tr>
+      </table></td>
+  </tr>
+</table>
+<script type="text/javascript">
+  function page_reload()
+  {location.reload(true);}
+
+</script>

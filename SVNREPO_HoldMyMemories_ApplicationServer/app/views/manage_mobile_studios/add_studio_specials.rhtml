@@ -1,0 +1,92 @@
+<%= javascript_include_tag 'check_flash' %>
+<%= stylesheet_link_tag 'main' %>
+<%= stylesheet_link_tag 'hmmout' %>
+<script type="text/javascript">
+  function validateFileExtension(fld) {
+    if(!/(\.png|\.PNG)$/i.test(fld.value)) {
+      alert("Invalid file type.. Please Upload only transparent PNG image file!!");
+      fld.focus();
+      return false;
+    }
+    return true;
+  }
+</script>
+
+
+<script type="text/javascript">
+  function check_terms()
+  {
+    if(document.frm.title.value=='')
+    {
+      alert("Please enter the title");
+      document.frm.title.focus();
+      return false;
+    }
+    if(document.frm.description.value=='')
+    {
+      alert("Please enter the description");
+      document.frm.description.focus();
+      return false;
+    }
+	
+
+  }
+</script>
+<table width="900"  border="0" cellspacing="0" cellpadding="0">
+  <tr><td valign="top">
+      <%= render :partial => 'links' %>
+    </td><td>
+<form name="frm" action="/manage_mobile_studios/add_studio_specials/" method="post" >
+
+    <table width="600" border="0" cellspacing="0" cellpadding="0">
+      
+      <tr>
+        <td colspan="4" align="left" valign="top" class="leftconthr"><h3>Add Studio Specials:</h3></td>
+      </tr>
+      <tr>
+        <td colspan="4" align="right" valign="top" class="leftconthr"><a href="/manage_mobile_studios/manage_studio_specials" ><< Back</a></td>
+      </tr>
+
+      <tr>
+        <td colspan="4" align="center" valign="top" class="leftconthr">
+          <%if(flash[:notice])%>
+            <font color="#FF0000"><%=flash[:notice]%></font>
+          <%end%>
+        </td>
+      </tr>
+      <tr>
+       
+        <td  align="left" valign="top" class="whitecont">Studio Special Title *<input type="text" name="title" id="title" value="">
+        </td>
+      </tr>
+      <tr>
+       
+        <td align="left" valign="top">&nbsp;</td>
+      </tr>
+      <tr>
+        
+        <td  align="left" valign="top" class="whitecont">Description (150 Characters only) * </td>
+        </tr>
+      <tr>
+       
+      <td  align="left" valign="top" class="whitecont"><textarea name="description" id="description" rows="5" cols="50"></textarea></td>
+       
+      </tr>
+      <tr><td align="center" colspan="4" valign="top">&nbsp;</td></tr>
+      <tr>
+        <td align="left" colspan="1" valign="top">
+          <input type="submit" id="sub" name="sub" class="cmd-btn" value="Add" style="cursor:pointer;" onClick="return check_terms();">
+        </td>
+      </tr>
+
+      <tr>
+        <td align="left" valign="top">&nbsp;</td>
+        <td align="left" valign="top">&nbsp;</td>
+        <td align="left" valign="top">&nbsp;</td>
+        <td align="left" valign="top">&nbsp;</td>
+      </tr>
+
+    </table>
+</form>
+ </td>
+</tr></table>

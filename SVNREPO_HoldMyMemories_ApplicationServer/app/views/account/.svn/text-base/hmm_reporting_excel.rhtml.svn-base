@@ -1,0 +1,117 @@
+
+<table border="0" cellpadding="0">
+	
+	<tr><td colspan="15"><h2>HoldMyMemories.com Report</h2> </td></tr>
+	
+  <tr>
+
+ </td></tr>
+
+  <tr valign='center' align='center'>
+  	
+  	<th >No Of Premium Users</th> 
+   <th >No Of Premium Active Users </th>
+	<th >No Of Premium Cancled Users</th>
+	<th >No Of Premium Declined Users</th>
+	<th >Average Premium membership(in days)</th>
+	
+	<th >No Of Family Website Users</th>
+	<th >No Of Family Cancled Users</th>
+	<th >No Of Family Declined Users</th>
+	<th >Average Family membership(in days)</th>
+
+	<th >No Of Free Users</th>
+	<th >Average age (in days) of average member</th>
+	<th >No Of Photos</th>
+	<th >No Of Videos</th>
+	<th >No Of Audios</th>
+  </tr>
+
+
+
+  <tr class="<%= cycle('odd', 'even') -%>">
+  	
+	
+   
+	<td align="center" valign="top">
+		<%= @hmm_users_premium%>
+		
+		
+	</td>
+	
+	<td align="center" valign="top">
+		<%=@hmm_users_premium_active%>
+		
+	</td>
+	
+	<td align="center" valign="top">
+		<%= @hmm_users_premium_cancled%>
+		
+	</td>
+	
+	<td align="center" valign="top">
+		<%= @hmm_users_premium_declined%>
+		
+	</td>
+	
+  	<td align="center" valign="top">
+  		<%=@avg_membership%>
+	</td>
+	
+	<td align="center" valign="top">
+		<%= @hmm_users_familyws %>
+		
+	</td>
+	
+	<td align="center" valign="top">
+		<%=@hmm_users_familyws_cancled %>
+		
+	</td>
+	
+	<td align="center" valign="top">
+		<%=@hmm_users_familyws_declined%>
+		
+	</td>
+	<td align="center" valign="top">
+		<%=@avg_family_membership%>
+		
+	</td>
+    <td align="center" valign="top">
+    	<%= @hmm_users_free%>
+		
+	</td>
+	<td align="center" valign="top">
+    	<%= @avg_free_age%>
+		
+	</td>
+	<td align="center" valign="top">
+    	<%=@stat_imag %>
+		
+	</td>
+	<td align="center" valign="top">
+    	<%=@stat_video %>
+		
+	</td>
+	<td align="center" valign="top">
+    	<%=@stat_audio %>
+		
+	</td>
+	
+    
+  </tr>
+
+<tr><td colspan="4">
+	
+</td>
+</tr>
+
+</table>
+
+
+
+</td></tr></table>
+
+
+
+
+<br />

@@ -1,0 +1,20 @@
+<h1>Listing galleries</h1>
+
+<table>
+  <tr>
+    <th>V gallery name</th>
+  </tr>
+  
+<% for galleries in @galleries %>
+  <tr>
+    <td><%=h galleries.v_gallery_name %></td>
+    <td><%= link_to 'Show', galleries_path(galleries) %></td>
+    <td><%= link_to 'Edit', edit_galleries_path(galleries) %></td>
+    <td><%= link_to 'Destroy', galleries_path(galleries), :confirm => 'Are you sure?', :method => :delete %></td>
+  </tr>
+<% end %>
+</table>
+
+<br />
+
+<%= link_to 'New galleries', new_galleries_path %>

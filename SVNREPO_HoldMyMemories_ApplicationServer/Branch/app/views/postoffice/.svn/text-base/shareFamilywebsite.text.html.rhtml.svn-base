@@ -1,0 +1,78 @@
+<style type="text/css">
+<!--
+.style2 {color: #FFFFFF}
+-->
+</style>
+<p>Hello <i>,</i></p>
+<form name="frm" method="post" >
+
+<table width="820" cellpadding="0" cellspacing="0" border="0"><tr>
+  <th width="5" align="left" valign="top" scope="col"></th>
+  <th width="817" align="left" valign="top" scope="col">
+  	<table width="100%" border="0" cellspacing="0" cellpadding="0">
+    
+  </table></th>
+  <th width="5" align="left" valign="top" scope="col"></th>
+</tr>
+</table>
+
+
+<table width="100%" border="0" cellspacing="0" cellpadding="0">
+    <tr>
+      <th width="10" height="32" align="left" valign="top" bgcolor="#191919" scope="col">&nbsp;</th>
+      <th colspan="2" align="left" valign="middle" bgcolor="#191919" scope="col"><strong>
+      	<font color="#FFFFFF"  face="areal"><em>View Family Website Shared from</em>  <%=@from_name %>:</font></strong></th>
+		
+    </tr>
+	<tr>
+      <th height="32" align="left" valign="top" scope="col">&nbsp;</th>
+      <th colspan="2" align="left" valign="middle" scope="col">
+      	</th>
+    </tr>
+		
+	<%if @password == "no"%>
+	<%else%>
+	<tr>
+      <th width="128" align="left" valign="top" class="text-journal" scope="col"> <img src="http://12.156.60.97/hmmuser/photos/thumb/<%=@my_image%>" border="0"> </th>
+      <th colspan="2" align="left" valign="middle" scope="col">
+      	<table> 
+			<tr> 
+				<th colspan="2" align="left" valign="middle" scope="col">
+      			login using this password : <%=@password%>
+      			</th>
+			</tr>
+			<tr><td>&nbsp;</td></tr>
+			<tr>
+				<th colspan="2" align="left" valign="middle" scope="col">
+      				<%=@message.gsub("\n", "<br />\n") %>
+      			</th>
+			</tr>
+		</table> 
+      	</th>
+    </tr>
+	<%end%>
+	<tr>
+      <th height="32" align="left" valign="top" scope="col"></th>
+      <th colspan="2" align="left" valign="middle" scope="col">
+      	</th>
+    </tr>
+	<tr>
+      <th height="28" align="left" valign="top" bgcolor="#191919" scope="col">	</th>
+      <th align="left" valign="middle" colspan="2" bgcolor="#191919" class="text-journal" scope="col">
+   	  <a href="<%=@link%>"><font color="#CCCCCC"><b>click here to view family website of  <%=@from_name %></b></font></a></th>
+    </tr>
+	
+	<tr>
+      <th height="28" align="left" valign="top" bgcolor="#191919" scope="col">	</th>
+      <th align="left" valign="middle" colspan="2" bgcolor="#191919" class="text-journal" scope="col">
+   		<a href="http://www.holdmymemories.com/customers/new"><font color="#CCCCCC"><b>click here to Sign Up with HoldMyMemories.com</b></font></a></th>
+    </tr>
+	
+
+</table>
+
+</form>
+
+<p>&nbsp;</p>
+<p>Thank you!</p>
+<p>HoldMyMemories.com Team </p>

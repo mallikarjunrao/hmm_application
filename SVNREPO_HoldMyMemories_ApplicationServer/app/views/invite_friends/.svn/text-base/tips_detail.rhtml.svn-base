@@ -1,0 +1,25 @@
+<style>
+	.text-color{
+		font-family: Verdana, Arial, Helvetica, sans-serif;
+		color: #ffffff;
+		border: thin solid #191919;
+		font-size:small;
+	}
+</style>
+&nbsp;<a href="#" onclick="new Ajax.Updater('<%=params[:id]%>', '/invite_friends/blank/<%=params[:id]%>', {asynchronous:true, evalScripts:true}); return false;">Click here to Hide</a>
+<input type="hidden" value="<%=params[:id]%>" name="id" />
+<table width="100%">
+	<tr>
+		<th align="left" valign="top" scope="col">&nbsp;</th>
+		 <th align="left" valign="top" scope="col">&nbsp;</th>
+		<td align="left" style="text-align:justify">
+			<% for i in @tips %>
+				<font color="#ffffff"><%=i.description.gsub("\n", "<br />\n") %></font> 
+			<%end%>
+		</td>
+		
+	</tr>
+	<tr>
+		<th>&nbsp;</th>
+		<th>&nbsp;</th><td>&nbsp;</td></tr>
+</table>

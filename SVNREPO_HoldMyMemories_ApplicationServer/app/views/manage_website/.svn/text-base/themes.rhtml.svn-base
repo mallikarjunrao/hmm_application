@@ -1,0 +1,216 @@
+<%= javascript_include_tag 'themes/easy_slider/jquery' %>
+<%= javascript_include_tag 'themes/easy_slider/easySlider1.7' %>
+
+<style type="text/css">
+  * {margin:0; padding:0}
+  body {font:12px Verdana,Arial; color:#555; background:#222 url(images/bg.jpg) 50% 0 no-repeat}
+  p {line-height:1.4; margin-bottom:12px}
+
+  .container{
+    margin:0 auto;
+    position:relative;
+    text-align:left;
+    width:312px;
+
+    margin-bottom:2em;
+    border:7px solid gray;
+    background:black;
+
+  }
+  #header{
+    height:80px;
+    background:#5DC9E1;
+    color:#fff;
+  }
+  .content{
+    position:relative;
+  }
+
+
+  /* Easy Slider */
+  <%=@slider%>{
+    width:312px;
+    height:245px;
+    overflow:hidden;
+	}
+
+  <%=@controls%>{
+    margin:0;
+    position:relative;
+  }
+
+  <%=@prevnextbtn%>{
+    display:block;
+    margin:0;
+    overflow:hidden;
+    text-indent:-8000px;
+    width:30px;
+    height:77px;
+    position:absolute;
+    left:-50px;
+    top:70px;
+  }
+
+  <%=@nextbtn%>{
+    left:332px;
+  }
+
+  <%=@prevbtna%>{
+    display:block;
+    width:30px;
+    height:77px;
+    background:url(/themes/theme-arrow-left.png) no-repeat 0 0;
+  }
+
+  <%=@nextbtna%>{
+    background:url(/themes/theme-arrow-right.png) no-repeat 0 0;
+  }
+  /* // Easy Slider */
+
+</style>
+<table width="970" border="0" cellspacing="0" cellpadding="0">
+  <tr>
+    <td align="center" valign="top" class="tab-dots"><table width="970" border="0" cellspacing="0" cellpadding="0" id="tab_bgcolor_repeat">       
+        <tr>
+          <td align="left" valign="top"><table width="100%" border="0" cellspacing="0" cellpadding="0">
+              <tr>
+                <td width="13" align="left" valign="top"></td>
+                <td width="944" align="left" valign="top"><table width="100%" border="0" cellspacing="0" cellpadding="0">
+                    <tr>
+                      <td height="10" align="left" valign="top"></td>
+                    </tr>
+                    <tr>
+                      <td height="35" align="left" valign="bottom" class="header-page">Manage My Site</td>
+                    </tr>
+                    <tr>
+                      <td height="10" align="left" valign="top"></td>
+                    </tr>
+                    <tr>
+                      <td height="1" align="left" valign="top" bgcolor="#454545"></td>
+                    </tr>
+                    <tr>
+                      <td height="10" align="left" valign="top"></td>
+                    </tr>
+                    <tr>
+                      <td align="left" valign="top"><table width="100%" border="0" cellspacing="0" cellpadding="0">
+                          <tr>
+                            <td width="183" align="left" valign="top" class="content-trans-bg">
+                              <%= render :partial => "partials/manage_website_menu", :locals => { :current_item => "#{@current_item}"} %>
+                            </td>
+                            <td width="17" align="left" valign="top"></td>
+                            <td width="744" align="left" valign="top"><table width="100%" border="0" cellspacing="0" cellpadding="0">
+                                <tr>
+                                  <td class="content-trans-bg"><table width="100%" border="0" cellspacing="0" cellpadding="0">
+                                      <tr>
+                                        <td height="10" colspan="3" align="left" valign="top"></td>
+                                      </tr>
+                                      <tr>
+                                        <td width="20" align="left" valign="top"></td>
+                                        <td align="left" valign="top"><table width="100%" border="0" cellspacing="0" cellpadding="0">
+                                            <tr>
+                                              <td align="right" valign="top" class="side-heading">&nbsp;</td>
+                                            </tr>
+                                            <tr>
+                                              <td align="left" valign="top" class="header-paragraph">Edit Themes:</td>
+                                            </tr>
+                                            <tr>
+                                              <td align="left" valign="top">&nbsp;</td>
+                                            </tr>
+                                            <tr>
+                                              <td align="left" valign="top" class="content-trans-bg"><table width="100%" border="0" cellspacing="0" cellpadding="0">
+                                                  <tr>
+                                                    <td align="left" valign="top"></td>
+                                                    <td align="left" valign="top" >&nbsp;</td>
+                                                    <td align="left" valign="top"></td>
+                                                  </tr>
+                                                  <tr>
+                                                    <td width="20" align="left" valign="top"></td>
+                                                    <td align="center" valign="top">
+                                                      <%
+                                                      @cnt=1;
+                                                      for category in @theme_category
+                                                      %>  <script type="text/javascript">
+                                                          $(document).ready(function(){
+                                                            $("#slider<%=@cnt%>").easySlider({
+                                                              //controlsBefore:	'<p id="controls<%=@cnt%>">',
+                                                              //controlsAfter:	'</p>',
+                                                              prevId: 'prevBtn<%=@cnt%>',
+                                                              nextId: 'nextBtn<%=@cnt%>',
+                                                              continuous: true
+                                                            });
+                                                          });
+														  
+														  
+                                                        </script>
+                                                        <table border="0">
+                                                          <tr>
+                                                            <td align="center" height="50">&nbsp;</td>
+                                                          </tr>
+                                                          <tr>
+                                                            <td align="center" valign="top">
+                                                              <%  if @themes %>
+                                                                <div class="container">
+                                                                  <div class="content" style="border:medium;border-color:#FF0000;">
+                                                                    <div id="slider<%=@cnt%>" name="slider<%=@cnt%>">
+                                                                      <ul>
+                                                                        <%  for theme in @themes %>
+                                                                       
+                                                                          <% if category.id == Integer(theme.category_id) %>
+                                                                            <li><table border="0"  cellpadding="0" cellspacing="0" style="margin-top:-14px;"><tr><td valign="top"><img src="/themes/<%= theme.image %>" width="313" height="212" alt="<%= theme.name %>" border="0" style="vertical-align:top;"/></td></tr><tr><td align="center" valign="middle" height="20"><a href="<%= @content_server_url %>/manage_website/save_selected_theme/<%=params[:id]%>?theme=<%= theme.id %>&user_id=<%=@family_website_owner.id%>&family_name=<%= params[:id] %>">(  Apply <%= theme.name %>  )</a></td></tr></table></li>
+
+                                                                          <% end %>
+                                                                        <% end %>
+                                                                      </ul>
+                                                                    </div>
+                                                                  </div>
+                                                                </div>
+                                                              <% else %>
+                                                                Themes not available
+                                                              <% end %>
+                                                            </td>
+                                                          </tr>
+                                                          <tr>
+                                                            <td align="center" class="manage-theme-bg"><%=category.name%></td>
+                                                          </tr>
+                                                        </table>
+
+                                                        <% @cnt=@cnt+1;
+                                                      end%>
+                                                    </td>
+                                                    <td width="20" align="left" valign="top"></td>
+                                                  </tr>
+                                                  <tr>
+                                                    <td align="left" valign="top"></td>
+                                                    <td align="left" valign="top" >&nbsp;</td>
+                                                    <td align="left" valign="top"></td>
+                                                  </tr>
+                                                  <tr>
+                                                    <td align="left" valign="top"></td>
+                                                    <td align="left" valign="top" >&nbsp;</td>
+                                                    <td align="left" valign="top"></td>
+                                                  </tr>
+                                                </table></td>
+                                            </tr>
+                                            <tr>
+                                              <td align="left" valign="top">&nbsp;</td>
+                                            </tr>
+                                          </table></td>
+                                        <td width="20" align="left" valign="top"></td>
+                                      </tr>
+                                    </table></td>
+                                </tr>
+                                <tr>
+                                  <td>&nbsp;</td>
+                                </tr>
+                              </table></td>
+                          </tr>
+                        </table></td>
+                    </tr>
+                  </table></td>
+                <td width="13" align="left" valign="top"></td>
+              </tr>
+            </table></td>
+        </tr>
+      </table></td>
+  </tr>
+</table>

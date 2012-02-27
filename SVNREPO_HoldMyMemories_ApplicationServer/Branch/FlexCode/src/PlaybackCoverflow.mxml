@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:Application xmlns:mx="http://www.adobe.com/2006/mxml" 
+	xmlns:flex="org.papervision3d.flex.*"
+	layout="absolute"
+	frameRate="60"
+	applicationComplete="initPV3D()" width="850" height="350">
+	
+	<mx:Script>
+		<![CDATA[
+			import events.CoverFlowEvent;
+			import mx.collections.ArrayCollection;
+			import mx.rpc.events.FaultEvent;
+			import mx.rpc.events.ResultEvent;
+			import hmm.StackCoverFlowLeft;
+			import hmm.StackCoverFlow;
+			import mx.controls.Image;
+			import org.papervision3d.examples.PlaneRendering;
+			import org.papervision3d.examples.FocusApp;
+			private var navigateToUrl : String;
+			private var focusApp:StackCoverFlowLeft;
+			private var itemNameDictionary : Dictionary;
+			private function initPV3D():void
+			{
+				var serverUrl:String = Application.application.parameters.serverUrl;
+				service.url = serverUrl;
+				itemNameDictionary = new Dictionary();
+				navigateToUrl = Application.application.parameters.navigateToUrl;
+				service.send();
+				
+				//focusApp.bitmapAssets = bitmaps;
+				
+			}
+			
+			private function handleResult(event : ResultEvent) : void
+			{
+				trace(event.toString());
+				var bitmaps : Array = new Array();
+				if(event.result.contents.content is ArrayCollection)
+				{
+					var result : ArrayCollection = event.result.contents.content as ArrayCollection;
+					for(var i : int =0; i<result.length; i++)
+					{
+						var obj : Object = new Object();
+						obj.icon = result[i].icon.toString();
+						obj.name = result[i].name.toString();
+						obj.id = result[i].id.toString();
+						bitmaps.push(obj);
+					}	
+				}else
+				{
+					
+					obj = new Object();
+					obj.icon = event.result.contents.content.icon.toString();
+					obj.name = event.result.contents.content.name.toString();
+					obj.id = event.result.contents.content.id.toString();
+					bitmaps.push(obj);
+					
+				}
+				
+				//Here our logic resides.
+				
+				focusApp = new StackCoverFlowLeft(paperCanvas.canvas, bitmaps, 75, 0, 150, true);
+				focusApp.addEventListener(Event.CHANGE, handleSelectionChanged);
+				focusApp.addEventListener(CoverFlowEvent.NAVIGATE_TO, handleNavigateTo);
+				focusApp.dataField = "icon";
+				focusApp.labelField = "name"
+				focusApp.init();
+			}
+			
+			private function handleNavigateTo(event : CoverFlowEvent) : void
+			{
+				var urlstr : String = navigateToUrl+event.extra.id;
+				var urlreq : URLRequest = new URLRequest( urlstr);
+				navigateToURL(urlreq, "_self");
+			}
+			
+			private function handleSelectionChanged(event : CoverFlowEvent) : void
+			{
+				itemName.text = event.extra as String;
+			}
+			
+			private function handleFault(event : FaultEvent) : void
+			{
+				
+				 trace(event.toString());
+			}
+			
+		]]>
+	</mx:Script>
+	
+	
+		<mx:HTTPService id="service" result="handleResult(event)" fault="handleFault(event)"/>
+		<!--Canvas3D canvas property should be used as the container for the scene-->
+		<flex:Canvas3D id="paperCanvas"
+			backgroundColor="#000000"
+			backgroundAlpha="1"
+			width="100%" 
+			height="100%"/>	
+		<mx:Label color="#ffffff" id="itemName" filters="{[new GlowFilter()]}" fontFamily="Arial" 
+			fontSize="24" x="{(this.width-itemName.width)/2}" y="{(this.height-itemName.height- 10)}"/>
+		
+</mx:Application>

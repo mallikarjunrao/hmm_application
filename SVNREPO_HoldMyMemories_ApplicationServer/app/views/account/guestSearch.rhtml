@@ -1,0 +1,69 @@
+<%if @share_count > 0%>
+<table border="0">
+	
+	<tr><td colspan="15"><h2>HoldMyMemories Users</h2> </td></tr>
+  
+
+  <tr>
+		<td background="/images/body_hor.JPG">
+		 	<input type="checkbox"  name="CheckAll" id="CheckAll" value="Check All" onClick="javascript:checkAll();">
+		</td>
+		<td background="/images/body_hor.JPG">
+		 	<font class='txt'>Guest Name</font> 
+		</td>
+		<td background="/images/body_hor.JPG">
+		 	<font class='txt'>Guest E-mail</font> 
+		</td>
+		<td background="/images/body_hor.JPG">
+		 <font class='txt'>Guest Invited By</font>
+		</td>
+		<td background="/images/body_hor.JPG">
+		 	<font class='txt'>Last Visited</font>
+		</td>
+		<td background="/images/body_hor.JPG">
+		 	<font class='txt'>Created_On</font>
+		</td>
+		<td background="/images/body_hor.JPG">
+		 	<font class='txt'>Expiry's On</font>
+		</td>
+		<td colspan=2 background="/images/body_hor.JPG">
+			<font class='txt'>Actions</font>
+		</td>
+	</tr>
+
+<% 	odd_or_even = 0 
+	i = 0
+	for colmn in @share
+	 i = i + 1
+	odd_or_even = 1 - odd_or_even
+ %>
+
+  <tr class='ListLine<%= odd_or_even %>'>
+  	
+    <td>
+	<input type="checkbox" id="colmn_<%=i.to_s%>"  name="colmn_<%=i.to_s%>" value="<%=colmn.id%>" /></td>
+	
+	<td><%=h colmn.guest_name%></td>
+	<td><%=h colmn.email_list %></td>
+	
+	<td><%=h colmn.presenter_id%></td>
+	<td><%=h colmn.Visited_date%></td>
+	
+	
+  	<td><%=h colmn.created_date %></td>
+    <td><%=h colmn.expiry_date %></td>
+	 <td>	<%= link_to_remote("Show",
+		:update => 'content', :url => {:controller =>:account , :action => :showGuest ,  :id => colmn.id } ) %></td>
+    <td><%= link_to_remote("Edit",
+		:update => 'content', :url => {:controller =>:account , :action => :edit ,  :id => colmn.id } ) %></td>
+    	</td></td>
+  </tr>
+ 
+<% end %>
+<input type="hidden" name="len" id="len" value="<%= i %>"/>
+ <tr><td colspan="4"><input  type='submit'  value='DELETE SELECTED' /> </td></tr>
+
+</table>
+<%else%>
+No User Found
+<%end%>

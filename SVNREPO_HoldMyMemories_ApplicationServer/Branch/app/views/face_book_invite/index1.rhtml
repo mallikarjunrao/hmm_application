@@ -1,0 +1,88 @@
+
+
+<script language="javascript">
+  
+  function selectall()
+  {
+      var inputs = document.getElementsByTagName('input');
+        var checkboxes = [];
+        for (var i = 0; i < inputs.length; i++)
+        {
+
+            if (inputs[i].type == 'checkbox') 
+            {
+                inputs[i].checked =true;
+            }
+        }
+  }
+  function unselectall()
+  {
+      var inputs = document.getElementsByTagName('input');
+        var checkboxes = [];
+        for (var i = 0; i < inputs.length; i++)
+        {
+
+            if (inputs[i].type == 'checkbox') 
+            {
+                inputs[i].checked =false;
+            }
+        }
+  }
+  
+</script> 
+
+<p><a href="http://www.facebook.com" target="_blank" ><u>Click here</u></a> to Logout from your FaceBook Account.</a></p><br>
+
+<form name="frm" method="post" action="notify_friend" >
+  <table width="100%" align="center" border="0">
+     <tr>
+       <td colspan="3" align="left"><font colr="white" face="arial" size="2"><b>Friends List from your Facebook account</b></font></td>
+     </tr>
+     <tr>
+       <td  align="left"><input type="button" value="Select All" name="Sel" id='sel' onclick="selectall()" /></td><td><input type="button" value="Unselect All" name="Sel" id='sel' onclick="unselectall()" /></td>
+     </tr>
+     
+<%
+i=0
+for @list in @friendNames
+
+%>
+       <tr>
+       	<td align="left" width="10">
+       		<input type="checkbox" name="frnid[]" id='frnid[]' value="<%=@uids[i]%>" />
+		</td>
+		<td  width="100">
+			<img src="<%=@friendimages[i]%>"/>
+		</td>
+		<td>
+			<font color="white" face="arial"><%=@friendNames[i]%> </font> 
+		</td> 
+       <input type="hidden" name="cnt" id="cnt" value="<%=i%>" /> 
+<%
+i=i+1
+end%>
+	<tr>
+		<th colspan="3" >
+			&nbsp;
+		</th>
+	</tr>
+	<tr>
+		<th colspan="3" align="left">
+			Message to your friend
+		</th>
+	</tr>
+	<tr>
+		<th colspan="3" align="left">
+			<textarea name="message" id="message" cols="50" rows="6" ></textarea>
+		</th>
+	</tr>
+	<tr>
+		<th colspan="3" >
+			&nbsp;
+		</th>
+	</tr>
+     <tr>
+       <td colspan="3" align="left" align="center"><input type="submit" value="Notify Friends" name="sub1" /> </td>
+     </tr>
+</table>
+</form>

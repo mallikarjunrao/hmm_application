@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:Application 
+	xmlns:mx="http://www.adobe.com/2006/mxml" 
+	xmlns:xx="com.fontvirus.*"
+	layout="absolute" 
+	backgroundGradientAlphas="[1.0, 1.0]" 
+	backgroundGradientColors="[#000000, #555555]"
+	creationComplete="init3D()"
+	enterFrame="loop3D(event)" xmlns:flex="org.papervision3d.flex.*">
+<mx:Script>
+	<![CDATA[
+		import mx.controls.Alert;
+		import org.papervision3d.cameras.Camera3D;
+		import org.papervision3d.scenes.Scene3D;
+		import org.papervision3d.objects.Plane;
+		import org.papervision3d.objects.DisplayObject3D;
+		import org.papervision3d.materials.BitmapMaterial;
+		//import com.fontvirus.FlexFPS;
+		
+		//private var theFPS:FlexFP;
+		private var basePoint:Point;
+		private var rect:Rectangle;
+		private var formTexture:BitmapData;
+		private var scene3D:Scene3D;
+		private var camera:Camera3D;
+		private var rootNode:DisplayObject3D;
+		private var plane:DisplayObject3D;
+	
+		private function init3D():void {
+			//theFPS = new FlexFPS(0x006600, 0x000000, 0xFFFFFF);
+			//this.addChild(theFPS);
+			var formwidth:Number = myPanel.width;
+			var formheight:Number = myPanel.height;
+							
+			formTexture = new BitmapData (formwidth, formheight);
+			
+			scene3D = new Scene3D(paperCanvas.canvas);
+		
+			camera = new Camera3D();
+			camera.zoom = 10;
+			camera.focus = 200;
+			
+			rootNode = scene3D.addChild(new DisplayObject3D("rootNode"));
+			rootNode.container = paperCanvas.canvas;
+			
+			var material1:BitmapMaterial = new BitmapMaterial(formTexture);
+			material1.oneSide = false;
+		
+			plane = rootNode.addChild(new Plane(material1,formwidth,formheight,4,4), "plane");	
+		}
+		
+		private function loop3D(event:Event):void {
+			//theFPS.update("rendered: " + scene3D.stats.rendered.toString());
+			if(camera != null) {
+				camera.x += ((mouseX * 5) - camera.x) * 0.10;
+				camera.y += ((mouseY * 5) - camera.y) * 0.10;
+				
+				formTexture.draw(myPanel);
+				plane.material.bitmap = formTexture;
+				rootNode = scene3D.getChildByName("rootNode");
+				rootNode.container.filters = [new GlowFilter(0x00FF00, 1, 90, 90, 1, 1, false, false)];
+				scene3D.renderCamera(camera);	
+			}
+		}			
+		
+		private function hit():void {
+			Alert.show("login success!", "fontvir.us", 1, this);
+		}
+	]]>
+</mx:Script>
+<mx:Panel id="myPanel" title="flexComponet3D" shadowDistance="6" shadowDirection="left" backgroundColor="#000000" color="#fFFFFF" cornerRadius="0" headerHeight="22" headerColors="[#000000, #666666]" width="250" backgroundAlpha="1.0" height="200" borderStyle="solid" x="10" y="62">		
+	<mx:SWFLoader source="assets/busy.swf"/>
+</mx:Panel>
+<flex:Canvas3D id="paperCanvas" backgroundAlpha="0" width="100%" height="100%" x="235" y="0"/>
+<mx:Style>
+  Alert {
+    corner-radius: 14;
+    header-height: 27;
+    header-colors: #999999, #000000;
+    background-color: #000000;
+    color: #ffffff;
+    border-thickness: 4;
+    border-color: #000000;
+    panel-border-style: roundCorners;
+    shadow-distance: 9;
+    shadow-direction: right;
+  }
+  Button {
+    width: 85;
+    height: 24;
+    border-thickness: 1;
+    corner-radius: 4;
+    fill-colors: #666666, #999999;
+    border-color: #666666;
+    theme-color: #000000;
+    text-roll-over-color: #ffffff;
+    text-selected-color: #cccccc;
+    color: #cccccc;
+  }
+</mx:Style>
+</mx:Application>

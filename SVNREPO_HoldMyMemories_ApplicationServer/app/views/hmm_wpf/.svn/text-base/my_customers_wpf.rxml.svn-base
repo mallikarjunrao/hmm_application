@@ -1,0 +1,28 @@
+xml.instruct! :xml, :version=>"1.0"
+xml.Users{
+   
+  for user_details in @results
+    if user_details.v_myimage==nil || user_details.v_myimage==''
+      user_details.v_myimage = 'blank.jpg'
+    end
+    xml.User{
+      xml.UserName(user_details.v_user_name)
+      xml.UserPassword(user_details.v_password)
+      xml.UserEmailId(user_details.v_e_mail)
+      xml.UserId(user_details.id)
+      xml.UserImage(user_details.img_url + "/hmmuser/photos/thumb/#{user_details.v_myimage}")
+      xml.FirstName(user_details.v_fname)
+      xml.LastName(user_details.v_lname)
+      xml.Sex(user_details.e_sex)
+      xml.Status(user_details.e_user_status)
+      xml.AccountType(user_details.account_type)
+      if (user_details.studio_id == nil || user_details.studio_id == '' || user_details.studio_id == 0 || user_details.studio_id == '0')
+        std_name="Direct Customer"
+      else
+        stud_name=HmmStudio.find(:first,:conditions => "id=#{user_details.studio_id}",:select=>"studio_name")
+        std_name=stud_name.studio_name
+      end
+      xml.StudioName(std_name)
+    }
+  end
+}

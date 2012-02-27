@@ -1,0 +1,19 @@
+<%= error_messages_for 'user_content' %>
+
+
+
+<input type="hidden" name="user_content[e_filetype]" value="audio"/>
+
+<p><label for="user_content_uid">User Id</label><br/>
+<%= text_field 'user_content', 'uid'  %></p>
+
+<p><label for="user_content_uid">Tag id</label><br/>
+<%= text_field 'user_content', 'tagid'  %></p>
+
+<p><label for="user_content_v_filename">Upload File</label><br/>
+<%= file_field 'user_content', 'v_filename' %></p>
+
+<p><label for="user_content_v_desc">Description</label><br/>
+<%= text_area 'user_content', 'v_desc'  %></p>
+
+

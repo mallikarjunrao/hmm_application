@@ -1,0 +1,194 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:Canvas xmlns:mx="http://www.adobe.com/2006/mxml" width="100%" height="100%" xmlns:renderers="com.rockfish.renderers.*" creationComplete="init()">
+	<mx:Script>
+		<![CDATA[
+			import com.rockfish.events.PaginationEvent;
+			
+			private var _current:PaginationButton;
+			private var items:Array;
+			
+			[Bindable]private var _count:int;
+			public function set count(value:int):void
+			{
+				_count = value;				
+			}
+			
+			[Bindable]private var _interval:int = 20;
+			public function set interval(value:int):void
+			{
+				_interval = value;
+			}
+			
+			[Bindable]private var _start:int;
+			public function set start(value:int):void
+			{
+				_start = value;
+			}
+			[Bindable]private var _end:int;
+			public function set end(value:int):void
+			{
+				_end = value;
+			}
+			
+			private function init():void
+			{
+				setButtons(_count, _interval);
+			}
+			
+			public function setButtons(ct:int, interval:int):void
+			{				
+				_count = ct;
+				_interval = interval;				
+				var i:int;
+				var n:int = Math.ceil(ct/interval);				
+				pageNav.removeAllChildren();
+				items = new Array();
+				for (i=0;i<n;i++)
+				{
+					var c:PaginationButton = new PaginationButton();
+					c.label = Number(i+1).toString();
+					c.page = Number(i+1);
+					c.start = Number(i*_interval + 1);
+					if (i == n-1)
+						c.count = (ct % _interval == 0) ? _interval : ct % _interval;
+					else
+						c.count = _interval;					
+					if (i == 0)
+					{						
+						_current = c;
+						_current.selected = true;
+					}				
+					c.addEventListener(PaginationEvent.PAGE_NAV, onChangePage);
+					pageNav.addChild(c);
+					items.push(c);
+				}
+				
+				_start = 1;
+				_end = _interval;
+			}
+			private function setRange():void
+			{
+				_start = _current.start;
+				_end = _current.start + _current.count - 1;
+			}
+			private function onChangePage(event:PaginationEvent):void
+			{				
+				_current.selected = false;
+				_current = event.currentTarget as PaginationButton;
+				_current.selected = true;
+				
+				var curr:int = _current.page - 1;
+				var tot:int = items.length;
+				
+				if (curr == 0)
+					disableBack();
+				else if (_current.page == tot)
+					disableFwd();
+				else
+					enableAll();				
+				
+				var e:PaginationEvent = new PaginationEvent(event.type, _current);
+				dispatchEvent(e);
+				
+				setRange();
+					
+			}
+			private function gotoFirst(event:PaginationEvent):void
+			{
+				_current.selected = false;
+				_current = items[0];
+				_current.selected = true;
+				disableBack();
+				
+				var e:PaginationEvent = new PaginationEvent(event.type, _current);
+				dispatchEvent(e);
+				
+				setRange();
+			}	
+			private function goBack(event:PaginationEvent):void
+			{
+				var curr:int = _current.page - 1;
+				var i:int = (curr >= 1)?curr - 1:0;
+				_current.selected = false;
+				_current = items[i];
+				_current.selected = true;
+				
+				(i == 0)?disableBack():enableAll();
+				
+				var e:PaginationEvent = new PaginationEvent(event.type, _current);
+				dispatchEvent(e);
+				
+				setRange();
+				
+			}	
+			private function gotoLast(event:PaginationEvent):void
+			{
+				var i:int = items.length - 1;
+				_current.selected = false;
+				_current = items[i];
+				_current.selected = true;
+				disableFwd();
+				
+				var e:PaginationEvent = new PaginationEvent(event.type, _current);
+				dispatchEvent(e);
+				
+				setRange();
+			}	
+			private function goForward(event:PaginationEvent):void
+			{
+				var curr:int = _current.page - 1;
+				var tot:int = items.length - 1;
+				var i:int = (curr < tot)?curr+1:tot;
+				_current.selected = false;
+				_current = items[i];
+				_current.selected = true;
+				
+				(i == tot)?disableFwd():enableAll();
+				
+				var e:PaginationEvent = new PaginationEvent(event.type, _current);
+				dispatchEvent(e);
+				
+				setRange();
+			}
+			private function disableBack():void
+			{
+			//	firstBTN.enabled = false;
+				backBTN.enabled = false;
+			//	fwdBTN.enabled = true;
+				lastBTN.enabled = true;
+			}	
+			private function disableFwd():void
+			{
+				//firstBTN.enabled = true;
+				backBTN.enabled = true;
+				//fwdBTN.enabled = false;
+				lastBTN.enabled = false;
+			}
+			private function enableAll():void
+			{
+				//firstBTN.enabled = true;
+				backBTN.enabled = true;
+				//fwdBTN.enabled = true;
+				lastBTN.enabled = true;
+			}
+		]]>
+	</mx:Script>
+	<mx:Metadata>
+		[Event(name="pageNav",type="com.rockfish.events.PaginationEvent")]
+	</mx:Metadata>
+	<mx:HBox width="100%" backgroundAlpha="0" height="26" horizontalAlign="center">
+		<mx:HBox backgroundAlpha="0">
+			<mx:Canvas styleName="navBtn">
+				<!--mx:Label text="{_start}-{_end} of {_count}" color="0xFFFFFF"/-->
+			</mx:Canvas>
+			<!--renderers:PaginationButton id="firstBTN" label="&lt;&lt;" pageNav="gotoFirst(event)" enabled="false" /-->
+			<renderers:PaginationButton id="backBTN" label="Previous" pageNav="goBack(event)" enabled="false"/>				
+		</mx:HBox>
+		<mx:HBox id="pageNav" height="100%" backgroundAlpha="0">			
+		</mx:HBox>
+		<mx:HBox backgroundAlpha="0">				
+			<renderers:PaginationButton id="lastBTN" label="Next" pageNav="goForward(event)" enabled="true"/>
+			<!--renderers:PaginationButton id="fwdBTN" label="&gt;&gt;" pageNav="gotoLast(event)" enabled="true"/-->								
+		</mx:HBox>
+	</mx:HBox>
+</mx:Canvas>

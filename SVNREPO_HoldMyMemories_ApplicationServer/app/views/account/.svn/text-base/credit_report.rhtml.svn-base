@@ -1,0 +1,167 @@
+<script type="text/javascript">
+  function chg(val)
+  {
+
+    if (document.getElementById('pcode').style.display == 'none' && document.getElementById('cty').style.display == 'block' && val=='USA') {
+      document.getElementById('pcode').style.display = 'block';
+      document.getElementById('cty').style.display = 'none';
+    }else{
+      document.getElementById('pcode').style.display = 'none';
+      document.getElementById('cty').style.display = 'block';
+    }
+
+  }
+</script>
+
+<table width="100%" cellpadding="0" cellspacing="0" ><tr><td>
+      <table cellpadding="0" cellspacing="0" width="80%" border="1" bordercolor="#e5b467" align="center">
+        <tr>
+          <td colspan="2" align="center" valign="middle">
+            <h3>Credit Report</h3>
+          </td>
+        </tr>
+
+      </table>
+      <form name="frm" action="/account/list1" method="post">
+        <table cellpadding="4" cellspacing="4" border="1" bordercolor="#e5b467" align="center" align="center">
+          <tr>
+            <td align="center" colspan="4" height="48">
+              <font size="4">Search Users </font>
+            </td>
+          </tr>
+          <tr>
+            <td>Firstname</td>
+            <td><input type="text" name="firstname" id="firstname" value="<%=@fname%>" size="20" class="textbox-signup" /></td>
+            <td>Lastname</td>
+            <td><input type="text" name="lastname" id="lastname" value="<%=@lastname%>" size="20" class="textbox-signup" /></td>
+          </tr>
+          <tr>
+            <td width="90">Username</td>
+            <td>
+              <input type="text" name="username" id="username" value="<%=@uname%>" size="20" class="textbox-signup" />
+              <input type="hidden" name="sort_key" value="id" />
+              <input type="hidden" name="sort_order" value="asc" />
+            </td>
+            <td width="90">Account Type</td>
+            <td>
+              <select name="account_type" id="account_type" class => "combobox1">
+                <option value="Select" selected='selected'>Select</option>
+                <option value="free_user" >free_user</option>
+                <option value="familyws_user" >Family Website User</option>
+                <option value="platinum_user" >premium_user</option>
+              </select>
+            </td>
+          </tr>
+          <tr>
+            <td width="90">Email</td>
+            <td>
+              <input type="text" name="email" id="email" value="<%=@email%>" size="20" class="textbox-signup" />
+            </td>
+            <td width="90" colspan="2">&nbsp;</td>
+          </tr>
+          <tr>
+            <td>Country</td>
+            <td>
+              <select name="v_country" onchange='return chg(this.value)' class => "combobox1">
+                <option value="USA" selected='selected'>USA</option>
+                <option value="Others" >Others</option>
+              </select>
+            </td>
+            <td>
+              <label for="hmm_user_zip">
+                <div id='pcode' style='display:block;'>Postal Code </div>
+                <div id='cty' style='display:none;'>City/Province</div></label></td>
+            </td>
+            <td>
+              <input type="text" name="zip" id="zip" size="20" class="textbox-signup" />
+            </td>
+          </tr>
+          <tr>
+            <td colspan="2" align="center">
+              <input type="image" name="sub" id="search" src="/images/search_over.jpg"  border="0" />
+            </td>
+          </tr>
+        </table>
+      </form>
+      <table border="0">
+
+        <tr><td colspan="15"><h2>HoldMyMemories.com Users</h2> </td></tr>
+        <tr valign='center' align='center'>
+          <%= sort_header_tag('v_fname', :text => "First Name") %>
+          <%= sort_header_tag('v_lname', :text => "Last Name") %>
+          <%= sort_header_tag('e_sex', :text => "sex") %>
+          <%= sort_header_tag('v_user_name', :text => "User Name") %>
+          <%= sort_header_tag('d_created_date', :text => "Created date") %>
+          <%= sort_header_tag('account_expdate', :text => "next recurring charge date") %>
+          <%= sort_header_tag('account_type', :text => "payment type") %>
+          <td ><font class='txt'>Branch</font></td>
+          <td ><font class='txt'>Subscriptions</font></td>
+          <td ><font class='txt'>Amount</font></td>
+          <td ><font class='txt'>Balance</font></td>
+          <td ><font class='txt'>Used</font></td>
+          <td ><font class='txt'>Actions</font></td></tr>
+
+        <%
+        odd_or_even = 0
+        i = 0
+        for colmn in @hmm_users
+          i = i + 1
+          odd_or_even = 1 - odd_or_even
+        %>
+
+          <tr class='ListLine<%= odd_or_even %>'>
+            <td align="center"><%=h colmn.v_fname%></td>
+
+            <td align="center"><%=h colmn.v_lname%></td>
+            <td align="center"><%=h colmn.e_sex%></td>
+            <td align="center"><%=h colmn.v_user_name%></td>
+
+
+            <td align="center">
+              <% if colmn.d_created_date == nil || colmn.d_created_date == '' %>
+                -
+              <%else%>
+                <%=h colmn.d_created_date.strftime("%m - %d - %Y")%>
+              <%end%>
+            </td>
+            <td align="center">
+              <% if colmn.account_expdate == nil || colmn.account_expdate == '' %>
+                -
+              <%else%>
+                <%=h colmn.account_expdate.strftime("%m - %d - %Y")%>
+              <%end%>
+            </td>
+            <td align="center"><%=h colmn.account_type%></td>
+
+            <td align="center">
+              <%if (colmn.emp_id == nil || colmn.emp_id == '' )  %>
+                Direct Customer
+              <%else%>
+                <%@branch = EmployeAccount.find(:all, :conditions => "id = '#{colmn.emp_id}'")%>
+                <%for k in @branch%>
+                  <%@branch_name = HmmStudio.find(:all, :conditions => "id = '#{k.store_id}'")%>
+                  <%for c in @branch_name%>
+                    <%if (c.studio_name == '' || c.studio_name == nil)%>
+                    <%else%>
+                      <%=c.studio_name.gsub(/_/, ' ')%>
+                    <%end%>
+                  <%end%>
+                <%end%>
+              <%end%>
+            </td>
+            <td align="center"><%=h colmn.total_subs%></td>
+            <td align="center"><%=h colmn.total_credits%></td>
+            <td align="center"><%=h colmn.balance_credits%></td>
+            <td align="center"><%=h colmn.used_credits%></td>
+            <td align="center">
+              <a href="/account/edit_credit/<%=colmn.id%>?ap=50"  class='ListLine<%= odd_or_even %>'>Edit</a>
+            </td>
+          </tr>
+        <% end %>
+        <input type="hidden" name="len" id="len" value="<%= i %>"/>
+        <tr><td colspan="4">
+            <%=will_paginate @hmm_users %>
+          </td>
+        </tr>
+      </table>
+

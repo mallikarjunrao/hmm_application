@@ -1,0 +1,27 @@
+<h1>Listing payment_counts</h1>
+
+<table>
+  <tr>
+  <% for column in PaymentCount.content_columns %>
+    <th><%= column.human_name %></th>
+  <% end %>
+  </tr>
+  
+<% for payment_count in @payment_counts %>
+  <tr>
+  <% for column in PaymentCount.content_columns %>
+    <td><%=h payment_count.send(column.name) %></td>
+  <% end %>
+    <td><%= link_to 'Show', :action => 'show', :id => payment_count %></td>
+    <td><%= link_to 'Edit', :action => 'edit', :id => payment_count %></td>
+    <td><%= link_to 'Destroy', { :action => 'destroy', :id => payment_count }, :confirm => 'Are you sure?', :method => :post %></td>
+  </tr>
+<% end %>
+</table>
+<%=will_paginate @payment_counts %>
+<%#= link_to 'Previous page', { :page => @payment_count_pages.current.previous } if @payment_count_pages.current.previous %>
+<%#= link_to 'Next page', { :page => @payment_count_pages.current.next } if @payment_count_pages.current.next %>
+
+<br />
+
+<%= link_to 'New payment_count', :action => 'new' %>

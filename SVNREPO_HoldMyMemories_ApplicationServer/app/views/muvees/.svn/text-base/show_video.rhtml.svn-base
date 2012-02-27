@@ -1,0 +1,44 @@
+
+<table align="center" width="890"><tr><td>
+<p>
+	<br><br><br>
+<%= image_tag("/images/circle_load.gif",
+						:align => "top",
+						:border => 0,
+						:id => "spinner1",
+						:style =>"display: none;" ) %>
+						
+						
+<% 								    form_remote_tag :update => 'table',
+         							:before => "Element.show('spinner1')",
+         							:success => "Element.hide('spinner1')",
+         							:url => {:action => 'show_video'},
+		 							:with => 'jobid' do
+									 
+								 
+								 %>
+									
+									
+			<input type="hidden" name="jobid" id="jobid" value="<%=params[:id]%>"/>	
+			
+							</td>
+							<tr>
+							<td valign="middle"><br><br><br><BR>
+								<input type='submit' value="Get your created video from here" src="/images/search.jpg" name=search value=search />
+							</td></tr>
+							
+							
+<% end %>	
+ <p align="center"><font color="white" face="arial" > 
+  
+ 		<div id="table">
+			<%= render :partial => "statistic_list" %>
+		</div>
+		
+		</font>	
+	</p>					
+</p>
+
+</td></tr></table>
+
+wdqwdw

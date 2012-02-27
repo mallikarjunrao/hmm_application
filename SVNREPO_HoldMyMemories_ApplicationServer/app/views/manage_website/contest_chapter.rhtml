@@ -1,0 +1,163 @@
+<link href="/stylesheets/main.css" media="screen" rel="Stylesheet" type="text/css" />
+<link href="/stylesheets/hmm.css" media="screen" rel="Stylesheet" type="text/css" />
+<link href="/stylesheets/mystyle_black_left.css" rel="stylesheet" type="text/css" />
+<%= stylesheet_link_tag 'hmmout' %>
+
+
+<table width="970" border="0" cellspacing="0" cellpadding="0" id="tab_bgcolor_repeat">
+  
+  <tr>
+    <td align="left" valign="top"><table width="100%" border="0" cellspacing="0" cellpadding="0">
+        <tr>
+          <td width="13" align="left" valign="top"></td>
+          <td width="944" align="left" valign="top"><table width="100%" border="0" cellspacing="0" cellpadding="0">
+              <tr>
+                <td height="10" align="left" valign="top"></td>
+              </tr>
+              <tr>
+                <td height="35" align="left" valign="bottom" class="header-page">Manage My Site</td>
+              </tr>
+              <tr>
+                <td height="10" align="left" valign="top"></td>
+              </tr>
+              <tr>
+                <td height="1" align="left" valign="top" bgcolor="#454545"></td>
+              </tr>
+              <tr>
+                <td height="10" align="left" valign="top"></td>
+              </tr>
+              <tr>
+                <td align="left" valign="top"><table width="100%" border="0" cellspacing="0" cellpadding="0">
+                    <tr>
+                      <td width="173" align="left" valign="top" id="tab_bgcolor_repeat">
+                        <%= render :partial => "partials/manage_website_menu", :locals => { :current_item => "#{@current_item}"} %>
+                      </td>
+                      <td width="17" align="left" valign="top"></td>
+                      <td width="754" align="left" valign="top"><table width="100%" border="0" cellspacing="0" cellpadding="0">
+                          <tr>
+                            <td class="content-trans-bg"><%session[:friend]='' %>
+<form name="frm" action="">
+		
+<table align="center" width="700" border="0" cellspacing="0" cellpadding="0">
+	<input type="hidden" name="order" value="<%=params[:order]%>" />
+	
+	<tr>
+		<td valign="top"> 
+		<table align="left" border="0">
+			<tr>
+				<th>
+				<%= sort_header_tag('d_updateddate', :text => "<img  src='/images/date1_sort.gif'   border='0'/>") %>
+				<%= sort_header_tag('v_tagname', :text => "<img  src='/images/name1_sort.gif'   border='0'/>") %>
+				</th>
+				<th>&nbsp;&nbsp;</th>
+				<th>
+					<font color="#e36500" size="2">Please choose the <%if session[:contests_type]=='image'%>Photo<%else%>Video<%end%> you wish to enter into the contest by navigating to the appropriate gallery.</font> 
+					<br> <font color="#ffffff" size="2">If you wish to upload a <%if session[:contests_type]=='image'%>Photo<%else%>Video<%end%> to enter the contest please </font><a href="/manage_website/file_manager/<%=params[:id]%>">click here</a></font>
+				</th>
+			</tr>
+		</table>
+		</td>
+		<td height="50" align="right" valign="top">&nbsp;</td>	
+	</tr>
+	<% @hmmuser = HmmUser.find(:all, :conditions => "id=#{logged_in_hmm_user.id}")
+		 for @i in @hmmuser %>
+<tr><th colspan="2" height="40" valign="top" align="left"><font size="3">&nbsp;&nbsp;&nbsp; <%if (@friend.id!='')%> <%=@friend.v_fname%><%else%><%= @i.v_fname %><%end%>'s&nbsp;Chapters</font></th>
+<%end%></tr>
+  <tr>
+  
+  <th width="900" height="128" align="left" valign="top" scope="col" colspan="3">
+	<table width="100%" border="0"  cellspacing="0" align="left" cellpadding="0">
+	<tr>
+       <th height="4" colspan="10" align="left" valign="top" scope="col" ></th><th width="1"></th>
+      <td>
+        
+      </td>
+
+       <th width="30"></th>
+       <th width=""></th>
+       <th width=""></th>
+    </tr>
+      		<% 
+				j=0	
+				if @total == 0 %>
+				<p>No items found...</p>
+			<% else %>
+ 			   <% @tags_pages.each do |@tag|
+			   
+			   
+			%>
+			<% if j == 0 %>
+			<tr>
+				
+			<% else if j >= 3 
+			j=0
+				
+			%>
+			</tr>
+				<tr>
+                        <th height="30" colspan="10" align="left" valign="top" scope="col"></th>
+          </tr>
+			<tr>
+			<% end %>	
+			<% end %>
+			</form>
+            <th width="29" align="left" valign="top" scope="col"><% j=j+1%>&nbsp;&nbsp;&nbsp;</th>
+            <th width="73" align="left" valign="top" scope="col" ><a href='/manage_website/contest_sub_chapter/<%=params[:id]%>?tagid=<%= @tag.id %>&tagtype=<%= @tag.tag_type %>'>
+            	<img src="<%=@tag.img_url%>/user_content/photos/icon_thumbnails/<%= @tag.v_chapimage %>" border="0" /></a></th>
+			
+            <th width="10" align="left" valign="top" scope="col">&nbsp;</th>
+            <th width="139" align="left" valign="top" scope="col">
+            	<table width="100%" border="0" cellspacing="0" cellpadding="0">
+                	<tr>
+                		<th height="13" align="left" valign="top" scope="col"></th>
+                	</tr>
+                	<tr>
+               		  <th height="21" align="left" valign="top"  scope="col"><%= @tag.v_tagname %></th>
+                 	</tr>
+					
+                    <tr>
+                 	  <th align="left" class="content-white" valign="top"  scope="col">last updated <br>
+					  
+
+					  <%= @tag.d_updateddate.strftime("%a %b #{@tag.d_updateddate.day.ordinalize} %Y,   %I:%M %p") %></th>
+                    </tr>
+              </table>	 </th>
+   <% end %></tr>	  
+    </table></th>
+  </tr>
+  
+  
+  
+  <tr>
+    <th valign="bottom" scope="col" align="center" colspan="10" height="30">
+<%=will_paginate @tags_pages%></th>
+  </tr>
+ 
+  <tr>
+    <td align="right" colspan="2">&nbsp;</td>
+  </tr>
+</table>
+
+<%end%>
+</td>
+                          </tr>
+                          <tr>
+                            <td>&nbsp;</td>
+                          </tr>
+                        </table></td>
+                    </tr>
+                    <tr>
+                      <td align="left" valign="top">&nbsp;</td>
+                      <td align="left" valign="top"></td>
+                      <td align="left" valign="top">&nbsp;</td>
+                    </tr>
+                  </table></td>
+              </tr>
+
+            </table></td>
+          <td width="13" align="left" valign="top"></td>
+        </tr>
+      </table></td>
+  </tr>
+
+</table>

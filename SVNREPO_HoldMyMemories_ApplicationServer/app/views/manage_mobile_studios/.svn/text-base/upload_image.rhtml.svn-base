@@ -1,0 +1,5 @@
+<% form_tag("#{request_content_url}/mobile_blogs/create_blog_entry", {:multipart => true}) do %>
+<input type="file" name="Filedata" />
+  <input name="blog_type" value="video" />
+  <input type="submit" name="submit" value="submit" />
+<%end%>

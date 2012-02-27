@@ -1,0 +1,583 @@
+<style type = "text/css">
+  .heading2{
+    font-family:Arial, Helvetica, sans-serif;
+    font-size:18px;
+    font-weight:normal;
+    color:#ff6400;
+  }
+  .text3{
+    font-family:Arial, Helvetica, sans-serif;
+    font-size:18px;
+    font-weight:normal;
+    color:#ffffff;
+  }
+</style>
+<%= javascript_include_tag 'modalbox/prototype' %>
+<%= javascript_include_tag 'hmmout' %>
+<script type="text/javascript" src="/javascripts/modalbox/scriptaculous.js?load=effects"></script>
+<script type="text/javascript" src="/javascripts/modalbox/modalbox.js"></script>
+<%= stylesheet_link_tag 'modalbox/modalbox' %>
+
+<table width="754" border="0" cellspacing="0" cellpadding="0" align="center">
+  <% @winners.each do |winner| %>
+    <% if winner.photo_winner_name.length == 1 %>
+      <%
+      p_height = 269
+      p_td_height = 105
+      v_td_height = 105
+      v_width = 279
+      v_height = 178
+    %>
+    <% else %>
+      <%
+      p_td_height = 72
+      v_td_height = 279
+      td_height = 285
+      v_width = 279
+      v_height = 178
+    %>
+    <% end %>
+    <tr>
+  <%#*<td valign="top" >&nbsp;</td>%>
+      <td align="center" valign="top">
+        <table width="100%" align="center"  border="0" cellspacing="0" cellpadding="0">
+          <tr>
+            <td height="10" align="center" valign="top" class="text1" scope="col"></td>
+          </tr>
+          <tr>
+            <td height="20" align="center" valign="top" class="text1" scope="col"><img src="<%= winner.heading_logo %>"  width="750" height="34" /></td>
+          </tr>
+          <tr>
+            <td height="10" align="center" valign="top" class="text1" scope="col"></td>
+          </tr>
+          <tr>
+            <% if winner.video_winner_name.length > 0 && winner.photo_winner_name.length > 0 %>
+              <td height="20" align="center" valign="top" scope="col" class="content-trans-box">
+                <table width="100%" align="center" border="0" cellspacing="0" cellpadding="0">
+                  <tr>
+                    <td width="25" align="left" valign="top" scope="col"></td>
+                    <td width="402" height="30" align="left" valign="top" scope="col"></td>
+                    <td height="10" align="left" valign="top" scope="col"></td>
+                    <td width="402" height="30" align="left" valign="top" scope="col"></td>
+                    <td width="25" align="left" valign="top" scope="col"></td>
+                  </tr>
+                  <tr>
+                    <td align="left" valign="top" scope="col"></td>
+                    <td height="30" align="center" valign="top" class="heading2" scope="col">Photo Contest</td>
+                    <td align="left" valign="top" style="border-color:#8D8D8D;"    scope="col">&nbsp;</td>
+                    <td align="center"  valign="top"  class="heading2" style="padding-right:43px;"  scope="col">Video Contest</td>
+                    <td align="center"  valign="top" scope="col">&nbsp;</td>
+                  </tr>
+                  <tr>
+                    <td align="left" valign="top" scope="col"></td>
+                    <td height="30" align="left" valign="top" style="line-height:21px;" scope="col" class="content-trans-box">
+                      <table width="402" border="0" cellspacing="0" cellpadding="0">
+                        <tr>
+                          <td align="left" valign="top"><img src="/images/contests_TopCur_img.jpg" width="402" height="12" /></td>
+                        </tr>
+                        <tr >
+                          <td align="left" valign="top" background="/images/contests_mid_img.jpg"><table width="100%" border="0" cellspacing="0" cellpadding="0">
+                              <tr>
+                                <td width="10" align="center" valign="top" height="51"></td>
+                                <td align="center" valign="top"><img src="<%= winner.photo_logo %>" /></td>
+                              </tr>
+
+                              <tr>
+                                <td align="center" valign="top" class="yellow_txt"></td>
+                                <td height="30" align="center" valign="top" class="yellow_txt">Presented by</td>
+                              </tr>
+                              <tr>
+                                <td align="center" valign="top"></td>
+                                <td align="center" valign="top"><table align="center" width="100%" border="0" cellspacing="0" cellpadding="0">
+                                    <tr>
+                                      <td align="center" valign="top"><img src="/images/HMM_logo.jpg" width="127" height="33" /></td>
+                                    </tr>
+                                  </table></td>
+                              </tr>
+                              <tr >
+                                <td align="left" valign="top" class="text1" height="35" >&nbsp;</td>
+                                <td align="center" valign="top" class="text1" ></td>
+                              </tr>
+                              <tr>
+                                <td align="left" valign="top" class="text1" ></td>
+                                <td align="center" valign="top" class="text1" >Congratulations to <% if winner.photo_winner_name.length > 1 %>All the winners!<br /><% else %>
+                                    <% winner.photo_winner_name.each do |photo| %><%= photo["name"] %> !<br /> <% end %><% end %></td>
+                              </tr>
+                              <tr >
+                                <td align="left" valign="top" class="text1" height="35" >&nbsp;</td>
+                                <td align="center" valign="top" class="text1" ></td>
+                              </tr>
+                              <tr>
+                                <td align="left" valign="top" class="text1" ></td>
+                                <td align="center" valign="top" class="text1" >    </td>                      </tr>
+                              <tr>
+                                <td align="left" valign="top"></td>
+                                <td align="center" valign="top" class="text1" id="p_height" height="<%= p_height %>">
+                                  <table border="0" cellpadding="0" cellspacing="0">
+                                    <%  count = 0 %>
+                                    <% i = 0 %>
+                                    <% len = winner.photo_winner_name.length %>
+                                    <% if len > 1 %>
+                                      <% while i < len do  %>
+                                          <%if (count % 2) == 0 %>
+                                            <tr>
+                                              <td align="left" valign="middle" height="<%= p_height %>">
+                                                <a href="<%= winner.photo_winner_name[i]["link"] %>"><img border="4" alt="<%= winner.photo_winner_name[i]["name"] %>" width="173" style="border-color: rgb(255, 255, 255);" src="<%= winner.photo_winner_name[i]["url"] %>" /></a>
+                                                &nbsp;</td>
+                                              <% if winner.photo_winner_name[i+1] %>
+                                                <td align="right" valign="middle" height="<%= p_height %>">&nbsp;
+                                                  <a href="<%= winner.photo_winner_name[i+1]["link"] %>"><img border="4" alt="<%= winner.photo_winner_name[i+1]["name"] %>" width="173" style="border-color: rgb(255, 255, 255);" src="<%= winner.photo_winner_name[i+1]["url"] %>" /></a>
+                                                </td>
+                                              <% end %>
+                                            </tr>
+                                            <tr>
+                                              <td align="center" valign="top" class="text1" >
+                                                <%= winner.photo_winner_name[i]["name"] %>
+                                              </td>
+                                              <% if winner.photo_winner_name[i+1] %>
+                                                <td align="center" valign="top" class="text1" >
+                                                  <%= winner.photo_winner_name[i+1]["name"] %>
+                                                </td>
+                                              <% end %>
+                                            </tr>
+                                            <% count = count + 2 %>
+                                            <% i = i + 2 %>
+                                          <% else %>
+                                            <tr>
+                                              <td align="center" valign="middle" height="<%= p_height %>">
+                                                <a href="<%= winner.photo_winner_name[i]["link"] %>"><img border="4" alt="<%= winner.photo_winner_name[i]["name"] %>" width="173" style="border-color: rgb(255, 255, 255);" src="<%= winner.photo_winner_name[i]["url"] %>" /></a>
+                                              </td>
+                                            </tr>
+                                            <tr>
+                                              <td align="center" valign="top" class="text1" >
+                                                <%= winner.photo_winner_name[i]["name"] %>
+                                              </td>
+                                            </tr>
+                                            <% count = count + 1 %>
+                                            <% i = i + 1 %>
+                                          <%end%>
+                                        <%end%>
+                                      <% else %>
+                                        <tr>
+                                          <td align="center" valign="middle" height="<%= p_height %>">
+                                            <a href="<%= winner.photo_winner_name[i]["link"] %>"><img border="4" alt="<%= winner.photo_winner_name[i]["name"] %>" width="173" style="border-color: rgb(255, 255, 255);" src="<%= winner.photo_winner_name[i]["url"] %>" /></a>
+                                          </td>
+                                        </tr>
+                                      <% end %>
+                                    </table>
+                                  </td>
+                                </tr>
+                                <tr>
+                                  <td align="left" valign="top" class="text1" height="<%= p_td_height %>">&nbsp;</td>
+                                  <td align="center" valign="top" class="text1" >&nbsp; </td>                         </tr>
+                                <tr>
+                                  <td align="left" valign="top">
+                                  <td align="center" valign="top"><input name="button" type="button" class="cmd-btn" id="button" value="View All Entrants" style="cursor:pointer;" onClick="window.location='/contests/moments_entrants/?contest_id=<%= winner.contest_phase %>'"/></td> </tr>
+                                <tr >
+                                <tr>
+                                  <td align="left" valign="top"></td>
+                                  <td align="center" valign="top">&nbsp;</td>
+                                </tr>
+
+                                <td align="left" valign="top" class="text1" height="40" >&nbsp;</td>
+                                <td align="center" valign="top" class="text1" ></td>
+                          </tr>
+
+                          <tr>
+                            <td align="left" valign="top"></td>
+                            <td align="center" valign="top"><a href="/contests/moments_vote"></a></td>
+                          </tr>
+                        </table></td>
+                    </tr>
+                    <tr>
+                      <td align="left" valign="top"><img src="/images/contests_BtmCur_img.jpg" width="402" height="12" /></td>
+                    </tr>
+                  </table>
+                </td>
+                <td align="left" valign="top" style="border-color:#8D8D8D;"  scope="col">&nbsp;</td>
+                <td height="30" align="left" valign="top" style="line-height:21px;" scope="col" class="content-trans-box">
+                  <table width="402" border="0" cellspacing="0" cellpadding="0">
+                    <tr>
+                      <td align="left" valign="top"><img src="/images/contests_TopCur_img.jpg" width="402" height="12" /></td>
+                    </tr>
+                    <tr >
+                      <td align="left" valign="top" background="/images/contests_mid_img.jpg"><table width="100%" border="0" cellspacing="0" cellpadding="0">
+                          <tr>
+                            <td width="10" align="center" valign="top" height="51"></td>
+                            <td align="center" valign="top"><img src="<%= winner.video_logo %>" /></td>
+                          </tr>
+
+                          <tr>
+                            <td align="center" valign="top" class="yellow_txt"></td>
+                            <td height="30" align="center" valign="top" class="yellow_txt">Presented by</td>
+                          </tr>
+                          <tr>
+                            <td align="center" valign="top"></td>
+                            <td align="center" valign="top"><table align="center" width="100%" border="0" cellspacing="0" cellpadding="0">
+                                <tr>
+                                  <td align="center" valign="top"><img src="/images/HMM_logo.jpg" width="127" height="33" /></td>
+                                </tr>
+                              </table></td>
+                          </tr>
+                          <tr >
+                            <td align="left" valign="top" class="text1" height="35" >&nbsp;</td>
+                            <td align="center" valign="top" class="text1" ></td>
+                          </tr>
+                          <tr>
+                            <td align="left" valign="top" class="text1" ></td>
+                            <td align="center" valign="top" class="text1" >Congratulations to <%  winner.video_winner_name.each do |video| %> <%= video["name"] %>! <% end %> </td>
+                          </tr>
+                          <tr >
+                            <td align="left" valign="top" class="text1" height="35" >&nbsp;</td>
+                            <td align="center" valign="top" class="text1" ></td>
+                          </tr>
+                          <tr>
+                            <td align="left" valign="top" class="text1" ></td>
+                            <td align="center" valign="top" class="text1" >    </td>                      </tr>
+                          <tr>
+                            <td align="left" valign="top"></td>
+                            <td height="<%= p_height %>" id="v_height" align="center" valign="top" >
+
+                              <div class="contest-videos" align="center">
+                                <!--div class="contest-videos-play"><a href="/contests/videomoment_old_contest/1484712" ><img src="/images/contest-video-play-btn.png" border="0" width="60" height="60"/></a></div-->
+                                <%  winner.video_winner_name.each do |video| %> <a href="<%= video["link"] %>" >
+                                    <img src="<%= video["url"] %>" width="<%= v_width %>" height="<%= v_height %>" border="0"  /></a><% end %>	</div>
+                            </td>
+                          </tr>
+                          <tr>
+                            <td align="left" valign="top" class="text1" height="<%= v_td_height %>">&nbsp;</td>
+                            <td align="center" valign="top" class="text1" >&nbsp; </td>
+                          </tr>
+                          <tr>
+                            <td align="left" valign="top"></td>
+                            <td align="center" valign="top"><input name="button" type="button" class="cmd-btn" id="button" value="View All Entrants" style="cursor:pointer;" onClick="window.location='/contests/videomoment_entrants/?contest_id=<%= winner.contest_phase %>'"/>   </td>                         </tr>
+                          <tr >
+                          <tr>
+                            <td align="left" valign="top"></td>
+                            <td align="center" valign="top">&nbsp;</td>
+                          </tr>
+
+                          <td align="left" valign="top" class="text1" height="40" >&nbsp;</td>
+                          <td align="center" valign="top" class="text1" ></td>
+                    </tr>
+
+                    <tr>
+                      <td align="left" valign="top"></td>
+                      <td align="center" valign="top"><a href="/contests/moments_vote"></a></td>
+                    </tr>
+                  </table></td>
+              </tr>
+              <tr>
+                <td align="left" valign="top"><img src="/images/contests_BtmCur_img.jpg" width="402" height="12" /></td>
+              </tr>
+            </table>
+          </td>
+        </tr>
+        <tr>
+          <td height="25" align="left" valign="top"></td>
+        </tr>
+      </table>
+      </td>
+    <% elsif winner.video_winner_name.length == 0 && winner.photo_winner_name.length > 0 %>
+      <td align="center" valign="top" scope="col" class="content-trans-box">
+        <table cellspacing="0" cellpadding="0" border="0" width="402">
+          <tbody><tr>
+              <td align="center" valign="middle" height="30" class="heading2">&nbsp;</td>
+            </tr>
+            <tr>
+              <td align="center" valign="middle" height="30" class="heading2">Photo Contest</td>
+            </tr>
+            <tr>
+              <td align="left" valign="top"><img width="402" height="12" src="/images/contests_TopCur_img.jpg"></td>
+            </tr>
+            <tr>
+              <td background="/images/contests_mid_img.jpg" align="left" valign="top"><table cellspacing="0" cellpadding="0" border="0" width="100%">
+                  <tbody><tr>
+                      <td align="center" width="10" valign="top" height="51"></td>
+                      <td align="center" valign="top"><img src="<%= winner.photo_logo %>"></td>
+                    </tr>
+
+                    <tr>
+                      <td align="center" valign="top" class="yellow_txt"></td>
+                      <td align="center" valign="top" height="30" class="yellow_txt">Presented by</td>
+                    </tr>
+                    <tr>
+                      <td align="center" valign="top"></td>
+                      <td align="center" valign="top"><table cellspacing="0" cellpadding="0" border="0" align="center" width="100%">
+                          <tbody><tr>
+                              <td align="center" valign="top"><img width="127" height="33" src="/images/HMM_logo.jpg"></td>
+                              <!--th align="center" valign="middle" class="text3">and</td>
+                              <td width="170" align="left" valign="top"><img src="/images/studio_121.jpg" width="109" height="35" align="top" /></td-->
+                            </tr>
+                          </tbody></table></td>
+                    </tr>
+                    <tr>
+                      <td align="left" valign="top" height="35" class="text1">&nbsp;</td>
+                      <td align="center" valign="top" class="text1"></td>
+                    </tr>
+                    <tr>
+                      <td align="left" valign="top" class="text1"></td>
+                      <td align="center" valign="top" class="text1">Congratulations to <% if winner.photo_winner_name.length > 1 %>All the winners!<br /><% else %>
+                          <% winner.photo_winner_name.each do |photo| %><%= photo["name"] %> !<br /> <% end %><% end %></td>
+                    </tr>
+                    <tr>
+                      <td align="left" valign="top" height="35" class="text1">&nbsp;</td>
+                      <td align="center" valign="top" class="text1"></td>
+                    </tr>
+                    <tr>
+                      <td align="left" valign="top" class="text1"></td>
+                      <td align="center" valign="top" class="text1"></td>                          </tr>
+                    <tr>
+                      <td align="left" valign="top"></td>
+                      <td align="center" valign="top" class="text1" >  <table border="0" cellpadding="0" cellspacing="0">
+                          <%  count = 0 %>
+                          <% i = 0 %>
+                          <% len = winner.photo_winner_name.length %>
+                          <% if len > 1 %>
+                            <% while i < len do  %>
+                                <%if (count % 2) == 0 %>
+                                  <tr>
+                                    <td>
+                                      <a href="<%= winner.photo_winner_name[i]["link"] %>"><img border="4" alt="<%= winner.photo_winner_name[i]["name"] %>" width="173" style="border-color: rgb(255, 255, 255);" src="<%= winner.photo_winner_name[i]["url"] %>" /></a>
+                                      &nbsp;</td>
+                                    <% if winner.photo_winner_name[i+1] %>
+                                      <td>&nbsp;
+                                        <a href="<%= winner.photo_winner_name[i+1]["link"] %>"><img border="4" alt="<%= winner.photo_winner_name[i+1]["name"] %>" width="173" style="border-color: rgb(255, 255, 255);" src="<%= winner.photo_winner_name[i+1]["url"] %>" /></a>
+                                      </td>
+                                    <% end %>
+                                  </tr>
+                                  <tr>
+                                    <td align="center" valign="top" class="text1" >
+                                      <%= winner.photo_winner_name[i]["name"] %>
+                                    </td>
+                                    <% if winner.photo_winner_name[i+1] %>
+                                      <td align="center" valign="top" class="text1" >
+                                        <%= winner.photo_winner_name[i+1]["name"] %>
+                                      </td>
+                                    <% end %>
+                                  </tr>
+                                  <% count = count + 2 %>
+                                  <% i = i + 2 %>
+                                <% else %>
+                                  <tr>
+                                    <td>
+                                      <a href="<%= winner.photo_winner_name[i]["link"] %>"><img border="4" alt="<%= winner.photo_winner_name[i]["name"] %>" width="173" style="border-color: rgb(255, 255, 255);" src="<%= winner.photo_winner_name[i]["url"] %>" /></a>
+                                    </td>
+                                  </tr>
+                                  <tr>
+                                    <td align="center" valign="top" class="text1" >
+                                      <%= winner.photo_winner_name[i]["name"] %>
+                                    </td>
+                                  </tr>
+                                  <% count = count + 1 %>
+                                  <% i = i + 1 %>
+                                <%end%>
+                              <%end%>
+                            <% else %>
+                              <tr>
+                                <td>
+                                  <a href="<%= winner.photo_winner_name[i]["link"] %>"><img border="4" alt="<%= winner.photo_winner_name[i]["name"] %>" width="173" style="border-color: rgb(255, 255, 255);" src="<%= winner.photo_winner_name[i]["url"] %>" /></a>
+                                </td>
+                              </tr>
+                            <% end %>
+                          </table>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td align="left" valign="top" class="text1">&nbsp;</td>
+                        <td align="center" valign="top" class="text1">&nbsp; </td>                         </tr>
+                      <tr>
+                        <td align="left" valign="top"></td>
+                        <td align="center" valign="top"><input type="button" onclick="window.location='/contests/moments_entrants/?contest_id=<%= winner.contest_phase %>'" style="cursor: pointer;" value="View All Entrants" id="button" class="cmd-btn" name="button"></td> </tr>
+                      <tr>
+                      </tr><tr>
+                        <td align="left" valign="top"></td>
+                        <td align="center" valign="top">&nbsp;</td>
+                      </tr>
+
+                      <tr><td align="left" valign="top" height="35" class="text1">&nbsp;</td>
+                        <td align="center" valign="top" class="text1"></td>
+                      </tr>
+
+                      <tr>
+                        <td align="left" valign="top"></td>
+                        <td align="center" valign="top"><a href="/contests/moments_vote"> <!--<img src="/images/click_view_entrants.jpg" border="0" />--></a></td>
+                      </tr>
+                      <!-- <tr>
+                         <td align="left" valign="top"></td>
+                         <td align="center" valign="top"><a href="/contests/moments_vote"><img src="/images/view-and-vote_btn.jpg" width="343" height="40" border="0" /></a></td>
+                       </tr>-->
+
+                    </tbody></table></td>
+              </tr>
+              <tr>
+                <td align="left" valign="top"><img width="402" height="12" src="/images/contests_BtmCur_img.jpg"></td>
+              </tr>
+            </tbody>
+          </table>
+        </td>
+      <% elsif winner.video_winner_name.length > 0 && winner.photo_winner_name.length == 0 %>
+        <td align="center" valign="top" scope="col" class="content-trans-box">
+          <table cellspacing="0" cellpadding="0" border="0" width="402">
+            <tbody><tr>
+                <td align="center" valign="middle" height="30" class="heading2">&nbsp;</td>
+              </tr>
+              <tr>
+                <td align="center" valign="middle" height="30" class="heading2">Video Contest</td>
+              </tr>
+              <tr>
+                <td align="left" valign="top"><img width="402" height="12" src="/images/contests_TopCur_img.jpg"></td>
+              </tr>
+              <tr>
+                <td background="/images/contests_mid_img.jpg" align="left" valign="top"><table cellspacing="0" cellpadding="0" border="0" width="100%">
+                    <tbody><tr>
+                        <td align="center" width="10" valign="top" height="51"></td>
+                        <td align="center" valign="top"><img src="<%= winner.video_logo %>"></td>
+                      </tr>
+
+                      <tr>
+                        <td align="center" valign="top" class="yellow_txt"></td>
+                        <td align="center" valign="top" height="30" class="yellow_txt">Presented by</td>
+                      </tr>
+                      <tr>
+                        <td align="center" valign="top"></td>
+                        <td align="center" valign="top"><table cellspacing="0" cellpadding="0" border="0" align="center" width="100%">
+                            <tbody><tr>
+                                <td align="center" valign="top"><img width="127" height="33" src="/images/HMM_logo.jpg"></td>
+                                <!--th align="center" valign="middle" class="text3">and</td>
+                                <td width="170" align="left" valign="top"><img src="/images/studio_121.jpg" width="109" height="35" align="top" /></td-->
+                              </tr>
+                            </tbody></table></td>
+                      </tr>
+                      <tr>
+                        <td align="left" valign="top" height="35" class="text1">&nbsp;</td>
+                        <td align="center" valign="top" class="text1"></td>
+                      </tr>
+                      <tr>
+                        <td align="left" valign="top" class="text1"></td>
+                        <td align="center" valign="top" class="text1">Congratulations to <% if winner.video_winner_name.length > 1 %>All the winners!<br /><% else %>
+                            <% winner.video_winner_name.each do |video| %><%= video["name"] %> !<br /> <% end %><% end %></td>
+                      </tr>
+                      <tr>
+                        <td align="left" valign="top" height="35" class="text1">&nbsp;</td>
+                        <td align="center" valign="top" class="text1"></td>
+                      </tr>
+                      <tr>
+                        <td align="left" valign="top" class="text1"></td>
+                        <td align="center" valign="top" class="text1"></td>                          </tr>
+                      <tr>
+                        <td align="left" valign="top"></td>
+                        <td align="center" valign="top" class="text1" >  <table border="0" cellpadding="0" cellspacing="0">
+                            <%  count = 0 %>
+                            <% i = 0 %>
+                            <% len = winner.video_winner_name.length %>
+                            <% if len > 1 %>
+                              <% while i < len do  %>
+                                  <%if (count % 2) == 0 %>
+                                    <tr>
+                                      <td>
+                                        <a href="<%= winner.video_winner_name[i]["link"] %>"><img border="1" alt="<%= winner.video_winner_name[i]["name"] %>" width="173" style="border-color: rgb(255, 255, 255);" src="<%= winner.video_winner_name[i]["url"] %>" /></a>
+                                        &nbsp;</td>
+                                      <% if winner.video_winner_name[i+1] %>
+                                        <td>&nbsp;
+                                          <a href="<%= winner.video_winner_name[i+1]["link"] %>"><img border="1" alt="<%= winner.video_winner_name[i+1]["name"] %>" width="173" style="border-color: rgb(255, 255, 255);" src="<%= winner.video_winner_name[i+1]["url"] %>" /></a>
+                                        </td>
+                                      <% end %>
+                                    </tr>
+                                    <tr>
+                                      <td align="center" valign="top" class="text1" >
+                                        <%= winner.video_winner_name[i]["name"] %>
+                                      </td>
+                                      <% if winner.video_winner_name[i+1] %>
+                                        <td align="center" valign="top" class="text1" >
+                                          <%= winner.video_winner_name[i+1]["name"] %>
+                                        </td>
+                                      <% end %>
+                                    </tr>
+                                    <% count = count + 2 %>
+                                    <% i = i + 2 %>
+                                  <% else %>
+                                    <tr>
+                                      <td>
+                                        <a href="<%= winner.video_winner_name[i]["link"] %>"><img border="1" alt="<%= winner.video_winner_name[i]["name"] %>" width="173" style="border-color: rgb(255, 255, 255);" src="<%= winner.video_winner_name[i]["url"] %>" /></a>
+                                      </td>
+                                    </tr>
+                                    <tr>
+                                      <td align="center" valign="top" class="text1" >
+                                        <%= winner.video_winner_name[i]["name"] %>
+                                      </td>
+                                    </tr>
+                                    <% count = count + 1 %>
+                                    <% i = i + 1 %>
+                                  <%end%>
+                                <%end%>
+                              <% else %>
+                                <tr>
+                                  <td>
+                                    <a href="<%= winner.video_winner_name[i]["link"] %>"><img border="1" alt="<%= winner.video_winner_name[i]["name"] %>" width="173" style="border-color: rgb(255, 255, 255);" src="<%= winner.video_winner_name[i]["url"] %>" /></a>
+                                  </td>
+                                </tr>
+                              <% end %>
+                            </table>
+                          </td>
+                        </tr>
+                        <tr>
+                          <td align="left" valign="top" class="text1">&nbsp;</td>
+                          <td align="center" valign="top" class="text1">&nbsp; </td>                         </tr>
+                        <tr>
+                          <td align="left" valign="top"></td>
+                          <td align="center" valign="top"><input type="button" onClick="window.location='/contests/videomoment_entrants/?contest_id=<%= winner.contest_phase %>'" style="cursor: pointer;" value="View All Entrants" id="button" class="cmd-btn" name="button"></td> </tr>
+                        <tr>
+                        </tr><tr>
+                          <td align="left" valign="top"></td>
+                          <td align="center" valign="top">&nbsp;</td>
+                        </tr>
+
+                        <tr><td align="left" valign="top" height="35" class="text1">&nbsp;</td>
+                          <td align="center" valign="top" class="text1"></td>
+                        </tr>
+
+                        <tr>
+                          <td align="left" valign="top"></td>
+                          <td align="center" valign="top"><a href="/contests/moments_vote"> <!--<img src="/images/click_view_entrants.jpg" border="0" />--></a></td>
+                        </tr>
+                        <!-- <tr>
+                           <td align="left" valign="top"></td>
+                           <td align="center" valign="top"><a href="/contests/moments_vote"><img src="/images/view-and-vote_btn.jpg" width="343" height="40" border="0" /></a></td>
+                         </tr>-->
+
+                      </tbody></table></td>
+                </tr>
+                <tr>
+                  <td align="left" valign="top"><img width="402" height="12" src="/images/contests_BtmCur_img.jpg"></td>
+                </tr>
+              </tbody>
+            </table>
+          </td>
+        <% end %>
+
+        <td align="left"  valign="top"  scope="col">&nbsp;</td>
+        </tr>
+        </table>
+        </td>
+        </tr>
+      <% end %>
+      </table>
+      <script type="text/javascript">
+        //window.onload = resize_height();
+        function resize_height()
+        {
+          var p_td_height = document.getElementById("p_height").height;
+          var v_td_height = document.getElementById("v_height").height;
+
+          if(p_td_height > v_td_height)
+          {
+            v_td_height = p_td_height;
+          }
+          else if (v_td_height > p_td_height)
+          {
+            p_td_height = v_td_height;
+          }
+          alert("p_height = "+p_td_height+" and v_height = "+v_td_height);
+        }
+      </script>

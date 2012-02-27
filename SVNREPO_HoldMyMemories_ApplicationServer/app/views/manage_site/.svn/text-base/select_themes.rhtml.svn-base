@@ -1,0 +1,139 @@
+<script type="text/javascript">
+  function check_theme(id){
+    var ids = id;
+    var cnt = document.getElementById('total_themes').value;
+    for (j = 0; j < cnt; j++) {
+      if (eval("document.select_theme.ckbox[" + j + "].checked") == true) {
+        document.select_theme.ckbox[j].checked = false;
+        if (j == ids) {
+          document.select_theme.ckbox[j].checked = true;
+        }
+      }
+    }
+
+
+  }
+</script>
+<script type="text/javascript" src="/javascripts/fancyzoom/jquery.js">
+</script>
+
+<script type="text/javascript" src="/javascripts/fancyzoom/jquery.shadow.js">
+</script>
+<script type="text/javascript" src="/javascripts/fancyzoom/jquery.ifixpng.js">
+</script>
+<script type="text/javascript" src="/javascripts/fancyzoom/jquery.fancyzoom.js">
+</script>
+<script type="text/javascript">
+  $(function(){
+    $.fn.fancyzoom.defaultsOptions.imgDir = '/images/fancyzoom/';
+    $('#theme_gallery a').fancyzoom({Speed:400,showoverlay:true});
+    $('img.fancyzoom').fancyzoom();
+  });
+</script>
+ <form name="select_theme" id="select_theme" action="<%=request_content_url%>/familywebsite_setup/theme_header_update/<%=params[:id]%>">
+  <table width="100%" cellpadding="0" cellspacing="0" border="0" valign="top" align="left">
+    <tr>
+      <td  valign="top" align="left">
+        <%= render :partial => "leftnav", :locals => { :current => "themes"} %>
+      </td>
+      <td align="center" valign="top">
+        <div id="theme_gallery">
+          <table>
+            <tr>
+              <td align="center" colspan="8">
+                Select Themes
+              </td>
+            </tr>
+            <%=flash[:notice] %>
+            <!--tr>
+                <td colspan="8" height="10">
+                    &nbsp;
+                    <font color="#f5dfa6" size="2">
+
+                    </font>
+                </td>
+            </tr -->
+            <tr>
+              <td>
+                &nbsp;
+              </td>
+              <td>
+                &nbsp;
+              </td>
+              <td>
+                &nbsp;
+              </td>
+              <td>
+                &nbsp;
+              </td>
+              <td>
+                &nbsp;
+              </td>
+              <td>
+                &nbsp;
+              </td>
+            </tr>
+            <%j =  0
+            k=0
+            for i in @familywebsite_themes
+              if  j==5
+                j=0
+                j=j+1 %>
+                <tr>
+                  <td>
+                    &nbsp;
+                  </td>
+                  <td>
+                    &nbsp;
+                  </td>
+                  <td>
+                    &nbsp;
+                  </td>
+                  <td>
+                    &nbsp;
+                  </td>
+                  <td>
+                    &nbsp;
+                  </td>
+                  <td>
+                    &nbsp;
+                  </td>
+                </tr>
+                <tr>
+                <%else
+                  j=j+1
+                end %>
+                <td>
+                  <table>
+                    <tr>
+                      <td align="top">
+                        <div class="photo">
+                          <a href="http://staging.holdmymemories.com/themes_thumb/big_thumb/<%=i.theme_image%>.jpg" id="nooverlay"  title="<%=i.tooltip_message%>"><img src="http://staging.holdmymemories.com/themes_thumb/<%=i.theme_image%>.jpg" border="0" width="130"></a>
+                        </div>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>
+                        <input type="checkbox" name="ckbox" id="<%=i.id%>" value="<%=i.id%>" <%if @hmm_user_id[0]['themes'] == "#{i.theme_name}" %> checked="checked" <%end%> onClick="javascript:check_theme(<%=k%>)">
+                        <span class="text1">
+                          <%= i.theme_preferednames %> <!-- .gsub(/_id$/, "").gsub(/_/, " ").capitalize -->
+                        </span>
+                      </td>
+                    </tr>
+                    <%k=k+1 %>
+                  </table>
+                <%end %>
+              </td>
+            </tr>
+            <tr>
+              <td align="center" colspan="8">
+                <!--  <input type="submit" name="sub" id="sub" value="apply selected theme" /> -->
+                <input type="image" src="/images/apply-selected-theme-btn.png" name="sub" id="sub" value="apply selected theme" height="30" />
+              </td>
+            </tr>
+          </table></div>
+      </td>
+    </tr>
+  </table>
+
+</form><input type="hidden" name="total_themes" id="total_themes" value="<%=k%>">

@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8"?>
+ <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+        <title>jQuery custom selectboxes</title>
+		  <link rel="stylesheet" type="text/css" media="all" href="css/default.css" />
+		  <link rel="stylesheet" type="text/css" media="all" href="css/jquery.selectbox.css" />
+		  <script type="text/javascript" src="js/jquery-1.2.6.pack.js"></script>
+		  <script type="text/javascript" src="js/jquery.selectbox-0.6.1.js"></script>
+    </head>
+    <body>
+    	<div id="wraper">
+	    		
+	    	<h1>jQuery custom selectboxes</h1>
+			<h3>current version: <code>0.6.1</code></h3>
+			<dl>
+				<dt>Demonstration:</dt>
+				<dd id="demo-default-usage">
+					<div class="demoTarget">
+						<select id="default-usage-select">
+							<option value="--">Please select your favorite color</option>
+							<option value="01">Red</option>
+							<option value="02">Orange</option>
+							<option value="03">Yellow</option>
+							<option value="04">Green</option>
+							<option value="05">Blue</option>
+							<option value="06">Magenta</option>
+							<option value="07">Violet</option>
+							<option value="08">Ultra-violet</option>
+						</select>
+						<div class="clr"></div>
+					</div>
+					<div class="demoControls">
+						<span>Controls</span><br />
+						<button class="replace">Replace</button>
+						<button class="undo">Undo</button>
+					</div>
+					<p class="desc">
+						This is the simpliest way to get custom selectbox working. The
+						replace method <code>.selectbox()</code> is being run without 
+						parameters. Only thing to get this running is to attach 
+						required javascript and css files into document.
+					</p>
+					<div class="code">
+						<span>Code for replace</span>
+						<pre>$("#default-usage-select").selectbox();</pre>
+						<span>Code for undo</span>
+						<pre>$("#default-usage-select").parents('.jquery-selectbox').unselectbox();</pre>
+					</div>
+					<script type="text/javascript">
+					//<![CDATA[
+						$("#demo-default-usage .demoControls").find('.replace').bind('click', function(){
+							$("#default-usage-select").selectbox();
+						});
+						$("#demo-default-usage .demoControls").find('.undo').bind('click', function(){
+							$("#default-usage-select").parents('.jquery-selectbox').unselectbox();
+						});
+					//]]>
+					</script>
+					<div>More option can be found in source-code.</div>
+				</dd>
+				<dt>Requirements:</dt>
+				<dd>
+					<ul>
+						<li>jQuery 1.2.*</li>
+					</ul>
+				</dd>
+				<dt>Download:</dt>
+				<dd>
+					<ul>
+						<li>Demo, sample css and images: <a href="jquery.selectbox-0.6.1.zip">jquery.selectbox-0.6.1.zip</a> (61KB)</li>
+						<li>Latest version: <a href="js/jquery.selectbox-0.6.1.js">jquery.selectbox-0.6.1.js</a> (6KB)</li>
+						<li>Packed version: <a href="js/jquery.selectbox-0.6.1.pack.js">jquery.selectbox-0.6.1.pack.js</a> (3KB)</li>
+					</ul>
+				</dd>
+				<dt>Instalation:</dt>
+				<dd>
+					<ol>
+						<li>Download full pack: <a href="jquery.selectbox-0.6.1.zip">jquery.selectbox-0.6.1.zip</a> (61KB)</li>
+						<li>Extract one of jquery.selectbox-0.6.1 JS files and jquery.selectbox.css</li>
+						<li>Attach that files into your document with 
+<pre>&lt;script type="text/javascript" src="js/jquery.selectbox-0.6.1.js"&gt;&lt;/script&gt;
+&lt;link rel="stylesheet" type="text/css" media="all" href="css/jquery.selectbox.css" /&gt;</pre></li>
+						<li>Change filepaths to images in .css file that suits you</li>
+						<li>Add a replace rule. You maight want something like this: <pre>$("select").selectbox();</pre></li>
+					</ol>
+				</dd>
+			</dl>
+			<div id="footer">Created by <a href="mailto:k.suszynski&lt;at&gt;wit.edu.pl">Krzysztof Suszyński</a> &copy; 2008</div> 
+    	</div>
+		<script type="text/javascript">
+		//<![CDATA[
+			$("#default-usage-select").selectbox().bind('change', function(){
+				$('<div>Value of #default-usage-select changed to: '+$(this).val()+'</div>').appendTo('#demo-default-usage .demoTarget').fadeOut(5000, function(){
+					$(this).remove();
+				});
+			});
+		//]]>
+		</script>
+    </body>
+</html>

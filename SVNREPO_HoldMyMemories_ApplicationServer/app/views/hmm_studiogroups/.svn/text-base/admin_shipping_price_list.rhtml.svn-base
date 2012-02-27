@@ -1,0 +1,49 @@
+<h1>Shipping Methods List</h1>
+<script type="text/javascript">
+function sel_studio(id)
+{
+window.location="/hmm_studiogroups/admin_shipping_price_list/"+id;
+
+}
+
+</script>
+<table>
+	<tr>
+  <td colspan="5" align="center"><font color="#FF0000"><%=flash[:notice]%></font></td>
+  </tr>
+  <tr><td align="left" colspan="5">
+  Select Studio :<select name="studios" onChange="sel_studio(this.value)">
+  		  <option value="0" <%if(params[:id]=='0')%>selected<%end%>>HMM</option> 	
+          <% for studio in @studios %>
+          <option value="<%=studio.id%>"  <%if(Integer(params[:id])==Integer(studio.id))%>selected<%end%>><%=studio.studio_branch%></option>
+          <%end%>
+          </select>
+          </td></tr>
+           <tr><td align="left" colspan="5">
+  &nbsp;
+          </td></tr>
+  <tr>
+  <td colspan="5" align="center">&nbsp;</td>
+  </tr>
+
+<tr>
+  <td colspan="5" align="right"><%= link_to 'Add New', :action => 'admin_new_shipprice' , :sid => params[:id] %></td>
+  </tr>
+  <tr>
+  <th background="/images/body_hor.JPG" ><font class='txt'>Shipping Method
+</font></th>
+  <th background="/images/body_hor.JPG" colspan="3"><font class='txt'>Action</font></th>
+  </tr>
+
+<% for ship in @shippingmethod %>
+  <tr class="<%= cycle('odd', 'even') -%>">
+
+    <td><%=ship.method_name %></td>
+	<td><%= link_to 'Edit', :action => 'admin_edit_shipprice', :id => ship.id , :sid => params[:id] %></td>
+    <td><%= link_to 'Delete', { :action => 'admin_destroy_shipprice', :id => ship.id , :sid => params[:id] }, :confirm => 'Are you sure?', :method => :post %></td>
+  </tr>
+<% end %>
+</table>
+
+<br />
+

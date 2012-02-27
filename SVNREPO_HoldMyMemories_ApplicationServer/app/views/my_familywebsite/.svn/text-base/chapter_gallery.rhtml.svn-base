@@ -1,0 +1,99 @@
+<SCRIPT LANGUAGE="JavaScript">
+
+
+
+function uncheckAll(field)
+{
+	alert(field);
+for (i = 0; i < field.length; i++)
+	field[i].checked = false ;
+}
+
+</script>
+
+
+<%=session[:friend]=''%>
+<table width="100%" align="center" valign="top" border="0" cellspacing="0" cellpadding="0">
+   <tr>
+   	<td valign="middle" align="left"> 		
+   	</td>
+   <td align="right" valign="top">
+   		<% if session[:friend]!='' 
+				else
+%>
+		
+		 
+		<a href="/my_familywebsite/gallery_fisheye/<%=params[:id]%>/?familyname=<%=params[:familyname]%>"><img src="/images/photoflowicon.jpg" border="0"></a>
+   </td>
+   <tr>
+    <input type="hidden" name="order" value="<%=params[:order]%>" />
+
+
+
+		
+      <th width="100%" height=""   align="center" valign="middle"  scope="col" colspan="3">
+      	<table width="100%" border="0" cellspacing="0" cellpadding="0" height="30">
+      <tr heigh="40">
+          <th  align="left" valign="middle" class="" scope="col"><font size=4 face="Arial, Helvetica, sans-serif" color="#eeeeee"> <% @gal = Galleries.find(:all, :conditions => "id=#{params[:id]}")
+		 for @i in @gal 
+			@gal_name=@i.v_gallery_name
+			@gal_type=@i.e_gallery_type		
+%>
+            <font size="3"> </font>
+          </font><%end%><br></th>
+        </tr>
+       
+      </table></th>
+     </tr>
+    <tr>
+      <th height="0" width="100%" bordercolor="#FF0000" colspan="4" align="center" valign="bottom" scope="col">
+    	
+                        	<div id="table" align="center">
+	 	 	  <%= render :partial => "chapgallery_list" %>
+		  </div>
+	  </th>
+    </tr>
+	
+	<tr><td colspan="3">
+	  
+<!-- Journal Code for gallery -->
+
+ <%@gallery_journal_count = GalleryJournal.count(:all, :conditions =>" galerry_id=#{params[:id]}")
+	if(@gallery_journal_count>0)
+%>
+<table width="88%" align="center" border="0" class="border" cellspacing="0" cellpadding="0">
+        <tr>
+          <th width="783" height="" align="left" valign="top" scope="col">&nbsp;</th>
+         
+		  
+        </tr>
+	
+      </table>
+
+	
+  <%end%>
+<%end%>
+  
+<% session['redirect'] =  '0' %>
+
+<p align='center'>
+<form name="frm">
+<img src="/images/circle_load.gif" align="absmiddle" border="0" id="spinner" style="display: none;" />
+			  
+<%= observe_field 'query',  :frequency => 2,
+         :update => 'table',
+         :before => "Element.show('spinner')",
+         :success => "Element.hide('spinner')",
+         :url => {:action => 'list'},
+         :with => 'query' %>
+</form>	
+</p>
+  </td></tr>
+  </table>
+  
+  
+  
+  
+  
+  
+  				  

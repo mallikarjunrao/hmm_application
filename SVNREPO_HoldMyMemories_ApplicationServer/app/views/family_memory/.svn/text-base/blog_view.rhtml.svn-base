@@ -1,0 +1,362 @@
+<script type="text/javascript">
+  var $j = jQuery.noConflict();
+</script>
+   <%  @studio_header = HmmStudio.find(@family_website_owner.studio_id)
+  if @studio_header.studio_groupid==pp_studio_group%>
+  <% msghead="msgHead_blog" %>
+  <% blogau="blogAu_pp" %>
+  <% blogtxt="blogTxt_pp" %>
+  <% blogwht="blogWht_pp" %>
+  <% bgcolor="rightBarMdl" %>
+  <% else %>
+  <% bgcolor="" %>
+   <% msghead="msgHead" %>
+  <% blogau="blogAu" %>
+  <% blogtxt="blogTxt" %>
+  <% blogwht="blogWht" %>
+    <%= render :partial => "family_memory/partials/heading"%>
+  <% end %>
+<table cellspacing="0" cellpadding="0" border="0" width="100%" align="center" class="<%= bgcolor %>">
+
+  <tr>
+    <td align="left" valign="bottom" height="35" class="header-page" valign="top">Blog</td>
+  </tr>
+  
+   <tr>
+    <td bgcolor="#84b7d6" align="left" valign="top" height="1"></td>
+  </tr>
+ <tr>
+    <td align="left" valign="top" height="10"></td>
+  </tr>
+  <tr>
+    <td align="left" valign="top" height="10"></td>
+  </tr>
+  <%if session[:hmm_user]%>
+    <%if logged_in_hmm_user.id==@family_website_owner.id%>
+
+       <%  @studio_header = HmmStudio.find(@family_website_owner.studio_id)
+  if @studio_header.studio_groupid==pp_studio_group%>
+    <tr>
+      <td><div class="btn"><a href="/family_memory/new_text_blogentry/<%=params[:id]%>" title="New Entry" class="nyroModal">
+            <div class="cmnBtnB cmnBtnMar newEntry">New Entry</a></div></td>
+    </tr>
+
+
+
+  <% else %>
+    <tr>
+      <td><div class="btn"><a href="/family_memory/new_text_blogentry/<%=params[:id]%>" title="New Entry" class="nyroModal">
+            <img src="/images/family_memory/transaprent.png" class="menus newEntry" border="0"/></a></div></td>
+    </tr>
+
+
+
+  <%end%>
+    <%end%>
+  <%end%>
+
+
+  <tr>
+    <td align="left" valign="top" height="10"></td>
+  </tr>
+  <%if @results.size >0 %>
+
+
+
+
+
+
+
+
+    <tr>
+      <td id="content" class="content-trans-bg">
+        <table cellspacing="0" cellpadding="0" border="0" width="100%">
+          <tbody>
+            <tr>
+              <td align="left" valign="top" height="10" colspan="3"></td>
+            </tr>
+            <tr>
+              <td align="left" width="20" valign="top"></td>
+              <td align="left" valign="top">
+                <table cellspacing="0" cellpadding="0" border="0" width="100%">
+                  <tbody>
+                    <tr>
+                      <td align="left" valign="top" height="15" colspan="3"></td>
+                    </tr>
+                    <tr>
+                      <td>
+                        <table class="border" cellspacing="0" cellpadding="0" border="0" align="right" width="100%">
+                          <tbody>
+                            <tr>
+                          <table cellspacing="0" cellpadding="0" border="0" width="100%">
+                            <tbody><tr>
+                                <td align="left" valign="top"><table cellspacing="0" cellpadding="0" border="0" width="100%">
+                                    <tbody>
+                                      <% @id1=0
+                                      for result in @results
+                                      %>
+                                      <table width="100%" border="0" cellspacing="0" cellpadding="0">
+                                        <tr>
+                                          <td align="left" valign="top"></td>
+                                          <td align="left" valign="top">&nbsp;</td>
+                                          <td align="left" valign="top"></td>
+                                          <td align="left" valign="top">&nbsp;</td>
+                                          <td align="left" valign="top"></td>
+                                        </tr>
+                                        <% if result[:type]=='image' &&  result[:client]=='iphone' %>
+                                          <center><img src="<%=result[:source]%>" width="700px" /></center>
+                                        <% else %>
+                                          <% if result[:type]=='video' || result[:type]=='audio'%>
+                                            <tr>
+                                              <td width="25" align="center" valign="top"></td>
+                                              <td  align="center" valign="middle" class="content-trans-bg" colspan="3">
+
+                                                <div id="flash_content">
+                                                  <h1>Get Flash Player</h1>
+                                                  <p><a href="http://www.adobe.com/go/getflashplayer"><img src="http://www.adobe.com/images/shared/download_buttons/get_flash_player.gif" alt="Get Adobe Flash player" /></a></p>
+                                                </div>
+                                                <script type="text/javascript">
+                                                  var flashvars = {};
+                                                  flashvars.hmmtype = "<%= result[:type] %>";
+                                                  flashvars.gallery = "<%= result[:blog_type_id] %>";
+                                                  flashvars.gallery_id = "<%= result[:blog_type_id] %>";
+                                                  //flashvars.user_id = "<%= result[:blog_type_id] %>";
+                                                  flashvars.proxyurl = "<%= @proxyurls %>";
+        <% if result[:type] == 'video' %>
+          <% if result[:source]!= nil%>
+            flashvars.content = "<%= result[:source] %>";
+          <% else %>
+            flashvars.content = "<%= result[:uimg_url] %>/user_content/videos/<%=result[:filename]%>.flv";
+          <% end %>
+
+        <% else %>
+
+          <% if result[:source]!= nil%>
+            flashvars.content = "<%= result[:source] %>";
+          <% else %>
+            flashvars.content = "<%= result[:uimg_url] %>/user_content/audios/<%=result[:filename]%>";
+          <% end %>
+
+        <% end %>
+
+
+        var params = {};
+        params.wmode = "transparent";
+        params.allowFullScreen = true
+        swfobject.embedSWF("/MediaPlayer.swf", "flash_content", "640", "500", "9.0.0", "/expressInstall.swf",flashvars,params);
+                                                </script>
+
+                                              </td>
+                                              <td width="24" align="center" valign="top">&nbsp;</td>
+                                            </tr>
+                                          <%end%>
+                                        <%end%>
+                                        <tr>
+                                          <td align="center" valign="top"></td>
+                                          <td align="center" valign="top" >&nbsp;</td>
+                                          <td align="center" valign="top">&nbsp;</td>
+                                        </tr>
+                                       <tr>
+                                                  <td align="left" width="13" valign="top"></td>
+                                                  <td align="left" width="142" valign="top"><table cellspacing="0" cellpadding="0" border="0" width="142">
+                                                      <tbody><tr>
+                                                          <td align="center" valign="top" height="10"></td>
+                                                        </tr>
+                                                        <tr>
+                                                          <td align="center" valign="middle" height="120" class="content-trans-bg">
+                                                            <% if result[:thumbnail]!=nil %>
+                                                              <%if result[:type]=="image" || result[:type]=="video" %>
+                                                                <%link="/family_memory/blog_view/#{params[:id]}?bid=#{result[:blog_id]}"%>
+                                                              <%else%>
+                                                                <%link=result[:link]%>
+                                                              <%end%>
+
+                                                              <a href="<%=result[:link]%>">
+                                                                <img src="<%=result[:thumbnail]%>" border="0" width="190" alt=""/></a>
+                                                            <% end %>
+                                                          </td>
+                                                          <td width="10">&nbsp; </td>
+                                                        </tr>
+                                                      </tbody></table></td>
+                                                  <td valign="top">
+                                                    <table class="<%= msghead %> " border="0" width="100%" valign="top"><tr><td  class="<%= blogtxt %>">
+                                                          <%= result[:title] %><br/>
+                                                          <span> <%= result[:created_date] %></span></td></tr>
+                                                      <tr>
+                                                        <td height="15"></td>
+                                                      </tr>
+
+                                                      <tr><td  class="<%= blogau %> "> <%= result[:description] %></td></tr>
+                                                      <tr>
+
+                                                        <td valign="bottom" align="left" height="40" ><table border="0" align="left" cellpadding="0" cellspacing="0">
+                                                            <tr>
+                                                              <td width="100" align="center" style="padding-left:25px;"><a href="/family_memory/addblog_comment/<%=params[:id]%>/?blog_id=<%=result[:blog_id] %>" class="nyroModal" rev="modal" title="Comment">(&nbsp;&nbsp;&nbsp;&nbsp;<b>COMMENT</b>&nbsp;&nbsp;&nbsp;&nbsp;)</a></td>
+                                                              <td  width="100" align="center">
+                                                                <a href="/family_memory/share/<%=params[:id]%>?blog_id=<%=result[:blog_id] %>&&blog_type=<%=result[:type] %>" class="nyroModal">(&nbsp;&nbsp;&nbsp;&nbsp;<b>SHARE</b>&nbsp;&nbsp;&nbsp;&nbsp;)</a></td>
+                                                              <%if session[:hmm_user]%>
+                                                                  <%if logged_in_hmm_user.id==@family_website_owner.id%>  <td  width="100" align="center"><a href="/family_memory/edit_blog/<%=params[:id]%>?blog_id=<%=result[:blog_id] %>&&redirect_url=<%=request.request_uri%>" class="nyroModal" title="Edit">(&nbsp;&nbsp;&nbsp;&nbsp;<b>EDIT</b>&nbsp;&nbsp;&nbsp;&nbsp;)</a></td>
+                                                                  <td  width="100" align="center"><%= link_to '(&nbsp;&nbsp;&nbsp;&nbsp;<b>DELETE</b>&nbsp;&nbsp;&nbsp;&nbsp;)', {:action => 'delete_blog', :id => params[:id],:blog_id=>result[:blog_id],:redirect_url=>request.request_uri}, :confirm => 'Are you sure you want to share this entry??' %></a></td>
+                                                                <%end%>
+                                                              <%end%>
+                                                            </tr>
+                                                          </table></td>
+                                                        <td align="left" width="11" valign="top"></td>
+                                                      </tr>
+                                                      <tr>
+                                                        <td height="15"></td>
+                                                      </tr>
+
+                                                      <%
+                                                      @blogcomments=BlogComment.find(:all,:conditions=>"blog_id=#{result[:blog_id]} and 	status='approved'")
+                                                      @comments = PhotoComment.find(:all, :conditions => "e_approved = 'approve' and user_content_id = #{result[:blog_type_id]}", :order => "id asc", :select =>"v_comment as comment,v_name as commenter,d_add_date as commented_date")%>
+                                                      <% if !@blogcomments.nil?
+                                                        for blogcomment in @blogcomments%>
+                                                          <tr>
+                                                            <td style="padding-left:25px;"><table width="100%" border="0" cellspacing="0" cellpadding="0">
+                                                                <tr>
+                                                                  <td height="1" bgcolor="#4f6978"></td>
+                                                                </tr>
+                                                                <tr>
+                                                                  <td height="30" class="<%= blogau %> "> By: <%=blogcomment.name%><span><%=blogcomment.created_at.strftime("%b %d, %Y")%></span></td>
+                                                                </tr>
+                                                                <tr>
+                                                                  <td class="<%= blogau %> "><%=blogcomment.comment%>.</td>
+                                                                </tr>
+                                                                <tr>
+                                                                  <td height="10"></td>
+                                                                </tr>
+                                                              </table></td>
+                                                          </tr>
+                                                        <%end%>
+                                                      <%end%>
+                                                      <% if !@comments.nil?
+                                                        for comment in @comments%>
+                                                          <tr>
+                                                            <td style="padding-left:25px;"><table width="100%" border="0" cellspacing="0" cellpadding="0">
+                                                                <tr>
+                                                                  <td height="1" bgcolor="#4f6978"></td>
+                                                                </tr>
+                                                                <tr>
+                                                                  <td height="30" class="<%= blogau %> "> By: <%=comment.commenter%><span><%=comment.commented_date.to_date.strftime("%b %d, %Y")%></span></td>
+                                                                </tr>
+                                                                <tr>
+                                                                  <td class="<%= blogau %> "> <%=comment.comment%>.</td>
+                                                                </tr>
+                                                                <tr>
+                                                                  <td height="10"></td>
+                                                                </tr>
+                                                              </table></td>
+                                                          </tr>
+
+                                                        <%end%>
+                                                      <%end%>
+                                                      <%logger.info(@comments.length)%>
+                                                      <%logger.info(@blogcomments.length)%>
+                                                      <% if ((@comments.length+@blogcomments.length)>0)%>
+                                                        <tr>
+                                                          <td style="padding-left:25px;"><table width="100%" border="0" cellspacing="0" cellpadding="0">
+                                                              <tr>
+                                                                <td height="1" bgcolor="#4f6978"></td>
+                                                              </tr>
+                                                              <tr>
+                                                                <td height="30" class="<%= blogau %> "></td>
+                                                              </tr>
+                                                            </table></td>
+                                                        </tr>
+                                                      <%end%>
+                                                    </table>
+
+                                                  </td>
+                                                  <td align="left" width="11" valign="top"></td>
+                                                </tr>
+                                        <tr>
+                                          <td height="20" colspan="5" align="left" valign="top">&nbsp;</td>
+                                        </tr>
+
+
+                                      </table>
+                                    <%end%>
+                            </tbody></table></td>
+                    </tr>
+                    <tr>
+                      <td align="left" valign="top" height="10"></td>
+                    </tr>
+                  </tbody>
+                </table>
+            </tr>
+          </tbody>
+        </table>
+      </td>
+    </tr>
+  </tbody>
+  </table>
+  </td>
+  </tr>
+  <tr>
+    <td>&nbsp;</td>
+  </tr>
+  </tbody>
+  </table>
+  </td>
+  </tr>
+
+  
+  
+    
+
+      <td class="right-repeat"></td>
+   
+    <tr>
+      <td width="22" height="21"   class="bottom-left"></td>
+      <td class="bottom-repeat"></td>
+      <td width="22" height="21"  class="bottom-right"></td>
+    </tr>
+  </table>
+  
+  
+
+
+
+<%else%>
+  <table border="0" cellspacing="0" cellpadding="0" width="100%">
+    <tr>
+      <td width="22" height="21" class="top-left"></td>
+      <td class="top-repeat"></td>
+      <td width="22" class="top-right"></td>
+    </tr>
+    <tr>
+      <td width="22" class="left-repeat"></td>
+
+      <td><table width="100%" border="0" cellspacing="0" cellpadding="0" class="cmtsml">
+          <tr>
+            <td class="msgHead" align="center" height="500" valign="middle">No Entries Found.</td></tr> </table>
+      </td>
+
+
+
+      <td class="right-repeat"></td>
+    </tr>
+    <tr>
+      <td width="22" height="21"   class="bottom-left"></td>
+      <td class="bottom-repeat"></td>
+      <td width="22" height="21"  class="bottom-right"></td>
+    </tr>
+  </table>
+<%end%>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

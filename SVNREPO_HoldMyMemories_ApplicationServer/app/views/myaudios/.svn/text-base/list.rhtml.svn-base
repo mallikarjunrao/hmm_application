@@ -1,0 +1,35 @@
+<h1>My Audios</h1>
+
+<table>
+  <tr>
+  
+    <th>Content id</th>
+	<th>User id</th>
+	<th>Tag id</th>
+	<th>File type</th>
+	<th>File Name</th>
+	<th colspan='3'>Action</th>
+	
+  
+  </tr>
+  <tr>
+<% for user_content in @user_contents %>
+   
+    <td><%=h user_content.id %></td>
+	 <td><%=h user_content.uid %></td>
+	  <td><%=h user_content.tagid %></td>
+	   <td><%=h user_content.e_filetype %></td>
+	    <td><%=h user_content.v_filename %></td>
+    <td><%= link_to 'Show', :action => 'show', :id => user_content %></td>
+    <td><%= link_to 'Edit', :action => 'edit', :id => user_content %></td>
+    <td><%= link_to 'Destroy', { :action => 'destroy', :id => user_content }, :confirm => 'Are you sure?', :method => :post %></td>
+  </tr>
+<% end %>
+</table>
+
+<%= link_to 'Previous page', { :page => @user_content_pages.current.previous } if @user_content_pages.current.previous %>
+<%= link_to 'Next page', { :page => @user_content_pages.current.next } if @user_content_pages.current.next %> 
+
+<br />
+
+<%= link_to 'Add Audio', :action => 'new' %>

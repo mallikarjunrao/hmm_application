@@ -1,0 +1,77 @@
+<style type="text/css">
+<!--
+.style1 {
+	font-family: Arial, Helvetica, sans-serif;
+	font-weight: bold;
+	font-size: 12px;
+	color:#914511;
+}
+.style3 {font-family: Arial, Helvetica, sans-serif; font-weight: bold; font-size: 18px; }
+-->
+</style>
+  
+  
+  <!--Sub Chapter Coment View-->
+<table width="88%" border="1" bordercolor="#191919" height="30" cellspacing="0" cellpadding="10">
+  
+	
+	<tr bordercolor="#000000">
+      
+      <th  align="left" valign="middle" bgcolor="#191919" scope="col" colspan="4"><span class="btmtxt"><%if(params[:id]=='0')%><%else%> Non-approved<%end%>  Comments for <%if(params[:id]=='0')%> <%=session[:subchap_name]%> <%else%> Journal <%end%></span></th>
+    </tr>
+	
+	<% if session[:friend]!='' 
+			e_approval=" and e_approval = 'approve'"
+			ae_approval=" and a.e_approval = 'approve'"
+				end
+%>
+	
+<%  if(request.request_uri == "/subchap_comment/comnt_list/" )
+		@tag_c = SubchapComment.find_by_sql("select a.*,b.*,a.id as cid from subchap_comments as a , hmm_users as b where a.uid=b.id ORDER BY a.id DESC")
+	else if(params[:id]=='0')
+		@tag_c = SubchapComment.find_by_sql("select a.*,b.*,a.id as cid from subchap_comments as a , hmm_users as b where subchap_id=#{params[:subchap_id]} and subchap_jid=0 and a.uid=b.id #{e_approval} ORDER BY a.id DESC")
+	else
+		@tag_c = SubchapComment.find_by_sql("select a.*,b.*,a.id as cid from subchap_comments as a , hmm_users as b where subchap_jid=#{params[:id]} and a.uid=b.id #{ae_approval} ORDER BY a.id DESC")
+	end
+	end		
+	for j in @tag_c %>
+
+	<tr bordercolor="#000000">
+      <th width="15%" height="6" align="left" valign="top" scope="col"><span class="style1">Commented By&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>  </th>
+      <th width="85%" colspan="2" align="left" valign="top" class="text-journal" scope="col"><%= j.v_fname%></th>
+    </tr>
+	
+	<tr bordercolor="#000000">
+      <th height="6" align="left" valign="top" scope="col"><span class="style1">Description&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>  </th>
+      <th colspan="2" align="left" valign="top" class="text-journal" scope="col"><%= j.v_comments.gsub("\n", "<br />\n")  %></th>
+    </tr>
+	<%if j.reply==nil || j.reply==''%>
+	<%else%>
+	<tr bordercolor="#000000">
+      <th height="6" align="left" valign="top" scope="col"><span class="style1">Reply&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>  </th>
+      <th colspan="2" align="left" valign="top" class="text-journal" scope="col"><%= j.reply.gsub("\n", "<br />\n")  %></th>
+    </tr>
+	<%end%>
+    <tr>
+      <th height="28" colspan="3" align="left" valign="top" bgcolor="#191919" scope="col"><div align="left">
+       		<% if session[:friend]!='' %>
+			&nbsp;
+			<%else
+%>
+			  <% if j.e_approval=="pending" %>
+       		  <a href='/subchap_comment/approve_jcmt/<%= j.cid %>'>Approve</a>&nbsp;&nbsp;&nbsp;
+       		   <a href='/subchap_comment/reject_comment/<%= j.cid %>'>Reject</a>
+       		   <%else%>
+       		   <a href='/subchap_comment/destroy_jcmt/<%= j.cid %>'>Delete</a> 
+			   	&nbsp;&nbsp;&nbsp;
+			 <%= link_to_remote("Reply",
+			:update => j.cid, :url => { :controller => :chapter_comment,  :action =>:reply_comnt, :page => @page, :tag_id => @subchap_id, :cid => j.cid, :id => @id, :table => 'subchap_comments'}  ) %>
+			<br><br>
+			<div id=<%=j.cid%>></div>
+       		   <% end %> <% end %>	
+	    </div></th>
+    </tr>
+     <%end%>
+</table>
+<p></p>
+<p></p>

@@ -1,0 +1,9 @@
+<h1>Edit Market Manager Profile</h1>
+
+<% form_tag :action => 'update', :id => @market_manager do %>
+  <%= render :partial => 'edit_form' %>
+ <center> <%= submit_tag 'Edit' %></center>
+<% end %>
+
+<%= link_to 'Show', :action => 'show', :id => @market_manager %> |
+<%= link_to 'Back', :action => 'list' %>

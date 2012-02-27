@@ -1,0 +1,39 @@
+<p>Hello <i><%= @customer_name %></i>. </p>
+
+
+<p>Thank you for setting up your <%=@account_type%> account. Below are your Payment Reciept.<br></p>
+<br><br>
+<p><b> Payment Invoice </b></p>
+<p>Invoice Number : <%= @invoicenumber%> </p>  
+<p>Subscription Number : <%= @subnumber%> </p>  
+<p>Cutomers Name: <%= @customer_name%></p>
+<p>Account type: <%=@account_type%></p>
+<p>Subscription Interval: Payments occur on day <%=Time.now.strftime("%d")%> of every <%=@months%> months. <p>
+<p>Subscription Amount : <%= @amount%> </p><br>
+
+<p><b> Holdmymemories.com Account Details </b></p>
+<p>Username: <%= @username%></p>
+<p>Password: <%= @password1%></p>
+<br>
+<p><b>HoldMyMemories.com also make your own personal website</b></p>
+<p>Your website URL is :  <a href="<%=@link%>" > <%=@link%> </a></p>
+<%if @pass_req == "no"%>
+<%else%>
+<p>password : <%=@pass%></p>
+<%end%>
+<br>
+<p><b>Billing / Shipping Address: </b></p><br>
+<p>Name : <%= @customer_name %> </p>
+<p>Street Address : <%= @street_address%> </p>
+<p>City : <%= @city %> </p>
+<p>Postal/Zip code : <%= @postcode %> </p>
+<p>State : <%= @state %> </p>
+<p>Country : <%= @country %> 
+
+
+
+<br>
+<p>We hope you enjoy your account. Please see our "tips" section for useful ideas on how to best hold and share your memories!</p>
+<br>
+<p>Thank-you,</p>
+<p>Your HoldMyMemories.com Team</p>

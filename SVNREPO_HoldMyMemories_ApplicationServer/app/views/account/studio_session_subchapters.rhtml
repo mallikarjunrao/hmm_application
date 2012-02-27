@@ -1,0 +1,49 @@
+<%= javascript_include_tag 'themes/formcheck/core' %>
+<%= javascript_include_tag 'themes/formcheck/more' %>
+<%= javascript_include_tag 'themes/formcheck/en' %>
+<%= javascript_include_tag 'themes/formcheck/formcheck' %>
+<%= stylesheet_link_tag 'themes/formcheck/formcheck'%>
+<%= javascript_include_tag 'themes/fancyzoom/FancyZoom' %>
+<%= javascript_include_tag 'themes/fancyzoom/FancyZoomHTML' %>
+<%= javascript_include_tag 'modalbox/prototype' %>
+<script type="text/javascript" src="/javascripts/modalbox/scriptaculous.js?load=effects"></script>
+<script type="text/javascript" src="/javascripts/modalbox/modalbox.js"></script>
+<%= stylesheet_link_tag 'modalbox/modalbox' %>
+<font color="red"><%=flash[:move_error]%></font>
+<table border="0" cellpadding="0" cellspacing="0"  align="center" width="990">
+  <% j=0 %>
+  <tr>
+    <% if @sub_images %>
+     <td><h2>Listing User Subchapters</h2></td></tr><tr>
+    <%for sub_image in @sub_images%>
+      <% if j== 5%> <% j= 0%> <tr> <%end%> <%j=j+1%>
+    <td width="100" align="center"><a href="/account/studio_session_subchapters/<%=sub_image.id%>?type=gallery" ><img src="<%=sub_image.img_url%>/user_content/photos/icon_thumbnails/<%=sub_image.v_image%>" border="0" /></a><br /><a href="/account/studio_session_subchapters/<%=sub_image.id%>?type=gallery" ><%=sub_image.sub_chapname%></a><br /><br /><%= link_to 'Delete', {:action => 'delete_sub_session', :id =>sub_image.id}, :confirm => 'Are you sure to delete this Subchapter?' %>
+    </td><% if j== 5%> <% j= 0%> </tr> <%end%>
+  <%end%>
+    <%elsif @galleries%>
+   <td><h2>Listing User Galleries</h2></td></tr><tr>
+     <%for gallery in @galleries%>
+     <% if j== 5%> <% j= 0%> <tr> <%end%> <%j=j+1%>
+    <td  width="150" align="center"><a href="/account/studio_session_subchapters/<%=gallery.id%>?type=images" ><img src="<%=gallery.img_url%>/user_content/photos/icon_thumbnails/<%=gallery.v_gallery_image%>" border="0" /></a><br /><a href="/account/studio_session_subchapters/<%=gallery.id%>?type=images" ><%=gallery.v_gallery_name%></a><br /><br /><%= link_to 'Delete', {:action => 'delete_gallery_session', :id =>gallery.id}, :confirm => 'Are you sure to delete this Gallery?' %> / <a href="/account/edit_gallery_page/<%=gallery.id%>" onclick="Modalbox.show(this.href, {title:'My Image', width:460, height:450});return false;"> Edit Name</a> / <a href="/account/move_gallery/<%=gallery.id%>" onclick="Modalbox.show(this.href, {title:'My Image', width:460, height:450});return false;">Move</a>
+    </td>
+<% if j== 5%> <% j= 0%> </tr> <%end%>
+    <%end%>
+    <%elsif @user_images%>
+   <td><h2>Listing User Images</h2></td></tr><tr>
+     <%for user_image in @user_images%>
+  <% if j== 5%> <% j= 0%> <tr> <%end%> <%j=j+1%>
+    <td  width="100" align="center"><%if user_image.e_filetype=="image"%> <a href="<%=user_image.img_url%>/user_content/photos/journal_thumb/<%=user_image.v_filename%>"  class="content-white" ><img src="<%=user_image.img_url%>/user_content/photos/big_thumb/<%=user_image.v_filename%>" border="0" /></a><%elsif user_image.e_filetype=="video"%><img src="<%=user_image.img_url%>/user_content/videos/thumbnails/<%=user_image.v_filename%>.jpg" border="0" /><%end%><br /><a href="<%=user_image.img_url%>/user_content/photos/journal_thumb/<%=user_image.v_filename%>"  class="content-white" ><%=user_image.v_filename%></a><br /><br /><%= link_to 'Delete', {:action => 'delete_image_session', :id =>user_image.id}, :confirm => 'Are you sure to delete this Image?' %>
+    </td> <% if j== 5%> <% j= 0%> </tr> <%end%>
+    <%end%>
+<%else%>
+    Not  Found
+    <%end%>
+  </tr>
+</table>
+<script type="text/javascript">
+  window.addEvent('domready', function(){
+    new FormCheck('frm');
+    setupZoom();
+  });
+
+</script>

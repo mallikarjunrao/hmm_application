@@ -1,0 +1,68 @@
+<% if(params[:typ]=='photo')
+	@val='Photo'
+	session['redirect']='101'
+	else
+	@val='Video'
+	session['redirect']='102'
+	end
+%>
+<h1><%=@val%> Contest Entries</h1>
+<p align="right"><a href="/manage_contests/contest_list"><< Back</a></p>
+<font color="#f5dfa6"><%=flash[:contest_rej]%></font>
+<font color="#f5dfa6"><%=flash[:contest_approve]%></font>
+
+<table>
+  <tr>
+  	<th background="/images/body_hor.JPG">Name</th>
+    <th background="/images/body_hor.JPG">User Name</th>
+	<th background="/images/body_hor.JPG">Email</th>
+	<th background="/images/body_hor.JPG">Moment Type</th>
+	<th background="/images/body_hor.JPG">Contest Title</th>
+	<th background="/images/body_hor.JPG">Entrants Name</th>
+	<th background="/images/body_hor.JPG">Entry Date</th>
+	<th background="/images/body_hor.JPG">Status</th>
+	<th background="/images/body_hor.JPG" colspan="4" align="center">Action</th>
+
+   </tr>
+  
+<%	odd_or_even = 0 
+	i = 0 
+	for contest in @contests 
+	i = i + 1
+	odd_or_even = 1 - odd_or_even %>
+	
+  <tr class="<%= cycle('odd', 'even') -%>">
+  	
+	<td><%=contest.v_fname%></td>
+  	<td><%=contest.v_user_name%></td>
+	<td><%=contest.v_e_mail%></td>
+	<td><%=contest.contest_type%></td>
+	<td><%=contest.title%></td>
+	<td><%=contest.name%></td>
+	<td>
+	<!--< %if(contest.added_date!='' && contest.added_date!=nil)%>-->
+	<%=contest.added_date%>
+<!--	< %end%> -->	</td>
+	<td><%=contest.contestant_status%></td>  
+    <% if(params[:typ]=='photo') %>	
+    <td><a href="/manage_contests/photo_contestantview/<%= contest.contestant_id %>?cid=<%= contest.contest_id %>" >Show</a></td>
+    <%else%>
+    <td><a href="/manage_contests/video_contestantview/<%= contest.contestant_id %>?cid=<%= contest.contest_id %>" >Show</a></td>
+   <%end%>
+    	</td>
+	<%if contest.contestant_status == 'pending'%>	
+    <td><a href="/manage_contests/contest_approve/<%= contest.contestant_id %>?cid=<%= contest.contest_id %>"  >Approve </a></td>
+	<td><a href="/manage_contests/reject_email/<%= contest.contestant_id %>?cid=<%= contest.contest_id %>"  >Reject </a></td>
+        <td><%= link_to 'Delete Entry', { :action => 'contest_delete', :id => contest.contestant_id,:cid => contest.contest_id}, :confirm => 'Are you sure?', :method => :post %></td>    
+  <%else if contest.contestant_status == "approved"%>
+	<td><a href="/manage_contests/reject_email/<%= contest.contestant_id %>?cid=<%= contest.contest_id %>"  >Reject </a></td>
+	<td><%= link_to 'Delete Entry', { :action => 'contest_delete', :id => contest.contestant_id,:cid => contest.contest_id }, :confirm => 'Are you sure?', :method => :post %></td>
+	<%else if contest.contestant_status == "rejected"%>
+	<td><a href="/manage_contests/contest_approve/<%= contest.contestant_id %>?cid=<%= contest.contest_id %>" >Approve </a></td>
+	<td><%= link_to 'Delete Entry ', { :action => 'contest_delete', :id => contest.contestant_id ,:cid => contest.contest_id }, :confirm => 'Are you sure?', :method => :post %></td>
+	<%end%><%end%><%end%>
+    <td></td>
+  </tr>
+<% end %>
+</table>
+<%=will_paginate @contests , :params => params %>

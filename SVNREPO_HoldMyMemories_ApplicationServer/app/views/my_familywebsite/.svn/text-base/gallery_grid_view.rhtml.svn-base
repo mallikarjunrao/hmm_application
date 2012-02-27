@@ -1,0 +1,192 @@
+<% familyname= params[:id]
+@userid = HmmUser.find(:all, :conditions => "(family_name='#{familyname}' || alt_family_name='#{familyname}')") %>
+<%= javascript_include_tag 'modalbox/prototype' %>
+<script type="text/javascript" src="/javascripts/modalbox/scriptaculous.js?load=effects"></script>
+<script type="text/javascript" src="/javascripts/modalbox/modalbox.js"></script>
+<%= stylesheet_link_tag 'modalbox/modalbox' %>
+<table align="center" width="100%" border="0" cellspacing="0" cellpadding="0">
+  <tr>
+    <td valign="top">
+      <table align="left" cellspacing="10">
+        <tr>
+          <%= sort_header_tag('d_gallery_date', :text => "<u>Sort By Date</u>",:title => "Sort By Date") %>
+          <%= sort_header_tag('v_gallery_name', :text => "<u>Sort By Name</u>",:title => "Sort By Name") %>
+        </tr>
+      </table>
+    </td>
+    <td align="right" valign="top"><a href="/my_familywebsite/gallery/<%=params[:subchapter_id]%>?familyname=<%=params[:id]%>"  class="orangelinkswitch">
+    	Switch To Coverflow View<!--img src="/images/photoflowicon.jpg" border="0" title="Clicking this button will switch to coverflow view"--></a></td>
+  </tr>
+   <tr> <td height="25"></td></tr>
+  <tr>
+    <td colspan="2" height="300px;" valign="top">
+      <table align="center" cellpadding="0" cellspacing="0" border="0">
+        <% if @countcheck > 0 %>
+          <% j=0 %>
+          <% @galleries.each do |@gallery| %>
+            <% if j == 0 %> <tr>
+              <% elsif j >= 3 %>
+                <% j=0 %>
+              </tr>
+              <tr>
+                <th height="30" colspan="10" align="left" valign="top" scope="col"></th>
+              </tr>
+              <tr>
+              <% end %>
+              <th width="29" align="left" valign="top" scope="col"><% j=j+1%>&nbsp;&nbsp;&nbsp;</th>
+              <th width="73" align="left" valign="top" scope="col" ><a href='/my_familywebsite/content_grid_view/<%=params[:id]%>?gallery_id=<%= @gallery.id %>' ><img src="<%= @gallery.img_url %>/user_content/photos/icon_thumbnails/<%= @gallery.v_gallery_image  %>" border="0"  /></a>
+                <br>
+              <th width="10" align="left" valign="top" scope="col">&nbsp;</th>
+              <th width="139" align="left" valign="top" scope="col">
+                <table width="100%" border="0" cellspacing="0" cellpadding="0">
+                  <tr>
+                    <th height="13" align="left" valign="top" scope="col"></th>
+                  </tr>
+                  <tr>
+                    <th height="21" align="left" valign="top"  scope="col"><a href='/my_familywebsite/content_grid_view/<%=params[:id]%>?gallery_id=<%= @gallery.id %>' ><%= @gallery.v_gallery_name %></a></th>
+                  </tr>
+                  <tr>
+             <th align="left" class="chapindex-text2" valign="top"  scope="col">Created <br>
+              <%= @gallery.d_gallery_date.strftime("%a %b #{@gallery.d_gallery_date.day.ordinalize} %Y,   %I:%M %p") %></th>
+             </tr>
+                  
+                </table>	 </th>
+
+            <% end %>
+          <% else %>
+              <font size=4 face="Arial, Helvetica, sans-serif" color="#eeeeee">
+            No galleries found...
+            </font>
+          <% end %>
+      </table>
+    </td>
+  </tr>
+  <tr>
+    <td valign="bottom" scope="col" align="center" colspan="2" height="30">
+      <%= will_paginate @galleries%>
+    </td>
+  </tr>
+  <tr>
+    <td valign="bottom" scope="col" align="right" colspan="2" height="30">
+     <table  width="100%" align="right">
+        <tr><td align="right" >&nbsp;</td></tr>
+        <tr><td align="right" ><!--<%= render :partial => "sharesocialnetwork" %>--></td></tr>
+        <tr><td align="right" >&nbsp;</td></tr>
+      </table>
+    </td>
+  </tr>
+</table>
+
+<!-- Code for Journals and comments -->
+
+<table border="0" width="800">
+  <tr><td align="center">
+      <%if session[:hmm_user] && logged_in_hmm_user.family_name == params[:id] %><a href="/manage_content/new_subchapjournal/<%=params[:subchapter_id]%>?familyname=<%=params[:id]%>&view=grid" class="journal_txt_link">Journal this</a><%else%>
+       <tr><td colspan="3" align="center">
+        <font color="white" face="arial" size="2"><u><%= link_to_remote("<span class='commentcont'>Add Comment</span>", :update =>"add_comment",
+            :url => {:controller => :my_familywebsite, :action => :gallery_grid_comment, :id=> params[:id] , :subchapter_id=> params[:subchapter_id]} ,:layout => false  ) %></u>
+          &nbsp; <%  @subchapter_comment_count = SubchapComment.count(:all,:conditions => "subchap_id=#{params[:subchapter_id]} and subchap_jid='0' and e_approval='approve'")
+          if @subchapter_comment_count > 0 %>
+
+            <u><%= link_to_remote("<span class='commentcont'>View Comments </span>", :update =>"add_comment",
+              :url => {:controller => :my_familywebsite, :action => :view_subchap_comments, :subchap_id => params[:subchapter_id], :jid => 0, :familyname => params[:familyname]  } ,:layout => false  ) %></u>
+          <%end%>
+        </font>
+        <p>
+        <div id="add_comment"></div>
+      </td></tr>
+
+  <%end%>&nbsp;&nbsp;&nbsp;&nbsp;
+  <font color="#f5dfa6"><%=  flash[:notice_cc]%></font>
+  <font color="#f5dfa6"><%=  flash[:notice_cca]%></font>
+  <font color="#f5dfa6"><%=  flash[:notice_ccr]%></font>
+  <font color="#f5dfa6"><%=  flash[:notice_ccd]%></font>
+  <font color="#f5dfa6"><%=flash[:notice2]%></font>
+  <font color="#f5dfa6" size="2" ><%=flash[:notice_scc_add]%></font>
+</table>
+
+<%    @sub_chap_journal_count = SubChapJournal.count(:all,:conditions => "sub_chap_id=#{params[:subchapter_id]}")
+%>
+<%if @sub_chap_journal_count>0%>
+  <table width="88%" border="0" class="border" cellspacing="0" cellpadding="0">
+    <tr>
+      <th align="left" valign="top" scope="col">
+        <table width="100%" border="0"  align="center" cellpadding="0" cellspacing="0"  id="table_br">
+          <tr>
+            <th width="22" height="32" align="center" valign="top" scope="col"  id="table_bar_bg">&nbsp;</th>
+            <th align="left" valign="middle" scope="col" id="table_bar_bg"><table width="100%" border="0" cellspacing="0" cellpadding="0">
+                <tr>
+                  <td width="50%" height="30" align="left" valign="middle"><span class="btmtxt">Journal
+                      <% for @i in @sub_chapter_journal %>
+                      </span>	</td>
+                    <td align="right" valign="middle"><span><font size="2"></font></span></td>
+                  </tr>
+                </table>
+              </th>
+              <th width="22" align="left" valign="top" scope="col"  id="table_bar_bg">&nbsp;</th>
+            </tr>
+            <tr>
+              <th height="32" align="left" valign="top" scope="col">&nbsp;</th>
+              <th align="left" valign="middle" scope="col"><span class="commenthr"><%= @i.journal_title %> &nbsp;&nbsp;
+                <%=@i.created_on.strftime("%a %b %d, %Y")%></span></th>
+              <th align="left" valign="top" scope="col">&nbsp;</th>
+            </tr>
+            <tr>
+              <th align="left" valign="top" scope="col">&nbsp;</th>
+              <th align="left" valign="top" class="commentcont" scope="col"><%= @i.subchap_journal.gsub("\n", "<br />\n") %></th>
+              <th align="left" valign="top" scope="col">&nbsp;</th>
+            </tr>
+            <tr>
+              <th align="left" valign="top" scope="col">&nbsp;</th>
+              <th align="left" valign="top" class="text-journal" scope="col">&nbsp;</th>
+              <th align="left" valign="top" scope="col">&nbsp;</th>
+            </tr>
+            <!-- comments to be viewed once approved-->
+            <tr>
+              <th>&nbsp;</th>
+              <th colspan="3">
+                <% @tag_cnt = SubchapComment.count(:joins => "as a , sub_chap_journals as c " , :conditions => "c.sub_chap_id=#{params[:subchapter_id]} and c.id=a.subchap_jid and a.e_approval = 'approve'") %>
+                <% if @tag_cnt != 0 %>
+                  <table width="94%" cellspacing="0" cellpadding="3" id="table_br">
+
+                    <tr bordercolor="#000000">
+                      <th height="30" colspan="3" align="left" valign="middle"  scope="col" id="table_bar_bg"><span class="btmtxt"><%if session[:friend]==''%>Approved<%end%> Journal Comments</th>
+                    </tr>
+                    <%	@tag_c = SubchapComment.find_by_sql("select a.*,b.*,c.*, a.id as cid from subchap_comments as a , hmm_users as b, sub_chap_journals as c where c.sub_chap_id=#{params[:subchapter_id]} and c.id=a.subchap_jid and a.uid=b.id and a.e_approval = 'approve' ORDER BY a.id DESC")
+                    for j in @tag_c %>
+                      <tr bordercolor="#000000">
+                        <th width="149" align="left" valign="top" class="text-journal" scope="col"><span class="style1">Commented By&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>  :</th>
+                        <th width="630" align="left" valign="top" scope="col"><%= j.v_fname%></th>
+                      </tr>
+                      <tr bordercolor="#000000">
+                        <th align="left" valign="top" class="text-journal" scope="col"><span class="style1">Description&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>  :</th>
+                        <th align="left" valign="top" scope="col"><%= j.v_comments.gsub("\n", "<br />\n")  %></th>
+                      </tr>
+                      <tr bordercolor="#000000">
+                        <th height="10" colspan="3" align="right" valign="middle"  class="text-journal" scope="col">
+                        </th>
+                      </tr>
+                      <tr bordercolor="#000000">
+                        <th align="right" colspan="3" valign="middle" bgcolor="#191919" class="text-journal" scope="col"></th>
+                      </tr>
+                      <tr bordercolor="#000000">
+                        <th align="right" colspan="3" valign="middle" bgcolor="#191919" class="text-journal" scope="col"></th>
+                      </tr>
+                    <%end%>
+                  </table>
+                </th>
+              </tr><%end%>
+            <tr>
+              <th>&nbsp;</th>
+              <th>&nbsp;</th><th>&nbsp;</th>
+            </tr>
+            <!-- comments to be viewed once approved-->
+            <font color="#f5dfa6"><%=  flash[:notice_sjc]%></font>
+            <font color="#f5dfa6"><%=  flash[:notice_sce]%></font>
+          <%end%>
+        </table></th>
+    </tr>
+  </table>
+<%end%>
+
+

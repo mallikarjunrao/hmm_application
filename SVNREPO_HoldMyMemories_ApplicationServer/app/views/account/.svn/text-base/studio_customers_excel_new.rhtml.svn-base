@@ -1,0 +1,80 @@
+<%if @customer_count > 0%>
+  <table border="1">
+    <%@studio = HmmStudio.find(params[:id])%>
+    <tr>
+      <td colspan="10" align="center">Customers of studio <%=@studio.studio_branch%></td>
+    </tr>
+    <tr>
+      <td  background="/images/body_hor.JPG"><font class='txt'><b>ID</b></font></td>
+      <td  background="/images/body_hor.JPG"><font class='txt'><b>First Name</b></font></td>
+      <td  background="/images/body_hor.JPG"><font class='txt'><b>Last Name</b></font></td>
+      <td  background="/images/body_hor.JPG"><font class='txt'><b>User Name</b></font></td>
+      <td  background="/images/body_hor.JPG"><font class='txt'><b>Account Created Date</b></font></td>
+      <td  background="/images/body_hor.JPG"><font class='txt'><b>ARB subscription Number</b></font></td>
+      <td  background="/images/body_hor.JPG"><font class='txt'><b>Current ARB subscription status on <%=Time.now.strftime("%m - %d - %Y")%></b></font></td>
+      <td  background="/images/body_hor.JPG"><font class='txt'><b>Payment type</b></font></td>
+      <td  background="/images/body_hor.JPG"><font class='txt'><b>Studio Commission</b></font></td>
+      <td  background="/images/body_hor.JPG"><font class='txt'><b>Manager Commission</b></font></td>
+      <td  background="/images/body_hor.JPG"><font class='txt'><table> <tr><th>Sales Person</th></tr></table></font></td>
+      <td  background="/images/body_hor.JPG">Most Recent Payment Received Date</td>
+      <td  background="/images/body_hor.JPG">Most Recent Payment</td>
+
+    </tr>
+    <%for i in @customers%>
+      <% if i.amount=='' || i.amount==nil || i.amount == 'NULL'
+      else
+      %>
+
+        <tr  class="<%= cycle('odd', 'even') -%>">
+          <td><%=i.uid%></td>
+          <td><%=i.v_fname%></td>
+          <td><%=i.v_lname%></td>
+          <td><%=i.v_user_name%>	</td>
+          <td><%=i.d_created_date.strftime("%m - %d - %Y")%></td>
+          <td><%=i.subscriptionnumber%></td>
+          <td>
+            <% if(i.cancel_status == 'approved')  %>
+              Subscription Cancelled
+            <%else%>
+              Subscription Active
+            <%end%>
+          </td>
+          <td><%=i.months%> month(s) membership	</td>
+          <td>
+            <%if i.months == '1'%>
+              $4.00 per month
+            <%else%>
+              $3.33 per month
+            <%end%>
+          </td>
+          <td>$2.00 per month</td>
+          <td>
+            <%=i.membership_sold_by%>
+          </td>
+       <td>
+            <%d=StudioCommission.find(:last,:conditions=>"uid=#{i.uid}")%>
+            <%if d%>
+              <%=d.payment_recieved_on.strftime("%m - %d - %Y")%>
+            <%end%>
+          </td>
+          <td>
+            <%if d%>
+             <%amount=(d.amount*2)-0.05%>
+              $<%=number_with_precision(amount, :precision => 2)%>
+            <%end%>
+          </td>
+
+        </tr>
+      <%end%>
+    <%end%>
+    <tr><td>
+        <%=will_paginate @customers%></td>
+    </tr>
+  </table>
+<%else%>
+  <table>
+    <tr>
+      <td>There are no customers for the Month : <%=params[:date]%></td>
+    </tr>
+  </table>
+<%end%>

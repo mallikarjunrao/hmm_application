@@ -1,0 +1,40 @@
+<%= javascript_include_tag 'SpryAssets/SpryValidationRadio' %>
+<%= javascript_include_tag 'SpryAssets/SpryValidationPassword' %>
+<%= javascript_include_tag 'SpryAssets/SpryValidationConfirm' %>
+<%= stylesheet_link_tag 'SpryAssets/SpryValidationRadio' %>
+<%= stylesheet_link_tag 'SpryAssets/SpryValidationPassword' %>
+<%= stylesheet_link_tag 'SpryAssets/SpryValidationConfirm' %>
+
+<style type="text/css">
+<!--
+.style1 {
+	font-family: Arial, Helvetica, sans-serif;
+	font-weight: bold;
+	font-size: 14px;
+	color: #ffffff;
+}
+.style3 {font-family: Arial, Helvetica, sans-serif; font-weight: bold; font-size: 18px; }
+-->
+</style>
+<span class="style3">Add Your comments here</span> 
+<form name="frm" method="post" action="/share_comments/create">
+	<input type="hidden" value="<%=params[:id]%>" name="shareid" />
+ 
+<table border="0">
+	
+<tr>
+	<td valign="top" align="center">
+  		<font color="#ffffff">Enter your comment here</font>
+	</td>
+</tr>
+<tr>
+	<td align="center">
+		<textarea name="v_comment" cols="40" rows="10" class="textbox-1" ></textarea>
+ 	</td>
+</tr>
+  </table>
+ <p>
+	<%= submit_tag "Create", :OnClick => "return chk();" %>
+ </p>
+</form>
+

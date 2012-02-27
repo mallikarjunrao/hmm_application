@@ -1,0 +1,243 @@
+<%= javascript_include_tag "themes/swfobject" %>
+<%= javascript_include_tag "themes/nyromodal/jquery-1.3.2.min" %>
+<%= javascript_include_tag "themes/nyromodal/jquery.nyroModal-1.5.2.pack.js" %>
+<%= stylesheet_link_tag '/stylesheets/themes/nyromodal/nyroModal'%>
+<script type="text/javacript" src="/Scripts/AC_RunActiveContent.js"></script>
+<script type="text/javascript" src="http://apis.google.com/js/plusone.js"></script>
+<table width="970" border="0" cellspacing="0" cellpadding="0">
+  <tr>
+    <td align="center" valign="top" class="tab-dots"><table width="970" border="0" cellspacing="0" cellpadding="0" id="tab_bgcolor_repeat">
+
+        <tr>
+          <td align="left" valign="top"><table width="100%" border="0" cellspacing="0" cellpadding="0">
+              <tr>
+                <td width="13" align="left" valign="top"></td>
+                <td width="944" align="left" valign="top"><table width="100%" border="0" cellspacing="0" cellpadding="0">
+                    <tr>
+                      <td height="10" align="left" valign="top"></td>
+                    </tr>
+                    <tr>
+                      <td height="35" align="left" valign="bottom" class="header-page"><% if @detail.moment_name %>&nbsp;&nbsp;&nbsp;&nbsp;<%@imagename=@detail.moment_name.split('.')%><%=@imagename[0]%> <%else%> Untitled <%=@detail.e_filetype%> <%end%></td>
+                    </tr>
+                    <tr>
+                      <td height="10" align="left" valign="top"></td>
+                    </tr>
+                    <tr>
+                      <td height="1" align="left" valign="top" bgcolor="#454545"></td>
+                    </tr>
+                    <tr>
+                      <td height="10" align="left" valign="top"></td>
+                    </tr>
+                    <% if flash[:notice] %>
+                      <tr>
+                        <td align="center" valign="middle" class="error-message"><%= flash[:notice] %></td>
+                      </tr>
+                      <tr>
+                        <td height="10" align="left" valign="top"></td>
+                      </tr>
+                    <%  end %>
+                    <tr>
+                      <td align="left" valign="top" class="content-trans-bg"><table width="100%" border="0" cellspacing="0" cellpadding="0">
+                          <tr><td colspan="3">&nbsp;</td></tr>
+                          <tr>
+                            <td  align="left" valign="top"></td>
+                            <td align="left" valign="top" ><table width="100%" border="0" cellspacing="0" cellpadding="0">
+                                <tr>
+                                  <td align="left" valign="top" class="content">
+                                  <% if(@detail.chapter_name=='Mobile Uploads') %>
+
+                                   <a href="/familywebsite/home/<%= params[:id] %>">Home</a> &gt;&gt; <a href="/familywebsite/subchapters/<%= params[:id] %>?chapter_id=<%= @detail.chapter_id %>"><%= @detail.chapter_name  %></a> <% if @detail.chapter_type!='photo' && @detail.chapter_type!='video' && @detail.chapter_type!='audio' %>&gt;&gt; <a href="/familywebsite/events_moments/<%= params[:id] %>?event_id=<%= @detail.subchapter_id %>"><%= @detail.subchapter_name  %></a><%end%>
+                                  <%else%>
+                                  <a href="/familywebsite/home/<%= params[:id] %>">Home</a> &gt;&gt; <a href="/familywebsite/subchapters/<%= params[:id] %>?chapter_id=<%= @detail.chapter_id %>"><%= @detail.chapter_name  %></a> <% if @detail.chapter_type!='photo' && @detail.chapter_type!='video' && @detail.chapter_type!='audio' %>&gt;&gt; <a href="/familywebsite/galleries/<%= params[:id] %>?subchapter_id=<%= @detail.subchapter_id %>"><%= @detail.subchapter_name  %></a> &gt;&gt; <a href="/familywebsite/gallery_contents/<%= params[:id] %>?gallery_id=<%= @detail.gallery_id %>"><%= @detail.gallery_name  %></a> <% end %>&gt;&gt; <% if @detail.moment_name %><%@imagename=@detail.moment_name.split('.')%><%=@imagename[0]%> <%else%> Untitled <%=@detail.e_filetype%> <%end%>
+
+                                  <%end%>
+                                  </td>
+                                  <td width="200" align="right" valign="top" class="thummbimg_title"></td>
+                                </tr>
+
+                              </table></td>
+                            <td align="left" valign="top"></td>
+                          </tr>
+                          <tr><td colspan="3">&nbsp;</td></tr>
+                          <tr height="500">
+                            <td width="20" align="center" valign="top"></td>
+                            <td  height="60" align="center" valign="middle" class="content-trans-bg">
+                              <% if @detail.e_filetype=='video' ||  @detail.e_filetype=='audio'%>
+                                <div id="flash_content">
+                                  <h1>Get Flash Player</h1>
+                                  <p><a href="http://www.adobe.com/go/getflashplayer"><img src="http://www.adobe.com/images/shared/download_buttons/get_flash_player.gif" alt="Get Adobe Flash player" /></a></p>
+                                </div>
+                                <script type="text/javascript">
+                                  var flashvars = {};
+                                  flashvars.hmmtype = "<%= @detail.e_filetype %>";
+                                  flashvars.gallery = "<%= @detail.gallery_id %>";
+                                  flashvars.gallery_id = "<%= @detail.gallery_id %>";
+                                  flashvars.user_id = "<%= @detail.uid %>";
+                                  flashvars.proxyurl = "<%= @content_server_url %>";
+  <% if @detail.e_filetype == 'video' %>
+    flashvars.content = "<%=@detail.img_url%>/user_content/videos/<%=@detail.v_filename%>.flv";
+  <% else %>
+    flashvars.content = "<%=@detail.img_url%>/user_content/audios/<%=@detail.v_filename%>";
+  <% end %>
+
+
+  var params = {};
+  params.wmode = "transparent";
+  params.allowFullScreen = true
+  swfobject.embedSWF("/MediaPlayer.swf", "flash_content", "640", "500", "9.0.0", "/expressInstall.swf",flashvars,params);
+                                </script>
+
+
+
+                                <%if (@detail.e_filetype == "video")%>
+                                  <br/><br/>
+                                  <img src="/images/plus_box_new.gif" border="0" onClick="document.getElementById('generate_script').style.display='block';" alt="click to get embed source of the video" style="cursor:pointer;"><br/>
+                                  <br/>
+                                  <div id="generate_script" style="display:none;" align="center">
+
+                                    <font class="content">Embeddable Player</font><br/>
+                                    <textarea cols="45" rows="5"><object classid="clsid:d27cdb6e-ae6d-11cf-96b8-444553540000" codebase="http://fpdownload.macromedia.com/pub/shockwave/cabs/flash/swflash.cab" width="320" height="266" id="flv1">
+                                                                                                                                                   <param name="movie" value="http://blog.holdmymemories.com/BlogVideoPlayer.swf" />
+                                                                                                                                                   <param name="allowfullscreen" value="true" /><param name="flashvars" value="videopath=<%=@detail.img_url%>/user_content/videos/<%=@detail.v_filename%>.flv" />
+                                                                                                                                                   <embed src="http://blog.holdmymemories.com/BlogVideoPlayer.swf" flashvars="videopath=<%=@detail.img_url%>/user_content/videos/<%=@detail.v_filename%>.flv" allowfullscreen="true" width="320" height="266" name="flv1" type="application/x-shockwave-flash" pluginspage="http://www.adobe.com/go/getflashplayer" /></object></textarea><br />
+                                    <font class="content">Copy text to place this video in your website or blog</font>
+                                  </div>
+                                <%end%>
+                              <% elsif @detail.e_filetype=='image' %>
+                                <div id="flash_content">
+                                  <h1>Get Flash Player</h1>
+                                  <p><a href="http://www.adobe.com/go/getflashplayer"><img src="http://www.adobe.com/images/shared/download_buttons/get_flash_player.gif" alt="Get Adobe Flash player" /></a></p>
+                                </div>
+                                   <%
+                                      if(@family_website_owner.studio_id > 0)
+                                        hmm_studios= HmmStudio.find(@family_website_owner.studio_id)
+                                        watermark = hmm_studios.watermark
+                                        if (watermark=='yes')
+                                          imgswfname="SecureImageWithWatermark"
+                                        else
+                                          imgswfname="SecureImage"
+                                        end
+                                      else
+                                        imgswfname="SecureImage"
+                                      end
+                                   %>
+                                <script type="text/javascript">
+
+                                  var flashvars = {imgUrl:'<%=@detail.img_url%>/user_content/photos/journal_thumb/<%=@detail.v_filename%>',moment_id:'<%= @detail.id %>',proxyurl :'<%= @content_server_url %>'};
+                                  var params = {allowfullscreen:true,bgcolor:'#000000',wmode:'transparent'};
+                                  var attributes = {};
+                                  window.onload=swfobject.embedSWF("/<%=imgswfname%>.swf", "flash_content", "720", "520", "9.0.0","expressInstall.swf", flashvars, params, attributes);
+
+                                </script>
+
+                              <%elsif(@detail.e_filetype == "swf")%>
+                                <div id="flash_content">
+                                  <h1>Get Flash Player</h1>
+                                  <p><a href="http://www.adobe.com/go/getflashplayer"><img src="http://www.adobe.com/images/shared/download_buttons/get_flash_player.gif" alt="Get Adobe Flash player" /></a></p>
+                                </div>
+                                <script type="text/javascript">
+                                  var flashvars = {};
+                                  flashvars.xmlfile = "/slideshow/get_slideshow_moment_list/<%= @detail.id %>.xml";
+                                  flashvars.proxyurl = "<%= @content_server_url %>";
+                                  var params = {};
+                                 // params.bgcolor = "#000000";
+                                  params.wmode = "transparent";
+                                  params.allowFullScreen = true
+                                  swfobject.embedSWF("/slideShow.swf", "flash_content", "810", "450", "9.0.0", "/expressInstall.swf",flashvars,params);
+                                </script>
+                              <% end %>
+                            </td>
+                            <td width="20" align="center" valign="top">&nbsp;</td>
+                          </tr>
+                          <tr>
+                            <td align="center" valign="top"></td>
+                            <td align="center" valign="top" >&nbsp;</td>
+                            <td align="center" valign="top">&nbsp;</td>
+                          </tr>
+                          <%if @detail.e_filetype =='image'%>
+                            <tr>
+                              <td align="center" valign="top"></td>
+                              <td align="center" valign="top" height="90" >
+
+                                <input type="hidden" name="familyname" id="familyname" value="<%=params[:familyname]%>" />
+                                <input type="hidden" name="serverurl" id="serverurl" value="<%=@serverurl%>" />
+                                <input type="hidden" name="gallery_id" id="gallery_id" value="<%=@gallery_id%>" />
+                                <input type="hidden" name="gallery_type" id="gallery_type" value="<%=@gallery_type%>" />
+                                <input type="hidden" name="moment_id" id="moment_id" value="<%=@detail.id%>" />
+                                <input type="hidden" name="proxyurls" id="proxyurls" value="<%=@proxyurls%>" />
+
+
+
+                                <div id="flash_content1">
+                                  <h1>Get Flash Player</h1>
+                                  <p><a href="http://www.adobe.com/go/getflashplayer"><img src="http://www.adobe.com/images/shared/download_buttons/get_flash_player.gif" alt="Get Adobe Flash player" /></a></p>
+                                </div>
+                                <script type="text/javascript">
+                                  var flashvars = {};
+                                  flashvars.gallery_id = "<%= @detail.gallery_id %>";
+                                  flashvars.gallery_type = "<%= @detail.e_filetype %>";
+                                  flashvars.proxyurl = "<%= @content_server_url %>";
+                                  flashvars.familyname = "<%= params[:id] %>"
+                                  flashvars.proxyurls = "<%= @proxyurls %>"
+								  flashvars.moment_id = "<%= @detail.id %>"
+                                  var params = {};
+                                  params.bgcolor = "#000000";
+                                  params.allowFullScreen = true
+                                  params.wmode = "transparent"
+                                  swfobject.embedSWF("/ImageScrollerComponent.swf", "flash_content1", "800", "200", "9.0.0", "/expressInstall.swf",flashvars,params);
+                                </script>
+                              </td>
+                              <td align="center" valign="top">&nbsp;</td>
+                            </tr>
+                          <%end%>
+                          <tr>
+                            <td align="center" valign="top"></td>
+                            <td align="center" valign="top" >&nbsp;</td>
+                            <td align="center" valign="top">&nbsp;</td>
+                          </tr>
+                          <tr><td colspan="3" align="center">
+
+                              <% if logged_in_hmm_user && logged_in_hmm_user.id == @family_website_owner.id %>
+                                <a href="/blog/create_moment_newblog_entry/<%= params[:id] %>?moment_id=<%= params[:moment_id] %>&redirect_url=<%= request.url %>" >( Blog this )</a>
+                              <% end %>&nbsp;<a href="/familywebsite_comments/create_moment_comment/<%=params[:id]%>?moment_id=<%=params[:moment_id]%>" class="nyroModal" rev="modal">( Add comment )</a>
+                            </td></tr>
+                          <tr>
+                            <td align="left" valign="top"></td>
+                            <td align="left" valign="top">&nbsp;</td>
+                            <td align="left" valign="top"></td>
+                          </tr>
+                          <tr><td align="left" valign="top"></td>
+                            <td align="left" valign="top">
+                              <%= render :partial => "partials/comments", :locals => { :comments => @comments} %>
+
+                            </td>
+                            <td align="left" valign="top"></td></tr><tr>
+                            <td align="left" valign="top"></td>
+                            <td align="left" valign="top">&nbsp;</td>
+                            <td align="left" valign="top"></td>
+                          </tr>
+                          <tr><td align="left" valign="top"></td>
+                            <td align="left" valign="top">
+                              <%= render :partial => "partials/blogentry", :locals => { :blog => @blog} %>
+
+                            </td>
+                            <td align="left" valign="top"></td></tr>
+                          <tr>
+                            <td align="left" valign="top"></td>
+                            <td align="left" valign="top">&nbsp;</td>
+                            <td align="left" valign="top"></td>
+                          </tr>
+                        </table></td>
+                    </tr>
+                  </table></td>
+                <td width="13" align="left" valign="top"></td>
+              </tr>
+              <tr><td colspan="3">&nbsp;</td></tr>
+            </table></td>
+        </tr>
+      </table></td>
+  </tr>
+  <tr>
+    <td align="center" valign="top">&nbsp;</td>
+  </tr>
+</table>

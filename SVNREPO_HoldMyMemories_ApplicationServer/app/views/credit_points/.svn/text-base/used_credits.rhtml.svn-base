@@ -1,0 +1,200 @@
+<script type="text/javascript" src="/javascripts/new_calender/calendar_us.js"></script>
+
+<!-- datePicker required styles -->
+<link rel="stylesheet" type="text/css" media="screen" href="/stylesheets/new_calender/calendar.css">
+<table cellpadding="0" cellspacing="0" width="1200" border="1" bordercolor="#e5b467" align="center">
+  <tr>
+    <td colspan="2" align="center" valign="middle">
+      <h3>Used Credit Report</h3>
+    </td>
+  </tr>
+
+</table>
+<form name="search" action="/credit_points/used_credits" method="post">
+  <table cellpadding="4" cellspacing="4" border="1" bordercolor="#e5b467" align="center" >
+    <tr>
+      <td align="center" colspan="4" height="48">
+        <font size="4">Search </font>
+      </td>
+    </tr>
+    <tr >
+      <td > Start Date</td>
+      <td><input type="text" name="start_date"  size="20" class="textbox-signup" value="<%=@starts_date%>"/>
+        <script language="JavaScript">
+          new tcal ({
+            // form name
+            'formname': 'search',
+            // input name
+            'controlname': 'start_date'
+          });
+
+        </script></td>
+      <td>End Date</td>
+      <td><input type="text" name="end_date"   size="20" class="textbox-signup" value="<%=@ends_date%>"/>
+        <script language="JavaScript">
+          new tcal ({
+            // form name
+            'formname': 'search',
+            // input name
+            'controlname': 'end_date'
+          });
+
+        </script></td>
+    </tr>
+
+    <tr >
+      <td > Firstname</td>
+      <td><input type="text" name="firstname"  value="<%=params[:firstname]%>" size="20" class="textbox-signup" /></td>
+      <td>Email Address</td>
+      <td><input type="text" name="email" value="<%=params[:email]%>" size="20" class="textbox-signup" /></td>
+    </tr>
+    <tr>
+      <td >Lastname</td>
+      <td><input type="text" name="lastname"  value="<%=params[:lastname]%>" size="20" class="textbox-signup" /></td>
+
+      <td width="90">Account Type</td>
+      <td>
+        <select name="account_type" id="account_type" class => "combobox1">
+          <option value="" <%if(params[:account_type]=='')%>selected='selected'<%end%>>Select</option>
+          <option value="familyws_user" <%if(params[:account_type]=='familyws_user')%>selected='selected'<%end%>>Family Website User</option>
+          <option value="platinum_user" <%if(params[:account_type]=='platinum_user')%>selected='selected'<%end%>>Platinum User</option>
+        </select>
+      </td>
+    </tr>
+    <tr>
+      <td width="90">Username</td>
+      <td>
+        <input type="text" name="username" value="<%=params[:username]%>" size="20" class="textbox-signup" />
+        <input type="hidden" name="sort_key" value="id" />
+        <input type="hidden" name="sort_order" value="asc" />
+      </td>
+      <td colspan="2" align="center">&nbsp;</td>
+    </tr>
+    <tr>
+      <td colspan="2"  align="center">
+        <input type="image" name="sub" id="search" src="/images/search_over.jpg"  border="0" />
+      </td>
+      <td colspan="2" align="center"></td>
+    </tr>
+  </table>
+</form>
+
+<table border="0">
+  <% if params[:page]== nil
+    @param1=1
+  else
+    @param1=params[:page]
+  end
+
+  unless params[:sort_key]==nil
+    @param2="&sort_key=#{params[:sort_key]}"
+  end
+
+  unless params[:sort_order]==nil
+    @param3="&sort_order=#{params[:sort_order]}"
+  end
+%>
+  <tr><td colspan="6" ><h2>HoldMyMemories.com Users</h2> </td><td><form name="frm" action="/credit_points/used_credits/?cpg=all" method="post"><input type="image" name="sub" id="search" src="/images/viewall.jpg"  border="0"  /></form></td></tr>
+  <%  if params[:page].blank?
+    @pg=1
+  else
+    @pg=params[:page]
+  end
+  @parm="?#{session[:custom_params]}&&report_type=excel&page=#{@pg}#{'"'}"
+
+  back_url='/credit_points/used_excel_credits/'.concat(@parm)
+%>
+
+  <tr><td colspan="7" ><h2><a href="<%=back_url%>">Click here to generate report in Excel sheet</a></h2> </td></tr>
+  <tr><td colspan="15" align="center"><font color="#FF0000"><%=flash[:notice]%></font></td></tr>
+  <tr valign='center' align='center' background="/images/body_hor.JPG">
+    <th background="/images/body_hor.JPG"><font class='txt'><table> <tr><th><%= sort_header_tag('v_fname', :text => "First Name") %></th></tr></table></font></th>
+    <th background="/images/body_hor.JPG"><font class='txt'><table> <tr><th><%= sort_header_tag('v_lname', :text => "Last Name") %></th></tr></table></font></th>
+    <th background="/images/body_hor.JPG"><font class='txt'><table> <tr><th><%= sort_header_tag('e_sex', :text => "sex") %></th></tr></table></font></th>
+    <th background="/images/body_hor.JPG"><font class='txt'><table> <tr><th><%= sort_header_tag('v_user_name', :text => "User Name") %></th></tr></table></font></th>
+    <th background="/images/body_hor.JPG"><font class='txt'><table> <tr><th><%= sort_header_tag('account_type', :text => "payment type") %></th></tr></table></font></th>
+    <th background="/images/body_hor.JPG"><font class='txt'>Email Address</font></th>
+    <th background="/images/body_hor.JPG"><font class='txt'>Telephone</font></th>
+    <th background="/images/body_hor.JPG"><font class='txt'>Studio</font></th>
+    <th background="/images/body_hor.JPG"><font class='txt'><table> <tr><th><%= sort_header_tag('available_credits', :text => "Available Credits") %></th></tr></table></font></font></th>
+    <th background="/images/body_hor.JPG"><font class='txt'><table> <tr><th><%= sort_header_tag('used_credits', :text => "Used Credits") %></th></tr></table></font></font></th>
+    <th background="/images/body_hor.JPG"><font class='txt'>Status</font></th>
+    <th background="/images/body_hor.JPG" colspan="3"><font class='txt'>Actions</font></th>
+    <th background="/images/body_hor.JPG" width="100%"><font class='txt'>Notes</font></th>
+  </tr>
+
+  <%
+  odd_or_even = 0
+  i = 0
+  for colmn in @hmm_users
+    i = i + 1
+    odd_or_even = 1 - odd_or_even
+  %>
+
+    <tr class='ListLine<%= odd_or_even %>'>
+      <td align="center"><%=h colmn.v_fname%></td>
+      <td align="center"><%=h colmn.v_lname%></td>
+      <td align="center"><%=h colmn.e_sex%></td>
+      <td align="center"><%=h colmn.v_user_name%></td>
+      <td align="center"><%=h colmn.account_type%></td>
+      <td align="center"><%=h colmn.v_e_mail%></td>
+      <td align="center"><%=h colmn.telephone%></td>
+      <td align="center">
+        <%if (colmn.studio_id == 0) || (colmn.studio_id == '0')   %>
+          Direct Customer
+        <%else%>
+          <%@branch_name = HmmStudio.find(:first, :conditions => "id = '#{colmn.studio_id}'")%>
+          <%=@branch_name.studio_name%>
+
+        <%end%>
+      </td>
+      <%  if colmn.credit_system=="Dollars"
+        @credit_pnt="$#{number_with_precision(colmn.available_credits, :precision => 2)}"
+      else
+        @credit_pnt=(colmn.available_credits).round
+      end
+    %>
+      <td align="center"><%=@credit_pnt%></td>
+      <% if  session[:store_id]
+        cond="and hmm_studio_id =#{session[:store_id]}"
+      else
+        cond=''
+      end%>
+      <%if !@starts_date.nil? && !@ends_date.nil?%>
+        <% credit_sum=CreditLog.find(:first,:select=>"sum(used_credit) as credits_used",:conditions=>"credit_point_id=#{colmn.creditid} #{cond} and created_at >'#{@start_date1} 00:00:00' and created_at < '#{@end_date1} 23:59:59'") %>
+      <%else%>
+        <% credit_sum=CreditLog.find(:first,:select=>"sum(used_credit) as credits_used",:conditions=>"credit_point_id=#{colmn.creditid} #{cond}") %>
+      <%end%>
+      <td align="center"><%=h credit_sum.credits_used%></td>
+      <td align="center">
+        <% if colmn.account_expdate!=nil %>
+          <%  t = Time.now %>
+          <% if  colmn.account_expdate >
+              t.strftime("%Y-%m-%d")%>Active
+          <%else%>Inactive
+          <%end%>
+        <%else%>Inactive
+        <%end%></td>
+      <% if params[:page].nil? || params[:page]==''
+        curr_page=1
+      else
+        curr_page=params[:page]
+      end%>
+      <td align="center">
+        <a href="/credit_points/view_credit/<%=colmn.creditid%>?page=<%=curr_page%>&&report=used&&<%=session[:custom_params]%>"  class='ListLine<%= odd_or_even %>'>View</a>
+      </td>
+      <td align="center">
+        <a href="/credit_points/edit_credit/<%=colmn.creditid%>?page=<%=curr_page%>&&report=used&&<%=session[:custom_params]%>"  class='ListLine<%= odd_or_even %>'>Edit</a>
+      </td>
+      <td align="center">
+        <a href="/credit_points/add_edit_notes/<%=colmn.creditid%>?page=<%=curr_page%>&&report=used&&<%=session[:custom_params]%>"  class='ListLine<%= odd_or_even %>'>Add/Edit notes</a>
+      </td>
+      <td align="center"><%=h colmn.notes%></td>
+    </tr>
+  <% end %>
+  <input type="hidden" name="len" id="len" value="<%= i %>"/>
+  <tr><td colspan="12">
+      <%=will_paginate @hmm_users, :params=>params%>
+    </td>
+  </tr>
+</table>

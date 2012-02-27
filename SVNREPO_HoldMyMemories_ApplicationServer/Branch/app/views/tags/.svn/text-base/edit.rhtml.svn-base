@@ -1,0 +1,14 @@
+<h1>Editing tag</h1>
+
+<% form_tag :action => 'update', :id => @tag do %>
+  <%= render :partial => 'form' %>
+  <%= submit_tag 'Edit' %> or <%= link_to_remote("Cancel",
+:update => 'content', :url => {:controller =>:tags , :action => :index } ) %>
+<% end %>
+
+<%= link_to_remote("Show",
+:update => 'content', :url => {:controller =>:tags , :action => :show ,  :id => @tag } ) %>
+ |
+<%= link_to_remote("Back",
+:update => 'content', :url => {:controller =>:tags , :action => :index } ) %>
+

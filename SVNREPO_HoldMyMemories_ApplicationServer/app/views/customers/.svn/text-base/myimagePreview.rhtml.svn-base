@@ -1,0 +1,8 @@
+<table>
+	<%@rec = HmmUser.find(:first, :conditions => "id=#{session[:hmm_user]}")%>
+	<tr>
+		<td>
+			<center><img src="<%=@rec.img_url%>/hmmuser/photos/<%=@rec.v_myimage%>" border="0" width="500" \></center>
+		</td>
+	</tr>
+	</table>

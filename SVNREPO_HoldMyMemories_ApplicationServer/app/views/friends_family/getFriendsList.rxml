@@ -1,0 +1,47 @@
+xml.instruct! :xml, :version=>"1.0" 
+xml.root{
+	  if(@groupsrecord != nil)
+      @count = 0;
+      for groupData in @groupsrecord
+         xml.group{
+                    xml.name (groupData.fnf_category)
+                    @friendsDetails = FamilyFriend.find(:all, :conditions => "status='accepted'and fnf_category=#{groupData.id} and block_status='unblock'")
+                    
+                    if(@friendsDetails != nil)
+                      for friendID in @friendsDetails
+                        frienddata = HmmUser.find(friendID.fid)
+                        xml.friend{
+                          xml.id(frienddata.id)
+                          xml.name(frienddata.v_fname)
+                          xml.email(frienddata.v_e_mail)
+                          xml.icon("/hmmuser/photos/#{frienddata.v_myimage}")
+                          @count = @count + 1;
+              
+                       }
+                      end
+                    end
+         }
+      end
+      if(@count > 0)
+        xml.friends("present" => "yes")
+      else
+        xml.friends("present" => "no")
+      end
+    end
+  
+if params[:share] == "share"
+    xml.group{
+      xml.name ("My Contacts")
+      if(@nonHmmFriends != nil)
+        for nonHmmFriend in @nonHmmFriends
+          xml.friend{
+            xml.id(nonHmmFriend.id)
+            xml.name(nonHmmFriend.v_name)
+            xml.email(nonHmmFriend.v_email)
+            xml.icon("/hmmuser/photos/nonhmmuser.jpg")
+          }
+        end
+      end
+    }
+  end
+}

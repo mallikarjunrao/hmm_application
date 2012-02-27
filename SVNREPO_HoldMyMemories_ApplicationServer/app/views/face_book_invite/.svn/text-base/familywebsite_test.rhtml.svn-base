@@ -1,0 +1,56 @@
+<%= javascript_include_tag "themes/swfobject" %>
+<table width="100%" border="0" cellspacing="0" cellpadding="0">
+        <tr>
+          <td  align="center" valign="top">
+<div id="flash_content"></div>
+            <script type="text/javascript">
+              var flashvars = {};
+              flashvars.serviceURL = "<%=@path.proxyname%>/familywebsite/fx_list_chapters/<%=@family_website_owner.family_name%>?app_type=facebook&navigateToUrl=<%=@path.proxyname%>/familywebsite/subchapters/<%=@family_website_owner.family_name%>?chapter_id=&server_url=<%=@path.proxyname%>&proxyurl=<%=@content_server_url%>&familyname=<%=@family_website_owner.family_name%>&image_height=150&image_width=200";
+              flashvars.proxyurl = "<%= @content_server_url %>";
+              var params = {};
+              params.wmode = "transparent";
+              swfobject.embedSWF("<%= @versions.file_url %>?v=<%=  @versions.major %>_<%=@versions.minor %>", "flash_content", "520", "300", "9.0.0", "/expressInstall.swf",flashvars,params);
+            </script>
+
+
+
+
+            <!-- div id="flash_content_coverflow" align="center">
+              <fb:swf flashvars='serviceURL=<%=@path.proxyname%>/familywebsite/fx_list_chapters/<%=@family_website_owner.family_name%>?app_type=facebook&navigateToUrl=<%=@path.proxyname%>/familywebsite/subchapters/<%=@family_website_owner.family_name%>?chapter_id=&server_url=<%=@path.proxyname%>&proxyurl=<%=@content_server_url%>&familyname=<%=@family_website_owner.family_name%>&image_height=150&image_width=200'
+                      swfsrc='<%=@path.proxyname%><%= @versions.file_url %>?v=<%=  @versions.major %>_<%=@versions.minor %>' imgsrc='<%=@path.proxyname%>/images/facebookhomepageimage.png' width='<%=@coverflow_width%>' height='220' />
+            </div --></td>
+        </tr>
+        <tr>
+          <td height="20"></td>
+        </tr>
+        <tr>
+          <td align="center" valign="top"><div align="center">
+              <table width="<%=@app_width%>" border="0" cellspacing="0" cellpadding="0">
+                <tr>
+                  <td align="center" valign="top" class="tab-dots"><%= render :partial => "partials/recentmoments_facebook",  :collection => "#{@recent_moments}" %></td>
+                </tr>
+              </table>
+            </div></td>
+        </tr>
+        <tr>
+          <td height="19"></td>
+        </tr>
+        <tr>
+          <td align="center" valign="top"><div align="center">
+              <table width="96%" border="0" cellspacing="0" cellpadding="0">
+                <tr>
+                  <td width="50%" align="left" valign="top" class="tab-dots"><%= render :partial => "partials/aboutme_facebook", :locals => { :content => "#{@family_website_owner.about_family}"} %></td>
+                <div align="right">
+                  <td width="50%" align="right" valign="top" class="tab-dots"><%= render :partial => "partials/homepagelinks_facebook", :locals => { :link1 => "#{@family_website_owner.v_link1}",:link2 => "#{@family_website_owner.v_link2}",:link3 => "#{@family_website_owner.v_link3}"} %></td>
+                </div>
+                </tr>
+              </table>
+            </div></td>
+        </tr>
+        <tr>
+          <td height="19"></td>
+        </tr>
+        <tr>
+          <td align="center" valign="bottom">&nbsp;</td>
+        </tr>
+      </table>

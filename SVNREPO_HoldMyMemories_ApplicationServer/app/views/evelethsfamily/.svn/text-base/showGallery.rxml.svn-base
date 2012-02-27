@@ -1,0 +1,37 @@
+
+xml.instruct! :xml, :version=>"1.0" 
+xml.contents{
+	for content in @contents
+    xml.content{
+      if content.v_desc=="Enter description here." || content.v_desc.blank? || content.v_desc.nil?
+        descs=Blog.find(:first,:select=>"description",:conditions=>"blog_type_id=#{content.id}")
+        if descs.nil?
+          desc=''
+        else
+          desc=descs.description
+        end
+      else
+        desc=content.v_desc
+      end
+      if content.e_filetype=="image"
+        xml.icon(content.img_url + "/user_content/photos/coverflow/"+content.v_filename)
+        xml.thumbnails(content.img_url + "/user_content/photos/small_thumb/"+content.v_filename)
+        xml.large_image(content.img_url + "/user_content/photos/journal_thumb/"+content.v_filename)
+        xml.name(content.v_tagphoto)
+        xml.id(content.id)
+        xml.hmmtype(content.e_filetype)
+        xml.description(desc)
+      elsif content.e_filetype=="video"
+        xml.icon(content.img_url + "/user_content/videos/thumbnails/"+content.v_filename+".jpg")
+        xml.thumbnails(content.img_url + "/user_content/videos/thumbnails/"+content.v_filename+".jpg")
+        xml.large_image(content.img_url + "/user_content/videos/thumbnails/"+content.v_filename+".jpg")
+        xml.name(content.v_tagphoto)
+        xml.id(content.id)
+        xml.hmmtype(content.e_filetype)
+        xml.description(desc)
+      end
+    }
+  end
+      
+
+}

@@ -1,0 +1,54 @@
+<h1>Sizes & Prices List</h1>
+<style type="text/css">
+.defcol{
+
+background-color:#999900;
+
+}
+</style>
+<form name="frm" action="/hmm_studiogroups/set_default_studio/?sid=<%=params[:sid]%>" method="post">
+<table width="222">
+<tr>
+  	<th width="27" bgcolor="#999900">&nbsp;</th>
+  	<th width="183" colspan="4"><font class='txt'>Indicates Default Size</th>
+  </tr>
+<tr>
+  	<th width="183" colspan="5">Studio : <%
+studioname=HmmStudio.find(params[:sid])
+
+%>
+<%=studioname.studio_branch%></th>
+  </tr>
+</table>
+<table>
+  <tr>
+  	<th background="/images/body_hor.JPG" ><font class='txt'>Size</th>
+  	<th background="/images/body_hor.JPG" ><font class='txt'>Price</th>
+  <th background="/images/body_hor.JPG" ><font class='txt'>Studio Type</th>
+  <th background="/images/body_hor.JPG" ><font class='txt'>Default </th>
+  <th background="/images/body_hor.JPG" colspan="3"><font class='txt'>Action</th>
+  </tr>
+
+<% for product in @products %>
+  <% if (product.default_size ==false) %>
+  <tr class="<%= cycle('odd', 'even') %>">
+
+ <%else%>
+    <tr class="defcol">
+ <%end%>
+
+    <td><%= product.name %></td>
+	<td>$<%= product.price %></td>
+	<td><%= product.studio_type %></td>
+	<td align="center">
+    <input type="radio" name="id" value="<%=product.id%>" onClick="javascript:form.submit();" <% if (product.default_size==true) %> checked <%end%> >
+    <input type="hidden" name="sid" value="<%=params[:sid]%>">
+    <td><%= link_to 'Edit', :action => 'edit_company', :id => product.id , :sid => params[:sid] %></td>
+    <td><%= link_to 'Delete', { :action => 'destroy_company', :id => product.id , :sid => params[:sid] }, :confirm => 'Are you sure?', :method => :post %></td>
+  </tr>
+<% end %>
+</table>
+</form>
+<br />
+
+<%= link_to 'New Size & Price', :action => 'new_company' , :sid => params[:sid] %>

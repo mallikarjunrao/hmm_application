@@ -1,0 +1,157 @@
+<div id="nonfnf_del">
+<table width="100%" border="0"  align="center">
+	<tr>
+		<td width="10%" valign="top">&nbsp;</td>
+		<td width="5%" valign="top">&nbsp;</td>
+		<td width="10%" valign="top">&nbsp;</td>
+		<td width="5%" valign="top">&nbsp;</td>
+		<td width="10%" valign="top">&nbsp;</td>
+		<td width="5%" valign="top">&nbsp;</td>
+		<td width="10%" valign="top">&nbsp;</td>
+		<td width="5%" valign="top">&nbsp;</td>
+		<td width="10%" valign="top">&nbsp;</td>
+		<td width="30%" valign="top" rowspan="10">
+    	  <% if session[:friend]==""%>
+        	<table width="100%" class="border" height="100%" border="0">
+				<tr>
+					<th colspan="5">
+						<font color="#f5dfa6">
+						<%=flash[:notice_nonhmm]%>
+						<%=flash[:notice_nonhmmDel]%>
+						<%=flash[:notice_nonhmmEdit]%>
+						</font></th>
+				</tr>
+				<tr>
+					<td align="center" colspan="5">
+						<%= link_to_remote("<img src=/images/addnon-hmmuser_btn.jpg  border='0' />",
+						:update => 'nonfnf', :url => {:controller => :nonhmm_user, :action => :new } ) %>
+					</td>
+			   </tr>
+			   <tr>
+				   <td colspan="5" align="top" height="100%">
+					<div id="nonfnf"></div>
+				   </td>
+			   </tr>
+               <tr>
+				<th height="37" colspan="5" align="left" valign="middle" background="images/bg_listhead_friendsandfamily.gif" scope="col">
+					<span class="text-journal">Non-HMM Friends &amp; Family: <%= @cnt %></span>
+				</th>
+			   </tr>
+			   
+			<%@nonhmm_users = NonhmmUser.find_by_sql("SELECT * FROM nonhmm_users where  v_email NOT IN(select v_e_mail from hmm_users) and uid=#{logged_in_hmm_user.id}")%>
+			<tr>
+                
+                <th height="21" align="center" bgcolor="#191919" valign="middle" class="nextprevioustxt" id="paddingfriendsandfamlist" scope="col">
+                	Name&nbsp;&nbsp;
+					
+					
+					</th>
+					<th align="center" bgcolor="#191919"><span class="nextprevioustxt">&nbsp;city &nbsp;</span></th>
+					<th align="center" bgcolor="#191919"><span class="nextprevioustxt">&nbsp;country&nbsp;</span></th>
+					<th align="center" bgcolor="#191919" colspan="2"><span class="nextprevioustxt">&nbsp;Actions</span></th>
+				
+            </tr>
+			<%@nonhmm_users.each do |a|%>
+			<tr>
+                
+                <th height="21" align="left" class="nextprevioustxt" id="paddingfriendsandfamlist" scope="col">
+				<%= a.v_name %>&nbsp;&nbsp;
+				 &nbsp;
+				</th>
+				<th><span class="nextprevioustxt-act"><%= a.v_city %>&nbsp;&nbsp;</span></th>
+				<th><span class="nextprevioustxt-act"><%= a.v_country %>&nbsp;&nbsp;</span></th>
+				<th><span class="nextprevioustxt-act">
+					&nbsp;&nbsp;<%= link_to_remote("Edit",
+						:update => 'nonfnf', :url => {:controller => :nonhmm_user, :action => :edit, :id => a.id } ) %>
+					</span></th>
+				<th><span class="nextprevioustxt-act">
+					<a href="/nonhmm_user/destroy/<%=a.id%>" onClick="if(confirm('Do you want to delete this user?')){return true; } else return false;">Delete</a>
+					</th>
+            </tr>
+			<%end%>
+			
+		</table>
+        <%end%>
+	</td>
+</tr>
+<tr>
+	<% j=0	
+	   if @total == 0 
+    %>
+		<td colspan="10" valign="top"><p>No Friends Found...</p></td></tr>
+	 
+	 <%else%>
+	 <tr>
+	 	<% @hmm_users.each do |i|%>
+		
+		<% if j >=5 
+			  j=0	
+		%>
+			</tr><tr><tr>
+	<td width="10%" valign="top">&nbsp;</td>
+	<td width="5%" valign="top">&nbsp;</td>
+	<td width="10%" valign="top">&nbsp;</td>
+	<td width="5%" valign="top">&nbsp;</td>
+	<td width="10%" valign="top">&nbsp;</td>
+	<td width="5%" valign="top">&nbsp;</td>
+	<td width="10%" valign="top">&nbsp;</td>
+	<td width="5%" valign="top">&nbsp;</td>
+	<td width="10%" valign="top">&nbsp;</td>
+	</tr><tr>
+		<%end%>
+		<%j=j+1%>
+		<td valign="top">
+			
+				<table  border="0" cellpadding="0" cellspacing="0" align="left"  >
+							 <tr align="left" >
+			          			<td  align="center" >
+									<a href="/customers/profile/<%= i.fid %>"   > 
+										<img src="<%=i.img_url %>/hmmuser/photos/thumb/<%=i.v_myimage %>" width="77" height="78" border="0" />
+									</a>
+								</td>
+			        		</tr>
+			       			<tr>
+			          			<th align="center" valign="top"  scope="col">
+			          				<a href='/customers/profile/<%= i.fid %>' class="name-friendsandfamily" >
+			          					<%= i.v_fname %>
+									</a>
+								</th>
+			        		</tr>
+				</table>   	
+			
+		</td>
+		<td></td>
+		<%end%>
+			
+				
+		
+	    <%end%>	
+</tr>
+<tr><td height="10"></td></tr>
+<tr>
+	<td colspan="8">
+		<table border="0"  align="center">
+	<tr>
+		
+		<th align="right">
+			
+		</th>
+		<th>&nbsp;&nbsp;&nbsp;</th>
+		<th align="center" width="100%" >
+                    <font size="3"><%= will_paginate @hmm_users %></font>
+		</th>
+		<th>&nbsp;&nbsp;&nbsp;</th>
+		<th align="left">
+			
+		</th>
+																
+		</th>
+	</tr>
+</table>
+		
+	</td>
+</tr>
+</table>
+
+
+</div>

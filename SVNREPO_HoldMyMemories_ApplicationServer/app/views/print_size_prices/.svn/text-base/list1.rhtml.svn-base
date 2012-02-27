@@ -1,0 +1,167 @@
+<script type="text/javascript">
+   function select(a) {
+    var theForm = document.send;
+    for (i=0; i<theForm.elements.length; i++) {
+      if (theForm.elements[i].name=='userids[]')
+        theForm.elements[i].checked = a;
+    }
+  }
+  
+  function checkform()
+  {
+    var field=document.getElementsByName('userids[]');
+    var haschecked=false;
+    for (i = 0; i < field.length; i++)
+    {
+
+      if(field[i].checked==true)
+      {
+        haschecked=true;
+        break;
+      }
+    }
+    if(haschecked==false)
+    {
+      alert("Select the Email IDs");
+      return false;
+    }
+    return true;
+  }
+ window.onload = function() {
+  document.getElementById("firstname").focus();
+};
+</script>
+<form name="frm" action="/print_size_prices/list1" method="post">
+        <table cellpadding="4" cellspacing="4" border="1" bordercolor="#e5b467" align="center" align="center">
+          <tr>
+            <td align="center" colspan="4" height="48">
+              <font size="4">Search Users </font>
+            </td>
+          </tr>
+          <tr>
+            <td>
+			Firstname
+            </td>
+            <td>
+              <input type="text" name="firstname" id="firstname" value="<%=@fname%>" size="20" class="textbox-signup" />
+            </td>
+            <td>
+			Lastname
+            </td>
+            <td>
+              <input type="text" name="lastname" id="lastname" value="<%=@lname%>" size="20" class="textbox-signup" />
+            </td>
+          </tr>
+          <tr>
+            <td width="90">
+			Username
+            </td>
+            <td>
+              <input type="text" name="username" id="username" value="<%=@uname%>" size="20" class="textbox-signup" />
+              <input type="hidden" name="sort_key" value="id" />
+              <input type="hidden" name="sort_order" value="asc" />
+            </td>
+            <td width="90">
+			Account Type
+            </td>
+            <td>
+              <select name="account_type" id="account_type" class => "combobox1">
+                <option value="Select" selected='selected'>Select</option>
+                <% if  @acc_type == "free_user" %>
+                  <option value="free_user" selected >free_user</option>
+                <%else%>
+                  <option value="free_user" >free_user</option>
+                <%end%>
+                <% if  @acc_type == "familyws_user" %>
+                  <option value="familyws_user" selected>Family Website User</option>
+                <%else%>
+                  <option value="familyws_user" >Family Website User</option>
+                <%end%>
+                <% if  @acc_type == "platinum_user" %>
+                  <option value="platinum_user" selected>premium_user</option>
+                <%else%>
+                  <option value="platinum_user" >premium_user</option>
+                <%end%>
+            </td>
+          </tr>
+
+          <tr>
+            <td>
+			Studio Name
+            </td>
+            <td>
+              <select name="studio_name"  class => "combobox1">
+                  <option value="" selected='selected'>Select</option>
+               <% i=0
+                logger.info(@studio_name)
+               
+               while i <  @studioarrname.length %>
+ <%  logger.info(@studioarr[i])%>
+                 <% if  @studio_name.to_i == @studioarr[i] %>
+                <option value="<%= @studioarr[i]%>" selected='selected'><%=  @studioarrname[i]%></option>
+                <%else%>
+                 <option value="<%= @studioarr[i]%>"><%=  @studioarrname[i]%></option>
+                 <%end%>
+                <% i = i+ 1
+              end%>
+              </select>
+            </td>
+            <td>
+             Email Address
+            </td>
+            <td>
+              <input type="text" name="email" id="email" size="20" value="<%=@email%>" class="textbox-signup" />
+            </td>
+          </tr>
+          <tr>
+            <td colspan="2" align="center">
+              <input type="submit" name="sub" id="search" src="/images/search_over.jpg"  border="0" value="Search" />
+            </td>
+          </tr>
+        </table>
+      </form>
+
+
+<table border="0">
+        <tr><td colspan="15"><h2>HoldMyMemories.com Users</h2> </td></tr>
+        <tr valign='center' align='center'>
+          <th background="/images/body_hor.JPG"><font class='txt'><table> <tr><th><%= sort_header_tag('v_fname', :text => "First Name") %></th></tr></table></font></th>
+          <th background="/images/body_hor.JPG"><font class='txt'><table> <tr><th><%= sort_header_tag('v_lname', :text => "Last Name") %></th></tr></table></font></th>
+          <th background="/images/body_hor.JPG"><font class='txt'><table> <tr><th><%= sort_header_tag('v_user_name', :text => "User Name") %></th></tr></table></font></th>
+          <th background="/images/body_hor.JPG"><font class='txt'><table> <tr><th><%= sort_header_tag('v_e_mail', :text => "Email Address") %></th></tr></table></font></th>
+          <th background="/images/body_hor.JPG"><font class='txt'><table> <tr><th><%= sort_header_tag('studio_name', :text => "Studio Name") %></th></tr></table></font></th>
+          <th background="/images/body_hor.JPG"><font class='txt'><table> <tr><th><%= sort_header_tag('account_type', :text => "Account Type") %></th></tr></table></font></th>
+          <th colspan=5 background="/images/body_hor.JPG"><font class='txt'>Send Email</font></th>
+        </tr>
+
+        <% 	odd_or_even = 0
+        i = 0
+        for colmn in @hmm_users
+          i = i + 1
+          odd_or_even = 1 - odd_or_even
+        %>
+        <form name="send" action="/print_size_prices/sendemail" method="post">
+          <tr class='ListLine<%= odd_or_even %>'>
+            <td align="center"><%=h colmn.v_fname%></td>
+            <td align="center"><%=h colmn.v_lname%></td>
+            <td align="center"><%=h colmn.v_user_name%></td>
+            <td align="center"><%=h colmn.v_e_mail%></td>
+            <td align="center"><%=@controller.get_studioname(colmn.studio_id) %></td>
+            <td align="center"><%=h colmn.account_type %></td>
+
+            <td align="center"><input type ="checkbox" name ="userids[]" id="userid" value="<%=h colmn.id%>" /></td>
+            
+          <input type="hidden" name="coupon_id" value="<%=  session[:coupon_id]%>" />
+          </tr>
+        <% end %>
+           <tr><td></td><td></td><td></td><td></td><td></td><td></td><td> <br><a href='javascript:select(1)'>Check all</a> |
+      <a href='javascript:select(0)'>Uncheck all</a></td></tr>
+           <tr><td>&nbsp;</td></tr>
+          <tr><td></td><td></td><td></td><td></td><td></td><td></td><td><input type="submit" name="send" value="Send Email" onclick="return checkform()"/></td></tr>
+          </form>
+        <input type="hidden" name="len" id="len" value="<%= i %>"/>
+        <tr><td colspan="4">
+            <%=will_paginate @hmm_users %>
+          </td>
+        </tr>
+      </table>

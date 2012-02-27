@@ -1,0 +1,54 @@
+<table width="100%" border="0" cellspacing="0" cellpadding="0">
+  <%= render :partial => "family_memory/partials/heading"%>
+  <tr>
+    <td align="left" valign="bottom" height="35" class="header-page" valign="top">Contest</td>
+  </tr>
+  <tr>
+    <td bgcolor="#454545" align="left" valign="top" height="1"></td>
+  </tr>
+  <tr>
+    <td height="50">&nbsp;</td>
+  </tr>
+  <tr>
+    <td><table width="750" border="0" cellspacing="0" cellpadding="0" align="center">
+        <tr>
+          <td height="70" align="center" valign="middle" class="contest-bg-top"><div class="ico"><a href="#" title="Current contests"><img src="/images/family_memory/transaprent.png" class="icons currentcon" border="0"/></a></div></td>
+        </tr>
+        <tr>
+          <% count = 0 %>
+          <td align="center" valign="top" class="contest-bg">
+            <% @contests.each do |contest| %>
+              <% ids = contest.id.to_s %>
+              <a href="/familymemory_contests/intro/<%=params[:id]%>?p=<%=Base64.encode64(ids)%>" ><img src="<%= contest.home_logo %>" border="0" width="350"/></a>
+              <% count+=1 %>
+            <% end %>
+          </td>
+        </tr>
+        <tr>
+          <td><img src="/images/family_memory/contest-btm.png" width="750" height="38" /></td>
+        </tr>
+      </table></td>
+  </tr>
+  <tr>
+    <td height="25">&nbsp;</td>
+  </tr>
+  <tr>
+    <td><table width="305" border="0" align="center" cellpadding="0" cellspacing="0">
+        <tr>
+          <td><div class="ico"><a href="/contests/specific_rules" title="Rules and Regulations" class="nyroModal"><img src="/images/family_memory/transaprent.png" class="icons rules" border="0"/></a></div></td>
+        </tr>
+        <tr>
+          <td height="25">&nbsp;</td>
+        </tr>
+        <tr>
+          <td><div class="ico"><a href="/familymemory_contests/previous_contest/<%=params[:id]%>" title="Previous Contest Winners" > <img src="/images/family_memory/transaprent.png" class="icons prevwinner" border="0"/></a></div></td>
+        </tr>
+      </table></td>
+  </tr>
+  <tr>
+    <td>&nbsp;</td>
+  </tr>
+  <tr>
+    <td height="35">&nbsp;</td>
+  </tr>
+</table>

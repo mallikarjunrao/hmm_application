@@ -1,0 +1,42 @@
+<%= javascript_include_tag 'SpryAssets/SpryValidationRadio' %>
+<%= javascript_include_tag 'SpryAssets/SpryValidationPassword' %>
+<%= javascript_include_tag 'SpryAssets/SpryValidationConfirm' %>
+<%= stylesheet_link_tag 'SpryAssets/SpryValidationRadio' %>
+<%= stylesheet_link_tag 'SpryAssets/SpryValidationPassword' %>
+<%= stylesheet_link_tag 'SpryAssets/SpryValidationConfirm' %>
+
+<style type="text/css">
+<!--
+.style1 {
+	font-family: Arial, Helvetica, sans-serif;
+	font-weight: bold;
+	font-size: 14px;
+}
+.style3 {font-family: Arial, Helvetica, sans-serif; font-weight: bold; font-size: 18px; }
+-->
+</style>
+<span class="style3">Add Your comments here</span> 
+<form name="frm" method="post" action="/share_comments/create_photo_comments">
+
+<table>
+	<tr><td align="left"><b class="style1">Enter your name</b> &nbsp;&nbsp;&nbsp;
+	</td><td><input type="text" name="v_name" cols="30" rows="10" class="textbox-signup" />
+  </td></tr>
+  <tr><td valign="top" align="left">
+    <b class="style1">Enter your comment here</b>&nbsp;&nbsp;&nbsp;</td><td>
+	<textarea name="v_comment" cols="40" rows="10" class="textbox-1" ></textarea>
+ </td></tr>
+  </table>
+<input type="hidden" name="user_content_id" value="<%=@user_content_id%>" /> <p>
+	<input type="hidden" name="i_id" value="<%=@params[:id_journal]%>" /> <p>
+    <%= submit_tag "Create", :OnClick => "return chk();" %>
+  </p>
+</form>
+
+
+
+<script type="text/javascript">
+var sprytextfield1 = new Spry.Widget.ValidationTextField("sprytextfield1", "none", {validateOn:["blur"]});
+var sprytextfield2 = new Spry.Widget.ValidationTextField("sprytextfield2", "none", {validateOn:["blur"]});
+var sprytextfield3 = new Spry.Widget.ValidationareaField("sprytextfield3", "none", {validateOn:["blur"]});
+</script>

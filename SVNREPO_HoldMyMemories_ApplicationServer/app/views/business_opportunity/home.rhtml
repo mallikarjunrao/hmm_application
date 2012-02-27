@@ -1,0 +1,167 @@
+<br><br>
+<script type="text/javascript">
+function chk_verify()
+{
+	if(document.form1.name.value=="")
+	{
+		alert("Please enter Name")
+		document.form1.name.focus()
+		return false;
+  	}
+	
+	if(document.form1.phone.value=="")
+	{
+		alert("Please enter Phone Number")
+		document.form1.phone.focus()
+		return false;
+  	}
+	
+	if(document.form1.email.value=="")
+	{
+		alert("Please enter Email Address")
+		document.form1.email.focus()
+		return false; 
+ 	}
+	var email = document.form1.email.value
+	var regexpr=/^([\w-]+(?:\.[\w-]+)*)@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$/i  //email check
+	if (!regexpr.test(email))
+	{
+		alert("Please input a valid Email Address")
+		document.form1.email.value=""
+		document.form1.email.focus();
+		return false;
+	}
+	
+	return true;
+
+}
+</script>
+<table width="80%" border="0" cellspacing="0" cellpadding="0">
+<tr>
+    <th align="right" valign="top" scope="col" class="cont"><a href="/business_opportunity/login" ><img src="/home_images/btn_businss_login.jpg" name="Image312" border="0"/></a></th></tr>
+    <tr><td>&nbsp;</td></tr>
+  <tr>
+    <th align="left" valign="top" scope="col" class="cont"><center><span class="heading"><b>The Hold My Memories Certified Photographer Business Opportunity</b></span></center><br>
+      <br>    
+      Do you enjoy working with people and have a passion for photography?  Would you like more control over your work schedule and earnings? Have you ever dreamed of operating your own business?  If so, this may be the opportunity you have been seeking!
+        <br>
+        <br>
+      HMM Certified Photographers come from all backgrounds.  Service workers, corporate workers, hard-working moms, and those who have served in the defense of our country, all are represented and bring special gifts and talents to their own HMM On-location Photography business.  Professional photography training isn’t required to be successful.  What is required is the ability to connect with people and make them comfortable so their unique personalities can be captured in the images you shoot.
+      <br>
+      <br>
+      As an HMM Certified Photographer, you will receive complete training in how to launch, operate, and grow your own business.  With nearly three decades of experience in both event photography and portraiture, we are ready and able to support you every step along the way.  You’ll be calling the shots in your own business, with our extensive network of experienced technicians and support staff to back you up. <br>
+    <br>    We will train you on the best methods to acquire and retain customers, build referrals and repeat business, plan and execute efficient and relaxed shoots, present popular finished print products at reasonable prices, and create simple Hold My Memories web templates your clients will treasure and add to over time.  On the business side, our own professional photofinishing lab will produce beautiful prints to be shipped directly to your customers.  You’ll be able to collect payments easily and promptly at the time of order using our e-commerce system.  And, you can monitor the financial success of your growing business using our online reporting system. <br>
+    <br></th>
+  </tr>
+<!--  <tr>
+    <th align="left" valign="top" scope="col"><table width="100%" border="0" cellspacing="0" cellpadding="0">
+      <tr>
+        <th width="40" align="left" valign="top" scope="col">&nbsp;</th>
+        <th height="30" align="left" valign="top" class="cont" scope="col">You can get started for about $10,000.  This includes:</th>
+      </tr>
+      <tr>
+        <th align="left" valign="top" scope="col">&nbsp;</th>
+        <th align="left" valign="top" scope="col" class="cont"><table width="100%" border="0" cellspacing="0" cellpadding="0">
+          <tr>
+            <th width="50" scope="col">&nbsp;</th>
+            <th width="350" align="left" scope="col" class="cont"> HMM On-location Photographer Certification Fee        <br>
+Photo equipment package                                             <br>
+Travel for training                                                          <br>
+Promotional materials package                                      <br>
+Total                                                                             </th>
+            <th align="left" valign="top" scope="col" class="cont"><b>$2,500<br>
+              $5,000<br>
+              $1,500<br>
+              <u>$1,000</u><br>
+              $10,000</b></th>
+          </tr>
+        </table></th>
+      </tr>
+    </table></th>
+  </tr>
+  <tr>
+    <th align="left" valign="top" scope="col">&nbsp;</th>
+  </tr>-->
+  <tr> 
+    <th align="left" valign="top" scope="col" class="cont">If you are ready to take control of your own financial destiny, to set your own work schedule, and to provide a product that your customers value more and more each year, click below to obtain more information about this opportunity.  There is no obligation, and we will always respect your privacy by not sharing your personal information unless legally obliged to do so.</th>
+  </tr>
+  <tr>
+    <th align="left" valign="top" scope="col">&nbsp;</th>
+  </tr>
+  <tr>
+    <th align="left" valign="top" scope="col"><form name="form1" method="post" action="/business_opportunity/create" onSubmit="return chk_verify();">
+<table align="center" border="0" width="82%">
+  <tbody>
+    <tr>
+      <th colspan="2" scope="col" class="cont"><b>Please provide the below information.Click SUBMIT when you have finished.</b></th>
+    </tr>
+    <tr class="cont">
+      <th scope="col" width="51%" valign="top"><div align="right">Name :</div></th>
+      <th scope="col" width="49%" valign="top"><label> </label>
+          <div align="left">
+            <input name="name" type="text" />
+        </div></th>
+    </tr>
+    <tr class="cont">
+      <th scope="row" valign="top"><div align="right">Address :</div></th>
+      <td valign="top"><textarea name="address"></textarea></td>
+    </tr>
+    <tr class="cont">
+      <th scope="row" valign="top"><div align="right">City, State, Zip :</div></th>
+      <td valign="top"><input name="city" type="text" /></td>
+    </tr>
+    <tr class="cont">
+      <th scope="row" valign="top"><div align="right">Phone number :</div></th>
+      <td valign="top"><input name="phone" type="text" /></td>
+    </tr>
+    <tr class="cont" valign="top">
+      <th scope="row"><div align="right">E-mail address :</div></th>
+      <td valign="top"><input name="email" type="text" /></td>
+    </tr>
+    <tr class="cont" valign="top">
+      <th scope="row"><div align="right"></div></th>
+      <td>&nbsp;</td>
+    </tr>
+    <tr class="cont">
+      <th scope="row" valign="top"><div align="right">What amount do you have available to invest ?</div></th>
+      <td><input name="amount" type="text" /></td>
+    </tr>
+    <tr class="cont">
+      <th scope="row"><div align="right">How quickly are you interested in starting ?</div></th>
+      <td valign="top"><input name="time" type="text" /></td>
+    </tr>
+    <tr class="cont">
+      <th scope="row" valign="top"><div align="right">In what general location will you operate ?</div></th>
+      <td valign="top"><input name="location" type="text" /></td>
+    </tr>
+    <tr class="cont">
+      <th scope="row" valign="top"><div align="right">Which best describes your experience level :</div></th>
+      <td valign="top"><label>
+        <select name="level">
+          <option selected="selected">Please Choose </option>
+          <option value="Beginner/ New to photography">Beginner/ New to photography</option>
+          <option value="Amateur/ Consumer hobbyist">Amateur/ Consumer hobbyist</option>
+          <option value="Professional / Earn pay for photo work">Professional / Earn pay for photo work</option>
+        </select>
+      </label></td>
+    </tr>
+    <tr>
+      <th scope="row" height="26"></th>
+      <td>
+        <input name="Submit" value="Submit" type="submit" />
+      </td>
+    </tr>
+  </tbody>
+</table>
+</form></th>
+  </tr>
+  <tr>
+    <th align="left" valign="top" scope="col">&nbsp;</th>
+  </tr>
+  <tr>
+    <th align="left" valign="top" scope="col" class="cont">Thank you for your interest in the Hold My Memories On-location Photography business opportunity.  When you click below to submit your information, we will confirm receipt by sending an e-mail to the address you have provided.  The e-mail will contain a link to our dedicated business opportunity page.  This site will provide more detailed information about the opportunity.  The link will expire in 14 days, but you can contact us to have it renewed if you need more time.</th>
+  </tr>
+</table>
+
+
+

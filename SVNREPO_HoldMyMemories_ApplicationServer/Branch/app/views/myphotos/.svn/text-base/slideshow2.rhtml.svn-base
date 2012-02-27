@@ -1,0 +1,10 @@
+
+<%= stylesheet_link_tag 'lightwindow/lightwindow' %>
+<%= javascript_include_tag 'lightwindow/prototype' %>
+<%= javascript_include_tag 'lightwindow/effects' %>
+<%= javascript_include_tag 'lightwindow/lightwindow' %>
+
+<h1>My Photos</h1>
+<%  for user_content in @user_contents %>
+<a href="/user_content/photos/<%=user_content.v_filename%>" class="lightwindow" rel="<%=user_content.v_filename%>" title="<%=user_content.v_desc%>" caption="<%=user_content.v_filename%>" author="HoldMyMemories"><img src='/user_content/photos/<%=user_content.v_filename%>' height='75' width='75' border='0'></a>
+<% end %>

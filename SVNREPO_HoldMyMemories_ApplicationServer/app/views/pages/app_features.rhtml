@@ -1,0 +1,22 @@
+<%= javascript_include_tag "themes/swfobject" %>
+
+<table border="0" cellspacing="0" cellpadding="0" width="751">
+
+  <tr>
+  <td valign="top" class="loginBg" valign="middle"><div class="loginCont">
+        <div id="flash_content">
+        <h1>Get Flash Player</h1>
+        <p><a href="http://www.adobe.com/go/getflashplayer"><img src="http://www.adobe.com/images/shared/download_buttons/get_flash_player.gif" alt="Get Adobe Flash player" /></a></p>
+      </div>
+
+      <script type="text/javascript">
+        var flashvars = {};
+        flashvars.data_type = "gallery";
+        flashvars.xmlPath = "/webpage/xml/appFeaturesPageFlash.xml";
+        var params = {};
+        params.wmode = "transparent";
+        params.allowFullScreen = true
+        swfobject.embedSWF("/webpage/hmmSlideShow.swf", "flash_content", "490", "328", "9.0.0", "/expressInstall.swf",flashvars,params);
+      </script>
+      </div>
+  </td></tr></table>

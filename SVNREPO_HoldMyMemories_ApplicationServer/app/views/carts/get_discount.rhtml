@@ -1,0 +1,106 @@
+<script type="text/javascript">
+<% if @status == "fail" %>
+    alert("Invalid Coupon code");
+    document.getElementById('coupon<%=params[:studio_id]%>').value = ""
+<%else%>
+    document.getElementById('valid_coupon<%=params[:studio_id]%>').style.display = "none"
+<%end%>
+</script>
+<table width='90%' border='0' cellspacing='0' cellpadding='0' class="content">
+  <% unless  params[:subtotal] == "0"%>
+    <tr>
+      <td colspan="2" align="center">Order Prints</td>
+    </tr>
+    <tr>
+      <td align='left' valign='top'>Subtotal :</td>
+      <td align='left' valign='top' >$<%=number_with_precision(params[:subtotal], :precision => 2)%>
+      </td>
+    </tr>
+  <%end%>
+
+  <!-- Digital Download -->
+  <% unless @subtotal_digital.to_f == 0.00 %>
+    <tr>
+      <td colspan="2" align="center">Digital Download</td>
+    </tr>
+    <tr>
+      <td align="left" valign="top">Subtotal :</td>
+      <td align="left" valign="top" >$<%= number_with_precision(params[:subtotal_digital], :precision => 2) %>
+      </td>
+    </tr>
+  <% end %>
+  <tr>
+    <td align='left' valign='top' >&nbsp;</td>
+    <td align='center' valign='top' >&nbsp;</td>
+  </tr>
+  <% if @credit == "credit" %>
+    <tr>
+      <td align='left' valign='top' >Credit Redemption $<%= Float(@discount) %>:</td>
+      <td align='left' valign='top' >-$<%=number_with_precision(@discount, :precision => 2)%></td>
+    </tr>
+    <tr>
+      <td align='left' valign='top' >&nbsp;</td>
+      <td align='center' valign='top' >&nbsp;</td>
+    </tr>
+  <%end%>
+  <tr>
+    <td align='left' valign='top' >Shipping :<% if @shipping_price == 0.00 %><br>(Free Shipping)<%end%></td>
+    <td align='left' valign='top' >$<%=number_with_precision(Float(@shipping_price).round(2), :precision => 2)%>
+    </td>
+  </tr>
+  <tr>
+    <td align='left' valign='top' >&nbsp;</td>
+    <td align='center' valign='top'>&nbsp;</td>
+  </tr>
+  <% unless params[:sales_tax] == "0" %>
+    <tr>
+      <td align='left' valign='top' >Sales Tax (<%= Float(params[:sales_tax]) %> %) :</td>
+      <td align='left' valign='top' >$<%=number_with_precision(Float(@salestax).round(2), :precision => 2)%>
+      </td>
+    </tr>
+    <tr>
+      <td align='left' valign='top' >&nbsp;</td>
+      <td align='center' valign='top'>&nbsp;</td>
+    </tr>
+  <%end%>
+  <% if @credit == "dollar" %>
+    <tr>
+      <td align='left' valign='top' >Discount ($<%=number_with_precision(@discount, :precision => 2)%>) :</td>
+      <td align='left' valign='top' >-$<%=number_with_precision(@discount, :precision => 2)%>
+      </td>
+    </tr>
+  <%elsif @credit == "percentage"%>
+    <% unless @discount == 0 %>
+      <tr>
+        <td align='left' valign='top' >Discount (<%= Float(@tax_per) %> %) :</td>
+        <td align='left' valign='top' >-$<%=number_with_precision(@discount, :precision => 2)%>
+        </td>
+      </tr>
+    <%else%>
+      <tr>
+        <td align='left' valign='top' >Discount (0 %) :</td>
+        <td align='left' valign='top' >-$<%=number_with_precision(@discount, :precision => 2)%>
+        </td>
+      </tr>
+    <%end%>
+  <%end%>
+  <tr>
+    <td align='left' valign='top' >&nbsp;</td>
+    <td align='center' valign='top'>&nbsp;</td>
+  </tr>
+  <tr>
+    <td align='left' valign='top' >Total :</td>
+    <td align='left' valign='top' >$<%=number_with_precision(Float(@display_amt), :precision => 2)%>
+    </td>
+  </tr>
+  <tr>
+    <td align='left' valign='top' >&nbsp;</td>
+    <td align='center' valign='top' >&nbsp;</td>
+  </tr>
+  <tr>
+    <% if @credit == "credit" %>
+      <td align='left' valign='top' >Remaining Credits :</td>
+      <td align='left' valign='top' ><%=@available_credit%></td>
+    <%end%>
+  </tr>
+</table>

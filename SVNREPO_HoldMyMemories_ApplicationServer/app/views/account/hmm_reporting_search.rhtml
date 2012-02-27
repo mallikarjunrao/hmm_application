@@ -1,0 +1,362 @@
+
+<script type="text/javascript">
+	function chg(val)
+	{
+		
+		if (document.getElementById('pcode').style.display == 'none' && document.getElementById('cty').style.display == 'block' && val=='USA') {
+			document.getElementById('pcode').style.display = 'block';
+			document.getElementById('cty').style.display = 'none';
+		}else{
+			document.getElementById('pcode').style.display = 'none';
+			document.getElementById('cty').style.display = 'block';
+		}
+		
+	}
+	
+	function checkbox_validation(selected)
+	{
+		values = new Array('company','studios','managers');
+		
+		for(var i=0;i<values.length;i++)
+		{
+		    //alert(values[i]);
+			if (values[i] == selected) {
+				document.getElementById(values[i]).checked = true;
+				document.getElementById(values[i]+'_sec').style.display = 'block';
+			}else{
+				document.getElementById(values[i]).checked = false;
+				document.getElementById(values[i]+'_sec').style.display = 'none';
+			}
+		} 
+	}
+</script>
+<style>
+
+</style>
+
+<form name="frm" action="/account/hmm_reporting_search" method="post">
+<table width="909" border="0" cellpadding="0" cellspacing="0"><tr><td>
+<table cellpadding="0" cellspacing="0" width="909" border="0" bordercolor="#e5b467" align="center">
+	<tr>
+		<td colspan="2" align="center" valign="middle">
+			<h3>Customers Report</h3>		</td>
+	</tr>
+	<tr>
+		<td colspan="2">
+			<center>
+			No of Inactive Users&nbsp;&nbsp; :&nbsp; <%=@hmmuser_blockcnt%> <br></br>
+			&nbsp;&nbsp;No of Active Users &nbsp;&nbsp;&nbsp;:&nbsp; <%=@hmmuser_unblockcnt%></center>
+			<br></br>		</td>
+	</tr>
+	</table>
+	
+	<table cellpadding="4" cellspacing="4" border="1" bordercolor="#e5b467" align="center" align="center">
+	<tr>
+		<td align="center" colspan="6" height="48">
+			<font size="4">Search Users </font>		</td>
+	</tr>
+	
+	<tr>
+	  <td colspan="6" align="center"><table width="498" border="0" cellspacing="0" cellpadding="0">
+        <tr>
+          <td width="83">By Company</td>
+          <td width="39"><input type="checkbox" name="company" id="company" value="1" class="textbox-signup" onClick="checkbox_validation('company')"  <%if(params[:company]=="1")%> checked="checked"  <%end%> style="width:20px;"/></td>
+          <td width="143">By Individual Studios</td>
+          <td width="42"><input type="checkbox" name="studios" id="studios" value="1" class="textbox-signup" onClick="checkbox_validation('studios')" <%if(params[:studios]=="1")%> checked="checked" <%end%> style="width:20px;"/>	</td>
+          <td width="158">By Individual managers</td>
+          <td width="33"><input type="checkbox" name="managers" id="managers" value="1"  class="textbox-signup" onClick="checkbox_validation('managers')" <%if(params[:managers]=="1")%> checked="checked" <%end%> style="width:20px;"/></td>
+        </tr>
+      </table></td>
+    </tr>
+	
+	
+	<tr>
+		<td width="100" colspan="2" style="border:none">
+			<%if(params[:company]=="1")%>
+			<div id="company_sec" style="display:block">
+			<%else%>
+			<div id="company_sec" style="display:none">
+			<%end%>
+				<table>
+					<tr>
+						<td>
+							Select Company						
+						</td>
+						<td>
+							<select name="company_value">
+								<%@hmm_studios_grp_notselect = HmmStudiogroup.find(:all, :conditions => "id!='#{params[:company_value]}'")
+								  @hmm_studios_grp_select = HmmStudiogroup.find(:all, :conditions => "id='#{params[:company_value]}'")%>
+									<%for j in @hmm_studios_grp_select %>
+									<option value="<%=j.id%>" ><%=j.hmm_franchise_studio%></option>
+									<%end%>
+									
+									<%for i in @hmm_studios_grp_notselect%>
+									<option value="<%=i.id%>" ><%=i.hmm_franchise_studio%></option>
+									<%end%>
+							</select>
+						</td>
+					</tr>
+				</table>
+			</div>
+			</td>
+			<td width="100" colspan="2" style="border:none">
+			<%if(params[:studios]=='1')%>
+			<div id="studios_sec" style="display:block">
+			<%else%>
+			<div id="studios_sec" style="display:none">
+			<%end%>
+				<table>
+					<tr>
+						<td>
+							Select Studio						</td>
+						<td>
+							<select name="studio_value">
+								<%@hmm_studios_select = HmmStudio.find(:all, :conditions => "id='#{params[:studio_value]}'")
+								  @hmm_studios_not_select = HmmStudio.find(:all, :conditions => "id!='#{params[:studio_value]}'")
+									for j in @hmm_studios_select%>
+									<option value="<%=j.id%>"><%=j.studio_name%></option>
+									<%end%>
+									<%for i in @hmm_studios_not_select%>
+									<option value="<%=i.id%>"><%=i.studio_name%></option>
+									<%end%>
+							</select>						</td>
+					</tr>
+				</table>
+			</div>
+			</td>
+			<td width="100" colspan="2" style="border:none">
+			<%if(params[:managers]=='1')%>
+			<div id="managers_sec" style="display:block">
+			<%else%>	
+			<div id="managers_sec" style="display:none">
+			<%end%>
+				<table>
+					<tr>
+						<td>
+							Select Managers						</td>
+						<td>
+							<select name="manager_value">
+								<%@hmm_managers_select = EmployeAccount.find(:all, :conditions => "emp_type = 'store_manager' and id='#{params[:manager_value]}'")
+									@hmm_managers_not_select = EmployeAccount.find(:all, :conditions => "emp_type = 'store_manager' and id!='#{params[:manager_value]}'")
+									for j in @hmm_managers_select%>
+									<option value="<%=j.id%>"><%=j.employe_name%></option>
+								<%end%>
+								<%for i in @hmm_managers_not_select%>
+									<option value="<%=i.id%>"><%=i.employe_name%></option>
+								<%end%>
+							</select>						</td>
+					</tr>
+				</table>
+			</div>
+			</td>
+	</tr>
+	
+	<tr>
+		<td colspan="6" align="center">
+		<input type="image" name="sub" id="search" src="/images/search_over.jpg"  border="0" />
+		</td>
+	</tr>
+</table>
+
+<table border="0" cellpadding="0">
+	
+	<tr><td colspan="15"><h2>HoldMyMemories.com Users</h2> </td></tr>
+	<% if params[:company] == '1'%>
+		<tr><td colspan="15"><h2><a href="/account/hmm_reporting_excel/id=1?company=1&company_value=<%=params[:company_value]%>">Click here to generate report in Excel sheet</a></h2> </td></tr>
+	<%elsif params[:studios] == '1'%>
+		<tr><td colspan="15"><h2><a href="/account/hmm_reporting_excel/id=1&studios=1&studio_value=<%=params[:studio_value]%>">Click here to generate report in Excel sheet</a></h2> </td></tr>
+	<%elsif params[:managers] == '1'%>
+		<tr><td colspan="15"><h2><a href="/account/hmm_reporting_excel/id=1&managers=1&manager_value=<%=params[:manager_value]%>">Click here to generate report in Excel sheet</a></h2> </td></tr>
+	<%end%>
+  <tr>
+
+ </td></tr>
+
+  <tr valign='center' align='center'>
+  	
+  	<th bgcolor="#770000">No Of Premium Users</th> 
+   <th bgcolor="#770000">No Of Premium Active Users </th>
+	<th bgcolor="#770000">No Of Premium Cancelled Users</th>
+	<th bgcolor="#770000">No Of Premium Declined Users</th>
+	<th bgcolor="#770000">Average Premium membership(in days)</th>
+	
+	<th bgcolor="#770000">No Of Family Website Users</th>
+	<th bgcolor="#770000">No Of Password Protected Family Website Users</th>
+	
+	<th bgcolor="#770000">No Of Family Cancelled Users</th>
+	<th bgcolor="#770000">No Of Family Declined Users</th>
+	<th bgcolor="#770000">Average Family membership(in days)</th>
+
+	<th bgcolor="#770000">No Of Free Users</th>
+	<th bgcolor="#770000">Average age (in days) of average member</th>
+	<th bgcolor="#770000">No Of Photos</th>
+	<th bgcolor="#770000">No Of Videos</th>
+	<th bgcolor="#770000">No Of Audios</th>
+  </tr>
+
+
+
+  <tr class="<%= cycle('odd', 'even') -%>">
+  	
+	
+   
+	<td align="center" valign="top">
+		<%= @hmm_users_premium%>
+		<%if @hmm_users_premium != nil%>
+		<%if params[:company] != nil%>
+			<a href="/hmm_reporting/member_details_premium/company?ids=<%=params[:company_value]%>">Members details</a>
+		<%elsif params[:studios]!=nil%>
+			<a href="/hmm_reporting/member_details_premium/studio?ids=<%=params[:studio_value]%>">Members details</a>
+		<%elsif params[:managers]!=nil%>
+			<a href="/hmm_reporting/member_details_premium/managers?ids=<%=params[:manager_value]%>">Members details</a>
+		<%end%>	
+		<%end%>
+	</td>
+	
+	<td align="center" valign="top">
+		<%=@hmm_users_premium_active%>
+		<%if @hmm_users_premium_active != nil%>
+		<%if params[:company] != nil%>
+			<a href="/hmm_reporting/member_details_premium_active/company?ids=<%=params[:company_value]%>">Members details</a>
+		<%elsif params[:studios]!=nil%>
+			<a href="/hmm_reporting/member_details_premium_active/studio?ids=<%=params[:studio_value]%>">Members details</a>
+		<%elsif params[:managers]!=nil%>
+			<a href="/hmm_reporting/member_details_premium_active/managers?ids=<%=params[:manager_value]%>">Members details</a>
+		<%end%>	
+		<%end%>
+	</td>
+	
+	<td align="center" valign="top">
+		<%= @hmm_users_premium_cancled%>
+		<%if @hmm_users_premium_cancled != nil%>
+		<%if params[:company] != nil%>
+			<a href="/hmm_reporting/member_details_premium_cancled/company?ids=<%=params[:company_value]%>">Members details</a>
+		<%elsif params[:studios]!=nil%>
+			<a href="/hmm_reporting/member_details_premium_cancled/studio?ids=<%=params[:studio_value]%>">Members details</a>
+		<%elsif params[:managers]!=nil%>
+			<a href="/hmm_reporting/member_details_premium_cancled/managers?ids=<%=params[:manager_value]%>">Members details</a>
+		<%end%>	
+		<%end%>
+	</td>
+	
+	<td align="center" valign="top">
+		<%= @hmm_users_premium_declined%>
+		<%if @hmm_users_premium_declined != nil%>
+		<%if params[:company] != nil%>
+			<a href="/hmm_reporting/member_details_premium_declined/company?ids=<%=params[:company_value]%>">Members details</a>
+		<%elsif params[:studios]!=nil%>
+			<a href="/hmm_reporting/member_details_premium_declined/studio?ids=<%=params[:studio_value]%>">Members details</a>
+		<%elsif params[:managers]!=nil%>
+			<a href="/hmm_reporting/member_details_premium_declined/managers?ids=<%=params[:manager_value]%>">Members details</a>
+		<%end%>	
+		<%end%>
+	</td>
+	
+  	<td align="center" valign="top">
+  		<%=@avg_membership%>
+	</td>
+	
+	<td align="center" valign="top">
+		<%= @hmm_users_familyws %>
+		<%if @hmm_users_familyws != nil%>
+		<%if params[:company] != nil%>
+			<a href="/hmm_reporting/member_details_familywebsite/company?ids=<%=params[:company_value]%>">Members details</a>
+		<%elsif params[:studios]!=nil%>
+			<a href="/hmm_reporting/member_details_familywebsite/studio?ids=<%=params[:studio_value]%>">Members details</a>
+		<%elsif params[:managers]!=nil%>
+			<a href="/hmm_reporting/member_details_familywebsite/managers?ids=<%=params[:manager_value]%>">Members details</a>
+		<%end%>	
+		<%end%>
+	</td>
+	
+	<td align="center" valign="top">
+		<%= @hmm_users_familyws_pass %>
+		<%if @hmm_users_familyws_pass != nil%>
+		<%if params[:company] != nil%>
+			<a href="/hmm_reporting/member_details_familywebsite_password/company?ids=<%=params[:company_value]%>">Members details</a>
+		<%elsif params[:studios]!=nil%>
+			<a href="/hmm_reporting/member_details_familywebsite_password/studio?ids=<%=params[:studio_value]%>">Members details</a>
+		<%elsif params[:managers]!=nil%>
+			<a href="/hmm_reporting/member_details_familywebsite_password/managers?ids=<%=params[:manager_value]%>">Members details</a>
+		<%end%>	
+		<%end%>
+	</td>
+	
+	<td align="center" valign="top">
+		<%=@hmm_users_familyws_cancled %>
+		<%if @hmm_users_familyws_cancled != nil%>
+		<%if params[:company] != nil%>
+			<a href="/hmm_reporting/member_details_familywebsite_cancel/company?ids=<%=params[:company_value]%>">Members details</a>
+		<%elsif params[:studios]!=nil%>
+			<a href="/hmm_reporting/member_details_familywebsite_cancel/studio?ids=<%=params[:studio_value]%>">Members details</a>
+		<%elsif params[:managers]!=nil%>
+			<a href="/hmm_reporting/member_details_familywebsite_cancel/managers?ids=<%=params[:manager_value]%>">Members details</a>
+		<%end%>	
+		<%end%>
+	</td>
+	
+	<td align="center" valign="top">
+		<%=@hmm_users_familyws_declined%>
+		<%if @hmm_users_familyws_declined != nil%>
+		<%if params[:company] != nil%>
+			<a href="/hmm_reporting/member_details_familywebsite_declined/company?ids=<%=params[:company_value]%>">Members details</a>
+		<%elsif params[:studios]!=nil%>
+			<a href="/hmm_reporting/member_details_familywebsite_declined/studio?ids=<%=params[:studio_value]%>">Members details</a>
+		<%elsif params[:managers]!=nil%>
+			<a href="/hmm_reporting/member_details_familywebsite_declined/managers?ids=<%=params[:manager_value]%>">Members details</a>
+		<%end%>	
+		<%end%>
+	</td>
+	<td align="center" valign="top">
+		<%=@avg_family_membership%>
+		
+	</td>
+    <td align="center" valign="top">
+    	<%= @hmm_users_free%>
+		<%if @hmm_users_free != nil%>
+		<%if params[:company] != nil%>
+			<a href="/hmm_reporting/member_details_free/company?ids=<%=params[:company_value]%>">Members details</a>
+		<%elsif params[:studios]!=nil%>
+			<a href="/hmm_reporting/member_details_free/studio?ids=<%=params[:studio_value]%>">Members details</a>
+		<%elsif params[:managers]!=nil%>
+			<a href="/hmm_reporting/member_details_free/managers?ids=<%=params[:manager_value]%>">Members details</a>
+		<%end%>	
+		<%end%>
+	</td>
+	<td align="center" valign="top">
+    	<%= @avg_free_age%>
+		
+	</td>
+	<td align="center" valign="top">
+    	<%=@stat_imag %>
+		
+	</td>
+	<td align="center" valign="top">
+    	<%=@stat_video %>
+		
+	</td>
+	<td align="center" valign="top">
+    	<%=@stat_audio %>
+		
+	</td>
+	
+    
+  </tr>
+ 
+
+<input type="hidden" name="len" id="len" value="<%= i %>"/>
+<tr><td colspan="4">
+	
+</td>
+</tr>
+
+</table>
+
+
+
+</td></tr></table>
+</form>
+
+
+
+<br />

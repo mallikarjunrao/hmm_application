@@ -1,0 +1,94 @@
+<style type="text/css">
+<!--
+.style1 {
+	font-family: Arial, Helvetica, sans-serif;
+	font-weight: bold;
+	font-size: 12px;
+	color:#e36500;
+}
+.style3 {font-family: Arial, Helvetica, sans-serif; font-weight: bold; font-size: 18px; }
+-->
+</style>
+
+<!--Chapter Comments View-->
+
+<table width="100%" border="0" cellspacing="0" cellpadding="0">
+  
+	
+	<tr>
+	  <th width="22" align="left" valign="top" bgcolor="#191919" scope="col">&nbsp;</th>
+      <th width="22" height="32" align="left" valign="top" bgcolor="#191919" scope="col">&nbsp;</th>
+      <th align="left" valign="middle" bgcolor="#191919" scope="col" colspan="2"><span class="btmtxt">Comments for moments </th>
+      <th width="22" align="left" valign="top" bgcolor="#191919" scope="col">&nbsp;</th>
+    </tr>
+	
+	<tr>
+		<th align="right" colspan="4" >
+			
+		<font color="#f5dfa6" size=2><%=  flash[:notice_pca_list]%></font>
+		
+		<font color="#f5dfa6" size=2><%=  flash[:notice_pcr_list]%></font>
+		
+		<font color="#f5dfa6" size="2"><%= flash[:notice_pcd_list]%></font>		</th>
+	</tr>
+	
+	<input type="hidden" value="<%= params[:id] %>" name="tag_id" />
+
+	
+	<% 
+		for j in @chap_comment
+			params[:id]=j.user_content_id
+			memories = UserContent.find(params[:id])
+			memories_name=memories.v_filename%>
+
+
+		
+		
+	<tr>
+	  <th rowspan="3" align="left" valign="top" scope="col"><a href="/myphotos/photo_journal/<%=memories.id%>" style="text-decoration:none"> <img src="/user_content/photos/icon_thumbnails/<%=memories.v_filename%>" border="0"/></a></th>
+      <th height="6" align="left" valign="top" scope="col">&nbsp;</th>
+      <th align="left" valign="top" class="text-journal" scope="col"><span class="style1">Photo&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span> </th>
+      <th width="680" align="left" valign="top" scope="col">
+      	<a href="/myphotos/photo_journal/<%=memories.id%>" style="text-decoration:none">  <%= memories_name %></a></th>
+    </tr>	
+		
+	<tr>
+	  <th height="6" align="left" valign="top" scope="col">&nbsp;</th>
+      <th align="left" valign="top" class="text-journal" scope="col"><span class="style1">Commented By&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span> </th>
+      <th width="680" align="left" valign="top" scope="col"><%= j.v_fname %></th>
+    </tr>
+	
+	<tr>
+	  <th height="6" align="left" valign="top" scope="col">&nbsp;</th>
+      <th align="left" valign="top" class="text-journal" scope="col"><span class="style1">Description&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></th>
+      <th width="680" align="left" valign="top" scope="col">  <%= j.v_comment.gsub("\n", "<br />\n") %></th>
+    </tr>
+	
+	<tr>
+	  <th align="left" valign="top" bgcolor="#191919" scope="col">&nbsp;</th>
+      <th height="28" align="left" valign="top" bgcolor="#191919" scope="col">&nbsp;</th>
+      <th align="right" valign="middle" bgcolor="#191919" class="text-journal" scope="col" colspan="2">
+       		
+			
+			<% if j.e_approved=="pending" %>
+			<a href='/photo_comments/approve_cmt/<%= j.id %>'>Approve</a>&nbsp;&nbsp;&nbsp;
+			<a href='/photo_comments/reject_cmt/<%= j.id %>'>Reject</a>&nbsp;&nbsp;&nbsp;
+			<%else%>
+			<a href='/photo_comments/destroy_cmt/<%= j.id %>'>Delete</a>&nbsp;&nbsp;&nbsp;
+			<%end%>	  </th>
+	
+	  <th align="left" valign="top" bgcolor="#191919" scope="col">&nbsp;</th>
+    </tr>
+
+     <%end%>
+  
+  <tr>
+  	<td colspan="3">
+  		<% if @chapter_comment_pages.page_count > 1 %>
+		Page&nbsp;:
+		<%= pagination_links_remote @chapter_comment_pages %>&nbsp;
+		<% end %>  	</td>
+  </tr>
+</table>
+<p></p>
+<p></p>

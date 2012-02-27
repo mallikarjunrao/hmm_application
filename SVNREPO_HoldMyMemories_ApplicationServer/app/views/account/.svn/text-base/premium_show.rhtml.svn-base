@@ -1,0 +1,71 @@
+
+<h3><%=h @hmm_user.v_fname%>'s Details</h3>
+
+<table>
+  	<tr>
+   	<td><th>First Name</th></td><td>&nbsp;</td> <td><p><%=h @hmm_user.v_fname%></p></td>
+   	</tr>
+   
+	<tr>
+	<td><th>Last Name</th></td><td>&nbsp;</td> <td><p><%=h @hmm_user.v_lname%></p></td>	
+	</tr>
+	
+	<tr>
+	<td><th>Sex</th></td><td>&nbsp;</td> <td><p><%=h @hmm_user.e_sex%></p></td>	
+	</tr>
+
+	<tr>
+	<td><th>User Name</th></td><td>&nbsp;</td> <td><p><%=h @hmm_user.v_user_name%></p></td>	
+	</tr>
+	
+	<tr>
+	<td><th>Family Name</th></td><td>&nbsp;</td> <td><p><%=h @hmm_user.family_name%></p></td>	
+	</tr>
+	
+	<tr>
+	<td><th>Account Type</th></td><td>&nbsp;</td> <td><p><%=h @hmm_user.account_type%></p></td>	
+	</tr>
+	
+	<tr>
+	<td><th>Payment Type</th></td><td>&nbsp;</td> <td><p><%=h @hmm_user.months%></p></td>	
+	</tr>
+	
+	<tr>
+	<td><th>Payment status</th></td><td>&nbsp;</td> <td><p><%=h @hmm_user.substatus%></p></td>	
+	</tr>
+	
+
+	<tr>
+	<td><th>Country</th></td><td>&nbsp;</td> <td> <p><%=h @hmm_user.v_country%></p></td>	
+	</tr>
+
+	<tr>
+	<td><th>Zip</th></td><td>&nbsp;</td> <td> <p><%=h @hmm_user.v_zip%></p></td>	
+	</tr>
+
+	<tr>
+	<td><th>E-mail</th></td><td>&nbsp;</td> <td> <p><%=h @hmm_user.v_e_mail%></p></td>	
+	</tr>
+
+	<tr>
+	<td><th>Phone Number</th></td><td>&nbsp;</td> <td> <p><%=h @hmm_user.telephone%></p></td>	
+	</tr>
+	
+	<tr>
+	<td><th>User Status</th></td><td>&nbsp;</td> <td> <p><%=h @hmm_user.e_user_status%></p></td>	
+	</tr>
+
+	
+	<tr>
+	<td><th>Created Date</th></td><td>&nbsp;</td> <td> <p><%=h @hmm_user.d_created_date.strftime("%a %b #{@hmm_user.d_created_date.day.ordinalize} %Y")%></p></td>	
+	</tr>
+	
+	<tr>
+	<td><th>Updated Date</th></td><td>&nbsp;</td> <td> <p><%=h @hmm_user.d_updated_date.strftime("%a %b #{@hmm_user.d_updated_date.day.ordinalize} %Y")%></p></td>	
+	</tr>
+	
+</table>
+
+<br>
+
+<a href='javascript:history.back();'>Back</a>

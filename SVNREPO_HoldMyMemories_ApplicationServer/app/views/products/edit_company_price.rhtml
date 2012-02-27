@@ -1,0 +1,24 @@
+<h1>Edit Company Sizes & Price List</h1>
+<form name="frm" action="/products/update_company_price/company" method="post">
+<table>
+	<tr>
+  <td colspan="3"><font color="red"><%=flash[:notice1]%></font></td>
+  </tr>
+  <tr>
+  
+    <th background="/images/body_hor.JPG"><font class='txt'>Size</th>
+	<th background="/images/body_hor.JPG" ><font class='txt'>Price Type</th>
+ 
+  <th background="/images/body_hor.JPG" ><font class='txt'>Price</th>
+  </tr>
+  
+<% for product in @hmmproduct %>
+  <tr class="<%= cycle('odd', 'even') -%>">
+   <td><%= product.product_name %></td>
+   <td><%= product.ptype %></td>
+   <td>$<input type="text" name="price[]" value="<%= product.price %>"><input type="hidden" name="product_id[]" value="<%= product.id %>"></td>
+  </tr>
+<% end %>
+<tr><td colspan="3" align="right"><input type="submit" name="sub" value="Update"></td></tr>
+</table>
+</form>

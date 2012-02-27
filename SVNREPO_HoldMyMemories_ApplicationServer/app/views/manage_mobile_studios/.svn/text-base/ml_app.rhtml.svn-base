@@ -1,0 +1,22 @@
+<form action="/manage_mobile_studios/ml_app" method="post" >
+<table border="0" cellpadding="0" cellspacing="0" width="500" align="center">
+  <tr><td colspan="2" align="center" height="50">Search</td></tr>
+  <tr><td align="center" colspan="2">Usename:<input type="text" name="username" value="" /></td></tr>
+  <tr><td colspan="2"  align="center"  height="50"><input type="submit" name="submit" value="Submit" /></td></tr>
+</table>
+</form>
+<table border="0" cellpadding="0" cellspacing="0" width="800">
+  <tr valign='center'>
+    <th background="/images/body_hor.JPG"><font class='txt'><table> <tr><td  background="/images/body_hor.JPG"><%= sort_header_tag('v_user_name', :text => "User Name") %></td></tr></table></font></th>
+    <th background="/images/body_hor.JPG"><font class='txt'><table> <tr><td  background="/images/body_hor.JPG"><%= sort_header_tag('v_fname', :text => "First Name") %></td></tr></table></font></th>
+    <th background="/images/body_hor.JPG"><font class='txt'><table> <tr><td  background="/images/body_hor.JPG"><%= sort_header_tag('v_lname', :text => "Last Name") %></td></tr></table></font></th>
+    <th background="/images/body_hor.JPG"><font class='txt'><table> <tr><td  background="/images/body_hor.JPG"><%= sort_header_tag('v_e_mail', :text => "Email ID") %></td></tr></table></font></th>
+    <th background="/images/body_hor.JPG"><font class='txt'><table> <tr><td  background="/images/body_hor.JPG"><%= sort_header_tag('d_created_date', :text => "Account Created Date") %></td></tr></table></font></th>
+  </tr>
+  <%if @subs%>
+    <% for sub in @subs %>
+      <tr class="<%=cycle('odd','even')%>"><td><%=sub.v_user_name%></td><td><%=sub.v_fname%></td><td><%=sub.v_lname%></td><td><%=sub.v_e_mail%></td><td><%date=sub.d_created_date.to_date%><%=date.strftime("%a, %d %b %Y")%></td></tr>
+    <%end%>
+    <p><%=will_paginate @subs,:params=>params%></p>
+  <%end%>
+</table>

@@ -1,0 +1,46 @@
+<%= javascript_include_tag 'SpryAssets/SpryValidationTextField' %>
+<%= stylesheet_link_tag 'SpryAssets/SpryValidationTextField' %>
+
+<%= error_messages_for 'nonhmm_user' %>
+
+<table border="0" align="top" height="100%">
+	<tr>
+		<th valign="top">&nbsp;&nbsp;<label for="nonhmm_user_v_fname">Name</label></th>
+		<th>&nbsp;&nbsp;<span id="sprytextfield1"><span id="sprytextfield1">
+			<%= text_field 'nonhmm_user', 'v_name', :size => 20, :maxlength => 25, :class => "textbox-signup"%>
+			<span class="textfieldRequiredMsg"><br>&nbsp;&nbsp;&nbsp;First Name is required</br></span></span>
+		</th>
+	</tr>
+	<tr>
+		<th valign="top">&nbsp;&nbsp;<label for="nonhmm_user_v_e-mail">E-Mail</label></th>
+		<th>&nbsp;&nbsp;
+		<span id="sprytextfield11"><span id="sprytextfield11">
+		<%= text_field 'nonhmm_user', 'v_email' , :size => 20, :class => "textbox-signup", :id => 'v_email'  %>
+		<%= observe_field   :'v_email',                       
+                  :with       => "email",              
+                  :frequency  => 0.25,                    
+                  :url        => { :action => :validate_email  }, 
+                  :update     => :message_email                 
+                      				%>
+								 <span id="message_email"></span>
+		
+		<span class="textfieldRequiredMsg"><br>&nbsp;&nbsp;&nbsp;E-mail Required</br></span><span class="textfieldInvalidFormatMsg"><br>&nbsp;&nbsp;&nbsp;Invalid E-mail</br></span></span></span>
+		</th>
+	</tr>
+
+	<tr>
+		<th>&nbsp;&nbsp;<label for="nonhmm_user_v_city">City</label></th>
+		<th>&nbsp;&nbsp;&nbsp;<%= text_field 'nonhmm_user', 'v_city', :size => 20, :maxlength => 15, :class => "textbox-signup"%></th>
+	</tr>
+	
+	<tr>
+		<th>&nbsp;&nbsp;<label for="nonhmm_user_v_country">Country</label></th>
+		<th>&nbsp;&nbsp;&nbsp;<%= text_field 'nonhmm_user', 'v_country', :size => 20, :maxlength => 15, :class => "textbox-signup"%></th>
+	</tr>
+	<tr>
+		<th colspan="2">&nbsp;&nbsp;<label for="nonhmm_user_v_country">Send an Invitation</label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+		<input type="checkbox"  name="nonhmm_users[invite]" value="yes" checked="checked" /></th>
+		
+	</tr>
+
+</table>

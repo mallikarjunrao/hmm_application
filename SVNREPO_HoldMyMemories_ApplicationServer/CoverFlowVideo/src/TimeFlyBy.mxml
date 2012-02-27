@@ -1,0 +1,165 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:Application xmlns:mx="http://www.adobe.com/2006/mxml" xmlns:local="*" 
+   backgroundColor="black" applicationComplete="handleApplicationComplete()" >
+  
+  <mx:HTTPService id="service" result="handleResult(event)" fault="handleFault(event)"/>
+	<mx:Script>
+		<![CDATA[
+			import mx.controls.Alert;
+			import mx.formatters.DateFormatter;
+			import mx.controls.sliderClasses.SliderThumb;
+			import mx.collections.ArrayCollection;
+			import mx.rpc.events.ResultEvent;
+			import mx.rpc.events.FaultEvent;
+			[Bindable]
+			private var videoData : ArrayCollection = new ArrayCollection();
+			[Embed(source="/assets/left.png")]
+            [Bindable]
+            public var leftIcon:Class;
+            [Embed(source="/assets/right.png")]
+            [Bindable]
+            public var rightIcon:Class;
+            
+			private function handleFault(event : FaultEvent) : void
+			{
+				trace(event.fault);
+			}
+			
+			private function handleResult(event : ResultEvent) : void
+			{
+				
+				if(event.result.contents && event.result.contents.content is ArrayCollection)
+				{
+					var result : ArrayCollection = event.result.contents.content as ArrayCollection;
+					for(var i : int =0; i<result.length; i++)
+					{
+						var obj : Object = new Object();
+						obj.type = result[i].type.toString();
+						obj.icon = result[i].icon.toString();
+						/* switch(obj.type)
+						{
+							case 'image':
+										obj.icon = "/user_content/photos/journal_thumb/"+result[i].icon.toString();
+											break;
+							case 'audio':
+										obj.icon = "/user_content/audios/speaker.jpg";
+											break;
+							case 'video':
+										obj.icon = "/user_content/videos/thumbnails/"+result[i].icon.toString();
+											break;
+						} */
+						
+						if(result[i].name)
+							obj.name = result[i].name.toString();
+						
+						obj.date = Date.parse(result[i].date.toString());
+						obj.id = result[i].id.toString();
+						videoData.addItem(obj);
+					}	
+				}else if(event.result.contents)
+				{
+					
+					obj = new Object();
+					obj.icon = event.result.contents.content.icon.toString();
+					if(event.result.contents.content.name)
+						obj.name = event.result.contents.content.name.toString();
+					obj.id = event.result.contents.content.id.toString();
+					obj.type = event.result.contents.content.type.toString();
+					obj.date = Date.parse(event.result.contents.content.date.toString());
+					//obj.thumbnail = event.result.contents.content.thumbnail.toString();
+					videoData.addItem(obj);
+					
+				}else
+				{
+					return;
+				}
+				 
+				timeSpan.minimum = videoData[0].date ;
+				timeSpan.maximum = videoData[videoData.length-1].date;
+				var delta : Number = (timeSpan.maximum - timeSpan.minimum)/5;
+				timeSpan.tickInterval = delta;
+				var tickVals : Array = new Array();
+				var formatter : DateFormatter = new DateFormatter();
+				formatter.formatString = "MMMM 'YY";
+				for(var i : int = 0; i < 6; i++)
+				{
+					var tickDate : Date = new Date();
+					tickDate.time = timeSpan.minimum + delta*i;
+					var dateStr : String = formatter.format(tickDate);
+					
+					tickVals.push(dateStr);
+				}
+				timeSpan.labels = tickVals; 
+				timeSpan.invalidateDisplayList();
+				//timeSpan.setStyle("dataTipPlacement", "bottom");
+				TimeFlyByDataModel.getInstance().data = videoData;
+			}
+			
+			private function handleApplicationComplete() : void
+			{
+				var serverUrl:String = Application.application.parameters.serverUrl;
+				service.url = serverUrl;
+				service.url = "/user_content/getTimeSpan/";
+				//navigateToUrl = Application.application.parameters.navigateToUrl;
+				service.send();
+				stage.scaleMode = StageScaleMode.NO_SCALE;
+				stage.align = StageAlign.TOP_LEFT;
+				
+				var thumb : SliderThumb = timeSpan.getThumbAt(0);
+				thumb.setStyle("icon", leftIcon);
+				thumb = timeSpan.getThumbAt(1);
+				thumb.setStyle("icon", rightIcon);
+			}
+			
+			private function handleToggleFullscreen() : void
+			{
+				if(stage["displayState"]=="normal"){
+				    stage["displayState"]="fullScreen";
+				    stage.scaleMode = StageScaleMode.NO_SCALE;
+				  }else{
+				    stage["displayState"]="normal";
+				  }
+			}
+			
+			private function formatDate(val:String):String 
+			{
+				var date : Date = new Date();
+				date.time = new Number(val);
+				return date.toTimeString();
+			}
+			
+			private function handlePlayClick() : void
+			{
+				var ac : ArrayCollection = TimeFlyByDataModel.getInstance().getdata(timeSpan.values[0], timeSpan.values[1]);
+				if(ac.length == 0)
+				{
+					Alert.show("No moments available between the selected time period.");
+					return;
+				}
+				timeFly.dataProvider = ac;
+				timeFly.play();
+			}
+			
+			
+		]]>
+	</mx:Script>
+	<mx:Style>
+		.labelStyle {
+			color : #ffffff;
+			font-family : Arial;
+			font-size : 12;	
+		}
+	</mx:Style>
+	<mx:VBox width="100%" height="100%">
+		<local:TimeFlyByCoverflow id="timeFly" width="100%" height="100%" horizontalGap="100" backgroundAlpha="0"/>
+		<mx:HBox width="100%">
+			<mx:HSlider id="timeSpan" thumbCount="2" width="100%" dataTipFormatFunction="formatDate"  labelStyleName="labelStyle"
+				dataTipPlacement="bottom" labelOffset="35" tickOffset="15"/>
+			<mx:Button id="play" click="handlePlayClick()" label="Play"/>	
+			<mx:Button id="fscreen" click="handleToggleFullscreen()" label="Fscreen"/>
+		</mx:HBox>
+			
+	</mx:VBox>
+  
+	
+</mx:Application>

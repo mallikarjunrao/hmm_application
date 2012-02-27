@@ -1,0 +1,46 @@
+<%= error_messages_for 'share' %>
+
+
+<p><label for="hmm_user_fname">Guest Name</label><br/>
+<span id="sprytextfield1"><span id="sprytextfield1"><%= text_field 'share', 'guest_name'  %>&nbsp;&nbsp;<span class="textfieldRequiredMsg">Name </span></span></span></p>
+
+<p><label for="hmm_user_lname">Presenter Id</label><br/>
+<span id="sprytextfield2"><span id="sprytextfield2"><%= text_field 'share', 'presenter_id '  %>&nbsp;&nbsp;<span class="textfieldRequiredMsg">ID is required.</span></span></span></p>
+
+
+
+
+<p><label for="hmm_user_user_name">User name</label><br/>
+<span id="sprytextfield3"><span id="sprytextfield3"><%= text_field 'share', 'email_list'  %>&nbsp;&nbsp;<span class="textfieldRequiredMsg">date is required.</span></span></span></p>
+
+
+
+<p><label for="hmm_user_country">created_date</label><br/>
+<span id="sprytextfield9"><span id="sprytextfield9"><%= text_field 'share', 'created_date'  %>&nbsp;&nbsp;<span class="textfieldRequiredMsg">date is required.</span></span></span></p>
+
+<p><label for="hmm_user_zip">expiry_date </label><br/>
+<span id="sprytextfield10"><span id="sprytextfield10"><%= text_field 'share', 'expiry_date'  %>&nbsp;&nbsp;<span class="textfieldRequiredMsg">date is required.</span></span></span></p>
+
+<p><label for="hmm_user_e_mail">Visited_date</label><br/>
+<span id="sprytextfield11"><span id="sprytextfield11"><%= text_field 'share', 'Visited_date'  %>&nbsp;&nbsp;<span class="textfieldRequiredMsg">date is required.</span></span></span></p>
+
+<script type="text/javascript">
+
+var sprytextfield1 = new Spry.Widget.ValidationTextField("sprytextfield1", "none", {validateOn:["blur"]});
+var sprytextfield2 = new Spry.Widget.ValidationTextField("sprytextfield2", "none", {validateOn:["blur"]});
+var sprytextfield3 = new Spry.Widget.ValidationTextField("sprytextfield3", "none", {validateOn:["blur"]});
+var sprytextfield4 = new Spry.Widget.ValidationTextField("sprytextfield4", "none", {validateOn:["blur"]});
+var sprytextfield5 = new Spry.Widget.ValidationTextField("sprytextfield5", "none", {validateOn:["blur"]});
+var sprytextfield6 = new Spry.Widget.ValidationTextField("sprytextfield6", "none", {validateOn:["blur"]});
+var sprytextfield7 = new Spry.Widget.ValidationTextField("sprytextfield7", "none", {validateOn:["blur"]});
+var sprytextfield8 = new Spry.Widget.ValidationTextField("sprytextfield8", "none", {validateOn:["blur"]});
+var sprytextfield9 = new Spry.Widget.ValidationTextField("sprytextfield9", "none", {validateOn:["blur"]});
+var sprytextfield10 = new Spry.Widget.ValidationTextField("sprytextfield10", "none", {validateOn:["blur"]});
+var sprytextfield11 = new Spry.Widget.ValidationTextField("sprytextfield11", "none", {validateOn:["blur"]});
+var sprytextfield12 = new Spry.Widget.ValidationTextField("sprytextfield12", "none", {validateOn:["blur"]});
+var sprytextfield13 = new Spry.Widget.ValidationTextField("sprytextfield13", "none", {validateOn:["blur"]});
+var sprytextfield14 = new Spry.Widget.ValidationTextField("sprytextfield14", "none", {validateOn:["blur"]});
+var password 		= new Spry.Widget.ValidationTextField("password", "none", {validateOn:["blur"], minChars:6, maxChars:10});
+var cofirmpassword 	= new Spry.Widget.ValidationTextField("cofirmpassword", "none", {validateOn:["blur"], minChars:6, maxChars:10});
+
+</script>

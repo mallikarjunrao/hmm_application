@@ -1,0 +1,122 @@
+<table width="100%" border="0" cellspacing="0" cellpadding="0">
+    <tr><td colspan="2" align="center" width="100%" ><table border="0" width="100%"><%= render :partial => "family_memory/partials/heading"%></table></td></tr>
+
+  <tr>
+    <td align="center" valign="top" class="tab-dots"><table width="970" border="0" cellspacing="0" cellpadding="0" id="tab_bgcolor_repeat">
+        <tr>
+          <td align="left" valign="top"><table width="100%" border="0" cellspacing="0" cellpadding="0">
+              <tr>
+                <td width="13" align="left" valign="top"></td>
+                <td width="944" align="left" valign="top"><table width="100%" border="0" cellspacing="0" cellpadding="0">
+                    <tr>
+                      <td height="10" align="left" valign="top"></td>
+                    </tr>
+                    <tr>
+                      <td height="35" align="left" valign="bottom" class="header-page">Image Import</td>
+                    </tr>
+                    <tr>
+                      <td height="10" align="left" valign="top"></td>
+                    </tr>
+                    <tr>
+                      <td height="1" align="left" valign="top" bgcolor="#454545"></td>
+                    </tr>
+                    <tr>
+                      <td height="10" align="left" valign="top"></td>
+                    </tr>
+                    <tr>
+                      <td align="left" valign="top">
+                        <table width="100%" border="0" cellspacing="0" cellpadding="0">
+                          <tr>
+                            <td width="944" align="left" valign="top" class="content-trans-bg"><table width="100%" border="0" cellspacing="0" cellpadding="0">
+                                  <tr>
+                                    <td height="10" colspan="3" align="left" valign="top"></td>
+                                  </tr>
+                                  <tr>
+                                    <td width="10" align="left" valign="top"></td>
+                                    <td align="left" valign="top"><table width="100%" border="0" cellspacing="0" cellpadding="0">
+                                <tr>
+                                  <td align="center" valign="top" style="padding-top:20px;">
+                                   <div id="flashContent"></div>
+<!-- include the API from facebook's server  -->
+<script src="http://static.ak.facebook.com/js/api_lib/v0.4/FeatureLoader.js.php" type="text/javascript"></script>
+<!-- include swfobject library -->
+
+<!-- include swfobject library -->
+<script type="text/javascript" src="/swf_object.js"></script>
+<script type="text/javascript">
+  var api_key="154c75d41f79e09288ac0d0bbbbdfb89";
+
+  var params = {wmode: "transparent"}; //wmode must be transparent or else ajax windows will not show up over swf
+  var flashVars={url:document.location.href,user_id:'<%=@family_website_owner.id%>',familyname:'<%=params[:id]%>',proxyurl:'<%=@content_server_url%>'};
+  swfobject.embedSWF("/ImageImport.swf", "flashContent", "700", "800", "10.0.0", "expressInstall.swf", flashVars, params);
+
+  FB_RequireFeatures(["Api"], function() {
+    //FB.Facebook.init(api_key, '/xd_receiver.htm');
+   // FB.Connect.init(api_key, "/xd_receiver.htm", { permsToRequestOnConnect : "read_stream" });
+    //FB.Connect.showPermissionDialog("read_stream");
+    //FB.Facebook.init(api_key, '/xd_receiver.htm', {'permsToRequestOnConnect':'read_stream'});
+   // FB.Connect.ensureInit(function(){FB.Connect.showPermissionDialog("read_stream");});
+    FB.Facebook.init(api_key, "/xd_receiver.htm",{'permsToRequestOnConnect':'user_photos'});
+  });
+  function fbconnectlogin(){
+    //alert("I am called from java script");
+    //alert(FB);
+
+    FB.Bootstrap.requireFeatures(["Connect"], function() {
+    //
+      FB.ensureInit(function(){FB.Connect.showPermissionDialog('user_photos',fbconnectdone);});
+
+
+    });
+  };
+
+  function fbconnectdone()
+  {
+    FB.Connect.requireSession(function(exception) {
+       // FB.Connect.showPermissionDialog('user_photos');
+     // FB.Connect.showPermissionDialog('email', fbconnectlogin);
+        var sessionData = FB.Facebook.apiClient.get_session();
+        flashVars = {
+          as_swf_name: "flashContent",
+          session_key: sessionData.session_key,
+          secret:sessionData.secret,
+          uid:sessionData.uid,
+          api_key:api_key
+        };
+        // alert("alert again");
+        document.getElementById('flashContent').onSession(flashVars);
+
+      });
+  }
+  function logout(){
+    FB.Connect.logout();
+  }
+</script>
+
+                                  </td>
+                                </tr>
+                                <tr>
+                                  <td>&nbsp;</td>
+                                </tr>
+                              </table></td>
+                                    <td width="10" align="left" valign="top"></td>
+                                  </tr>
+                                  </table>
+                            </td>
+                          </tr>
+                            </table>
+                              </td>
+                          </tr>
+                        </table>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td align="left" valign="top">&nbsp;</td>
+                    </tr>
+
+                  </table></td>
+                <td width="13" align="left" valign="top"></td>
+              </tr>
+            </table></td>
+        </tr>
+      </table>

@@ -1,0 +1,43 @@
+xml.instruct! :xml, :version=>"1.0"
+xml.files{
+  for user_content in @user_content
+    subchapterdet=SubChapter.find(:first,:conditions=>"id=#{user_content.sub_chapid}")
+    if !subchapterdet.nil?
+      if !subchapterdet.blank?
+        xml.file{
+          xml.id("#{user_content.id}")
+          xml.access(user_content.e_access)
+          xml.galleryid(user_content.gallery_id)
+          xml.ordernum(user_content.order_num)
+          xml.name("#{user_content.v_tagphoto}")
+          xml.type("#{user_content.e_filetype}")
+          if(user_content.e_filetype == "image")
+            xml.icon(user_content.img_url+"/user_content/photos/big_thumb/#{user_content.v_filename}")
+          end
+          if(user_content.e_filetype == "video" || user_content.e_filetype == "swf")
+            xml.icon(user_content.img_url+"/user_content/videos/thumbnails/#{user_content.v_filename}.jpg")
+          end
+          if(user_content.e_filetype == "audio")
+            xml.icon(user_content.img_url+"/user_content/audios/#{user_content.v_filename}")
+          end
+          xml.tags(user_content.v_tagname)
+          if(subchapterdet.store_id!='' || subchapterdet.store_id!=nil || subchapterdet.store_id > 0 )#if the usercontent belongs to studio sessions apply particular studio size and rate
+            @contdet=Galleries.find(:first,:select=>"a.*,b.*,b.store_id as studio_id",:joins=>"as a , sub_chapters as b ",:conditions=>"a.id=#{user_content.gallery_id} and b.id=a.subchapter_id")
+            @findstudiosizes=Size.find(:all,:conditions=>"studio_id = '#{@contdet.studio_id}'")
+            if(@findstudiosizes.length>0)
+              sizeflag = 1
+            else
+              sizeflag = 0
+            end
+          else #if the usercontent uploaded by user or user doesn't belong to any employee apply hmm size and price
+            sizeflag = 1
+          end
+          xml.sizeflag(sizeflag)
+          xml.description(user_content.v_desc)
+          xml.creationdate(user_content.d_momentdate)
+          xml.audiotag(user_content.audio_tag)
+        }
+      end
+    end
+  end
+}

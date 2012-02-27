@@ -1,0 +1,31 @@
+
+xml.instruct! :xml, :version=>"1.0" 
+xml.images{
+	for content in @contents
+
+if(params[:id]=='bob' || params[:id]=='eveleth')
+      @content_server_url = "http://content.holdmymemories.com"
+    else
+      @content_server_url = content.img_url
+    end
+  xml.image{
+      #xml.icon(content.img_url + "/user_content/photos/flex_icon/#{content.v_filename}")
+      if(content.e_filetype == "image")
+                    xml.icon(content.img_url + "/user_content/photos/coverflow/#{content.v_filename}")
+                   end
+                   if(content.e_filetype == "video" || content.e_filetype == "swf")
+                    xml.icon(@content_server_url + "/user_content/videos/thumbnails/#{content.v_filename}.jpg")
+                  end
+                  if(content.e_filetype == "audio")
+                    xml.icon(@content_server_url + "/user_content/photos/flex_icon/speaker.jpg")
+     end
+      xml.name(content.v_tagphoto)
+      xml.id(content.id)
+      xml.type(content.e_filetype)
+      xml.url(content.img_url+"/user_content/audios/"+content.v_filename)
+      xml.navigate_path("/familywebsite/moments/#{@family_name}?moment_id=#{content.id}")
+      xml.response_type(@response_type)
+      }
+  end
+ 
+}

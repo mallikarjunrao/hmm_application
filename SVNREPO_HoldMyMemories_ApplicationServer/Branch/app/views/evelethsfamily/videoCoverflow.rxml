@@ -1,0 +1,15 @@
+xml.instruct! :xml, :version=>"1.0" 
+
+xml.contents{
+	
+  #xml.row(3)	
+  for content in @contents
+  xml.content(:icon => "#{content.img_url}/user_content/videos/thumbnails/#{content.v_filename}.jpg",
+           :flv => "#{content.img_url}/user_content/videos/#{content.v_filename}.flv",
+			:name => "#{content.v_tagphoto}", :id => content.id, :type => content.e_filetype)
+      
+	
+  end
+      
+
+}

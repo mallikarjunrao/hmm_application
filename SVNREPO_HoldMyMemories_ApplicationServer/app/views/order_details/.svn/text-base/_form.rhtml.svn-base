@@ -1,0 +1,31 @@
+<%= error_messages_for 'order_detail' %>
+
+<!--[form:order_detail]-->
+
+<script type="text/javascript">
+function chkv(val)
+{
+	if(val=='no')
+	{
+		document.getElementById('com').style.display='block';
+	}else{	
+		document.getElementById('com').style.display='none';
+	
+	}
+
+}
+</script>
+
+<p><label for="order_detail_shippment_status">Shipment Status</label><br/>
+<select name="order_detail[shippment_status]" onchange="return chkv(this.value);">
+<option value="pending">Pending</option>
+<option value="yes">Yes</option>
+<option value="no">No</option>
+</select></p>
+<br>
+<p><span id="com" style="display:none;"><label for="order_detail_comments">Comments</label><br>
+<textarea name="order_detail[comments]"></textarea>
+</span>
+</p>
+<!--[eoform:order_detail]-->
+

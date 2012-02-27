@@ -1,0 +1,52 @@
+<%= javascript_include_tag "flash/swfobject" %>
+<%= javascript_include_tag "flash/swfaddress" %>
+<table width="990" border="0" cellspacing="0" cellpadding="0" align="center">
+  <tr>
+    <td align="center" valign="top">
+      <font color="#e75e16"><%=flash[:share_familypage]%></font>
+      <font color="#ff0000"><%=flash[:share_unsuccefull]%></font>
+    </td>
+  </tr>
+  <tr>
+    <td height="339" align="center" valign="top">
+      <div id="flashContent"></div>
+      <script type="text/javascript">
+<%if params[:id]=="bob"
+  @familypic="http://contentbackup.holdmymemories.com/hmmuser/familyphotos/thumbs/4_919360_bobfamily.jpg.png"
+else
+  @familypic="#{@content_server_url}/hmmuser/familyphotos/thumbs/#{@family_website_owner.family_pic}"
+end
+%>
+
+  var params = {wmode: "transparent",allowScriptAccess:'sameDomain',allowFullScreen:'true'}; //wmode must be transparent or else ajax windows will not show up over swf
+  var flashVars={url:document.location.href,user_id:'<%=@family_website_owner.id%>',familyname:'<%=params[:id]%>',familypic:'<%=@familypic%>',proxyurl:'<%=@content_server_url%>',service_url:'/familywebsite/fx_3d_list_chapters/'};
+  swfobject.embedSWF("<%= @versions.file_url %>?v=<%= @versions.major%>_<%=@versions.minor %>_<%= Time.now() %>", "flashContent", "954", "500", "10.0.0", "expressInstall.swf", flashVars, params);
+      </script>
+    </td>
+  </tr>
+  <tr>
+    <td align="center" valign="top"><table width="954" border="0" cellspacing="0" cellpadding="0">
+        <tr>
+          <td align="center" valign="top" class="tab-dots">&nbsp;</td>
+        </tr>
+      </table></td>
+  </tr>
+  <tr>
+    <td height="19"></td>
+  </tr>
+  <tr>
+    <td align="center" valign="top"><table width="954" border="0" cellspacing="0" cellpadding="0">
+        <tr>
+          <td width="477" align="left" valign="top" class="tab-dots">&nbsp;</td>
+          <td width="477" align="right" valign="top" class="tab-dots">&nbsp;</td>
+        </tr>
+      </table></td>
+  </tr>
+  <tr>
+    <td height="19"></td>
+  </tr>
+
+  <tr>
+    <td align="center" valign="bottom">&nbsp;</td>
+  </tr>
+</table>

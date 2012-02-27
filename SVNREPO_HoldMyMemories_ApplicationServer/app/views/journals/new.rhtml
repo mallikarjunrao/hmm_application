@@ -1,0 +1,7 @@
+<% form_tag({:action => "create"}, {:multipart => true}) do %>
+  <%= render :partial => 'form' %>
+  <br></br><center><input type="image" src="\images\submit_off.jpg" value="Create"  >
+</center>
+<% end %>
+<br><br><br>
+<%= link_to 'Back', :action => 'list' %>

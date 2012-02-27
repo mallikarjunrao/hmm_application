@@ -1,0 +1,199 @@
+
+<script language="javascript">
+     function verify()
+        {
+            if(document.getElementById('amount').value == '0')
+            {
+              document.getElementById('amount').focus();
+              alert('Please enter amount to be desucted')
+              return false
+            }
+            else
+            if(document.getElementById('reason').value == "")
+            {
+                    document.getElementById('reason').value="No reason provided";
+                    alert("No reason provided")
+                    return false;
+            }
+            else
+            if(document.getElementById('to_month').value == '')
+            {
+              document.getElementById('to_month').focus();
+              alert('Please Select to-month')
+              return false
+            }
+            else
+            if(document.getElementById('to_day').value == '')
+            {
+              document.getElementById('to_day').focus();
+              alert('Please Select to-day')
+              return false
+            }
+            else
+            if(document.getElementById('to_year').value == '')
+            {
+              document.getElementById('to_year').focus(); 
+              alert('Please Select the to-year')
+              return false
+            }
+            else
+            {
+              return true;
+            }
+
+
+
+            
+
+
+        }
+
+</script>
+
+<form name="frm"  method="post"  onSubmit="return verify()">
+
+  <table  border="0" align="left">
+
+    <tbody>
+
+
+    <tr>
+                                              <td align="left" valign="top" class="header-paragraph">Refund Commission Amount</td>
+                                            </tr>
+                                            <tr>
+                                              <td align="left" valign="top">&nbsp;</td>
+                                            </tr>
+
+<tr align="center">
+  <td class="main"><font color="white" size="2">Please let us know the reason for the refund in this commission amount.</font><b>
+         <center>
+       </center>
+
+
+       </b></td>
+      </tr>
+
+      <tr align="center" >
+        <td><table  border="0" cellpadding="2" cellspacing="1" width="100%" class="content-trans-bg">
+          <tbody><tr >
+            <td><table border="0" cellpadding="2" cellspacing="2" width="100%">
+              <tbody>
+                <tr><td >&nbsp;</td></tr>
+                <tr>
+
+                  <td  align="right" valign="top"  class="manage-theme-bg">Studio Manager : </td>
+                <td  align="left" class="main">
+
+                 <%=@studio_manager.employe_name%>
+
+                   <input type="hidden" name="id" value="<%=@studio_manager.id%>" />
+                 <input type="hidden" name="store_manager_id" value="<%=@studio_manager.id%>" />
+                 <input type="hidden" name="studio_id" value="<%=@studio_manager.store_id%>" />
+
+                </td>
+                
+
+
+
+              </tr>
+              <tr><td >&nbsp;</td></tr>
+                <tr>
+                  <td  align="right" valign="top"  class="manage-theme-bg">Amount to be deducted * :</td>
+                <td  align="left" class="main">
+
+                 $ <input type="text" name="amount" id="amount" value="0"  /> 				</td>
+
+              </tr>
+              <tr><td >&nbsp;</td></tr>
+              <tr>
+                  <td  align="right" valign="top"  class="manage-theme-bg">Reason for Deduction * :</td>
+                <td  align="left" class="main">
+
+					<textarea name="reason" cols="50" rows="3" id="reason" type="text"></textarea>				</td>
+
+              </tr>
+              <tr><td >&nbsp;</td></tr>
+              <tr>
+                  <td  align="right" valign="top"  class="manage-theme-bg">Date deduction effect on * :</td>
+                <td  align="left" class="main">
+
+					<select name="to_month" id="to_month">
+                <option value="">-Select-</option>
+                <option value="1" <%if params[:to_month]=="1"%>selected <%end%>>January</option>
+                <option value="2" <%if params[:to_month]=="2"%>selected <%end%>>February</option>
+                <option value="3" <%if params[:to_month]=="3"%>selected <%end%>>March</option>
+                <option value="4" <%if params[:to_month]=="4"%>selected <%end%>>April</option>
+                <option value="5" <%if params[:to_month]=="5"%>selected <%end%>>May</option>
+                <option value="6" <%if params[:to_month]=="6"%>selected <%end%>>June</option>
+                <option value="7" <%if params[:to_month]=="7"%>selected <%end%>>July</option>
+                <option value="8" <%if params[:to_month]=="8"%>selected <%end%>>August</option>
+                <option value="9" <%if params[:to_month]=="9"%>selected <%end%>>September</option>
+                <option value="10" <%if params[:to_month]=="10"%>selected <%end%>>October</option>
+                <option value="11" <%if params[:to_month]=="11"%>selected <%end%>>November</option>
+                <option value="12" <%if params[:to_month]=="12"%>selected <%end%>>December</option>
+              </select>
+              &nbsp;
+              <select name="to_day" id="to_day">
+                <option value="">-Select-</option>
+                <option value="1" <%if params[:to_day]=="1"%>selected <%end%>>1</option>
+                <option value="2" <%if params[:to_day]=="2"%>selected <%end%>>2</option>
+                <option value="3" <%if params[:to_day]=="3"%>selected <%end%>>3</option>
+                <option value="4" <%if params[:to_day]=="4"%>selected <%end%>>4</option>
+                <option value="5" <%if params[:to_day]=="5"%>selected <%end%>>5</option>
+                <option value="6" <%if params[:to_day]=="6"%>selected <%end%>>6</option>
+                <option value="7" <%if params[:to_day]=="7"%>selected <%end%>>7</option>
+                <option value="8" <%if params[:to_day]=="8"%>selected <%end%>>8</option>
+                <option value="9" <%if params[:to_day]=="9"%>selected <%end%>>9</option>
+                <option value="10" <%if params[:to_day]=="10"%>selected <%end%>>10</option>
+                <option value="11" <%if params[:to_day]=="11"%>selected <%end%>>11</option>
+                <option value="12" <%if params[:to_day]=="12"%>selected <%end%>>12</option>
+                <option value="13" <%if params[:to_day]=="13"%>selected <%end%>>13</option>
+                <option value="14" <%if params[:to_day]=="14"%>selected <%end%>>14</option>
+                <option value="15" <%if params[:to_day]=="15"%>selected <%end%>>15</option>
+                <option value="16" <%if params[:to_day]=="16"%>selected <%end%>>16</option>
+                <option value="17" <%if params[:to_day]=="17"%>selected <%end%>>17</option>
+                <option value="18" <%if params[:to_day]=="18"%>selected <%end%>>18</option>
+                <option value="19" <%if params[:to_day]=="19"%>selected <%end%>>19</option>
+                <option value="20" <%if params[:to_day]=="20"%>selected <%end%>>20</option>
+                <option value="21" <%if params[:to_day]=="21"%>selected <%end%>>21</option>
+                <option value="22" <%if params[:to_day]=="22"%>selected <%end%>>22</option>
+                <option value="23" <%if params[:to_day]=="23"%>selected <%end%>>23</option>
+                <option value="24" <%if params[:to_day]=="24"%>selected <%end%>>24</option>
+                <option value="25" <%if params[:to_day]=="25"%>selected <%end%>>25</option>
+                <option value="26" <%if params[:to_day]=="26"%>selected <%end%>>26</option>
+                <option value="27" <%if params[:to_day]=="27"%>selected <%end%>>27</option>
+                <option value="28" <%if params[:to_day]=="28"%>selected <%end%>>28</option>
+                <option value="29" <%if params[:to_day]=="29"%>selected <%end%>>29</option>
+                <option value="30" <%if params[:to_day]=="30"%>selected <%end%>>30</option>
+                <option value="31" <%if params[:to_day]=="31"%>selected <%end%>>31</option>
+              </select>
+              &nbsp;
+              <select name="to_year" id="to_year">
+                <option value="">-Select-</option>
+                <option value="2006" <%if params[:to_year]=="2006"%>selected <%end%>>2006</option>
+                <option value="2007" <%if params[:to_year]=="2007"%>selected <%end%>>2007</option>
+                <option value="2008" <%if params[:to_year]=="2008"%>selected <%end%>>2008</option>
+                <option value="2009" <%if params[:to_year]=="2009"%>selected <%end%>>2009</option>
+                <option value="2010" <%if params[:to_year]=="2010"%>selected <%end%>>2010</option>
+                <option value="2011" <%if params[:to_year]=="2011"%>selected <%end%>>2011</option>
+                <option value="2012" <%if params[:to_year]=="2012"%>selected <%end%>>2012</option>
+              </select>
+              &nbsp;				</td>
+
+              </tr>
+              <tr><td >&nbsp;</td></tr>
+                <tr>
+                  <td align="right" valign="top" class="main">&nbsp;</td>
+                  <td align="left" class="main"><input type="submit" name="sub1"  value="Submit"/></td>
+                </tr>
+              </tbody>
+            </table></td>
+          </tr>
+        </tbody></table></td>
+      </tr>
+      <tr>
+      	<td>&nbsp;</td>
+      </tr>
+
+    </tbody>
+  </table></form>

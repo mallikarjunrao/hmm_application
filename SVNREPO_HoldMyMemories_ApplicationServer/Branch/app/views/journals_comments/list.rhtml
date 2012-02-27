@@ -1,0 +1,27 @@
+<h1>Listing journals_comments</h1>
+
+<table>
+  <tr>
+  <% for column in JournalsComment.content_columns %>
+    <th><%= column.human_name %></th>
+  <% end %>
+  </tr>
+  
+<% for journals_comment in @journals_comments %>
+  <tr>
+  <% for column in JournalsComment.content_columns %>
+    <td><%=h journals_comment.send(column.name) %></td>
+  <% end %>
+    <td><%= link_to 'Show', :action => 'show', :id => journals_comment %></td>
+    <td><%= link_to 'Edit', :action => 'edit', :id => journals_comment %></td>
+    <td><%= link_to 'Destroy', { :action => 'destroy', :id => journals_comment }, :confirm => 'Are you sure?', :method => :post %></td>
+  </tr>
+<% end %>
+</table>
+
+<%= link_to 'Previous page', { :page => @journals_comment_pages.current.previous } if @journals_comment_pages.current.previous %>
+<%= link_to 'Next page', { :page => @journals_comment_pages.current.next } if @journals_comment_pages.current.next %> 
+
+<br />
+
+<%= link_to 'New journals_comment', :action => 'new' %>

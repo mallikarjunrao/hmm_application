@@ -1,0 +1,370 @@
+<script type="text/javascript">
+	
+	function valButton(btn,elem) {
+		var cnt = -1;
+		for (var i=btn.length-1; i > -1; i--) {
+		   if (btn[i].checked) {cnt = i; i = -1;}
+	   }
+		if (cnt > -1) 
+			return true;
+		else {
+			document.getElementById(elem).focus();
+			return false;
+		}
+
+}
+
+function valForm(form) {
+	<%num=1%>
+	<%for i in @my_carts%>
+	 if(valButton(form.sizes<%=i.id%>,'sizes-<%=num%>')==false)
+	 {
+	 	alert('please select the size you would like to print!');
+		return false;
+	 }	 
+	 <%num=num+1%>
+	<%end%>
+	
+}
+
+
+	/*function val_items()
+	{
+		var len = document.getElementById('noof_items').value;
+		for (i=1; i<=len; i++)
+		{
+			
+			alert(i);
+			document.getElementById('sizes-' + i).checked
+			if (document.getElementById('sizes-' + i).checked==true || document.getElementById('sizes-' + i).checked==true || document.getElementById('sizes-' + i).checked==true) 
+			{
+				
+			}else{
+				alert('please select the size you would like to print!');
+				document.getElementById('sizes-' + i).focus();
+				return false;
+			}
+			
+		}
+		
+	}*/
+
+</script>
+<%= javascript_include_tag 'modalbox/prototype' %>
+<script type="text/javascript" src="/javascripts/modalbox/scriptaculous.js?load=effects"></script>
+<script type="text/javascript" src="/javascripts/modalbox/modalbox.js"></script>
+<%= stylesheet_link_tag 'modalbox/modalbox' %>
+<style>
+	.text1{
+	font-family:Arial, Helvetica, sans-serif;
+	font-size:16px;
+	font-weight:bold;
+	color:#c6c6c6;
+}
+.text2{
+	font-family:Arial, Helvetica, sans-serif;
+	font-size:12px;
+	font-weight:bold;
+	color:#ffffff;
+}
+</style>
+
+<%if @my_carts_count > 0%>
+<form name="frm" id="frm" action="/my_carts/update_copies/<%=logged_in_hmm_user.id%>" method="post" onsubmit="return valForm(frm);">
+<table><tr><td>
+<table class="border">
+	<tr><td><font color="#f5dfa6"><%=flash[:succes]%></font></td></tr>
+	<tr bgcolor="#191919">
+		<td width="200" class="text1" >
+			Selected Moments
+		</td>
+		<td width="200" class="text1" >
+			No of moments
+		</td>
+		<td width="200" class="text1">
+			No of Copies
+		</td>
+		<td width="200" class="text1">
+			Sizes
+		</td>
+		<td width="150" class="text1">
+			Actions
+		</td>
+		
+	</tr>
+<input type="hidden" name="noof_items" value="<%=@my_carts_count%>" id="noof_items">
+<% temp = 1%>
+<%tmp=1%>
+<%for i in @my_carts%>
+<input type="hidden" name="chap" value="<%=i.added_item%>" id="chap">
+<input type="hidden" name="mycart_id[]" value="<%=i.id%>" id="mycart_id[]">
+
+   <%if i.added_item=='chap'
+    @tags = Tag.find(:all, :conditions => "uid=#{logged_in_hmm_user.id} and id=#{i.moment_id}")%>
+		<tr>
+		<%for tag in @tags
+			 @moment_tag_count = UserContent.count(:all, :conditions => "uid=#{logged_in_hmm_user.id} and tagid=#{tag.id} and e_filetype='image'")%>
+			<input type="hidden" name="no_moments[]" value="<%=@moment_tag_count%>" id="no_moments[]">
+		<input type="hidden" name="chap_id" value="<%=i.moment_id%>" id="chap_id">
+		<td width="200">
+			
+			<a href="#">
+		<img src="<%= tag.img_url %>/user_content/photos/icon_thumbnails/<%= tag.v_chapimage %>" border="5" style="border-color:#000000;"  /><br>
+			<font color="#ffffff"><%=tag.v_tagname%></a><br><br></font>
+		</td>
+		<td class="text1" align="center"><%=@moment_tag_count%></td>
+		<td width="200" align="top" >
+			<select name="copies[]" id="copies[]">
+				<option value="1">1 copy</option>
+				<option value="2">2 copies</option>
+				<option value="3">3 copies</option>
+				<option value="4">4 copies</option>
+				<option value="5">5 copies</option>
+				<option value="6">6 copies</option>
+				<option value="7">7 copies</option>
+				<option value="8">8 copies</option>
+				<option value="9">9 copies</option>
+				<option value="10">10 copies</option>
+			</select>
+		</td>
+		<td width="200" align="top" >
+			<table border="0">
+				
+				<%for l in @product%>
+				
+				<tr>
+					<td class="text2">
+						<input type="radio" name="sizes<%=i.id%>" id="sizes-<%=temp%>" value="<%=l.id%>"><%=l.product_name%> 
+					</td>
+					
+					
+					<td><a href="/my_carts/preview/?id=<%=i.moment_id%>&type=chap&productid=<%=l.id%>" target="_blank"><img src="/images/preview.png" border="o"></a></td>
+				</tr>
+				<%end%>
+			</table>
+			
+		</td>
+		<td width="100"  class="text2" align="center">
+		    <a href="/my_carts/destroy_item/<%=i.id%>">Remove from cart</a>
+		</td>
+		
+		</tr>
+		<tr bgcolor="#191919">
+			<td colspan="5">&nbsp;</td>
+		</tr>
+		<%end%>
+   <%elsif i.added_item=='subchapter'
+	@sub_chap = SubChapter.find(:all, :conditions => "uid=#{logged_in_hmm_user.id} and id=#{i.moment_id}")%>
+		<tr>
+		<%for subchap in @sub_chap
+              @moment_subchap_count = UserContent.count(:all, :conditions => "uid=#{logged_in_hmm_user.id} and sub_chapid=#{subchap.id} and e_filetype='image'")%>
+		<input type="hidden" name="no_moments[]" value="<%=@moment_subchap_count%>" id="no_moments[]">
+		<input type="hidden" name="subchap_id" value="<%=i.moment_id%>" id="subchap_id">
+			<td width="200">
+				
+				<a href="#">
+				<img src="<%= subchap.img_url %>/user_content/photos/icon_thumbnails/<%= subchap.v_image %>" border="5" style="border-color:#000000;"  /><br>
+				<font color="#ffffff"><%=subchap.sub_chapname%></a></font>
+			</td>
+			<td class="text1" align="center"><%=@moment_subchap_count%></td>
+			<td width="200" align="top">
+				<select name="copies[]" id="copies[]">
+					<option value="1">1 copy</option>
+					<option value="2">2 copies</option>
+					<option value="3">3 copies</option>
+					<option value="4">4 copies</option>
+					<option value="5">5 copies</option>
+					<option value="6">6 copies</option>
+					<option value="7">7 copies</option>
+					<option value="8">8 copies</option>
+					<option value="9">9 copies</option>
+					<option value="10">10 copies</option>
+				</select>
+			</td>
+			<td width="200" align="top">
+				<table border="0">
+				<%for c in @product%>
+				<tr>
+					<td class="text2" align="top">
+						<input type="radio" name="sizes<%=i.id%>" id="sizes-<%=temp%>" value="<%=c.id%>"> <%=c.product_name%>
+					</td>
+					
+					
+					<td><a href="/my_carts/preview/?id=<%=i.moment_id%>&type=subchapter&productid=<%=c.id%>" target="_blank"><img src="/images/preview.png" border="o"></a></td>
+				</tr>
+				<%end%>
+				</table>
+			</td>
+			<td width="100" class="text2" align="center">
+				<a href="/my_carts/destroy_item/<%=i.id%>">Remove from cart</a>
+			</td>
+		
+		</tr>
+		<tr bgcolor="#191919">
+			<td colspan="5">&nbsp;</td>
+		</tr>
+		<%end%>
+   <%elsif i.added_item=='gallery'
+    @gal = Galleries.find(:all, :conditions => "id=#{i.moment_id}")%>
+		<tr>
+		<%for gallery in @gal
+            @moment_gal_count = UserContent.count(:all, :conditions => "uid=#{logged_in_hmm_user.id} and gallery_id=#{gallery.id}")%>
+		<input type="hidden" name="gal_id" value="<%=i.moment_id%>" id="gal_id">
+		<input type="hidden" name="no_moments[]" value="<%=@moment_gal_count%>" id="no_moments">
+		<td width="200">
+			
+			<a href="#">
+				<img src="<%= gallery.img_url %>/user_content/photos/icon_thumbnails/<%= gallery.v_gallery_image%>" border="5" style="border-color:#000000;"  /><br>
+				<font color="#ffffff"><%=gallery.v_gallery_name%></a></font>
+			
+			</td>
+			<td class="text1" align="center"><%=@moment_gal_count%></td>
+			<td width="200" align="top">
+				<select name="copies[]" id="copies[]">
+					<option value="1">1 copy</option>
+					<option value="2">2 copies</option>
+					<option value="3">3 copies</option>
+					<option value="4">4 copies</option>
+					<option value="5">5 copies</option>
+					<option value="6">6 copies</option>
+					<option value="7">7 copies</option>
+					<option value="8">8 copies</option>
+					<option value="9">9 copies</option>
+					<option value="10">10 copies</option>
+				</select>
+			</td>
+			<td width="200" align="top">
+				<table border="0">
+				<%for m in @product%>
+				<tr>
+					<td class="text2" align="top">
+						<input type="radio" name="sizes<%=i.id%>" id="sizes-<%=temp%>" value="<%=m.id%>"> <%=m.product_name%>
+					</td>
+					
+					
+					<td><a href="/my_carts/preview/?id=<%=i.moment_id%>&type=gallery&productid=<%=m.id%>" target="_blank"><img src="/images/preview.png" border="o"></a></td>
+				</tr>
+				<%end%>
+				</table>
+			</td>
+			<td width="100" class="text2" align="center">
+				<a href="/my_carts/destroy_item/<%=i.id%>">Remove from cart</a>
+			</td>
+	    
+		</tr>
+		<tr bgcolor="#191919">
+			<td colspan="5">&nbsp;</td>
+		</tr>
+		<%end%>
+		
+   <%elsif i.added_item=='moment'
+    @moment = UserContent.find(:all, :conditions => "uid=#{logged_in_hmm_user.id} and id=#{i.moment_id}")%>
+		<tr>	
+		<%for moments in @moment%>
+		<input type="hidden" name="moment_id" value="<%=i.moment_id%>" id="moment_id">
+		<input type="hidden" name="no_moments[]" value="1" id="no_moments[]">
+			<td width="200">
+				<a href="#">
+				<img src="<%= moments.img_url %>/user_content/photos/big_thumb/<%= moments.v_filename%>" width="90" border="5" style="border-color:#000000;"  /><br>
+				
+			<font color="#ffffff"><%=moments.v_filename%><br></font>
+			</td>
+			<td class="text1" align="center">1</td>
+			<td width="200">
+				<select name="copies[]" id="copies[]">
+					<option value="1">1 copy</option>
+					<option value="2">2 copies</option>
+					<option value="3">3 copies</option>
+					<option value="4">4 copies</option>
+					<option value="5">5 copies</option>
+					<option value="6">6 copies</option>
+					<option value="7">7 copies</option>
+					<option value="8">8 copies</option>
+					<option value="9">9 copies</option>
+					<option value="10">10 copies</option>
+				</select>
+			</td>
+			<td width="200" align="top">
+				<table border="0">
+				<%for n in @product%>
+				<tr>
+					<td class="text2" align="top">
+						<input type="radio" name="sizes<%=i.id%>" id="sizes-<%=temp%>" value="<%=n.id%>"><%=n.product_name%>
+					</td>
+					
+					
+					<td><a href="/my_carts/preview/?id=<%=i.moment_id%>&type=moment&productid=<%=n.id%>" target="_blank"><img src="/images/preview.png" border="o"></a></td>
+				</tr>
+				<%end%>
+				</table>
+			</td>
+			<td width="100" class="text2" align="center">
+				<a href="/my_carts/destroy_item/<%=i.id%>">Remove from cart</a>
+			</td>
+	  
+		</tr>
+		<tr bgcolor="#191919">
+			<td colspan="5">&nbsp;</td>
+		</tr>
+		  <%end%>
+   <%end%>
+   <%temp=temp+1%>
+   <%end%>
+   <tr align="center">
+   	<td colspan="4"><input type="submit" value="update" name="sub" id="sub"></td>
+   </tr>
+</table>
+</form>
+
+
+
+</td>
+<td width="180" align="left" valign="top" rowspan="<%=@my_carts_count%>">
+<table class="border"  style="padding:0px; margin-top:0px;">
+	<tr bgcolor="#191919">
+		<td width="148" class="text1" align="left" valign="top">
+			Shopping Details
+		</td>
+	</tr>
+	<br>
+	<tr>
+		<td class="text2">
+			
+			<br>
+			<%for price in @product%>
+			Each print of <%=price.product_name%> = $<%=price.price%><br>
+			<%end%>
+			<br><br>
+			
+		</td>
+	</tr>
+</table>
+</td>
+</tr></table>
+
+<%else%>
+
+<table>
+	<tr>
+		<td>
+			
+		</td>
+	</tr>
+	<tr>
+		<td>
+			
+		</td>
+	</tr>
+	<tr>
+		<td>
+			<font color="#ffffff">There are no moments in your shopping cart</font> 
+		</td>
+	</tr>
+	<tr>
+		<td height="200">
+			
+		</td>
+	</tr>
+</table>
+	<%end%>
+

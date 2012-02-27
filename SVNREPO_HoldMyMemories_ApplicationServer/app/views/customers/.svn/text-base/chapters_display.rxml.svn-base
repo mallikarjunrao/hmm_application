@@ -1,0 +1,30 @@
+
+xml.instruct! :xml, :version=>"1.0" 
+xml.contents{
+  for photos in @results
+      xml.content{
+    if(photos.v_chapimage == "folder_img.png" || photos.v_chapimage == "photo_album.png" || 
+    photos.v_chapimage == "speaker.jpg" || photos.v_chapimage == "videogallery.png")
+            xml.icon(photos.img_url + '/user_content/photos/big_thumb/noimage.jpg')
+          elsif(photos.v_chapimage == "folder_img_import.png")
+            xml.icon(photos.img_url + '/user_content/photos/big_thumb/imp-moments.jpg')
+	  else	
+        imageName  = photos.v_chapimage
+        imageName.slice!(-3..-1)
+        xml.icon(photos.img_url + '/user_content/photos/flex_icon/'+imageName+"jpg" )
+      end
+    xml.id(photos.id)
+      xml.name(photos.v_tagname)
+    for status in @user_rec
+      if ((photos.v_tagname == "STUDIO SESSIONS" || photos.v_tagname == "studio sessions" || photos.v_tagname == "STUDIO SESSION"  || photos.v_tagname == "Studio session"  || photos.v_tagname == "studio session"  || photos.v_tagname == "Studio Sessions"  || photos.v_tagname == "Studio Session") and @flag==1)
+        xml.access_permission("reject")
+      else
+        xml.access_permission("approve")
+      end
+    end
+    xml.login_status("yes")
+      
+      }
+ end
+}
+

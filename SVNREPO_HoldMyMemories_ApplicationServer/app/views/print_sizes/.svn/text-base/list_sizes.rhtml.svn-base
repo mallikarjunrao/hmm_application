@@ -1,0 +1,46 @@
+<table width="100%" cellpadding="0" cellspacing="0" border="0" style="padding-top: 10px;"  >
+  <tr><td align="left"><h2>Standard Print Sizes</h2></td></tr>
+  <tr><td align="right"><a href="/print_sizes/add_size">Add New Size</a></td></tr>
+  <tr><td align="right">&nbsp;</td></tr>
+  <% if flash[:notice] %>
+  <tr><td align="center" style="color:red;"><%= flash[:notice] %></td></tr>
+    <tr><td align="right">&nbsp;</td></tr>
+  <%  end%>
+  <tr><td>
+      <% if @sizes!=nil && @sizes.length>0 %>
+        <table width="100%" cellpadding="0" cellspacing="0" border="0" height="500"  >
+          <tr><td align="left" valign="top">
+              <table border="0" cellpadding="5" cellspacing="1" width="500" align="center">
+                <tr height="25" style="background-color: #cc5100;">
+                  <td align="center" width="10" ><font class='txt'>S.No</font></td>
+                  <td align="center" ><font class='txt'>Label</font></td>
+                  <td align="center" width="10" ><font class='txt' >Width (Inches)</font></td>
+                  <td align="center" width="10" ><font class='txt' >Height (Inches)</font></td>
+                  <td align="center" width="10" ><font class='txt' >Digital Downloads</font></td>
+                  <td  align="center" width="100" ><font class='txt' >Action</font></td>
+                </tr>
+                <%
+                i = 0
+                for size in @sizes
+                  i=i+1 %>
+
+                  <tr height="20" class="<%= cycle('odd', 'even') %>">
+                    <td  ><%=  i %> </td>
+                    <td ><%= size.label %></td>
+                    <td  ><%= size.width %></td>
+                    <td  ><%= size.height %></td>
+                     <td  ><%= size.digital_download.capitalize %></td>
+                    <td ><%= link_to 'Edit', :action => 'edit_size', :id => size.id %>&nbsp;&nbsp;<%= link_to 'Delete', {:action => 'delete_size', :id => size.id}, :confirm => 'Are you sure to delete this size?' %></td>
+                  </tr>
+                <% end %>
+              </table>
+            </td></tr></table>
+      <% else %>
+        <table border="0" cellpadding="5" cellspacing="0" width="500" align="center" height="200">
+          <tr height="50" >
+            <td align="center" valign="middle" ><font class='txt' style="color: red;">Sizes not found!</font></td>
+          </tr>
+        </table>
+      <% end %>
+    </td></tr>
+</table>

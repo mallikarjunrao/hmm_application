@@ -1,0 +1,254 @@
+<br><br>
+<script type="text/javascript">
+	function chg(val)
+	{
+		
+		if ( val=='USA') {
+			document.getElementById('pcode').style.display = 'block';
+			document.getElementById('cty').style.display = 'none';
+		}else{
+			document.getElementById('pcode').style.display = 'none';
+			document.getElementById('cty').style.display = 'block';
+		}
+		
+	}
+</script>
+<style>
+
+</style>
+
+<form name="frm" action="/account/cancelled_list_search_failed" method="post" >
+
+	
+	<table cellpadding="4" cellspacing="4" border="1" bordercolor="#e5b467" align="center" align="center">
+	<tr>
+		<td colspan="4" align="center" height="48">
+			<font size="4">Search User's </font>
+		</td>
+	</tr>
+	<tr>
+		
+	
+	
+		<td>
+			Firstname
+		</td>
+		<td>
+
+			<input type="text" name="firstname" id="firstname" value="<%=@fname%>" size="20" class="textbox-signup" />
+			
+		</td>
+			<td>
+			Lastname
+		</td>
+		<td>
+			<input type="text" name="lastname" id="lastname" value="<%=@lname%>" size="20" class="textbox-signup" />
+		</td>
+	</tr>
+	<tr>
+			<td width="90">
+			Username
+		</td>
+		<td>
+				<input type="text" name="username" id="username" value="<%=@uname%>" size="20" class="textbox-signup" />
+		</td>
+		<td width="90">
+			Account Type
+		</td>
+		<td>
+			<select name="account_type" id="account_type" class => "combobox1">
+			<option value="Select" selected='selected'>Select</option>
+			<option value="free_user" >free_user</option>
+			<option value="familyws_user" >Family Website User</option>
+			<option value="platinum_user" >premium_user</option>
+		</td>
+	
+	</tr>
+	
+	<tr>
+		<td>
+			Country
+		</td>
+		<td>
+			<select name="v_country" onchange='return chg(this.value)' class => "combobox1">
+				<%if @country=="USA" 
+					@sel1="selected"
+				   else
+					@sel2="selected"
+				   end	
+		%>
+		
+				
+					<option value="USA" <%=@sel1%>>USA</option>
+				<option value="Others" <%=@sel2%> >Others</option>
+		</td>
+	
+		<td>
+			<label for="hmm_user_zip">
+			<div id='pcode' style='display:block;'>Postal Code </div>
+			<div id='cty' style='display:none;'>City/Province</div></lable></th>
+		</td>
+		<td>
+			<input type="text" name="zip" id="zip" value="<%=@zip%>" size="20" class="textbox-signup" />
+			
+		</td>
+	</tr>
+	<tr>
+		<td>
+			Sort by
+		</td>
+		<td>
+			<%if @sort_key=="v_user_name" 
+					@sel11="selected='selected'"
+				   else
+				  if @sort_key=="v_fname" 
+					@sel12="selected='selected'"
+				   else
+				  if @sort_key=="e_sex" 
+					@sel13="selected='selected'"
+				   else
+				  if @sort_key=="v_e_mail" 
+					@sel14="selected='selected'"
+				   else
+				  if @sort_key=="e_user_status" 
+					@sel15="selected='selected'"
+				  
+				   end	
+end	
+end	
+end	
+end	
+puts @sel12
+		%>
+			<select name="sort_key" onchange='return chg(this.value)' class => "combobox1">
+				
+		
+				
+					
+				<option value="v_user_name" <%=@sel11%>>User Name</option>
+				<option value="v_fname" <%=@sel12%>>First Name</option>
+				<option value="e_sex" <%=@sel13%>>Sex</option>
+				<option value="v_e_mail" <%=@sel14%>>Email Address</option>
+				<option value="e_user_status" <%=@sel15%>>Status</option>
+                                
+				</td>
+	
+		<td>
+			Sort Order
+		</td>
+		<td>
+			<select name="sort_order" onchange='return chg(this.value)' class => "combobox1">
+				<%if @order==="asc" 
+					@sel21="selected"
+				   else
+					@sel22="selected"
+				   end	
+		%>
+		
+				
+					
+				<option value="asc" <%=@sel21%>>ascending</option>
+				<option value="desc" <%=@sel22%>>Descending</option>
+				
+				</td>
+	</tr>
+	
+	<tr>
+		<td colspan="4" align="center">
+		<input type="image" name="sub" id="search" src="/images/search_over.jpg"  border="0" />
+		</td>
+	</tr>
+
+</table>
+
+<table border="0">
+	
+	<tr><td colspan="15"><h3><br>HoldMyMemories Users</h3> </td></tr>
+  <tr>
+
+ </td></tr>
+
+  <tr valign='center' align='center'>
+  	
+  	 
+   <th background="/images/body_hor.JPG"><font class='txt'><table> <tr><td>First Name</td></tr></table></font></th>
+	<th background="/images/body_hor.JPG"><font class='txt'><table> <tr><td>Last  Name</td></tr></table></font></th>
+	<th background="/images/body_hor.JPG"><font class='txt'><table> <tr><td>Sex</td></tr></table></font></th>
+	<th background="/images/body_hor.JPG"><font class='txt'><table> <tr><td>User Name</td></tr></table></font></th>
+	
+	<th background="/images/body_hor.JPG"><font class='txt'><table> <tr><td>Email Address</td></tr></table></font></th>
+	<th background="/images/body_hor.JPG"><font class='txt'><table> <tr><td>Status</td></tr></table></font></th>
+        <th background="/images/body_hor.JPG"><font class='txt'><table> <tr><td>Transaction Declined due to? </td></tr></table></font></th>
+        <th background="/images/body_hor.JPG"><font class='txt'><table> <tr><td>Transaction Failed on </td></tr></table></font></th>
+        <th background="/images/body_hor.JPG"><font class='txt'><table> <tr><td>Subscription Number </td></tr></table></font></th>
+        <th background="/images/body_hor.JPG"><font class='txt'><table> <tr><td>Customer Contact Number </td></tr></table></font></th>
+        <th background="/images/body_hor.JPG"><font class='txt'><table> <tr><td>Customer Email Address </td></tr></table></font></th>
+        
+        
+	<th colspan=2 background="/images/body_hor.JPG"><font class='txt'>Actions</font></th>
+	
+
+  </tr>
+
+<% 	odd_or_even = 0 
+	i = 0
+	for colmn in @hmm_users
+	 i = i + 1
+	odd_or_even = 1 - odd_or_even
+ %>
+
+  <tr class='ListLine<%= odd_or_even %>'>
+  	<% hmmdet=HmmUser.find(:all,:conditions=>"id=#{colmn.id}")%>
+		<td align="center"><a class='ListLine<%= odd_or_even %>' href="/user_account/authenticate/?id=1&hmm_user[v_user_name]=<%=colmn.v_user_name%>&hmm_user[v_password]=<%=hmmdet[0]['v_password']%>" target="_blank"><%=h colmn.v_fname%></a></td>
+	
+	<td align="center"><a class='ListLine<%= odd_or_even %>' href="/user_account/authenticate/?id=1&hmm_user[v_user_name]=<%=colmn.v_user_name%>&hmm_user[v_password]=<%=hmmdet[0]['v_password']%>" target="_blank"><%=h colmn.v_lname%></a></td>
+
+   
+	
+	<td><%=h colmn.e_sex%></td>
+	<td><%=h colmn.v_user_name%></td>
+	
+  	<td><%=h colmn.v_e_mail%></td>
+    <td><%=h colmn.e_user_status%></td>
+    <td>Declined by Customers Credi card company.</td>
+    <td><%=h colmn.account_expdate.strftime("%m - %d - %y")%></td>
+    <td><%=h colmn.subscriptionnumber%></td>
+    <td><%=h colmn.telephone%></td>
+    <td><%=h colmn.v_e_mail%></td>
+    
+    
+
+    <td colspan="2" align="center"><a class='ListLine<%= odd_or_even %>' href="/user_account/authenticate/?id=1&hmm_user[v_user_name]=<%=colmn.v_user_name%>&hmm_user[v_password]=<%=hmmdet[0]['v_password']%>" target="_blank">Click here to re-activate the subscription</a></td>
+  </tr>
+ 
+<% end %>
+<input type="hidden" name="len" id="len" value="<%= i %>"/>
+
+<tr><td>
+<%=will_paginate @hmm_users%></td>
+</tr>
+</table>
+
+
+
+
+</form>
+
+<table cellpadding="0" cellspacing="0" width="80%" border="1" bordercolor="#e5b467" align="center">
+	<tr>
+		<td colspan="2" align="center" valign="middle">
+			<h3>Customers Report</h3>
+		</td>
+	</tr>
+	<tr>
+		<td colspan="2">
+			<center>
+			No of InActive Users&nbsp;&nbsp; :&nbsp; <%=@hmmuser_blockcnt%> <br></br>
+			&nbsp;&nbsp;No of Active Users &nbsp;&nbsp;&nbsp;:&nbsp; <%=@hmmuser_unblockcnt%></center>
+			<br></br>
+		</td>
+	</tr>
+	</table>
+
+
+<br />

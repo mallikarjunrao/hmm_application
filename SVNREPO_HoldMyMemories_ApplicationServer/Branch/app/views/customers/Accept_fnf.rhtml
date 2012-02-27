@@ -1,0 +1,10 @@
+<th width="88" align="left" valign="top" scope="col">
+	 		 &nbsp;&nbsp;<select name="fnf_category" onchange='change_category(this.value)' >
+			<option value="default" lable='default'>Select Group</option>
+		<% @fnf_groups2 = FnfGroups.find(:all,:conditions=>"uid=#{logged_in_hmm_user.id}",:order=>"id DESC")%>
+			<% for i in @fnf_groups2 %>
+			<option value="<%=i.id %>"><%=i.fnf_category %></option>
+			<%end%>
+			<option value="Others">Others</option>
+			</select>
+		</th>

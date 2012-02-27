@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:Canvas xmlns:mx="http://www.adobe.com/2006/mxml"   width="100%" height="100%"  backgroundAlpha="0" >
+	<mx:Image source="{imageComponent}" height="80"  width="120" maintainAspectRatio="true" x="10" y="10"/>
+	<mx:Button label="Preview"  click="handleClickPriview()" paddingLeft="10"  styleName="lastButtonStyle" x="21" y="65" height="21"/>
+	<mx:Button  label="Delete" click="handleClickDelete()"  styleName="lastButtonStyle"  y="66" x="105" height="21" width="64"/>
+	<mx:Script>
+	<![CDATA[
+		import mx.controls.Image;
+		import mx.controls.dataGridClasses.DataGridListData;
+		import mx.collections.ArrayCollection;
+		import mx.rpc.http.HTTPService;
+		import flash.net.navigateToURL;
+		[Bindable]
+		private var imageComponent : String;
+		
+		
+		private function handleClickPriview() : void 
+		{
+		 ///tags/memories/
+		navigateToURL(new URLRequest("/tags/memories/"+data.id));
+		} 
+	    
+	    override public function set data(value: Object) : void
+	    {
+	    	super.data = value;
+	    	imageComponent = data.icon;
+	    	
+	    }
+	    
+		private function handleClickDelete() : void 
+		{
+			var httpservice : HTTPService = new HTTPService();
+			httpservice.url="/share/deleteshare";
+			var obj : Object = new Object();
+			//obj.expirydate = date.selectedDate.toString(); 
+			obj.id = data.id;
+			httpservice.send(obj);
+			var sharelist : ArrayCollection = this.parentDocument.shareDetailsGrid.dataProvider as ArrayCollection;
+			for(var i : int = 0; i < sharelist.length; i++)
+			 if(sharelist[i].id = data.id)
+			  sharelist.removeItemAt(i);
+			this.parentDocument.shareDetailsGrid.dataProvider = sharelist;  
+			  				  		
+		}
+		/*  override public function set data(value:Object):void
+		{
+			super.data = value;
+			preview = 
+			
+		}   */
+								
+	]]>
+	</mx:Script>
+</mx:Canvas>

@@ -1,0 +1,279 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:Application xmlns:mx="http://www.adobe.com/2006/mxml" xmlns:local="*" layout="absolute" modalTransparencyColor="0x111111" modalTransparency="0.9" modalTransparencyBlur="1"
+   backgroundColor="black" applicationComplete="handleApplicationComplete()" xmlns:components="components.*"
+   preloader="custompreloader.PreloaderHourGlass" initialize="handleInitialize()">
+  <mx:HTTPService id="dataService" url="/customers/chapters_list" result="handleDataResult(event)" fault="handleFault(event)"/>
+  <mx:HTTPService id="service" result="handleResult(event)" fault="handleFault(event)"/>
+	<mx:Script>
+		<![CDATA[
+			import custompreloader.PreloaderHourGlass;
+			import mx.events.ListEvent;
+			import events.CoverFlowEvent;
+			import vo.GalleryVO;
+			import mx.core.IFlexDisplayObject;
+			import vo.BaseVO;
+			import vo.SubChapterVO;
+			import mx.managers.PopUpManager;
+			import vo.ChapterVO;
+			import components.ExportControl;
+			import model.HmmChaptersModel;
+			import mx.collections.ArrayCollection;
+			import mx.rpc.events.ResultEvent;
+			import mx.rpc.events.FaultEvent;
+			[Bindable]
+			private var videoData : ArrayCollection = new ArrayCollection();
+			private var galleryId : int;
+			private var navigateTo : String;
+			
+			[Bindable]
+			private var seletectedObject : Object;
+			public var proxyUrl : String;
+			public var proxyName : String;
+			public var multipleVideos : Boolean = true;
+			
+			private function handleInitialize() : void
+			{
+				if(Application.application.parameters.hasOwnProperty("proxyurls"))
+				{
+					var proxyurls : String = Application.application.parameters.proxyurls;
+					var urls : Array = proxyurls.split(",");
+					for(var i : int = 0; i < urls.length; i++)
+					{
+						Security.loadPolicyFile(urls[i]+"/crossdomain.xml");
+					}
+				}
+				if(Application.application.parameters.hasOwnProperty("proxyurl"))
+					proxyUrl = Application.application.parameters.proxyurl;
+				if(Application.application.parameters.hasOwnProperty("proxy"))
+					proxyName = Application.application.parameters.proxy;
+			}
+			
+			
+			private function handleFault(event : FaultEvent) : void
+			{
+				trace(event.fault);
+			} 
+			
+			private function handleResult(event : ResultEvent) : void
+			{ 
+				
+				if(event.result.contents.content is ArrayCollection)
+				{
+					var result : ArrayCollection = event.result.contents.content as ArrayCollection;
+					for(var i : int =0; i<result.length; i++)
+					{
+						var obj : Object = new Object();
+						obj.icon = result[i].icon.toString();
+						obj.name = result[i].name.toString();
+						obj.flv = result[i].flv.toString();
+						obj.id = result[i].id.toString();
+						obj.type = result[i].type.toString();
+						videoData.addItem(obj);
+					}	
+				}else
+				{
+					
+					obj = new Object();
+					obj.flv = event.result.contents.content.flv.toString();
+					obj.name = event.result.contents.content.name.toString();
+					obj.id = event.result.contents.content.id.toString();
+					obj.icon = event.result.contents.content.icon.toString();
+					obj.type = event.result.contents.content.type.toString();
+					videoData.addItem(obj);
+					multipleVideos = false;
+					
+				}
+				
+				dataService.send();
+			}
+			
+			override protected function updateDisplayList(unscaledWidth:Number, unscaledHeight:Number):void
+			{
+				super.updateDisplayList(unscaledWidth, unscaledHeight);
+				var g : Graphics = videoDisplayShelf.graphics;
+				g.beginFill(0);
+				g.drawRect(0,0, unscaledWidth, unscaledHeight);
+				g.endFill();
+			}
+			
+			private function handleApplicationComplete() : void
+			{
+				var serverUrl:String = Application.application.parameters.serverUrl;
+				navigateTo = Application.application.parameters.navigateTo;
+				service.url = serverUrl;
+				if(serverUrl)
+				{
+					var explodedUrl : Array = serverUrl.split("/");
+					galleryId = int(explodedUrl[explodedUrl.length-1]);	
+				}
+				var buttonsVisible : String = Application.application.parameters.buttonsVisible;
+				if(buttonsVisible == "false")
+					buttonBox.visible = false;
+				//service.url = "test.xml";
+				//navigateToUrl = Application.application.parameters.navigateToUrl;
+				service.send();
+				stage.scaleMode = StageScaleMode.NO_SCALE;
+				stage.align = StageAlign.TOP_LEFT;
+				videoDisplayShelf.addEventListener(CoverFlowEvent.NAVIGATE_TO, handleNavigateTo);
+			}
+			
+			private function handleToggleFullscreen() : void
+			{
+				if(stage["displayState"]=="normal"){
+				    stage["displayState"]="fullScreen";
+				    stage.scaleMode = StageScaleMode.NO_SCALE;
+				  }else{
+				    stage["displayState"]="normal";
+				  }
+			}
+			
+			private function handleItemClick(event : Event) : void
+			{
+				var evt : ListEvent = event as ListEvent;
+				//chapterName.text = shelf.selectedItem.name;
+				seletectedObject = videoDisplayShelf.selectedItem;
+			} 
+			
+			private function handleShare() : void
+			{
+				
+				var popUp : IFlexDisplayObject = PopUpManager.createPopUp(Application.application as DisplayObject, ExportControl, true);
+				var ctrl : ExportControl = popUp as ExportControl;
+			//	ctrl.title = "Share with a friend.";
+				ctrl.successMessage = "Share was successful. Your friends would receive an email in this regard.";
+				ctrl.serviceUrl = proxyUrl+"/share_moments/addShare/";
+				ctrl.isExport = false;
+				var ac : ArrayCollection = HmmChaptersModel.getInstance().folderList;
+				var breakOut : Boolean = false;
+				for(var i : int = 0; i < ac.length; i++)
+				{
+					if(breakOut)
+						break;
+					var chapter : ChapterVO = ac[i] as ChapterVO;
+					for(var j : int = 0; j<  chapter.subchapters.length; j++)
+					{
+						if(breakOut)
+						break;
+						var sub : SubChapterVO = chapter.subchapters[j] as SubChapterVO;
+						for(var k : int = 0; k < sub.gallery.length; k++)
+						{
+							var gal : GalleryVO = sub.gallery[k] as GalleryVO;
+							if(gal.id == galleryId)
+							{
+								breakOut = true;
+								break;
+							}
+						}
+					}
+				}
+				ctrl.treeData = gal as BaseVO;
+				/* popUp.width = Application.application.stage.width*2/3;
+				popUp.height = Application.application.stage.height*2/3; */
+				popUp.width = 655;//Application.application.stage.width*2/3;
+				popUp.height = 350;//Application.application.stage.height*2/3;
+				PopUpManager.centerPopUp(popUp);
+				
+				
+				
+			}
+			
+			private function handleExport() : void
+			{
+				var popUp : IFlexDisplayObject = PopUpManager.createPopUp(Application.application as DisplayObject, ExportControl, true);
+				var ctrl : ExportControl = popUp as ExportControl;
+			//	ctrl.title = "Export to a friend.";
+				ctrl.successMessage = "Export was successful. Your friends would receive an email in this regard.";
+				ctrl.serviceUrl = proxyUrl+"/export_moments/exporter/";
+				ctrl.isExport = true;
+				var breakOut : Boolean = false;
+				var ac : ArrayCollection = HmmChaptersModel.getInstance().folderList;
+				for(var i : int = 0; i < ac.length; i++)
+				{
+					if(breakOut)
+						break;
+					var chapter : ChapterVO = ac[i] as ChapterVO;
+					for(var j : int = 0; j<  chapter.subchapters.length; j++)
+					{
+						if(breakOut)
+						break;
+						var sub : SubChapterVO = chapter.subchapters[j] as SubChapterVO;
+						for(var k : int = 0; k < sub.gallery.length; k++)
+						{
+							var gal : GalleryVO = sub.gallery[k] as GalleryVO;
+							if(gal.id == galleryId)
+							{
+								breakOut = true;
+								break;
+							}	
+						}
+					}
+				}
+				ctrl.treeData = gal as BaseVO;
+				popUp.width = 650;//Application.application.stage.width*2/3;
+				popUp.height = 310;//Application.application.stage.height*2/3;
+				PopUpManager.centerPopUp(popUp);
+			}
+			
+			private function handleJournal() : void
+			{
+				var req : URLRequest = new URLRequest("/gallery_journal/new/"+galleryId);
+				navigateToURL(req, "_self");
+			}
+			
+			private function handleDataResult(event : ResultEvent) : void
+			{
+				var myModel : HmmChaptersModel = new HmmChaptersModel();
+				myModel.data = event.result.root;
+				//subChapterId = event.result.subchapterid;
+				//myModel.attachEventListeners(menu);
+				//service.send(event.result.root);
+				HmmChaptersModel.setInstance(myModel);
+				buttonBox.enabled = true;
+			}
+			
+			private function handleNavigateTo(event : CoverFlowEvent) : void
+			{
+				trace(event.extra.id.toString());
+				var urlToNav : String = navigateTo + event.extra.id.toString();
+				var urlReq : URLRequest = new URLRequest(urlToNav);
+				navigateToURL(urlReq, "_self");
+				
+			}
+			
+			
+		]]>
+	</mx:Script>
+	<mx:Style>
+			.lastButtonStyle
+			{
+				fillColors: #000000, #000000, #000000, #cccccc;
+				corner-radius : 0;
+				selection-color : #ff6633;
+				color : #Ffffff;
+				theme-color : #ff6633;
+			}
+			 Tree
+			{
+				
+				disclosureClosedIcon: ClassReference("Tree_disclosureClosedIcon");
+				disclosureOpenIcon: ClassReference("Tree_disclosureOpenIcon");
+				
+			}
+			
+			
+			/*x="{videoDisplayShelf.width- buttonBox.width}" y="{videoDisplayShelf.height - buttonBox.height}" */
+		</mx:Style>
+		<mx:GlowFilter id="glow" color="0xACACAC"/>
+  <mx:VBox width="100%" height="100%" backgroundColor="0x010101">
+	  <mx:HBox id="buttonBox"  enabled="false" horizontalAlign="left" verticalAlign="middle"  backgroundAlpha="0">
+			<mx:Button id="journal" click="handleJournal()" label="Journal this gallery" styleName="lastButtonStyle"  visible="true"/>
+			<mx:Button id="share" click="handleShare()" label="Share this gallery" styleName="lastButtonStyle"  visible="true" />
+			<!--mx:Button id="export" click="handleExport()" label="Export" styleName="lastButtonStyle"  visible="true" width="100%"/-->
+	  </mx:HBox>
+	  <components:VideoDisplayShelf dataProvider="{videoData}" id="videoDisplayShelf" width="100%" 
+	  	 height="100%" selectedIndex="{Math.floor(videoData.length/2)}" itemClick="handleItemClick(event)"/>
+	  </mx:VBox>
+  <mx:Label width="300" id="chapterName" x="{(videoDisplayShelf.width - chapterName.width)*0.5}" color="#FFFFFF" filters="{[glow]}"
+		fontFamily="Arial" fontSize="19" y="{this.height*9/10}" textAlign="center" text="{seletectedObject.name}"/>
+<!--	<mx:Button id="fullscreen" label="fullscreen" click="handleToggleFullscreen()" toggle="true" visible="true"/>-->
+</mx:Application>

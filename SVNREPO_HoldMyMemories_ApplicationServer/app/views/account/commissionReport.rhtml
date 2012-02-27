@@ -1,0 +1,417 @@
+<script type="text/javascript">
+	function showdiv()
+	{
+		//alert('i am in');
+	
+		if(document.getElementById('choose').value == 'studio_commission')
+		{
+			document.getElementById('studio').style.display='block';
+			document.getElementById('managers').style.display='none';
+			document.getElementById('market_managers').style.display='none';
+		}
+		else if(document.getElementById('choose').value == 'studio_manager_commission')
+		{
+			document.getElementById('managers').style.display='block';
+			document.getElementById('studio').style.display='none';
+			document.getElementById('market_managers').style.display='none';
+		}
+		else if(document.getElementById('choose').value == 'market_manager_commission')
+		{
+			document.getElementById('market_managers').style.display='block';
+			document.getElementById('studio').style.display='none';
+			document.getElementById('managers').style.display='none';
+		}
+		
+	}
+	
+	function check()
+	{
+			if(document.getElementById('choose').value == 'select')
+		{
+			alert('Please Select the Commission Type')
+			return false
+		}
+		
+	}
+	
+
+  
+  
+function printIt(target) { 
+//document.getElementById('prn').style.display="none";
+  winId=window.open('','printwin','width=810,height=800'); 
+  winId.document.write(target); 
+  winId.document.close(); 
+  winId.focus(); 
+  if (window.print) winId.print(); 
+} 
+
+</script>
+ 
+<form action="/account/commissionReport" method="post" onsubmit="showdiv();"> 
+
+<table width="900" border="0">
+
+	<tr>
+		<td colspan="8">
+			<font size="3" color="#ffffff"> Commission Report</font>
+		</td>
+	</tr>
+	<tr>
+		<td colspan="8">
+			&nbsp;
+		</td>
+	</tr>
+	
+	<tr>
+		<td align="right">Select Commission Type</td>
+		<td>&nbsp;</td>
+		<td width="100">
+		<select id="choose" name="choose" onchange="return check();" >
+			<option value="select" >Select</option>
+			<option value="studio_commission" <%if params[:choose] == 'studio_commission'%> selected="selected" <%end%>>Studio Commission</option>
+			<option value="studio_manager_commission" <%if params[:choose] == 'studio_manager_commission'%> selected="selected" <%end%>>Studio Manager Commission</option>
+			<option value="market_manager_commission" <%if params[:choose] == 'market_manager_commission'%> selected="selected" <%end%>>Market Manager Commission</option>
+		</select>
+		</td>
+		<td>&nbsp;</td>
+		<td align="right">For Month</td>
+		<td>&nbsp;</td>
+		<td><select name="choose_month" id="choose_month" >
+			
+			<option value="01" <%if params[:choose_month] == '01' %>selected="selected" <%end%>>January</option>
+			<option value="02" <%if params[:choose_month] == '02' %>selected="selected" <%end%>>February</option>
+			<option value="03" <%if params[:choose_month] == '03' %>selected="selected" <%end%>>March</option>
+			<option value="04" <%if params[:choose_month] == '04' %>selected="selected" <%end%>>April</option>
+			<option value="05" <%if params[:choose_month] == '05' %>selected="selected" <%end%>>May</option>
+		    <option value="06" <%if params[:choose_month] == '06' %>selected="selected" <%end%>>June</option>
+			<option value="07" <%if params[:choose_month] == '07' %>selected="selected" <%end%>>July</option>
+			<option value="08" <%if params[:choose_month] == '08' %>selected="selected" <%end%>>August</option>
+			<option value="09" <%if params[:choose_month] == '09' %>selected="selected" <%end%>>September</option>
+			<option value="10" <%if params[:choose_month] == '10' %>selected="selected" <%end%>>October</option>
+		    <option value="11" <%if params[:choose_month] == '11' %>selected="selected" <%end%>>November</option>
+		    <option value="12" <%if params[:choose_month] == '12' %>selected="selected" <%end%>>December</option>
+		    
+		</select></td>
+		<td><select name="choose_year" id="choose_year" >
+			<%i = 2009%>
+				<%yer = Time.now.year%>
+			
+			<%until i == yer%>
+			<option value="<%=i%>" <% if params[:choose_year] == "#{i}" %> selected="selected"<%end%>><%=i%></option>
+			<%i= i + 1%>
+			<%end%>
+			<option value="<%=yer%>" <% if params[:choose_year] == "#{yer}" %> selected="selected"<%end%>><%=yer%></option>
+		</select></td>
+	</tr>
+	<tr>
+		<td colspan="8" height="20">&nbsp;</td>
+	</tr>
+	<tr>
+		<td colspan="8" align="center"> <input type="submit" name="sub" id="sub" value="Submit" > </td>
+	</tr>
+	<tr>
+		<td colspan="8" height="40">&nbsp;</td>
+	</tr>
+</table>
+
+<%@month = params[:choose_month]%>
+<%@year = params[:choose_year]%>
+<%if params[:choose_month] %>
+<%dat = @year + "-" +@month    %>
+<%end%>
+<%if params[:choose_month] == '01'
+	@mon = 'January'
+    @paycond=" and  a.payments_recieved >= 4 "
+ @paycond2=" and  a.payments_recieved >= 1 "
+elsif params[:choose_month] == '02'
+@mon = 'February'
+@paycond="  and  a.payments_recieved >= 3 "
+@paycond2="  and  a.payments_recieved >= 1 "
+elsif params[:choose_month] == '03'
+@mon = 'March'
+@paycond="  and  a.payments_recieved >= 2 "
+@paycond2="  and  a.payments_recieved >= 1 "
+elsif params[:choose_month] == '04'
+@paycond="  and  a.payments_recieved >= 1 "
+@paycond2="  and  a.payments_recieved >= 1 "
+@mon = 'April'
+elsif params[:choose_month] == '05'
+@mon = 'May'
+elsif params[:choose_month] == '06'
+@mon = 'June'
+elsif params[:choose_month] == '07'
+@mon = 'July'
+elsif params[:choose_month] == '08'
+@mon = 'August'
+elsif params[:choose_month] == '09'
+@mon = 'September'
+elsif params[:choose_month] == '10'
+@mon = 'October'
+elsif params[:choose_month] == '11'
+@mon = 'November'
+elsif params[:choose_month] == '12'
+@mon = 'December'
+end%>
+<div id="studio" style="display:none">
+	
+	<table>
+		<tr>
+		<td colspan="8">
+			<font size="3" color="#ffffff">Studio Commission Report - <%=@mon%> <%=@year%></font>
+		</td>
+		</tr>
+		<tr>
+		<td colspan="8">
+			
+		</td>
+		</tr>
+		<tr>
+			<td  background="/images/body_hor.JPG">
+				List of studios
+			</td>
+			<td  background="/images/body_hor.JPG">Commissions</td>
+		</tr>
+		<%for i in @hmm_studios%>
+		<tr class="<%= cycle('odd', 'even') -%>">
+			<td>
+				<a href="/account/studio_customers/<%=i.id%>?date=<%=dat%>"><%=i.studio_branch%></a> 
+			</td>
+			
+			
+		   <%@commision_cal12 = PaymentCount.count(:all, :select => "DISTINCT a.uid" ,:joins => "as a, employe_accounts as b ", :conditions => " a.amount = '$9.95' and a.account_type='platinum_user' and  recieved_on between '#{dat}-01' and '#{dat}-31' and a.emp_id=b.id and b.store_id='#{i.id}' and recieved_on > b.employe_join_date")%>
+		   <%@commision_cal = PaymentCount.count(:all, :select => "DISTINCT a.uid", :joins => "as a, employe_accounts as b", :conditions => " (a.amount = '$49.95' or a.amount = '$99.95') and a.account_type='platinum_user' and  recieved_on between '#{dat}-01' and '#{dat}-31' and  a.emp_id=b.id and b.store_id='#{i.id}' and recieved_on > b.employe_join_date ")%>
+		   
+																																					
+			<%@commision = HmmUser.find(:all, :select => "*", :joins => "as a, employe_accounts as b", :conditions => "a.emp_id=b.id and b.store_id='#{i.id}' and b.status='unblock' and account_type='platinum_user' and DATE_FORMAT(a.d_created_date,'%Y-%m') <= '#{dat}' and (DATE_FORMAT(a.suspended_date,'%Y-%m') <= '#{dat}' or a.substatus='' or a.substatus='active') #{@paycond}")%>
+			<%@commision1 = HmmUser.find_by_sql("SELECT b.*, a.months as month, a.*  FROM hmm_users  as a, employe_accounts as b WHERE a.emp_id=b.id and b.status='unblock'and b.store_id='#{i.id}' and account_type='platinum_user' and DATE_FORMAT(a.account_expdate,'%Y-%m') <= '#{dat}' and (DATE_FORMAT(a.suspended_date,'%Y-%m') >= '#{dat}' or (a.substatus='' or a.substatus='active')) #{@paycond}")%>
+		
+			
+			
+			<td align="center">
+				<%if @commision_cal == 0 && @commision_cal12 == 0 %>
+				NIl
+				<%else%>
+					<%@commision_cal12 = (@commision_cal12 * 4.00)%>
+					<%@commision_cal = (@commision_cal * 3.33)%>
+					<%@total = @commision_cal12 + @commision_cal%>
+				$<%=@total%> 
+				<%end%>
+			</td>
+		</tr>
+		<%end%>
+		<tr>
+			<td>
+				&nbsp;
+			</td>
+		</tr>
+		<tr>
+			<th>
+				<input type="button" value="Print Commission Report" name="print" onclick="printIt(document.getElementById('studio').innerHTML);return false" />
+			</th>
+		</tr>
+	</table>
+</div>
+
+<div id="managers"  style="display:none">
+	<table>
+		<tr>
+		<td colspan="8">
+			<font size="3" color="#ffffff">Manager Commission Report - <%=@mon%> <%=@year%></font>
+		</td>
+		</tr>
+		<tr>
+			<tr>
+		<td colspan="8">
+			&nbsp;
+		</td>
+		</tr>
+		<tr>
+		<tr>
+			<td  background="/images/body_hor.JPG">
+				List of Managers
+			</td>
+			<td  background="/images/body_hor.JPG">
+				Managers Username
+			</td>
+			
+			<td  background="/images/body_hor.JPG"><table><tr>Studio Employeename  </td><td  background="/images/body_hor.JPG"> Commission earned indivisually</td></tr></table></td>
+			<td  background="/images/body_hor.JPG">Total Studio Manager's Commission</td>
+			
+		</tr>
+		<%for j in @manager_commission
+                 
+                %>
+		<%@store_emp_count = EmployeAccount.count(:all, :conditions => "store_id='#{j.store_id}'")%>
+		<tr class="<%= cycle('odd', 'even') -%>">
+			<td >
+				<a href="/account/studio_customers/<%=j.store_id%>?date=<%=dat%>"><%=j.employe_name%></a>
+			</td>
+			<td >
+				<%=j.employe_username%>
+			</td>
+			<td>
+			<table>
+			
+			<%@commission = 0
+
+			 hmm_users_studios =  HmmUser.find(:all,:select =>'studio_id', :conditions => "emp_id='#{j.id}' ", :group =>"studio_id", :limit=> "0,2")
+                        @studios="(0"
+                        for studio in hmm_users_studios
+
+                        
+                        @commision_emp = PaymentCount.count('DISTINCT a.uid', :joins => "as a, hmm_users as b", :conditions => "a.emp_id='#{j.id}' and a.uid=b.id and a.account_type='platinum_user' and (a.amount='$9.95' or a.amount='$49.95' or a.amount='$99.95') and  a.recieved_on between '#{dat}-01' and '#{dat}-31' and b.studio_id='#{studio.studio_id}' ")
+			logger.info "employee commission#{@commision_emp}"
+				@indivisul_employee_comission=@commision_emp * 2
+				@commission=@commission+@commision_emp
+                                @studios="#{@studios}, #{studio.studio_id}"
+
+%>
+			  	
+				<tr><td><a href="/account/studio_employee_customers/<%=j.id%>?date=<%=dat%>&store_id=<%=j.store_id%>&manager_id=<%=j.id%>"><u><%=j.employe_username%></u></a> </td><td ><a href="/account/studio_employee_customers/<%=j.id%>?date=<%=dat%>&store_id=<%=j.store_id%>&manager_id=<%=j.id%>"><u> $<%=@indivisul_employee_comission%></u> Studio=><%=studio.studio_id%></a></td></tr>
+			<%end
+                                @studios="#{@studios} )" %>
+			<%@store_emp = EmployeAccount.find(:all, :conditions => "store_id in #{@studios} and emp_type!='store_manager'", :order => "store_id ")
+				
+				for g in @store_emp %>
+				
+				
+			
+			
+			 <%
+                         hmm_users_studios =  HmmUser.find(:all,:select =>'studio_id', :conditions => "emp_id='#{j.id}' ", :group =>"studio_id", :limit=> "0,2")
+                         
+                         for studio in hmm_users_studios
+
+                         
+                         @commision_emp = PaymentCount.count('DISTINCT a.uid', :joins => "as a, hmm_users as b", :conditions => "a.emp_id='#{g.id}' and a.uid=b.id and a.account_type='platinum_user' and (a.amount='$9.95' or a.amount='$49.95' or a.amount='$99.95') and  a.recieved_on between '#{dat}-01' and '#{dat}-31' and b.studio_id='#{studio.studio_id}'  ")
+			 
+                         @commission=@commission+@commision_emp
+                         
+				@indivisul_employee_comission=@commision_emp * 2
+              %>
+			  	<tr><td><a href="/account/studio_employee_customers/<%=g.id%>?date=<%=dat%>&store_id=<%=g.store_id%>&manager_id=<%=j.id%>"><u><%=g.employe_username%></u></a> </td><td ><a href="/account/studio_employee_customers/<%=g.id%>?date=<%=dat%>&store_id=<%=g.store_id%>&manager_id=<%=j.id%>"><u> $<%=@indivisul_employee_comission%></u> Studio=><%=studio.studio_id%></a></td></tr>
+			  <%
+                            end
+				end
+                                logger.info("storecom#{j.store_id}:#{@commission}")
+                                logger.info("empcount#{j.store_id}:#{@commision_emp}")
+				@commission_amt=@commission*2 
+%>
+			  
+			  </table></td>
+			<td align="center" "<%=@store_emp_count%>">
+				<%if @commission_amt == 0  %>
+				NIl
+				<%else%>
+					
+				$<%=@commission_amt%> 
+				<%end%>
+			</td>
+		</tr>
+		<%end%>
+		
+		<tr>
+			<td>
+				&nbsp;
+			</td>
+		</tr>
+		<tr>
+			<th>
+				<input type="button" value="Print Commission Report" name="print" onclick="printIt(document.getElementById('managers').innerHTML);return false" />
+			</th>
+		</tr>
+	</table>
+</div>
+
+<div id="market_managers" style="display:none">
+	<table>
+		<tr>
+		<td colspan="8">
+			<font size="3" color="#ffffff">Market Manager Commission Report - <%=@mon%> <%=@year%></font>
+		</td>
+		</tr>
+		<tr>
+			<tr>
+		<td colspan="8">
+			&nbsp;
+		</td>
+		</tr>
+		<tr>
+		<tr>
+			<td  background="/images/body_hor.JPG">
+				List of Managers
+			</td>
+			<td  background="/images/body_hor.JPG">
+				Managers Username
+			</td>
+			
+			<td  background="/images/body_hor.JPG">Commissions</td>
+		</tr>
+		<%for j in @marketmanager_commission%>
+		
+		<tr class="<%= cycle('odd', 'even') -%>">
+			<td>
+				<a href="/account/commissionReport_market_manager/<%=j.id%>"><%=j.manager_name%></a>
+			</td>
+			<td>
+				<a href="/account/commissionReport_market_manager/<%=j.id%>"><%=j.manager_username%></a>
+				
+			</td>
+			
+			<% @studio = ManagerBranche.find(:all, :conditions => "manager_id='#{j.id}'")
+				
+			   @studio_customers_count = 0	
+%>
+			<%for m in @studio%>
+				<% @joined_on=m.joined_on %>
+				<% @expired_on=m.expired_on %>
+				<%@studioemp = EmployeAccount.find(:all, :conditions => "store_id='#{m.branch_id}'")
+				  customers_count=0 	
+%>	
+				<%for z in @studioemp %>
+				  	<%@employee_customers_count = PaymentCount.count('DISTINCT a.uid', :joins => "as a, hmm_users as b", :conditions => "a.emp_id='#{z.id}' and a.uid=b.id and a.account_type='platinum_user' and (a.amount='$9.95' or a.amount='$49.95' or a.amount='$99.95') and  a.recieved_on between '#{dat}-01' and '#{dat}-31' and (b.d_created_date between '#{@joined_on} 00:00:00' and '#{@expired_on} 23:59:59' )  ")
+					  
+					   customers_count=customers_count+@employee_customers_count	
+             %>
+			
+			<% end %>
+			<%@studio_customers_count=@studio_customers_count+customers_count
+                        %>
+                        <%
+                          end
+                          @commission=@studio_customers_count
+			%>	
+			<td align="center">
+				<% if j.id == 6 && params[:choose_month] == '09' %>
+					$1655
+				<%else%>
+				<% if j.id == 6 && params[:choose_month] == '10' %>
+				$1683
+				<%else%>
+					
+				$<%=@commission%> 
+				<%end%>
+				<%end%>
+			</td>
+		</tr>
+		<%end%>
+		<tr>
+			<td>
+				&nbsp;
+			</td>
+		</tr>
+		<tr>
+			<th>
+				<input type="button" value="Print Commission Report" name="print" onclick="printIt(document.getElementById('market_managers').innerHTML);return false" />
+			</th>
+		</tr>
+	</table>
+</div>
+</form>
+<script type="text/javascript">
+	showdiv();
+</script>
+
+
+

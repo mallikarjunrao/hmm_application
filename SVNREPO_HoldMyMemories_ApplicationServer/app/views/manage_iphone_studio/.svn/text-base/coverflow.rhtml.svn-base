@@ -1,0 +1,39 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="de">
+  <head>
+    <title>ImageFlow 0.8</title>
+    <meta http-equiv="content-type" content="text/html; charset=ISO-8859-1" />
+    <link rel="stylesheet" title="Standard" href="/imageflow/screen.css" type="text/css" media="screen" />
+    <script language="JavaScript" type="text/javascript" src="/imageflow/imageflow.js"></script>
+    <script type="text/javascript">
+    </script>
+  </head>
+  <body>
+    <h1>Family Images</h1>
+    <table align="center" height="100%">
+      <tr>
+        <td height="10%" align="center">
+        </td>
+      </tr>
+      <tr>
+        <div id="imageflow">
+          <div id="loading">
+            <font color="#FFFFFF"><b>Loading images</b></font><br/>
+            <img src="/imageflow/loading.gif" width="10%" height="13" alt="loading" />
+          </div>
+          <div id="images">
+            <% for studio_portfolio in @studio_portfolios %>
+              <img src="<%=studio_portfolio.img_url%>/user_content/photos/coverflow/<%=studio_portfolio.v_filename%>" longdesc="<%=studio_portfolio.img_url%>/user_content/photos/coverflow/<%=studio_portfolio.v_filename%>" alt="<%=studio_portfolio.d_createddate.strftime("%Y-%m-%d") %>"  class="reflect" />
+            <% end %>
+          </div>
+          <div id="captions"></div>
+          <div id="scrollbar">
+            <div id="slider"></div>
+          </div>
+        </div>
+        <div class="clear"></div>
+      </tr>
+    </table>
+  </body>
+</html>

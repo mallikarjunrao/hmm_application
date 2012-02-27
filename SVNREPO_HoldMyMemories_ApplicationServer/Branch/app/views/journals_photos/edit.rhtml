@@ -1,0 +1,10 @@
+<table align="left"><tr><td>
+   			<img src="<%=@usercontent.img_url%>/<%=@imgpath%>" width="80" /></td><td>
+         <font size=5 color="#FFFFFF" style=face="Arial, Helvetica, sans-serif">&nbsp;&nbsp;&nbsp;Edit journal entry for "<%=@imgname%>" </font>     
+  </td></tr></table> <bR><br><br><br><br><br><br>
+
+<% form_tag :action => 'update', :id => @journals_photo do %>
+  <%= render :partial => 'form' %>
+
+<% end %>	
+

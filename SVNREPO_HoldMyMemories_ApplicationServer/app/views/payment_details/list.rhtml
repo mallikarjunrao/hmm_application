@@ -1,0 +1,27 @@
+<h1>Listing payment_details</h1>
+
+<table>
+  <tr>
+  <% for column in PaymentDetail.content_columns %>
+    <th><%= column.human_name %></th>
+  <% end %>
+  </tr>
+  
+<% for payment_detail in @payment_details %>
+  <tr>
+  <% for column in PaymentDetail.content_columns %>
+    <td><%=h payment_detail.send(column.name) %></td>
+  <% end %>
+    <td><%= link_to 'Show', :action => 'show', :id => payment_detail %></td>
+    <td><%= link_to 'Edit', :action => 'edit', :id => payment_detail %></td>
+    <td><%= link_to 'Destroy', { :action => 'destroy', :id => payment_detail }, :confirm => 'Are you sure?', :method => :post %></td>
+  </tr>
+<% end %>
+</table>
+<table>
+	<tr>
+		<th align="left">
+			<%=will_paginate @payment_details%>				
+		</th>
+	</tr>
+</table>

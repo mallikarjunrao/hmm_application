@@ -1,0 +1,280 @@
+<script type="text/javascript">
+	function showdiv()
+	{
+		//alert('i am in');
+	
+		if(document.getElementById('choose').value == 'studio_commission')
+		{
+			document.getElementById('studio').style.display='block';
+			document.getElementById('managers').style.display='none';
+			document.getElementById('market_managers').style.display='none';
+		}
+		else if(document.getElementById('choose').value == 'studio_manager_commission')
+		{
+			document.getElementById('managers').style.display='block';
+			document.getElementById('studio').style.display='none';
+			document.getElementById('market_managers').style.display='none';
+		}
+		else if(document.getElementById('choose').value == 'market_manager_commission')
+		{
+			document.getElementById('market_managers').style.display='block';
+			document.getElementById('studio').style.display='none';
+			document.getElementById('managers').style.display='none';
+		}
+		
+	}
+	
+	function check()
+	{
+			if(document.getElementById('choose').value == 'select')
+		{
+			alert('Please Select the Commission Type')
+			return false
+		}
+		
+	}
+	
+
+  
+  
+function printIt(target) { 
+//document.getElementById('prn').style.display="none";
+  winId=window.open('','printwin','width=810,height=800'); 
+  winId.document.write(target); 
+  winId.document.close(); 
+  winId.focus(); 
+  if (window.print) winId.print(); 
+} 
+
+</script>
+ 
+<form action="/account/commissionReport" method="post" onsubmit="showdiv();"> 
+
+<table width="900" border="0">
+
+	<tr>
+		<td colspan="8">
+			<font size="3" color="#ffffff"> Commission Report</font>
+		</td>
+	</tr>
+	<tr>
+		<td colspan="8">
+			&nbsp;
+		</td>
+	</tr>
+	
+	<tr>
+		<td align="right">Select Commission Type</td>
+		<td>&nbsp;</td>
+		<td width="100">
+		<select id="choose" name="choose" onchange="return check();" >
+			<option value="select" >Select</option>
+			<option value="studio_commission" <%if params[:choose] == 'studio_commission'%> selected="selected" <%end%>>Studio Commission</option>
+			<option value="studio_manager_commission" <%if params[:choose] == 'studio_manager_commission'%> selected="selected" <%end%>>Studio Manager Commission</option>
+			<option value="market_manager_commission" <%if params[:choose] == 'market_manager_commission'%> selected="selected" <%end%>>Market Manager Commission</option>
+		</select>
+		</td>
+		<td>&nbsp;</td>
+		<td align="right">For Month</td>
+		<td>&nbsp;</td>
+		<td><select name="choose_month" id="choose_month" >
+			
+			<option value="01" <%if params[:choose_month] == '01' %>selected="selected" <%end%>>January</option>
+			<option value="02" <%if params[:choose_month] == '02' %>selected="selected" <%end%>>February</option>
+			<option value="03" <%if params[:choose_month] == '03' %>selected="selected" <%end%>>March</option>
+			<option value="04" <%if params[:choose_month] == '04' %>selected="selected" <%end%>>April</option>
+		</select></td>
+		<td><select name="choose_year" id="choose_year" >
+			<%i = 2009%>
+				<%yer = Time.now.year%>
+			
+			<%until i == yer%>
+			<option value="<%=i%>"><%=i%></option>
+			<%i= i + 1%>
+			<%end%>
+			<option value="<%=yer%>"><%=yer%></option>
+		</select></td>
+	</tr>
+	<tr>
+		<td colspan="8" height="20">&nbsp;</td>
+	</tr>
+	<tr>
+		<td colspan="8" align="center"> <input type="submit" name="sub" id="sub" value="Submit" > </td>
+	</tr>
+	<tr>
+		<td colspan="8" height="40">&nbsp;</td>
+	</tr>
+</table>
+
+<%@month = params[:choose_month]%>
+<%@year = params[:choose_year]%>
+<%if params[:choose_month] %>
+<%dat = @year + "-" +@month    %>
+<%end%>
+<%if params[:choose_month] == '01'
+	@mon = 'January'
+elsif params[:choose_month] == '02'
+@mon = 'February'
+elsif params[:choose_month] == '03'
+@mon = 'March'
+elsif params[:choose_month] == '04'
+@mon = 'April'
+elsif params[:choose_month] == '05'
+@mon = 'May'
+elsif params[:choose_month] == '06'
+@mon = 'June'
+elsif params[:choose_month] == '07'
+@mon = 'July'
+elsif params[:choose_month] == '08'
+@mon = 'August'
+elsif params[:choose_month] == '09'
+@mon = 'September'
+elsif params[:choose_month] == '10'
+@mon = 'October'
+elsif params[:choose_month] == '11'
+@mon = 'November'
+elsif params[:choose_month] == '12'
+@mon = 'December'
+end%>
+<div id="studio" style="display:none">
+	
+	<table>
+		<tr>
+		<td colspan="8">
+			<font size="3" color="#ffffff">Studio Commission Report - <%=@mon%> <%=@year%></font>
+		</td>
+		</tr>
+		<tr>
+		<td colspan="8">
+			&nbsp;
+		</td>
+		</tr>
+		<tr>
+			<td  background="/images/body_hor.JPG">
+				List of studios
+			</td>
+			<td  background="/images/body_hor.JPG">Commissions</td>
+		</tr>
+		<%for i in @hmm_studios%>
+		<tr class="<%= cycle('odd', 'even') -%>">
+			<td>
+				<a href="/account/studio_customers/<%=i.id%>?date=<%=dat%>"><%=i.studio_branch%></a> 
+			</td>
+			<%@commision_cal12 = HmmUser.count(:all, :joins => "as a, employe_accounts as b", :conditions => "a.emp_id=b.id and b.store_id='#{i.id}' and a.months = 1 and account_type='platinum_user' and DATE_FORMAT(a.d_created_date, '%Y-%m') <= '#{dat}' ")%>
+																																					
+			<%@commision_cal = HmmUser.count(:all, :joins => "as a, employe_accounts as b", :conditions => "a.emp_id=b.id and b.store_id='#{i.id}' and a.months != 1  and account_type='platinum_user' and DATE_FORMAT(a.d_created_date, '%Y-%m') <= '#{dat}' ")%>
+			<%@commision = HmmUser.find(:all, :joins => "as a, employe_accounts as b", :conditions => "a.emp_id=b.id and b.store_id='#{i.id}' and account_type='platinum_user' and DATE_FORMAT(a.d_created_date,'%Y-%m') <= '#{dat}' ")%>
+			<%@commision1 = HmmUser.find_by_sql(" SELECT b.*, a.months as month, a.*  FROM hmm_users  as a, employe_accounts as b WHERE a.emp_id=b.id and b.store_id='#{i.id}' and account_type='platinum_user' and DATE_FORMAT(a.d_created_date,'%Y-%m') <= '#{dat}' ")%>
+			
+			
+			<td align="center">
+				<%if @commision_cal == 0 && @commision_cal12 == 0 %>
+				NIl
+				<%else%>
+					<%@commision_cal12 = (@commision_cal12 * 4.00)%>
+					<%@commision_cal = (@commision_cal * 3.33)%>
+					<%@total = @commision_cal12 + @commision_cal%>
+				$<%=@total%> 
+				<%end%>
+			</td>
+		</tr>
+		<%end%>
+		<tr>
+			<td>
+				&nbsp;
+			</td>
+		</tr>
+		<tr>
+			<th>
+				<input type="button" value="Print Commission Report" name="print" onclick="printIt(document.getElementById('studio').innerHTML);return false" />
+			</th>
+		</tr>
+	</table>
+</div>
+
+<div id="managers"  style="display:none">
+	<table>
+		<tr>
+		<td colspan="8">
+			<font size="3" color="#ffffff">Manager Commission Report - <%=@mon%> <%=@year%></font>
+		</td>
+		</tr>
+		<tr>
+			<tr>
+		<td colspan="8">
+			&nbsp;
+		</td>
+		</tr>
+		<tr>
+		<tr>
+			<td  background="/images/body_hor.JPG">
+				List of Managers
+			</td>
+			<td  background="/images/body_hor.JPG">
+				Managers Username
+			</td>
+			<td  background="/images/body_hor.JPG">
+				Studio 
+			</td>
+			<td  background="/images/body_hor.JPG">Commissions</td>
+		</tr>
+		<%for j in @manager_commission%>
+		<tr class="<%= cycle('odd', 'even') -%>">
+			<td>
+				<a href="/account/studio_customers/<%=j.store_id%>?date=<%=dat%>"><%=j.employe_name%></a>
+			</td>
+			<td>
+				<%=j.employe_username%>
+			</td>
+			<% @studio = HmmStudio.find(:all, :conditions => "id='#{j.store_id}'")%>
+			<%for k in @studio%>
+			<td>
+				<%=k.studio_branch%>
+			</td>
+			<%end%>
+			<%@commision_cal12 = HmmUser.count(:all, :joins => "as a, hmm_studios as b", :conditions => "a.emp_id='#{j.id}' and b.id='#{j.store_id}' and account_type='platinum_user' and DATE_FORMAT(a.d_created_date, '%Y-%m') <= '#{dat}' ")%>
+			
+			
+			<td align="center">
+				<%if @commision_cal == 0 && @commision_cal12 == 0 %>
+				NIl
+				<%else%>
+					<%@commision_cal12 = (@commision_cal12 * 2.00)%>
+					
+					<%@total = @commision_cal12 %>
+				$<%=@total%> 
+				<%end%>
+			</td>
+		</tr>
+		<%end%>
+		
+		<tr>
+			<td>
+				&nbsp;
+			</td>
+		</tr>
+		<tr>
+			<th>
+				<input type="button" value="Print Commission Report" name="print" onclick="printIt(document.getElementById('managers').innerHTML);return false" />
+			</th>
+		</tr>
+	</table>
+</div>
+
+<div id="market_managers" style="display:none">
+	<table>
+		<tr>
+			<td >
+			<font size="3">Comming Soon</font>
+			</td>
+		</tr>
+		
+	</table>
+</div>
+</form>
+<script type="text/javascript">
+	showdiv();
+</script>
+
+
+

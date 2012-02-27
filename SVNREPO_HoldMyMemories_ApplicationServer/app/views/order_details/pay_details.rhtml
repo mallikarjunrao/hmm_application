@@ -1,0 +1,46 @@
+<table>
+<tr><td colspan="3"><h2>Payment Details</h2></td></tr>	
+</table>
+<table align="center">
+	
+<%		@pdet = PaymentDetail.find(:all, :conditions => "order_id='#{params[:id]}'")
+   
+
+for pd in @pdet
+ %>
+ <tr><td>
+<fieldset>
+<table align="left">
+<tr><td>First Name</td><td>:</td><td><%=pd.fname%></td></tr>
+<tr><td>Last Name</td><td>:</td><td><%=pd.lname%></td></tr>
+<tr><td>Street Address</td><td>:</td><td><%=pd.street_address%></td></tr>
+<tr><td>City</td><td>:</td><td><%=pd.city%></td></tr>
+<tr><td>State</td><td>:</td><td><%=pd.state%></td></tr>
+<tr><td>Country</td><td>:</td><td><%=pd.country%></td></tr>
+<tr><td>Post code</td><td>:</td><td><%=pd.postcode%></td></tr>
+<tr><td>Telephone</td><td>:</td><td><%=pd.telephone%></td></tr>
+<tr><td>Amount</td><td>:</td><td>$ <%=pd.amount %></td></tr>
+<tr><td>&nbsp;</td></tr>
+
+</table>
+</fieldset>
+<br><br>
+<table>
+<tr><td colspan="3"><h2>Shipping Details</h2></td></tr>	
+<tr><td>&nbsp;</td></tr>
+</table>
+<fieldset>
+<table>
+<tr><td>Street Address</td><td>:</td><td><%=pd.shipment_street_address %></td></tr>
+<tr><td>City</td><td>:</td><td><%=pd.shipment_city %></td></tr>
+<tr><td>State</td><td>:</td><td><%=pd.shipment_state %></td></tr>
+<tr><td>Country</td><td>:</td><td><%=pd.shipment_country %></td></tr>
+<tr><td>Postcode</td><td>:</td><td><%=pd.shipment_postcode %></td></tr>
+<tr><td>Telephone</td><td>:</td><td><%=pd.shipment_telephone %></td></tr>
+</table>
+</fieldset>
+<%end%>
+</td></tr> 
+<tr><td>
+<%= link_to 'Go Back', :action => 'list' %>
+</td></tr></table>

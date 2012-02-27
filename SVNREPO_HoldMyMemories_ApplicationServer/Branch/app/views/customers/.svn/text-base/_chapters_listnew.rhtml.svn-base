@@ -1,0 +1,101 @@
+
+<form name="frm" action="">
+<table align="center" width="820" border="0" cellspacing="0" cellpadding="0">
+	<input type="hidden" name="order" value="<%=@params[:order]%>" />
+	
+	<tr><th colspan="2" height="" valign="middle" align="left">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="image" id="order_date" value="d_updated_date" name="order_date" src="/images/date_sort.gif"   border="0" onClick="sort()">&nbsp;&nbsp;<input type="image" id="order_name" name="v_tagname" src="/images/name_sort.gif"   border="0" onClick="sort()">		
+	<td align="right" height="" valign="bottom" ><a href="/tags/coverflow"><img src="/images/coverflowicon2.jpg" border="0"></a></td>
+</th>
+</tr>
+
+	<% @hmmuser = HmmUsers.find(:all, :conditions => "id=#{logged_in_hmm_user.id}")
+		 for @i in @hmmuser %>
+<tr><th colspan="2" height="40" valign="top" align="left"><font size="3">&nbsp;&nbsp;&nbsp; <%if (@friend.id!='')%> <%=@friend.v_fname%><%else%><%= @i.v_fname %><%end%>'s&nbsp;Chapters</font></th>
+<%end%></tr>
+  <tr>
+  
+  <th width="900" height="128" align="left" valign="top" scope="col" colspan="3">
+	<table width="100%" border="0"  cellspacing="0" align="left" cellpadding="0">
+	<tr>
+       <th height="4" colspan="10" align="left" valign="top" scope="col" ></th><th width="1"></th>
+    <th></th>
+
+       <th width="30"></th>
+       <th width=""></th>
+       <th width=""></th>
+    </tr>
+      		<% 
+				j=0	
+				if @total == 0 %>
+				<p>No items found...</p>
+			<% else %>
+ 			   <% @tags.each do |@tag|
+			   
+			   
+			%>
+			<% if j == 0 %>
+			<tr>
+				
+			<% else if j >= 3 
+			j=0
+				
+			%>
+			</tr>
+				<tr>
+                        <th height="30" colspan="10" align="left" valign="top" scope="col"></th>
+          </tr>
+			<tr>
+			<% end %>	
+			<% end %>
+			</form>
+            <th width="29" align="left" valign="top" scope="col"><% j=j+1%>&nbsp;&nbsp;&nbsp;</th>
+            <th width="73" align="left" valign="top" scope="col" ><a href='/customers/chapter_next/<%= @tag.id %>' ><img src="/user_content/photos/icon_thumbnails/<%= @tag.v_chapimage %>" border="5" style="border-color:#000000;"  /></a></th>
+			
+            <th width="10" align="left" valign="top" scope="col">&nbsp;</th>
+            <th width="139" align="left" valign="top" scope="col">
+            	<table width="100%" border="0" cellspacing="0" cellpadding="0">
+                	<tr>
+                		<th height="13" align="left" valign="top" scope="col"></th>
+                	</tr>
+                	<tr>
+               		  <th height="21" align="left" valign="top"  scope="col"><%= @tag.v_tagname %></th>
+                 	</tr>
+					
+                    <tr>
+                 	  <th align="left" class="chapindex-text2" valign="top"  scope="col">last updated <br>
+					  <% ActiveSupport::CoreExtensions::Time::Conversions::DATE_FORMATS.merge!(
+    				:date => "%Y-%m-%d",
+    				:presentable_datetime => "%a %b %d, %Y %H:%M",
+    				:presentable_date => "%a %b %d, %Y") 
+					@created_date=@tag.d_updateddate%>  
+
+				
+					  
+					  <%= @created_date.to_s() %></th>
+                    </tr>
+              </table>	 </th>
+   <% end %></tr>	  
+    </table></th>
+  </tr>
+  
+  
+  
+  <tr>
+    <th valign="bottom" scope="col" align="right" colspan="10" height="30">
+<% if @tags_pages.page_count > 1 %>
+Page&nbsp;:
+<%= pagination_links_remote @tags_pages %>&nbsp;
+<% end %></th>
+  </tr>
+ 
+  <tr>
+    <td align="right" colspan="2">&nbsp;</td>
+  </tr>
+</table>
+<%end%>
+
+<script language="JavaScript">
+	
+	
+	
+</script>

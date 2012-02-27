@@ -1,0 +1,27 @@
+<h1>Listing gallery_journals</h1>
+
+<table>
+  <tr>
+  <% for column in GalleryJournal.content_columns %>
+    <th><%= column.human_name %></th>
+  <% end %>
+  </tr>
+  
+<% for gallery_journal in @gallery_journals %>
+  <tr>
+  <% for column in GalleryJournal.content_columns %>
+    <td><%=h gallery_journal.send(column.name) %></td>
+  <% end %>
+    <td><%= link_to 'Show', :action => 'show', :id => gallery_journal %></td>
+    <td><%= link_to 'Edit', :action => 'edit', :id => gallery_journal %></td>
+    <td><%= link_to 'Destroy', { :action => 'destroy', :id => gallery_journal }, :confirm => 'Are you sure?', :method => :post %></td>
+  </tr>
+<% end %>
+</table>
+
+<%= link_to 'Previous page', { :page => @gallery_journal_pages.current.previous } if @gallery_journal_pages.current.previous %>
+<%= link_to 'Next page', { :page => @gallery_journal_pages.current.next } if @gallery_journal_pages.current.next %> 
+
+<br />
+
+<%= link_to 'New gallery_journal', :action => 'new' %>

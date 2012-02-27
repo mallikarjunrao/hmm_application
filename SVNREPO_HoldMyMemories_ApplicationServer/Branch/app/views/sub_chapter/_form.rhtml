@@ -1,0 +1,10 @@
+<%= error_messages_for 'sub_chapter' %>
+
+
+<p><label for="user_content_tagid">Select Chapter</label><br/>
+<%= collection_select("sub_chapter", "tagid" , @tags , "id", "v_tagname") %></p>
+
+<p><label for="sub_chapter_sub_chapname">Sub chapname</label><br/>
+<%= text_field 'sub_chapter', 'sub_chapname'  %></p>
+
+

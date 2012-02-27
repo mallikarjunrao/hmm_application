@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:VBox xmlns:mx="http://www.adobe.com/2006/mxml" width="100%" height="100%" implements="components.IWizardComponent" backgroundColor="0" horizontalAlign="center" verticalAlign="middle">
+	<mx:Label text="Enter video Title " fontSize="13" fontFamily="arial" fontWeight="bold"/>
+	<mx:HBox width="100%" height="100%" horizontalAlign="center" verticalAlign="middle">
+		<!--mx:Label text="Line 1 :"/-->
+		<mx:TextInput id="title" color="0"/>
+	</mx:HBox>	
+	<!--mx:HBox width="100%" height="100%" horizontalAlign="center" verticalAlign="middle">
+		<mx:Label text="Line 2 :"/>
+		<mx:TextInput id="line2" color="0"/>
+	</mx:HBox>	
+	<mx:HBox width="100%" height="100%" horizontalAlign="center" verticalAlign="middle">
+		<mx:Label text="Line 3 :"/>
+		<mx:TextInput id="line3" color="0"/>
+	</mx:HBox>	
+	<mx:HBox width="100%" height="100%" horizontalAlign="center" verticalAlign="middle">
+		<mx:Label text="Line 4 :"/>
+		<mx:TextInput id="line4" color="0"/>
+	</mx:HBox>
+	<mx:HBox width="100%" height="100%" horizontalAlign="center" verticalAlign="middle">
+		<mx:Label text="Line 5 :"/>
+		<mx:TextInput id="line5" color="0"/>
+	</mx:HBox-->		
+	<mx:Script>
+		<![CDATA[
+			import com.adobe.utils.StringUtil;
+			import mx.controls.Alert;
+			public function getComponentData() : Object
+			{
+				/* if(videoName.text != "") */
+				
+				/* var obj : Object = new Object();
+				obj.line1 = line1.text;
+				obj.line2 = line2.text;
+				obj.line3 = line3.text;
+				obj.line4 = line4.text;
+				obj.line5 = line5.text;	 */			
+					return title.text;
+				/* else
+				{
+					Alert.show("Please enter a name for video");
+					return null;
+				} */
+					
+			}
+			
+			public function finalizeComponent() : void
+			{
+				
+			}
+			
+			public function validateComponentData() : Boolean
+			{
+				var titleText : String = title.text.toString();
+				titleText = StringUtil.trim(titleText);
+				if(titleText.length > 0 && titleText != "" && titleText.length <= 50 )
+				 return true;
+				else if(titleText.length == 0 || titleText == "")
+				{
+					Alert.show("Please enter a title for video");
+					return false;
+				}
+				else
+				{
+					Alert.show("Maximum length of title is 50 characters");
+					return false;
+				} 
+			}
+		]]>
+	</mx:Script>
+</mx:VBox>

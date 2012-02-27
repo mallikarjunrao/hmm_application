@@ -1,0 +1,47 @@
+<%= error_messages_for 'familywebsite_theme' %>
+
+<!--[form:familywebsite_theme]-->
+<!--<p><label for="familywebsite_theme_theme_name">Theme name</label><br/>
+</p>
+
+<p><label for="familywebsite_theme_theme_added_date">Theme added date</label><br/>
+< %= datetime_select 'familywebsite_theme', 'theme_added_date'  % ></p>
+
+<p><label for="familywebsite_theme_theme_image">Theme image</label><br/>
+< %= text_field 'familywebsite_theme', 'theme_image'  % ></p>
+[eoform:familywebsite_theme]-->
+
+<table>
+	<tr>
+		<td>
+			Theme Name
+		</td>
+		<td>
+			&nbsp;
+		</td>
+		<td>
+			<%= text_field 'familywebsite_theme', 'theme_name'  %>
+		</td>
+	</tr>
+	<tr>
+		<td colspan="3">
+			&nbsp;
+		</td>
+	</tr>
+	<tr>
+		<td>
+			Theme Image Name
+		</td>
+		<td>
+			&nbsp;
+		</td>
+		<td>
+			<%= text_field 'familywebsite_theme', 'theme_image'  %>
+		</td>
+	</tr>
+	<tr>
+		<td colspan="3">
+			&nbsp;
+		</td>
+	</tr>
+</table>

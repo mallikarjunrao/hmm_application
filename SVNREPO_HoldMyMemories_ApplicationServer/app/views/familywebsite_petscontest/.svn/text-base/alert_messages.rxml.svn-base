@@ -1,0 +1,9 @@
+xml.instruct! :xml, :version=>"1.0"
+xml.root {
+        xml.contestname("Super Mom & Super Dad Contest")
+        xml.userlabel("Enter contestant name")
+        xml.submitvalid("Your entry has been submitted,  After your entry has been approved you will receive an email notification so that you may vote for your contestant, and invite your friends to vote for your family")
+        xml.changenamealert("Please change the contestant name! \n A moment is already submitted by you with that name")
+        xml.submitinvalid("This moment is already submited for the contest! \n You can not submit it again.")
+
+}

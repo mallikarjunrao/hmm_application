@@ -1,0 +1,94 @@
+<style type="text/css">
+<!--
+.style1 {font-family: Arial, Helvetica, sans-serif}
+.style3 {font-size: 12px}
+.style4 {color: #CCCCCC}
+-->
+</style>
+<script language="JavaScript">
+	function check(){
+		
+		if (document.getElementById('hmm_user_v_user_name').value == '')
+		{
+			document.getElementById('hmm_user_v_user_name').focus();
+            alert("Please enter your User Name");
+            return false;
+		}
+		
+		if  (document.getElementById('hmm_user_v_password').value == '')
+		{
+			document.getElementById('hmm_user_v_password').focus();
+            alert("Please enter your Password");
+            return false;
+		}
+		else
+		return true;
+	}
+	
+</script>
+<% if logged_in_hmm_user %>
+
+<table width="" border="0" cellspacing="0" cellpadding="0" align='center'>
+              <tr class="style1">
+                <td width="" height="25" align="center" valign="bottom" class="signedtxt style1 style3 style4"><span class="signedtxtwhite"> You are already Signed in as </span> 
+					 </span> <% if is_logged_in? %> <%= link_to 'create_def', {:controller => 'customers', :action => 'new'},
+:method => :post %> 
+<%=logged_in_hmm_user.id%>
+<%elsif logged_in_hmm_user %>
+				
+				 <%= logged_in_hmm_user.v_user_name %> !  &nbsp;&nbsp;<%end%>			    </td>
+                <td width="" align="center" valign="bottom" class="signedtxt style1 style3 style4"> <a href="/tags/coverflow/" class="signedtxt style1 style3 style4" >My Account</a>&nbsp;|&nbsp; <%= link_to 'Sign Out', {:controller => 'user_account', :class => "signedtxt style1 style3 style4", :action => 'logout'},
+							:method => :post %> </td>
+  </tr>
+</table>
+			<%end%>
+           
+<form action="https://www.holdmymemories.com/user_account/authenticate" method="post" onSubmit="return check();">
+
+<table width=100% height=402 class="bg_login"  align=center border=0>
+   
+   <tr>
+<th><center spry:hover="style1" class="style1">Welcome To HoldMyMemories.com</center></th>
+   </tr>
+<tr bordercolor="#000000"><td colspan="2" align="center"><br><div id="notice"><% if params[:sucess].nil? %> <%else%> <% if params[:sucess]=='1' %><font color='#fdf1ca' ><b>&nbsp;&nbsp;&nbsp;&nbsp;Your Account and chapters have been successfully created !!!<br><center>Please LogIn <center> </b></font><%else%><% if params[:sucess]=='2' %><font color='#fdf1ca' ><b>&nbsp;&nbsp;&nbsp;&nbsp;Your Account has been successfully created !!!<br><center>Please LogIn <center> </b></font><%end%><%end%><%end%></div></td>
+</tr>
+<tr bordercolor="#000000"><td align="center" valign="top"><table align="center" class="border" width="40%" border="1"  cellpadding="5" cellspacing="5" bordercolor="#191919">
+
+
+	
+    <tr ><td colspan="2" align="center" valign="middle" style="border:none" bgcolor="#191919" height="20"><span class="style1"><font size="3px" color="#ffffff">Member Login</font></span></td>
+  </tr>
+ 
+  <tr ><td colspan="2" align="center" class="border1"><% if flash[:error] -%>
+<div id="notice"><font size="1" color="#FF0000"><b><%= flash[:notice] %><span class="err-msg"> NOTE: User Name Or Password Incorrect!!</b></span></font></div>
+<%else if flash[:error1]%>
+<div id="notice"><font size="1" color="#FF0000"><b><%= flash[:notice] %><span class="err-msg"> NOTE: User is blocked.. Contact Admin!!</b></span></font></div>
+<% end -%>
+<% end -%> </td>
+</tr>
+    <tr >
+      <td align="right" class="style1" style="border:none"><font size="3px" color="#ffffff">Username </font></td>
+      <td width="49%" style="border:none" align="left"><input class="textbox-signup" id="hmm_user_v_user_name" name="hmm_user[v_user_name]" size="30" type="text" /></td>
+  </tr >
+     <tr style="border:none"><td align="right" class="style1" style="border:none"><font size="3px" color="#ffffff">Password</font></td>
+     <td align="left" style="border:none"><input class="textbox-signup" id="hmm_user_v_password" name="hmm_user[v_password]" size="30" type="password" /></td>
+    </tr >
+    <tr style="border:none"><td style="border:none"></td><td  style="border:none" colspan="" align="left"><input type="image" id="sign_in" src="/images/log_ovr.jpg"  border="0" /></td></tr>
+    <tr style="border:none">
+    <tr ><td class="border1" colspan="2" align="center"><a href="/user_account/forgot_password" style="text-decoration:none;">
+	
+		<font face="Arial" color="#ffffff" size=2 >I cannot access my account</font> </a></td>
+  </tr>
+        <tr style="border:none"><td class="border1" colspan="2" align="center"><p> <a href="/customers/authorise_verify" style="text-decoration:none;" > <font face="Arial" color="#ffffff" size=2 >Create an account </font> </a>
+
+
+</td></tr>
+</table>
+</td></tr>
+</table> 
+    </form>
+
+<script type="text/javascript">
+	
+	window.onload = document.getElementById('hmm_user_v_user_name').focus();
+</script>

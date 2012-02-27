@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:HBox xmlns:mx="http://www.adobe.com/2006/mxml">
+	<mx:Image width="32" height="32" id="itemIcon" source="{iconUrl}"/>
+	<mx:Label id="itemName" truncateToFit="true" text="{iconName}"/>
+	<mx:CheckBox id="select" selected="{selection}"/>
+	<mx:Script>
+		<![CDATA[
+			[Bindable]
+			private var iconUrl : String;
+			[Bindable]
+			private var iconName : String;
+			[Bindable]
+			private var selection : Boolean;
+			override public function set data(value:Object):void
+			{
+				super.data = value;
+				var node:XML = XML(value);
+                iconName = node.@name;
+                iconUrl = node.@icon;
+                selection = node.@selection;
+                    
+			}
+		]]>
+	</mx:Script>
+</mx:HBox>

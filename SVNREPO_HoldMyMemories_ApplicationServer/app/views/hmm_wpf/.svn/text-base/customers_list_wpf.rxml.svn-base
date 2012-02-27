@@ -1,0 +1,15 @@
+xml.instruct! :xml, :version=>"1.0"
+xml.Users{   
+     for user_details in @results
+       xml.User{
+          xml.FirstName(user_details.v_fname)
+          xml.LastName(user_details.v_lname)
+          xml.Sex(user_details.e_sex)
+          xml.Status(user_details.e_user_status)
+          xml.UserName(user_details.v_user_name)          
+          xml.UserEmailId(user_details.v_e_mail)
+          xml.UserId(user_details.id)          
+       }
+    
+   end 
+}

@@ -1,0 +1,29 @@
+
+
+<style type="text/css">
+<!--
+.style1 {
+	font-family: Arial, Helvetica, sans-serif;
+	font-weight: bold;
+	font-size: 14px;
+}
+.style3 {font-family: Arial, Helvetica, sans-serif; font-weight: bold; font-size: 18px; }
+-->
+</style>
+<span class="style3">Add your comments here</span> 
+<form name="frm" method="post" action="/photo_comments/create_jcmt">
+	<input type="hidden" value="<%=params[:usercontent.id]%>" name="photo_cmt" />
+  
+  <p>
+    <b class="style1">Comment</b><br />
+	<textarea name="v_comment" cols="40" rows="10" class="textbox-1" ></textarea>
+  </p>
+  
+<input type="hidden" name="user_content_id" value="<%=@user_content_id%>" /> <p>
+	<input type="hidden" name="i_id" value="<%=@params[:id_journal]%>" /> <p>
+    <%= submit_tag "Create", :OnClick => "return chk();" %>
+  </p>
+</form>
+
+
+

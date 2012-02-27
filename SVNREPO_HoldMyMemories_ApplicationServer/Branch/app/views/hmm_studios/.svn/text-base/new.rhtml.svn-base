@@ -1,0 +1,32 @@
+
+<script language="JavaScript">
+	function check(){
+		if (document.getElementById('hmm_studio_studio_branch').value == '')
+		{
+			document.getElementById('hmm_studio_studio_branch').focus();
+            alert("Please enter Studio Name");
+            return false;
+		}
+		
+		if  (document.getElementById('hmm_studio_studio_address').value == '')
+		{
+			document.getElementById('hmm_studio_studio_address').focus();
+            alert("Please enter Studio Address");
+            return false;
+		}
+		if (document.getElementById('valid_studioname').value == 'false') 
+		{
+			document.getElementById('valid_studioname').focus();
+			return false;
+		}
+	}
+	
+</script>
+
+<h1>Add HMM Studio </h1>
+<form action="/hmm_studios/create" method="post" onsubmit="return check();">
+
+  <%= render :partial => 'form' %>
+  <center> <%= submit_tag "Create" %></center>
+</form>
+

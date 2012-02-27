@@ -1,0 +1,110 @@
+
+<table width="100%" border="0" align="center" cellpadding="0" cellspacing="0">
+<tr valign="top">
+		<td width="170" align="left">
+				<%= render :partial => "manage_site/leftnav", :locals => { :current => "Home"} %>
+
+
+		</td>
+		<td width="790" align="center">
+
+<% if @total_alertcount != 0%>
+<table width="100%" border="0" align="center" cellspacing="0" cellpadding="0">
+
+  <tr>
+    <td width="10" height="10" align="left" valign="top"><img src="/images/1.gif" width="10" height="10" /></td>
+    <td align="left" width="700" valign="top" background="/images/2.gif"></td>
+    <td width="10" height="10" align="left" valign="top"><img src="/images/3.gif" width="10" height="10" /></td>
+  </tr>
+   <tr>
+    <td align="left" valign="top" background="/images/4.gif">&nbsp;</td>
+    <td align="left" valign="top" bgcolor="#000000"><center><img src='/images/logomodelbox.jpg'\></center></td>
+    <td align="left" valign="top" background="/images/5.gif">&nbsp;</td>
+	 <tr>
+    <td align="left" valign="top" background="/images/4.gif">&nbsp;</td>
+    <td height="20" align="left" valign="top" bgcolor="#000000"><center><font color="#ffffff" size="2">Welcome to <b>HoldMy<font color="#fe6809">Memories</font>.com</b></center></font></td>
+    <td align="left" valign="top" background="/images/5.gif">&nbsp;</td>
+  </tr>
+
+
+
+
+  <%if @total_comments != 0%>
+  <tr>
+    <td align="left" valign="top" background="/images/4.gif">&nbsp;</td>
+    <td height="20" align="left" valign="top" bgcolor="#000000"><center><font color="#ffffff" size="2">You have <%=@total_comments%> New Comments for today.. to view <a href="/manage_site/comments_list/<%=params[:id]%>">Click Here</a></center></font></td>
+    <td align="left" valign="top" background="/images/5.gif">&nbsp;</td>
+  </tr>
+   <%end%>
+
+
+
+  <%if @guestcmt != 0%>
+  <tr>
+    <td align="left" valign="top" background="/images/4.gif">&nbsp;</td>
+    <td height="20" align="left" valign="top" bgcolor="#000000"><center><font color="#ffffff" size="2">You have <%=@guestcmt%> New Guest comments... to view <a href="/manage_site/comments_list/<%=params[:id]%>">Click Here</a></center></font></td>
+    <td align="left" valign="top" background="/images/5.gif">&nbsp;</td>
+  </tr>
+  <%end%>
+
+  <%if @chapcmt != 0%>
+  <tr>
+    <td align="left" valign="top" background="/images/4.gif">&nbsp;</td>
+    <td height="20" align="left" valign="top" bgcolor="#000000"><center><font color="#ffffff" size="2">You have <%=@chapcmt%> New Chapter comments... to view <a href="/manage_site/comments_list/<%=params[:id]%>">Click Here</a></center></font></td>
+    <td align="left" valign="top" background="/images/5.gif">&nbsp;</td>
+  </tr>
+  <%end%>
+
+ <%if @subcmt != 0%>
+  <tr>
+    <td align="left" valign="top" background="/images/4.gif">&nbsp;</td>
+    <td height="20" align="left" valign="top" bgcolor="#000000"><center><font color="#ffffff" size="2">You have <%=@subcmt%> New Sub Chapter comments... to view <a href="/manage_site/comments_list/<%=params[:id]%>">Click Here</a></center></font></td>
+    <td align="left" valign="top" background="/images/5.gif">&nbsp;</td>
+  </tr>
+  <%end%>
+
+  <%if @sharejournalcomment != 0%>
+  <tr>
+    <td align="left" valign="top" background="/images/4.gif">&nbsp;</td>
+    <td height="20" align="left" valign="top" bgcolor="#000000"><center><font color="#ffffff" size="2">You have <%=@sharejournalcomment%> New Share Journal comments... to view <a href="/manage_site/comments_list/<%=params[:id]%>">Click Here</a></center></font></td>
+    <td align="left" valign="top" background="/images/5.gif">&nbsp;</td>
+  </tr>
+  <%end%>
+
+  <tr>
+    <td align="left" valign="top" background="/images/4.gif">&nbsp;</td>
+    <td height="20" align="left" valign="top" bgcolor="#000000">
+    <% if @creditpt_count==1 %>
+     <center><font color="#ffffff" size="2">Currently You have
+    <font color="#fe6809"><% if @studio_groups.credit_system =="Dollars" %>$<%end%><%=@creditpt.available_credits%>&nbsp;credits points</font></center>
+    <%end%>
+    </td>
+    <td align="left" valign="top" background="/images/5.gif">&nbsp;</td>
+  </tr>
+
+  <tr>
+    <td align="left" valign="top"><img src="/images/6.gif" width="10" height="10" /></td>
+    <td align="left" valign="top" background="/images/7.gif"></td>
+    <td align="left" valign="top"><img src="/images/8.gif" width="10" height="10" /></td>
+  </tr>
+</td>
+  </tr>
+
+</table>
+
+	<%else%>
+
+
+  <%end%>
+<br>
+<% if @hmm_user.msg == '1' %>
+<table align="right"><tr align="right"><td>
+<p align="right" class='cont'><a href="/manage_site/home/<%=@hmm_user.family_name%>?msg=2"> Click Here to View Message</a></p>
+</font>
+</td></tr></table>
+<%end%>
+
+	  </td>
+	</tr>
+
+</table>

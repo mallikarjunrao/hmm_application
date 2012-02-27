@@ -1,0 +1,54 @@
+<table width="100%" border="0">
+  <tr><td height="100" width="800" valign="middle"> <h2>Ecommerce Coupon Report</h2>
+</td></tr>
+  <tr><td align="center">
+      <table  border="1" width="831" cellpadding="0" cellspacing="0" align="center"  >
+  <tr bgcolor="#990000" >
+   <td >Coupon Number</td>
+    <td >Discount</td>
+    <td >Free Shipping</td>
+	<td >Start Date</td>
+	<td >End Date</td>
+    <td >Created By </td>
+    <td align="center">Used</td>    
+	<td align="center">Actions</td>    
+  </tr>
+<% count=1 %>
+  <% @reports.each do |i|%>
+    <tr height="40">
+     <td><div align="center"><%=i.coupon_id%></div></td>
+      <td><div align="center">
+        <%if(i.discount!='' && i.discount!=nil)%> 
+        <%=i.discount %>%
+        <%else%>
+        -
+        <%end%>
+      </div></td>
+	  <td><div align="center"><%=i.free_shipping%></div></td>
+     
+	   <td align="center"><div align="center"><%=i.started_date%></div></td>
+	   <td align="center"><div align="center"><%=i.ended_date%></div></td>
+	   <td>
+         <div align="center">
+           <%if(i.studio_owner_id==0)%>
+           Admin	
+           <%else
+      @stdgrp=HmmStudiogroup.find(i.studio_owner_id)
+      %>
+           <%=@stdgrp.hmm_franchise_studio%>
+           <%end%>
+            </div></td>
+      <td align="center"><div align="center"><%=i.no_of_users%></div></td>
+	  <td align="center"><div align="center"><a href='/cupons/coupon_used_details/<%=i.ecommerce_coupon_id%>'>View</a></div></td>
+    </tr>
+<%  count=count+1 %>
+  <%end%>
+</table> 
+    </td></tr>
+  <tr><td>&nbsp;</td></tr>
+</table>
+<br>
+<p><%=will_paginate @reports%></p>
+
+
+ 

@@ -1,0 +1,150 @@
+<%= javascript_include_tag 'check_flash' %>
+<%= stylesheet_link_tag 'main' %>
+<%= stylesheet_link_tag 'hmmout' %>
+<script type="text/javascript">
+function validateFileExtension(fld) {
+	if(!/(\.png|\.PNG)$/i.test(fld.value)) {
+		alert("Invalid file type.. Please Upload only transparent PNG image file!!");
+		fld.focus();
+		return false;
+	}
+	return true;
+}
+</script>
+
+<%if(@hmm_studio.studio_top_logo!=nil && @hmm_studio.studio_top_logo!='')%>
+<script type="text/javascript">
+
+
+function check_terms()
+{
+   if(document.frm.studio_top_logo_white.value!='')
+   {
+	if(!/(\.png|\.PNG)$/i.test(document.frm.studio_top_logo_white.value)) {
+		alert("Invalid file type.. Please Upload only transparent PNG image file!!");
+		document.frm.studio_top_logo_white.focus();
+		return false;
+	}
+   }
+
+   if(document.frm.studio_top_logo_black.value!='')
+   {
+	if(!/(\.png|\.PNG)$/i.test(document.frm.studio_top_logo_black.value)) {
+		alert("Invalid file type.. Please Upload only transparent PNG image file!!");
+		document.frm.studio_top_logo_black.focus();
+		return false;
+	}
+  }
+
+
+}
+
+</script>
+<%else%>
+<script type="text/javascript">
+function check_terms()
+{
+	if(document.frm.studio_top_logo_white.value=='')
+	{
+		alert("Please Upload a PNG transparent Studio Logo");
+		document.frm.studio_top_logo_white.focus();
+		return false;
+	}
+	if(!/(\.png|\.PNG)$/i.test(document.frm.studio_top_logo_white.value)) {
+		alert("Invalid file type.. Please Upload only transparent PNG image file!!");
+		document.frm.studio_top_logo_white.focus();
+		return false;
+	}
+	if(document.frm.studio_top_logo_black.value=='')
+	{
+		alert("Please Upload a PNG transparent Studio Logo");
+		document.frm.studio_top_logo_black.focus();
+		return false;
+	}
+	if(!/(\.png|\.PNG)$/i.test(document.frm.studio_top_logo_black.value)) {
+		alert("Invalid file type.. Please Upload only transparent PNG image file!!");
+		document.frm.studio_top_logo_black.focus();
+		return false;
+	}
+
+}
+</script>
+<%end%>
+ <form name="frm" action="<%=request_content_url%>/hmm_studios_content/update_studio_logo/<%=params[:id]%>" method="post" enctype="multipart/form-data"  on>
+ <fieldset>
+<table width="93%" border="0" cellspacing="0" cellpadding="0">
+                          <tr>
+                            <td colspan="4" align="left" valign="top" class="leftconthr"><h3>Upload  Studio Logo:</h3></td>
+                          </tr>
+                          <tr>
+                            <td colspan="4" align="right" valign="top" class="leftconthr"><a href="/hmm_studios/studio_list_upload_logo"><< Back</a>
+
+                            </td>
+                          </tr>
+ <tr>
+                            <td colspan="4" align="center" valign="top" class="leftconthr">
+                            <%if(params[:success]=='1')%>
+                            <font color="#FF0000">Studio Logo Updated</font>
+                            <%end%>
+                            </td>
+                          </tr>
+                          <tr>
+                            <td width="1%" align="left" valign="top" class="whitecont">&nbsp;</td>
+                            <td width="30%" align="left" valign="top" class="whitecont">Upload Studio Logo (Light)* </td>
+                            <td width="1%" align="left" valign="top" class="whitecont">:</td>
+                            <td width="68%" align="left" valign="top"><input type="file" name="studio_top_logo_white" onChange="return validateFileExtension(this)">
+                            Size : 232x132 (WxH)<br />							 (Upload a PNG transparent image to place it on the Family Website Header) <br>
+                            <%if(@hmm_studio.studio_top_logo!=nil && @hmm_studio.studio_top_logo!='')%>
+                            <img src="<%=@hmm_studio.img_url%>/user_content/studio_top_logos/<%=@hmm_studio.studio_top_logo%>_white.png" border="0" width="232" height="132"><br />
+                           <!-- <a href="/hmm_studios/delete_logo/<%=params[:id]%>">(Remove)</a>-->
+                            <%else%>
+                            No Image
+                            <%end%>
+                       	</td>
+    </tr>
+                           <tr>
+                            <td align="left" valign="top">&nbsp;</td>
+                            <td align="left" valign="top">&nbsp;</td>
+                            <td align="left" valign="top">&nbsp;</td>
+                            <td align="left" valign="top">&nbsp;</td>
+                          </tr>
+                          <tr>
+                            <td width="1%" align="left" valign="top" class="whitecont">&nbsp;</td>
+                            <td width="30%" align="left" valign="top" class="whitecont">Upload Studio Logo (dark)* </td>
+                            <td width="1%" align="left" valign="top" class="whitecont">:</td>
+                            <td width="68%" align="left" valign="top"><input type="file" name="studio_top_logo_black" onChange="return validateFileExtension(this)">
+                            Size : 232x132 (WxH)<br />							 (Upload a PNG transparent image to place it on the Family Website Header) <br>
+                            <%if(@hmm_studio.studio_top_logo!=nil && @hmm_studio.studio_top_logo!='')%>
+                            <img src="<%=@hmm_studio.img_url%>/user_content/studio_top_logos/<%=@hmm_studio.studio_top_logo%>_black.png" border="0" width="232" height="132"><br />
+                           <!-- <a href="/hmm_studios/delete_logo/<%=params[:id]%>">(Remove)</a>-->
+                            <%else%>
+                            No Image
+                            <%end%>
+                       	</td>
+    </tr>
+                           <tr>
+                            <td align="left" valign="top">&nbsp;</td>
+                            <td align="left" valign="top">&nbsp;</td>
+                            <td align="left" valign="top">&nbsp;</td>
+                            <td align="left" valign="top">&nbsp;</td>
+                          </tr>
+                          <tr>
+                            <td align="left" valign="top">&nbsp;</td>
+                            <td align="left" valign="top">&nbsp;</td>
+                            <td align="left" valign="top">&nbsp;</td>
+                            <td align="left" valign="top">
+
+                             <input type="submit" id="sub" name="sub" class="cmd-btn" value="Update" style="cursor:pointer;" onClick="return check_terms();">
+                            </td>
+                          </tr>
+
+                          <tr>
+                            <td align="left" valign="top">&nbsp;</td>
+                            <td align="left" valign="top">&nbsp;</td>
+                            <td align="left" valign="top">&nbsp;</td>
+                            <td align="left" valign="top">&nbsp;</td>
+                          </tr>
+
+                        </table>
+                        </fieldset>
+      </form>

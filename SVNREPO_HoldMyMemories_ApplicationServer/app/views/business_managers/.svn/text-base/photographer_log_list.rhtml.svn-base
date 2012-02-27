@@ -1,0 +1,34 @@
+<h2>PHOTOGRAPHER LOG Details</h2>
+<font color="#f5dfa6"><%=flash[:notice]%></font>
+<% session['redirect'] =  '112' %>
+<table width="519">
+  <tr>
+  	<th width="40" background="/images/body_hor.JPG"><font class='txt'><table> <tr><th><%= sort_header_tag('username', :text => "User Name") %></th></tr></table></font></th>
+    <th width="55" background="/images/body_hor.JPG"><font class='txt'><table> <tr><th><%= sort_header_tag('name', :text => "Name") %></th></tr></table></font></th>
+	 <th width="28" background="/images/body_hor.JPG"><font class='txt'><table> <tr><th><%= sort_header_tag('login_time', :text => "Login Date") %></th></tr></table></font></th>
+	<th width="41" background="/images/body_hor.JPG"><font class='txt'><table> <tr><th><%= sort_header_tag('login_time', :text => "Login Time") %></th></tr></table></font></th>
+	<th width="32" background="/images/body_hor.JPG"><font class='txt'><table> <tr><th><%= sort_header_tag('logout_time', :text => "Logout Time") %></th></tr></table></font></th>
+  </tr>
+
+<%	odd_or_even = 0
+	i = 0
+	for photographer in @photographerlog
+	i = i + 1
+	odd_or_even = 1 - odd_or_even %>
+
+  <tr class="<%= cycle('odd', 'even') -%>">
+
+	<td><%=photographer.username%></td>
+  	<td><%=photographer.name%></td>
+	<td><%  if photographer.login_time!=nil %><%=photographer.login_time.strftime("%m - %d - %Y")%><%else%>N/A<%end%></td>
+    <td><%  if photographer.login_time!=nil %><%=photographer.login_time.strftime("%H:%M:%S")%><%else%>N/A<%end%></td>
+    <td><%  if photographer.logout_time!=nil %><%=photographer.logout_time.strftime("%H:%M:%S")%><%else%>N/A<%end%></td>
+  </tr>
+<% end %>
+<tr>
+    <th valign="bottom" scope="col" align="center" colspan="5" height="30">
+   <%= will_paginate @photographerlog%>
+</th>
+  </tr>
+</table>
+	

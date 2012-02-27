@@ -1,0 +1,398 @@
+<script type="text/javascript">
+		function grow_text_boxes(textareaid,divid,profileimg)
+	{
+		document.getElementById(divid).style.display='block';
+		document.getElementById(textareaid).style.width='300px';
+		document.getElementById(textareaid).style.height='100px';
+		document.getElementById(profileimg).style.display='block';
+		if (document.getElementById(textareaid).value == 'Type your comments here...') {
+			document.getElementById(textareaid).value = '';
+		}
+		
+	}
+	function shrink_text_boxes(textareaid,divid,profileimg)
+	{
+		
+		if (document.getElementById(textareaid).value == '') {
+			document.getElementById(textareaid).style.width = '300px';
+			document.getElementById(textareaid).style.height = '50px';
+			document.getElementById(textareaid).value='Type your comments here...';
+			document.getElementById(divid).style.display='none';
+			document.getElementById(profileimg).style.display='none';
+		}
+		
+
+	}
+	
+</script>
+
+<font color="#f5dfa6"><%= flash[:notice]%></font>
+<% if session[:friend]==nil
+   	visibility=true
+   else
+	visibility=false
+   end	
+%>
+<%session[:share]="" %>
+<script src="/AC_OETags.js" language="javascript"></script>
+<table border="0" width="100%">
+	<% session['redirect'] =  '2' %>
+	 <tr><td><table width="100%">
+     <tr>
+          <th width="100%"  align="left" valign="middle" class="" scope="col"><font size=4 face="Arial, Helvetica, sans-serif" color="#eeeeee"> <% @gal = Galleries.find(:all, :conditions => "id=#{params[:id]}")
+		 for @i in @gal 
+			@gal_name=@i.v_gallery_name		
+%>
+<font size="3">&nbsp;&nbsp;&nbsp; </font>
+</font><%end%></th>
+<th width="13%" align="right" valign="middle">  
+</th>
+<th width="5%"><a href="/customers/chapter_gallery/<%=params[:id]%>"><img src="/images/gridicon1.jpg" border="0"></a></th>
+        </tr>
+     </table></td></tr>
+		<tr><td colspan="2">
+		
+		<input type="hidden" id="galleryId" value="<%=@galleryUrl%>">
+		<input type="hidden" id="swfName" value="/<%=@swfName%>">
+		<input type="hidden" id="galleryIdVal" value="<%=@galleryId%>">
+		<input type="hidden" name="buttonVisible" id="buttonVisible" value="<%=@buttonVisibility%>">
+        <input type="hidden" name="proxyurls" id="proxyurls" value="<%=@proxyurls%>" >
+        <input type="hidden" name="servername" id="servername" value="<%=@servername%>" />
+        <input type="hidden" name="serverurl" id="serverurl" value="<%=@serverurl%>" />
+		<script language="JavaScript" type="text/javascript">
+		var visibility = document.getElementById("buttonVisible").value;
+		var proxyurls = document.getElementById("proxyurls").value;
+		var galId = document.getElementById("galleryId").value;
+		var flashName = document.getElementById("swfName").value;
+        var servername = document.getElementById('servername').value;
+        var serverurl = document.getElementById('serverurl').value;
+		if(flashName == 'Chapter')
+		
+		var galleryIdValue = document.getElementById("galleryIdVal").value;
+AC_FL_RunContent( 'codebase','http://download.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=7,0,19,0',
+				'width','898',
+				'height','350',
+				'src',flashName,
+				'quality','high',
+				'pluginspage','http://www.macromedia.com/go/getflashplayer',
+				'movie',flashName,
+				'flashvars', 'serverUrl='+galId+'&navigateTo=/myphotos/photo_journal/'+'&backid='+galleryIdValue+'&buttonsVisible='+visibility+'&galleryid='+galleryIdValue+'&proxyurls='+proxyurls+'&proxy='+servername+'&proxyurl='+serverurl+'&proxyurls='+proxyurls,
+				'allowFullscreen', 'true',
+				'bgcolor','#000000'); //end AC code
+</script><noscript><object classid="clsid:D27CDB6E-AE6D-11cf-96B8-444553540000" codebase="http://download.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=7,0,19,0" width="898" height="350">
+ 
+ 
+</object></noscript>
+</td>
+</tr>
+
+<tr >
+<td align="right" valign="bottom" >
+
+</td>
+</tr>
+<tr><td height="40" align="right">
+	<% if session[:friend]!='' 
+else
+	%>
+	<%if (@gal_cnt < 1 || @gal_cnt == "")%><%else if @gal_cnt >= 1%>
+	<% for @i in @gallery_journal %>
+		
+			</span><%end%><%end%><%end%><%end%>
+	
+</td></tr>
+</table>
+
+<table width="100%" align="center" valign="top" border="0" cellspacing="0" cellpadding="0">
+	<th width="100%" height="30"   align="center" valign="middle"  scope="col" colspan="3">
+      	<table width="100%" border="0" cellspacing="0" cellpadding="0">
+     	   <tr>
+		
+		  <th align="center" valign="middle" height="50" scope="col">	
+		  <br>
+				<font color="#f5dfa6"><%= flash[:notice_gcc]%></font>
+				<font color="#f5dfa6"><%= flash[:notice_gca]%></font>
+				<font color="#f5dfa6"><%= flash[:notice_gcr]%></font>
+				<font color="#f5dfa6"><%= flash[:notice_gcd]%></font>
+				<font color="#f5dfa6"><%= flash[:notice_cca]%></font>
+				<font color="#f5dfa6"><%= flash[:notice2]%></font>
+			<br>
+			  	<% if session[:friend]=='' || session[:friend]==nil%>
+		<%else%>
+<table >
+		<tr>
+			<td valign="top">
+				<div id="profile_img" style="display:none">
+					<table border="0">
+							<tr>
+								<td align="top">
+									<img src="<%=logged_in_hmm_user.img_url %>/hmmuser/photos/thumb/<%=logged_in_hmm_user.v_myimage %>" width="77" height="78" border="0" />
+								</td>
+							</tr>
+					</table>
+				</div>
+			</td>	
+			<td>
+				<form action="/gallery_comment/gallery_cmt">
+				<input type="hidden" value="<%= params[:id]%>" name="gallery_id" />
+				<input type="hidden" value="0" name="gallery_jid" />
+				<input type="hidden" value="<%= params[:redirect]%>" name="redirect" />
+				<table>
+					<tr>
+						<td><% if session[:friend]==''%><%else%>
+							<textarea class='textbox-1' onfocus="grow_text_boxes(this.id,'gallery_cmt_sub','profile_img');" onblur="shrink_text_boxes(this.id,'gallery_cmt_sub','profile_img');" cols='40' id='gallery_comment_v_comment' name='gallery_comment[v_comment]' rows='2'>Type your comments here...</textarea>
+							<%end%>
+						</td>
+					</tr>
+					<tr>
+						<td>
+							<div id="gallery_cmt_sub" style="display:none">
+								<table>
+								<tr>
+									<td>
+										<input type="submit" value="Create" name="Create" id="Create">
+									</td>
+								</tr>
+								</table>
+							</div>
+						</td>
+					</tr>
+					
+				</table>
+				</form>
+			</td>
+		</tr>
+</table>
+		 <%end%>
+		 &nbsp;&nbsp;&nbsp;
+<p>
+<table align="center" width="100%" border="0" cellspacing="0" cellpadding="0">
+	<input type="hidden" name="order" value="<%=params[:order]%>" />
+	<tr>
+		<th align="center" colspan="6">
+	<%  @gallery_comment_count = GalleryComment.count(:all,:conditions => "gallery_id=#{params[:id]} and gallery_jid=0")
+		if(@gallery_comment_count>0)
+%>
+	<%= link_to_remote("View Comments for Gallery: &nbsp;&nbsp; \""+@gal_name+"\" ", :update =>"me", 
+		:url => {:controller => :gallery_comment, :action => :comnt_list, :gal_id=> params[:id] , :id => 0 }, :layout => false  ) %>
+	<%end%>	
+	</th>
+    <tr>
+ 
+</table>
+</p>
+<p></p>
+			  </th>
+   	      </tr>
+  <tr><td><div id="me"></div></td></tr>
+      </table></th>
+     </tr>
+  
+	<tr><td colspan="3">
+</table>  
+<!-- Journal Code for gallery -->
+<%@gallery_journal_count = GalleryJournal.count(:all, :conditions =>" galerry_id=#{params[:id]}")
+	if(@gallery_journal_count>0)
+%>
+<table width="88%" border="0" class="border" align="center" cellspacing="0" cellpadding="0">
+     
+		<tr>
+          <th width="783" height="295" align="left" valign="top" scope="col">
+          	<table width="100%" border="0" cellspacing="0" cellpadding="4">
+        	<tr>
+              <th height="32" align="left" valign="middle" bgcolor="#191919" scope="col" colspan="2"><span class="btmtxt">Journal</span>
+			  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+			  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+			
+			 
+			  <% for @i in @gallery_journal %>
+
+			  </span><td bgcolor="#191919" scope="col"><%if session[:friend]==nil || session[:friend]=='' %><a href='/gallery_journal/destroying/<%=@i.id%>' onclick="if(confirm('Do you want to delete this Journal?')){return true; } else return false;">Delete</a><%end%> </td></th>
+	        </tr>
+			
+            <tr>
+              <th height="32" align="left" valign="top" scope="col">&nbsp;</th>
+              <th align="left" valign="middle" scope="col"><span class="heading-journal"><%= @i.v_title%> &nbsp;&nbsp;
+				<% ActiveSupport::CoreExtensions::Time::Conversions::DATE_FORMATS.merge!(
+    				:date => "%Y-%m-%d",
+    				:presentable_datetime => "%a %b %d, %Y %H:%M",
+    				:presentable_date => "%a %b %d, %Y") 
+					@created_date=@i.d_created_on%>  
+
+				<%=@created_date.to_s(:presentable_date)%></span></th> 
+			  
+              <th align="left" valign="top" scope="col">&nbsp;</th>
+
+            </tr>
+            <tr>
+              <th height="65" align="left" valign="top" scope="col">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th>
+              <th align="left" valign="top" class="text-journal" scope="col"><%= @i.v_journal.gsub("\n", "<br />\n") %></th>
+              <th align="left" valign="top" scope="col">&nbsp;</th>
+            </tr>
+			<tr>
+				<% if session[:friend]=='' || session[:friend]==nil%>
+				<%else%>
+				<th height="100" align="left" valign="top" scope="col">&nbsp;</th>
+				<th>
+					<table >
+						<tr>
+							<td valign="top">
+								<div id="profile_j_img" style="display:none">
+									<table border="0">
+											<tr>
+												<td align="top">
+													<img src="<%=logged_in_hmm_user.img_url %>/hmmuser/photos/thumb/<%=logged_in_hmm_user.v_myimage %>" width="77" height="78" border="0" />
+												</td>
+											</tr>
+									</table>
+								</div>
+							</td>	
+							<td>
+								<form name="frm1" action="/gallery_comment/gallery_cmt">
+								<input type="hidden" value="<%= params[:id]%>" name="gallery_id" />
+								<input type="hidden" value="<%= @i.id%>" name="gallery_jid" />
+								<input type="hidden" value="<%= params[:redirect]%>" name="redirect" />
+								<table>
+									<tr>
+										<td><% if session[:friend]==''%><%else%>
+											<textarea class='textbox-1' onfocus="grow_text_boxes(this.id,'gallery_j_cmt_sub','profile_j_img');" onblur="shrink_text_boxes(this.id,'gallery_j_cmt_sub','profile_j_img');" cols='40' id='gallery_comment_j_v_comment' name='gallery_comment[v_comment]' rows='2'>Type your comments here...</textarea>
+											<%end%>
+										</td>
+									</tr>
+									<tr>
+										<td>
+											<div id="gallery_j_cmt_sub" style="display:none">
+												<table>
+												<tr>
+													<td>
+														<input type="submit" value="Create" name="Create" id="Create">
+													</td>
+												</tr>
+												</table>
+											</div>
+										</td>
+									</tr>
+									
+								</table>
+								</form>
+							</td>
+						</tr>
+						
+				</table>		
+				</th>
+				<%end%>
+			</tr>
+<!-- comments to be viewed once approved-->					
+<tr>
+	<th>&nbsp;</th>
+	<th>
+		<!-- Gallery comment view -->
+		
+	<% @tag_cnt = GalleryComment.count(:joins => "as a , gallery_journals as c " , :conditions => "c.galerry_id=#{params[:id]} and c.id=a.gallery_jid and a.e_approval = 'approve'") %>
+	<% if @tag_cnt != 0 %>
+	
+<table width="100%" border="0" bordercolor="#191919" cellspacing="1" cellpadding="3">
+	<input type="hidden" value="<%=params[:id]%>" name="gallery_id" />
+    <tr bordercolor="#00000">
+     
+      <th colspan="2" align="left" valign="middle" bgcolor="#191919" scope="col"><span class="btmtxt"><%if session[:friend]==''%>Approved<%end%> Journal Comments</th>
+      </tr>
+	
+
+		
+	<%  @gal_c = GalleryComment.find_by_sql("select a.*,b.*,c.*, a.id as cid from gallery_comments as a , hmm_users as b, gallery_journals as c where c.galerry_id=#{params[:id]} and c.id=a.gallery_jid and a.uid=b.id and a.e_approval = 'approve' ORDER BY a.id DESC")
+		
+		 for j in @gal_c %>
+	
+
+	<tr bordercolor="#00000">
+     
+      <th width="155" align="left" valign="top" class="text-journal" scope="col"><span class="style1">Commented By&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>  :&nbsp;&nbsp;</th>
+      <th width="509" align="left" valign="top" scope="col"><%= j.v_fname%></th>
+    </tr>
+	
+	<tr bordercolor="#00000">
+     
+      <th align="left" valign="top" class="text-journal" scope="col"><span class="style1">Comment&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>  :&nbsp;&nbsp;</th>
+      <th align="left" valign="top" scope="col"><%= j.v_comment.gsub("\n", "<br />\n") %></th>
+    </tr>
+	
+    <tr bordercolor="#00000">
+     	<th colspan="3" align="right" valign="middle" bgcolor="#191919" class="text-journal" scope="col">
+       		<% if j.e_approval=="pending" %>
+			 <a href='/gallery_comment/add_comment/<%= j.cid %>'>Approve</a>&nbsp;&nbsp;&nbsp;
+			<a href='/gallery_comment/reject_comment/<%= j.cid %>'>Reject</a> 
+			<%else%>
+			<% if session[:friend]!='' 
+				else%>
+			<a href='/gallery_comment/comt_destroy/<%= j.cid %>'>Delete</a><%end%>
+			<% end %>	  </th>
+	  </tr>
+     <%end%>
+</table>
+
+	</th>
+</tr><%end%>			
+<!-- comments to be viewed once approved-->				
+		<tr>
+	
+</tr>	
+			<font color="#f5dfa6"><%=  flash[:notice_gjc]%></font>
+            <font color="#f5dfa6"><%=  flash[:notice_gju]%></font>
+            <tr>
+                <th height="26" align="left" colspan="3" valign="middle" bgcolor="#191919" class="text-journal" scope="col">
+      
+
+	<%= link_to_remote("View Comments", :update =>"me2", 
+		:url => {:controller => :gallery_comment, :action => :comnt_list, :id=> params[:id] , :id => @i.id }, :layout => false  ) %>
+		&nbsp;&nbsp;&nbsp;
+
+           
+            </tr>
+			
+			<tr>
+				<td colspan="3">
+					<font color="#f5dfa6"><%=  flash[:notice_gcc]%></font>
+					<font color="#f5dfa6"><%=  flash[:notice_gca]%></font>
+					<font color="#f5dfa6"><%=  flash[:notice_gcr]%></font>
+					<font color="#f5dfa6"><%=  flash[:notice_gcd]%></font>
+				</td>
+			</tr>
+			
+			<tr>
+              <th align="center" colspan="3" valign="top" class="text-journal" scope="col"><div id="me2"></div><br></th>
+            </tr>
+			<%end%>
+			
+           </table></th>
+         
+		  
+        </tr>
+	
+      </table>
+
+	</td></tr>
+  </table>	
+  <%end%>
+
+
+  
+  
+  
+  
+  
+  
+  
+  				  
+
+  
+
+  
+  
+  
+  
+  
+  
+  
+  				  
+		

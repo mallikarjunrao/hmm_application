@@ -1,0 +1,134 @@
+<%= javascript_include_tag 'themes/formcheck/core' %>
+<%= javascript_include_tag 'themes/formcheck/more' %>
+<%= javascript_include_tag 'themes/formcheck/en' %>
+<%= javascript_include_tag 'themes/formcheck/formcheck' %>
+<%= stylesheet_link_tag 'themes/formcheck/formcheck'%>
+<table width="100%" border="0" cellspacing="0" cellpadding="0">
+  <tr>
+    <td height="100%" align="right" valign="top" ></td>
+    <td width="990" height="500" align="center" valign="top"><table width="990" border="0" cellspacing="0" cellpadding="0">
+        <tr>
+          <td align="center" valign="top"><table width="970" border="0" cellspacing="0" cellpadding="0">
+              <tr>
+                <td align="center" valign="top" class="tab-dots">
+                  <div id="content" align="center">
+                    <table width="970" border="0" cellspacing="0" cellpadding="0" id="tab_bgcolor_repeat">
+
+                      <tr>
+                        <td align="left" valign="top"><table width="100%" border="0" cellspacing="0" cellpadding="0">
+                            <tr>
+                              <td width="13" align="left" valign="top"></td>
+                              <td width="944" align="left" valign="top"><table width="100%" border="0" cellspacing="0" cellpadding="0">
+                                  <tr>
+                                    <td height="10" align="left" valign="top"></td>
+                                  </tr>
+                                  <tr>
+                                    <td height="35" align="left" valign="bottom" class="header-page">Create a text blog entry</td>
+                                  </tr>
+                                  <tr>
+                                    <td height="10" align="center" valign="top" class="error-message"><%=flash[:message]%></td>
+                                  </tr>
+                                  <tr>
+                                    <td height="10" align="left" valign="top"></td>
+                                  </tr>
+                                  <tr>
+                                    <td height="1" align="left" valign="top" bgcolor="#454545"></td>
+                                  </tr>
+                                  <tr>
+                                    <td height="10" align="left" valign="top"></td>
+                                  </tr>
+                                  <tr>
+                                    <td align="left" valign="top"><table width="100%" border="0" cellspacing="0" cellpadding="0">
+                                        <tr>
+                                          <td height="10" align="left" valign="top"></td>
+                                        </tr>
+                                        <tr>
+                                          <td align="left" valign="top" class="content-trans-bg"><table width="100%" border="0" cellspacing="0" cellpadding="0">
+                                              <tr>
+                                                <td width="30" align="left" valign="top">&nbsp;</td>
+                                                <td width="912" align="left" valign="top">
+                                                  <form name="frm" id="frm" action="/blog/create_textblogentry/<%=params[:id]%>" method="post">
+                                                  <table width="100%" border="0" cellspacing="0" cellpadding="0">
+                                                    <tr>
+                                                      <td align="left" valign="top">&nbsp;</td>
+                                                    </tr>
+                                                    <tr>
+    <td height="25" align="left" valign="top" class="content">Title </td>
+  </tr>
+  <tr>
+    <td align="left" valign="top"><label>
+        
+       
+        <input type="text" name="title" value="" class="validate['required']" />
+        
+      </label></td>
+  </tr>
+  <tr>
+    <td align="left" valign="top">&nbsp;</td>
+  </tr>
+  <tr>
+    <td height="25" align="left" valign="top" class="content">Blog Entry Date</td>
+  </tr>
+  <tr>
+    <td align="left" valign="top"><%= date_select "blog", "added_date", :order => [:month, :day, :year], :start_year => Time.now.year - 100, :end_year => Time.now.year   %></td>
+  </tr>
+  <tr>
+    <td align="left" valign="top">&nbsp;</td>
+  </tr>
+  <tr>
+    <td height="25" align="left" valign="top" class="content">Description</td>
+  </tr>
+  <tr>
+    <td align="left" valign="top"><label>
+        
+         <textarea name="desc" class = "validate['required']" rows="10" cols="80"></textarea>
+       
+      </label></td>
+  </tr>
+  <tr>
+    <td align="left" valign="top">&nbsp;</td>
+  </tr>
+  <tr>
+    <td align="left" valign="top"><label>
+        <input type="submit" class="cmd-btn" value="Submit" />
+        &nbsp;
+        <input type="button" class="cmd-btn" value="Cancel"  onClick="javascript:history.back();"/>
+      </label></td>
+  </tr>
+                                                    <tr>
+                                                      <td align="left" valign="top">&nbsp;</td>
+                                                    </tr>
+                                                  </table></form></td>
+                                              </tr>
+                                            </table></td>
+                                        </tr>
+                                        <tr>
+                                          <td align="left" valign="top">&nbsp;</td>
+                                        </tr>
+
+                                      </table></td>
+                                  </tr>
+
+                                </table></td>
+                              <td width="13" align="left" valign="top"></td>
+                            </tr>
+                          </table></td>
+                      </tr>
+                    </table></div></td>
+              </tr>
+
+            </table></td>
+        </tr>
+        <tr>
+          <td height="19"></td>
+        </tr>
+      </table></td>
+    <td align="left" valign="top" ></td>
+  </tr>
+</table>
+<script type="text/javascript">
+  window.addEvent('domready', function(){
+    new FormCheck('frm');
+  });
+</script>
+<% @hide_float_menu = true %>

@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Hold my Memories</title>
+
+    <!-- Include theme -->
+    <link type="text/css" href="/jquery-coverflow/css/jquery-ui-1.8.5.custom.css" rel="Stylesheet" />
+
+    <!-- Include jQuery and UI -->
+    <script type="text/javascript" src="/jquery-coverflow/js/jquery-1.6.2.min.js"></script>
+    <script type="text/javascript" src="/jquery-coverflow/js/jquery-ui-1.8.9.custom.min.js"></script>
+
+
+    <!-- Include jQuery CoverFlow widget -->
+    <script type="text/javascript" src="/jquery-coverflow/js/ui.coverflow.js"></script>
+
+    <link type="text/css" href="/jquery-coverflow/css/demos.css" rel="stylesheet" />
+
+    <!-- Transformie is a plugin that makes webkit's CSS transforms work in Internet Explorer -->
+    <script src="/jquery-coverflow/js/sylvester.js" type="text/javascript"></script>
+    <script src="/jquery-coverflow/js/transformie.js" type="text/javascript"></script>
+
+    <!-- Include mousewheel dependancies and app files -->
+    <script src="/jquery-coverflow/js/jquery.mousewheel.min.js" type="text/javascript"></script>
+    <script src="/jquery-coverflow/js/app.js" type="text/javascript"></script>
+    <script type="text/javascript">
+      $(function(){
+
+
+        var demo = {
+
+          yScroll: function(wrapper, scrollable) {
+
+            var wrapper = $(wrapper), scrollable = $(scrollable),
+            loading = $('<div class="loading">Loading...</div>').appendTo(wrapper),
+            internal = null,
+            images	= null;
+            scrollable.hide();
+            images = scrollable.find('img');
+            completed = 0;
+
+            images.each(function(){
+              if (this.complete) completed++;
+            });
+
+            if (completed == images.length){
+              setTimeout(function(){
+                loading.hide();
+                wrapper.css({overflow: 'hidden'});
+                scrollable.slideDown('slow', function(){
+                  enable();
+                });
+              }, 0);
+            }
+
+
+            function enable(){
+              var inactiveMargin = 99,
+              wrapperWidth = wrapper.width(),
+              wrapperHeight = wrapper.height(),
+              scrollableHeight = scrollable.outerHeight() + 2*inactiveMargin,
+              wrapperOffset = 0,
+              top = 0,
+              lastTarget = null;
+
+
+              wrapper.mousemove(function(e){
+                lastTarget = e.target;
+                wrapperOffset = wrapper.offset();
+                top = (e.pageY -  wrapperOffset.top) * (scrollableHeight - wrapperHeight) / wrapperHeight - inactiveMargin;
+                if (top < 0){
+                  top = 0;
+                }
+                wrapper.scrollTop(top);
+              });
+            }
+          }
+        }
+
+
+        demo.yScroll('#scroll-pane', 'ul#sortable');
+
+
+      });
+    </script>
+  </head>
+  <body>
+    <div class="pageWrapper">
+      <h1>Family Photos</h1>
+      <div class="demo">
+        <div class="wrapper">
+          <div id="coverflow">
+            <% for studio_portfolio in @studio_portfolios %>
+            <img src="<%=studio_portfolio.img_url%>/user_content/photos/coverflow/<%=studio_portfolio.v_filename%>" data-artist="Gorillaz" data-album="Plastic Beach"/>
+            <% end %>
+          </div>
+        </div>
+        <div id="imageCaption">
+		Sample Text
+        </div>
+        <div id='slider'></div>
+      </div>
+    </div>
+  </body>
+</html>

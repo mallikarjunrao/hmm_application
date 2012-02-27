@@ -1,0 +1,22 @@
+<table width="100%" cellpadding="0" cellspacing="0" border="0" style="padding-top: 10px;"  >
+  <tr><td align="left"><h2>Edit Price</h2></td></tr>
+  <tr><td align="right"><a href="/print_size_prices/franchise_list/<%=params[:studio_id]%>">Back</a></td></tr>
+  <tr><td>
+      <% form_for :print_size_price, @price, :url => { :action => "franchise_edit" } do |f| %>
+       <input type="hidden" name="studio_id" value="<%=params[:studio_id]%>">
+        <table width="100%" cellpadding="5" cellspacing="5" border="0">
+          <tr><td align="left" colspan="3"><%= f.error_messages %></td></tr>
+          <tr><td>Size <font color="red">*</font></td><td>:</td><td><%=@size.label%></td></tr>
+          <tr><td>Price <font color="red">*</font></td><td>:</td><td><input type="text" name="price" id="price" value="<%=@price.price%>"> (dollars)</td></tr>
+            <tr><td id="qty">Price within 72 hours </td><td>:</td><td><%= f.text_field :pricelt72 %> (dollars for single image)</td></tr>
+          <tr><td>Processed By <font color="red">*</font></td><td>:</td><td><input type="radio" name="process_studio_id" value="0"  <% if(@price.process_studio_id==0) %> checked <%end%> >HoldMyMemories
+  <input type="radio" name="process_studio_id" value="<%=@studio_id%>"  <% if(@price.process_studio_id!=0) %> checked <%end%> >Self</td></tr>
+          <tr><td>Maintain Image Aspect Ratio<font color="red">*</font></td><td>:</td><td><%= f.radio_button 'aspect_ratio','yes'%> Yes &nbsp;&nbsp;&nbsp;&nbsp;<%= f.radio_button 'aspect_ratio','no'%> No</td></tr>
+         <tr><td>Quantity <font color="red">*</font></td><td>:</td><td><%= f.text_field :quantity %> </td></tr>
+          <tr><td colspan="3" align="center"><%= submit_tag 'Update' %></td></tr>
+          <tr><td colspan="3"><font color="red">*</font> Indicates required field</td></tr>
+        </table>
+
+      <% end %>
+    </td></tr>
+</table>

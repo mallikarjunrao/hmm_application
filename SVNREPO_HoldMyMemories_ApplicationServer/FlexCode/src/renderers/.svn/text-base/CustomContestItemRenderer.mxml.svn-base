@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- http://blog.flexexamples.com/2008/03/08/creating-a-simple-image-gallery-with-the-flex-tilelist-control/ -->
+<mx:VBox xmlns:mx="http://www.adobe.com/2006/mxml"
+		horizontalAlign="center"  
+		verticalAlign="middle" borderColor="#ffffff" height="100%" width="100%" backgroundColor="#000000" verticalScrollPolicy="off" horizontalScrollPolicy="off"  xmlns:components="components.*">
+	<mx:VBox horizontalAlign="center"  verticalAlign="middle" height="100%" width="100%">
+		<components:ContestImage id="img" source="{imageSource}" visible="false"  height="180" width="222"/> 
+		<mx:Label text="{titleText}" color="#ffffff" fontWeight="bold" fontSize="10" toolTip="{data.title}"/>
+		<mx:Button id="sum" styleName="submitButton" click="handleSubmit()"/> 
+	</mx:VBox>   
+	<mx:Script> 
+		<![CDATA[   
+			import mx.controls.ToolTip;
+		    import flash.events.Event;
+			import mx.controls.Alert;
+			import mx.core.UIComponent;
+			import components.ContestPopup;
+			import mx.core.Application;
+			import mx.managers.PopUpManager; 
+			import mx.collections.ArrayCollection;      
+			import mx.core.IFlexDisplayObject;   
+			/* [Bindable]
+			private var videoButton : Boolean = false; */
+			[Bindable]
+			private var imageSource : String;
+			private var preloaderSprite : Sprite;
+			
+			[Embed(source="assets/ajax-loader.swf")]
+			private var preLoaderSwf : Class;
+			private var preloader : UIComponent; 
+			[Bindable]
+			private var titleText : String; 
+			[Bindable]
+			private var toolTipText : String;
+			[Bindable]
+			private var tool : Boolean = false;
+			
+			/* [Bindable] 
+			private var playing : Boolean = false; */
+			/* private var preloaderSprite : Sprite;
+			[Embed(source="assets/ContetPreloader.swf")] */
+			
+			override public function set data(value:Object):void
+			{  
+				super.data = value;
+				imageSource = data.icon;
+				titleText = data.title;
+				if(titleText.length >20)
+				{
+					titleText = titleText.slice(0,9)+"..";
+				}
+				
+				
+			}
+			private function handleSubmit() : void     
+			{   if(data.moment == "yes")
+				{
+					Alert.show("You have already submitted this moment for the contest.Please select other moment");
+				}
+			else
+			{
+				var showVideo : Boolean = false;
+				if(data.type == "video")
+				  showVideo = true; 
+				var popup : IFlexDisplayObject = PopUpManager.createPopUp(Application.application as DisplayObject, ContestPopup, true);
+				popup.width = 530;
+				popup.height = 400;
+				(popup as ContestPopup).showVideo = showVideo;
+				(popup as ContestPopup).imageSource = data.original;
+				(popup as ContestPopup).hasJournal = data.journal;
+				(popup as ContestPopup).videoSource = data.path;          
+			    (popup as ContestPopup).data = this.data;
+			    (popup as ContestPopup).eventcontroller = this;
+			     PopUpManager.centerPopUp(popup);
+				(popup as ContestPopup).handleCreationComplete();
+				if(data.journal == "yes")
+				{
+					(popup as ContestPopup).setJournal();
+				}
+			}
+			}
+			
+			public function set JournalData(obj : Object) : void
+			{
+				data.journal = "yes";
+				data.journaltitle = obj.title;
+				data.journaltext = obj.desc;
+				data.journaldate = obj.date;
+			}
+			/* private function clickHandler(event : Event) : void
+			{   
+				    playing = true;
+					display.source =data.path;
+					display.load();
+					img.visible = false; 
+					videoButton = false; 
+					display.play();
+					//stage.dispatchEvent(new VideoContestEvent(VideoContestEvent.VIDEO_PLAY,data.id));
+				}	 */
+				
+				
+			
+			/*private function handleAddedToStage(event : Event) : void
+			{
+				display.source = data.path;
+				stage.addEventListener(VideoContestEvent.VIDEO_PLAY,handleVideoEvent)
+			}
+			
+			private function handleVideoEvent(event : VideoContestEvent) : void
+			{
+				if(playing)
+				{
+					if(data.id != event.id)
+					{
+						display.stop();
+					//	img.visible = true;
+						vid.visible = true;
+					}
+					
+				}
+			} */
+			
+		]]>
+	</mx:Script> 
+
+</mx:VBox>

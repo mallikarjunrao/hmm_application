@@ -1,0 +1,49 @@
+<h2>HOLDMYMEMORIES CERTIFIED PHOTOGRAPHERS Details</h2>
+<font color="#f5dfa6"><%=flash[:notice]%></font>
+<% session['redirect'] =  '112' %>
+<table>
+  <tr>
+  	<th background="/images/body_hor.JPG">First Name</th>
+    <th background="/images/body_hor.JPG">Middle Name</th>
+	 <th background="/images/body_hor.JPG">Last Name</th>
+	<th background="/images/body_hor.JPG">Street Address</th>
+	<th background="/images/body_hor.JPG">City</th>
+	<th background="/images/body_hor.JPG">State</th>
+	<th background="/images/body_hor.JPG">Zipcode</th>
+	<th background="/images/body_hor.JPG">Phone Number</th>
+	<th background="/images/body_hor.JPG">Email Address</th>
+	<th background="/images/body_hor.JPG">Created Date</th>
+    <th background="/images/body_hor.JPG" colspan="2">Actions</th>
+	
+   </tr>
+  
+<%	odd_or_even = 0 
+	i = 0 
+	for photographer in @photographerdetails 
+	i = i + 1
+	odd_or_even = 1 - odd_or_even %>
+	
+  <tr class="<%= cycle('odd', 'even') -%>">
+  	
+	<td><%=photographer.fname%></td>
+  	<td><%=photographer.mname%></td>
+	<td><%=photographer.lname%></td>
+	<td><%=photographer.address%></td>
+	<td><%=photographer.city%></td>
+	<td><%=photographer.state_name%></td>
+	<td><%=photographer.zipcode%></td>
+	<td><%=photographer.phone%></td>
+    <td><%=photographer.email%></td>
+	<td>
+	<%if(photographer.created_at==nil)
+    else %>
+	<%=photographer.created_at.strftime("%m - %d - %Y") %>
+	<%end%>
+	</td>
+    <td><a href="/business_managers/show_personalinfo/<%= photographer.id %>">Show</a></td>
+	<td><a href="/business_managers/delete_photographer_personal/<%= photographer.id %>" onclick="return confirm('Are u Sure ?');
+">Delete</a></td>
+  </tr>
+<% end %>
+</table>
+	

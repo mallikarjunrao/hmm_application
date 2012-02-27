@@ -1,0 +1,23 @@
+<script type="text/javascript">
+function relations_det(){
+	
+	if (document.getElementById('relation').value == 'select')
+		{
+			alert("please select a relation for your family member")
+			document.getElementById('relation').focus();
+		return false;
+		}
+		
+		return true;
+}	
+
+
+	</script>
+<h2>Add new family member</h2>
+
+<% form_tag ({:action => 'create'},{:multipart => true}) do %>
+  <%= render :partial => 'form' %>
+  <%= submit_tag "Create", :onclick=>"return relations_det();"%>
+<% end %>
+
+<%= link_to 'Back', :action => 'list' %>

@@ -1,0 +1,94 @@
+<style type="text/css">
+  .sub-btn{
+    background:transparent;
+    background-image: url(/images/sub-btn.png);
+    height:24px;
+    width:94px;
+    border:none;
+    font-size:13px;
+    font-weight:bold;
+    color:#FFF;
+    cursor:pointer;
+  }
+  .sub-btn:hover{
+    background-image: url(/images/sub-btn-ovr.png);
+  }
+</style>
+<h2> Manage Purchased Gift Certificates</h2>
+<form action="/gift_certificates/studio_certificates_details" method="post">
+  <table border="0" cellpadding="0" cellspacing="0" align="center" width="900">
+    <tr><td width="250"></td><td>
+        <table border="1" cellpadding="0" cellspacing="0" align="center" width="700">
+          <tr><td align="center" colspan="4" height="30"><h3>Search Gift Certificates</h3></td></tr>
+          <tr><td align="center" height="40">Certificate Number:</td><td><input type="text" name="certificate_id" value="<%= params[:certificate_id] %>"/></td>
+            <td align="center" height="40">First Name:</td><td><input type="text" name="first_name" value="<%= params[:first_name] %>"/></td></tr>
+              <tr><td align="center" height="40">Last Name:</td><td><input type="text" name="last_name" value="<%= params[:last_name] %>" /></td>
+                <td align="center" height="40">Email:</td><td><input type="text" name="email" value="<%= params[:email] %>"/></td></tr>
+                  <tr><td align="center" height="40">Order Number:</td><td><input type="text" name="order_no"value="<%= params[:order_no] %>"/></td>
+                   <td align="center" height="40">Status:</td><td><select name="status">
+               <option value="" <%if params[:status]=="" %> selected <%end%> >All</option>
+              
+                <option value="active" <%if params[:status]=="active" %> selected <%end%> >Active</option>
+                <option value="redeemed" <%if params[:status]=="redeemed" %> selected <%end%> >Redeemed</option>
+              </select></td></tr>
+                           <tr><td align="center" height="40">Certificate Name:</td><td>
+                               <select name="certifiate_id">
+                                 <option value="">All</option>
+<%for certificate_name in  @certificate_names%>
+                             
+                 <option value="<%=certificate_name.id%>" <%if params[:certifiate_id].to_i==certificate_name.id%> selected<%end%> ><%=certificate_name.certificate_name%></option>
+<%end%></select>
+                             </td>
+                <td align="center" height="40">&nbsp;</td><td>&nbsp;</td></tr>
+                  <tr>  <td align="center" colspan="4" height="40"><input type="submit" name="Search" value="Search" class="sub-btn"/></td></tr>
+         
+        </table></td></tr></table>
+</form>
+<a href="/gift_certificates/excel_studio_certificates_details">Export to Excel</a>
+<table border="1" cellpadding="0" cellspacing="0" align="center" width="900" style="margin-top: 30px">
+  <tr>
+    <td  background="/images/body_hor.JPG"  height="30"><font class='txt'><table> <tr><th><%= sort_header_tag('b.certificate_id', :text => "Certificate Number") %></th></tr></table></font></td>
+    <td  background="/images/body_hor.JPG"  height="30"><font class='txt'><table> <tr><th><%= sort_header_tag('order_no', :text => "Order Number") %></th></tr></table></font></td>
+    <td  background="/images/body_hor.JPG"><font class='txt'><table> <tr><th><%= sort_header_tag('first_name', :text => "First Name") %></th></tr></table></font></td>
+    <td  background="/images/body_hor.JPG"><font class='txt'><table> <tr><th><%= sort_header_tag('last_name', :text => "Last Name") %></th></tr></table></font></td>
+    <td  background="/images/body_hor.JPG"><font class='txt'><table> <tr><th><%= sort_header_tag('telephone', :text => "Phone") %></th></tr></table></font></td>
+    <td  background="/images/body_hor.JPG"><font class='txt'><table> <tr><th><%= sort_header_tag('email', :text => "Email") %></th></tr></table></font></td>
+    <td  background="/images/body_hor.JPG"><font class='txt'><table> <tr><th><%= sort_header_tag('membership_fee', :text => "Membership Price") %></th></tr></table></font></td>
+    <td  background="/images/body_hor.JPG"><font class='txt'><table> <tr><th><%= sort_header_tag('certificate_name', :text => "Certificate Name") %></th></tr></table></font></td>
+    <td  background="/images/body_hor.JPG"><font class='txt'><table> <tr><th><%= sort_header_tag('certificate_price', :text => "Certificate Fees") %></th></tr></table></font></td>
+    <td  background="/images/body_hor.JPG"><font class='txt'><table> <tr><th><%= sort_header_tag('amount', :text => "Total Amount") %></th></tr></table></font></td>
+    <td  background="/images/body_hor.JPG"><font class='txt'><table> <tr><th><%= sort_header_tag('status', :text => "Status") %></th></tr></table></font></td>
+     <td  background="/images/body_hor.JPG"><font class='txt'><table> <tr><th><%= sort_header_tag('studio_id', :text => "Purchased Studio") %></th></tr></table></font></td>
+    <td  background="/images/body_hor.JPG"><font class='txt'><table> <tr><th><%= sort_header_tag('purchased_date', :text => "Purchased Date") %></th></tr></table></font></td>
+    <td  background="/images/body_hor.JPG"><font class='txt'><table> <tr><th><%= sort_header_tag('redeemed_date', :text => "Redeemed Date") %></th></tr></table></font></td>
+    <td  background="/images/body_hor.JPG"><font class='txt'><table> <tr><th><%= sort_header_tag('redeemed_studio', :text => "Redeemed At") %></th></tr></table></font></td>
+    <td  background="/images/body_hor.JPG"><font class='txt'><table> <tr><th><%= sort_header_tag('employee_name', :text => "Employee Name") %></th></tr></table></font></td>
+    <%if @status!="redeemed" %> <td  background="/images/body_hor.JPG"  colspan="2"><font class='txt'>Actions</td><%end%>
+  </tr>
+  <%for customer in @customers%>
+    <tr class="<%= cycle('odd', 'even')%>">
+      <td height="20" align="center"><%=customer.cid%></td><td align="center"><%=customer.order_no%></td><td align="center"><%=customer.first_name%></td><td align="center"><%=customer.last_name%></td>
+      <td align="center"><%=customer.telephone%></td><td align="center"><%=customer.email%></td>
+      <td align="center">$<%=number_with_precision(Float(customer.membership_fee).round(2), :precision => 2)%></td>
+      <td align="center"><%=customer.certificate_name%></td>
+      <td align="center">$<%=number_with_precision(Float(customer.certificate_price).round(2), :precision => 2)%></td>
+      <td align="center">$<%=number_with_precision(Float(customer.amount).round(2), :precision => 2)%></td><td align="center"><%=customer.status%></td>
+       <%purchased_studio=HmmStudio.find_by_id(customer.studio_id)%>
+      <td align="center"><%=purchased_studio.studio_name%></td>
+      <td align="center"><%if customer.purchased_date%><%=customer.purchased_date.strftime("%m - %d - %Y")%><%end%></td>
+      <td align="center"><%if customer.redeemed_date%><%=customer.redeemed_date.strftime("%m - %d - %Y")%><%end%></td>
+      <% logger.info(customer.redeemed_studio) %>
+      <%if customer.redeemed_studio.blank? || customer.redeemed_studio.nil? %>
+        <td align="center"></td>
+      <% elsif customer.redeemed_studio.to_i!= 0
+        studio=HmmStudio.find_by_id(customer.redeemed_studio)%>
+        <td align="center"><%=studio.studio_name%></td>
+      <%else%>
+        <td align="center">Admin</td>
+      <%end%>
+      <td align="center"><%=customer.employee_name%></td>
+      <%if @status!="redeemed" %><td align="center"><a href="/gift_certificates/view_certificates_details/<%=customer.id%>">View</a></td> <td align="center"><%= link_to 'Redeem', {:action => 'redeem_certificate', :id =>customer.id}, :confirm => 'Are you sure to redeem this certificate?' %></td><%end%>
+    </tr>
+  <%end%>
+</table>
+<%=will_paginate @customers, :params=>params%>

@@ -1,0 +1,61 @@
+ <table width="88%" border="0" cellspacing="4" class="border" cellpadding="4">
+    
+    <%if @fnf_req.size==0%>
+		<tr><td>&nbsp;&nbsp;</td><td  valign="middle"  align="left"><h4><font color="white"> No pending requests! </font></h4></td></tr>
+	<%else%> 
+	 
+	<% for i in @fnf_req %>
+	
+		  
+		 
+	<tr>
+		  
+      <th colspan="2" align="left" valign="middle" bgcolor="#191919" scope="col">
+      	<span class="btmtxt">Friends and Family Request from <%= i.v_fname %>:</span>
+	  </th>
+    
+	</tr>
+	 
+	 <tr>
+	 	<th class="border" width='15%' align="center" valign="middle">
+	 		<a href="/customers/profile/<%=i.frid%>"> <img src="/hmmuser/photos/thumb/<%=i.v_myimage%>" border="0"/></a>
+		</th>
+       
+	   <th class="border" colspan="0" align="left" valign="top" scope="col">
+       	<%= i.v_fname %> would like to share <%if i.e_sex=='M'%>his<%else%>her<%end%> memories with you at HoldMyMemories.com.  <br>
+		
+	   </th>
+	   
+	</tr>
+	
+	 <tr>
+	 	<th class="border" width='15%' align="center" valign="middle">
+	 	</th>
+       
+	   <th class="border" colspan="0" align="left" valign="top" scope="col">
+     	<div id="<%=i.id%>" > </div>	
+	   </th>
+	   
+	</tr>	
+		
+	<tr bordercolor="#191919">
+		
+		<th class="border" colspan="2" align="left">
+			
+	
+	<%= link_to_remote("Accept",
+			:update => "#{i.id}", :url => {:controller => :customers, :action => :group_fnf, :id => i.uid }) %>
+			&nbsp;&nbsp;&nbsp;
+		
+	  <a href="/customers/Reject_fnf/<%=i.frnid%>" >Reject</a>
+            
+		</th>
+	
+	</tr>
+
+ <%
+       
+    end    
+     end
+ %>
+</table>

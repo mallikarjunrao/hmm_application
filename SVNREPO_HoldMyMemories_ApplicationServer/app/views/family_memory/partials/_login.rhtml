@@ -1,0 +1,99 @@
+<script type="text/javascript">
+ 
+  Jq(document).ready(function(){
+    Jq(".login").click(function(){
+      if (Jq(".log").is(":hidden")) {
+        Jq(".log").slideDown("slow");
+      } else {
+        Jq(".log").slideUp("slow");
+      }
+    });
+    Jq(".close1").click(function(){
+      Jq(".log").slideUp("slow");
+
+    });
+  });
+</script>
+<style type="text/css">
+  .loglink
+  {
+    font-family:Arial, Helvetica, sans-serif;
+    font-size:12px;
+    color:#ff6800;
+    text-decoration:none;
+  }
+  .loglink:hover{
+    color:#ffffff;
+  }
+</style>
+<script type="text/javascript">
+  function ChangeToPassField() {
+    document.getElementById('textfield').type="password";
+    document.getElementById('textfield').value="";
+  }
+  </script>
+<tr>
+  <td><font color="red" size="2"><%=flash[:error]%></font></td>
+</tr>
+<% if session[:hmm_user] %>
+  <%if logged_in_hmm_user.id==@family_website_owner.id%>
+    <tr>
+      <td align="right" valign="bottom" class="side-heading"><table><tr><td width="31">&nbsp;</td><td  width="167" align="right"><a href="<%=request_server_url%>/family_memory/logout/<%=params[:id]%>" title="Logout" class="logout loglink">Logout</a></td><td width="4">&nbsp;</td></tr></table></td>
+    </tr>
+
+  <%else%>
+    <tr>
+      <td  align="right" valign="bottom" class="side-heading" align="right" ><table><tr><td width="31">&nbsp;</td><td  width="167" align="right"><a href="#" title="Login" class="login loglink">Login</a></td><td width="4">&nbsp;</td></tr></table></td>
+    </tr>
+  <%end%>
+<%else%>
+  <tr>
+    <td align="right" valign="bottom" class="side-heading"><table><tr><td width="31">&nbsp;</td><td  width="167" align="right"><a href="#" title="Login" class="login loglink">Login</a></td><td width="4">&nbsp;</td></tr></table></td>
+  </tr>
+<%end%>
+<tr class="log" align="center" style="display: none">
+  <td align="center" valign="top"  class="img" valign="bottom">
+    <div class="addmar sprite add" >
+      <form name="emailusform" id="blogform" action="<%=request_server_url%>/family_memory/login/<%=params[:id]%>" method="post">
+        <table width="150" border="0" cellspacing="0" cellpadding="0" align="center">
+          <input type="hidden" name="redirect_url"  value="<%=params[:redirect_url]%>" onclick="this.value=''"/>
+          <tr>
+            <td height="5">&nbsp;</td>
+          </tr>
+          <tr>
+            <td align="center" class="msgHead">Member login</td>
+          </tr>
+          <tr>
+            <td height="12"></td>
+          </tr>
+          <tr>
+            <td align="center"   width="150" height="15"><input type="text" id="textfield1" name="username" class="7b9baf" size="20" value="Username" onclick="this.value=''"/></td>
+          </tr>
+          <tr>
+            <td height="15"></td>
+          </tr>
+          <tr>
+            <td align="center"  width="150" height="15"><input type="text" id="textfield" name="password" class="7b9baf" size="20" value="Password" onfocus="ChangeToPassField()" onclick="this.value='';ChangeToPassField()" onselect="ChangeToPassField()" autocomplete="off"/></td>
+          </tr>
+          <tr>
+            <td height="10"></td>
+          </tr>
+          <tr>
+            <td align="center"><input type="submit" class="contactBtn" value="Submit" /></td>
+          </tr>
+          <tr>
+            <td height="15"></td>
+          </tr>
+          <tr>
+            <td align="center"> <input type="button" class="login contactBtn" value="Close"  /></td>
+          </tr>
+
+          <tr>
+            <td>&nbsp;</td>
+          </tr>
+
+        </table>
+      </form>
+    </div>
+  </td>
+</tr>

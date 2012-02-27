@@ -1,0 +1,54 @@
+<table cellpadding="0" cellspacing="0" border="1" width="600"  >
+  <tr>
+    <th align="center"> <table cellpadding="0" cellspacing="0" border="1" width="100%" bordercolor="#e5b467" >
+        <tr>
+          <th colspan="2"> <font size="3">
+              <center>
+                HoldMyMemories.com Media Report
+              </center>
+            </font> </th>
+        </tr>
+        <tr>
+          <th> <font size="2">&nbsp;&nbsp;Total No Of Photos Uploaded On the Site</font> </th>
+          <th width="100"> &nbsp;&nbsp;<%=@stat_imag%> </th>
+        </tr>
+        <tr>
+          <th> <font size="2">&nbsp;&nbsp;Total No Of Videos Uploaded On the Site</font> </th>
+          <th> &nbsp;&nbsp;<%=@stat_video%> </th>
+        </tr>
+        <tr>
+          <th> <font size="2">&nbsp;&nbsp;Total No Of Audio Files Uploaded On the Site</font> </th>
+          <th> &nbsp;&nbsp;<%=@stat_audio%> </th>
+        </tr>
+      </table>
+      <p></p>
+      <table bordercolor="#e5b467"  align="center" width="60%" border="0" cellpadding="4" cellspacing="4">
+        <tr>
+          <th> <% form_remote_tag :update => 'table123', :method => 'post',:loading => "Element.show('spinner')",
+              :complete => "Element.hide('spinner')",
+              :url => {:action => 'statReport'},
+              :with => 'from_bdate',
+              :with => 'to_bdate' do %>
+              <table bordercolor="#e5b467"  align="center" width="60%" border="1" cellpadding="4" cellspacing="4">
+                <tr  >
+                  <th background="/images/body_hor.JPG" colspan="4" align="center" style="background:repeat;" >Search by Photo's Date</th>
+                </tr>
+                <tr>
+                  <td>From Date</td>
+                  <td><%= date_select  'from_bdate', :order => [:month, :day, :year] %> </td>
+                </tr>
+                <td>To Date</td>
+                <td><%= date_select  'to_bdate', :order => [:month, :day, :year]%></td >
+          </tr>
+          <td align="center" colspan="4"><input type="submit" name="sub1" value="Search"/>
+            <img src="/images/circle_load.gif" id="spinner" style="display:none;" border="0" /> </td>
+    </tr>
+  </table>
+<%end%>
+   <p></p>
+<div id="table123"> <%= render :partial => "statrep", :layout => false %> </div></th>
+</tr>
+</table>
+</th>
+</tr>
+</table>

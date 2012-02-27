@@ -1,0 +1,37 @@
+
+xml.instruct! :xml, :version=>"1.0"
+
+  xml.images{
+   for chapter_value in @results
+        @user_content = UserContent.find(:all, :conditions => "uid=#{@userid} and sub_chapid=#{-1} and tagid = #{chapter_value.id} and gallery_id=#{-1}" , :order => 'id' )
+              for user_content in @user_content
+               xml.image{
+
+               xml.name("#{user_content.v_tagphoto}")
+               if(user_content.e_filetype == "image")
+                 xml.icon(user_content.img_url+"/user_content/photos/big_thumb/#{user_content.v_filename}")
+               end
+               if(user_content.e_filetype == "video")
+                 xml.icon(user_content.img_url+"/user_content/videos/thumbnails/#{user_content.v_filename}.jpg")
+               end
+               if(user_content.e_filetype == "audio")
+                 xml.icon(user_content.img_url+"/user_content/audios/#{user_content.v_filename}")
+               end
+               xml.id("#{user_content.id}")
+               xml.type(user_content.e_filetype)
+               xml.creationdate(user_content.d_momentdate)
+              }
+              @sub_chapter= SubChapter.find(:all, :conditions => "tagid = #{chapter_value.id}" , :order => 'id' )
+              for subchap in @sub_chapter
+                user_content['sub_chapid'] = subchap.id
+                @gall= Galleries.find(:all, :conditions => "subchapter_id = #{subchap.id} and e_gallery_type='#{user_content['e_filetype']}'" , :order => 'id' )
+                for gally in @gall
+                  user_content['gallery_id'] = gally.id
+                end
+             end
+             user_content.save
+           end
+    end
+   }
+
+

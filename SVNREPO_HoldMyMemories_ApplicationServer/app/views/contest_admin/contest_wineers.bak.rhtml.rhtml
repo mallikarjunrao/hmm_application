@@ -1,0 +1,181 @@
+<h1>Add Contest Winner</h1>
+<style type="text/css">
+  .sub-btn{
+    background:transparent;
+    background-image: url(/images/sub-btn.png);
+    height:24px;
+    width:94px;
+    border:none;
+    font-size:13px;
+    font-weight:bold;
+    color:#FFF;
+    cursor:pointer;
+  }
+  .sub-btn:hover{
+    background-image: url(/images/sub-btn-ovr.png);
+  }
+</style>
+<SCRIPT language="JavaScript">
+  function go_there1()
+  {
+    var where_to= confirm("Are you sure to delete this Contest Winner ?");
+    if (where_to== true)
+    {
+      return true;
+
+    }
+    else
+    {
+      return false;
+    }
+  }
+
+  function submit_winner(form)
+  {
+    if(form.contest_phase.value == "")
+    {
+      alert("Please select the Contest Phase")
+      return false;
+    }
+    if(form.winner_image_name.value != "" && form.winner_image_url.value != "" && form.winner_image_link.value != "")
+    {
+      if(form.winner_video_name.value == "" && form.winner_video_url.value == "" && form.winner_video_link.value == "")
+      {
+        return true;
+      }
+      else if (form.winner_video_name.value != "" && form.winner_video_url.value != "" && form.winner_video_link.value != "")
+      {
+        return true;
+      }
+      else
+      {
+        alert("Complete Image/Video Details")
+        return false;
+      }
+    }
+    else
+    {
+      if(form.winner_video_name.value != "" && form.winner_video_url.value != "" && form.winner_video_link.value != "")
+      {
+        if(form.winner_image_name.value == "" && form.winner_image_url.value == "" && form.winner_image_link.value == "")
+        {
+          return true;
+        }
+        else
+        {
+          alert("Complete Image/Video Details")
+          return false;
+        }
+      }
+      else
+      {
+        alert("Complete Image/Video Details")
+        return false;
+      }
+    }
+
+  }
+
+
+</SCRIPT>
+<table width="601" border="0" cellspacing="0" cellpadding="0" align="center">
+  <tr>
+    <td height="30" align="center" valign="middle" class="cont_13">
+      <% if flash[:msg1] %>
+        <font color="Green"><%= flash[:msg1] %></font>
+      <% else %>
+        <font color="Red"><%= flash[:msg2] %></font>
+      <% end %>
+    </td>
+  </tr>
+  <tr>
+    <td align="center" valign="top">
+
+      <form action="/contest_admin/add_winners" method="post" onsubmit="return submit_winner(this);">
+        <table width="512" border="1" align="center" cellpadding="0" cellspacing="0" >
+          <tr><td align="center" height="40" colspan="6">Contest Name:
+              <select name="contest_phase" id="contest_phase">
+
+                <option value="" selected>-- Select --</option>
+                <% @contest_name.each do |contest| %>
+                  <option value="<%= contest.id %>"><%= contest.name %></option>
+                <% end %>
+              </select><br></br>
+            </td>
+          </tr>
+          <tr>
+            <td align="center" height="10" colspan="6"><h2>Photo Winners</h2></td>
+          </tr>
+
+          <tr>
+            <td align="center" height="40">Winner's name:</td><td><input type="text" name="photo_winner_name[name]" id="winner_image_name"/></td>
+            <td align="center" height="40">Winner's image URL:</td><td><input type="text" name="photo_winner_name[url]" id="winner_image_url" /></td>
+            <td align="center" height="40">Winner's photo Link:</td><td><input type="text" name="photo_winner_name[link]" id="winner_image_link"/></td>
+          </tr>
+          <tr>
+            <td align="center" height="10" colspan="6"><h2>Video Winners</h2></td>
+          </tr>
+          <tr>
+            <td align="center" height="40">Winner's name:</td><td><input type="text" name="video_winner_name[name]" id="winner_video_name"/></td>
+            <td align="center" height="40">Winner's video image URL:</td><td><input type="text" name="video_winner_name[url]" id="winner_video_url"/></td>
+            <td align="center" height="40">Winner's video Link:</td><td><input type="text" name="video_winner_name[link]" id="winner_video_link"/></td>
+          </tr>
+          <tr>
+            <td align="center" colspan="6" height="40">
+              <input type="submit" name="Submit" value="Submit" class="sub-btn" />
+            </td>
+          </tr>
+        </table>
+      </form>
+    </td>
+  </tr>
+  <table border="1" cellpadding="0" cellspacing="0" align="center"  style="margin-top: 50px">
+    <tr>
+      <td  background="/images/body_hor.JPG"  height="30" align="center">Contest Name</td>
+      <td  background="/images/body_hor.JPG"  height="30" align="center">Winner's Photo Name</td>
+      <td  background="/images/body_hor.JPG"  height="30" align="center">Winner's Video Name</td>
+      <td  background="/images/body_hor.JPG"  height="30" align="center">Action</td>
+    </tr>
+    <% for @winner in @winners %>
+
+      <% if @winner.photo_winner_name.length == 0 && @winner.video_winner_name.length == 0 %>
+      <% else %>
+        <tr class="<%= cycle('odd', 'even')%>">
+          <td align="center"><%= ContestDetail.find(@winner.contest_phase).name %></td>
+          <td align="center" width="280">
+            <table align="center" width="280">
+              <% if !@winner.photo_winner_name.blank? && @winner.photo_winner_name.length > 0%>
+                <% i = 0 %>
+                <% for p in @winner.photo_winner_name %>
+                  <tr><td align="left" style="padding-left: 20px;" ><%= p["name"] %> </td>
+                    <td align="right"><a href="/contest_admin/delete_winners?single=true&contest_phase=<%= @winner.contest_phase %>&winner_type=photo&winner_index=<%= i %>" onClick="return go_there1();"><font color="brown">Delete</font></a></td></tr>
+                  <% i +=1 %>
+                <% end %>
+              <% end %>
+            </table>
+          </td>
+          <td align="center" width="280">
+            <table align="center" width="280">
+              <% if !@winner.video_winner_name.blank? && @winner.video_winner_name.length > 0%>
+                <% i = 0 %>
+                <% @winner.video_winner_name.each do |winner| %>
+                  <tr><td align="left" style="padding-left: 20px;" ><%= winner["name"] %></td>
+                    <td align="right"><a href="/contest_admin/delete_winners?single=true&contest_phase=<%= @winner.contest_phase %>&winner_type=video&winner_index=<%= i %>" onClick="return go_there1();"><font color="brown">Delete</font></a></td></tr>
+                  <% i +=1 %>
+                <% end %>
+              <% end %>
+            </table>
+          </td>
+          <td width="130">
+            <table border="1" cellpadding="0" cellspacing="0" width="130">
+              <tr>
+                <td align="center"><a href="/contest_admin/show_winner?contest_phase=<%= @winner.contest_phase %>">Show</a></td>
+                <td align="center"><a href="/contest_admin/edit_winners?contest_phase=<%= @winner.contest_phase %>">Edit</a></td>
+              </tr>
+            </table>
+          </td>
+        <% end %>
+      </tr>
+    <% end %>
+  </table>
+</table>

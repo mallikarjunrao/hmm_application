@@ -1,0 +1,14 @@
+<% for column in UserContent.content_columns %>
+<p>
+  <b><%= column.human_name %>:</b> <%=h @user_content.send(column.name) %>
+</p>
+<% end %>
+
+<%= link_to 'Edit', :action => 'edit', :id => @user_content %> |
+<%= link_to 'Back', :action => 'list' %>
+<table>
+	<%= @imgname=@user_content.v_filename %>
+  	<tr>
+   	<td><%= image_tag("/public/user_content/#{@imgname}") %></td>
+   	</tr>
+	</table>

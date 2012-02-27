@@ -1,0 +1,27 @@
+<%= javascript_include_tag 'SpryAssets/SpryValidationTextField' %>
+<%= javascript_include_tag 'SpryAssets/SpryValidationPassword' %>
+<%= javascript_include_tag 'SpryAssets/SpryValidationConfirm' %>
+<%= stylesheet_link_tag 'SpryAssets/SpryValidationTextField' %>
+<%= stylesheet_link_tag 'SpryAssets/SpryValidationPassword' %>
+<%= stylesheet_link_tag 'SpryAssets/SpryValidationConfirm' %>
+
+
+<h2><center>Add new Backgrounds for the PhotoBook</center></h2>
+<%= error_messages_for :user %>
+<form name='frm1' action="<%=request_content_url%>/photobook/create_background_image"  enctype="multipart/form-data" method="post" >
+
+<span id="sprytextfield16"><span id="sprytextfield16">
+<p>&nbsp;&nbsp;Background image:
+&nbsp;&nbsp;<input type="file" name="background_image"/>
+
+<span class="textfieldRequiredMsg">&nbsp;&nbsp; Please choose a background file.</span></span></span></p>
+
+
+<center><%= submit_tag 'Submit' %></center>
+</form>
+
+
+
+<script type="text/javascript">
+  var sprytextfield16 = new Spry.Widget.ValidationTextField("sprytextfield16", "none", {validateOn:["blur"]})
+</script>

@@ -1,0 +1,39 @@
+      <h2>Sales Person Report</h2>
+        <% form_remote_tag :update => 'table123',
+
+         							:url => {:action => 'membership_sold_accounts_admin'},
+		 							:with => 'from_bdate',
+									:with => 'to_bdate',
+                                     :with => 'studios' do %>
+         <table bordercolor="#e5b467"  align="center" width="100%" border="10" cellpadding="4" cellspacing="4">
+          <tr  ><th background="/images/body_hor.JPG" colspan="4" align="center" style="backgrund:repeat;" >Search </th>
+          </tr>
+        <tr><td>Date Range from</td><td>
+          <%= date_select  'from_bdate', :order => [:month, :day, :year] %>
+          &nbsp;
+          </td></tr>
+          <tr><td>Date Range to</td><td><%= date_select  'to_bdate', :order => [:month, :day, :year]  %>
+
+          &nbsp;</td></tr>
+                             <tr><td>Sales Person</td><td>
+          <select name="studios" id="studios">
+
+								<option value="" >All</option>
+                                <%for m in @dropdatas %>
+								<option value="<%=m.membership_sold_by%>" ><%=m.membership_sold_by%></option>
+                                <% end %>
+							</select>
+                             &nbsp;</td></tr>
+          <tr><td align="center" >&nbsp;</td>
+            <td align="left" ><input type="submit" name="sub1" value="Search"/>&nbsp;&nbsp;<input type="button" name="view_all" value="View All" onClick="window.location='/hmm_studios/membership_sold_accounts_admin/?cpg=1'"/></td></tr>
+        </table>
+
+      <%end%>
+      <div id="table123">
+    <%= render :partial => "salesperson_report", :layout => false %>
+
+    </div>
+
+	</td></tr></table>
+
+<br />

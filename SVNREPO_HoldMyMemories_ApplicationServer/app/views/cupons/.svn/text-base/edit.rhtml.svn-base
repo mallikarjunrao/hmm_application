@@ -1,0 +1,22 @@
+
+
+<% form_tag :action => 'update', :id => @cupon do %>
+  <table width="600">
+	<tr><td colspan="2">&nbsp;</td></tr>
+	<tr><td colspan="2"><h2><center>Edit Coupon</center></h2></td></tr> 
+	<tr>
+		<td width="200"></td>
+		<td>
+  			<%= render :partial => 'form_edit' %>
+		</td>
+	</tr>
+  	<tr>
+		<td align="center" colspan="2">
+  			<%= submit_tag 'Edit' %>
+		</td>
+	</tr>
+</table>
+ 	
+<% end %>
+
+
