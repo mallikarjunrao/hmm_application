@@ -1,0 +1,36 @@
+<% 	odd_or_even = 0
+  i = 0
+  for colmn in @hmm_users
+    i = i + 1
+    odd_or_even = 1 - odd_or_even
+  %>
+
+    <tr class='ListLine<%= odd_or_even %>'>
+      <td align="center"><%=h colmn.v_fname%> <%=h colmn.v_lname%></td>
+      <td align="center"><%=h colmn.v_user_name%></td>
+      <td align="center"><%=h colmn.v_e_mail%></td>
+      <td align="center">
+        <% if colmn.d_created_date == nil || colmn.d_created_date == '' %>
+          -
+        <%else%>
+          <%=h colmn.d_created_date.strftime("%m - %d - %Y")%>
+        <%end%>            </td>
+      <td align="center">
+          <%=h colmn.created_at.strftime("%m - %d - %Y")%>
+                </td>
+      <td align="center"><%=h colmn.account_type%></td>
+      <td align="center">
+        <%if (colmn.studio_name == nil || colmn.studio_name == '' )  %>
+          Direct Customer
+        <%else%>
+          <%=colmn.studio_name %>
+        <%end%>            </td>
+      <td align="center">
+        <%if (colmn.hmm_franchise_studio == nil || colmn.hmm_franchise_studio == '' )  %>
+          -
+        <%else%>
+          <%=colmn.hmm_franchise_studio%>
+        <%end%>            </td></tr>
+
+<input type="hidden" name="len" id="len" value="<%= i %>"/>
+    <% end %>

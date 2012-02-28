@@ -39,26 +39,26 @@ end %>
   </tr>
 
 
-    <%if session[:hmm_user]%>
+  <%if session[:hmm_user]%>
     <%if logged_in_hmm_user.id==@family_website_owner.id%>
-     <%  @studio_header = HmmStudio.find(@family_website_owner.studio_id)
-  if @studio_header.studio_groupid==pp_studio_group%>
+      <%  @studio_header = HmmStudio.find(@family_website_owner.studio_id)
+      if @studio_header.studio_groupid==pp_studio_group%>
 
-    <tr>
-      <td><div class="btn"><a href="/family_memory/new_text_blogentry/<%=params[:id]%>" title="New Entry" class="nyroModal">
-            <div class="cmnBtnB cmnBtnMar newEntry">New Entry</a></div></td>
-    </tr>
-    <% end %>
-    
-  <% else %>
+        <tr>
+          <td><div class="btn"><a href="/family_memory/new_text_blogentry/<%=params[:id]%>" title="New Entry" class="nyroModal">
+                <div class="cmnBtnB cmnBtnMar newEntry">New Entry</a></div></td>
+        </tr>
+      <% end %>
+
+    <% else %>
 
 
-    <tr>
-      <td><div class="btn"><a href="/family_memory/new_text_blogentry/<%=params[:id]%>" title="New Entry" class="nyroModal">
-            <img src="/images/family_memory/transaprent.png" class="menus newEntry" border="0"/></a></div></td>
-    </tr>
+      <tr>
+        <td><div class="btn"><a href="/family_memory/new_text_blogentry/<%=params[:id]%>" title="New Entry" class="nyroModal">
+              <img src="/images/family_memory/transaprent.png" class="menus newEntry" border="0"/></a></div></td>
+      </tr>
 
-<%end%>
+    <%end%>
 
   <%end%>
   <tr>
@@ -72,9 +72,7 @@ end %>
   <%if @total>0 %>
     <%  @studio_header = HmmStudio.find(@family_website_owner.studio_id)
     if @studio_header.studio_groupid==pp_studio_group%>
-
       <%= render :partial=>'pp_family_memory_blog' %>
-
     <%else%>
 
 

@@ -1,0 +1,102 @@
+<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.4/jquery.min.js"></script>
+<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.7/jquery-ui.min.js"></script>
+<script type="text/javascript" src="/javascripts/jQuery-UI-Date-Range-Picker/js/date.js"></script>
+<script type="text/javascript" src="/javascripts/jQuery-UI-Date-Range-Picker/js/daterangepicker.jQuery.js"></script>
+<link rel="stylesheet" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.7/themes/redmond/jquery-ui.css" type="text/css" />
+<link rel="stylesheet" href="/javascripts/jQuery-UI-Date-Range-Picker/css/ui.daterangepicker.css" type="text/css" />
+<div class="rightBarMdlBtmRight">
+  <table width="100%" border="0" cellspacing="0" cellpadding="0">
+    <tr>
+      <td height="45" class="srchTxt">Search <span class="avenirLight">for moments</span></td>
+    </tr>
+    <tr>
+      <td height="70">
+        <form name="search" id="search" action="/family_memory/gallery_contents/<%=params[:id]%>" method="post" onsubmit="return checkSearchContent()">
+          <table width="375" border="0" align="center" cellpadding="0" cellspacing="0">
+            <tr>
+              <td align="left" class="srchBg">
+                <input type="text" name="searchval" id="textfields" class="srchTxtFld" onclick="checkSearchtext()" <%if params[:searchval]!=nil && params[:searchval]!="" %>value="<%=params[:searchval]%>" <%else%>value="Enter text:"<%end%> />
+                <input type="submit" name="search" id="button" value="" class="subbtn"/>
+                <input type="button" name="btn_search_date_range" id="btn_search_date_range" class="search_calendar" title="Select date and search your moments"/>
+              </td>
+              <td width="53" align="right" valign="middle">
+                <!-- <input type="button" name="search_date" id="search_date" class="search_calendar" title="Select date and search your moments"/>-->
+                <input type="hidden" name="search_date_val" id="txt_search_date_range"/>
+                <input type="hidden" name="search_date_val" id="search_date_val" />
+                <input type="hidden" name="search_text_val" id="search_text_val" />
+              </td>
+            </tr>
+
+            <script type="text/javascript">
+              var jc = jQuery.noConflict();
+<% if params[:action] != "blog" %>
+    var xpos = 615;
+    var ypos = 614;
+<% else %>
+    var xpos = 30;
+    var ypos = null;
+<% end %>
+  if(jc(window.parent.document).find('iframe').size()){
+    var inframe = true;
+  }
+  jc(function(){
+    jc('#btn_search_date_range').daterangepicker({
+      posX: xpos,
+      posY: ypos,
+      datepickerOptions: {
+        changeMonth: true,
+        changeYear: true
+      },
+      onChange: function(){
+        var search_text =document.getElementById("textfields").value;
+        var regexp_range = /((([0-9]|11|12)\/([0-9]|1[0-9]|2[0-9]|3[0-9])\/[0-9]{4})\s-\s((([0-9]|11|12)\/([0-9]|1[0-9]|2[0-9]|3[0-9])\/[0-9]{4})))/g;
+        var regexp_single = /(([0-9]|11|12)\/([0-9]|1[0-9]|2[0-9]|3[0-9])\/[0-9]{4})/g;
+        if(document.getElementById("textfields").value == "" || document.getElementById("textfields").value =="Search:"){
+          document.getElementById("textfields").value = document.getElementById("btn_search_date_range").value;
+        }else if(regexp_range.test(search_text)){
+
+          var temp = search_text.replace(regexp_range, "");
+          temp = temp.replace(/(^\s*)|(\s*$)/gi,"");
+          temp = temp.replace(/[ ]{2,}/gi," ");
+          document.getElementById("textfields").value =temp + " " + document.getElementById("btn_search_date_range").value;;
+
+        }else if(regexp_single.test(search_text)){
+          var temp = search_text.replace(regexp_single, "");
+          temp = temp.replace(/(^\s*)|(\s*$)/gi,"");
+          temp = temp.replace(/[ ]{2,}/gi," ");
+          document.getElementById("textfields").value =temp +" " + document.getElementById("btn_search_date_range").value;
+        }else if(document.getElementById("btn_search_date_range").value != ""){
+          var temp = document.getElementById("textfields").value;
+          temp = temp.replace(/(^\s*)|(\s*$)/gi,"");
+          document.getElementById("textfields").value =document.getElementById("textfields").value +" "+ document.getElementById("btn_search_date_range").value;
+        }
+        document.getElementById("btn_search_date_range").value = "";
+        //alert( document.getElementById("btn_search_date_range").value);
+      }
+    });
+
+  });
+
+
+  function checkSearchtext() {
+    if (document.getElementById('textfields').value == "Enter text:"){
+      document.getElementById('textfields').value = "";
+    }
+    // alert(document.getElementById('textfields').value);
+  }
+
+  function checkSearchContent(){
+    if (document.getElementById('textfields').value == "Enter text:" || document.getElementById('textfields').value == ""){
+      document.getElementById('textfields').value = "Enter text:";
+      return false;
+    }else{
+      return true;
+    }
+  }
+            </script>
+          </table>
+        </form>
+      </td>
+    </tr>
+  </table>
+</div>

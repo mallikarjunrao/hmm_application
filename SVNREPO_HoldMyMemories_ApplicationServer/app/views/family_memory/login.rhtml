@@ -14,16 +14,14 @@
           <td align="center">Your personal portal for storing and sharing your Picture People images and other precious memories.</td>
         </tr>
         <tr>
-          <td height="60" align="center"> - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -</td>
+          <td height="40" align="center"> - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -</td>
         </tr>
         <%if !flash[:error].nil? && !flash[:error].blank? %>
-        <tr>
-          <td height="10" align="center"></td>
-        </tr>
+       
          <tr>
-          <td align="center">&nbsp;<%=flash[:error]%></td>
+          <td align="center" class="errorTxt">&nbsp;<%=flash[:error]%></td>
         </tr>
-        <tr>
+  <tr>
           <td height="10" align="center"></td>
         </tr>
 
@@ -60,6 +58,10 @@
                   <td>&nbsp;</td>
                   <td align="left"><input type="submit" name="login" class="cmnBtnS cmnBtnMar" value="Login" style="border: 0; cursor: pointer"/></td>
                 </tr>
+                <tr>
+                  <td height="10" colspan="2"></td>
+                </tr>
+                
               </table>
             </form>
           </td>

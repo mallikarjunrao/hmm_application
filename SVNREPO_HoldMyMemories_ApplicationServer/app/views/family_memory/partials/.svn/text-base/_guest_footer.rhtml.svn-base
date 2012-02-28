@@ -10,10 +10,21 @@
   upload_title = ""
 %>
 <% end %>
+<style type="text/css">
+  #thumbs2 div.thumbnail {
+    display: block;
+    float: left;
+    font-size: 11px;
+    margin-right: 10px;
+    position: relative;
+    text-align: center;
+    width: 217px;
+}
+</style>
 <tr>
   <td  class="rightBarMdlBtmPtr"><table width="100%" border="0" cellspacing="0" cellpadding="0">
       <tr>
-        <td width="284" rowspan="2" valign="top"><div class="rightBarMdlBtmRight">
+        <td width="20%" rowspan="2" valign="top"><div class="rightBarMdlBtmRight">
             <table width="100%" border="0" cellspacing="0" cellpadding="0">
               <tr>
                 <td height="45" align="center"><img src="/images/pp_family_memory/pp-small-logo-wht3.png" width="143" height="70" /></td>
@@ -22,83 +33,102 @@
                 link="/my_familywebsite/book_session/?studio_id=#{@studio_header.id}"
               else
                 link="#{@studio_header.booking_link}"
-                end%>
-                <tr>
-                  <td height="120" align="center" valign="bottom"><a href="<%=link%>" title="Book Sessions" target="_blank" class="cmnBtnB cmnBtnMar">Book <span>a session</span></a><a href="/family_memory/order_prints_login/<%=params[:id]%>"  rev="modal" class="nyroModal cmnBtnB cmnBtnMar">Order <span>Prints</span></a></td>
-                </tr>
-              </table>
-            </div></td>
-          <td class="rightBarMdlBtm" >   <table width="100%" border="0" cellspacing="0" cellpadding="0" class="date">
-              <tr><td align="center">
-                  <div id="container">
-                    <div id="gallery_container2">
-                      <div id="thumb_container2">
-                        <div id="thumbs2">
-                          <%if @gals%>
-                            <% for gal in @gals %>
-                              <%img=gal.v_gallery_image
-                              img.slice!(-3..-1)%>
-                              <div class="thumbnail">
-                                <a href="/family_memory/gallery_contents/<%=params[:id]%>?gallery_id=<%=gal.id%>&&source=footer" rel="lightbox[galerie]">
-                                  <img src="<%=gal.img_url%>/user_content/photos/flex_icon/<%=img%>jpg" width="154" style="text-decoration: none"/></a>
-                                <%if gal %>
-                                  <%if !gal.store_id.nil?%>
-                                    <%if @studio_header.studio_groupid!=pp_studio_group
-                                    cls=""%>
-                                      <%studio=HmmStudio.find(:first,:select=>"studio_name",:conditions=>"id=#{gal.store_id}")%>
-                                      <%=studio.studio_name%><%else%>
-                                      <img src="/images/pp_family_memory/pp-small-logo.png" />
-                                    <%cls="cmnTxt matrix" %>
-                                    <%end%><br />
-                                  <%end%>
-                                <%end%>
-                                      <span class="<%=cls%>"><%=gal.v_gallery_name%><br />
-                                <%=gal.d_gallery_date.strftime("%b. %d, %Y")%></span>
-                              </div>
-                            <%end%>
-                            <%if @gals.length<3 %>
-                              <div class="thumbnail">
-                                <a class="<%= upload_class %>" title="<%= upload_title %>" href="<%= upload_link %>" >
-                                  <img src="http://content.holdmymemories.com/user_content/photos/flex_icon/addyourimages.jpg" width="154" style="text-decoration: none"/></a>
-                                Upload Images<br />
-                              </div>
-                              <div class="thumbnail">
-                                <a href="<%= import_link %>" >
-                                  <img src="http://content.holdmymemories.com/user_content/photos/flex_icon/import_images.png" width="154" style="text-decoration: none"/></a>
-                                Import Images<br />
-                              </div>
-                            <%end%>
-                          <%else%>
+              end%>
+              <tr>
+                <td height="120" align="center" valign="bottom">
+                  <a href="<%=link%>" title="Book Sessions" target="_blank" class="cmnBtnB cmnBtnMar">Book <span>a session</span></a>
+                  <%  @studio_header = HmmStudio.find(@family_website_owner.studio_id)
+                  if @studio_header.studio_groupid==pp_studio_group %>
+                    <script language="javascript" type="text/javascript" src="/javascripts/themes/nyromodal/jquery.nyroModal-1.5.2.pack.js"></script>
+                    <a href="#a" class="nyroModal cmnBtnB cmnBtnMar" >Order <span>Prints</span></a>
+                    <div style="display: none; visibility: hidden;">
+                      <div id="a" style="height:200; width: 200;">
+                        <br/><br/><br/>
+                        <center>
+                          <font color="#000">
+                            Please contact the studio to order additional prints.
+                          </font>
+                        </center>
+                      </div>
+                    </div>
+                  </td>
+                <% else %>
+                <a href="/family_memory/order_prints_login/<%=params[:id]%>"  rev="modal" class="nyroModal cmnBtnB cmnBtnMar">Order <span>Prints</span></a></td>
+              <% end %>
+              </tr>
+            </table>
+          </div></td>
+        <td class="rightBarMdlBtm" >   <table width="100%" border="0" cellspacing="0" cellpadding="0" class="date">
+            <tr><td align="center">
+                <div id="container">
+                  <div id="gallery_container2" style="width: 710px;">
+                    <div id="thumb_container2" style="width: 665px;">
+                      <div id="thumbs2">
+                        <%if @gals%>
+                          <% for gal in @gals %>
+                            <%img=gal.v_gallery_image
+                            img.slice!(-3..-1)%>
                             <div class="thumbnail">
-                              <a class="<%= upload_class %>" title="<%= upload_title %>"  href="<%= upload_link %>" >
+                              <a href="/family_memory/gallery_contents/<%=params[:id]%>?gallery_id=<%=gal.id%>&&source=footer" rel="lightbox[galerie]">
+                                <img src="<%=gal.img_url%>/user_content/photos/flex_icon/<%=img%>jpg" width="154" style="text-decoration: none"/></a>
+                              <%if gal %>
+                                <%if !gal.store_id.nil?%>
+                                  <%if @studio_header.studio_groupid!=pp_studio_group
+                                    cls=""%>
+                                    <%studio=HmmStudio.find(:first,:select=>"studio_name",:conditions=>"id=#{gal.store_id}")%>
+                                    <%=studio.studio_name%><%else%>
+                                    <img src="/images/pp_family_memory/pp-small-logo.png" />
+                                    <%cls="cmnTxt matrix" %>
+                                  <%end%><br />
+                                <%end%>
+                              <%end%>
+                              <span class="<%=cls%>"><%=gal.v_gallery_name%><br />
+                                <%=gal.d_gallery_date.strftime("%b. %d, %Y")%></span>
+                            </div>
+                          <%end%>
+                          <%if @gals.length<3 %>
+                            <div class="thumbnail">
+                              <a class="<%= upload_class %>" title="<%= upload_title %>" href="<%= upload_link %>" >
                                 <img src="http://content.holdmymemories.com/user_content/photos/flex_icon/addyourimages.jpg" width="154" style="text-decoration: none"/></a>
                               Upload Images<br />
                             </div>
                             <div class="thumbnail">
-                              <a href="<%= import_link %>" rel="lightbox[galerie]">
+                              <a href="<%= import_link %>" >
                                 <img src="http://content.holdmymemories.com/user_content/photos/flex_icon/import_images.png" width="154" style="text-decoration: none"/></a>
                               Import Images<br />
                             </div>
                           <%end%>
-                        </div>
+                        <%else%>
+                          <div class="thumbnail">
+                            <a class="<%= upload_class %>" title="<%= upload_title %>"  href="<%= upload_link %>" >
+                              <img src="http://content.holdmymemories.com/user_content/photos/flex_icon/addyourimages.jpg" width="154" style="text-decoration: none"/></a>
+                            Upload Images<br />
+                          </div>
+                          <div class="thumbnail">
+                            <a href="<%= import_link %>" rel="lightbox[galerie]">
+                              <img src="http://content.holdmymemories.com/user_content/photos/flex_icon/import_images.png" width="154" style="text-decoration: none"/></a>
+                            Import Images<br />
+                          </div>
+                        <%end%>
                       </div>
                     </div>
                   </div>
-                </td>
+                </div>
+              </td>
+            </tr>
+          </table></td>
+        <td width="20%" rowspan="2" valign="top"><div class="rightBarMdlBtmRight"><table width="100%" border="0" cellspacing="0" cellpadding="0">
+              <tr>
+                <td height="45" class="srchTxt">Read <span class="avenirLight">My blog</span></td>
               </tr>
-            </table></td>
-          <td width="284" rowspan="2" valign="top"><div class="rightBarMdlBtmRight"><table width="100%" border="0" cellspacing="0" cellpadding="0">
-                <tr>
-                  <td height="45" class="srchTxt">Read <span class="avenirLight">My blog</span></td>
-                </tr>
-                <tr>
-                  <td height="145" align="center"><a href="/family_memory/blog/<%=params[:id]%>" class="cmnBtnB cmnBtnMar">Read <span>Blog</span></a></td>
-                </tr>
-              </table>
-            </div></td>
-        </tr>
-        <tr>
-          <td>&nbsp;</td>
-        </tr>
-      </table></td>
-  </tr>
+              <tr>
+                <td height="145" align="center"><a href="/family_memory/blog/<%=params[:id]%>" class="cmnBtnB cmnBtnMar">Read <span>Blog</span></a></td>
+              </tr>
+            </table>
+          </div></td>
+      </tr>
+      <tr>
+        <td>&nbsp;</td>
+      </tr>
+    </table></td>
+</tr>

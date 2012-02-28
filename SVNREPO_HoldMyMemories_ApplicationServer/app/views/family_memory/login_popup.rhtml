@@ -4,6 +4,26 @@
     while (el = f[i++]) if (el.type == 'checkbox') el.checked = (el == oBox && el.checked);
   }
 </script>
+<%  @studio_header = HmmStudio.find(@family_website_owner.studio_id)
+if @studio_header.studio_groupid==pp_studio_group
+  textarea = "glrTxtArea"
+  textbox = "glrTxtfld"
+  postbtn = "cmnBtnS cmnBtnMar"
+  postbtnBig = "cmnBtnB cmnBtnMar"
+  commentHead = "commentTxthead"
+  commentSmall = "commentTxtsmall"
+  normaltext = "normaltxthead"
+  bgcolor = "#9FC4DE"
+else
+  textarea = "comTxtArea"
+  textbox = "textfield"
+  postbtn = "contactBtn"
+  commentHead = "msgHead"
+  commentSmall = "msgSmall"
+  postbtnBig = "postBtn"
+  normaltext = ""
+  bgcolor = "#002841"
+end %>
 <style type="text/css">
 
   #nyroModalContent
@@ -57,7 +77,7 @@
 </script>
 
 <form method="post" name="commentform" id="blogform" action="/family_memory/login/<%= params[:id] %>?url=<%= params[:url] %>" onsubmit="return check_form();">
-  <table style="background: #002841;" align="center" height="200" >
+  <table style="background: <%= bgcolor %>;" align="center" height="200" >
     <tr>
       <td align="center"colspan="3" valign="middle" class="content-white">Please login to Comment</td>
 
@@ -77,7 +97,7 @@
 
     <tr>
       <td align="center" valign="top" colspan="2" class="content">
-        <input type="submit" class="contactBtn" value="LOGIN" /></td>
+        <input type="submit" class="<%= postbtn %>" value="LOGIN" /></td>
     </tr>
 
   </table>

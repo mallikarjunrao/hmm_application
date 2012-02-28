@@ -1,12 +1,6 @@
 <%= javascript_include_tag "themes/swfobject" %>
 <%= javascript_include_tag "prototype.js" %>
-<link rel="stylesheet" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.7/themes/redmond/jquery-ui.css" type="text/css" />
-<link rel="stylesheet" href="/javascripts/jQuery-UI-Date-Range-Picker/css/ui.daterangepicker.css" type="text/css" />
 
-<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.4/jquery.min.js"></script>
-<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.7/jquery-ui.min.js"></script>
-<script type="text/javascript" src="/javascripts/jQuery-UI-Date-Range-Picker/js/date.js"></script>
-<script type="text/javascript" src="/javascripts/jQuery-UI-Date-Range-Picker/js/daterangepicker.jQuery.js"></script>
 
 <%if !@first_img.nil?%>
   <table width="100%" border="0" cellspacing="0" cellpadding="0" >
@@ -16,36 +10,37 @@
       <%= render :partial => "family_memory/partials/heading"%>
     <% end %>
     <% if @studio_header.studio_groupid==pp_studio_group %>
+      <%= render :partial => "family_memory/partials/gallery_details_pp" %>
+    <%else%>
       <tr>
-        <td align="center" valign="top" class="glrRightBarMdl">
-          <table width="100%" border="0" cellspacing="0" cellpadding="0">
-            <tr>
-              <td valign="top" width="122">
-                <%if params[:searchval]%>
-                  <%searchval="&&searchval=#{params[:searchval]}"%>
-                <%else%>
-                  <%searchval=""%>
-                <%end%>
-                <% #if params[:id].upcase=="BOB" || params[:id].upcase=="EVELETH"
-                subchap = SubChapter.find(@first_img.sub_chapid)
-                if !subchap.store_id.nil? && !subchap.store_id.blank?
-                  var="gallery_id"
-                  val=@first_img.gallery_id
-                else
-                  var="subchapter_id"
-                  val=@first_img.sub_chapid
-                end
-              %>
+        <td id="subhead" class="subHead" align="left"></td>
+      </tr>
+      <tr>
+        <%if params[:searchval]%>
+          <%searchval="&&searchval=#{params[:searchval]}"%>
+        <%else%>
+          <%searchval=""%>
+        <%end%>
+        <% #if params[:id].upcase=="BOB" || params[:id].upcase=="EVELETH"
+        subchap = SubChapter.find(@first_img.sub_chapid)
+        if !subchap.store_id.nil? && !subchap.store_id.blank?
+          var="gallery_id"
+          val=@first_img.gallery_id
+        else
+          var="subchapter_id"
+          val=@first_img.sub_chapid
+        end
+      %>
     <%#else
     var="gallery_id"
     val=@first_img.gallery_id%>
-    <%#end%><table>
-                  <tr>
-                    <td align="left"  width="20"><a href="/family_memory/gallery_contents/<%=params[:id]%>?<%=var%>=<%=val%><%=searchval%>" ><img src="/images/pp_family_memory/arrow-left.png" style="width: 23px; height: 27px;" border="0"/></a></td>
-                    <td align="left" colspan="2" class="matrix cmnTxt"><font size="3">Back to Album</font></td>
-                  </tr>
-                </table>
-              </td>
+    <%#end%>
+        <td align="left"><a href="/family_memory/gallery_contents/<%=params[:id]%>?<%=var%>=<%=val%><%=searchval%>" ><img src="/images/family_memory/transaprent.png"   class="btnarrows_gal" border="0"/></a></td>
+      </tr>
+      <tr>
+        <td align="center">
+          <table width="100%" border="0" cellspacing="0" cellpadding="0" align="center">
+            <tr>
               <td align="center" valign="top"><table border="0" cellpadding="0" cellspacing="0" width="100%" align="center"><tr>
                     <td align="center" valign="top">
                       <div id="flash_content1">
@@ -79,264 +74,273 @@
                         params.allowFullScreen = true
                         params.wmode = "transparent"
     <%if params[:searchval]%>
-        flashvars.search ='<%=params[:searchval]%>';
+      flashvars.search ='<%=params[:searchval]%>';
       <% if params[:cnt_id]
         cnt=params[:cnt_id]
       else
         cnt=0   %>
       <%end%>
-        flashvars.cnt_id = '<%=cnt%>';
-        flashvars.moment_id = "<%= @first_img.id %>";
+      flashvars.cnt_id = '<%=cnt%>';
+      flashvars.moment_id = "<%= @first_img.id %>";
     <%else%>
-        flashvars.moment_id = "<%= @first_img.id %>";
+      flashvars.moment_id = "<%= @first_img.id %>";
     <%end%>
-      swfobject.embedSWF("/flash/debug/GalleryDetailsV4.swf?t=1", "flash_content1", "100%", "913", "9.0.0", "/expressInstall.swf",flashvars,params);
+    swfobject.embedSWF("/flash/debug/GalleryDetailsV4.swf?t=1", "flash_content1", "100%", "700", "9.0.0", "/expressInstall.swf",flashvars,params);
 
                       </script>
                     </td></tr>
                 </table>
               </td>
-              <td width="280" valign="top">
-            <link rel="stylesheet" href="/stylesheets/nyroModal.css" type="text/css" media="screen" />
+              <td width="315" align="right" valign="top">
+                <div >
+                  <link rel="stylesheet" href="/stylesheets/nyroModal.css" type="text/css" media="screen" />
     <%#*<link rel="stylesheet" href="/stylesheets/themes/classic.css" type="text/css" media="screen" />%>
-            <style type="text/css">
-              div#scrollbar {
-                display:none; /* hide from incapable */
-              }
+                  <style type="text/css">
+                    div#scrollbar {
+                      display:none; /* hide from incapable */
+                    }
 
-              .jeip-saving {
-                /*background-image: url( 'http://josephscott.org/wp-content/js-org/jeip/ajax-loader.gif' );*/
-                background-repeat: no-repeat;
-                background-position: left;
-                background-color: #903;
-                color: #fff;
-                font-size: 20px;
+                    .jeip-saving {
+                      /*background-image: url( 'http://josephscott.org/wp-content/js-org/jeip/ajax-loader.gif' );*/
+                      background-repeat: no-repeat;
+                      background-position: left;
+                      background-color: #903;
+                      color: #fff;
+                      font-size: 20px;
     <%#*padding: 3px 20px 3px 20px;%>
-              }
+                    }
 
-              .jeip-mouseover, .jeip-editfield {
-                background-color: #ffff99;
-                padding: 0px;
-              }
+                    .jeip-mouseover, .jeip-editfield {
+                      background-color: #ffff99;
+                      padding: 0px;
+                    }
 
-              .jeip-savebutton {
-                background-color: #6c0;
-                color: #fff;
-              }
+                    .jeip-savebutton {
+                      background-color: #6c0;
+                      color: #fff;
+                    }
 
-              .jeip-cancelbutton {
-                background-color: #ccc;
-                color: #fff;
-              }
+                    .jeip-cancelbutton {
+                      background-color: #ccc;
+                      color: #fff;
+                    }
 
-            </style>
-            <script src="/javascripts/image_slider/js/dw_event.js" type="text/javascript"></script>
-            <script src="/javascripts/image_slider/js/dw_scroll.js" type="text/javascript"></script>
-            <script src="/javascripts/image_slider/js/dw_scrollbar.js" type="text/javascript"></script>
-            <script src="/javascripts/image_slider/js/scroll_controls.js" type="text/javascript"></script>
-            <script src="/javascripts/jeip.js" type="text/javascript"></script>
-            <script type="text/javascript"  src="/javascripts/JSCal2-1.9/src/js/jscal2.js"></script>
-            <script type="text/javascript"  src="/javascripts/JSCal2-1.9/src/js/lang/en.js"></script>
-            <link rel="stylesheet" type="text/css" href="/javascripts/JSCal2-1.9/src/css/jscal2.css" />
-            <link rel="stylesheet" type="text/css" href="/javascripts/JSCal2-1.9/src/css/border-radius.css" />
-            <link rel="stylesheet" type="text/css" href="/javascripts/JSCal2-1.9/src/css/steel/steel.css" />
-            <link rel="stylesheet" type="text/css" href="/javascripts/image_slider/js/scrollbar_demo.css" />
+                  </style>
+                  <script src="/javascripts/image_slider/js/dw_event.js" type="text/javascript"></script>
+                  <script src="/javascripts/image_slider/js/dw_scroll.js" type="text/javascript"></script>
+                  <script src="/javascripts/image_slider/js/dw_scrollbar.js" type="text/javascript"></script>
+                  <script src="/javascripts/image_slider/js/scroll_controls.js" type="text/javascript"></script>
+                  <script src="/javascripts/jeip.js" type="text/javascript"></script>
+                  <script type="text/javascript"  src="/javascripts/JSCal2-1.9/src/js/jscal2.js"></script>
+                  <script type="text/javascript"  src="/javascripts/JSCal2-1.9/src/js/lang/en.js"></script>
+                  <link rel="stylesheet" type="text/css" href="/javascripts/JSCal2-1.9/src/css/jscal2.css" />
+                  <link rel="stylesheet" type="text/css" href="/javascripts/JSCal2-1.9/src/css/border-radius.css" />
+                  <link rel="stylesheet" type="text/css" href="/javascripts/JSCal2-1.9/src/css/steel/steel.css" />
+                  <link rel="stylesheet" type="text/css" href="/javascripts/image_slider/js/scrollbar_demo.css" />
     <%#= javascript_include_tag 'prototype' %>
 
-            <script type="text/javascript">
+                  <script type="text/javascript">
 
-              function init_dw_Scroll() {
-                var wndo = new dw_scrollObj('wn', 'lyr1');
-                wndo.setUpScrollbar("dragBar", "track", "v", 1, 1);
-                wndo.setUpScrollControls('scrollbar');
-              }
-
-              // if code supported, link in the style sheet and call the init function onload
-              //if ( dw_scrollObj.isSupported() ) {
-              //dw_writeStyleSheet('/javascripts/image_slider/js/scrollbar_demo.css')
-              //dw_Event.add( window, 'load', init_dw_Scroll);
-              //}
-
-
-            </script>
-            <script type="text/javascript" src="/javascripts/jquery.nyroModal-1.5.2.pack.js"></script>
-
-            <script type="text/javascript">
-              function check_comment()
-              {
-                var desc = document.getElementById('desc').value;//.replace(/^\s+|\s+$/g, '');
-                var titl = document.getElementById('titl').value;//.replace(/^\s+|\s+$/g, '');
-                var chk = document.getElementById('make_blog1').value;
-                var regex = /\S/;
-                //var title_match = title.match(/\S/);
-                var allow = false;
-                if ( chk == "unchecked")
-                {
-                  if (regex.test(desc) == true && desc != "Comment on this moment"){
-                    allow = true;
-                  }
-                  else
-                  {
-                    alert("Complete the comment form!");
-                    allow = false;
-                  }
-                }
-
-                if (chk == "checked")
-                {
-                  if(typeof (document.getElementById('titl').value) != "undefined" && regex.test(document.getElementById('titl').value) == true)
-                  {
-                    if(regex.test(desc) == true && desc != "Comment on this moment"){
-                      allow = true;
+                    function init_dw_Scroll() {
+                      var wndo = new dw_scrollObj('wn', 'lyr1');
+                      wndo.setUpScrollbar("dragBar", "track", "v", 1, 1);
+                      wndo.setUpScrollControls('scrollbar');
                     }
-                    else {
-                      allow = false;
-                      alert("Complete the blog comment form!");
-                    }
-                  }
-                  else
-                  {
-                    alert("Complete the blog comment form!");
-                    allow = false;
-                  }
-                }
-                return allow;
-              }
 
-              function check_user_comment(){
-                var cmt_name = document.getElementById('comment_name').value;
-                var cmt_content = document.getElementById('comment_content').value;
-                //var capcha = document.getElementById('captcha').value;
-                var regex = /\S/;
-                var allow = false;
-                var Pop = jQuery.noConflict();
-                if(regex.test(cmt_content) == true && cmt_content != "Comment on this moment"){
-                  allow = true;
-                  if(regex.test(cmt_name) == true && cmt_name != "Your name"){
-                    allow = true;
-                  }
-                  else {
-                    allow = false;
-                    alert("Enter your name!");
-                  }
-                }
-                else {
-                  allow = false;
-                  alert("Enter your comment!");
-                }
-                if(allow){
-                  var Com = jQuery.noConflict();
-                  Com(document).ready(function(){
-                    function preloadImg(image) {
-                      var img = new Image();
-                      img.src = image;
-                    }
-                    preloadImg('/images/ajaxLoader.gif');
-                    Com.nyroModalManual({
-                      url: '/family_memory/comment_popup/<%= params[:id] %>?moment_id=<%= @first_img.id %>&gallery_id=<%= params[:gallery_id] %>&redirect_url=<%=request.url%>&moment_comment[v_comment]='+cmt_content+'&moment_comment[v_name]='+cmt_name+'&popup=true'
-                      //modal:true
-                    });
-                    Com.nyroModalSettings({
-                      minWidth: 300,
-                      minHeight: 210,
-                      autoSizable: true,
-                      css: {
-                        content: {
-                          background: '#9FC4DE',
-                          overflow: 'auto'
-                        },
-                        wrapper: {
-                          background: '#9FC4DE',
-                          width: '344px'
-                        },
-                        contentWrapper:{
-                          background: '#9FC4DE',
-                          width: '344px'
+                    // if code supported, link in the style sheet and call the init function onload
+                    //if ( dw_scrollObj.isSupported() ) {
+                    //dw_writeStyleSheet('/javascripts/image_slider/js/scrollbar_demo.css')
+                    //dw_Event.add( window, 'load', init_dw_Scroll);
+                    //}
+
+
+                  </script>
+                  <script type="text/javascript" src="/javascripts/jquery.nyroModal-1.5.2.pack.js"></script>
+
+                  <script type="text/javascript">
+                    function check_comment()
+                    {
+                      var desc = document.getElementById('desc').value;//.replace(/^\s+|\s+$/g, '');
+                      var titl = document.getElementById('titl').value;//.replace(/^\s+|\s+$/g, '');
+                      var chk = document.getElementById('make_blog1').value;
+                      var regex = /\S/;
+                      //var title_match = title.match(/\S/);
+                      var allow = false;
+                      if ( chk == "unchecked")
+                      {
+                        if (regex.test(desc) == true && desc != "Comment on this moment"){
+                          allow = true;
+                        }
+                        else
+                        {
+                          alert("Complete the comment form!");
+                          allow = false;
                         }
                       }
-                    });
-                  });
-                }
-              }
-              window.setTimeout(ttl_msg, 10000);
-              function ttl_msg(){
-                if( "<%= flash[:notice_com] %>" != "")
-                {
-                  document.getElementById("msg5").style.display = "none";
-                }
-                else if("<%= params[:set_icon] %>" != ""){
-                  document.getElementById("msg6").style.display = "none";
-                }
-              }
-            </script>
-            <script language="javascript">
-              function like_a_radio(oBox) {
-                var el, i = 0, f = oBox.form;
-                while (el = f[i++]) if (el.id == oBox.id) el.checked = (el == oBox && el.checked);
-              }
 
-              function close_msg(){
-                var img = document.getElementById("msg1");
-                var content = document.getElementById("content_date");
-                if (content.style.display == "display")
-                {
-                  img.style.display = "block";
-                }
-                else
-                {
-                  img.style.display = "none";
-                }
-              };
+                      if (chk == "checked")
+                      {
+                        if(typeof (document.getElementById('titl').value) != "undefined" && regex.test(document.getElementById('titl').value) == true)
+                        {
+                          if(regex.test(desc) == true && desc != "Comment on this moment"){
+                            allow = true;
+                          }
+                          else {
+                            allow = false;
+                            alert("Complete the blog comment form!");
+                          }
+                        }
+                        else
+                        {
+                          alert("Complete the blog comment form!");
+                          allow = false;
+                        }
+                      }
+                      return allow;
+                    }
 
-            </script>
-            <table width="294" border="0" cellspacing="0" cellpadding="0">
-              <tr>
-                <td width="294" height="700"><div id="glrSideBar">
-                    <table width="100%" border="0" cellspacing="0" cellpadding="0">
-                      <%if !flash[:notice_com].nil? %>
-                        <tr id="msg5">
-                          <td align="center" width="273">
-                            <div style="height: 28px; width: 279px; padding-right: 12px;">
-                              <%=flash[:notice_com]%>
-                            </div>
-                          </td>
-                        </tr>
-                        <% flash[:notice_com] = params[:alert_msg] = ""%>
-                      <% elsif params[:set_icon]
-                        if params[:set_icon] == "instant"
-                          text = "Successfully set as album cover!"
-                        elsif params[:set_icon] == "popup"
-                          text = "Successfully created new album!"
-                        end
-                      %>
-                        <tr id="msg6">
-                          <td align="center" width="273">
-                            <div style="height: 28px; width: 279px; padding-right: 12px;">
-                              <%= text %>
-                            </div>
-                          </td>
-                        </tr>
-                      <%end%>
-                      <tr>
-                        <td>
+                    function check_user_comment(){
+                      var cmt_name = document.getElementById('comment_name').value;
+                      var cmt_content = document.getElementById('comment_content').value;
+                      //var capcha = document.getElementById('captcha').value;
+                      var regex = /\S/;
+                      var allow = false;
+                      var Pop = jQuery.noConflict();
+                      if(regex.test(cmt_content) == true && cmt_content != "Comment on this moment"){
+                        allow = true;
+                        if(regex.test(cmt_name) == true && cmt_name != "Your name"){
+                          allow = true;
+                        }
+                        else {
+                          allow = false;
+                          alert("Enter your name!");
+                        }
+                      }
+                      else {
+                        allow = false;
+                        alert("Enter your comment!");
+                      }
+                      if(allow){
+                        var Com = jQuery.noConflict();
+                        Com(document).ready(function(){
+                          function preloadImg(image) {
+                            var img = new Image();
+                            img.src = image;
+                          }
+                          preloadImg('/images/ajaxLoader.gif');
+                          Com.nyroModalManual({
+                            url: '/family_memory/comment_popup/<%= params[:id] %>?moment_id=<%= @first_img.id %>&gallery_id=<%= params[:gallery_id] %>&redirect_url=<%=request.url%>&moment_comment[v_comment]='+cmt_content+'&moment_comment[v_name]='+cmt_name+'&popup=true'
+                            //modal:true
+                          });
+                          Com.nyroModalSettings({
+                            minWidth: 300,
+                            minHeight: 210,
+                            autoSizable: true,
+                            css: {
+                              content: {
+                                background: '#002841',
+                                overflow: 'auto'
+                              },
+                              wrapper: {
+                                background: '#002841',
+                                width: '344px'
+                              },
+                              contentWrapper:{
+                                background: '#002841',
+                                width: '344px'
+                              }
+                            }
+                          });
+                        });
+                      }
+                    }
+                    window.setTimeout(ttl_msg, 10000);
+                    function ttl_msg(){
+                      if( "<%= flash[:notice_com] %>" != "")
+                      {
+                        document.getElementById("msg5").style.display = "none";
+                      }
+                      else if("<%= params[:set_icon] %>" != ""){
+                        document.getElementById("msg6").style.display = "none";
+                      }
+                    }
+                  </script>
+                  <script language="javascript">
+                    function like_a_radio(oBox) {
+                      var el, i = 0, f = oBox.form;
+                      while (el = f[i++]) if (el.id == oBox.id) el.checked = (el == oBox && el.checked);
+                    }
+
+                    function close_msg(){
+                      var img = document.getElementById("msg1");
+                      var content = document.getElementById("content_date");
+                      if (content.style.display == "display")
+                      {
+                        img.style.display = "block";
+                      }
+                      else
+                      {
+                        img.style.display = "none";
+                      }
+                    };
+
+                  </script>
+                  <table width="279" border="0" cellspacing="0" cellpadding="0">
+                    <tr>
+
+                      <td align="left" class="img">
+                        <div class="sprite comBgTop" style="height: 11px">
+
+                        </div>
+
+                      </td>
+                    </tr>
+                    <%if !flash[:notice_com].nil? %>
+                      <tr id="msg5">
+                        <td align="center" width="273" class="content combg">
+                          <div style="height: 28px; width: 279px; padding-right: 12px;">
+                            <%=flash[:notice_com]%>
+                          </div>
+                        </td>
+                      </tr>
+                      <% flash[:notice_com] = params[:alert_msg] = ""%>
+                    <% elsif params[:set_icon]
+                      if params[:set_icon] == "instant"
+                        text = "Successfully set as album cover!"
+                      elsif params[:set_icon] == "popup"
+                        text = "Successfully created new album!"
+                      end
+                    %>
+                      <tr id="msg6">
+                        <td align="center" width="273" class="content combg">
+                          <div style="height: 28px; width: 279px; padding-right: 12px;">
+                            <%= text %>
+                          </div>
+                        </td>
+                      </tr>
+                    <%end%>
+                    <tr>
+                      <td class="combg">
+                        <div class="msgHead" style="height: 48px; width: 279px;">
                           <table width="100%">
                             <tr>
-                              <td align="left">
+                              <td class="msgHead" align="left">
                                 <% if session[:hmm_user] && logged_in_hmm_user.id == @family_website_owner.id %>
                                   <%sub_chap=SubChapter.find(@first_img.sub_chapid)%>
                                   <% if(sub_chap.store_id==nil || sub_chap.store_id=="")%>
-                                    &nbsp;<div><font class="glrTxt" id="album_name"><%= @first_img.v_tagname %></font><font><a id="edit_link" style="font-size:14px; font-family: 'AvenirLTStd45Book'; text-decoration:none; color:#fff; border-bottom:1px solid #fff;" href="/family_memory/change_album/<%= params[:id] %>?moment_id=<%= @first_img.id %>&gallery_id=<%= params[:gallery_id] %>&redirect_url=<%=request.url%>" class="nyroModal">
-                                          (Edit Album)</font>
-                                      </a></div><br>
-                                  <% else %>
-                                    &nbsp;<p id="album_name"><%= @first_img.v_tagname %></b>&nbsp;
-                                      <br>
-                                    <% end %>
+                                    &nbsp;<b id="album_name"><%= @first_img.v_tagname %></b>&nbsp;
+                                    <a id="edit_link" href="/family_memory/change_album/<%= params[:id] %>?moment_id=<%= @first_img.id %>&gallery_id=<%= params[:gallery_id] %>&redirect_url=<%=request.url%>" class="nyroModal">
+                                      (Edit Album)
+                                    </a><br>
                                   <% else %>
                                     &nbsp;<b id="album_name"><%= @first_img.v_tagname %></b>&nbsp;
                                     <br>
                                   <% end %>
-                                  <% first_img_date= @first_img.d_createddate.to_date%>
+                                <% else %>
+                                  &nbsp;<b id="album_name"><%= @first_img.v_tagname %></b>&nbsp;
+                                  <br>
+                                <% end %>
+                                <% first_img_date= @first_img.d_createddate.to_date%>
                               </td>
                             </tr>
                             <tr>
@@ -344,698 +348,194 @@
                                 <% if session[:hmm_user] && logged_in_hmm_user.id == @family_website_owner.id %>
                                   <%sub_chap=SubChapter.find(@first_img.sub_chapid)%>
                                   <% if(sub_chap.store_id==nil || sub_chap.store_id=="")%>
-                                    &nbsp;<font id="content_date" style="color:whitesmoke;" title="Click date to edit" onclick="close_msg();"></font>&nbsp;<a id="msg1" style="font-size:14px; font-family: 'AvenirLTStd45Book'; text-decoration:none; color:#fff; border-bottom:1px solid #fff;cursor:pointer;" onclick="close_msg();" title="Click date to edit">
+                                    &nbsp;<b id="content_date" title="Click date to edit" onclick="close_msg();"></b>&nbsp;<a id="msg1" href="#" onclick="close_msg();" title="Click date to edit">
                                       (Edit)
                                     </a>
                                   <% else %>
-                                    &nbsp;<b style="color:whitesmoke;" id="content_date1"></b>
+                                    &nbsp;<b id="content_date1"></b>
                                   <% end %>
                                 <% else %>
-                                  &nbsp;<b style="color:whitesmoke;" id="content_date1"></b>
+                                  &nbsp;<b id="content_date1"></b>
                                 <% end %>
                               </td>
                             </tr>
                           </table>
-                          <script type="text/javascript">
-                            var ed = jQuery.noConflict();
-                            ed( "#content_date" ).eip( "/family_memory/edit_content_date/<%= params[:id] %>", {
-                              form_type: "text",
-                              save_on_enter: true,
-                              cancel_on_esc: true,
-                              form_buttons: ""
-                              //saving_text: ""
-                              //saving: ""
-                            } );
-                          </script>
-                        </td>
-                      </tr>
-                      <tr>
-                        <td height="10"></td>
-                      </tr>
-                      <tr id="refresh_comments">
-                      </tr>
-
-                      <tr>
-                        <td height="5"></td>
-                      </tr>
-                      <tr>
-                        <td>
-                          <table id="table-header" width="100%" border="0" cellspacing="0" cellpadding="0" class="blog">
-                            <tr id="comment_present" align="center">
-                              <td height="45" colspan="2" align="center" valign="bottom" ><a href="#" class="cmnBtnB cmnBtnMar" id="blog_btn">Leave a Comment</a> </td>
-                            </tr>
-
-                            <% if session[:hmm_user] %>
-                              <%if logged_in_hmm_user.id==@family_website_owner.id%>
-                                <tr>
-                                  <td align="right" valign="bottom" >
-                                    <table>
-                                      <tr>
-                                        <td width="31">&nbsp;</td>
-                                        <td  width="165" align="right"><a href="/family_memory/logout/<%=params[:id]%>" title="Logout" class="loginLnk">Logout</a></td><td width="11">&nbsp;</td>
-                                      </tr>
-                                    </table></td>
-                                </tr>
-                              <%else%>
-                                <tr>
-                                  <td  align="right" valign="bottom"  align="right" ><table><tr><td width="31">&nbsp;</td><td  width="165" align="right"><a href="/family_memory/login_popup/<%= params[:id] %>?url=<%=request.url%>" title="Login" class="nyroModal">Login</a></td><td width="11">&nbsp;</td></tr></table></td>
-                                </tr>
-                              <%end%>
-                            <%else%>
-                              <tr>
-                                <td align="right" valign="bottom" ><table><tr><td width="31">&nbsp;</td><td  width="165" align="right"><a href="/family_memory/login_popup/<%= params[:id] %>?url=<%=request.url%>" title="Login" class="nyroModal" style="font-size:14px; font-family: 'AvenirLTStd45Book'; text-decoration:none; color:#fff; border-bottom:1px solid #fff;">Login</a></td><td width="11">&nbsp;</td></tr></table></td>
-                              </tr>
-                            <%end%>
-                          </table>
-                        </td>
-                      </tr>
-                    </table>
-                  </div></td>
-              </tr>
-              <tr>
-                <td height="35">&nbsp;</td>
-              </tr>
-              <tr>
-                <style type="text/css">
-            body { font-size: 62.5%;  }
-        </style>
-                <td align="right"><div class="rightBarMdlBtmRight"><table width="100%" border="0" cellspacing="0" cellpadding="0">
-                      <tr>
-                        <td height="45" class="srchTxt">Search <span class="avenirLight">for images</span></td>
-                      </tr>
-                      <tr>
-                        <td height="70">
-                          <form name="search" id="search" action="/family_memory/gallery_contents/<%=params[:id]%>" method="post" onsubmit="return checkSearchContent()">
-                            <table width="375" border="0" align="center" cellpadding="0" cellspacing="0">
-                              <tr>
-                                <td align="left" class="srchBg">
-                                  <input type="text" name="searchval" id="textfields" class="srchTxtFld" onclick="checkSearchtext()" <%if params[:searchval]!=nil && params[:searchval]!="" %>value="<%=params[:searchval]%>" <%else%>value="Search:"<%end%> />
-                                  <input type="submit" name="search" id="button" value="" class="subbtn"/>
-                                  <input type="button" name="btn_search_date_range" id="btn_search_date_range" class="search_calendar" title="Select date and search your moments"/>
-                                </td>
-                                <td width="53" align="right" valign="middle">
-                                  <!-- <input type="button" name="search_date" id="search_date" class="search_calendar" title="Select date and search your moments"/>-->
-                                  <input type="hidden" name="search_date_val" id="txt_search_date_range"/>
-                                  <input type="hidden" name="search_date_val" id="search_date_val" />
-                                  <input type="hidden" name="search_text_val" id="search_text_val" />
-                                </td>
-                              </tr>
-
-                              <script type="text/javascript">
-                                var jc = jQuery.noConflict();
-                                if(jc(window.parent.document).find('iframe').size()){
-                                  var inframe = true;
-                                }
-                                jc(function(){
-                                  jc('#btn_search_date_range').daterangepicker({
-                                    datepickerOptions: {
-                                      changeMonth: true,
-                                      changeYear: true
-                                    },
-                                    onChange: function(){
-                                      var search_text =document.getElementById("textfields").value;
-                                      var regexp_range = /((([0-9]|11|12)\/([0-9]|1[0-9]|2[0-9]|3[0-9])\/[0-9]{4})\s-\s((([0-9]|11|12)\/([0-9]|1[0-9]|2[0-9]|3[0-9])\/[0-9]{4})))/g;
-                                      var regexp_single = /(([0-9]|11|12)\/([0-9]|1[0-9]|2[0-9]|3[0-9])\/[0-9]{4})/g;
-                                      if(document.getElementById("textfields").value == "" || document.getElementById("textfields").value =="Search:"){
-                                        document.getElementById("textfields").value = document.getElementById("btn_search_date_range").value;
-                                      }else if(regexp_range.test(search_text)){
-
-                                        var temp = search_text.replace(regexp_range, "");
-                                        temp = temp.replace(/(^\s*)|(\s*$)/gi,"");
-                                        temp = temp.replace(/[ ]{2,}/gi," ");
-                                        document.getElementById("textfields").value =temp + " " + document.getElementById("btn_search_date_range").value;;
-
-                                      }else if(regexp_single.test(search_text)){
-                                        var temp = search_text.replace(regexp_single, "");
-                                        temp = temp.replace(/(^\s*)|(\s*$)/gi,"");
-                                        temp = temp.replace(/[ ]{2,}/gi," ");
-                                        document.getElementById("textfields").value =temp +" " + document.getElementById("btn_search_date_range").value;
-                                      }else if(document.getElementById("btn_search_date_range").value != ""){
-                                        var temp = document.getElementById("textfields").value;
-                                        temp = temp.replace(/(^\s*)|(\s*$)/gi,"");
-                                        document.getElementById("textfields").value =document.getElementById("textfields").value +" "+ document.getElementById("btn_search_date_range").value;
-                                      }
-                                      document.getElementById("btn_search_date_range").value = "";
-                                      //alert( document.getElementById("btn_search_date_range").value);
-                                    }
-                                  });
-
-                                });
-
-
-                                function checkSearchtext() {
-                                  if (document.getElementById('textfields').value == "Search:"){
-                                    document.getElementById('textfields').value = "";
-                                  }
-                                  // alert(document.getElementById('textfields').value);
-                                }
-
-                                function checkSearchContent(){
-                                  if (document.getElementById('textfields').value == "Search:" || document.getElementById('textfields').value == ""){
-                                    document.getElementById('textfields').value = "Search:";
-                                    return false;
-                                  }else{
-                                    return true;
-                                  }
-                                }
-                              </script>
-                            </table>
-                          </form>
-                        </td>
-                      </tr>
-                    </table>
-                  </div></td>
-              </tr>
-            </table>
-        </td>
-      </tr>
-    </table></td>
-    </tr>
-  <%else%>
-    <tr>
-      <td id="subhead" class="subHead" align="left"></td>
-    </tr>
-    <tr>
-      <%if params[:searchval]%>
-        <%searchval="&&searchval=#{params[:searchval]}"%>
-      <%else%>
-        <%searchval=""%>
-      <%end%>
-      <% #if params[:id].upcase=="BOB" || params[:id].upcase=="EVELETH"
-      subchap = SubChapter.find(@first_img.sub_chapid)
-      if !subchap.store_id.nil? && !subchap.store_id.blank?
-        var="gallery_id"
-        val=@first_img.gallery_id
-      else
-        var="subchapter_id"
-        val=@first_img.sub_chapid
-      end
-    %>
-    <%#else
-    var="gallery_id"
-    val=@first_img.gallery_id%>
-    <%#end%>
-      <td align="left"><a href="/family_memory/gallery_contents/<%=params[:id]%>?<%=var%>=<%=val%><%=searchval%>" ><img src="/images/family_memory/transaprent.png"   class="btnarrows_gal" border="0"/></a></td>
-    </tr>
-    <tr>
-      <td align="center">
-        <table width="100%" border="0" cellspacing="0" cellpadding="0" align="center">
-          <tr>
-            <td align="center" valign="top"><table border="0" cellpadding="0" cellspacing="0" width="100%" align="center"><tr>
-                  <td align="center" valign="top">
-                    <div id="flash_content1">
-                      <h1>Get Flash Player</h1>
-                      <p><a href="http://www.adobe.com/go/getflashplayer"><img src="http://www.adobe.com/images/shared/download_buttons/get_flash_player.gif" alt="Get Adobe Flash player" /></a></p>
-                    </div>
-                    <%
-                    if(@family_website_owner.studio_id > 0)
-                      hmm_studios= HmmStudio.find(@family_website_owner.studio_id)
-                      watermark = hmm_studios.watermark
-                      if (watermark=='yes')
-                        imgswfnames="true"
-                      else
-                        imgswfnames="false"
-                      end
-                    else
-                      imgswfnames="false"
-                    end
-                  %>
-                    <script type="text/javascript">
-                      var flashvars = {};
-                      flashvars.gallery_id = "<%= @first_img.gallery_id %>";
-                      flashvars.gallery_type = "<%= @first_img.e_filetype %>";
-                      flashvars.show_watermark = "<%=imgswfnames%>";
-                      flashvars.proxyurl = "<%= @path %>http://content1.holdmymemories.com,http://content.holdmymemories.com";
-                      flashvars.familyname = "<%= params[:id] %>"
-                      flashvars.proxyurls = "<%= @proxyurls %>"
-                      flashvars.website_type = "familywebsite_v4";
-                      var params = {};
-                      params.bgcolor = "#000000";
-                      params.allowFullScreen = true
-                      params.wmode = "transparent"
-    <%if params[:searchval]%>
-        flashvars.search ='<%=params[:searchval]%>';
-      <% if params[:cnt_id]
-        cnt=params[:cnt_id]
-      else
-        cnt=0   %>
-      <%end%>
-        flashvars.cnt_id = '<%=cnt%>';
-        flashvars.moment_id = "<%= @first_img.id %>";
-    <%else%>
-        flashvars.moment_id = "<%= @first_img.id %>";
-    <%end%>
-      swfobject.embedSWF("/flash/debug/GalleryDetailsV4.swf?t=1", "flash_content1", "100%", "700", "9.0.0", "/expressInstall.swf",flashvars,params);
-
-                    </script>
-                  </td></tr>
-              </table>
-            </td>
-            <td width="315" align="right" valign="top">
-              <div >
-                <link rel="stylesheet" href="/stylesheets/nyroModal.css" type="text/css" media="screen" />
-    <%#*<link rel="stylesheet" href="/stylesheets/themes/classic.css" type="text/css" media="screen" />%>
-                <style type="text/css">
-                  div#scrollbar {
-                    display:none; /* hide from incapable */
-                  }
-
-                  .jeip-saving {
-                    /*background-image: url( 'http://josephscott.org/wp-content/js-org/jeip/ajax-loader.gif' );*/
-                    background-repeat: no-repeat;
-                    background-position: left;
-                    background-color: #903;
-                    color: #fff;
-                    font-size: 20px;
-    <%#*padding: 3px 20px 3px 20px;%>
-                  }
-
-                  .jeip-mouseover, .jeip-editfield {
-                    background-color: #ffff99;
-                    padding: 0px;
-                  }
-
-                  .jeip-savebutton {
-                    background-color: #6c0;
-                    color: #fff;
-                  }
-
-                  .jeip-cancelbutton {
-                    background-color: #ccc;
-                    color: #fff;
-                  }
-
-                </style>
-                <script src="/javascripts/image_slider/js/dw_event.js" type="text/javascript"></script>
-                <script src="/javascripts/image_slider/js/dw_scroll.js" type="text/javascript"></script>
-                <script src="/javascripts/image_slider/js/dw_scrollbar.js" type="text/javascript"></script>
-                <script src="/javascripts/image_slider/js/scroll_controls.js" type="text/javascript"></script>
-                <script src="/javascripts/jeip.js" type="text/javascript"></script>
-                <script type="text/javascript"  src="/javascripts/JSCal2-1.9/src/js/jscal2.js"></script>
-                <script type="text/javascript"  src="/javascripts/JSCal2-1.9/src/js/lang/en.js"></script>
-                <link rel="stylesheet" type="text/css" href="/javascripts/JSCal2-1.9/src/css/jscal2.css" />
-                <link rel="stylesheet" type="text/css" href="/javascripts/JSCal2-1.9/src/css/border-radius.css" />
-                <link rel="stylesheet" type="text/css" href="/javascripts/JSCal2-1.9/src/css/steel/steel.css" />
-                <link rel="stylesheet" type="text/css" href="/javascripts/image_slider/js/scrollbar_demo.css" />
-    <%#= javascript_include_tag 'prototype' %>
-
-                <script type="text/javascript">
-
-                  function init_dw_Scroll() {
-                    var wndo = new dw_scrollObj('wn', 'lyr1');
-                    wndo.setUpScrollbar("dragBar", "track", "v", 1, 1);
-                    wndo.setUpScrollControls('scrollbar');
-                  }
-
-                  // if code supported, link in the style sheet and call the init function onload
-                  //if ( dw_scrollObj.isSupported() ) {
-                  //dw_writeStyleSheet('/javascripts/image_slider/js/scrollbar_demo.css')
-                  //dw_Event.add( window, 'load', init_dw_Scroll);
-                  //}
-
-
-                </script>
-                <script type="text/javascript" src="/javascripts/jquery.nyroModal-1.5.2.pack.js"></script>
-
-                <script type="text/javascript">
-                  function check_comment()
-                  {
-                    var desc = document.getElementById('desc').value;//.replace(/^\s+|\s+$/g, '');
-                    var titl = document.getElementById('titl').value;//.replace(/^\s+|\s+$/g, '');
-                    var chk = document.getElementById('make_blog1').value;
-                    var regex = /\S/;
-                    //var title_match = title.match(/\S/);
-                    var allow = false;
-                    if ( chk == "unchecked")
-                    {
-                      if (regex.test(desc) == true && desc != "Comment on this moment"){
-                        allow = true;
-                      }
-                      else
-                      {
-                        alert("Complete the comment form!");
-                        allow = false;
-                      }
-                    }
-
-                    if (chk == "checked")
-                    {
-                      if(typeof (document.getElementById('titl').value) != "undefined" && regex.test(document.getElementById('titl').value) == true)
-                      {
-                        if(regex.test(desc) == true && desc != "Comment on this moment"){
-                          allow = true;
-                        }
-                        else {
-                          allow = false;
-                          alert("Complete the blog comment form!");
-                        }
-                      }
-                      else
-                      {
-                        alert("Complete the blog comment form!");
-                        allow = false;
-                      }
-                    }
-                    return allow;
-                  }
-
-                  function check_user_comment(){
-                    var cmt_name = document.getElementById('comment_name').value;
-                    var cmt_content = document.getElementById('comment_content').value;
-                    //var capcha = document.getElementById('captcha').value;
-                    var regex = /\S/;
-                    var allow = false;
-                    var Pop = jQuery.noConflict();
-                    if(regex.test(cmt_content) == true && cmt_content != "Comment on this moment"){
-                      allow = true;
-                      if(regex.test(cmt_name) == true && cmt_name != "Your name"){
-                        allow = true;
-                      }
-                      else {
-                        allow = false;
-                        alert("Enter your name!");
-                      }
-                    }
-                    else {
-                      allow = false;
-                      alert("Enter your comment!");
-                    }
-                    if(allow){
-                      var Com = jQuery.noConflict();
-                      Com(document).ready(function(){
-                        function preloadImg(image) {
-                          var img = new Image();
-                          img.src = image;
-                        }
-                        preloadImg('/images/ajaxLoader.gif');
-                        Com.nyroModalManual({
-                          url: '/family_memory/comment_popup/<%= params[:id] %>?moment_id=<%= @first_img.id %>&gallery_id=<%= params[:gallery_id] %>&redirect_url=<%=request.url%>&moment_comment[v_comment]='+cmt_content+'&moment_comment[v_name]='+cmt_name+'&popup=true'
-                          //modal:true
-                        });
-                        Com.nyroModalSettings({
-                          minWidth: 300,
-                          minHeight: 210,
-                          autoSizable: true,
-                          css: {
-                            content: {
-                              background: '#002841',
-                              overflow: 'auto'
-                            },
-                            wrapper: {
-                              background: '#002841',
-                              width: '344px'
-                            },
-                            contentWrapper:{
-                              background: '#002841',
-                              width: '344px'
-                            }
-                          }
-                        });
-                      });
-                    }
-                  }
-                  window.setTimeout(ttl_msg, 10000);
-                  function ttl_msg(){
-                    if( "<%= flash[:notice_com] %>" != "")
-                    {
-                      document.getElementById("msg5").style.display = "none";
-                    }
-                    else if("<%= params[:set_icon] %>" != ""){
-                      document.getElementById("msg6").style.display = "none";
-                    }
-                  }
-                </script>
-                <script language="javascript">
-                  function like_a_radio(oBox) {
-                    var el, i = 0, f = oBox.form;
-                    while (el = f[i++]) if (el.id == oBox.id) el.checked = (el == oBox && el.checked);
-                  }
-
-                  function close_msg(){
-                    var img = document.getElementById("msg1");
-                    var content = document.getElementById("content_date");
-                    if (content.style.display == "display")
-                    {
-                      img.style.display = "block";
-                    }
-                    else
-                    {
-                      img.style.display = "none";
-                    }
-                  };
-
-                </script>
-                <table width="279" border="0" cellspacing="0" cellpadding="0">
-                  <tr>
-
-                    <td align="left" class="img">
-                      <div class="sprite comBgTop" style="height: 11px">
-
-                      </div>
-
-                    </td>
-                  </tr>
-                  <%if !flash[:notice_com].nil? %>
-                    <tr id="msg5">
-                      <td align="center" width="273" class="content combg">
-                        <div style="height: 28px; width: 279px; padding-right: 12px;">
-                          <%=flash[:notice_com]%>
                         </div>
+                        <script type="text/javascript">
+                          var ed = jQuery.noConflict();
+                          ed( "#content_date" ).eip( "/family_memory/edit_content_date/<%= params[:id] %>", {
+                            form_type: "text",
+                            save_on_enter: true,
+                            cancel_on_esc: true,
+                            form_buttons: ""
+                            //saving_text: ""
+                            //saving: ""
+                          } );
+                        </script>
                       </td>
                     </tr>
-                    <% flash[:notice_com] = params[:alert_msg] = ""%>
-                  <% elsif params[:set_icon]
-                    if params[:set_icon] == "instant"
-                      text = "Successfully set as album cover!"
-                    elsif params[:set_icon] == "popup"
-                      text = "Successfully created new album!"
-                    end
-                  %>
-                    <tr id="msg6">
-                      <td align="center" width="273" class="content combg">
-                        <div style="height: 28px; width: 279px; padding-right: 12px;">
-                          <%= text %>
-                        </div>
-                      </td>
-                    </tr>
-                  <%end%>
-                  <tr>
-                    <td class="combg">
-                      <div class="msgHead" style="height: 48px; width: 279px;">
-                        <table width="100%">
-                          <tr>
-                            <td class="msgHead" align="left">
-                              <% if session[:hmm_user] && logged_in_hmm_user.id == @family_website_owner.id %>
-                                <%sub_chap=SubChapter.find(@first_img.sub_chapid)%>
-                                <% if(sub_chap.store_id==nil || sub_chap.store_id=="")%>
-                                  &nbsp;<b id="album_name"><%= @first_img.v_tagname %></b>&nbsp;
-                                  <a id="edit_link" href="/family_memory/change_album/<%= params[:id] %>?moment_id=<%= @first_img.id %>&gallery_id=<%= params[:gallery_id] %>&redirect_url=<%=request.url%>" class="nyroModal">
-                                    (Edit Album)
-                                  </a><br>
-                                <% else %>
-                                  &nbsp;<b id="album_name"><%= @first_img.v_tagname %></b>&nbsp;
-                                  <br>
-                                <% end %>
-                              <% else %>
-                                &nbsp;<b id="album_name"><%= @first_img.v_tagname %></b>&nbsp;
-                                <br>
-                              <% end %>
-                              <% first_img_date= @first_img.d_createddate.to_date%>
-                            </td>
-                          </tr>
-                          <tr>
-                            <td valign="top" align="left" class="msgHead" height="17" colspan="2" >
-                              <% if session[:hmm_user] && logged_in_hmm_user.id == @family_website_owner.id %>
-                                <%sub_chap=SubChapter.find(@first_img.sub_chapid)%>
-                                <% if(sub_chap.store_id==nil || sub_chap.store_id=="")%>
-                                  &nbsp;<b id="content_date" title="Click date to edit" onclick="close_msg();"></b>&nbsp;<a id="msg1" href="#" onclick="close_msg();" title="Click date to edit">
-                                    (Edit)
-                                  </a>
-                                <% else %>
-                                  &nbsp;<b id="content_date1"></b>
-                                <% end %>
-                              <% else %>
-                                &nbsp;<b id="content_date1"></b>
-                              <% end %>
-                            </td>
-                          </tr>
-                        </table>
-                      </div>
-                      <script type="text/javascript">
-                        var ed = jQuery.noConflict();
-                        ed( "#content_date" ).eip( "/family_memory/edit_content_date/<%= params[:id] %>", {
-                          form_type: "text",
-                          save_on_enter: true,
-                          cancel_on_esc: true,
-                          form_buttons: ""
-                          //saving_text: ""
-                          //saving: ""
-                        } );
-                      </script>
-                    </td>
-                  </tr>
-                  <tr id="refresh_comments">
+                    <tr id="refresh_comments">
     <%#= render :partial => "comment_box", :locals => {:family_website_owner => @family_website_owner, :first_img => @first_img, :blog => @blog, :blogcomments => @blogcomments, :comments => @comments, :gallery_comments => @gallery_comments, :gal_blog => @gallery_blog} %>
 
-                  </tr>
-                  <tr>
-                    <td class="combg">
-                      <table id="table-header" width="100%" border="0" cellspacing="0" cellpadding="0" class="blog">
-                        <tr id="comment_present" align="center">
-                          <td height="45" colspan="2" align="center" valign="bottom" class="img"><input type="submit" class="postBtn" id="blog_btn" name="post" value="Show All Comments" /></td>
-                        </tr>
+                    </tr>
+                    <tr>
+                      <td class="combg">
+                        <table id="table-header" width="100%" border="0" cellspacing="0" cellpadding="0" class="blog">
+                          <tr id="comment_present" align="center">
+                            <td height="45" colspan="2" align="center" valign="bottom" class="img"><input type="submit" class="postBtn" id="blog_btn" name="post" value="Show All Comments" /></td>
+                          </tr>
 
-                        <% if session[:hmm_user] %>
-                          <%if logged_in_hmm_user.id==@family_website_owner.id%>
-                            <tr>
-                              <td align="right" valign="bottom" >
-                                <table>
-                                  <tr>
-                                    <td width="31">&nbsp;</td>
-                                    <td  width="165" align="right"><a href="/family_memory/logout/<%=params[:id]%>" title="Logout" >Logout</a></td><td width="11">&nbsp;</td>
-                                  </tr>
-                                </table></td>
-                            </tr>
+                          <% if session[:hmm_user] %>
+                            <%if logged_in_hmm_user.id==@family_website_owner.id%>
+                              <tr>
+                                <td align="right" valign="bottom" >
+                                  <table>
+                                    <tr>
+                                      <td width="31">&nbsp;</td>
+                                      <td  width="165" align="right"><a href="/family_memory/logout/<%=params[:id]%>" title="Logout" >Logout</a></td><td width="11">&nbsp;</td>
+                                    </tr>
+                                  </table></td>
+                              </tr>
+                            <%else%>
+                              <tr>
+                                <td  align="right" valign="bottom"  align="right" ><table><tr><td width="31">&nbsp;</td><td  width="165" align="right"><a href="/family_memory/login_popup/<%= params[:id] %>?url=<%=request.url%>" title="Login" class="nyroModal">Login</a></td><td width="11">&nbsp;</td></tr></table></td>
+                              </tr>
+                            <%end%>
                           <%else%>
                             <tr>
-                              <td  align="right" valign="bottom"  align="right" ><table><tr><td width="31">&nbsp;</td><td  width="165" align="right"><a href="/family_memory/login_popup/<%= params[:id] %>?url=<%=request.url%>" title="Login" class="nyroModal">Login</a></td><td width="11">&nbsp;</td></tr></table></td>
+                              <td align="right" valign="bottom" ><table><tr><td width="31">&nbsp;</td><td  width="165" align="right"><a href="/family_memory/login_popup/<%= params[:id] %>?url=<%=request.url%>" title="Login" class="nyroModal">Login</a></td><td width="11">&nbsp;</td></tr></table></td>
                             </tr>
                           <%end%>
-                        <%else%>
-                          <tr>
-                            <td align="right" valign="bottom" ><table><tr><td width="31">&nbsp;</td><td  width="165" align="right"><a href="/family_memory/login_popup/<%= params[:id] %>?url=<%=request.url%>" title="Login" class="nyroModal">Login</a></td><td width="11">&nbsp;</td></tr></table></td>
-                          </tr>
-                        <%end%>
-                      </table>
-                    </td>
-                  </tr>
+                        </table>
+                      </td>
+                    </tr>
 
-                  <tr>
-                    <td class="img" align="left"><img src="/images/family_memory/images/transaprent.png" class="sprite comBgBtm"/></td>
-                  </tr>
-                </table>
+                    <tr>
+                      <td class="img" align="left"><img src="/images/family_memory/images/transaprent.png" class="sprite comBgBtm"/></td>
+                    </tr>
+                  </table>
 
-              </div>
-            </td>
-          </tr>
-        </table></td>
-    </tr>
-  <% end %>
+                </div>
+              </td>
+            </tr>
+          </table></td>
+      </tr>
+    <% end %>
 
-  <script type="text/javascript">
+    <script type="text/javascript">
 
 
-    var Jq = jQuery.noConflict();
-    Jq(document).ready(function(){
-      Jq("#blog_btn").click(function(){
-        if (Jq(".panel").is(":hidden")) {
-          Jq(".panel").show();
-          Jq(".comments").hide();
-          document.getElementById('blog_btn').innerHTML = "Show All Comments";
-        } else {
-          Jq(".panel").hide();
-          Jq(".comments").show();
-          document.getElementById('blog_btn').innerHTML = "Leave a Comment";
-        }
+      var Jq = jQuery.noConflict();
+      Jq(document).ready(function(){
+        Jq("#blog_btn").click(function(){
+          if (Jq(".panel").is(":hidden")) {
+            Jq(".panel").show();
+            Jq(".comments").hide();
+            document.getElementById('blog_btn').innerHTML = "Show All Comments";
+          } else {
+            Jq(".panel").hide();
+            Jq(".comments").show();
+            document.getElementById('blog_btn').innerHTML = "Leave a Comment";
+          }
+        });
+
+        Jq("#post_btn").click(function(){
+          if (Jq(".panel").is(":hidden")) {
+            Jq(".panel").show();
+            Jq(".comments").hide();
+            document.getElementById('blog_btn').innerHTML = "Show All Comments";
+          }
+        });
       });
 
-      Jq("#post_btn").click(function(){
-        if (Jq(".panel").is(":hidden")) {
-          Jq(".panel").show();
-          Jq(".comments").hide();
-          document.getElementById('blog_btn').innerHTML = "Show All Comments";
+      function onload_func(status)
+      {
+        //Jq(document).ready(function(){
+        if(( status == false))
+        {
+          //document.getElementById('blog_btn').value = "Leave a Comment";
+          document.getElementById('comments').style.display = 'table';
+          document.getElementById('panel').style.display = 'none';
+          document.getElementById('comment_present').style.display = 'block';
+          document.getElementById('blog_btn').value = "Leave a Comment";
         }
-      });
-    });
-
-    function onload_func(status)
-    {
-      //Jq(document).ready(function(){
-      if(( status == false))
-      {
-        //document.getElementById('blog_btn').value = "Leave a Comment";
-        document.getElementById('comments').style.display = 'table';
-        document.getElementById('panel').style.display = 'none';
-        document.getElementById('comment_present').style.display = 'block';
-        document.getElementById('blog_btn').value = "Leave a Comment";
-      }
-      else
-      {
-        document.getElementById('panel').style.display = 'table';
-        document.getElementById('comments').style.display = 'none';
-        document.getElementById('comment_present').style.display = 'none';
-        //document.getElementById('blog_btn').value = "Show All Comments";
-      }
-      // });
-    }
-
-
-    function toggleshow(boxName,a){
-      var e=document.getElementById(a);
-      if(boxName.checked == true) {
-        e.style.display="block"
-        document.getElementById('make_blog1').value = "checked";
-      }
-      else
-      {
-        e.style.display="none";
-        document.getElementById('make_blog1').value = "unchecked";
-      }
-      return true;
-    }
-
-    function update_comment(moment_id)
-    {
-      var xmlhttp;
-      if (navigator.appName == "Microsoft Internet Explorer"){
-        if (window.ActiveXObject) {
-          xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
+        else
+        {
+          document.getElementById('panel').style.display = 'table';
+          document.getElementById('comments').style.display = 'none';
+          document.getElementById('comment_present').style.display = 'none';
+          //document.getElementById('blog_btn').value = "Show All Comments";
         }
+        // });
       }
-      else
+
+
+      function toggleshow(boxName,a){
+        var e=document.getElementById(a);
+        if(boxName.checked == true) {
+          e.style.display="block"
+          document.getElementById('make_blog1').value = "checked";
+        }
+        else
+        {
+          e.style.display="none";
+          document.getElementById('make_blog1').value = "unchecked";
+        }
+        return true;
+      }
+
+      function update_comment(moment_id)
       {
+        var xmlhttp;
+        if (navigator.appName == "Microsoft Internet Explorer"){
+          if (window.ActiveXObject) {
+            xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
+          }
+        }
+        else
+        {
+          if (window.XMLHttpRequest)
+          {
+            xmlhttp = new XMLHttpRequest();
+          }
+        }
+        xmlhttp.open("GET","/family_memory/gallery_comments/<%= params[:id] %>?moment_id="+moment_id+"&next=yes&rand="+Math.random(),true);
+        xmlhttp.send();
+        xmlhttp.onreadystatechange=function()
+        {
+          if (xmlhttp.readyState==4 && xmlhttp.responseText && (xmlhttp.status==200 || xmlhttp.status==304))
+          {
+            var Aj = jQuery.noConflict();
+            Aj(document).ready(function(){
+              Aj("#refresh_comments").html(xmlhttp.responseText);
+            });
+            update_album(moment_id);
+            //document.getElementById("refresh_comments").innerHTML = xmlhttp.responseText;
+          }
+        }
+
+      };
+
+      function update_album(moment_id)
+      {
+        var xmlhttp2;
         if (window.XMLHttpRequest)
         {
-          xmlhttp = new XMLHttpRequest();
+          xmlhttp2=new XMLHttpRequest();
         }
-      }
-      xmlhttp.open("GET","/family_memory/gallery_comments/<%= params[:id] %>?moment_id="+moment_id+"&next=yes&rand="+Math.random(),true);
-      xmlhttp.send();
-      xmlhttp.onreadystatechange=function()
-      {
-        if (xmlhttp.readyState==4 && xmlhttp.responseText && (xmlhttp.status==200 || xmlhttp.status==304))
+
+        xmlhttp2.open("GET","/family_memory/gallery_comments/<%= params[:id] %>?moment_id="+moment_id+"&next=no&rand="+Math.random(),true);
+        xmlhttp2.send();
+        xmlhttp2.onreadystatechange=function()
         {
-          var Aj = jQuery.noConflict();
-          Aj(document).ready(function(){
-            Aj("#refresh_comments").html(xmlhttp.responseText);
-          });
-          update_album(moment_id);
-          //document.getElementById("refresh_comments").innerHTML = xmlhttp.responseText;
-        }
-      }
-
-    };
-
-    function update_album(moment_id)
-    {
-      var xmlhttp2;
-      if (window.XMLHttpRequest)
-      {
-        xmlhttp2=new XMLHttpRequest();
-      }
-
-      xmlhttp2.open("GET","/family_memory/gallery_comments/<%= params[:id] %>?moment_id="+moment_id+"&next=no&rand="+Math.random(),true);
-      xmlhttp2.send();
-      xmlhttp2.onreadystatechange=function()
-      {
-        if (xmlhttp2.readyState==4 && (xmlhttp2.status==200 || xmlhttp2.status==304))
-        {
-          var Aj2 = jQuery.noConflict();
-          var response = xmlhttp2.responseText;
-          var parsedJSON = eval('('+response+')');
-          Aj2(document).ready(function(){
-            Aj2("#album_name").html(parsedJSON.album_name);
-            Aj2("#subhead").html(parsedJSON.album_name);
+          if (xmlhttp2.readyState==4 && (xmlhttp2.status==200 || xmlhttp2.status==304))
+          {
+            var Aj2 = jQuery.noConflict();
+            var response = xmlhttp2.responseText;
+            var parsedJSON = eval('('+response+')');
+            Aj2(document).ready(function(){
+              Aj2("#album_name").html(parsedJSON.album_name);
+              Aj2("#subhead").html(parsedJSON.album_name);
   <% if session[:hmm_user] && logged_in_hmm_user.id == @family_website_owner.id %>
               Aj2("#content_date").html(parsedJSON.moment_date);
   <% else %>
@@ -1066,15 +566,15 @@
 
     window.onload = update_comment(<%= @first_img.id %>);
 
-  </script>
+    </script>
 
 
-  <tr>
-    <td>&nbsp;</td>
-  </tr>
-  <tr style="height: 20px;">
-    <td align="left">&nbsp;</td>
-  </tr>
+    <tr>
+      <td>&nbsp;</td>
+    </tr>
+    <tr style="height: 20px;">
+      <td align="left">&nbsp;</td>
+    </tr>
   </table>
 <%else%>
   <table width="100%" border="0" cellspacing="0" cellpadding="0" >

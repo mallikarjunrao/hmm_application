@@ -1,7 +1,7 @@
 <%= javascript_include_tag "themes/swfobject" %>
 <script language="javascript" type="text/javascript" src="/javascripts/image_slider/mootools-1.2-core.js"></script>
 <script language="javascript" type="text/javascript" src="/javascripts/image_slider/mootools-1.2-more.js"></script>
-<script language="javascript" type="text/javascript" src="/javascripts/image_slider/SlideItMoo.js"></script>
+
 
 <script type="text/javascript">
   var Jq = jQuery.noConflict();
@@ -9,6 +9,7 @@
 
 <%if !@first_img.nil?%>
   <%if @studio_header.studio_groupid!=pp_studio_group%>
+    <script language="javascript" type="text/javascript" src="/javascripts/image_slider/SlideItMoo.js"></script>
     <table width="100%" border="0" cellspacing="0" cellpadding="0">
 
       <%= render :partial => "family_memory/partials/heading"%>
@@ -25,7 +26,7 @@
           <%= render :partial => "family_memory/partials/gallery_contents_coverflow"%>
         </td>
       </tr>
-      <%= render :partial => "family_memory/partials/search"%>
+      <%= render :partial => "family_memory/partials/search" %>
       <tr>
         <td class="subHead">Studio Sessions</td>
       </tr>
@@ -36,6 +37,7 @@
     </table>
 
   <%else%>
+    <script language="javascript" type="text/javascript" src="/javascripts/image_slider/SlideItMoo_pp.js"></script>
     <table width="100%" border="0" cellspacing="0" cellpadding="0" class="rightBarMdl">
       <%if params[:source]%>
         <tr>

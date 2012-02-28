@@ -1,7 +1,16 @@
 <%= javascript_include_tag "themes/swfobject" %>
 <script src="http://code.jquery.com/jquery-latest.js"></script>
+<script language="javascript" type="text/javascript" src="/javascripts/themes/nyromodal/jquery.nyroModal-1.5.2.pack.js"></script>
+
 <script type="text/javascript">
   var $j = jQuery.noConflict();
+  $j(document).ready(function(){
+    <%  @studio_header = HmmStudio.find(@family_website_owner.studio_id)
+    if @studio_header.studio_groupid==pp_studio_group%>
+      $j('.nyroModal').trigger('click');
+    <% end %>
+
+  });
 </script>
 
 <%if params[:add]=='t'%>
@@ -27,73 +36,73 @@
     else
     {
   <%url=request.url.split("&&view_cart")%>
-      window.location.href="<%=url[0]%>"
-    }
+    window.location.href="<%=url[0]%>"
+  }
   </script>
 <% end %>
-   <%
+<%
 if @studio_header.studio_groupid!=pp_studio_group
   class2=""%>
 <%else
-class2="rightBarMdl"
+  class2="rightBarMdl"
 %>
 <%end%>
 <table width="100%" border="0" cellspacing="0" cellpadding="0" align="center" class="<%=class2%>">
- <%if @studio_header.studio_groupid!=pp_studio_group%>
-  <tr><td colspan="2" align="center" width="100%" ><table border="0" width="100%"><%= render :partial => "family_memory/partials/heading"%></table></td></tr>
-<%end%>
+  <%if @studio_header.studio_groupid!=pp_studio_group%>
+    <tr><td colspan="2" align="center" width="100%" ><table border="0" width="100%"><%= render :partial => "family_memory/partials/heading"%></table></td></tr>
+  <%end%>
   <tr>
     <td colspan="2">&nbsp;</td>
   </tr>
   <tr>
     <td class="subHead" colspan="2"><%=@first_img.v_tagname%></td>
   </tr>
-        <tr>
-          <td align="center"><table border="0" cellpadding="0" cellspacing="0" width="100%" align="center"><tr><td align="center">
-                  <div id="flash_content">
-                    <h1>Get Flash Player</h1>
-                    <p><a href="http://www.adobe.com/go/getflashplayer"><img src="http://www.adobe.com/images/shared/download_buttons/get_flash_player.gif" alt="Get Adobe Flash player" /></a></p>
-                  </div>
+  <tr>
+    <td align="center"><table border="0" cellpadding="0" cellspacing="0" width="100%" align="center"><tr><td align="center">
+            <div id="flash_content">
+              <h1>Get Flash Player</h1>
+              <p><a href="http://www.adobe.com/go/getflashplayer"><img src="http://www.adobe.com/images/shared/download_buttons/get_flash_player.gif" alt="Get Adobe Flash player" /></a></p>
+            </div>
 
-                  <% if session[:visitor_id]
-                    is_visitor = "true"
-                  else
-                    is_visitor = "false"
-                  end
-                %>
-                  <script type="text/javascript">
-                    var flashvars = {};
-                    flashvars.content_url = "<%= @paths.content_path %>";
-                    flashvars.hmmtype = "<%= @first_img.e_filetype %>";
-                    flashvars.gallery = "<%= @first_img.gallery_id %>";
-                    flashvars.image_url= "<%= @first_img.img_url%>/user_content/photos/<%= @first_img.v_filename%>";
-                    flashvars.gallery_id = "<%= @first_img.gallery_id %>";
-                    flashvars.user_id = "<%= @first_img.uid %>";
-                    flashvars.moment_id = "<%= @first_img.id %>";
-                    flashvars.proxyurl = "<%=  @path %>";
-                    flashvars.familyname = "<%= params[:id] %>"
-                    flashvars.website_type = "familywebsite_v4";
-                    flashvars.website_type = "<%= @first_img.gallery_id %>";
-                    if ('<%= is_visitor %>' == 'true')
-                    {
-                      flashvars.visitor_id = "<%= session[:visitor_id] %>";
-                      flashvars.cart_url = "/visitor_cart/cart_list/<%=params[:id]%>?v=v4";
-                    }else{
-                      flashvars.cart_url = "/carts/cart_list/<%=params[:id]%>?v=v4";
-                    }
+            <% if session[:visitor_id]
+              is_visitor = "true"
+            else
+              is_visitor = "false"
+            end
+          %>
+            <script type="text/javascript">
+              var flashvars = {};
+              flashvars.content_url = "<%= @paths.content_path %>";
+              flashvars.hmmtype = "<%= @first_img.e_filetype %>";
+              flashvars.gallery = "<%= @first_img.gallery_id %>";
+              flashvars.image_url= "<%= @first_img.img_url%>/user_content/photos/<%= @first_img.v_filename%>";
+              flashvars.gallery_id = "<%= @first_img.gallery_id %>";
+              flashvars.user_id = "<%= @first_img.uid %>";
+              flashvars.moment_id = "<%= @first_img.id %>";
+              flashvars.proxyurl = "<%=  @path %>";
+              flashvars.familyname = "<%= params[:id] %>"
+              flashvars.website_type = "familywebsite_v4";
+              flashvars.website_type = "<%= @first_img.gallery_id %>";
+              if ('<%= is_visitor %>' == 'true')
+              {
+                flashvars.visitor_id = "<%= session[:visitor_id] %>";
+                flashvars.cart_url = "/visitor_cart/cart_list/<%=params[:id]%>?v=v4";
+              }else{
+                flashvars.cart_url = "/carts/cart_list/<%=params[:id]%>?v=v4";
+              }
 
-                    flashvars.back_url = "/family_memory/order_prints/<%=params[:id]%>?moment_id=<%= @first_img.id %>";
-                    flashvars.text_value = "text=<%=params[:text]%>";
-                    var params = {};
-                    params.wmode = "transparent";
-                    params.allowFullScreen = true
-                    swfobject.embedSWF("/flash/debug/PrintOrderV4.swf", "flash_content", "100%", "900", "9.0.0", "/expressInstall.swf",flashvars,params);
-                  </script>
-                </td></tr>
-            </table>
-          </td>
+              flashvars.back_url = "/family_memory/order_prints/<%=params[:id]%>?moment_id=<%= @first_img.id %>";
+              flashvars.text_value = "text=<%=params[:text]%>";
+              var params = {};
+              params.wmode = "transparent";
+              params.allowFullScreen = true
+              swfobject.embedSWF("/flash/debug/PrintOrderV4.swf", "flash_content", "100%", "900", "9.0.0", "/expressInstall.swf",flashvars,params);
+            </script>
+          </td></tr>
+      </table>
+    </td>
 
-        </tr>
+  </tr>
 
   <tr>
     <td height="10">&nbsp;</td>
@@ -138,7 +147,19 @@ class2="rightBarMdl"
     <td>&nbsp;</td>
   </tr>
   <tr>
-    <td align="left">&nbsp;</td>
+    <td align="left">&nbsp;
+      <a href="#a" class="nyroModal" />
+      <div style="display: none; visibility: hidden;">
+        <div id="a" style="height:200; width: 200;">
+          <br/><br/><br/>
+          <center>
+            <font color="#000">
+          Please contact the studio to order additional prints.
+          </font>
+          </center>
+        </div>
+      </div>
+    </td>
   </tr>
 </table>
 

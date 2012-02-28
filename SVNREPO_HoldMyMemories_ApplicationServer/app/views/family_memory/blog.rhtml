@@ -3,7 +3,7 @@
 
 </script>
 
-<%#  @studio_header = HmmStudio.find(@family_website_owner.studio_id)
+<%  @studio_header = HmmStudio.find(@family_website_owner.studio_id)
 if @studio_header.studio_groupid==pp_studio_group
 
   blogau = "blogAu_pp"
@@ -16,14 +16,7 @@ else
   blogtxt = "blogTxt"
   blogwht = "blogWht"
 end %>
-<%
 
-  blogau = "blogAu_pp"
-  blogtxt = "blogTxt_pp"
-  blogwht = "blogWht_pp"
-  bgcolor="rightBarMdl"
-
-%>
 <table cellspacing="0" cellpadding="0" border="0" width="100%" align="center" class="<%= bgcolor %> ">
   <%  @studio_header = HmmStudio.find(@family_website_owner.studio_id)
   if @studio_header.studio_groupid==pp_studio_group%>
@@ -44,20 +37,29 @@ end %>
   <tr>
     <td align="left" valign="top" height="10"></td>
   </tr>
-  <%  @studio_header = HmmStudio.find(@family_website_owner.studio_id)
-  if @studio_header.studio_groupid==pp_studio_group%>
 
-  
+
+  <%if session[:hmm_user]%>
+    <%if logged_in_hmm_user.id==@family_website_owner.id%>
+      <%  @studio_header = HmmStudio.find(@family_website_owner.studio_id)
+      if @studio_header.studio_groupid==pp_studio_group%>
+
         <tr>
           <td><div class="btn"><a href="/family_memory/new_text_blogentry/<%=params[:id]%>" title="New Entry" class="nyroModal">
                 <div class="cmnBtnB cmnBtnMar newEntry">New Entry</a></div></td>
         </tr>
- 
-  <% else %>
-    <tr>
-      <td><div class="btn"><a href="/family_memory/new_text_blogentry/<%=params[:id]%>" title="New Entry" class="nyroModal">
-            <img src="/images/family_memory/transaprent.png" class="menus newEntry" border="0"/></a></div></td>
-    </tr>
+      <% end %>
+
+    <% else %>
+
+
+      <tr>
+        <td><div class="btn"><a href="/family_memory/new_text_blogentry/<%=params[:id]%>" title="New Entry" class="nyroModal">
+              <img src="/images/family_memory/transaprent.png" class="menus newEntry" border="0"/></a></div></td>
+      </tr>
+
+    <%end%>
+
   <%end%>
   <tr>
     <td align="left" valign="top" height="10"></td>
@@ -68,13 +70,40 @@ end %>
     </td>
   </tr>
   <%if @total>0 %>
-   
+    <%  @studio_header = HmmStudio.find(@family_website_owner.studio_id)
+    if @studio_header.studio_groupid==pp_studio_group%>
       <%= render :partial=>'pp_family_memory_blog' %>
- 
-  <%else%>
-        <td height="35" align="center" class="side-heading" style="font-size: 16px">
+    <%else%>
+
+
+      <tr>
+        <td id="content"  >
+          <table cellspacing="0" cellpadding="0" border="0" width="98%" class="content-trans-bg">
+            <tbody>
+
+              <%= render :partial=>'family_memory_blog' %>
+
+              <%if @total>0 %>
+                <tr>
+                  <td height="35"><table width="100%" align="center" border="0" cellspacing="0" cellpadding="0">
+                      <tr>
+                        <td width="69%" align="center" valign="bottom"><form action="/family_memory/blog/<%=params[:id]%>" method="post"><input type="text" name="search" id="search" class="textFeildBlog" value="Search:" onclick="this.value=''"/></form></td>
+                      </tr>
+                    </table></td>
+                </tr>
+              <%end%>
+              <tr>
+                <td height="35" align="center" class="side-heading" style="font-size: 16px">
                   <%=will_paginate @entries ,:params=>params%>
                 </td>
+              </tr>
+            </tbody>
+          </table>
+        </td>
+      </tr>
+    <% end %>
+  <%else%>
+
     <table border="0" cellspacing="0" cellpadding="0" width="100%">
       <tr>
         <td width="22" height="21" class="top-left"></td>
@@ -88,6 +117,9 @@ end %>
             <tr>
               <td class="msgHead" align="center" height="500" valign="middle">No Entries Found.</td></tr> </table>
         </td>
+
+
+
         <td class="right-repeat"></td>
       </tr>
       <tr>

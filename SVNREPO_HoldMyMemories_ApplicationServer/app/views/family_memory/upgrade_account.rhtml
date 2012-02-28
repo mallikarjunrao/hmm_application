@@ -4,9 +4,10 @@ if @studio_header.studio_groupid==pp_studio_group
 
 
   bgcolor="rightBarMdl"
+  bgcolor1="cmnShrBg"
 else
 bgcolor=""
-
+bgcolor1="content-trans-bg"
 end %>
 
 
@@ -54,7 +55,7 @@ end %>
           <td width="20" align="left" valign="top">&nbsp;</td>
           <td align="left" valign="top"><table width="100%" border="0" cellpadding="0" cellspacing="0">
               <tr>
-                <td width="439" align="left" valign="top" class="content-trans-bg"><table width="100%" border="0" cellspacing="0" cellpadding="0">
+                <td width="439" align="left" valign="top" class="<%= bgcolor1 %>"><table width="100%" border="0" cellspacing="0" cellpadding="0">
                     <tr>
                       <td height="20" colspan="3" align="left" valign="top">&nbsp;</td>
                     </tr>
@@ -102,10 +103,10 @@ end %>
                                 </tr>
                                 <tr>
                                   <td width="20" align="left" valign="top"></td>
-                                  <td width="55" align="left" valign="bottom"><img src="/images/common/shopping-icon.png" width="52" height="54" alt="" /></td>
-                                  <td width="150" align="left" valign="bottom" class="cont-white-title"><strong>#<span class="content-orange-bullet"><strong>4.95</strong></span>/month</strong></td>
+                                  
+                                  <td width="150" align="left" valign="bottom" class="cont-white-title"><strong>$<span class="content-orange-bullet"><strong>4.95</strong></span>/month</strong></td>
                                   <td align="right" valign="bottom"><label>
-                                      <input name="button2" type="submit" class="cmd-btn-trans" id="button2" value="Get IT" onclick="window.location='https://holdmymemories.com/family_memory/upgrade_account_form/<%=params[:id]%>?acc_type=family_website'"/>
+                                      <input name="button2" type="submit" class="cmd-btn-trans" id="button2" value="Got IT" onclick="window.location='https://holdmymemories.com/family_memory/upgrade_account_form/<%=params[:id]%>?acc_type=family_website'"/>
                                     </label></td>
                                   <td width="20" align="left" valign="top"></td>
                                 </tr>
@@ -122,7 +123,7 @@ end %>
                     </tr>
                   </table></td>
                 <td width="20" align="left" valign="top"></td>
-                <td width="439" align="left" valign="top" class="content-trans-bg"><table width="100%" border="0" cellspacing="0" cellpadding="0">
+                <td width="439" align="left" valign="top" class="<%= bgcolor1 %>"><table width="100%" border="0" cellspacing="0" cellpadding="0">
                     <tr>
                       <td height="20" colspan="3" align="left" valign="top">&nbsp;</td>
                     </tr>
@@ -168,10 +169,10 @@ end %>
                                 </tr>
                                 <tr>
                                   <td width="20" align="left" valign="top"></td>
-                                  <td width="55" align="left" valign="bottom"><img src="/images/common/shopping-icon.png" width="52" height="54" alt="" /></td>
-                                  <td width="150" align="left" valign="bottom" class="cont-white-title"><strong>#<span class="content-orange-bullet"><strong>9.95</strong></span>/month</strong></td>
+                                 
+                                  <td width="150" align="left" valign="bottom" class="cont-white-title"><strong>$<span class="content-orange-bullet"><strong>9.95</strong></span>/month</strong></td>
                                   <td align="right" valign="bottom"><label>
-                                      <input name="button" type="submit" class="cmd-btn-trans" id="button" value="Get IT" onclick="window.location='https://holdmymemories.com/family_memory/upgrade_account_form/<%=params[:id]%>?acc_type=platinum_account'"/>
+                                      <input name="button" type="submit" class="cmd-btn-trans" id="button" value="Got IT" onclick="window.location='https://holdmymemories.com/family_memory/upgrade_account_form/<%=params[:id]%>?acc_type=platinum_account'"/>
                                     </label></td>
                                   <td width="20" align="left" valign="top"></td>
                                 </tr>

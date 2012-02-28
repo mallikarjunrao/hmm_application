@@ -2710,6 +2710,8 @@ ON hmm_users.studio_id=hmm_studios.id", :conditions => "hmm_users.id=#{@family_w
 
 
     def customize_site
+      
+    
     @paths = ContentPath.find(:first,:conditions=>"status='active'")
     @path1 = ContentPath.find(:all)
     @path2=""
@@ -2791,16 +2793,20 @@ ON hmm_users.studio_id=hmm_studios.id", :conditions => "hmm_users.id=#{@family_w
         and bc.status = 'pending'
      )
      order by e_approval")
+      @hmm=params[:id]
     #    @blogcmt = Blog.count(:all,:joins=>" as a , blog_comments as b", :conditions => "a.id=b.blog_id and a.user_id='#{logged_in_hmm_user.id}' and b.status='pending' ")
     #    @comments = PhotoComment.count(:all,:select=>"distinct(a.id)",:joins=>"as a,user_contents as b", :conditions => "a.user_content_id=b.id and a.e_approved = 'pending' and a.uid = #{logged_in_hmm_user.id}")
     #    @gallery_comments = GalleryComment.count(:all,:select=>"distinct(a.id)",:joins=>"as a,user_contents as b", :conditions => "a.gallery_id=b.gallery_id and a.e_approval = 'pending' and a.uid = #{logged_in_hmm_user.id}")
 
     # render :layout=>false
-     # link = "/family_memory/customize_site/#{params[:id]}"
+    
+     link = "/family_memory/customize_site/#{params[:id]}"
   end
 
 
 def pp_contact_us
+logger.info("11111111111111111111111111111111111111111111111111111111111111111111111111111")
+logger.info(params[:id])
 
     @contact_u = ContactU.new
     if(params[:contact_u])
@@ -2853,13 +2859,16 @@ def pp_contact_us
         
           flash[:notice_contact] = 'Thank You for submitting the details'
         #  redirect_to :action => 'customize_site'
-           redirect_to :controller => 'family_memory', :action => 'customize_site' ,:id => params[:id]
+         # redirect_to :action => "customize_site/#{params[:hmm]}"
+          redirect_to :controller=>"family_memory",:action => 'customize_site', :id => params[:id]
         else
-          redirect_to :action => 'customize_site'
+        #  redirect_to :action => "customize_site/#{params[:hmm]}"
+        redirect_to :controller=>"family_memory",:action => 'customize_site', :id => params[:id]
         end
       else
-        redirect_to :action => 'customize_site'
-        flash[:error] = 'Please enter the correct Recapcha code!'
+        #redirect_to :action => "customize_site/#{params[:hmm]}"
+        redirect_to :controller=>"family_memory",:action => 'customize_site', :id => params[:id]
+        flash[:error] = 'Please enter the correct Image code!'
       end
     end
   end

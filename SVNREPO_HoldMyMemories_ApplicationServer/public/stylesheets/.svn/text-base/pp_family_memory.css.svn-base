@@ -14,11 +14,11 @@ body {
 .cmnBtn span{font-family: 'AvenirLTStd35Light';}
 .cmnBtn:hover{ background:url(/images/pp_family_memory/btn-ovr.jpg) no-repeat;}
 
-.cmnBtnS{ background:url(/images/pp_family_memory/btn-sml.jpg) no-repeat; width:94px; height:33px; display:block; text-align:center; font-size:22px; color:#3c2414; text-decoration:none; line-height:33px; font-family: 'MatrixScriptRegularLiningRg';}
+.cmnBtnS{ background:url(/images/pp_family_memory/btn-sml.jpg) no-repeat; width:94px; height:33px; display:block; text-align:center; font-size:22px; color:#3c2414; text-decoration:none; line-height:33px; font-family: 'MatrixScriptRegularLiningRg';border:none;}
 .cmnBtnS span{font-family: 'AvenirLTStd35Light';}
 .cmnBtnS:hover{ background:url(/images/pp_family_memory/btn-sml-ovr.jpg) no-repeat;}
 
-.cmnBtnB{ background:url(/images/pp_family_memory/btn.jpg) no-repeat; width:228px; height:33px; display:block; text-align:center; font-size:19px; color:#3c2414; text-decoration:none; line-height:33px; font-family: 'MatrixScriptRegularLiningRg';}
+.cmnBtnB{ background:url(/images/pp_family_memory/btn.jpg) no-repeat; width:228px; height:33px; display:block; text-align:center; font-size:19px; color:#3c2414; text-decoration:none; line-height:33px; font-family: 'MatrixScriptRegularLiningRg';border:none;}
 .cmnBtnB span{font-family: 'AvenirLTStd35Light';}
 .cmnBtnB:hover{ background:url(/images/pp_family_memory/btn-ovr.jpg) no-repeat;}
 
@@ -27,11 +27,11 @@ body {
 #rightBar{width:100%; }
 .rightBarTop{ background:url(/images/pp_family_memory/rightbar-top.jpg) repeat-x left top; height:251px; width:100%;}
 .rightBarMdl{ background:url(/images/pp_family_memory/rightbar-mdl-bg.jpg) repeat-y left top #cae7f8; width:100%; overflow:hidden; padding:50px 0;}
-.rightBarMdlBtm{ background:url(/images/pp_family_memory/rightbar-mdl-btm.png) repeat-x left top; width:100%; overflow:hidden; height:12px;}
+.rightBarMdlBtm{ background:url(/images/pp_family_memory/rightbar-mdl-btm.png) repeat-x left top; width:81%; overflow:hidden; height:12px;}
 .rightBarMdlBtmPtr{ background:url(/images/pp_family_memory/btm-ptrn.png) repeat left top; width:100%; overflow:hidden;}
-.rightBarMdlBtmRight{ width:265px; overflow:hidden; background:#3c2415; text-align:center; color:#fff; font-size:20px; padding:20px;}
+.rightBarMdlBtmRight{ width:265px; overflow:hidden; background:#3c2415; text-align:center; color:#fff; font-size:20px; padding:20px;height: 176px;}
 .srchBg{ background:url(/images/pp_family_memory/srch-bg.png) no-repeat left top; width:250px; height:59px;}
-.srchTxtFld{border:none; margin-top:18px; width:180px; height:38px; padding:0 5px; float:left; background:transparent; line-height:38px;}
+.srchTxtFld{border:none; margin-top:18px; width:180px; height:38px; padding:0 5px; float:left; background:transparent; line-height:38px;color: #666666;font-size: 15px;}
 .subbtn{ border:none; background:transparent; width:45px; height:43px; border:none; cursor:pointer;}
 
 /*---fonts embedded-----*/
@@ -77,7 +77,7 @@ body {
 
 
 .date{font-size:12px;color:#87a3b5;text-decoration:none;}
-#container{width:820px;margin:0px auto 0px;padding:10px;font-size:12px;}
+#container{width:700px;margin:0px auto 0px;padding:10px;font-size:12px;}
 #container h1{font-size:24px;color:#FFFFFF;font-weight:normal;text-align:center;padding:10px;}
 #container p{text-align:justify;padding:5px 10px 5px;margin:0px;}
 #container p ol, #container p ul{margin:0px auto 0px;}
@@ -95,14 +95,30 @@ body {
 .blogWht{font-family:"Century Gothic", Arial, Helvetica, sans-serif;font-size:11px;font-weight:bold;color:#ffffff;text-decoration:none;}
 .blogAu{font-family:"Century Gothic", Arial, Helvetica, sans-serif;font-size:11px;font-weight:bold;color:#7d9cae;text-decoration:none;padding-left:18px;}
 .blogAu span{margin-left:30px;}
-.content-orange-bullet{font-family:'AvenirLTStd45Book',Arial, Helvetica, sans-serif;font-size:16px;color:#FF6100;text-decoration:none;font-weight:normal;}
-.content-white-bullet{font-family:'AvenirLTStd45Book',Arial, Helvetica, sans-serif;font-size:16px;color:#3C313D;text-decoration:none;line-height:35px;}
+.content-orange-bullet{font-family:'AvenirLTStd45Book',Arial, Helvetica, sans-serif;font-size:16px;color:#D6AA91;text-decoration:none;font-weight:normal;}
+.content-white-bullet{font-family:'AvenirLTStd45Book',Arial, Helvetica, sans-serif;font-size:16px;color:#ffffff;text-decoration:none;line-height:35px;}
 .content-white-bullet ul{margin:0px;padding-left:25px;}
 .content-white-bullet ul li{list-style-image:url(/images/themes/winter/bullet-btn2.png);padding-left:5px;}
 .content-white-bullet ul li a{font-family:Arial, Helvetica, sans-serif;font-size:14px;color:#ffffff;text-decoration:none;list-style-image:url(/images/themes/winter/bullet-btn2.png);}
 .content-white-bullet ul li a:hover{font-family:Arial, Helvetica, sans-serif;font-size:14px;color:#ff6100;text-decoration:none;list-style-image:url(/images/themes/winter/bullet-btn2-over.png);}
-.headers_emails{font-family:Arial, Helvetica, sans-serif;font-size:14px;font-weight:bold;color:#3C242F;text-align:left;background-image:url(/images/common/tab_trans.png);background-repeat:repeat-x;background-position:left top;width:720px;height:30px;padding-top:15px;padding-left:20px;text-decoration:none;}
-.headers_emails:hover{font-family:Arial, Helvetica, sans-serif;font-size:14px;font-weight:bold;color:#A1CFED;text-align:left;text-decoration:underline;background-image:url(/images/common/tab_trans.png);background-repeat:repeat-x;background-position:left top;width:720px;height:30px;padding-top:15px;padding-left:20px;text-decoration:none;}
+/*.headers_emails{font-family:Arial, Helvetica, sans-serif;font-size:14px;font-weight:bold;color:#3C242F;text-align:left;background-image:url(/images/common/tab_trans.png);background-repeat:repeat-x;background-position:left top;width:720px;height:30px;padding-top:15px;padding-left:20px;text-decoration:none;}*/
+.headers_emails{
+ 
+     background:#9fceec; border:1px solid #6e9fbf;
+
+    color: #3C242F;
+    font-family: Arial,Helvetica,sans-serif;
+    font-size: 14px;
+    font-weight: bold;
+    height: 30px;
+    line-height: 30px;
+    padding-left: 20px;
+    padding-top: 0;
+    text-align: left;
+    text-decoration: none;
+    width: 720px;
+}
+.headers_emails:hover{background:#B2D7F1;}
 .subHead{    background-position: left bottom;
     background-repeat: no-repeat;
     color: #3C313D;
@@ -215,20 +231,21 @@ a.nyroModalNext:hover{background:url(../images/next.gif) right 20% no-repeat;}
 .content-trans-bg-new{background:#7891A0; border:1px solid #B8E1EF;}
 
 /*.content-trans-bg{width:100%; overflow:hidden; padding:10px; background:url(../images/pp_family_memory/brwn-patrn.jpg) repeat; border:5px solid #fff; margin:15px 50px 15px 50px; float:left;}*/
-.content{font-family:"AvenirLTStd45Book",Arial, Helvetica, sans-serif;font-size:16px;color:#3C2427;text-decoration:none;padding-right:10px;}
-.content-note{font-family:"AvenirLTStd45Book",Arial, Helvetica, sans-serif;font-size:13px;color:#3C2427;text-decoration:none;}
+.content{font-family:"AvenirLTStd45Book",Arial, Helvetica, sans-serif;font-size:16px;color:#ffffff;text-decoration:none;padding-right:10px;padding-left: 9px;}
+.content-note{font-family:"AvenirLTStd45Book",Arial, Helvetica, sans-serif;font-size:13px;color:#ffffff;text-decoration:none;}
 
 a{font-family:"MatrixScriptRegularLiningRg",Arial, Helvetica, sans-serif;font-size:18px;color:#3C2427;text-decoration:none;}
 /*a:hover{font-family:"MatrixScriptRegularLiningRg",Arial, Helvetica, sans-serif;font-size:18px;color:#ff6100;text-decoration:none;}*/
-.content-white{font-family:"AvenirLTStd45Book",Arial, Helvetica, sans-serif;font-size:16px;color:#452831;text-decoration:none;}
+.content-white{font-family:"AvenirLTStd45Book",Arial, Helvetica, sans-serif;font-size:16px;color:#ffffff;text-decoration:none;}
 .content-white a{font-family:"MatrixScriptRegularLiningRg",Arial, Helvetica, sans-serif;font-size:16px;color:#3C2427;text-decoration:none;}
 .content-white a:hover{font-family: "MatrixScriptRegularLiningRg",Arial, Helvetica, sans-serif;font-size:16px;color:#ffffff;text-decoration:underline;}
-.cont-white-title{font-family:"AvenirLTStd45Book",Arial, Helvetica, sans-serif;font-size:16px;color:#3C2427;text-decoration:none;padding-left:10px;}
-.side-heading{font-family:"MatrixScriptRegularLiningRg",Arial, Helvetica, sans-serif;font-size:16px;color:#3C242F;text-decoration:none;font-weight:bold;}
-.content-orange{font-family:"MatrixScriptRegularLiningRg",Arial, Helvetica, sans-serif;font-size:16px;color:#3C2427;text-decoration:none;}
+.cont-white-title{font-family:"AvenirLTStd45Book",Arial, Helvetica, sans-serif;font-size:16px;color:#ffffff;text-decoration:none;padding-left:10px;padding-bottom: 10px;}
+.cont-white-title_new{font-family:"AvenirLTStd45Book",Arial, Helvetica, sans-serif;font-size:16px;color:#ffffff;text-decoration:none;padding-left:20px;}
+.side-heading{font-family:"MatrixScriptRegularLiningRg",Arial, Helvetica, sans-serif;font-size:16px;color:#ffffff;text-decoration:none;padding-left:10px;padding-bottom:10px;}
+.content-orange{font-family:"MatrixScriptRegularLiningRg",Arial, Helvetica, sans-serif;font-size:16px;color:#3C2427;text-decoration:none;padding-left:12px;}
 .content-orange a{font-family:"MatrixScriptRegularLiningRg",Arial, Helvetica, sans-serif;font-size:18px;color:#000000;text-decoration:none;text-transform:uppercase;}
 .content-orange a:hover{font-family:"MatrixScriptRegularLiningRg",Arial, Helvetica, sans-serif;font-size:18px;color:#ffffff;text-decoration:underline;text-transform:uppercase;}
-.cont-orange-hr{font-family:"MatrixScriptRegularLiningRg",Arial, Helvetica, sans-serif;font-size:25px;color:#3C313D;text-decoration:none;font-weight:bold;}
+.cont-orange-hr{font-family:"MatrixScriptRegularLiningRg",Arial, Helvetica, sans-serif;font-size:25px;color:#ffffff;text-decoration:none;font-weight:bold;}
 .content-yellow{font-family:Arial, Helvetica, sans-serif;font-size:12px;color:#d7c89d;font-style:normal;font-weight:normal;line-height:21px;}
 .side-heading1{font-family:"MatrixScriptRegularLiningRg",Arial, Helvetica, sans-serif;font-size:18px;color:#664309;text-decoration:none;font-weight:bold;}
 .headers{font-family:"MatrixScriptRegularLiningRg",Arial, Helvetica, sans-serif;font-size:14px;font-weight:bold;color:#000000;}
@@ -242,10 +259,10 @@ a.nyroModalClose{font-family:"MatrixScriptRegularLiningRg",Arial, Helvetica, san
 /*.cmnBtn{ background:url(/images/pp_family_memory/btn.jpg) no-repeat; width:228px; height:33px; display:block; text-align:center; font-size:17px; color:#3c2414; text-decoration:none; line-height:33px; font-family: 'MatrixScriptRegularLiningRg';}*/
 .cmd-btn-trans span{font-family: 'AvenirLTStd35Light';}
 .cmd-btn-trans:hover{ background:url(/images/pp_family_memory/btn-ovr.jpg) no-repeat;}
-.content-white_pp{font-family:"MatrixScriptRegularLiningRg",Arial, Helvetica, sans-serif;font-size:18px;color:#452831;text-decoration:none;font-weight:bold;}
+.content-white_pp{font-family:"MatrixScriptRegularLiningRg",Arial, Helvetica, sans-serif;font-size:18px;color:#ffffff;text-decoration:none;font-weight:bold;}
 
 .msgHead_blog{font-family: "AvenirLTStd45Book",Arial, Helvetica, sans-serif;font-size:17px;color:#3C2427;font-weight:normal;}
-.thummbimg_title{font-family:"MatrixScriptRegularLiningRg",Arial, Helvetica, sans-serif;padding-left:10px;font-size:18px;color:#3C313D;text-decoration:none;font-weight:bold;}
+.thummbimg_title{font-family:"MatrixScriptRegularLiningRg",Arial, Helvetica, sans-serif;padding-left:10px;font-size:18px;color:#ffffff;text-decoration:none;font-weight:bold;}
 
 
 
@@ -311,6 +328,29 @@ a.nyroModalClose{font-family:"MatrixScriptRegularLiningRg",Arial, Helvetica, san
 .wcHmm{font-size:33px; font-family: 'AvenirLTStd45Book'; text-decoration:none; color:#fff;}
 .wcHmm span{ color:#ff6600}
 .glrRightBarMdl{ background:url(/images/pp_family_memory/glrbg.jpg) repeat-x left top; width:100%; overflow:hidden; padding-top:50px; height:700px;}
+/*.cmtBar{ overflow:hidden; padding:10px; background:#9eceec;  margin:15px 50px; border: double orange; border-width: thick thick; border:5px;}*/
+.cmtBar{margin:15px 50px;}
+.cmtsml{background:#9eceec; padding:10px;}
+.blogTxt{
+    font-family: 'MatrixScriptRegularLiningRg';
+    font-size: 21px;
+    font-weight: bold;
+    color: #3C2414;
+    text-decoration: none;
+    line-height:20px;
+}
+.blogTxt span{
+    font-size:13px;
+    font-family: 'AvenirLTStd35Light';
+    color:#fff;
+}
+.blogWht{
+    font-family: 'AvenirLTStd35Light';
+    font-size: 14px;
+    font-weight: normal;
+    color: #000;
+    text-decoration: none;
+}
 
 .sbHolder{background:url(/images/family_memory/transaprent.png);border:solid 0px #517286;font-family:Arial, sans-serif;font-size:14px;font-weight:bold;height:30px;position:relative;width:115px;}
 .sbSelector{display:block;height:30px;left:0;line-height:30px;outline:none;overflow:hidden;position:absolute;text-indent:10px;top:0;width:100px;}
@@ -332,7 +372,82 @@ a.nyroModalClose{font-family:"MatrixScriptRegularLiningRg",Arial, Helvetica, san
 .sbOptions .sbGroup{border-bottom:dotted 0px #515151;color:#EBB52D;display:block;font-weight:bold;padding:7px 0 7px 3px;}
 .sbOptions .sbSub{padding-left:17px;}
 
+.blogWht a{
+    font-size: 12px;
+    color:#00578d;
+    text-decoration: none;
+}
+.blogWht a:hover{
+    color:#ddebf0;
+}
+
+.blogAu{
+    font-family: "Century Gothic", Arial, Helvetica, sans-serif;
+    font-size: 11px;
+    font-weight: bold;
+    color: #fff;
+    text-decoration: none;
+    padding-left:18px;
+}
+.blogAu span {
+    margin-left:30px;
+}
+
+.top-left {background-image:url(/images/pp_family_memory/top-left.png); background-repeat:no-repeat;}
+.top-right {background-image:url(/images/pp_family_memory/top-right.png); background-repeat:no-repeat;}
+.top-repeat {background-image:url(/images/pp_family_memory/top-repeat.png); background-repeat:repeat-x;}
+.left-repeat {background-image:url(/images/pp_family_memory/left-repeat.png); background-repeat:repeat-y;}
+.right-repeat {background-image:url(/images/pp_family_memory/right-repeat.png); background-repeat:repeat-y;}
+.bottom-left {background-image:url(/images/pp_family_memory/bottom-left.png); background-repeat:no-repeat;}
+.bottom-right {background-image:url(/images/pp_family_memory/bottom-right.png); background-repeat:no-repeat;}
+.bottom-repeat {background-image:url(/images/pp_family_memory/bottom-repeat.png); background-repeat:repeat-x;}
+.cmnShrBg{ padding:10px; background:url(/images/pp_family_memory/brwn-patrn.jpg) repeat; border:5px solid #fff; color:#fff; font-family: 'MatrixScriptRegularLiningRg'!important; font-size:17px;}
+.cmnShrBg h1{ font-size:25px; margin:0; padding:0px;}
+
 .normaltxthead{font-size:14px; font-family: 'AvenirLTStd45Book';color:#3C2426;}
 .search_calendar{background:url(/images/pp_family_memory/calendar.png) no-repeat;border:none;width:24px;height:24px;cursor:pointer;position: relative;
     top: 16px;
     width: 24px; left:14px;}
+
+
+
+
+
+
+ h2 {font-family:"MatrixScriptRegularLiningRg",Arial, Helvetica, sans-serif;font-size:24px;color : #ffffff; font-weight:bold;}
+.whitecont
+{
+font-family: "AvenirLTStd45Book",Arial,Helvetica,sans-serif;
+font-size: 14px;
+font-weight: normal;
+color: #ffffff;
+font-weight:bold;
+}
+.contact_us_pp{font-family:"AvenirLTStd45Book",Arial, Helvetica, sans-serif;font-size:14px;color:#452831;text-decoration:none;font-weight:bold;width:100px;height:100px;padding-left:90px;}
+
+.errorTxt{ font-size: 15px; color: #FF0C00; background: #000; padding: 3px 10px;}
+.cmnShrBg{ padding:10px; background:url(/images/pp_family_memory/brwn-patrn.jpg) repeat; border:5px solid #fff; color:#fff; font-family: 'MatrixScriptRegularLiningRg'; font-size:17px;}
+.cmnShrBg h1{ font-size:25px; margin:0; padding:0px;}
+
+.glrTxtfld {
+    background: none repeat scroll 0 0 #FFFFFF;
+    border: medium none;
+    color: #3C2414;
+    font-family: 'AvenirLTStd45Book';
+    font-size: 15px;
+    height: 30px;
+    line-height: 30px;
+    padding: 0 5px;
+    width: 250px;}
+
+
+.glrTxtArea {
+    background: none repeat scroll 0 0 #FFFFFF;
+    border: medium none;
+    color: #3C2414;
+    font-family: 'AvenirLTStd45Book';
+    font-size: 15px;
+    height: 340px;
+    overflow: auto;
+    width: 260px;
+}

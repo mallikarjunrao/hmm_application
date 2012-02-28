@@ -75,7 +75,7 @@
 <style type="text/css">
 
   td {
-    color:#46332B;
+    color:#F65F0F;
   }
 
   .AccordionTitle, .AccordionContent, .AccordionContainer {
@@ -97,7 +97,7 @@
     border:none;
     height:35px;
     width:140px;
-    font-size:12px;
+    font-size:8px;
     color:#87a3b5;
   }
   .loginBig:hover{
@@ -123,23 +123,25 @@
 <%#*<link href="hmmstudio_styles.css" rel="stylesheet" type="text/css" />%>
 <%#= stylesheet_link_tag 'hmmstudio_styles' %>
 <%#= stylesheet_link_tag 'hmmout' %>
- <%  @studio_header = HmmStudio.find(@family_website_owner.studio_id)
-  if @studio_header.studio_groupid==pp_studio_group
+<%  @studio_header = HmmStudio.find(@family_website_owner.studio_id)
+if @studio_header.studio_groupid==pp_studio_group
 
-    msghead = "msgHead_blog"
-    postbtn = "cmnBtnB cmnBtnMar"
-    class1="header-page"
-  
+  msghead = "msgHead_blog"
+  postbtn = "cmnBtnB cmnBtnMar"
+  class1="header-page"
+  upload="#452831"
   content_white="content-white_pp"
   bgcolor="rightBarMdl"
-  else
-bgcolor="content-trans-bg"
-     msghead = "msgHead"
-    postbtn = "loginBig"
-     class1="headers_emails"
-   upload="#ffffff"
-   content_white="content-white"
-  end %>
+  title_text="cont-white-title_new"
+else
+  bgcolor1="content-trans-bg"
+  msghead = "msgHead"
+  postbtn = "loginBig"
+  class1="header-page"
+  upload="#F65F0F"
+  content_white="content-white"
+  title_text="cont-white-title_new"
+end %>
 <script type="text/javascript">
   var ContentHeight;
   var TimeToSlide = 250.0;
@@ -241,27 +243,34 @@ bgcolor="content-trans-bg"
 
 <table cellspacing="0" cellpadding="0" border="0" width="100%" align="center" class="<%=bgcolor%>">
   <%  @studio_header = HmmStudio.find(@family_website_owner.studio_id)
-    if @studio_header.studio_groupid==pp_studio_group%>
+  if @studio_header.studio_groupid==pp_studio_group%>
 
-   
-    <% else %>
-      <%= render :partial => "family_memory/partials/heading"%>
-    <% end %>
+
+  <% else %>
+    <%= render :partial => "family_memory/partials/heading"%>
+  <% end %>
 
   <tr>
-    <td align="left" valign="bottom" height="35" class="<%=class1%>" valign="top">Settings</td>
+    <td align="left" valign="bottom" height="35" class="<%=class1%>" valign="top">&nbsp;&nbsp;Settings</td>
   </tr>
- 
+ <%  @studio_header = HmmStudio.find(@family_website_owner.studio_id)
+  if @studio_header.studio_groupid==pp_studio_group%>
+
   <tr>
     <td bgcolor="#84b7d6" align="left" valign="top" height="1"></td>
   </tr>
+  <% else %>
   <tr>
+  <td bgcolor="#454545" align="left" valign="top" height="1"></td></tr>
+  <% end %>
+ 
+   <tr>
     <td align="left" valign="top" height="10"></td>
   </tr>
   <tr>
-    <td align="left" valign="top" class=" " width="800">
+    <td align="left" valign="top" class="<%=bgcolor1%> " width="800">
       <table cellspacing="0" cellpadding="0" border="0" width="800">
-        <tbody>
+      
           <tr>
             <td align="left" valign="top">&nbsp;</td>
           </tr>
@@ -299,168 +308,182 @@ bgcolor="content-trans-bg"
         </font>
         <tr><td>
             <div id="AccordionContainer" class="AccordionContainer" style="width: 740px">
-              <div onclick="runAccordion(6);">
-                <div onselectstart="return false;">
-                  <a href="/family_memory/view/<%=params[:id]%>" >  <div class="headers_emails" align="left" style="cursor:pointer">Manage Comments &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="side-heading" style="text-decoration: none"><font size="3"><%if((@all_comments.count)>0)%><%=(@all_comments.count)%> new comment<%if((@all_comments.count)>1)%>s<%end%> (click to approve)<%end%></font></span></div></a>
+              <%  @studio_header = HmmStudio.find(@family_website_owner.studio_id)
+              if @studio_header.studio_groupid==pp_studio_group%>
+
+
+              <% else %>
+
+                <div onclick="runAccordion(6);">
+                  <div onselectstart="return false;">
+                    <a href="/family_memory/view/<%=params[:id]%>" >  <div class="headers_emails" align="left" style="cursor:pointer">Manage Comments &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="side-heading" style="text-decoration: none"><font size="3"><%if((@all_comments.count)>0)%><%=(@all_comments.count)%> new comment<%if((@all_comments.count)>1)%>s<%end%> (click to approve)<%end%></font></span></div></a>
+                  </div>
                 </div>
-              </div>
-              <br />
-              <div onclick="runAccordion(1);">
-                <div onselectstart="return false;" >
-                  <div class="headers_emails"align="left" style="cursor:pointer">Edit Profile</div>
+                <br />
+                <div onclick="runAccordion(1);">
+                  <div onselectstart="return false;" >
+                    <div class="headers_emails"align="left" style="cursor:pointer">Edit Profile</div>
+                  </div>
                 </div>
-              </div>
-              <div id="Accordion1Content" class="AccordionContent"  style="width: 740px">
-                <form name="editfrm"  id="editfrm" action="<%= @path.content_path %>/manage_hmm_account/update_profile_mysite/" method="post" enctype="multipart/form-data">
-                  <table border="0" width="100%">
-                    <tr>
-                      
-                      <td width="100%" align="left" valign="top" class="content-trans-bg"><table width="100%" border="0" cellspacing="0" cellpadding="0">
-                          <input type="hidden" name="familyname"  id="familyname" value="<%=params[:id]%>" />
-                          <input type="hidden" name="hmmid"  id="hmmid" value="<%=@hmm_user.id%>" />
-                          <input type="hidden" name="v"  id="hmmid" value="v4" />
-                          <tr>
-                            <td width="20"  height="50" valign="top" colspan="3" align="center" class="header-paragraph"></td>
-                          </tr>
-                          <tr>
-                            <td width="20" align="left" valign="top">&nbsp;</td>
-                            <td width="140" height="25" align="left" valign="middle" class="content-white">First Name:</td>
-                            <td width="154" align="left" valign="middle" class="content-white">Last Name:</td>
-                          </tr>
-                          <tr>
-                            <td align="left" valign="top">&nbsp;</td>
-                            <td height="25" align="left" valign="top">
-                              <span id="sprytextfield1"><span id="sprytextfield1">
-                                  <input id="hmm_user_v_fname" maxlength="25" name="hmm_user[v_fname]" type="text" value="<%=@hmm_user.v_fname%>" class="validate['required']"/>
-                                  <span class="textfieldRequiredMsg"><br>First Name is required.</br></span></span></span>
-                            </td>
-                            <td height="25" align="left" valign="top">
-                              <span id="sprytextfield2"><span id="sprytextfield2">
-                                  <input id="hmm_user_v_lname" name="hmm_user[v_lname]" type="text" value="<%=@hmm_user.v_lname%>" class="validate['required']"/>
-                                  <span class="textfieldRequiredMsg"><br>Last Name is required.</br></span></span></span>
-                            </td>
-                          </tr>
-                          <tr>
-                            <td align="left" valign="top">&nbsp;</td>
-                            <td height="25" colspan="2" align="left" valign="top" class="content-note">First and last name is private and used for search <br />
-                              functions only.</td>
-                          </tr>
-                          <tr>
-                            <td align="left" valign="top">&nbsp;</td>
-                            <td height="25" colspan="2" align="left" valign="middle" class="content-white">Gender:</td>
-                          </tr>
-                          <tr>
-                            <td align="left" valign="top">&nbsp;</td>
-                            <td height="25" colspan="2" align="left" valign="middle" class="content-white"><span id="RadioWidget">
-                                <%= radio_button 'hmm_user', 'e_sex', 'M' %>&nbsp;&nbsp;Male<%= radio_button 'hmm_user', 'e_sex', 'F'  %>&nbsp;&nbsp;Female
-                                <span class="radioRequiredMsg"><br>
-				  Please make a selection.</br></span></span>
-                            </td>
-                          </tr>
-                          <tr>
-                            <td height="25" colspan="2" align="left" valign="middle" class="content-white" style="padding-left: 34px;">Date of Birth:</td>
-                            <td height="25" colspan="2" align="left" valign="middle" class="content-white"><label for="hmm_user_zip">
-                                <div id='pcode' style='display:block;'>Zip / Postal Code:</div>
-                                <div id='cty' style='display:none;'>City/Province :</div>
-                            </td>
-                          </tr>
-                          <tr>
-                            <td style="padding-left: 34px;" height="25" colspan="2" align="left" valign="top"><%= date_select 'hmm_user', 'd_bdate', :order => [:month, :day, :year], :start_year => Time.now.year, :end_year => Time.now.year - 100 %></td>
-                            <td height="25" colspan="2" align="left" valign="top"><div id='pcode' style='display:block;'>
-                                <span id="sprytextfield3"><span id="sprytextfield3">
-                                    <input type="text" name="hmm_user[v_zip]" value="<%=@hmm_user.v_zip%>" class="validate['required']" />
-                                    <span class="textfieldRequiredMsg"><br>Postal code is required.</br></span></span></span>
-                              </div>
+                <div id="Accordion1Content" class="AccordionContent"  style="width: 730px">
+                  <form name="editfrm"  id="editfrm" action="<%= @path.content_path %>/manage_hmm_account/update_profile_mysite/" method="post" enctype="multipart/form-data">
+                    <table border="0" width="100%">
+                      <tr>
 
-                              <div id='cty' style='display:none;'>
-                                <span id="sprytextfield3"><span id="sprytextfield3">
-                                    <input type="text" name="hmm_user[city]" value="<%=@hmm_user.city%>" />
-                                    <span class="textfieldRequiredMsg"><br>City name is required.</br></span></span></span>
-                              </div>
+                        <td width="100%" align="left" valign="top" class="content-trans-bg"><table width="100%" border="0" cellspacing="0" cellpadding="0">
+                            <input type="hidden" name="familyname"  id="familyname" value="<%=params[:id]%>" />
+                            <input type="hidden" name="hmmid"  id="hmmid" value="<%=@hmm_user.id%>" />
+                            <input type="hidden" name="v"  id="hmmid" value="v4" />
+                            <tr>
+                              <td width="20"  height="50" valign="top" colspan="3" align="center" class="header-paragraph"></td>
+                            </tr>
+                            <tr>
+                              <td width="20" align="left" valign="top">&nbsp;</td>
+                              <td width="140" height="25" align="left" valign="middle" class="content-white">First Name:</td>
+                              <td width="154" align="left" valign="middle" class="content-white">Last Name:</td>
+                            </tr>
+                            <tr>
+                              <td align="left" valign="top">&nbsp;</td>
+                              <td height="25" align="left" valign="top">
+                                <span id="sprytextfield1"><span id="sprytextfield1">
+                                    <input id="hmm_user_v_fname" maxlength="25" name="hmm_user[v_fname]" type="text" value="<%=@hmm_user.v_fname%>" class="validate['required']"/>
+                                    <span class="textfieldRequiredMsg"><br>First Name is required.</br></span></span></span>
+                              </td>
+                              <td height="25" align="left" valign="top">
+                                <span id="sprytextfield2"><span id="sprytextfield2">
+                                    <input id="hmm_user_v_lname" name="hmm_user[v_lname]" type="text" value="<%=@hmm_user.v_lname%>" class="validate['required']"/>
+                                    <span class="textfieldRequiredMsg"><br>Last Name is required.</br></span></span></span>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td align="left" valign="top">&nbsp;</td>
+                              <td height="25" colspan="2" align="left" valign="top" class="content-note">First and last name is private and used for search <br />
+                                functions only.</td>
+                            </tr>
+                            <tr>
+                              <td align="left" valign="top">&nbsp;</td>
+                              <td height="25" colspan="2" align="left" valign="middle" class="content-white">Gender:</td>
+                            </tr>
+                            <tr>
+                              <td align="left" valign="top">&nbsp;</td>
+                              <td height="25" colspan="2" align="left" valign="middle" class="content-white"><span id="RadioWidget">
+                                  <%= radio_button 'hmm_user', 'e_sex', 'M' %>&nbsp;&nbsp;Male<%= radio_button 'hmm_user', 'e_sex', 'F'  %>&nbsp;&nbsp;Female
+                                  <span class="radioRequiredMsg"><br>
+                                    Please make a selection.</br></span></span>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td height="25" colspan="2" align="left" valign="middle" class="content-white" style="padding-left: 38px;">Date of Birth:</td>
+                              <td height="25" colspan="2" align="left" valign="middle" class="content-white"><label for="hmm_user_zip">
+                                  <div id='pcode' style='display:block;'>Zip / Postal Code:</div>
+                                  <div id='cty' style='display:none;'>City/Province :</div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td style="padding-left: 34px;" height="25" colspan="2" align="left" valign="top"><%= date_select 'hmm_user', 'd_bdate', :order => [:month, :day, :year], :start_year => Time.now.year, :end_year => Time.now.year - 100 %></td>
+                              <td height="25" colspan="2" align="left" valign="top"><div id='pcode' style='display:block;'>
+                                  <span id="sprytextfield3"><span id="sprytextfield3">
+                                      <input type="text" name="hmm_user[v_zip]" value="<%=@hmm_user.v_zip%>" class="validate['required']" />
+                                      <span class="textfieldRequiredMsg"><br>Postal code is required.</br></span></span></span>
+                                </div>
 
-                            </td>
-                          </tr>
-<%#*<tr>%>
-<%#*<td align="left" valign="top">&nbsp;</td>%>
-<%#*<td height="25" colspan="2" align="left" valign="middle" class="content-white"><label for="hmm_user_zip">%>
-<%#*<div id='pcode' style='display:block;'>Zip / Postal Code:</div>%>
-<%#*<div id='cty' style='display:none;'>City/Province :</div>%>
-<%#*</lable></td>%>
-<%#*</tr>%>
-<%#*<tr>%>
-<%#*<td align="left" valign="top">&nbsp;</td>%>
+                                <div id='cty' style='display:none;'>
+                                  <span id="sprytextfield3"><span id="sprytextfield3">
+                                      <input type="text" name="hmm_user[city]" value="<%=@hmm_user.city%>" />
+                                      <span class="textfieldRequiredMsg"><br>City name is required.</br></span></span></span>
+                                </div>
 
-<%#*</tr>%>
-                          <tr>
-                            <td align="left" valign="top">&nbsp;</td>
-                            <td height="25" colspan="2" align="left" valign="middle" class="content-white">Phone Number :</td>
-                          </tr>
-                          <tr>
-                            <td align="left" valign="top">&nbsp;</td>
-                            <td height="25" colspan="2" align="left" valign="top">
-                              <span id="sprytextfield5"><span id="sprytextfield5">
-                                  <input id="hmm_user_telephone" name="hmm_user[telephone]" type="text" value="<%=@hmm_user.telephone%>" class="validate['required']"/>
-                                  <span class="textfieldRequiredMsg"><br>Phone number Required</br></span><span class="textfieldInvalidFormatMsg"><br>Invalid format</br></span></span></span>
-                              <br /></td>
-                          </tr>
-                          <tr>
-                            <td align="left" valign="top">&nbsp;</td>
-                            <td colspan="2" align="left" valign="middle" class="side-heading">Example: 555-555-5555 or 5555555555 </td>
-                          </tr>
-                          <tr>
-                            <td align="left" valign="top">&nbsp;</td>
-                            <td height="25" colspan="2" align="left" valign="middle" class="content-white">E-mail :</td>
-                          </tr>
-                          <tr>
-                            <td align="left" valign="top">&nbsp;</td>
-                            <td height="25" colspan="2" align="left" valign="top">
-                              <span id="sprytextfield6"><span id="sprytextfield6">
-                                  <input id="hmm_user_v_e_mail" name="hmm_user[v_e_mail]" type="text" value="<%=@hmm_user.v_e_mail%>" class="validate['required','email']"/>
-                                  <span id="message_email"></span>
-                                  <span class="textfieldRequiredMsg"><br>E-mail Required</br></span><span class="textfieldInvalidFormatMsg"><br>Invalid E-mail</br></span></span></span>
-                            </td>
-                          </tr>
-                          <tr>
-                            <td align="left" valign="top">&nbsp;</td>
-                            <td height="25" colspan="2" align="left" valign="middle" class="content-white">Upload Profile Image:</td>
-                          </tr>
-                          <tr>
-                            <td align="left" valign="top">&nbsp;</td>
-                            <td height="25" colspan="2" align="left" valign="top"><label>
-                                <input id="hmm_user_v_myimage" name="hmm_user[v_myimage]" onChange="return validateFileExtension(this)" type="file"     />
-                              </label></td>
-                          </tr>
-                          <tr>
-                            <td align="left" valign="top">&nbsp;</td>
-                            <td colspan="2" align="left" valign="middle" ><table width="100%" border="0" cellspacing="0" cellpadding="0">
-                                <tr>
-                                  <td width="210" align="left" valign="top">&nbsp;</td>
-                                  <td align="left" valign="top" class="content-white"><a href="/family_memory/preview_image/<%=params[:id]%>" class="nyroModal" target="_blank"> Preview </a></td>
-                                </tr>
-                                <tr>
-                                  <td align="center" valign="top"><label>
-                                      <input name="button" type="submit" class="<%= postbtn %>" id="button" value="Save Changes" />
-                                    </label></td>
-                                </tr>
-                              </table></td>
-                          </tr>
+                              </td>
+                            </tr>
+  <%#*<tr>%>
+  <%#*<td align="left" valign="top">&nbsp;</td>%>
+  <%#*<td height="25" colspan="2" align="left" valign="middle" class="content-white"><label for="hmm_user_zip">%>
+  <%#*<div id='pcode' style='display:block;'>Zip / Postal Code:</div>%>
+  <%#*<div id='cty' style='display:none;'>City/Province :</div>%>
+  <%#*</lable></td>%>
+  <%#*</tr>%>
+  <%#*<tr>%>
+  <%#*<td align="left" valign="top">&nbsp;</td>%>
 
-                        </table></td>
-                      <td align="left" valign="top">&nbsp;</td>
+  <%#*</tr>%>
+                            <tr>
+                              <td align="left" valign="top">&nbsp;</td>
+                              <td height="25" colspan="2" align="left" valign="middle" class="content-white">Phone Number :</td>
+                            </tr>
+                            <tr>
+                              <td align="left" valign="top">&nbsp;</td>
+                              <td height="25" colspan="2" align="left" valign="top">
+                                <span id="sprytextfield5"><span id="sprytextfield5">
+                                    <input id="hmm_user_telephone" name="hmm_user[telephone]" type="text" value="<%=@hmm_user.telephone%>" class="validate['required']"/>
+                                    <span class="textfieldRequiredMsg"><br>Phone number Required</br></span><span class="textfieldInvalidFormatMsg"><br>Invalid format</br></span></span></span>
+                                <br /></td>
+                            </tr>
+                            <tr>
+                              <td align="left" valign="top">&nbsp;</td>
+                              <td colspan="2" align="left" valign="middle" class="side-heading">Example: 555-555-5555 or 5555555555 </td>
+                            </tr>
+                            <tr>
+                              <td align="left" valign="top">&nbsp;</td>
+                              <td height="25" colspan="2" align="left" valign="middle" class="content-white">E-mail :</td>
+                            </tr>
+                            <tr>
+                              <td align="left" valign="top">&nbsp;</td>
+                              <td height="25" colspan="2" align="left" valign="top">
+                                <span id="sprytextfield6"><span id="sprytextfield6">
+                                    <input id="hmm_user_v_e_mail" name="hmm_user[v_e_mail]" type="text" value="<%=@hmm_user.v_e_mail%>" class="validate['required','email']"/>
+                                    <span id="message_email"></span>
+                                    <span class="textfieldRequiredMsg"><br>E-mail Required</br></span><span class="textfieldInvalidFormatMsg"><br>Invalid E-mail</br></span></span></span>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td align="left" valign="top">&nbsp;</td>
+                              <td height="25" colspan="2" align="left" valign="middle" class="content-white">Upload Profile Image:</td>
+                            </tr>
+                            <tr>
+                              <td align="left" valign="top">&nbsp;</td>
+                              <td height="25" colspan="2" align="left" valign="top"><label>
+                                  <input id="hmm_user_v_myimage" name="hmm_user[v_myimage]" onChange="return validateFileExtension(this)" type="file"     />
+                                </label></td>
+                            </tr>
+                            <tr>
+                              <td align="left" valign="top">&nbsp;</td>
+                              <td colspan="2" align="left" valign="middle" ><table width="100%" border="0" cellspacing="0" cellpadding="0">
+                                  <tr>
+                                    <td width="210" align="left" valign="top">&nbsp;</td>
+                                    <td align="left" valign="top" class="content-white"><a href="/family_memory/preview_image/<%=params[:id]%>" class="nyroModal" target="_blank"> Preview </a></td>
+                                  </tr>
+                                  <tr>
+                                    <td align="center" valign="top"><label>
+                                        <input name="button" type="submit" class="<%= postbtn %>" id="button" value="Save Changes" />
+
+                                      </label></td>
+                                  </tr>
+                                  <tr>          <td align="left" valign="top">&nbsp;</td></td>
+
+                                </table></td>
+                            </tr>
+
+                          </table></td>
+                        <td align="left" valign="top">&nbsp;</td>
 
 
-                    </tr>
+                      </tr>
 
-                  </table>
-                </form>
-              </div>
-              <br />
+                    </table>
+                    
+                  </form>
+                </div>
+                <br />
+
+              <% end %>
+
+
               <div onclick="runAccordion(2);">
                 <div onselectstart="return false;">
                   <div class="headers_emails" align="left" style="cursor:pointer"> Edit URL </div>
                 </div>
               </div>
-              <div id="Accordion2Content" class="AccordionContent"  style="width: 740px">
+              <div id="Accordion2Content" class="AccordionContent"  style="width: 730px">
                 <form name="frm" method="post" action="/manage_website/website_address/<%= params[:id]%>?v=v4" id="url" >
                   <table width="100%" border="0" cellspacing="0" cellpadding="0"  class="content-trans-bg">
                     <tr>
@@ -470,7 +493,7 @@ bgcolor="content-trans-bg"
                     </tr>
                     <tr>
                       <td align="left" valign="top"></td>
-                      <td align="left" valign="top" class="thummbimg_title"><strong>Your family name is:</strong>&nbsp;&nbsp;&nbsp;&nbsp;<span class="username_title"><strong><%= params[:id] %></strong></span></td>
+                      <td align="left" valign="top" class="content"><strong>Your family name is:</strong>&nbsp;&nbsp;&nbsp;&nbsp;<span class="content-orange"><strong><%= params[:id] %></strong></span></td>
                       <td align="left" valign="top"></td>
                     </tr>
                     <tr>
@@ -551,350 +574,357 @@ bgcolor="content-trans-bg"
                 </form>
               </div>
               <br />
-              <div onclick="runAccordion(3);">
-                <div onselectstart="return false;">
-                  <div class="headers_emails" align="left">Manage Password Settings </div>
+
+              <%  @studio_header = HmmStudio.find(@family_website_owner.studio_id)
+              if @studio_header.studio_groupid==pp_studio_group%>
+
+
+              <% else %>
+                <div onclick="runAccordion(3);">
+                  <div onselectstart="return false;">
+                    <div class="headers_emails" align="left">Manage Password Settings </div>
+                  </div>
                 </div>
-              </div>
-              <div id="Accordion3Content" class="AccordionContent"  style="width: 740px">
-                <table width="100%" border="0" cellspacing="0" cellpadding="0" id="tab_bgcolor" class="content-trans-bg">
-                  <tr>
-                    <td  align="left" valign="middle" ></td>
-                    <td align="left" valign="top" class="content">&nbsp;</td>
-                  </tr>
-                  <tr>
-                    <td align="left" valign="top" class="<%= content_white %> " width="100%" colspan="2"><span class="thummbimg_title">Admin Password</span> :</td>
-                  </tr>
-                  <tr>
-                    <td  align="left" valign="middle" ></td>
-                    <td height="25" align="left" valign="top" class="content">&nbsp;</td>
-                  </tr>
+                <div id="Accordion3Content" class="AccordionContent"  style="width: 730px">
+                  <table width="100%" border="0" cellspacing="0" cellpadding="0" id="tab_bgcolor" class="content-trans-bg">
+                    <tr>
+                      <td  align="left" valign="middle" ></td>
+                      <td align="left" valign="top" class="content">&nbsp;</td>
+                    </tr>
+                    <tr>
+                      <td align="left" valign="top" class="thummbimg_title" width="100%" colspan="2" style="padding-left:10px;"><span class="thummbimg_title">Admin Password</span> :</td>
+                    </tr>
+                    <tr>
+                      <td  align="left" valign="middle" ></td>
+                      <td height="25" align="left" valign="top" class="content">&nbsp;</td>
+                    </tr>
 
-                  <tr>
-                    <td align="left" valign="top" class="cont-white-title" width="100%" colspan="2">Your family website URL is <a href="http://www.holdmymemories.com/<%= params[:id] %>">http://www.holdmymemories.com/<%= params[:id] %></a><br />
-                      Your username is <%= @family_website_owner.v_user_name %><br />
-                      Your password is *****</td>
-                  </tr>
-                  <tr>
-                    <td  align="left" valign="middle" ></td>
-                    <td align="left" valign="top" class="content">&nbsp;</td>
-                  </tr>
+                    <tr>
+                      <td align="left" valign="top" class="<%= title_text %> " width="100%" colspan="2" style="padding-left:10px;">Your family website URL is <a href="http://www.holdmymemories.com/<%= params[:id] %>">http://www.holdmymemories.com/<%= params[:id] %></a><br />
+                        Your username is <%= @family_website_owner.v_user_name %><br />
+                        Your password is *****</td>
+                    </tr>
+                    <tr>
+                      <td  align="left" valign="middle" ></td>
+                      <td align="left" valign="top" class="content">&nbsp;</td>
+                    </tr>
 
-                  <tr>
-                    <td  align="left" valign="middle" ></td>
-                    <td align="right" valign="top" class="content img"><label>
-                        <input name="button" type="submit" class="<%= postbtn %>" id="button" value="Change My Admin Password" onclick="makenone('admin_pass')" />
-                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </label></td>
-                  </tr>
-                  <tr style="display: none" id="admin_pass"><td>
-                      <form action="/manage_website/admin_password/<%= params[:id] %>?v=v4" method="post" name="admin_password_form" id="passwordform">
-                        <table width="100%" border="0" cellspacing="10" cellpadding="0">
+                    <tr>
+                      <td  align="left" valign="middle" ></td>
+                      <td align="right" valign="top" class="content img"><label>
+                          <input name="button" type="submit" class="<%= postbtn %>" id="button" value="Change My Admin Password" onclick="makenone('admin_pass')" />
+                          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </label></td>
+                    </tr>
+                    <tr style="display: none" id="admin_pass"><td>
+                        <form action="/manage_website/admin_password/<%= params[:id] %>?v=v4" method="post" name="admin_password_form" id="passwordform">
+                          <table width="100%" border="0" cellspacing="10" cellpadding="0">
+                            <tr>
+                              <td width="200" class="content-white">Current Password</td>
+                              <td><input name="old_password" id="old_password" type="password" class="validate['required']"></td>
+                            </tr>
+                            <tr>
+                              <td class="content-white">New Password</td>
+                              <td><input name="password" id="npassword" type="password" class="validate['required','alphanum']"></td>
+                            </tr>
+                            <tr>
+                              <td class="content-white">Retype New Password</td>
+                              <td><input name="renew_password" id="renew_password" type="password" class="validate['confirm[password]'] text-input"></td>
+                            </tr>
+                            <tr>
+                              <td>&nbsp;</td>
+                              <td>&nbsp;</td>
+                            </tr>
+                            <tr>
+                              <td  align="left" valign="middle" ></td>
+                              <td align="right" valign="top" class="content img"><label>
+                                  <input name="button" type="submit" class="<%= postbtn %>" id="button" value="Change My Admin Password" onclick="return pass_settings();" />
+                                  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </label></td>
+                            </tr>
+
+                          </table>
+                        </form></td></tr>
+
+                    <tr>
+                      <td  align="left" valign="middle" ></td>
+                      <td align="left" valign="top" class="content">&nbsp;</td>
+                    </tr>
+
+                    <tr>
+                      <td  align="left" valign="middle" ></td>
+                      <td align="left" valign="top" class="content">&nbsp;</td>
+                    </tr>
+                    <tr>
+                      <td align="left" valign="top" class="thummbimg_title" colspan="2" style="padding-left:10px;"><span class="thummbimg_title">Website Password</span> :</td>
+                    </tr>
+                    <tr>
+                      <td  align="left" valign="middle" ></td>
+                      <td height="25" align="left" valign="top" class="content">&nbsp;</td>
+                    </tr>
+                    <tr>
+                      <td align="left" valign="top" class="<%= title_text %>" colspan="2" style="padding-left:10px;">If you choose to make your website private, your friends will need this password to view your website.</td>
+                    </tr>
+                    <tr>
+                      <td  align="left" valign="middle" ></td>
+                      <td align="left" valign="top" class="content">&nbsp;</td>
+                    </tr>
+
+
+                    <tr>
+                      <td  align="left" valign="middle" ></td>
+                      <td align="right" valign="top" class="content"><label>
+                          <input name="button" type="submit" class="<%= postbtn %>"  value="Change My Website Password" onclick="makenone('family_pass')"/>
+                          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </label></td>
+                    </tr>
+                    <tr style="display: none" id="family_pass">
+                      <td  align="left" valign="middle" ></td>
+                      <td align="left" valign="top" class="cont-white-title">
+                        <form action="/manage_website/website_password/<%= params[:id] %>?v=v4" method="post" name="admin_password_form" id="password">
+                          <table width="100%" border="0" cellspacing="10" cellpadding="0">
+                            <tr><td colspan="2" align="center" class="content">Would you like to secure your family website with a password?</td></tr>
+                            <tr><td colspan="2" align="center" class="content"><input name="password_required" id="password_required" type="radio" value="yes" <% if @family_website_owner.password_required=='yes' %> checked="checked"<% end%> onclick="toggleshow('passform')">Yes&nbsp;<input name="password_required" type="radio" value="no" <% if @family_website_owner.password_required=='no' %> checked="checked"<% end%> onclick="togglehide('passform')">No</td></tr>
+                            <tr><td colspan="2" id="passform" <% if @family_website_owner.password_required=='no' %>style="display:none;"<% end %>>
+
+                                <table width="100%" border="0" cellspacing="10" cellpadding="0">
+
+                                  <tr>
+                                    <td width="200" class="content-white">New Password</td>
+                                    <td><input name="password" id="wpassword" type="password" class="validate['required','alphanum']"></td>
+                                  </tr>
+                                  <tr>
+                                    <td class="content-white">Re-type New Password</td>
+                                    <td><input name="confirm_password" id="cpassword" type="password" class="validate['confirm[password]'] text-input"></td>
+                                  </tr>
+                                  <tr>
+                                    <td>&nbsp;</td>
+                                    <td>&nbsp;</td>
+                                  </tr>
+
+                                </table>
+                            <tr>
+                              <td align="center" valign="top" class="content" colspan="2"><label>
+                                  <input name="button" type="submit" class="<%= postbtn %>" id="button" value="Save"  onclick="return website_pass()"/>
+                                  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </label></td>
+                            </tr>
+
+                            </td></tr>
+
+                          </table>
+                        </form>
+                      </td>
+                    </tr>
+
+                    <tr>
+                      <td  align="left" valign="middle" ></td>
+                      <td align="left" valign="top" class="content">&nbsp;</td>
+                    </tr>
+                  </table>
+                </div>
+                <br />
+
+                <div onclick="runAccordion(4);">
+                  <div onselectstart="return false;">
+                    <div class="headers_emails" align="left" style="cursor:pointer">Account Settings </div>
+                  </div>
+                </div>
+                <div id="Accordion4Content" class="AccordionContent"  style="width: 730px">
+                  <table width="100%" border="0" cellspacing="0" cellpadding="0" class="content-trans-bg">
+                    <tr>
+                      <td align="left" valign="top" class="tab-dots"><table width="100%" border="0" cellspacing="0" cellpadding="0" id="tab_bgcolor">
                           <tr>
-                            <td width="200" class="content-white">Current Password</td>
-                            <td><input name="old_password" id="old_password" type="password" class="validate['required']"></td>
+                            <td  align="left" valign="middle" ></td>
+                            <td align="left" valign="top" class="content">&nbsp;</td>
                           </tr>
                           <tr>
-                            <td class="content-white">New Password</td>
-                            <td><input name="password" id="npassword" type="password" class="validate['required','alphanum']"></td>
-                          </tr>
-                          <tr>
-                            <td class="content-white">Retype New Password</td>
-                            <td><input name="renew_password" id="renew_password" type="password" class="validate['confirm[password]'] text-input"></td>
-                          </tr>
-                          <tr>
-                            <td>&nbsp;</td>
-                            <td>&nbsp;</td>
+                            <td width="25"  align="left" valign="middle" ></td>
+                            <td align="left" valign="top" class=""><span class="thummbimg_title" >Upgrade Your Account</span> :</td>
                           </tr>
                           <tr>
                             <td  align="left" valign="middle" ></td>
-                            <td align="right" valign="top" class="content img"><label>
-                                <input name="button" type="submit" class="<%= postbtn %>" id="button" value="Change My Admin Password" onclick="return pass_settings();" />
-                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </label></td>
+                            <td height="30" align="left" valign="top" class="content">&nbsp;</td>
                           </tr>
-
-                        </table>
-                      </form></td></tr>
-
-                  <tr>
-                    <td  align="left" valign="middle" ></td>
-                    <td align="left" valign="top" class="content">&nbsp;</td>
-                  </tr>
-                
-                  <tr>
-                    <td  align="left" valign="middle" ></td>
-                    <td align="left" valign="top" class="content">&nbsp;</td>
-                  </tr>
-                  <tr>
-                    <td align="left" valign="top" class="<%= content_white %>" colspan="2"><span class="thummbimg_title">Website Password</span> :</td>
-                  </tr>
-                  <tr>
-                    <td  align="left" valign="middle" ></td>
-                    <td height="25" align="left" valign="top" class="content">&nbsp;</td>
-                  </tr>
-                  <tr>
-                    <td align="left" valign="top" class="cont-white-title" colspan="2">If you choose to make your website private, your friends will need this password to view your website.</td>
-                  </tr>
-                  <tr>
-                    <td  align="left" valign="middle" ></td>
-                    <td align="left" valign="top" class="content">&nbsp;</td>
-                  </tr>
-
-
-                  <tr>
-                    <td  align="left" valign="middle" ></td>
-                    <td align="right" valign="top" class="content"><label>
-                        <input name="button" type="submit" class="<%= postbtn %>"  value="Change My Website Password" onclick="makenone('family_pass')"/>
-                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </label></td>
-                  </tr>
-                  <tr style="display: none" id="family_pass">
-                    <td  align="left" valign="middle" ></td>
-                    <td align="left" valign="top" class="cont-white-title">
-                      <form action="/manage_website/website_password/<%= params[:id] %>?v=v4" method="post" name="admin_password_form" id="password">
-                        <table width="100%" border="0" cellspacing="10" cellpadding="0">
-                          <tr><td colspan="2" align="center" class="content">Would you like to secure your family website with a password?</td></tr>
-                          <tr><td colspan="2" align="center" class="content"><input name="password_required" id="password_required" type="radio" value="yes" <% if @family_website_owner.password_required=='yes' %> checked="checked"<% end%> onclick="toggleshow('passform')">Yes&nbsp;<input name="password_required" type="radio" value="no" <% if @family_website_owner.password_required=='no' %> checked="checked"<% end%> onclick="togglehide('passform')">No</td></tr>
-                          <tr><td colspan="2" id="passform" <% if @family_website_owner.password_required=='no' %>style="display:none;"<% end %>>
-
-                              <table width="100%" border="0" cellspacing="10" cellpadding="0">
-
-                                <tr>
-                                  <td width="200" class="content-white">New Password</td>
-                                  <td><input name="password" id="wpassword" type="password" class="validate['required','alphanum']"></td>
-                                </tr>
-                                <tr>
-                                  <td class="content-white">Re-type New Password</td>
-                                  <td><input name="confirm_password" id="cpassword" type="password" class="validate['confirm[password]'] text-input"></td>
-                                </tr>
-                                <tr>
-                                  <td>&nbsp;</td>
-                                  <td>&nbsp;</td>
-                                </tr>
-
-                              </table>
                           <tr>
-                            <td align="center" valign="top" class="content" colspan="2"><label>
-                                <input name="button" type="submit" class="<%= postbtn %>" id="button" value="Save"  onclick="return website_pass()"/>
+                            <td  align="left" valign="middle" ></td>
+                            <td align="left" valign="top" class="content-white">You can upgrade your account here</td>
+                          </tr>
+                          <tr>
+                            <td  align="left" valign="middle" ></td>
+                            <td align="left" valign="top" class="content">&nbsp;</td>
+                          </tr>
+                          <tr>
+                            <td  align="left" valign="middle" ></td>
+                            <td align="right" valign="top" class="content"><label>
+                                <input name="button" type="submit" class="<%= postbtn %>" id="button" value="Upgrade My Account"  onclick="window.location.href='/family_memory/upgrade_account/<%=params[:id]%>'"/>
                                 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </label></td>
                           </tr>
+                          <tr>
+                            <td  align="left" valign="middle" ></td>
+                            <td align="left" valign="top" class="content">&nbsp;</td>
+                          </tr>
+                        </table></td>
+                    </tr>
 
-                          </td></tr>
+                    <tr>
+                      <td align="left" valign="top" class="tab-dots"><table width="100%" border="0" cellspacing="0" cellpadding="0" id="tab_bgcolor">
+                          <tr>
+                            <td  align="left" valign="middle" ></td>
+                            <td align="left" valign="top" class="content">&nbsp;</td>
+                          </tr>
+                          <tr>
+                            <td width="25"  align="left" valign="middle" ></td>
+                            <td align="left" valign="top" class=""><span class="thummbimg_title">Subscription Invoice</span> :</td>
+                          </tr>
+                          <tr>
+                            <td  align="left" valign="middle" ></td>
+                            <td height="30" align="left" valign="top" class="content">&nbsp;</td>
+                          </tr>
+                          <tr>
+                            <td  align="left" valign="middle" ></td>
+                            <td align="left" valign="top" class="content-white">You can download your account subscription invoice here</td>
+                          </tr>
+                          <tr>
+                            <td  align="left" valign="middle" ></td>
+                            <td align="left" valign="top" class="content">&nbsp;</td>
+                          </tr>
+                          <tr>
+                            <td  align="left" valign="middle" ></td>
+                            <td align="right" valign="top" class="content"><label>
+                                <input name="button" type="submit" class="<%= postbtn %>" id="button" value="Subscription Invoice" onClick="window.open('/family_memory/generate_receipt/<%=params[:id]%>','_blank');"  />
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </label></td>
+                          </tr>
+                          <tr>
+                            <td  align="left" valign="middle" ></td>
+                            <td align="left" valign="top" class="content">&nbsp;</td>
+                          </tr>
+                        </table></td>
+                    </tr>
+                    <tr>
+                      <td align="left" valign="top" class="tab-dots"><table width="100%" border="0" cellspacing="0" cellpadding="0" id="tab_bgcolor">
+                          <tr>
+                            <td  align="left" valign="middle" ></td>
+                            <td align="left" valign="top" class="content">&nbsp;</td>
+                          </tr>
+                          <tr>
+                            <td width="25"  align="left" valign="middle" ></td>
+                            <td align="left" valign="top" class=""><span class="thummbimg_title">Cancel Account</span> :</td>
+                          </tr>
+                          <tr>
+                            <td  align="left" valign="middle" ></td>
+                            <td height="30" align="left" valign="top" class="content">&nbsp;</td>
+                          </tr>
+                          <tr>
+                            <td  align="left" valign="middle" ></td>
+                            <td align="left" valign="top" class="content-white">You may cancel your account here<br />
+                              <br />
+                              (If you decide to cancel your account   please do so at least 72 hours before your next month's subscription is processed.) </td>
+                          </tr>
+                          <tr>
+                            <td  align="left" valign="middle" ></td>
+                            <td align="left" valign="top" class="content">&nbsp;</td>
+                          </tr>
+                          <tr>
+                            <td  align="left" valign="middle" ></td>
+                            <td align="right" valign="top" class="content">
 
-                        </table>
-                      </form>
-                    </td>
-                  </tr>
+                              <label>
 
-                  <tr>
-                    <td  align="left" valign="middle" ></td>
-                    <td align="left" valign="top" class="content">&nbsp;</td>
-                  </tr>
-                </table>
-              </div>
-              <br />
-
-              <div onclick="runAccordion(4);">
-                <div onselectstart="return false;">
-                  <div class="headers_emails" align="left" style="cursor:pointer">Account Settings </div>
-                </div>
-              </div>
-              <div id="Accordion4Content" class="AccordionContent"  style="width: 740px">
-                <table width="100%" border="0" cellspacing="0" cellpadding="0" class="content-trans-bg">
-                  <tr>
-                    <td align="left" valign="top" class="tab-dots"><table width="100%" border="0" cellspacing="0" cellpadding="0" id="tab_bgcolor">
-                        <tr>
-                          <td  align="left" valign="middle" ></td>
-                          <td align="left" valign="top" class="content">&nbsp;</td>
-                        </tr>
-                        <tr>
-                          <td width="25"  align="left" valign="middle" ></td>
-                          <td align="left" valign="top" class="<%= content_white %>"><span class="thummbimg_title">Upgrade Your Account</span> :</td>
-                        </tr>
-                        <tr>
-                          <td  align="left" valign="middle" ></td>
-                          <td height="30" align="left" valign="top" class="content">&nbsp;</td>
-                        </tr>
-                        <tr>
-                          <td  align="left" valign="middle" ></td>
-                          <td align="left" valign="top" class="content-white">You can upgrade your account here</td>
-                        </tr>
-                        <tr>
-                          <td  align="left" valign="middle" ></td>
-                          <td align="left" valign="top" class="content">&nbsp;</td>
-                        </tr>
-                        <tr>
-                          <td  align="left" valign="middle" ></td>
-                          <td align="right" valign="top" class="content"><label>
-                              <input name="button" type="submit" class="<%= postbtn %>" id="button" value="Upgrade My Account"  onclick="window.location.href='/family_memory/upgrade_account/<%=params[:id]%>'"/>
-                              &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </label></td>
-                        </tr>
-                        <tr>
-                          <td  align="left" valign="middle" ></td>
-                          <td align="left" valign="top" class="content">&nbsp;</td>
-                        </tr>
-                      </table></td>
-                  </tr>
-               
-                  <tr>
-                    <td align="left" valign="top" class="tab-dots"><table width="100%" border="0" cellspacing="0" cellpadding="0" id="tab_bgcolor">
-                        <tr>
-                          <td  align="left" valign="middle" ></td>
-                          <td align="left" valign="top" class="content">&nbsp;</td>
-                        </tr>
-                        <tr>
-                          <td width="25"  align="left" valign="middle" ></td>
-                          <td align="left" valign="top" class="<%= content_white %>"><span class="thummbimg_title">Subscription Invoice</span> :</td>
-                        </tr>
-                        <tr>
-                          <td  align="left" valign="middle" ></td>
-                          <td height="30" align="left" valign="top" class="content">&nbsp;</td>
-                        </tr>
-                        <tr>
-                          <td  align="left" valign="middle" ></td>
-                          <td align="left" valign="top" class="content-white">You can download your account subscription invoice here</td>
-                        </tr>
-                        <tr>
-                          <td  align="left" valign="middle" ></td>
-                          <td align="left" valign="top" class="content">&nbsp;</td>
-                        </tr>
-                        <tr>
-                          <td  align="left" valign="middle" ></td>
-                          <td align="right" valign="top" class="content"><label>
-                              <input name="button" type="submit" class="<%= postbtn %>" id="button" value="Subscription Invoice" onClick="window.open('/family_memory/generate_receipt/<%=params[:id]%>','_blank');"  />
-                              &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </label></td>
-                        </tr>
-                        <tr>
-                          <td  align="left" valign="middle" ></td>
-                          <td align="left" valign="top" class="content">&nbsp;</td>
-                        </tr>
-                      </table></td>
-                  </tr>
-                 <tr>
-                    <td align="left" valign="top" class="tab-dots"><table width="100%" border="0" cellspacing="0" cellpadding="0" id="tab_bgcolor">
-                        <tr>
-                          <td  align="left" valign="middle" ></td>
-                          <td align="left" valign="top" class="content">&nbsp;</td>
-                        </tr>
-                        <tr>
-                          <td width="25"  align="left" valign="middle" ></td>
-                          <td align="left" valign="top" class="<%= content_white %>"><span class="thummbimg_title">Cancel Account</span> :</td>
-                        </tr>
-                        <tr>
-                          <td  align="left" valign="middle" ></td>
-                          <td height="30" align="left" valign="top" class="content">&nbsp;</td>
-                        </tr>
-                        <tr>
-                          <td  align="left" valign="middle" ></td>
-                          <td align="left" valign="top" class="content-white">You may cancel your account here<br />
-                            <br />
-                            (If you decide to cancel your account   please do so at least 72 hours before your next month's subscription is processed.) </td>
-                        </tr>
-                        <tr>
-                          <td  align="left" valign="middle" ></td>
-                          <td align="left" valign="top" class="content">&nbsp;</td>
-                        </tr>
-                        <tr>
-                          <td  align="left" valign="middle" ></td>
-                          <td align="right" valign="top" class="content">
-
-                            <label>
-
-                              <%if(@family_website_owner.account_type=='platinum_user' and @studio_groups)
+                                <%if(@family_website_owner.account_type=='platinum_user' and @studio_groups)
 
 
-                                if @studio_groups.credit_system =="Dollars"
-                                  if(@credit_points)
-                                    @val=number_with_precision(@credit_points.available_credits, :precision => 2)
+                                  if @studio_groups.credit_system =="Dollars"
+                                    if(@credit_points)
+                                      @val=number_with_precision(@credit_points.available_credits, :precision => 2)
+                                    else
+                                      @val= 0.0
+                                    end
+                                    @msg='$'+@val.to_s+' studio credit.'
+                                    @sys='credit.'
                                   else
-                                    @val= 0.0
-                                  end
-                                  @msg='$'+@val.to_s+' studio credit.'
-                                  @sys='credit.'
-                                else
-                                  if(@credit_points)
-                                    @val=@credit_points.available_credits.round
-                                  else
-                                    @val= 0.0
-                                  end
+                                    if(@credit_points)
+                                      @val=@credit_points.available_credits.round
+                                    else
+                                      @val= 0.0
+                                    end
 
-                                  @msg=@val.to_s+' studio points.'
-                                  @sys='points.'
-                                end %>
-                                                                                                             <!--if(confirm('<%=@content%>')){window.location='/account_settings/new_cancel_subscription/<%=params[:id]%>'; } else window.location='/account_settings/not_canceled'; -->
-                                <input name="button" type="submit" class="<%= postbtn %>" id="button" value="Cancel Account" onClick="return windowOpener('500', '500', 'Cancel Account', '/family_memory/pop1/<%=params[:id]%>')" />
-                              <%else%>
-                                <input name="button" type="submit" class="<%= postbtn %>" id="button" value="Cancel Account" onClick="if(confirm('Are you sure you want to cancel your subscription?')){window.location='/family_memory/new_cancel_subscription/<%=params[:id]%>'; } else window.location='/family_memory/not_canceled';" />
-                              <%end%>
-                              &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  </label></td>
-                        </tr>
-                        <tr>
-                          <td  align="left" valign="middle" ></td>
-                          <td align="left" valign="top" class="content">&nbsp;</td>
-                        </tr>
-                      </table></td>
-                  </tr>
-                </table>
-              </div>
-              <br />
-
-        
-              <div onclick="runAccordion(5);">
-                <div onselectstart="return false;">
-                  <div class="headers_emails" align="left" style="cursor:pointer">Change Family Image</div>
-                </div>
-              </div>
-              <div id="Accordion5Content" class="AccordionContent"  style="width: 740px">
-                <form action="<%= @path.content_path %>/manage_website/website_header_update/<%= params[:id] %>?v=v4" method="post" name="website_header_form" id="websiteheaderform" enctype="multipart/form-data">
-                  <table width="100%" border="0" cellspacing="0" cellpadding="0" class="content-trans-bg">
-                    <tr>
-                      <td align="right" valign="top" class="side-heading">&nbsp;</td>
+                                    @msg=@val.to_s+' studio points.'
+                                    @sys='points.'
+                                  end %>
+                                                                                                                 <!--if(confirm('<%=@content%>')){window.location='/account_settings/new_cancel_subscription/<%=params[:id]%>'; } else window.location='/account_settings/not_canceled'; -->
+                                  <input name="button" type="submit" class="<%= postbtn %>" id="button" value="Cancel Account" onClick="return windowOpener('500', '500', 'Cancel Account', '/family_memory/pop1/<%=params[:id]%>')" />
+                                <%else%>
+                                  <input name="button" type="submit" class="<%= postbtn %>" id="button" value="Cancel Account" onClick="if(confirm('Are you sure you want to cancel your subscription?')){window.location='/family_memory/new_cancel_subscription/<%=params[:id]%>'; } else window.location='/family_memory/not_canceled';" />
+                                <%end%>
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  </label></td>
+                          </tr>
+                          <tr>
+                            <td  align="left" valign="middle" ></td>
+                            <td align="left" valign="top" class="content">&nbsp;</td>
+                          </tr>
+                        </table></td>
                     </tr>
-<%#*<tr>%>
-<%#*<td align="left" valign="top" class="header-paragraph">Change Family Image</td>%>
-<%#*</tr>%>
-                    <tr>
-                      <td style="padding-left: 19px;" height="35" align="left" valign="middle" class="<%=  content_white %>"><strong>Customize your Family Website header&nbsp;&nbsp;
-<%#*<a href="#"><img src="/images/common/question.gif" width="20" height="19" border="0" align="absmiddle" class="mootip1" title="&nbsp;Tips: You can customize your family header..." /></a></strong></td>%>
-                    </tr>
-                    <tr>
-                      <td><table><tr>
-                            <td width="175" align="left" valign="top" style="padding-left: 16px;"><img src="<%=  @family_website_owner.img_url %>/hmmuser/familyphotos/thumbs/<%=  @family_website_owner.family_pic %>"  height="131" /></td>
-                            <td width="10" align="left" valign="top"></td>
-                            <td width="108" align="left" valign="middle" style="color:<%= upload %>;"><strong>Upload Family Image:</strong><input type="file" name="family_pic" /></td><td><strong>
-<%#*<a href="#"><img src="/images/common/question.gif" width="20" height="19" border="0" align="absmiddle" class="mootip2" title="&nbsp;Tips:%>
-
-<%#*Family Image will be displayed on the header of your family website...<br/>&nbsp;Please upload Your family image...<br/>&nbsp;<a href='/bob' target='_blank'>Click here to view Sample Family Website</a>"/></a></strong>%>
-                            </td></tr></table></td>
-                    </tr>
-                    <input type="hidden" name="user_id" value="<%= @family_website_owner.id %>">
-                    <input name="family_header" type="hidden" class="validate['required','length[1,15]']" id="textfield" value="<%= @family_website_owner.family_header %>" />
-                    <input name="familyname_select" class="validate['required','length[1,14]']" type="hidden" id="textfield" value="<%= @family_website_owner.familyname_select %>" />
-                    <input name="family_footer" type="hidden" class="validate['required','length[1,20]']" id="textfield"  value="<%= @family_website_owner.family_footer %>" />
-
-                    <tr>
-                      <td><table><tr>
-                            <td width="175" align="left" valign="top"></td>
-                            <td width="10" align="left" valign="top"></td>
-                            <td width="108" align="left" valign="middle">
-                              <input name="button2" type="submit" class="<%= postbtn %>" id="button2" value="Save &amp; Preview" />
-                            </td>
-                            <td>&nbsp;</td>
-                          </tr></table></td> </tr>
-
-                    <tr>
-                      <td align="left" valign="top">&nbsp;</td>
-                    </tr>
-
-
                   </table>
-                </form>
-              </div>
-              <br />
+                </div>
+                <br />
+
+
+                <div onclick="runAccordion(5);">
+                  <div onselectstart="return false;">
+                    <div class="headers_emails" align="left" style="cursor:pointer">Change Family Image</div>
+                  </div>
+                </div>
+                <div id="Accordion5Content" class="AccordionContent"  style="width: 730px">
+                  <form action="<%= @path.content_path %>/manage_website/website_header_update/<%= params[:id] %>?v=v4" method="post" name="website_header_form" id="websiteheaderform" enctype="multipart/form-data">
+                    <table width="100%" border="0" cellspacing="0" cellpadding="0" class="content-trans-bg">
+                      <tr>
+                        <td align="right" valign="top" class="side-heading">&nbsp;</td>
+                      </tr>
+  <%#*<tr>%>
+  <%#*<td align="left" valign="top" class="header-paragraph">Change Family Image</td>%>
+  <%#*</tr>%>
+                      <tr>
+                        <td style="padding-left: 19px;" height="35" align="left" valign="middle" class="<%=  content_white %>"><strong>Customize your Family Website header&nbsp;&nbsp;
+  <%#*<a href="#"><img src="/images/common/question.gif" width="20" height="19" border="0" align="absmiddle" class="mootip1" title="&nbsp;Tips: You can customize your family header..." /></a></strong></td>%>
+                      </tr>
+                      <tr>
+                        <td><table><tr>
+                              <td width="175" align="left" valign="top" style="padding-left: 16px;"><img src="<%=  @family_website_owner.img_url %>/hmmuser/familyphotos/thumbs/<%=  @family_website_owner.family_pic %>"  height="131" /></td>
+                              <td width="10" align="left" valign="top"></td>
+                              <td width="108" align="left" valign="middle" style="color:<%= upload %>;"><strong>Upload Family Image:</strong><input type="file" name="family_pic" /></td><td><strong>
+  <%#*<a href="#"><img src="/images/common/question.gif" width="20" height="19" border="0" align="absmiddle" class="mootip2" title="&nbsp;Tips:%>
+
+  <%#*Family Image will be displayed on the header of your family website...<br/>&nbsp;Please upload Your family image...<br/>&nbsp;<a href='/bob' target='_blank'>Click here to view Sample Family Website</a>"/></a></strong>%>
+                              </td></tr></table></td>
+                      </tr>
+                      <input type="hidden" name="user_id" value="<%= @family_website_owner.id %>">
+                      <input name="family_header" type="hidden" class="validate['required','length[1,15]']" id="textfield" value="<%= @family_website_owner.family_header %>" />
+                      <input name="familyname_select" class="validate['required','length[1,14]']" type="hidden" id="textfield" value="<%= @family_website_owner.familyname_select %>" />
+                      <input name="family_footer" type="hidden" class="validate['required','length[1,20]']" id="textfield"  value="<%= @family_website_owner.family_footer %>" />
+
+                      <tr>
+                        <td><table><tr>
+                              <td width="175" align="left" valign="top"></td>
+                              <td width="10" align="left" valign="top"></td>
+                              <td width="108" align="left" valign="middle">
+                                <input name="button2" type="submit" class="<%= postbtn %>" id="button2" value="Save &amp; Preview" />
+                              </td>
+                              <td>&nbsp;</td>
+                            </tr></table></td> </tr>
+
+                      <tr>
+                        <td align="left" valign="top">&nbsp;</td>
+                      </tr>
+
+
+                    </table>
+                  </form>
+                </div>
+                <br />
+              <% end %>
               <div onclick="runAccordion(7);">
                 <div onselectstart="return false;">
                   <div class="headers_emails" align="left" style="cursor:pointer">Edit Image Tags</div>
                 </div>
               </div>
-              <div id="Accordion7Content" class="AccordionContent"  style="width: 740px;">
+              <div id="Accordion7Content" class="AccordionContent"  style="width: 730px;">
                 <table width="100%" height="100%" border="0" cellspacing="0" cellpadding="0" class="content-trans-bg">
                   <tr>
                     <td align="center">
@@ -922,15 +952,33 @@ bgcolor="content-trans-bg"
                 </table>
               </div>
 
+
+              <br />
+
+              <%  @studio_header = HmmStudio.find(@family_website_owner.studio_id)
+              if @studio_header.studio_groupid==pp_studio_group%>
+
+                <div onclick="runAccordion(6);">
+                  <div onselectstart="return false;">
+                    <a href="/family_memory/view/<%=params[:id]%>" >  <div class="headers_emails" align="left" style="cursor:pointer">Manage Comments &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="side-heading" style="text-decoration: none"><font size="3"><%if((@all_comments.count)>0)%><%=(@all_comments.count)%> new comment<%if((@all_comments.count)>1)%>s<%end%> (click to approve)<%end%></font></span></div></a>
+                  </div>
+                </div>
+              <% end %>
+          
           </td></tr>
         <tr><td height="50"></td></tr>
-        </tbody></table>
+        <tr><td height="50"></td></tr>
+        <tr><td height="50"></td></tr>
+        <tr><td height="50"></td></tr>
+           <tr><td height="50"></td></tr>
+            <tr><td height="50"></td></tr>
+        
+          
+        <tr><td height="50"></td></tr>
+      </table>
       <br />
 
-    </td>
-  </tr>
 
-</table>
 
 
 <script type="text/javascript">

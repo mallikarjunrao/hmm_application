@@ -54,7 +54,17 @@
                 <%end%>
                 <%@contents = UserContent.find(:first, :conditions => "e_filetype= 'image' and status='active'  and uid=#{@family_website_owner.id}")%>
 
-                <a href="/family_memory/order_prints/<%=params[:id]  %>?moment_id=<%=@contents.id%>" class="cmnBtnB cmnBtnMar">Order prints</a></td>
+                <a href="#a" class="nyroModal cmnBtnB cmnBtnMar">Order prints</a>
+               <div style="display: none; visibility: hidden;">
+                      <div id="a" style="height:200; width: 200;">
+                        <br/><br/><br/>
+                        <center>
+                          <font color="#000">
+                            Please contact the studio to order additional prints.
+                          </font>
+                        </center>
+                      </div>
+                    </div></td>
             </tr>
             <tr>
               <td align="left" class="cmnTxt matrix" style="padding:31px 0;">Your Family Website URL is:
@@ -66,11 +76,14 @@
                 <a href="/family_memory/blog/<%=params[:id]%>" title="Blog" class="cmnBtnB cmnBtnMar">Blog</a> <a href="/family_memory/edit_profile/<%=params[:id]%>" title="Manage your account" class="cmnBtnB cmnBtnMar">Manage your account</a></td>
             </tr>
             <tr>
+              <td align="left"><a href="http://itunes.apple.com/us/app/holdmymemories.com/id477073119?ls=1&mt=8"  target="_blank"><img src="/images/pp_family_memory/icon-dwnld-apps.png" border="0" class="sprite appsIcon"/></a></td>
+            </tr>
+            <tr>
               <td>&nbsp;</td>
             </tr>
      
             <tr>
-              <td class=" avenirLight cmnTxt">Powered by<img src="/images/pp_family_memory/hmm-logo.jpg" align="absmiddle" style="margin-left:10px;"></td>
-            </tr>
+              <td class="avenirLight cmnTxt" align="left"><div style="width: 220px; text-align: center"">Powered by<img src="/images/pp_family_memory/hmm-sml-black-logo.png" style="margin-left:10px;" /></div></td>
+              </tr>
           </table>
         </td>

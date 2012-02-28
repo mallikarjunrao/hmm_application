@@ -1,3 +1,4 @@
+
 <% if session[:hmm_user] && logged_in_hmm_user.id==@family_website_owner.id
   upload_link = "/family_memory/upload_select/#{params[:id]}"
   import_link = "/family_memory/image_import/#{params[:id]}"
@@ -10,13 +11,28 @@
   upload_title = ""
 %>
 <% end %>
-
+<% if @studio_header.studio_groupid==pp_studio_group%>
+  <style type="text/css">
+    #thumbs2 div.thumbnail {
+      display: block;
+      float: left;
+      font-size: 11px;
+      margin-right: 10px;
+      position: relative;
+      text-align: center;
+      width: 217px;
+    }
+    .gallery_2 {
+    width: 50% !important;
+}
+  </style>
+<% end %>
 <tr>
 
   <td>   <table width="100%" border="0" cellspacing="0" cellpadding="0" class="date">
       <tr><td align="center">
           <div id="container">
-            <div id="gallery_container2">
+            <div id="gallery_container2" class="gallery_2">
               <div id="thumb_container2">
                 <div id="thumbs2">
                   <%if @gals%>
@@ -36,8 +52,8 @@
                             <%end%><br />
                           <%end%>
                         <%end%>
-                       <span class="<%=cls%>" <%=gal.v_gallery_name%><br />
-                        <%=gal.d_gallery_date.strftime("%b. %d, %Y")%></span>
+                        <span class="<%=cls%>" <%=gal.v_gallery_name%><br />
+                          <%=gal.d_gallery_date.strftime("%b. %d, %Y")%></span>
                       </div>
                     <%end%>
                     <%if @gals.length<3 %>
@@ -72,15 +88,8 @@
       </tr>
     </table></td>
   <% if @studio_header.studio_groupid==pp_studio_group%>
-  <form name="search" id="search" action="/family_memory/gallery_contents/<%=params[:id]%>" method="post" onsubmit="return checkSearchContent()">
-    <td width="284" rowspan="2" valign="top"><div class="rightBarMdlBtmRight"><table width="100%" border="0" cellspacing="0" cellpadding="0">
-          <tr>
-            <td height="45" class="srchTxt">Search <span class="avenirLight">for moments</span></td>
-          </tr>
-          <tr>
-            <td align="left" class="srchBg">
-              <input type="text" name="searchval" id="textfield" class="srchTxtFld"/>   <input type="submit" name="button" id="button" value="" class="subbtn"/> </td>
-          </tr>
-        </table>
-      </div></td></form><%end%>
+    <td width="284" rowspan="2" valign="top" align="right">
+      <%= render :partial => "family_memory/partials/pp_search" %>
+    </td>
+  <%end%>
 </tr>

@@ -2707,6 +2707,174 @@ ON hmm_users.studio_id=hmm_studios.id", :conditions => "hmm_users.id=#{@family_w
     # render :layout=>false
   end
 
+
+
+    def customize_site
+      
+    
+    @paths = ContentPath.find(:first,:conditions=>"status='active'")
+    @path1 = ContentPath.find(:all)
+    @path2=""
+    for path in @path1
+      @path2="#{@path}#{path.content_path},"
+    end
+    @content_server_url = "#{@paths.content_path}"
+    subdomain = request.subdomains[0]
+    logger.info(subdomain)
+    current= request.url.split("http://")
+    current1= current[1].split("/")
+    if current1[0]=="holdmymemories.com"
+      @app_url="http://holdmymemories.com"
+    else
+      @app_url="http://www.holdmymemories.com"
+    end
+    @family_website_owner = HmmUser.find(:first, :conditions => "(family_name='#{params[:id]}' || alt_family_name='#{params[:id]}')") #get the user details
+    @hmm_user = HmmUser.find(@family_website_owner.id)
+    @path=ContentPath.find(:first,:conditions=>"status='active'")
+    uid1 = @hmm_user.id
+    @path=ContentPath.find(:first,:conditions=>"status='active'")
+    @all_comments = ChapterComment.find_by_sql("
+     (select
+        c.id as id,
+        c.gallery_id as master_id,
+        c.v_comment as comment,
+        c.reply as reply,
+        c.e_approval as e_approval,
+        c.ctype as ctype,
+        c.v_name as name,
+        c.uid as user_id,
+        c.d_created_on as d_created_at
+        from
+        gallery_comments    as c,
+        user_contents as u
+        where
+        c.gallery_id=u.gallery_id
+        and
+        c.uid=#{uid1}
+        and c.e_approval = 'pending'
+        )
+     union
+    (select
+        d.id as id,
+        d.user_content_id as master_id,
+        d.v_comment as comment,
+        d.reply as reply,
+        d.e_approved as e_approval,
+        d.ctype as ctype,
+        d.v_name as name,
+        d.uid as user_id,
+        d.d_add_date as d_created_at
+        from
+        photo_comments  as d,
+        user_contents as u
+        where
+        d.user_content_id=u.id
+        and
+        u.uid=#{uid1}
+        and d.e_approved = 'pending'
+     )
+     union
+    (select
+        b.id as id,
+        b.blog_type_id as master_id,
+        bc.comment as message,
+        bc.id as reply,
+        bc.status as e_approval,
+        b.client as ctype,
+        bc.name as name,
+        b.user_id as user_id,
+        bc.created_at as d_created_at
+        from
+        blog_comments as bc,
+        blogs as b
+        where b.id=bc.blog_id
+        and
+        b.user_id=#{uid1}
+        and bc.status = 'pending'
+     )
+     order by e_approval")
+      @hmm=params[:id]
+    #    @blogcmt = Blog.count(:all,:joins=>" as a , blog_comments as b", :conditions => "a.id=b.blog_id and a.user_id='#{logged_in_hmm_user.id}' and b.status='pending' ")
+    #    @comments = PhotoComment.count(:all,:select=>"distinct(a.id)",:joins=>"as a,user_contents as b", :conditions => "a.user_content_id=b.id and a.e_approved = 'pending' and a.uid = #{logged_in_hmm_user.id}")
+    #    @gallery_comments = GalleryComment.count(:all,:select=>"distinct(a.id)",:joins=>"as a,user_contents as b", :conditions => "a.gallery_id=b.gallery_id and a.e_approval = 'pending' and a.uid = #{logged_in_hmm_user.id}")
+
+    # render :layout=>false
+    
+     link = "/family_memory/customize_site/#{params[:id]}"
+  end
+
+
+def pp_contact_us
+logger.info("11111111111111111111111111111111111111111111111111111111111111111111111111111")
+logger.info(params[:id])
+
+    @contact_u = ContactU.new
+    if(params[:contact_u])
+      if verify_recaptcha
+        @contact_u = ContactU.new(params[:contact_u])
+        @hmm_user_belongs_to = HmmUser.count(:all,:conditions => "v_e_mail='#{@contact_u.email}'")
+       
+
+        if(@hmm_user_belongs_to > 0)
+          @hmm_user_belongs_to_det = HmmUser.find(:all,:conditions => "v_e_mail='#{@contact_u.email}'")
+          emp_id= @hmm_user_belongs_to_det[0]['emp_id']
+          customer_name="#{@hmm_user_belongs_to_det[0]['v_fname']} #{@hmm_user_belongs_to_det[0]['v_lname']}"
+          acc_type=@hmm_user_belongs_to_det[0]['account_type']
+      
+
+          if(acc_type=="free_user")
+            customer_account="Free User Account"
+          else
+            if(acc_type=="platinum_user")
+              customer_account="Premium User Account"
+            else
+              customer_account="Family Website User Account"
+            end
+          end
+
+          if(emp_id=='' || emp_id==nil )
+            @contact_u.subject = "HoldMyMemories Contact Us Information..."
+            emp_studio_id = 0
+            Postoffice.deliver_contactUsreport1(@contact_u.first_name,@contact_u.subject,@contact_u.message,@contact_u.country,@contact_u.email,"Direct User","No employee involved",customer_name,customer_account,emp_studio_id)
+
+          else
+            @employee_details = EmployeAccount.find(emp_id)
+            branch = @employee_details.branch
+            e_mail = @employee_details.e_mail
+            emp_name = @employee_details.employe_name
+            emp_studio_id = @employee_details.store_id
+            @contact_u.subject = "HoldMyMemories Contact Us Information..."
+            Postoffice.deliver_contactUsreport1(@contact_u.first_name,@contact_u.subject,@contact_u.message,@contact_u.country,@contact_u.email,branch,emp_name,customer_name,customer_account,emp_studio_id)
+          end
+        else
+          user_studio_id = 0
+          @contact_u.subject = "HoldMyMemories Contact Us Information..."
+          Postoffice.deliver_contactUsreport("customerservice@holdmymemories.com",@contact_u.first_name,@contact_u.subject,@contact_u.message,@contact_u.country,@contact_u.email,@contact_u.zip,@contact_u.phone_no,@contact_u.mobile_no)
+
+        end
+        @contact_u.subject = "HoldMyMemories Contact Us Information..."
+        if @contact_u.save
+          #user_studio_id = @hmm_user_belongs_to_det[0]['studio_id']
+          #Postoffice.deliver_contactUsreport(@contact_u.first_name,@contact_u.subject,@contact_u.message,@contact_u.country,@contact_u.email)
+        
+          flash[:notice_contact] = 'Thank You for submitting the details'
+        #  redirect_to :action => 'customize_site'
+         # redirect_to :action => "customize_site/#{params[:hmm]}"
+          redirect_to :controller=>"family_memory",:action => 'customize_site', :id => params[:id]
+        else
+        #  redirect_to :action => "customize_site/#{params[:hmm]}"
+        redirect_to :controller=>"family_memory",:action => 'customize_site', :id => params[:id]
+        end
+      else
+        #redirect_to :action => "customize_site/#{params[:hmm]}"
+        redirect_to :controller=>"family_memory",:action => 'customize_site', :id => params[:id]
+        flash[:error] = 'Please enter the correct Image code!'
+      end
+    end
+  end
+
+
+
   def contest
     cur_date=Date.today
     @contests = ContestDetail.find(:all,:conditions=>"start_date<'#{cur_date}' and end_date>'#{cur_date}'")

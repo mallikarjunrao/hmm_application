@@ -404,7 +404,7 @@ class HmmWpfController < ApplicationController
 
   end
 
-  def upgrade_payment_family
+   def upgrade_payment_family
     require 'active_merchant'
     require "ArbApiLib"
     card_no=params[:card_no]
@@ -490,7 +490,7 @@ class HmmWpfController < ApplicationController
     )
 
     if creditcard.valid?
-      if(params[:account_type] = "platinum_user")
+      if(params[:account_type] == "platinum_user")
         if(account_type == "familyws_user")
           flag=1
         else
@@ -549,63 +549,6 @@ class HmmWpfController < ApplicationController
         end
         hmm_user_det.save
 
-        if(session[:employe])
-
-          employedet=EmployeAccount.find(session[:employe])
-          hmmstudio=HmmStudio.find(employedet.store_id)
-          hmm_user_det[:emp_id] = session[:employe]
-          hmm_user_det[:studio_id]=employedet.store_id
-          hmm_user_det.save
-
-          
-
-          subchaptercount=SubChapter.count(:all, :conditions => "store_id > 0 and uid=#{hmm_user_det.id}")
-          @get_content_url=ContentPath.find(:all, :conditions => "status='active'")
-          content_path=@get_content_url[0]['content_path']
-          if(subchaptercount > 0)
-            subchaptercheck = SubChapter.count(:all, :conditions => "store_id = #{employedet.store_id}  and uid=#{hmm_user_det.id} ")
-            if(subchaptercheck > 0)
-            else
-              subchapterfind=SubChapter.find(:first, :conditions => "store_id > 0  and uid=#{hmm_user_det.id}")
-              subchapter_new = SubChapter.new
-              subchapter_new['uid']= hmm_user_det.id
-              subchapter_new['tagid']= subchapterfind.tagid
-              subchapter_new['sub_chapname']="#{hmmstudio.studio_name}"
-              subchapter_new['v_image']="folder_img.png"
-              subchapter_new['e_access'] = "public"
-              subchapter_new['d_updated_on'] = Time.now
-              subchapter_new['d_created_on'] = Time.now
-              subchapter_new['img_url']=content_path
-              subchapter_new['store_id']= hmmstudio.id
-              subchapter_new.save
-            end
-          else
-            tag_default = Tag.new
-            tag_default.default_tag='no'
-            tag_default.v_tagname="STUDIO SESSIONS"
-            tag_default.uid=hmm_user_det.id
-            tag_default.default_tag="yes"
-            tag_default.e_access = 'public'
-            tag_default.e_visible = 'yes'
-            tag_default.d_updateddate= Time.now
-            tag_default.d_createddate= Time.now
-            tag_default.img_url=content_path
-            tag_default.v_chapimage = "folder_img.png"
-            tag_default.save
-            subchapter_new = SubChapter.new
-            subchapter_new['uid']= hmm_user_det.id
-            subchapter_new['tagid']= tag_default.id
-            subchapter_new['sub_chapname']="#{hmmstudio.studio_name}"
-            subchapter_new['v_image']="folder_img.png"
-            subchapter_new['e_access'] = "public"
-            subchapter_new['d_updated_on'] = Time.now
-            subchapter_new['d_created_on'] = Time.now
-            subchapter_new['img_url']=content_path
-            subchapter_new['store_id']= hmmstudio.id
-            subchapter_new.save
-          end
-        end
-
         i=0
         while i < Integer(hmm_user_det.months)
           payment_recieved_on= Date.today+i.months
@@ -634,6 +577,15 @@ class HmmWpfController < ApplicationController
           payment_count.month = "#{mon}"
           payment_count.save
           i=i+1
+        end
+
+        if !params[:emp_id].nil? && !params[:emp_id].blank?
+          hmm_user_det=HmmUser.find(params[:hmm_id])
+          hmm_user_det[:emp_id] = params[:emp_id]
+          empstore=EmployeAccount.find(params[:emp_id])
+          empstoreid=empstore.store_id
+          hmm_user_det[:unid] = empstoreid
+          hmm_user_det.save
         end
 
         upgrade_account=UpgradedAccount.new
@@ -751,7 +703,7 @@ class HmmWpfController < ApplicationController
           end
           begin
             logger.info("22222222222")
-            postoffice.deliver_paymentsucessupdate("#{hmm_user_det.v_fname} #{hmm_user_det.v_lname}" , hmm_user_det.v_e_mail , hmm_user_det.v_user_name, account_type, hmm_user_det.account_expdate,months,amount1,street_address, city, state ,postcode, country,telephone,invoicenumber,subscriptionid, hmm_user_det.v_user_name, hmm_user_det.v_password,link,pass_req,pass)
+            #postoffice.deliver_paymentsucessupdate("#{hmm_user_det.v_fname} #{hmm_user_det.v_lname}" , hmm_user_det.v_e_mail , hmm_user_det.v_user_name, account_type, hmm_user_det.account_expdate,months,amount1,street_address, city, state ,postcode, country,telephone,invoicenumber,subscriptionid, hmm_user_det.v_user_name, hmm_user_det.v_password,link,pass_req,pass)
           rescue
             logger.info("smtp error")
           end
@@ -767,7 +719,7 @@ class HmmWpfController < ApplicationController
           }
           begin
             logger.info("3333333333")
-            Postoffice.deliver_paymentsucessupdate("#{hmm_user_det.v_fname} #{hmm_user_det.v_lname}" , hmm_user_det.v_e_mail , hmm_user_det.v_user_name, account_type, hmm_user_det.account_expdate,months,amount1,street_address, city, state ,postcode, country,telephone,invoicenumber,"One time payment", hmm_user_det.v_user_name, hmm_user_det.v_password,link,pass_req,pass)
+            Postoffice.deliver_paymentsucess("#{hmm_user_det.v_fname} #{hmm_user_det.v_lname}" , hmm_user_det.v_e_mail , hmm_user_det.v_user_name,account_type, hmm_user_det.account_expdate,months,amount1,street_address, city, state ,postcode, country,telephone,invoicenumber,apiresp.subscriptionid, hmm_user_det.v_user_name,passwd,link,pass_req,pass,nextsub[0]['dat'])
           rescue
             logger.info("smtp error")
           end
@@ -812,7 +764,6 @@ class HmmWpfController < ApplicationController
       render :text => "This is a general error:  The credit card number entered is invalid."
     end
   end
-
 
 
   def customers_list_wpf

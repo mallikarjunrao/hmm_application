@@ -344,9 +344,14 @@ class ManageWebsiteController < ApplicationController
         flash[:notice] = 'Please enter correct current password!'
       end
     end
+
     if params[:v]=="v4"
-      flash[:admin_pass] = 'Admin password changed successfully!'
+      #flash[:admin_pass] = 'Admin password changed successfully!'
+      if params[:admin_password]=='admin_password'
+        redirect_to :controller=>"family_memory", :action => 'customize_site', :id => params[:id]
+      else
       redirect_to :controller=>"family_memory", :action => 'edit_profile', :id => params[:id]
+      end
     end
   end
 
@@ -356,9 +361,15 @@ class ManageWebsiteController < ApplicationController
       HmmUser.update(logged_in_hmm_user.id,:password_required => params[:password_required])
       HmmUser.update(logged_in_hmm_user.id,:familywebsite_password => params[:password]) if (params[:password_required]=='yes')
 
+      
       if params[:v]=="v4"
+        if params[:website_password]=='website_password'
+          flash[:web_pass] = "Changes updated successfully!"
+        redirect_to :controller=>"family_memory", :action => 'customize_site', :id => params[:id]
+        else
         flash[:web_pass] = "Changes updated successfully!"
         redirect_to :controller=>"family_memory", :action => 'edit_profile', :id => params[:id]
+        end
       else
         flash[:notice] = "Changes updated successfully!"
         redirect_to :action => 'website_password', :id => params[:id]

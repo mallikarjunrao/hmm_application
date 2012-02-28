@@ -15,7 +15,7 @@ class HmmStudiosController < ApplicationController
   verify :method => :post, :only => [ :destroy, :create, :update ],
     :redirect_to => { :action => :list }
 
-  before_filter :authenticate_admin, :only => [:list, :upload_studio_logo, :email_report, :account_setup_report_video, :account_setup_report, :studio_list_upload_logo, :adminstudio_signup, :adminstudio_edit, :show, :new, :edit,:membership_sold_accounts_admin, :account_setup_new_repeat_report, :premium_subscriptions, :premium_subscriptions_info,:upgraded_customers_report]
+  before_filter :authenticate_admin, :only => [:list, :upload_studio_logo, :email_report, :account_setup_report_video, :account_setup_report, :studio_list_upload_logo, :adminstudio_signup, :adminstudio_edit, :show, :new, :edit,:membership_sold_accounts_admin, :account_setup_new_repeat_report, :premium_subscriptions, :premium_subscriptions_info,:upgraded_customers_report,:excel_upgrade_accounts]
   before_filter :authenticate_employe, :only => [:studio_pending_requests_admin,:studio_account_setup_report,:studio_account_setup_report_video]
   before_filter :authenticate_manager, :only => [:market_pending_requests_admin]
   before_filter :authenticate_manager_admin, :only => [:created_customers_report]
@@ -2101,13 +2101,13 @@ ON hmm_users.studio_id=hmm_studios.id",:conditions=>"hmm_studios.studio_groupid=
       sort = "#{session[:srk]}  #{params[:sort_order]}"
     end
 
-    if (params[:from_bdate]!=nil && params[:to_bdate] !=nil && params[:end_date] !=nil)
+    if (params[:from_bdate]!=nil && params[:to_bdate] !=nil&& params[:to_bdate] !="" && params[:to_bdate] !="")
 
       @fromdate=params[:from_bdate]
       @f_month=@fromdate.slice(0..1)
       @f_date=@fromdate.slice(3..4)
       @f_year=@fromdate.slice(6..9)
-      fromdate="#{@f_year}-#{@f_month}-#{@f_date}"
+      @fromdate="#{@f_year}-#{@f_month}-#{@f_date}"
 
 
 
@@ -2116,8 +2116,8 @@ ON hmm_users.studio_id=hmm_studios.id",:conditions=>"hmm_studios.studio_groupid=
       @t_month=@todate.slice(0..1)
       @t_date=@todate.slice(3..4)
       @t_year=@todate.slice(6..9)
-      todate="#{@t_year}-#{@t_month}-#{@t_date}"
-      cond="and upgraded_accounts.created_at between '#{fromdate}' and  '#{todate}'"
+      @todate="#{@t_year}-#{@t_month}-#{@t_date}"
+      cond="and upgraded_accounts.created_at between '#{@fromdate}' and  '#{@todate}'"
     else
       cond="and upgraded_accounts.created_at between '2008-07-15' and '#{Date.today} 23:59:59'"
     end
@@ -2156,12 +2156,34 @@ ON hmm_users.studio_id=hmm_studios.id",:conditions=>"hmm_studios.studio_groupid=
 
     total_conditions="1=1 #{cond} #{conditions2} #{conditions3} #{conditions4} #{conditions5}"
 
-    @hmm_users = HmmUser.paginate(:page=>params[:page],:per_page=>30,:select => "*", :joins =>"LEFT JOIN upgraded_accounts
+    @hmm_users_count = HmmUser.count(:joins =>"LEFT JOIN upgraded_accounts
+ON upgraded_accounts.user_id=hmm_users.id LEFT JOIN hmm_studios
+ON hmm_users.studio_id=hmm_studios.id LEFT JOIN hmm_studiogroups
+ON hmm_studios.studio_groupid=hmm_studiogroups.id", :conditions=>"#{total_conditions}" , :order => sort)
+    
+    @hmm_users = HmmUser.paginate(:page=>params[:page],:per_page=>30,:select => "hmm_users.id,hmm_users.v_fname,hmm_users.v_lname,hmm_users.v_user_name,hmm_users.v_e_mail,hmm_users.d_created_date,hmm_users.account_type,hmm_studios.studio_name,hmm_studiogroups.hmm_franchise_studio,upgraded_accounts.created_at", :joins =>"LEFT JOIN upgraded_accounts
 ON upgraded_accounts.user_id=hmm_users.id LEFT JOIN hmm_studios
 ON hmm_users.studio_id=hmm_studios.id LEFT JOIN hmm_studiogroups
 ON hmm_studios.studio_groupid=hmm_studiogroups.id", :conditions=>"#{total_conditions}" , :order => sort)
 
     session[:upgrade_conditions]=total_conditions
+    session[:upgrade_conditions_order]=sort
   end
-  
+
+  def excel_upgrade_accounts
+    begin
+      headers['Content-Type'] = "application/vnd.ms-excel"
+      headers['Content-Disposition'] = 'attachment; filename="Upgrade Account Report.xls"'
+      headers['Cache-Control'] = ''
+    rescue
+      logger.info("unable to create excel sheet for these records")
+    end
+    @hmm_users = HmmUser.find(:all,:select => "hmm_users.id,hmm_users.v_fname,hmm_users.v_lname,hmm_users.v_user_name,hmm_users.v_e_mail,hmm_users.d_created_date,hmm_users.account_type,hmm_studios.studio_name,hmm_studiogroups.hmm_franchise_studio,upgraded_accounts.created_at", :joins =>"LEFT JOIN upgraded_accounts
+ON upgraded_accounts.user_id=hmm_users.id LEFT JOIN hmm_studios
+ON hmm_users.studio_id=hmm_studios.id LEFT JOIN hmm_studiogroups
+ON hmm_studios.studio_groupid=hmm_studiogroups.id", :conditions=>"#{session[:upgrade_conditions]}" , :order => session[:upgrade_conditions_order])
+    render :layout=>false
+  end
+
+
 end

@@ -70,11 +70,11 @@
   <table bordercolor="#e5b467"  align="center" width="100%" border="10" cellpadding="4" cellspacing="4">
     <tr  ><th background="/images/body_hor.JPG" colspan="4" align="center" style="backgrund:repeat;" >Search </th>
     </tr>
-    <tr><td>Accounts created from</td><td>
-        <input type="text" name="from_bdate" id="start_date" title="Account Start Date" readonly />&nbsp;&nbsp;
+    <tr><td>Accounts Upgraded from</td><td>
+        <input type="text" name="from_bdate" id="start_date" title="Account Start Date" readonly  value="<%=params[:from_bdate]%>"/>&nbsp;&nbsp;
         &nbsp;
       </td></tr>
-    <tr><td>Accounts created till</td><td> <input type="text" name="to_bdate" id="end_date" title="Account End Date" readonly />&nbsp;&nbsp;
+    <tr><td>Accounts Upgraded to</td><td> <input type="text" name="to_bdate" id="end_date" title="Account End Date" readonly value="<%=params[:to_bdate]%>"/>&nbsp;&nbsp;
 
         &nbsp;</td></tr>
 
@@ -82,6 +82,7 @@
     <tr><td>Account Type</td><td>
         <select name="account_type" id="account_type">
           <option value="" <%if params[:account_type]=='' %>selected<%end%>>All Users</option>
+          <option value="free_user" <%if params[:account_type]=='free_user' %>selected<%end%>>Free Users  </option>
           <option value="familyws_user" <%if params[:account_type]=='familyws_user' %>selected<%end%>>Family Website Users  </option>
           <option value="platinum_user" <%if params[:account_type]=='platinum_user' %>selected<%end%>>Premium Users </option>
 
@@ -122,7 +123,10 @@
   </table>
 
 <%end%>
-
+<%if !@hmm_users.nil? && !@hmm_users.blank?%>
+<h2><font color="green" >Total number of Records : <%=@hmm_users_count%></font></h2>
+<%end%>
+<a href="/hmm_studios/excel_upgrade_accounts"> Export to Excel</a>
 
 <table border="0">
   <tr><td colspan="15"><h2>
@@ -134,46 +138,15 @@
 
     <th background="/images/body_hor.JPG"><font class='txt'><table> <tr><th><%= sort_header_tag('v_user_name', :text => "User Name") %></th></tr></table></font></th>
     <th background="/images/body_hor.JPG"><font class='txt'><table> <tr><th><%= sort_header_tag('v_e_mail', :text => "Email Address") %></th></tr></table></font></th>
-    <th background="/images/body_hor.JPG"><font class='txt'><table> <tr><th><%= sort_header_tag('d_created_date', :text => "Created date") %></th></tr></table></font></th>
+    <th background="/images/body_hor.JPG"><font class='txt'><table> <tr><th><%= sort_header_tag('d_created_date', :text => "Account Created date") %></th></tr></table></font></th>
+     <th background="/images/body_hor.JPG"><font class='txt'><table> <tr><th><%= sort_header_tag('upgraded_accounts.created_at', :text => "Upgraded date") %></th></tr></table></font></th>
     <th background="/images/body_hor.JPG"><font class='txt'><table> <tr><th><%= sort_header_tag('account_type', :text => "Account Type") %></th></tr></table></font></th>
     <th background="/images/body_hor.JPG"><font class='txt'><table> <tr><th><%= sort_header_tag('studio_name', :text => "Studio Name") %></th></tr></table></font></th>
     <th background="/images/body_hor.JPG"><font class='txt'><table> <tr><th><%= sort_header_tag('hmm_franchise_studio', :text => "Studio Group") %></th></tr></table></font></th>
   </tr>
 
-  <% 	odd_or_even = 0
-  i = 0
-  for colmn in @hmm_users
-    i = i + 1
-    odd_or_even = 1 - odd_or_even
-  %>
-
-    <tr class='ListLine<%= odd_or_even %>'>
-      <td align="center"><%=h colmn.v_fname%> <%=h colmn.v_lname%></td>
-      <td align="center"><%=h colmn.v_user_name%></td>
-      <td align="center"><%=h colmn.v_e_mail%></td>
-      <td align="center">
-        <% if colmn.d_created_date == nil || colmn.d_created_date == '' %>
-          -
-        <%else%>
-          <%=h colmn.d_created_date.strftime("%m - %d - %Y")%>
-        <%end%>            </td>
-      <td align="center"><%=h colmn.account_type%></td>
-      <td align="center">
-        <%if (colmn.studio_name == nil || colmn.studio_name == '' )  %>
-          Direct Customer
-        <%else%>
-          <%=colmn.studio_name %>
-        <%end%>            </td>
-      <td align="center">
-        <%if (colmn.hmm_franchise_studio == nil || colmn.hmm_franchise_studio == '' )  %>
-          -
-        <%else%>
-          <%=colmn.hmm_franchise_studio%>
-        <%end%>            </td></tr>
-
-
-    <% end %>
-  <input type="hidden" name="len" id="len" value="<%= i %>"/>
+   <%= render :partial => "hmm_studios/upgrade_accounts"%>
+  
   <tr><td colspan="4">
       <%=will_paginate @hmm_users ,:params=>params%>
     </td>
