@@ -1,0 +1,15 @@
+<% @page_title = "New SEO Setting" -%>
+
+<p><%= link_to 'Back', :action => 'list' %></p>
+
+<% form_tag :action => 'create' do %>
+
+
+<p><label for="seo_setting_path">Path (example: /about/home )</label>
+<%= text_field 'seo_setting', 'path'  %></p>
+
+  <%= render :partial => 'form' %>
+  <%= submit_tag "Create" %>
+<% end %>
+
+

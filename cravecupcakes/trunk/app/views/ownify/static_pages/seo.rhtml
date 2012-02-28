@@ -1,0 +1,18 @@
+<% @page_title = "Edit SEO settings for #{ @dyno_page.title }" -%>
+
+
+<%= render :partial => 'navigation' %>
+
+<% form_tag :action => 'update_seo', :id => @seo_setting do %>
+<%= hidden_field_tag 'dyno_page_id', @dyno_page.id  %>
+
+<p><label for="seo_setting_page_title">Page title</label>
+<%= text_area 'seo_setting', 'page_title', {:rows => 2}  %></p>
+
+<p><label for="seo_setting_meta_keywords">Meta keywords</label>
+<%= text_area 'seo_setting', 'meta_keywords', {:rows => 3}  %></p>
+
+<p><label for="seo_setting_meta_description">Meta description</label>
+<%= text_area 'seo_setting', 'meta_description', {:rows => 3}  %></p>
+  <%= submit_tag 'Save' %>
+<% end %>

@@ -1,0 +1,26 @@
+<% @body_id = "news" %>
+<% @page_title = "News &amp; Press Releases &raquo;" %>
+    <div class="main">
+	  <div id="details">
+	    <h3>News &amp; Press Releases</h3>
+<% for news in @dyno_pages 
+     news_link = ( news.uri && !news.uri.blank? ? news.uri : "/article/#{ news.slug }" )
+-%>
+	    <div class="story" id="s<%= news.id %>">
+          <div class="teaser-img">
+		    <a href="<%= news_link %>" title="<%= news.title %>"><img src="<%= news.thumb_path %>" alt="<%= news.title %>" /></a>
+          </div>
+          
+          <div class="story-teaser">
+            <h5 class="timestamp"><%= news.page_on.strftime('%B %d, %Y') %></h5>
+            <h4 class="media-source"><%= news.sub_title %></h4>
+
+            <h4><a href="<%= news_link %>"><%= news.title %></a></h4>
+            <p><%= news.summary %> <a href="<%= news_link %>">Read more &raquo;</a></p>
+          </div>
+        </div><!--end: story-->
+<% end -%>
+
+    </div><!--end: details-->
+
+  </div><!--end: main-->

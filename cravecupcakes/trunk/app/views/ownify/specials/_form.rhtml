@@ -1,0 +1,220 @@
+<script type="text/javascript">
+  function init(){
+    // create default slug
+    $('special_title').onchange=function (){
+            if ($('special_slug').value==''){
+                name=$('special_title').value.toLowerCase();
+                var exps = [/ /, /\W/, /__/ ];
+                var subs = ["_", "", "_"];
+                for(i=0; i < exps.length; i++){
+                    while( name.search(exps[i]) != -1){
+                        name = name.replace(exps[i], subs[i]);
+                    }
+                }
+                $('special_slug').value = name
+            }
+    }
+  }
+  window.onload=init
+
+  function set_slug(){
+            //if (document.getElementById('special_slug').value==''){
+                name=document.getElementById('special_title').value.toLowerCase();
+                var exps = [/ /, /\W/, /__/ ];
+                var subs = ["_", "", "_"];
+                for(i=0; i < exps.length; i++){
+                    while( name.search(exps[i]) != -1){
+                        name = name.replace(exps[i], subs[i]);
+                    }
+                }
+
+                document.getElementById('special_slug').value = name
+           // }
+    }
+
+</script>
+
+<link rel="stylesheet" href="/stylesheets/calendar.css" type="text/css" charset="utf-8" />
+<script src="/javascripts/calendar.js" type="text/javascript"></script>
+<script src="/javascripts/js_vlib.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+
+  function dateValidate(){
+
+    var ret = validate_cupcakes();
+
+    if(ret == true){
+      alert("Cupcake flavor boxes should contain a number or be left blank.");
+      return false;
+    }
+
+//alert("Please ensure that the Visibility Start Date is on or before to the Availability Start Date !");
+    var SDate = document.getElementById('special_available_start_date').value;
+    var AEDate = document.getElementById('special_cutoff_date').value;
+    var EDate = document.getElementById('special_visible_start_date').value;
+
+    //var endDate = new Date(EDate);
+    //var startDate = new Date(SDate);
+//alert(new Date(document.getElementById('special_visible_start_date').value));
+    if(SDate != '' && AEDate != '' && SDate > AEDate)
+    {
+      alert("Please ensure that the Availability Start Date is on or before the Availability End Date !");
+      //theForm.txtEnd.focus();
+      return false;
+    }
+    else if(SDate == '' && EDate != '' && AEDate != '' && EDate > AEDate)
+    {
+      alert("Please ensure that the Visibility Start Date is on or before the Availability End Date !");
+      //theForm.txtEnd.focus();
+      return false;
+    }
+    else if(SDate != '' && EDate != '' && SDate < EDate)
+    {
+      alert("Please ensure that the Visibility Start Date is on or before the Availability Start Date !");
+      //theForm.txtEnd.focus();
+      return false;
+    }
+  }
+
+  <%
+    cupcakes = Cupcake.find(:all, :order => "title")
+    ids = ""
+    for cupcake in cupcakes
+      ids += cupcake.id.to_s + ","
+    end
+
+    if ids != ""
+      ids = ids[0..(ids.length-2)]
+    end
+  %>
+
+  function validate_cupcakes(){
+   
+    var ids = "<%= ids.to_s %>";
+
+    var ids_arr = new Array();
+    ids_arr = ids.split(',');
+    var count = 0;
+    var error = false;
+
+    for(var i=0; i<ids_arr.length; i++){
+        var id_name = "cupcake_" + ids_arr[i].toString();
+        var f = document.getElementById(id_name);
+        if (f.value != "" && (isNaN(parseInt(f.value)) || parseInt(f.value) < 1)){
+          error = true;
+          break;
+        }
+        if (error == true){ break;}
+        count++;
+    }
+    return error;
+  }
+
+	
+        var com = document.forms[0];
+                com.onsubmit = function()
+                {
+                    var ret = dateValidate();
+                    if(ret == false){
+                      return false;
+                    }
+                    else{
+                      return true;
+                    }
+                }
+       
+</script>
+
+<%= error_messages_for ('special') %>
+ <script type="text/javascript">
+   if (document.getElementById('errorExplanation') != null && '<%= @error %>' != ""){
+
+     var com =  document.getElementById('errorExplanation');
+     com.innerHTML = com.innerHTML + "<ul><li><%= @error %></li></ul>";
+   }
+   else if('<%= @error %>' != ""){
+     document.write("<font color='red'>* <%= @error %></font>");
+   }
+ </script>
+<% # = (@error != nil)? @error : "" %>
+<!--[form:cupcake]-->
+<p><label for="special_title">Title</label>
+<%= text_field 'special', 'title',{:onkeyup=>"set_slug();"}  %></p>
+
+<p><label for="special_price">Price</label>
+<%= text_field 'special', 'price'  %></p>
+
+<p><label for="special_description">Description</label>
+<%= text_area 'special', 'description', :rows => 8  %></p>
+
+<p>
+  <label for="special_description">Cupcakes</label>
+  <br>
+  <%
+    cupcakes = Cupcake.find(:all, :order => "title")
+
+    for cupcake in cupcakes
+      
+        qty = 0
+        if params[:cupcake] != nil
+          for a in  params[:cupcake]
+            if a[0].to_i == cupcake.id
+              qty = a[1]
+              break
+            end
+          end
+        elsif @cupcakes != nil
+          for a in  @cupcakes
+            if a.cupcake_id.to_i == cupcake.id
+              qty = a.qty.to_i
+              break
+            end
+          end
+        end
+
+  %><input type="text" style="text-align:center;" size="5" id="cupcake_<%= cupcake.id.to_s %>" name="cupcake[<%= cupcake.id.to_s %>]" value="<%= (qty != 0)? qty.to_s : "" %>">&nbsp;&nbsp;<span><%= cupcake.title %></span><br /><%
+    end
+  %>
+</p>
+
+<p><label for="special_is_enable">Enable: <%= check_box 'special', 'is_enable' %></label></p>
+
+<p><label for="special_incl_gif_box">Includes a Gift Box: <%= check_box 'special', 'incl_gif_box' %></label></p>
+
+<p><label for="special_show_in_tear_sheet">Show cupcake breakdown in special decorations tear sheet?: <%= check_box 'special', 'show_in_tear_sheet' %></label></p>
+
+<p><label for="special_decoration">Special Decorations Details</label>
+<textarea rows="8" name="special[decoration]" id="special_decoration" cols="40"><%= (@special.decoration != nil)? @special.decoration.strip : "" %></textarea>
+<%#= text_area 'special', 'decoration', :rows => 8  %></p>
+
+<p><label for="special_slug">Slug</label>
+<%= text_field 'special', 'slug'  %></p>
+
+<p><label for="special_image_file">Image file&nbsp;(image should be 360px by 540px)</label>
+<%= file_column_field 'special', 'image_file'  %></p>
+
+<p>
+  <label for="cupcake_slug">Visibility Start Date &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+<%= text_field 'special', 'visible_start_date',{ :size => "12",  :onfocus=>"ShowCalendar(this, '');" }  %> (Please enter a date on or before the Availability Start date. [yyyy-mm-dd]) </label>
+</p>
+
+<p>
+  <label for="cupcake_slug">Availability Start Date &nbsp;
+<%= text_field 'special', 'available_start_date', :size=>"12",   :onfocus=>"ShowCalendar(this, '');"  %> (Leave blank or enter the date in the format [yyyy-mm-dd])</label>
+
+</p>
+<p>
+  <label for="cupcake_slug">Availability End Date &nbsp;&nbsp;
+<%= text_field 'special', 'cutoff_date', :size=>"12",  :onfocus=>"ShowCalendar(this, '');"  %> (Leave blank or enter the date in the format [yyyy-mm-dd])</label>
+
+</p>
+
+
+
+
+<!--[eoform:cupcake]-->
+
+
+<!-- products/_form.rhtml -->
+

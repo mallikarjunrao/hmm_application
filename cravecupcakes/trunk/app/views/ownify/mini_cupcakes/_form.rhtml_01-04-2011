@@ -1,0 +1,142 @@
+
+
+<script type="text/javascript">
+  function init(){
+    // create default slug
+    $('cupcake_title').onchange=function (){
+            if ($('cupcake_slug').value==''){
+                name=$('cupcake_title').value.toLowerCase();
+                var exps = [/ /, /\W/, /__/ ];
+                var subs = ["_", "", "_"];
+                for(i=0; i < exps.length; i++){
+                    while( name.search(exps[i]) != -1){
+                        name = name.replace(exps[i], subs[i]);
+                    }
+                }
+                $('cupcake_slug').value = name
+            }
+    }
+  }
+  window.onload=init
+
+  // rewrite
+  function set_slug(){
+            //if (document.getElementById('cupcake_slug').value==''){
+                name=document.getElementById('cupcake_title').value.toLowerCase();
+                var exps = [/ /, /\W/, /__/ ];
+                var subs = ["_", "", "_"];
+                for(i=0; i < exps.length; i++){
+                    while( name.search(exps[i]) != -1){
+                        name = name.replace(exps[i], subs[i]);
+                    }
+                }
+                
+                document.getElementById('cupcake_slug').value = name
+           // }
+    }
+  //
+
+
+</script>
+
+<link rel="stylesheet" href="/stylesheets/calendar.css" type="text/css" charset="utf-8" />
+<script src="/javascripts/calendar.js" type="text/javascript"></script>
+<script src="/javascripts/js_vlib.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+
+function dateValidate(){
+//alert("Please ensure that the Visibility Start Date is on or before to the Availability Start Date !");
+    var SDate = document.getElementById('cupcake_available_start_date').value;
+    var AEDate = document.getElementById('cupcake_cutoff_date').value;
+    var EDate = document.getElementById('cupcake_visible_start_date').value;
+
+    //var endDate = new Date(EDate);
+    //var startDate = new Date(SDate);
+//alert(new Date(document.getElementById('special_visible_start_date').value));
+    if(SDate != '' && AEDate != '' && SDate > AEDate)
+    {
+      alert("Please ensure that the Availability Start Date is on or before the Availability End Date !");
+      //theForm.txtEnd.focus();
+      return false;
+    }
+    else if(SDate == '' && EDate != '' && AEDate != '' && EDate > AEDate)
+    {
+      alert("Please ensure that the Visibility Start Date is on or before the Availability End Date !");
+      //theForm.txtEnd.focus();
+      return false;
+    }
+    else if(SDate != '' && EDate != '' && SDate < EDate)
+    {
+      alert("Please ensure that the Visibility Start Date is on or before the Availability Start Date !");
+      //theForm.txtEnd.focus();
+      return false;
+    }
+  }
+
+	
+
+       var com = document.forms[0];
+                com.onsubmit = function()
+                {
+                    var ret = dateValidate();
+                    if(ret == false){
+                      return false;
+                    }
+                    else{
+                      return true;
+                    }
+                }
+
+        
+</script>
+
+
+<%= error_messages_for 'cupcake' %>
+
+<!--[form:cupcake]-->
+<p><label for="cupcake_title">Title</label>
+<%= text_field 'cupcake', 'title', :onkeyup => 'set_slug()'  %></p>
+
+<p><label for="cupcake_description">Description</label>
+<%= text_area 'cupcake', 'description', :rows => 8  %></p>
+
+<p><label for="cupcake_cake">Cake<br>
+<%= text_field 'cupcake', 'cake' %>&nbsp;</label></p>
+
+<p><label for="cupcake_slug">Slug</label>
+<%= text_field 'cupcake', 'slug'  %></p>
+
+<!-- thumb image upload column  janath -->
+<p><label for="cupcake_image_file">Thumb Image &nbsp;(image should be 20px by 20px) </label>
+<%= file_column_field 'cupcake', 'thumb_image'  %></p>
+
+<p><label for="cupcake_image_file">Large Image &nbsp;(image should be 360px by 540px)</label>
+<%= file_column_field 'cupcake', 'image_file'  %></p>
+
+<!--[eoform:cupcake]-->
+
+<p><label>Days Available</label>
+<% for _day in Day.find(:all) %>
+  <%= check_box_tag "cupcake[day_ids][]", _day.id, @cupcake.days.include?(_day) %>
+  <%= _day.title %><br/>
+<% end %>
+</p>
+<p>
+	<label for="x">Visibility Start Date &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+	<%= text_field 'cupcake', 'visible_start_date',{ :size=>"12",  :onfocus=>"ShowCalendar(this, '');"} %> (Please enter a date on or before the Availability Start date. [yyyy-mm-dd]) </label>
+</p>
+<p>
+	<label for="x">Availability Start Date &nbsp;
+	<%= text_field 'cupcake', 'available_start_date', :size=>"12",  :onfocus=>"ShowCalendar(this, '');"  %> (Leave blank or enter the date in the format [yyyy-mm-dd])</label>
+</p>
+
+<p>
+	<label for="x">Availability End Date &nbsp;&nbsp;
+	<%= text_field 'cupcake', 'cutoff_date', :size=>"12",  :onfocus=>"ShowCalendar(this, '');"  %> (Leave blank or enter the date in the format [yyyy-mm-dd])</label>
+</p>
+
+
+<!-- products/_form.rhtml -->
+
+

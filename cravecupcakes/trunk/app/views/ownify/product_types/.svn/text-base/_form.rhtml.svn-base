@@ -1,0 +1,23 @@
+<%= error_messages_for 'product_type' %>
+
+<!--[form:product_type]-->
+<p><label for="product_type_title">Section Title</label>
+<%= text_field 'product_type', 'title'  %></p>
+
+<p><label for="product_type_position">Sort Order</label>
+<%= text_field 'product_type', 'position'  %></p>
+
+<p><label for="product_type_show_in_tear_sheet">Show these products in the special decorations tear sheet?&nbsp;<%= check_box 'product_type', 'show_in_tear_sheet' %></label>
+
+<p><label for="product_type_title">Thumb Image&nbsp; (image should be 20px by 20px)</label>
+  <%= file_column_field 'product_type', 'thumb_image'  %>
+<%#= text_field 'product_type', 'thumb_image'  %></p>
+
+<p><label for="product_type_title">Large Image</label>
+  <%= file_column_field 'product_type', 'image_file'  %>
+<%#= text_field 'product_type', 'image_file'  %></p>
+
+<p><label for="product_type_admin_only">Admin Only&nbsp;<%= check_box 'product_type', 'admin_only' %></label>
+</p>
+<!--[eoform:product_type]-->
+

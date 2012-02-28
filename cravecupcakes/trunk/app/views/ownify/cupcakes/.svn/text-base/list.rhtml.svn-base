@@ -1,0 +1,28 @@
+<% @page_title=" Original Size Cupcakes" -%>
+<p><%= link_to 'New Original Size Cupcake', :action => 'new' %></p>
+
+<table>
+  <tr>
+    <th>Flavor</th>
+    <th>Cake</th>
+    <th>Breakfast</th>
+    <th colspan="3">Actions</th>
+  </tr>
+  
+<% for cupcake in @cupcakes %>
+  <tr>
+    <td><%=h cupcake.title %></td>
+    <td><%=h cupcake.cake %></td>
+    <td><%= 'X' if cupcake.is_breakfast  %></td>
+    <td><a href="/cupcake/<%= cupcake.slug %>">View</a></td>
+    <td><%= link_to 'Edit', :action => 'edit', :id => cupcake %></td>
+    <td><%= link_to 'Destroy', { :action => 'destroy', :id => cupcake }, :confirm => 'Are you sure?', :method => :post %></td>
+  </tr>
+<% end %>
+</table>
+
+<p><%= render(:partial => "/paginate", :locals => {:collection => @cupcakes }) -%></p>
+
+<br />
+
+

@@ -1,0 +1,54 @@
+<script type="text/javascript">
+  function init(){
+    // create default slug
+    $('dyno_page_title').onchange=function (){
+            if ($('dyno_page_slug').value==''){
+                name=$('dyno_page_title').value.toLowerCase();
+                var exps = [/ /, /\W/, /__/ ];
+                var subs = ["_", "", "_"];
+                for(i=0; i < exps.length; i++){
+                    while( name.search(exps[i]) != -1){
+                        name = name.replace(exps[i], subs[i]);
+                    }
+                }
+                $('dyno_page_slug').value = name
+            }
+    }
+  }
+  window.onload=init
+</script>
+
+<%= error_messages_for 'dyno_page' %>
+
+<fieldset>
+<legend>Page</legend>
+<!--[form:dyno_page]-->
+<p><label for="dyno_page_title">Title</label>
+<%= text_field 'dyno_page', 'title'  %></p>
+
+<p><label for="dyno_page_sub_title">Publication</label>
+<%= text_field 'dyno_page', 'sub_title'  %></p>
+
+<p><label for="dyno_page_page_on">Date</label>
+<%= date_select 'dyno_page', 'page_on'  %></p>
+
+<p><label for="dyno_page_summary">Summary</label>
+<%= text_area 'dyno_page', 'summary', {:rows => 3} %></p>
+
+<p><label for="dyno_page_uri">URL.  If you do not want a whole page, but just a link to an external resource, use this.</label>
+<%= text_field 'dyno_page', 'uri'  %><br><br clear="all"></p>
+
+</fieldset>
+<fieldset>
+<legend>Content</legend>
+<p>Only if you are not linking to an external site.</p>
+<p><label for="dyno_page_slug">Slug</label>
+<%= ( !(@dyno_page.slug == nil || @dyno_page.slug == "") ? @dyno_page.slug : (text_field 'dyno_page', 'slug') ) %></p>
+
+<p><label for="dyno_page_page_HTML">Page html*</label>
+<%= text_area 'dyno_page', 'page_HTML', {:rows => 23}  %></p>
+
+<%= render(:partial => '/ownify/markdown' ) %>
+</fieldset>
+<!--[eoform:dyno_page]-->
+

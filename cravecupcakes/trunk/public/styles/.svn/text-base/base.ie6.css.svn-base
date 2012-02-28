@@ -1,0 +1,169 @@
+html,body,div,span,
+applet,object,iframe,embed,object,
+h1,h2,h3,h4,h5,h6,p,blockquote,pre,
+a,abbr,acronym,address,big,cite,code,
+del,dfn,em,font,img,ins,kbd,q,s,samp,
+small,strike,strong,sub,sup,tt,var,
+dl,dt,dd,ol,ul,li,
+fieldset,form,label,legend,
+table,caption,tbody,tfoot,thead,tr,th,td {
+  font-family: "Century Gothic", "News Gothic MT", Helvetica, Arial, Verdana, sans-serif;
+}
+h1,h2,h3,h4,h5,h6 {
+  font-weight: 600 !important;
+  letter-spacing: 0.055em !important;
+}
+h1,h2,h3,h4,h5,h6,
+p,li,span,blockquote,input,
+legend,dl,dd,th,td,em,a {
+  font-family: Arial, Verdana, Tahoma, sans-serif !important;
+}
+
+/* fix logo */
+#logo h1 a { display: none; visibility: hidden; /*fix for PNG transparency */ }
+#ie6-logo a img {
+  position: relative; z-index: 20;
+  top: 20px; left: 30px;
+}
+#home-page #wrapper .main {
+  height: 300px;
+  position: relative; z-index: 1;
+}
+#site-nav {
+  margin-left: 135px;
+}
+#daily-flavors, #mini-menu {
+  z-index: 4;
+}
+#mini-menu {
+  padding: 15px 18px;
+}
+#mini-menu ul {
+  width: 160px;
+}
+#mini-menu strong,
+#mini-menu li a {
+  vertical-align: baseline;
+}
+
+/* presentational layout fixes */
+#mini-menu { overflow: visible; }
+#menu-page li a { color: #522c1b; /* choc */ }
+#product-detail-page #details {
+  position: relative; left: 360px;
+  margin-top: -540px;  
+}
+table#avail td.yes {
+  text-indent: -400px;
+  padding-top: 5px; height /**/: 5px;
+  background: url("../images/ui/calendar_yes.gif") no-repeat 15px 5px;
+}
+#product-detail-page #pricing {
+  margin-top: 25px;
+}
+
+/** about photo gal **/
+#gallery {
+ left: 3px;
+}
+
+/*** wedding and events fixes ***/
+#events-page #details {
+  margin: -345px 0 0 0;
+  position: relative; left: 609px;
+  width: 327px;
+}
+a#lily-1 img { position: relative; top: -20px; }
+a#lily-2 img { position: relative; top: -40px; }
+#events-more-page img#prev,
+#events-more-page img#next,
+#events3-page img#prev,
+#gallery-page img#prev,
+#gallery-page img#next {
+  top: 265px;
+}
+#events-page #details img {
+  top: -88px;
+}
+#events-page p img#events1-bg {
+  top: -5px;
+}
+#events-more-page .main {
+  height: 385px;
+  padding-bottom: 0;
+}
+#events-more-page img#hero {
+  width: 555px; 
+  padding: 0; margin: 0;
+}
+#events-more-page #details {
+  margin-top: -50px;
+  margin-left: 25px;
+  width: 300px;
+}
+#events-more-page #details img {
+  width: 310px;
+  margin: -15px 0 0 20px; padding: 0;
+}
+
+/*** order form fixes ***/
+hr#dots {
+  display: none; visibility: hidden;
+}
+p#failover-dots {
+  clear: left; text-indent: -3000px;
+  border: 0 none;
+  width: 893px;
+  padding-top: 39px; height /**/: 39px;
+  background: url("../images/ui/hr_dots.gif") 0 15px repeat-x;
+  margin: 0 0 -20px 0;
+}
+#order-instructions {
+  float: left;
+  width: 350px;
+  position: relative; left: 210px;
+  margin: 0 260px 0 0;
+}
+#order-page fieldset h4 {
+  letter-spacing: -0.035em !important;
+  width: 390px;
+}
+#order-page p#whoops {
+  margin-top: 10px;
+  padding-left: 20px;
+}
+#order-form #submit_button {
+  position: relative; left: -160px;
+}
+#order-page img#merch {   left: 520px; }
+img#giftbox {             left: 405px; margin-top: -190px; }
+#footer div#callout {
+  padding: 0; margin: 0;
+  position: relative;
+  top: -15px; left: 0;
+  background: none;
+}
+#footer div#callout p { margin: 10px 0 0 24px; }
+#footer ul { padding: 0; margin: -10px 0 0 0; }
+* html img,
+* html .png{
+position:relative;
+behavior: expression((this.runtimeStyle.behavior="none")&&(this.pngSet?this.pngSet=true:(this.nodeName == "IMG" && this.src.toLowerCase().indexOf('.png')>-1?(this.runtimeStyle.backgroundImage = "none",
+this.runtimeStyle.filter = "progid:DXImageTransform.Microsoft.AlphaImageLoader(src='" + this.src + "', sizingMethod='image')",
+this.src = "/images/ui/ie_png_fix.gif"):(this.origBg = this.origBg? this.origBg :this.currentStyle.backgroundImage.toString().replace('url("','').replace('")',''),
+this.runtimeStyle.filter = "progid:DXImageTransform.Microsoft.AlphaImageLoader(src='" + this.origBg + "', sizingMethod='crop')",
+this.runtimeStyle.backgroundImage = "none")),this.pngSet=true)
+);
+}
+
+a#facebook, a#twitter {
+	margin-top:4px;
+}
+
+#socnet {
+	float: right;
+	margin-top: -6px;
+	background-image: none;
+	width: 264px;
+	height: 32px;
+}

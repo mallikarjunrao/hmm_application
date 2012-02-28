@@ -1,0 +1,9 @@
+<% @page_title="Edit Block Preorder Time Slot" -%>
+<p><%= link_to 'Back', :action => 'list', :store_id => params[:store_id] %></p>
+
+
+<% form_tag :action => 'update', :id => @blocked_time do %>
+  <%= render :partial => 'form' %>
+  <%= submit_tag 'Edit' %>
+<% end %>
+

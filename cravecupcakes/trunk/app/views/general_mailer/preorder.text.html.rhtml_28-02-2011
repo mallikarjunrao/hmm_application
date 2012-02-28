@@ -1,0 +1,841 @@
+<html>
+  <head>
+    <title></title>
+    <META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=ISO-2022-JP">
+  </head>
+  <body>
+
+<br>
+<table style="width:450px;">
+  <tr><td colspan="2" style="border-bottom:1px solid #999999;"></td></tr>
+  <tr><td colspan="2"><b>Delivery Information</b></td></tr>
+<tr><td colspan="2" style="border-bottom:1px solid #999999;"></td></tr>
+<tr><td width="30%">Store:  </td><td><%= @params[:store] %></td></tr>
+<tr><td>Date:   </td><td><%= @params[:date_of_order] %></td></tr>
+<% if @params[:time_of_order] -%>
+<tr><td>Time:   </td><td><%= HALF_HOUR_TIMES[@params[:time_of_order].to_i][0] %></td></tr>
+<% end -%>
+<tr><td>Method: </td><td><%= (@params[:delivery_method]).capitalize %></td></tr>
+<tr><td colspan="3">&nbsp;</td></tr>
+<tr><td colspan="2" style="border-bottom:1px solid #999999;"></td></tr>
+<tr><td colspan="2"><b>Customer Information</b></td></tr>
+<tr><td colspan="2" style="border-bottom:1px solid #999999;"></td></tr>
+<tr><td>Person: </td><td><%= "#{@params[:first_name]} #{@params[:last_name]}" %></td></tr>
+<tr><td>Email:  </td><td><%= @params[:email] %></td></tr>
+<tr><td>Phone:  </td><td><%= @params[:primary_phone] %></td></tr>
+<tr><td>Alt:    </td><td><%= @params[:alt_phone] != "" ? @params[:alt_phone] : "-" %></td></tr>
+<tr><td colspan="3">&nbsp;</td></tr>
+<% if @params[:delivery_method] == 'delivery' %>
+<tr><td colspan="2" style="border-bottom:1px solid #999999;"></td></tr>
+<tr><td colspan="2"><b>Recipient Information</b></td></tr>
+<tr><td colspan="2" style="border-bottom:1px solid #999999;"></td></tr>
+<tr><td>Person:   </td><td><%= "#{@params[:shipto_first_name]} #{@params[:shipto_last_name]}" %></td></tr>
+<tr><td>Address:</td><td><%= @params[:shipto_address_1] %></td></tr>
+<tr><td>&nbsp;</td><td><%= "# #{@params[:shipto_address_3]}" %></td></tr>
+<tr><td>&nbsp;</td><td><%= @params[:shipto_zip] %></td></tr>
+<tr><td></td><td></td></tr>
+<tr><td>Is a business:    </td><td><%= @params[:shipto_is_business] == "true" ? "Yes" : "No" %></td></tr>
+<tr><td>Business Name:    </td><td><%= @params[:shipto_is_business] == "true" ? @params[:shipto_business] : "N/A" %></td></tr>
+<tr><td></td><td></td></tr>
+<tr><td>Phone:  </td><td><%= @params[:shipto_phone] != "" ? @params[:shipto_phone] : "-" %></td></tr>
+
+
+<% end %>
+<tr><td colspan="3">&nbsp;</td></tr>
+</table>
+<table style="width:450px;">
+<% if @params[:other_notes] != "" && @params[:admin_name] != '' %>
+  <tr><td colspan="2" style="border-bottom:1px solid #999999;"></td></tr>
+  <tr><td colspan="2"><b>Other Order Notes</b></td></tr>
+  <tr><td colspan="2" style="border-bottom:1px solid #999999;"></td></tr>
+  <tr><td colspan="2"><pre><%= @params[:other_notes] %></pre></td></tr>
+  <tr><td colspan="3">&nbsp;</td></tr>
+<% end %>
+</table>
+<table style="width:450px;">
+<tr><td colspan="2" style="border-bottom:1px solid #999999;"></td></tr>
+<tr><td colspan="2"><b>Payment Information</b></td></tr>
+<tr><td colspan="2" style="border-bottom:1px solid #999999;"></td></tr>
+<%if @params[:ccn]!='' %>
+<tr><td>Credit Card Type:                 </td><td><%= @params[:cc_type] %></td></tr>
+<tr><td>Last 4 Digits:                 </td><td><%= @params[:ccn].slice((@params[:ccn].length - 4) ,4)  %></td></tr>
+<tr><td>Name:                  </td><td><%= @params[:b_fname] %> <%= @params[:b_lname] %></td></tr>
+<tr><td>Address:               </td><td><%= @params[:b_adrs] %>, <%= @params[:b_city] %>, <%= @params[:b_state] %> <%= @params[:b_zip] %></td></tr>
+
+<% end %>
+
+<%if  @params[:admin_name]!=nil
+admin_name = Owner.find(:first, :conditions =>["username = ? ", @params[:admin_name]])
+%>
+<tr>
+  <td>Payment Type:                 </td>
+  <td>
+<% if @params[:payment_type]== 'payment_on_delivery' %> 
+    <b> <%= "Payment on delivery" %> </b>
+<% else %> 
+    <% if @params[:payment_type]== 'prepaid_cash' %>
+        <%= "Pre-paid in cash" %>
+    <% elsif @params[:payment_type]== 'Pay_with_a_credit_card' %>
+        <%= "Pay with a credit card" %>
+    <% elsif @params[:payment_type]== 'prepaid_creditcard' %>
+        <%= "Pre-paid with a credit card" %>
+    <% elsif @params[:payment_type]== 'Pay_with_a_CRAVE_gift_card' %>
+        <%= "Pay with a CRAVE gift card" %>
+    <% elsif @params[:payment_type]== 'no_charge' %>
+        <%= "COMP (no charge)" %>
+    <% end  %>
+<% end %>  </td></tr>
+<tr><td>Customer service representative:                 </td><td><%= admin_name.first_name%> <%= admin_name.last_name%></td></tr>
+
+<% if @params[:overridden_user] != nil && @params[:overridden_user] != "" %>
+<tr><td>Payment type override:</td><td><%= @params[:overridden_user] %></td></tr>
+<% end %>
+
+<% end %>
+
+</table>
+<br><br>
+<table style="width:450px;">
+<tr><td colspan="3" style="border-bottom:1px solid #999999;"></td></tr>
+<tr><td colspan="3"><b>Order Information</b></td></tr>
+<tr><td colspan="3" style="border-bottom:1px solid #999999;"></td></tr>
+<tr><td colspan="3">&nbsp;</td></tr>
+<tr><td width="70%"><div align="center"><b>Item</b></div></td><td width="15%"><div align="right"><b>Qty&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</b></div></td><td width="15%"><div align="right"><b>Amount</b></div></td></tr>
+<%
+
+ sp_exists = false
+if @params[:specials]
+
+  for s in @params[:specials]
+    if s[1] != "" && s[1].to_i != 0
+      sp_exists = true
+      break
+    end
+  end
+
+end
+%>
+<%  if sp_exists == true %>
+<tr><td><b>CRAVE Seasonal and Favorite Boxes</b></td><td colspan="2"></td></tr>
+<% end %>
+<%
+
+pretotal = 0.00
+productwise_total = 0.0
+totseasonalbox=0
+
+seasonal_packaging_total_qty = 0
+seasonal_packaging_tax = 0
+
+if @params[:specials] !=  nil
+
+sp_total = 0.0
+totqty=0
+@params[:specials].each_pair{|key, value|
+		_qty = value.to_i
+		if _qty > 0
+  special = Special.find( key )
+  
+  sp_total += (special.price * _qty)
+  totqty += ( _qty * 12)
+
+  if special.incl_gif_box == true
+      seasonal_packaging_total_qty += _qty
+  end
+
+-%>
+      <tr>
+        <td><%= special.title %></td>
+        <td valign="top" align="right"><div align="right"><%= _qty %>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div></td>
+        <td valign="top" align="right"><div align="right"><%= number_to_currency(special.price * _qty) %></div></td>
+      </tr>
+      <%
+        cupcakes = SpecialCupcake.find(:all, :conditions => ["special_id = ?", special.id])
+        for one_of_cup in cupcakes
+            cup_cake = Cupcake.find(:first, :conditions => ["id = ?", one_of_cup.cupcake_id])
+            %>
+            <tr>
+              <td>&nbsp;&nbsp;&nbsp;-&nbsp;<font size="2"><%= cup_cake.title %></font></td>
+              <td width="25%" align="right"><font size="2"><%= (one_of_cup.qty.to_i * _qty.to_i) %></font>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
+              <td>&nbsp;</td>
+            </tr>
+            <%
+        end
+        %>
+<% end
+}
+pretotal += sp_total
+productwise_total += sp_total
+totseasonalbox += totqty
+end
+%>
+<% if @params[:no_of_orders_sp_cake].to_i > 0 %>
+    <tr><td colspan="3">&nbsp;</td></tr>
+    <tr>
+      <td>Number of cupcakes in seasonal boxes:</td><td><div align="right"><%= @params[:no_of_orders_sp_cake] %>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div></td><td></td>
+    </tr>
+<% end %>
+<% if seasonal_packaging_total_qty != 0 %>
+    <%
+    seasonal_giftbox1  = Configuration.find(:first, :conditions => ["name = 'packaging_gift_box_cost' "])
+                   if seasonal_giftbox1 !=nil
+                    seasonal_giftbox = seasonal_giftbox1.value.to_f
+                   else
+                    seasonal_giftbox = 0.0
+                    end
+
+      
+      tax_rate = (Configuration.find_by_name("tax_rate")).value
+
+      seasonal_packaging_tax = (seasonal_giftbox * seasonal_packaging_total_qty * tax_rate.to_f)/100
+      seasonal_packaging_tax = (seasonal_packaging_tax * 100).round / 100.0
+    %>
+    
+    <tr><td colspan="3">&nbsp;</td></tr>
+    <tr>
+      <td>Sales Tax - Packaging Only (<%= ["%.2f" % tax_rate] %>%) </td>
+      <td align="left">&nbsp;</td>
+      <td align="right">
+        <div align="right">$<%= ["%.2f" % seasonal_packaging_tax] %></div>
+      </td>
+    </tr>
+<% end %>
+
+<tr><td colspan="3">&nbsp;</td></tr>
+
+<tr><td><b>Standard Cupcakes</b></td><td colspan="2"></td></tr>
+<%
+#ribbon_price = 2.0
+ ribbon_price1  = Price.find(:first, :conditions => ["title = 'ribbon' "])
+ if ribbon_price1 !=nil
+  ribbon_price = ribbon_price1.price
+ else
+   ribbon_price = 0.0
+ end
+
+ breakfast1  = Price.find(:first, :conditions => ["title = 'breakfast' "])
+ if breakfast1 !=nil
+  breakfast = breakfast1.price
+ else
+   breakfast = 0.0
+ end
+
+ single1  = Price.find(:first, :conditions => ["title = 'single' "])
+ if single1 !=nil
+  single = single1.price
+ else
+   single = 0.0
+ end
+
+ dozen1  = Price.find(:first, :conditions => ["title = 'dozen' "])
+ if dozen1 !=nil
+  dozen = dozen1.price
+ else
+   dozen = 0.0
+ end
+
+ breakfast_dozen1  = Price.find(:first, :conditions => ["title = 'breakfast dozen' "])
+ if breakfast_dozen1 !=nil
+  breakfast_dozen = breakfast_dozen1.price
+ else
+   breakfast_dozen = 0.0
+ end
+
+ mini_dozen = (Price.find_by_title('two dozen mini')).price.to_f
+
+is_bluebox =  @params[:cupcake_boxed_special]
+potion_box =  @params[:remainder_cupcakes]
+patial_induvidual = @params[:noof_induv_cupcake].to_i
+
+giftbox_price1  = Configuration.find_by_name('packaging_gift_box_cost')
+ if giftbox_price1 !=nil
+  giftbox_price = giftbox_price1.value.to_f
+ else
+   giftbox_price = 0.0
+ end
+
+induvidual_price1  = Configuration.find_by_name('packaging_flavor_box_cost')
+ if induvidual_price1 !=nil
+  induvidual_price = induvidual_price1.value.to_f
+ else
+   induvidual_price = 0.0
+ end
+
+
+count_breakfast = 0
+count_cupcakes = 0
+
+cupcake_subtotals = 0.0
+
+@params[:cupcakes].each_pair{|key, value|
+		_quantity = value.to_i
+		if _quantity > 0
+  cupcake = Cupcake.find( key )
+  
+  if cupcake.is_breakfast
+    count_breakfast += _quantity
+  else
+    count_cupcakes += _quantity
+  end
+
+  cp_sup = cupcake.is_breakfast ? (_quantity * breakfast) : (_quantity * single)
+  cupcake_subtotals += cp_sup
+ end
+}
+productwise_total += cupcake_subtotals
+
+boxes = 0
+totcupcakes = (count_breakfast + count_cupcakes);
+
+boxes = ( (count_breakfast + count_cupcakes ) / 12.0 ).to_i
+cupcake_packages = count_cupcakes.divmod( 12 )
+breakfast_packages = count_breakfast.divmod( 12 )
+dozens_cupcakes = cupcake_packages[0]
+dozens_breakfast = breakfast_packages[0]
+singles_cupcakes = cupcake_packages[1]
+singles_breakfast = breakfast_packages[1]
+
+  has_cupcakes = false;
+  cupcakes = @params[:cupcakes]
+
+  for order in @params[:cc_display_order].sort
+    if cupcakes[order[1]].to_i != 0
+    %>
+    <tr>
+          <% c_cake = Cupcake.find(:first, :conditions => ["id = ?", order[1]]) %>
+          <td><%= c_cake.title %><%= c_cake.is_breakfast == true ? " (Breakfast)" : ""  %></td>
+          <td align="left"><div align="right"><%= cupcakes[order[1]] %>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div></td>
+          <%
+            c_price = c_cake.is_breakfast ? breakfast : single
+
+            sub_total_displayonly = (cupcakes[order[1]].to_i)*c_price
+            has_cupcakes = true;
+          %>
+          <td align="right"><div align="right">$<%= ["%.2f" % sub_total_displayonly] %></div></td>
+      </tr>
+    <%
+      end
+  end
+  %>
+
+  <% if has_cupcakes == true %>
+        <tr><td>&nbsp;</td></tr>
+        <tr>
+          <td>Number of itemized standard cupcakes</td>
+          <td align="left"><div align="right"><%=(count_breakfast + count_cupcakes ) %>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div></td>
+          <td align="right"><div align="right">&nbsp;</div></td>
+        </tr>
+  <% end %>
+
+  <%if has_cupcakes == false %>
+    <tr><td colspan="3">- No -</td></tr>
+ <% end %>
+
+<!-- mini cupcakes start -->
+<%
+   count_of_mini_cupcakes = 0
+
+       if @params[:mini_cupcakes] !=  nil
+%>
+
+  <tr><td colspan="3">&nbsp;</td></tr>
+  <tr><td><b>Mini Cupcakes</b></td><td colspan="2"></td></tr>
+  <%
+      has_mini_cupcakes = false
+      mini_cupcakes = @params[:mini_cupcakes]     
+
+      for order in @params[:mini_cc_display_order].sort
+            if mini_cupcakes[order[1]].to_i != 0
+                %>
+                  <tr>
+                        <% c_cake = MiniCupcake.find(:first, :conditions => ["id = ?", order[1]]) %>
+                        <td><%= c_cake.title %></td>
+                        <td align="left"><div align="right"><%= mini_cupcakes[order[1]] %>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div></td>
+                        <%
+                        sub_total = ((mini_cupcakes[order[1]].to_i)/24) * mini_dozen
+                        count_of_mini_cupcakes += mini_cupcakes[order[1]].to_i
+                        productwise_total += sub_total
+                        pretotal += sub_total
+                        has_mini_cupcakes = true
+                   %>
+                        <td align="right"><div align="right">$<%= ["%.2f" % sub_total] %></div></td>
+                </tr>
+                <%
+            end
+      end
+  %>
+  <% if has_mini_cupcakes == true %>
+      <tr><td>&nbsp;</td></tr>
+      <tr>
+          <td>Number of itemized mini cupcakes</td>
+          <td align="left"><div align="right"><%= count_of_mini_cupcakes %>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div></td>
+          <td align="right"><div align="right">&nbsp;</div></td>
+      </tr>
+  <% end %>
+  
+  <%if has_mini_cupcakes == false %>
+  <tr><td colspan="3">- No -</td></tr>
+  <% end %>         
+  <% end %>
+  <tr><td colspan="3">&nbsp;</td></tr>  
+<!-- mini cupcakes end -->
+
+ <% if has_cupcakes == true || @params[:no_of_orders_sp_cake].to_i > 0 %>
+    <tr>
+      <td>Total number of cupcakes in your order</td>
+      <td align="left"><div align="right"><%= (@params[:no_of_orders_sp_cake].to_i + count_breakfast + count_cupcakes + count_of_mini_cupcakes ) %>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div></td>
+      <td align="right"><div align="right">&nbsp;</div></td>
+    </tr>
+  <% end %>
+
+
+ <%
+  packaging_tax = 0
+  packaging_fee = 0.0
+
+
+  if is_bluebox =='packed_in_blue_box'
+    packaging_fee = ( boxes * giftbox_price )
+    pretotal += ( boxes * giftbox_price )
+  end
+ 
+  if is_bluebox == 'packed_in_individual_box'
+    packaging_fee = (totcupcakes * induvidual_price )
+    pretotal += (totcupcakes * induvidual_price )
+  end
+
+  
+-%>
+
+ <tr><td>&nbsp;</td></tr>
+                <% if is_bluebox =='packed_in_blue_box' || is_bluebox == "packed_in_individual_box" %>
+                  <tr>
+                    <td height="25" colspan="3"><span class="order_content_bold"><b>Packaging Fees</b></span></td>
+                  </tr>
+                  <% if is_bluebox =='packed_in_blue_box' %>
+                    <tr><td>Blue Crave Gift Box</td><td align="right"><div align="right"><%= boxes %>&nbsp;&nbsp;</div></td><td align="right"><div align="right"><%= number_to_currency( boxes * giftbox_price ) %></div></td></tr>
+                  <% end %>
+                  
+                  <% if is_bluebox == "packed_in_individual_box" %>
+                    <tr><td>Individual cupcake boxes</td><td align="right"><div align="right"><%= totcupcakes %>&nbsp;&nbsp;</div></td><td align="right"><div align="right"><%= number_to_currency( totcupcakes * induvidual_price ) %></div></td></tr>
+                  <% end %>
+                <% end  %>
+                <% if packaging_fee != 0 %>
+                  <%
+                    tax_rate = (Configuration.find_by_name("tax_rate")).value
+                    packaging_tax = (["%.2f" % packaging_fee][0].to_f * tax_rate.to_f)/100
+                    packaging_tax = (packaging_tax * 100).round / 100.0
+                  %>
+                  <tr><td colspan="3">&nbsp;</td></tr>
+                  <tr>
+                    <td>Sales Tax - Packaging Only (<%= ["%.2f" % tax_rate] %>%) </td>
+                    <td align="left">&nbsp;</td>
+                    <td align="right">
+                      <div align="right">$<%= ["%.2f" % packaging_tax] %></div>
+                      <input type="hidden" name="sales_tax_packaging" value="<%= ["%.2f" % packaging_tax] %>">
+                    </td>
+                  </tr>
+                <% end %>
+
+<tr><td colspan="3">&nbsp;</td></tr>
+<tr><td><b>Merchandise</b></td><td colspan="2"></td></tr>
+<%
+product_sub_total = 0.0
+@params[:products].each_pair{|key, value|
+		quantity = value.to_i
+		if quantity > 0
+  product = Product.find( key )
+
+  product_sub_total = product.price * quantity
+  productwise_total += product_sub_total
+  pretotal += product_sub_total
+ end
+} -%>
+<%
+
+
+    products = @params[:products]
+    has_products = false
+
+    other_product_total = 0
+    other_product_total_for_tax = 0
+    tax_amount = 0
+
+    for pro_order in @params[:pro_display_order].sort
+        if products[pro_order[1]].to_i != 0
+    %>
+    <tr>
+          <% product = Product.find(:first, :conditions => ["id = ?", pro_order[1]]) %>
+          <td><%= product.title %></td>
+
+        <td align="left"><div align="right"><%= products[pro_order[1]] %>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div></td>
+        <%
+          sub_total_display_only = 0.0
+          sub_total_display_only = (products[pro_order[1]].to_i)*(product.price)
+
+          other_product_total += sub_total_display_only
+
+          if product.exclude_tax != true
+            other_product_total_for_tax += sub_total_display_only
+          end
+
+          has_products = true
+        %>
+        <td align="right"><div align="right">$<%= ["%.2f" % sub_total_display_only] %></div></td>
+      </tr>
+      <% end %>
+  <%
+
+    end
+
+  %>
+
+ <% if has_products == true %>
+      <tr><td colspan="3">&nbsp;</td></tr>
+      <tr>
+        <td>Merchandise Total</td>
+        <td align="left">&nbsp;</td>
+        <td align="right"><div align="right">$<%= ["%.2f" % other_product_total] %></div></td>
+      </tr>
+
+      <%
+      tax_rate = (Configuration.find_by_name("tax_rate")).value
+
+      tax_amount = (["%.2f" % other_product_total_for_tax][0].to_f * tax_rate.to_f)/100
+      
+      tax_amount = (tax_amount * 100).round / 100.0
+      %>
+      <% if tax_amount > 0 %>
+      <tr>
+        <td>Sales Tax - Merchandise Only (<%= ["%.2f" % tax_rate] %>%) </td>
+        <td align="left">&nbsp;</td>
+        <td align="right">
+          <div align="right">$<%= ["%.2f" % tax_amount] %></div>
+          <input type="hidden" name="sales_tax" value="<%= ["%.2f" % tax_amount] %>">
+        </td>
+      </tr>
+      <% end %>
+ <% end %>
+
+ <%if has_products == false %>
+    <tr><td colspan="3">- No -</td></tr>
+ <% end %>
+
+<tr><td colspan="3">&nbsp;</td></tr>
+<tr><td colspan="2">Sub Total:           </td><td align="right"><div align="right"><%= number_to_currency(productwise_total + packaging_fee + tax_amount + packaging_tax + seasonal_packaging_tax) %></div></td></tr>
+<tr><td colspan="3">&nbsp;</td></tr>
+<%
+to_gross_total = 0.0
+to_gross_total = productwise_total
+
+if dozens_cupcakes > 0
+		pretotal += dozens_cupcakes * dozen
+
+end
+
+
+
+if dozens_breakfast > 0
+		pretotal += dozens_breakfast * breakfast_dozen
+
+end
+
+
+-%>
+<% if singles_cupcakes > 0
+		pretotal += singles_cupcakes * single 
+   end -%><%
+   if singles_breakfast > 0
+		pretotal += singles_breakfast * breakfast 
+   end
+
+total_singles = singles_cupcakes + singles_breakfast
+mixed_dozen_price = singles_cupcakes * single + breakfast * ( total_singles > 11 ? 12 - singles_cupcakes : singles_breakfast )
+if mixed_dozen_price > dozen
+  mixed_discount = mixed_dozen_price - dozen
+  pretotal -= mixed_discount
+
+end
+%>
+
+<%
+delivery_fee = 0.0
+delivery_fee = @params[:order_shipping]
+
+
+if @params[:order_weekend]!=''
+delivery_fee_weekend = @params[:order_weekend]
+pretotal += delivery_fee_weekend
+
+end
+
+
+pretotal += delivery_fee
+productwise_total += delivery_fee_weekend
+productwise_total += delivery_fee
+productwise_total += packaging_fee
+%>
+<% if((productwise_total-pretotal) > 0) %>
+<tr><td colspan="2">Discount:          </td><td align="right"><div align="right">- <%= number_to_currency(productwise_total-pretotal) %></div></td></tr>
+<% end %>
+
+<% if (delivery_fee != 0) %>
+<tr><td colspan="2">Delivery Fee:        </td><td align="right"><div align="right"><%= number_to_currency( delivery_fee ) %></div></td></tr>
+<% end %>
+<%  if @params[:order_weekend]!= 0 %>
+<tr><td colspan="2">Weekend Delivery Fee:        </td><td align="right"><div align="right"><%= number_to_currency(  delivery_fee_weekend ) %></div></td></tr>
+<% end %>
+
+
+<% if (@params[:oversize_order_surcharge] != nil && (@params[:oversize_order_surcharge] != "" && @params[:oversize_order_surcharge].to_f != 0)) %>
+<tr><td colspan="2">Oversize&nbsp;order&nbsp;surcharge:&nbsp;&nbsp;</td><td align="right"><div align="right">$<%= ["%.2f" % @params[:oversize_order_surcharge]] %></div></td></tr>
+<% end %>
+
+<tr><td colspan="3">&nbsp;</td></tr>
+<tr><td colspan="2"><b>Total:</b>               </td><td align="right"><div align="right"><b><%= number_to_currency( pretotal + tax_amount + packaging_tax + seasonal_packaging_tax + @params[:oversize_order_surcharge].to_f) %></b></div></td></tr>
+<tr><td colspan="3">&nbsp;</td></tr>
+</table>
+<br>
+<% if @params[:has_special_decorations] %>
+    <p>I would like special decorations on my standard cupcakes:  TRUE</p>
+    <%
+                @sp_dec_value = ""
+        
+                    name = @params[:sp_dd].split("*")
+                
+                    if name[0] != "Select"
+                    
+                        @sp_dec = SpecialDecoration.find_by_name(name[0])                            
+                    
+                        @sp_dec_value = @sp_dec.name + " [" + @sp_dec.group.capitalize + "] - " + ((@params[:clr_2] == "Select")? @params[:clr_1] : ("Base: " + @params[:clr_1] + ", Top: " + @params[:clr_2])) 
+                      
+                        %><p><%= @sp_dec_value %><br><%= (@params[:number] != "Select")? ("Number: " + @params[:number]) : "" %><%= (@params[:letter] != "Select")? ("Letter: " + @params[:letter]) : "" %></p>
+                  <% end %>
+              <% if @params[:sp_dec_notes] != nil && @params[:sp_dec_notes] != "" %>
+                  <p><b>Special Decorations Notes:</b></p><p><%= @params[:sp_dec_notes] %><br></p>
+              <% end %>
+<% end %>
+<%  if @params[:mini_cupcakes] !=  nil %>
+    <% if @params[:has_special_decorations_mini] %>
+        <p>I would like special decorations on my mini cupcakes:  TRUE</p>
+        <%
+                    @sp_dec_value = ""
+            
+                        name = @params[:sp_dd_mini].split("*")
+                    
+                        if name[0] != "Select"
+                        
+                            @sp_dec = SpecialDecoration.find_by_name(name[0])                            
+                        
+                            @sp_dec_value = @sp_dec.name + " [" + @sp_dec.group.capitalize + "] - " + @params[:clr_1_mini] 
+                          
+                            %><p><%= @sp_dec_value %><br></p>
+                      <% end %>
+                  <% if @params[:sp_dec_notes_mini] != nil && @params[:sp_dec_notes_mini] != "" %>
+                      <p><b>Special Decorations Notes:</b></p><p><%= @params[:sp_dec_notes_mini] %><br></p>
+                  <% end %>
+    <% end %>
+<% end %>
+    <br>
+    <% if @params[:gift_msg] != "" %>
+    <p>I am ordering greeting cards/gift cards and I would like to include this personal message.</p>
+    <p><pre><%= @params[:gift_msg] %></pre></p>
+    <% end %>
+  
+  <br>
+  <table>
+  <tr>
+                    <td><span class="order_content_bold">Order completed and packaged by:</span></td>
+                    <td>...............................................</td>
+                  </tr>
+                  </table>
+ 
+<br/><br/>
+
+<%
+show_tear_sheet = false
+@params[:specials].each_pair{|key, value|
+      _qty = value.to_i
+      if _qty > 0
+          special = Special.find( key )
+          if special.show_in_tear_sheet == true || (special.decoration != nil && special.decoration.strip != "")
+              show_tear_sheet = true
+              break
+          end
+      end
+}
+
+%>
+
+
+<% if @params[:has_special_decorations] || @params[:has_special_decorations_mini] || show_tear_sheet == true %>
+
+<%
+  rep_date = Date.parse(@params[:date_of_order])
+%>
+
+<p style='page-break-before:always'><o:p>&nbsp;</o:p></p>
+<div>
+
+<table style="width:500px;">
+  <tr><td colspan="3" align="left"><b>SPECIAL DECORATIONS TEAR SHEET</b></td></tr>
+  <tr><td colspan="3" style="border-top:1px solid #999999;"></td></tr>
+  <tr>
+    <td><div style="width:250px;"><%= "#{@params[:first_name]} #{@params[:last_name]}" %></div></td>
+    <td colspan="2" align="right"><div><%= rep_date.strftime("%a") + " " + rep_date.strftime("%b") + " " + rep_date.strftime("%d").to_i.to_s + ", " + rep_date.strftime("%Y") %>&nbsp;/&nbsp;<%= HALF_HOUR_TIMES[@params[:time_of_order].to_i][0] %></div></td>
+  </tr>
+  <tr><td></td><td colspan="2" align="right"><%= (@params[:delivery_method]).capitalize %></td></tr>
+  <tr><td colspan="3" align="right">&nbsp;</td></tr>
+
+<% if show_tear_sheet == true %>
+  <tr><td colspan="3" align="left"><b>CRAVE Seasonal and Favorite Boxes</b></td></tr>
+  <%
+  @params[:specials].each_pair{|key, value|
+      _qty = value.to_i
+      if _qty > 0
+          special = Special.find( key )
+          if special.show_in_tear_sheet == true || (special.decoration != nil && special.decoration.strip != "")
+            %>
+            <tr><td><%= special.title %></td><td align="right"><%= _qty %>&nbsp;Box(es)</td><td>&nbsp;</td></tr>
+            <%
+            if special.show_in_tear_sheet == true
+                cupcakes = SpecialCupcake.find(:all, :conditions => ["special_id = ?", key])
+                for one_of_cup in cupcakes
+                      cup_cake = Cupcake.find(:first, :conditions => ["id = ?", one_of_cup.cupcake_id])
+                      %>
+            <tr><td>&nbsp;&nbsp;&nbsp;-&nbsp;<font size="2"><%= cup_cake.title %></font></td><td align="right"><font size="2"><%= (one_of_cup.qty.to_i * _qty.to_i) %></font></td><td>&nbsp;</td></tr>
+                      <%
+                  end
+            end
+            if special.decoration != nil && special.decoration.strip != ""
+                %>
+                </table>
+                <table style="width:500px;">
+                    <tr><td colspan="3">&nbsp;&nbsp;&nbsp;*&nbsp;<font size="2"><%= special.decoration.strip %></font></td></tr>
+                </table>
+                <table style="width:500px;">
+                <%
+            end
+            %>
+            <tr><td colspan="3">&nbsp;</td></tr>
+            <%
+          end
+      end
+  }
+  %>
+<tr><td colspan="3" align="right">&nbsp;</td></tr>
+<% end %>
+<% if @params[:has_special_decorations] %>
+  <tr><td colspan="3" align="left"><b>Standard Cupcakes</b></td></tr>
+    <%
+      cupcakes = @params[:cupcakes]
+
+      for order in @params[:cc_display_order].sort
+        if cupcakes[order[1]] != ""
+        %>
+        <tr>
+              <% c_cake = Cupcake.find(:first, :conditions => ["id = ?", order[1]]) %>
+          <td width="70%"><%= c_cake.title %><%= c_cake.is_breakfast == true ? " (Breakfast)" : ""  %></td>
+          <td width="20%" align="left"><div align="right"><%= cupcakes[order[1]] %></div></td>
+          <td width="10%" align="right"><div align="right" style="width:50px;">&nbsp;</div></td>
+          </tr>
+        <%
+          end
+      end
+    %>
+<% end %>
+
+</table>
+
+<% if @params[:has_special_decorations] %>
+  <table style="width:450px;">
+    <tr><td colspan="3" align="right">&nbsp;</td></tr>
+    <tr><td colspan="3"><b>Special Decoration Selection (Standard Cupcakes)</b>:</td></tr>
+    <tr>
+    <td colspan="3">
+          <%
+                @sp_dec_value = ""
+        
+                    name = @params[:sp_dd].split("*")
+                    
+                    if name[0] != "Select"
+                    
+                          @sp_dec = SpecialDecoration.find_by_name(name[0])                            
+                          
+                          @sp_dec_value = @sp_dec.name + " - " + ((@params[:clr_2] == "Select")? @params[:clr_1] : ("Base: " + @params[:clr_1] + ", Top: " + @params[:clr_2])) 
+                            
+                          %><p><%= @sp_dec_value %><br><%= (@params[:number] != "Select")? ("Number: " + @params[:number]) : "" %><%= (@params[:letter] != "Select")? ("Letter: " + @params[:letter]) : "" %></p>
+                  <% else %>
+                          <p>N/A</p>
+                  <% end %>
+              <% if @params[:sp_dec_notes] != nil && @params[:sp_dec_notes] != "" %>
+                  <p><b>Special Decorations Notes:</b><br>
+                  <pre><%= @params[:sp_dec_notes] %></pre></p>
+              <% end %>
+      </td>
+    </tr>
+  </table>
+<% end %>
+  
+<%  if @params[:mini_cupcakes] !=  nil %>
+        <br>  
+        <table style="width:500px;">
+        <% if @params[:has_special_decorations_mini] %>
+          <tr><td colspan="3" align="left"><b>Mini Cupcakes</b></td></tr>
+            <%
+              cupcakes = @params[:mini_cupcakes]
+
+              for order in @params[:mini_cc_display_order].sort
+                if cupcakes[order[1]] != ""
+                %>
+                <tr>
+                      <% c_cake = MiniCupcake.find(:first, :conditions => ["id = ?", order[1]]) %>
+                      <td width="70%"><%= c_cake.title %></td>
+                      <td width="20%" align="left"><div align="right"><%= cupcakes[order[1]] %></div></td>
+                      <td width="10%" align="right"><div align="right" style="width:50px;">&nbsp;</div></td>
+                  </tr>
+                <%
+                  end
+              end
+            %>
+        <% end %>
+
+        </table>
+
+        <% if @params[:has_special_decorations_mini] %>
+          <table style="width:450px;">
+            <tr><td colspan="3" align="right">&nbsp;</td></tr>
+            <tr><td colspan="3"><b>Special Decoration Selection (Mini Cupcakes)</b>:</td></tr>
+            <tr>
+            <td colspan="3">
+                  <%
+                        @sp_dec_value = ""
+                
+                            name = @params[:sp_dd_mini].split("*")
+                            
+                            if name[0] != "Select"
+                            
+                                  @sp_dec = SpecialDecoration.find_by_name(name[0])                            
+                                  
+                                  @sp_dec_value = @sp_dec.name + " - " + @params[:clr_1_mini]
+                                    
+                                  %><p><%= @sp_dec_value %><br></p>
+                          <% else %>
+                                  <p>N/A</p>
+                          <% end %>
+                      <% if @params[:sp_dec_notes_mini] != nil && @params[:sp_dec_notes_mini] != "" %>
+                          <p><b>Special Decorations Notes:</b><br>
+                          <pre><%= @params[:sp_dec_notes_mini] %></pre></p>
+                      <% end %>
+              </td>
+            </tr>
+          </table>
+        <% end %>
+<% end %>
+
+ </div>
+
+<% end %>
+
+  </body>
+</html>

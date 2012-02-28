@@ -1,0 +1,44 @@
+<script type="text/javascript">
+window.onload = function(){
+		new JsDatePick({
+			useMode:2,
+			target:"date_1"
+                       //target: "available_start_date"
+			//limitToToday:true <-- Add this should you want to limit the calendar until today.
+		});
+
+                new JsDatePick({
+			useMode:2,
+			//target:"cupcake_cutoff_date"
+                       target: "date_2"
+			//limitToToday:true <-- Add this should you want to limit the calendar until today.
+		});
+
+                 <%#*new JsDatePick({%>
+			<%#*useMode:2,%>
+			<%#*//target:"cupcake_cutoff_date"%>
+                       <%#*target: "cupcake_visible_start_date"%>
+			<%#*//limitToToday:true <-- Add this should you want to limit the calendar until today.%>
+		<%#*});%>
+	};
+
+</script>
+<% @page_title="Bake Sheet Report" -%>
+<%
+tomorrow = Time.now + 3600*24
+nex_day = tomorrow + 3600*24*7
+
+%>
+<br>
+  <form action="/ownify/bake_sheet/get_report" method="post">
+    <div><span>Start Date: </span><span><input id=date_1 name=date_1 value="<%= (params[:date_1] != nil)? params[:date_1] : tomorrow.year.to_s + "-" + tomorrow.strftime("%m").to_s + "-" + tomorrow.strftime("%d")  %> " type=text readonly="readonly">&nbsp;</span></div>
+    <div style="height:5px;">&nbsp;</div>
+    <div><span>End Date:&nbsp;&nbsp;</span><span><input id=date_2 name=date_2 value="<%= (params[:date_2] != nil)? params[:date_2] : nex_day.year.to_s + "-" + nex_day.strftime("%m").to_s + "-" + nex_day.strftime("%d") %>" type=text readonly="readonly">&nbsp;</span></div>
+    <div style="height:10px;">&nbsp;</div>
+    <div><span><input type="submit" value="Submit"></span></div>
+  </table>
+   </form>
+<br><br>
+
+
+

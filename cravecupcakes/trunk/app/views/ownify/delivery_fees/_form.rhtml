@@ -1,0 +1,42 @@
+<script type="text/javascript">
+  /*
+  function init(){
+    // create default slug
+    $('configuration_title').onchange=function (){
+            if ($('special_slug').value==''){
+                name=$('special_title').value.toLowerCase();
+                var exps = [/ /, /\W/, /__/ ];
+                var subs = ["_", "", "_"];
+                for(i=0; i < exps.length; i++){
+                    while( name.search(exps[i]) != -1){
+                        name = name.replace(exps[i], subs[i]);
+                    }
+                }
+                $('special_slug').value = name
+            }
+    }
+  }
+  window.onload=init
+  */
+</script>
+
+<%= error_messages_for 'deliveryfee' %>
+
+<!--[form:cupcake]-->
+
+<!--<p><label for="deliveryfee_store_id">Store ID</label>-->
+<%#= hidden_field 'deliveryfee', 'store_id'  %><!--<br>(1 = <i>Houston</i>, 2 = <i>Coming in March 2010</i>)</p>-->
+
+<p><label for="deliveryfee_zip">Zip</label>
+<%= text_field 'deliveryfee', 'zip'  %></p>
+
+<p><label for="deliveryfee_expense">Delivery Fee</label>
+<%= text_field 'deliveryfee', 'delivery_fee'  %></p>
+
+<input type="hidden" name="deliveryfee[store_id]" value="<%= params[:store_id] %>">
+
+<!--[eoform:cupcake]-->
+
+
+<!-- products/_form.rhtml -->
+

@@ -1,0 +1,28 @@
+<% @body_id = "cares" %>
+<% @page_title = "CRAVE CARES &raquo;" %>
+    <div class="main">
+	  <div id="details">
+	    <h3>CRAVE CARES</h3>
+<% for cares in @dyno_pages
+     cares_link = ( cares.uri && !cares.uri.blank? ? cares.uri : "/care/#{ cares.slug }" )
+-%>
+	    <div class="story" id="s<%= cares.id %>">
+          <div class="teaser-img">
+            <% if cares.thumb_path != nil %>
+		    <a href="<%= cares_link %>" title="<%= cares.title %>"><img src="<%= cares.thumb_path %>" alt="<%= cares.title %>" /></a>
+            <% end %>
+          </div>
+          
+          <div class="story-teaser">
+            <h5 class="timestamp"><%= cares.page_on.strftime('%B %d, %Y') %></h5>
+            <h4 class="media-source"><%= cares.sub_title %></h4>
+
+            <h4><a href="<%= cares_link %>"><%= cares.title %></a></h4>
+            <p><%= cares.summary %> <a href="<%= cares_link %>">Read more &raquo;</a></p>
+          </div>
+        </div><!--end: story-->
+<% end -%>
+
+    </div><!--end: details-->
+
+  </div><!--end: main-->

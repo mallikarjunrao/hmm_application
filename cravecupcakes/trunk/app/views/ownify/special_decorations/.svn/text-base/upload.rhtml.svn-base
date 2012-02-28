@@ -1,0 +1,30 @@
+<% @page_title="Special Decoration Popup Images" -%>
+<p><%= link_to 'Back', :controller => "special_decorations", :action => 'list' %></p>
+
+<font color="green"><b><%= (@msg)? @msg + "<br>" : "" %></b></font>
+<br>
+
+<%= start_form_tag({:action => 'upload'}, :multipart => true) %>
+  <p><label>Original Size Cupcake Special Decorations Image&nbsp;(Image width should be 800px)</label>
+  <%= file_field 'upload', 'standard_file' %> 
+</p>
+  
+  <br />
+  
+  <p><label>Mini Cupcake Special Decorations Image&nbsp; (Image width should be 800px)</label>
+  <%= file_field 'upload', 'mini_file' %> </p>
+  
+  <br>
+  <%= submit_tag "Upload" %>
+  <br /> <br /> <br />
+  
+<%= end_form_tag %>
+ <div style="float:left; width:auto; margin-right: 20px;">
+<p><label>Current original size decoration image<br>(click to view in full size)</label></p>
+<a href="/images/special_decorations.jpg" target="_blank" style="border:none;"><img border="0" width="250" src="/images/special_decorations.jpg"></a>
+</div>
+<div style="float:left; width:auto;">
+<p><label>Current mini decoration image<br>(click to view in full size)</label></p>
+<a href="/images/mini_special_decorations.jpg" target="_blank" style="border:none;"><img border="0" width="250" src="/images/mini_special_decorations.jpg"></a>
+</div>
+

@@ -1,0 +1,7 @@
+<% @page_title="New Delivery Fee" -%>
+<p><%= link_to 'Back', :action => 'list', :store_id => params[:store_id] %></p>
+
+<% form_tag( {:action => 'create', :store_id => params[:store_id]}, :multipart => true ) do %>
+  <%= render :partial => 'form' %>
+  <%= submit_tag "Create" %>
+<% end %>

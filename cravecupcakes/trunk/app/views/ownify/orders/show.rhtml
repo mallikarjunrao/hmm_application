@@ -1,0 +1,860 @@
+<div>
+  <% @page_title = "Show Order" %>
+
+  <p><%= link_to 'Back', :action => 'list' %></p>
+
+</div>
+
+<div style="padding-left:1px;"><button onclick="create_popup('wrapper1');">Print</button><br><br><br></div>
+<script type="text/javascript">
+  function create_popup(id){
+
+    newwindow = window.open("",'','height=500,width=1020,menubar=yes,status=no,screenX=100,screenY=50,scrollbars=yes');
+    newdocument=newwindow.document;
+
+    var css = "";
+    css += '<link rel="stylesheet" href="/stylesheets/order_confirm.css" type="text/css" charset="utf-8" />';
+    css += '<link rel="stylesheet" href="/stylesheets/admin.css" type="text/css" charset="utf-8" />';
+    var content = "<div style='margin: 30px;'>\n";
+    content += document.getElementById(id).innerHTML;
+    content += "</div>\n";
+
+    newdocument.write(css + content);
+    newdocument.title = "Print Preview";
+
+    var browser=navigator.appName;
+    if (browser=='Microsoft Internet Explorer'){
+     setTimeout("newdocument.execCommand('Stop')",2000);
+    }
+    else{
+      setTimeout("newwindow.stop()",2000);
+    }
+
+    if (window.focus) {newwindow.focus();}
+     newwindow.print();
+     newwindow.document.close();
+  }
+</script>
+
+
+<div id="wrapper1" style="margin:-20px 0px">
+   <!-- main container start -->
+  <div class="main_container1">
+
+    <div class="main_container_left1">
+      <!-- Delivery Information start -->
+      <div class="info">
+        <fieldset class="order_info fieldset">
+          <legend class="legend1">Delivery Information</legend>
+          <div class="order_content1">
+            <table class="tabletdth" width="280" border="0" cellspacing="0" cellpadding="0">
+              <tr>
+                <td width="356"  class="tabletdth"><span class="order_content_bold">Order ID</span></td>
+                <td width="285"  class="tabletdth"> <%= @one_order.order_id  %> <% if @one_order.admin_name !=nil %> (a) <%end%> </td>
+              </tr>
+              <tr>
+                <td height="1" colspan="2"  class="tabletdth"></td>
+              </tr><tr>
+                <td width="356"  class="tabletdth"><span class="order_content_bold">Order Placed</span></td>
+                <td width="285"  class="tabletdth"><%= @one_order.placed_on.strftime("%a&nbsp;%b&nbsp;") +  @one_order.placed_on.strftime("%d").to_i.to_s + @one_order.placed_on.strftime(",&nbsp;%Y&nbsp;/&nbsp;%I:%M%p") %></td>
+              </tr>
+              <tr>
+                <td height="1" colspan="2"  class="tabletdth"></td>
+              </tr>
+              <tr  >
+                <td width="356"  class="tabletdth"><span class="order_content_bold">Store</span></td>
+                <td  class="tabletdth" width="285"><%= @one_order.store_id == 1 ? "Uptown Park" : "West University"  %></td>
+              </tr>
+              <tr>
+                <td   class="tabletdth" height="1" colspan="2"></td>
+              </tr>
+              <tr>
+                <td width="356"  class="tabletdth"><span class="order_content_bold">Date of order</span></td>
+                <td width="285"  class="tabletdth"><%= @one_order.date_of_order.strftime("%a&nbsp;%b&nbsp;") + @one_order.date_of_order.strftime("%d").to_i.to_s + @one_order.date_of_order.strftime(",&nbsp;%Y")  %></td>
+              </tr>
+              <tr>
+                <td height="1" colspan="2"  class="tabletdth"></td>
+              </tr>
+              <tr>
+                <td width="356"  class="tabletdth"><span class="order_content_bold">Delivery method</span></td>
+                <td width="285"  class="tabletdth"><%= @one_order.delivery_method.capitalize%></td>
+              </tr>
+              <tr>
+                <td height="1" colspan="2"  class="tabletdth"></td>
+              </tr>
+              <tr>
+                <td  class="tabletdth"><span class="order_content_bold">Time</span></td>
+                <td  class="tabletdth"><%
+                  time_slot = @one_order.time_of_order
+                  for t in @order_times
+                    if t[1] == time_slot.to_i
+                    %><%= t[0].upcase %><%
+                    end
+                  end
+                %></td>
+              </tr>
+            </table>
+          </div>
+        </fieldset>
+      </div>
+
+      <div class="info">
+        <fieldset class="order_info fieldset">
+          <legend class="legend1">Special Instructions</legend>
+          <div class="order_content1">
+
+            <div>
+              <div align="left" style="width:20px;float:left;padding-top:2px;">
+
+
+               <% if  @one_order.special_decoration =='1' %>
+<img src="/images/ui/forms/check_selected.jpg" border="0" />
+                <% else %>
+<img src="/images/ui/forms/un_check_selected.jpg" border="0" />
+                <%end%>
+
+              </div>
+              <div align="left" style="width:370px;float:left;">
+                I would like special decorations on my original size cupcakes.<br />
+
+                <div align="left" style="width:325px; float:left; padding-left:25px;">
+
+
+
+
+                          <% if @one_order.spe_dec == "Holly-green leaf with red berries"%>
+
+<em><%= @one_order.spe_dec %></em><br>
+                  <%  else %>
+
+
+
+
+
+
+                        <em><%= @one_order.spe_dec %></em><br>
+                  <% end %>
+                  <% if @one_order.sp_dec_notes != nil && @one_order.sp_dec_notes != "" %>
+                        <p style="margin-bottom: 0px;">Special Decorations Notes: </p><em><%= @one_order.sp_dec_notes %></em><br>
+                  <% end %>
+                  <br>
+                </div>
+
+              </div>
+            </div>
+
+            <div>
+              <div align="left" style="width:20px;float:left;padding-top:2px;">
+
+
+               <% if  @one_order.mini_sp_decoration =='1' %>
+<img src="/images/ui/forms/check_selected.jpg" border="0" />
+                <% else %>
+<img src="/images/ui/forms/un_check_selected.jpg" border="0" />
+                <%end%>
+
+              </div>
+              <div align="left" style="width:370px;float:left;">
+                I would like special decorations on my mini cupcakes.<br />
+
+                <div align="left" style="width:325px; float:left; padding-left:25px;">
+                  <% if @one_order.mini_sp_dec != "" %>
+                        <em><%= @one_order.mini_sp_dec %></em><br>
+                  <% end %>
+                  <% if @one_order.mini_sp_dec_notes != nil && @one_order.mini_sp_dec_notes != "" %>
+                        <p style="margin-bottom: 0px;">Special Decorations Notes: </p><em><%= @one_order.mini_sp_dec_notes %></em><br>
+                  <% end %>
+                  <br>
+                </div>
+
+              </div>
+            </div>
+
+            <div style="float:left;">
+              <div align="left" style="width:20px; float:left; padding-top:2px;">
+
+
+                 <%   if  @one_order.gift_msg !='' %>
+<img src="/images/ui/forms/check_selected.jpg" border="0" />
+                <% else %>
+<img src="/images/ui/forms/un_check_selected.jpg" border="0" />
+                <%end%>
+
+              </div>
+              <div align="left" style="width:370px;float:left;">
+                I am ordering greeting cards/gift cards and I would like to include this personal message.
+                <div style="clear:both;float:left;">
+                  <div align="left" style="width:25px; float:left;">
+
+                    &nbsp;
+                  </div>
+                  <div align="left" style="width:325px;float:left;">
+                    <% if @one_order.gift_msg !=nil %>
+
+
+
+                      <em><%= @one_order.gift_msg %></em>
+
+
+                    <% end %>
+                  </div>
+                </div>
+              </div>
+
+              <% if @one_order.candle_method !=nil%>
+                <div align="left" style="width:25px; float:left;">
+
+                  &nbsp;
+                </div>
+
+                <div align="left" style="width:368px;float:left;">
+                  <span class="order_content_bold"> I Would like My candles: </span>
+                  <div style="clear:both;float:left;">
+                    <div align="left" style="width:25px; float:left;">
+
+                      &nbsp;
+                    </div>
+
+                    <div align="left" style="width:325px;float:left;">
+
+
+
+
+                      <em> <%= @one_order.candle_method  %></em>
+
+
+
+                    </div>
+                  </div>
+                </div>
+
+              <% end %>
+
+
+            </div>
+
+
+
+
+
+          </div>
+        </fieldset>
+      </div>
+
+      <div class="info">
+        <fieldset class="order_info fieldset">
+          <legend class="legend1">Packaging Options</legend>
+          <div class="order_content1">
+            <table width="425"  class="tabletdth" cellspacing="0" cellpadding="0">
+              <tr>
+                <td  class="tabletdth" width="389" valign="top">
+               <% if @one_order.how_to_pack != '' %>
+                 <span class="order_content_bold"> How should cupcakes be boxed :</span> <br>
+                  <span class="order_content1"><%= @one_order.how_to_pack %>
+<br>
+                  <% if @one_order.how_to_pack_remainder != nil %>
+                <div style="padding-left:50px;">
+                  <%= @one_order.how_to_pack_remainder %>
+                 </div>
+
+                  <% end %>
+                
+                  <% if @one_order.labeled_cup==true %>  I would you like your cupcakes individually labeled. <% else %>  <% end %>  </span>
+                   
+                
+                      <% end %> </td>
+                
+              </tr>
+
+    </table>
+          </div>
+        </fieldset>
+      </div>
+
+
+<style>
+	div.order_content_seperater{
+		width:380px;
+	}
+	div.order_content_seperater img{
+		width:380px;
+	}
+</style>
+
+
+      <div class="info">
+        <fieldset class="order_info fieldset">
+          <legend class="legend1">Item Information</legend>
+          <div class="order_content1">
+            <table width="380" class="tabletdth" cellspacing="0" cellpadding="0">
+              <tr class="tabletdth">
+                <td class="tabletdth" width="240">&nbsp;</td>
+                <td class="tabletdth" width="60" align="right"><span class="order_content_bold">Qty.</span></td>
+                <td class="tabletdth" width="80" align="right"><span class="order_content_bold">Amount</span></td>
+              </tr>
+              <tr>
+                <td class="tabletdth" height="10" colspan="3"></td>
+              </tr>
+
+              <% if @order_items
+                @seasonal=''
+                @cupcake=''
+                @product=''
+                @samount=0
+                @camount=0
+                @pamount=0
+
+                other_product_total = 0
+              %>
+              <% if @seasonal_items != nil %>
+                  <tr>
+			<td class="tabletdth" colspan="3"><span class="order_content_bold">CRAVE Seasonal and Favorite Boxes</span></td>
+                  </tr>
+                  <% for seasonal in @seasonal_items %>
+
+                      <tr style="padding-top:10px;">
+                      <%
+
+                        @amount= seasonal.qty * seasonal.price
+                      %>
+                      <% if true	 %>
+                              <td class="tabletdth"><%= seasonal.item_title %></td>
+                              <td class="tabletdth" align="right" valign="top"><%= seasonal.qty %></td>
+                              <td class="tabletdth" align="right" valign="top"> <%= number_to_currency(@amount) %></td>
+                      </tr>
+                      <tr>
+                              <td class="tabletdth" colspan="2">
+                                      <div style="font-size:7pt; line-height:130%; margin-bottom:3px; margin-left:15px; padding-right:5px; x-width:270px;"><%= seasonal.item_description %></div>
+                              </td>
+                      <% else %>
+                              <td class="tabletdth"><%= seasonal.item_title %></td>
+                              <td class="tabletdth" align="right" valign="top"><%= seasonal.qty %></td>
+                              <td class="tabletdth" align="right" valign="top"><%= number_to_currency(@amount) %></td>
+                      <% end %>
+                      </tr>
+
+                  <% end %>
+
+                   <% if @one_order.no_of_sp_cupcakes.to_i > 0 %>
+                        <tr><td class="tabletdth">&nbsp;</td></tr>
+                        <tr>
+                          <td class="tabletdth">Number of cupcakes in seasonal boxes</td>
+                          <td class="tabletdth" align="left"><div align="right"><%= @one_order.no_of_sp_cupcakes %></div></td>
+                          <td class="tabletdth" align="right"><div align="right">&nbsp;</div></td>
+                        </tr>
+                    <% end %>
+
+                  <% if @one_order.sales_tax_seasonal_packaging.to_f != 0 %>
+                        <tr><td class="tabletdth" colspan="3">&nbsp;</td></tr>
+                        <tr>
+                          <td class="tabletdth">Sales Tax - Packaging Only (<%= ["%.2f" % @one_order.tax_rate] %>%) </td>
+                          <td class="tabletdth" align="left">&nbsp;</td>
+                          <td class="tabletdth" align="right">
+                            <div align="right">$<%= ["%.2f" % @one_order.sales_tax_seasonal_packaging] %></div>
+                          </td>
+                        </tr>
+                   <% end %>
+                   <tr><td class="tabletdth" colspan="3">&nbsp;</td></tr>
+
+              <% end %>
+                <% for product in @order_items_cupcakes %>
+
+                  <%
+                      if @cupcake==''
+                      %>
+                        <tr>
+                          <td class="tabletdth" colspan="3"><span class="order_content_bold">Original Size Cupcakes</span></td>
+                        </tr> <%end%>
+
+                      <tr>
+                        <td class="tabletdth"><%= product.item_title %></td>
+                        <td class="tabletdth" align="right"><%= product.qty %></td>
+                        <% @amount= product.qty* product.price %>
+                        <td class="tabletdth" align="right"> <%= number_to_currency(@amount) %></td>
+                      </tr>
+
+
+                      <%  @camount=@camount+@amount
+                      @cupcake='Cupcake'  %>
+                    <% end %>
+
+                      <% if @one_order.induvidual_box.to_i > 0 %>
+                        <tr><td class="tabletdth">&nbsp;</td></tr>
+                        <tr>
+                          <td class="tabletdth">Number of itemized original size cupcakes</td>
+                          <td class="tabletdth" align="left"><div align="right"><%= @one_order.induvidual_box %></div></td>
+                          <td class="tabletdth" align="right"><div align="right">&nbsp;</div></td>
+                        </tr>
+                    <% end %>
+
+                    <!-- mini cupcakes start -->
+                    <%
+                    @cupcake = ''
+                    for product in @order_items_mini_cupcakes
+                %>
+
+                  <%
+                      if @cupcake==''
+                      %>
+                        <tr><td class="tabletdth" colspan="3">&nbsp;</td></tr>
+                        <tr>
+                          <td class="tabletdth" colspan="3"><span class="order_content_bold">Mini Cupcakes</span></td>
+                        </tr> <%end%>
+
+                      <tr>
+                        <td class="tabletdth"><%= product.item_title %></td>
+                        <td class="tabletdth" align="right"><%= product.qty %></td>
+                        <% @amount= (product.qty / 24)* product.price %>
+                        <td class="tabletdth" align="right"> <%= number_to_currency(@amount) %></td>
+                      </tr>
+
+
+                      <%  @camount=@camount+@amount
+                      @cupcake='Cupcake'  %>
+                    <% end %>
+
+                    <% if @one_order.no_of_mini_cupcakes.to_i > 0 %>
+                        <tr><td class="tabletdth">&nbsp;</td></tr>
+                        <tr>
+                          <td class="tabletdth">Number of itemized mini cupcakes</td>
+                          <td class="tabletdth" align="left"><div align="right"><%= @one_order.no_of_mini_cupcakes %></div></td>
+                          <td class="tabletdth" align="right"><div align="right">&nbsp;</div></td>
+                        </tr>
+                        <tr><td class="tabletdth">&nbsp;</td></tr>
+                    <% end %>
+                    <!-- mini cupcakes end -->
+
+
+                    <% if @one_order.no_of_sp_cupcakes.to_i > 0 || @one_order.induvidual_box.to_i > 0 %>
+                        <tr>
+                          <td class="tabletdth">Total number of cupcakes in your order</td>
+                          <td class="tabletdth" align="left"><div align="right"><%= (@one_order.no_of_sp_cupcakes.to_i + @one_order.induvidual_box.to_i + @one_order.no_of_mini_cupcakes.to_i).to_s %></div></td>
+                          <td class="tabletdth" align="right"><div align="right">&nbsp;</div></td>
+                        </tr>
+                    <% end %>
+
+                      <% for product in @order_items_products %>
+                  <%
+                      if @product==''
+                      %>
+                        <tr><td class="tabletdth" colspan="3">&nbsp;</td></tr>
+                        <tr>
+                          <td class="tabletdth" colspan="3"><span class="order_content_bold">Merchandise</span></td>
+                        </tr> <%end%>
+                      <tr>
+                        <td class="tabletdth"><%= product.item_title %></td>
+                        <td class="tabletdth" align="right"><%= product.qty %></td>
+                        <%
+                          @amount= product.qty* product.price
+                          other_product_total += @amount
+                        %>
+                        <td class="tabletdth" align="right"> <%= number_to_currency(@amount) %></td>
+                      </tr>
+                      <% @pamount=@pamount+@amount
+                      @product='Products'
+                  %>
+                <%   end
+
+            end%>
+
+
+
+
+               <% if other_product_total != 0 %>
+                    <tr><td colspan="3" class="tabletdth">&nbsp;</td></tr>
+                    <tr>
+                      <td class="tabletdth">Merchandise Total</td>
+                      <td align="left" class="tabletdth">&nbsp;</td>
+                      <td align="right" class="tabletdth"><div align="right">$<%= ["%.2f" % other_product_total] %></div></td>
+                    </tr>
+
+                    <%
+                    tax_rate = @one_order.tax_rate
+
+                    tax_amount = (["%.2f" % other_product_total][0].to_f * tax_rate.to_f)/100
+                    #tax_amount = ["%.2f" % tax_amount][0].to_f
+                    tax_amount = (tax_amount * 100).round / 100.0
+                    %>
+
+                    <% if @one_order.sales_tax.to_f > 0 %>
+                    <tr class="tabletdth">
+                      <td class="tabletdth">Sales Tax - Merchandise Only (<%= ["%.2f" % tax_rate] %>%) </td>
+                      <td align="left" class="tabletdth">&nbsp;</td>
+                      <td align="right" class="tabletdth">
+                        <div align="right">$<%= ["%.2f" % @one_order.sales_tax.to_f] %></div>
+                      </td>
+                    </tr>
+                    <% end %>
+               <% end %>
+
+              <tr>
+                <td class="tabletdth" colspan="3"><div class="order_content_seperater"><img src="/images/seperater.gif" /></div></td>
+              </tr>
+
+              <%  @box_fee=0
+
+
+              %>
+            <% if @one_order.pack_fee != 0 %>
+                <tr>
+                  <td class="tabletdth"><span class="order_content_bold">Packaging Fees</span></td>
+                  <td class="tabletdth" align="right"></td>
+
+                </tr>
+
+
+                <% if @one_order.how_to_pack_remainder != nil %>
+
+                <% if   @one_order.how_to_pack_remainder .include? "Placed in a CRAVE Blue Gift Box"
+
+                    @pack_option='Blue cupcake boxes'
+
+                 elsif @one_order.how_to_pack_remainder .include? "standard white bakery box with no ribbon  "
+
+                   @pack_option='white gift boxes'
+
+
+
+                 end %>
+
+                 <tr>
+
+                  <td class="tabletdth" align="left" width="300px"><%= "Individual cupcake boxes" %></td>
+                  <td class="tabletdth" align="right" valign="top"><%= @one_order.induvidual_box %></td>
+
+                  <td class="tabletdth" align="right" valign="top"><%= number_to_currency(@one_order.induvual_box_price) %></td>
+
+                </tr>
+
+                <tr>
+
+                  <td class="tabletdth" align="left" width="300px" ><%= @pack_option %></td>
+                   <% if @one_order.induvidual_patial_price != 0 %>
+                  <td class="tabletdth" align="right" valign="top"><%= @one_order.induvidual_patial %></td>
+
+                  <td class="tabletdth" align="right" valign="top"><%= number_to_currency(@one_order.induvidual_patial_price) %></td>
+<% end %>
+                </tr>
+
+                <% else %>
+                 <%
+                 if @one_order.how_to_pack != nil
+                   if @one_order.how_to_pack.include? "Boxed in CRAVE Blue Gift Box(es)."
+                      @pack_option='Blue Crave Gift Box'
+                   elsif @one_order.how_to_pack.include? "Boxed in individual CRAVE gift box(es)."
+                      @pack_option='Individual cupcake boxes'
+                   end
+                 else
+                   @pack_option = ""
+                 end
+               %>
+                <tr>
+              
+                  <td class="tabletdth" align="left" width="300px"><%= @pack_option %></td>
+                  <td class="tabletdth" align="right" valign="top"><%= (@pack_option == 'Individual cupcake boxes')? @one_order.induvidual_box : @one_order.no_of_boxes %></td>
+                 <% if @one_order.pack_fee != 0 %>
+                  <td class="tabletdth" align="right" valign="top"><%= number_to_currency(@one_order.pack_fee) %></td>
+                 <% end %>
+                </tr>
+                 <% end %>  <% end %>
+                <tr>
+
+                  <td class="tabletdth" align="right">&nbsp;</td>
+                  <td class="tabletdth" align="right">&nbsp;</td>
+                </tr>
+
+                <% if @one_order.sales_tax_packaging !=0 %>
+                <tr>
+                  <td class="tabletdth"><span>Sales Tax - Packaging Only (<%= ["%.2f" % @one_order.tax_rate] %>%)</span></td>
+                  <td class="tabletdth" align="right">&nbsp;</td>
+                  <td class="tabletdth" align="right"><%= number_to_currency(@one_order.sales_tax_packaging) %></td>
+
+                </tr>
+
+                <tr>
+                <td class="tabletdth" colspan="3"><div class="order_content_seperater"><img src="/images/seperater.gif" /></div></td>
+              </tr>
+                <% end %>
+
+
+              <tr>
+                <td class="tabletdth">Sub Total</td>
+                <td class="tabletdth" align="right">&nbsp;</td>
+                <td class="tabletdth" align="right"> <%= number_to_currency(@one_order.sub_tot) %></td>
+              </tr>
+              <tr>
+                <td class="tabletdth">&nbsp;</td>
+                <td class="tabletdth" align="right">&nbsp;</td>
+                <td class="tabletdth" align="right">&nbsp;</td>
+              </tr>
+               <% if (@one_order.order_discount != 0) %>
+              <tr>
+                <td class="tabletdth">Discount</td>
+                <td class="tabletdth" align="right">&nbsp;</td>
+                <td class="tabletdth" align="right">- <%= number_to_currency(@one_order.order_discount) %></td>
+              </tr>
+              <%end%>
+
+              <% if (@one_order.order_shipping != 0) %>
+              <tr>
+                <td class="tabletdth">Delivery Fee</td>
+                <td class="tabletdth" align="right">&nbsp;</td>
+                <td class="tabletdth" align="right"><%= number_to_currency(@one_order.order_shipping) %></td>
+              </tr>
+              <% end %>
+              <% if @one_order.delivery_surcharge != 0 && @one_order.delivery_surcharge != nil  %>
+              <tr>
+                <td class="tabletdth">Weekend Delivery Surcharge</td>
+                <td class="tabletdth" align="right">&nbsp;</td>
+                <td class="tabletdth" align="right"><%= number_to_currency(@one_order.delivery_surcharge) %></td>
+              </tr>
+              <% end %>
+
+              <% if @one_order.oversize_order_surcharge.to_f != 0 %>
+                <tr>
+                  <td class="tabletdth">Oversize&nbsp;Order&nbsp;Surcharge</td>
+                  <td class="tabletdth" align="right">&nbsp;</td>
+                  <td class="tabletdth" align="right">$<%= ["%.2f" % @one_order.oversize_order_surcharge]  %></td>
+                </tr>
+              <% end %>
+
+              <tr>
+                <td class="tabletdth" colspan="3"><div class="order_content_seperater"><img src="/images/seperater.gif" /></div></td>
+              </tr>
+              <tr>
+                <td class="tabletdth"><strong>Total</strong></td>
+                <td class="tabletdth" align="right">&nbsp;</td>
+                <td class="tabletdth" align="right"><strong><%= number_to_currency(@one_order.order_total) %></strong></td>
+              </tr>
+              <tr>
+                <td class="tabletdth">&nbsp;</td>
+                <td class="tabletdth" align="right">&nbsp;</td>
+                <td class="tabletdth" align="right">&nbsp;</td>
+              </tr>
+              </table>
+
+
+          </div>
+        </fieldset>
+      </div>
+
+
+    </div>
+    <div class="main_container_right">
+      <!-- Recipient Information start -->
+      <div class="info">
+        <fieldset class="order_info fieldset">
+          <legend class="legend1">Recipient Information</legend>
+          <div class="order_content1">
+            <% if @one_order.delivery_method =='pickup'%>
+              <%= "- N/A -" %>
+
+            <% elsif @one_order.delivery_method =='delivery' %>
+              <table width="350" class="tabletdth" cellspacing="0" cellpadding="0">
+	<% if @one_order.shipto_is_business == "1" %>
+                <tr>
+                  <td class="tabletdth" width="165" valign="top"><span class="order_content_bold">Business Name</span></td>
+                  <td class="tabletdth" width="240" valign="top"><%= @one_order.shipto_business %></td>
+                </tr>
+	<% end %>
+                <tr>
+                  <td class="tabletdth" width="165" valign="top"><span class="order_content_bold"><%= @one_order.shipto_is_business =='1' ? "Business Address" : "Address" %></span></td>
+                  <td class="tabletdth" width="240" valign="top"><%= @one_order.shipto_first_name + "  " +@one_order.shipto_last_name  %><br />
+                    <%= @one_order.shipto_address_1 %><% if @one_order.shipto_address_3 != "" %>, <%= @one_order.shipto_address_3 %><% end %>, <%= @one_order.shipto_zip %></td>
+                </tr>
+                <tr>
+                  <td  class="tabletdth" height="1" colspan="2"></td>
+                </tr>
+                <tr>
+                  <td class="tabletdth"><span class="order_content_bold">Phone</span></td>
+                  <td class="tabletdth"><%= @one_order.shipto_phone  %></td>
+                </tr>
+              </table>
+            <% end %>
+          </div>
+        </fieldset>
+      </div>
+
+      <div class="info">
+        <fieldset class="order_info fieldset">
+          <legend class="legend1">Customer Information</legend>
+          <div class="order_content1">
+            <table width="405" class="tabletdth" cellspacing="0" cellpadding="0">
+              <tr>
+                <td class="tabletdth" width="155"><span class="order_content_bold">Name</span></td>
+                <td class="tabletdth" width="270"><%= @one_order.first_name + "  " +@one_order.last_name  %></td>
+              </tr>
+              <tr>
+                <td class="tabletdth" height="1" colspan="2"></td>
+              </tr>
+              <tr>
+                <td class="tabletdth"><span class="order_content_bold">Email Address</span></td>
+                <td class="tabletdth"><%= @one_order.email %></td>
+              </tr>
+              <tr>
+                <td class="tabletdth" height="1" colspan="2"></td>
+              </tr>
+              <tr>
+                <td class="tabletdth"><span class="order_content_bold">Phone</span></td>
+                <td class="tabletdth"><%= @one_order.primary_phone  %></td>
+              </tr>
+              <tr>
+                <td class="tabletdth" height="1" colspan="2"></td>
+              </tr>
+              <tr>
+                <td class="tabletdth"><span class="order_content_bold">Alternate Phone</span></td>
+                <td class="tabletdth"><%= @one_order.alt_phone  %></td>
+              </tr>
+            </table>
+          </div>
+        </fieldset>
+      </div>
+
+      <% if @one_order.other_notes != nil && @one_order.other_notes != "" %>
+      <div class="info">
+        <fieldset class="order_info fieldset">
+          <legend class="legend1">Other Order Notes</legend>
+          <div class="order_content1">
+            <%= @one_order.other_notes %>
+          </div>
+        </fieldset>
+      </div>
+      <% end %>
+
+      <div class="info">
+        <fieldset class="order_info fieldset">
+          <legend class="legend1">Payment Information</legend>
+          <div class="order_content1">
+
+<% if @one_order.admin_name !=nil
+admin_name = Owner .find(:first, :conditions =>["username = ? ", @one_order.admin_name])
+
+  if @one_order.payment_type == 'prepaid_creditcard'
+      @payment_method=' Pre-paid with a credit card '
+  elsif @one_order.payment_type == 'prepaid_cash'
+      @payment_method='Pre-paid in cash'
+  elsif @one_order.payment_type == 'payment_on_delivery'
+      @payment_method='<font color="red";> <b> Payment on delivery </b>'
+  elsif @one_order.payment_type == 'Pay_with_a_credit_card'
+       @payment_method='Pay with a Credit Card'
+  elsif @one_order.payment_type == 'Pay_with_a_CRAVE_gift_card'
+      @payment_method='Pay with a CRAVE gift card'
+  elsif @one_order.payment_type == 'emp_payment_at_pos'
+      @payment_method='Employee Payment at POS'
+  elsif @one_order.payment_type == 'no_charge'
+      @payment_method='COMP (no charge)'
+  else
+      @payment_method = @one_order.payment_type
+  end
+%>
+            <table width="380" class="tabletdth" border="0" cellspacing="0" cellpadding="0">
+
+              <tr>
+                <td class="tabletdth" height="1" colspan="2"></td>
+              </tr>
+
+
+              <tr>
+                <td class="tabletdth" valign="top" width="155"><span class="order_content_bold">Payment Type</span></td>
+                <td class="tabletdth" valign="top" width="270"><%= @payment_method  %><br />
+                 </td>
+              </tr>
+              <tr>
+                <td class="tabletdth" height="1" colspan="2"></td>
+              </tr>
+              <tr style="width:380px;">
+                <td class="tabletdth" valign="top" width="170"><span class="order_content_bold">Customer rep.</span></td>
+                <td class="tabletdth" valign="top"><%= admin_name.first_name%> <%= admin_name.last_name%>
+                </td>
+              </tr>
+              <% if @one_order.overridden_by.to_i > 0 %>
+                  <tr>
+                    <td class="tabletdth" height="1" colspan="2"></td>
+                  </tr>
+                  <%
+                  overrode_user = Owner.find_by_id(@one_order.overridden_by.to_i)
+              %>
+                  <tr style="width:380px;">
+                    <td class="tabletdth" valign="top" width="170"><span class="order_content_bold">Payment type override:</span></td>
+                    <td class="tabletdth" valign="middle"><%= overrode_user.first_name%> <%= overrode_user.last_name%>
+                    </td>
+                  </tr>
+              <% end %>
+
+
+              <% if @one_order.ccn!='' %>
+
+              <tr>
+                    <td class="tabletdth" height="1" colspan="2"></td>
+                  </tr>
+                  <tr>
+                    <td class="tabletdth" valign="top" width="155"><span class="order_content_bold">Credit Card</span></td>
+                    <td class="tabletdth" valign="top" width="250"><%= @one_order.ccn %><br></td>
+                  </tr>
+                  <tr>
+                    <td class="tabletdth" height="1" colspan="2"></td>
+                  </tr>
+
+
+                  <tr>
+                    <td class="tabletdth" valign="top"><span class="order_content_bold">Billing Address</span></td>
+                    <td class="tabletdth" valign="top">
+                      <%= @one_order.b_fname  %> <%= @one_order.b_lname %><br />
+                      <%= @one_order.b_adrs %>,<br />
+                      <%= @one_order.b_city  %>, <%=  @one_order.b_state %> <%= @one_order.b_zip %>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td class="tabletdth" height="1" colspan="2"></td>
+                  </tr>
+
+              <% end %>
+            </table>
+<% else %>
+
+            <table width="390" class="tabletdth" cellspacing="0" border="0" cellpadding="0">
+
+                  <tr>
+                    <td class="tabletdth" height="1" colspan="2"></td>
+                  </tr>
+                  <tr>
+                <td class="tabletdth" valign="top" width="155"><span class="order_content_bold">Payment Type</span></td>
+                <td class="tabletdth" valign="top" width="270"><%= @one_order.payment_type %><br />
+                 </td>
+              </tr>
+              <tr>
+                    <td class="tabletdth" height="1" colspan="2"></td>
+                  </tr>
+                  <tr>
+                    <td class="tabletdth" valign="top" width="155"><span class="order_content_bold">Credit Card</span></td>
+                    <td class="tabletdth" valign="top" width="250"><%= @one_order.ccn %><br></td>
+                  </tr>
+                  <tr>
+                    <td class="tabletdth" height="1" colspan="2"></td>
+                  </tr>
+
+
+                  <tr>
+                    <td class="tabletdth" valign="top"><span class="order_content_bold">Billing Address</span></td>
+                    <td class="tabletdth" valign="top">
+                      <%= @one_order.b_fname  %> <%= @one_order.b_lname %><br />
+                      <%= @one_order.b_adrs %>,<br />
+                      <%= @one_order.b_city  %>, <%=  @one_order.b_state %> <%= @one_order.b_zip %>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td class="tabletdth" height="1" colspan="2"></td>
+                  </tr>
+
+                </table>
+            <% end %>
+          </div>
+        </fieldset>
+      </div>
+
+
+    </div>
+
+  </div>
+
+</div>

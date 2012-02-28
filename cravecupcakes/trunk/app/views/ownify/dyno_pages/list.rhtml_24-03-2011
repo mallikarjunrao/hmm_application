@@ -1,0 +1,40 @@
+<% 
+    @page_title="Other pages"
+if @dyno_type
+    @page_title="#{@dyno_type.title} pages" 
+end-%>
+<form method="post" action="/ownify/dyno_pages">
+    <p><label>Category</label>
+    <%= select_tag( 'dyno_type_id', options_for_select(@dyno_types, params[:dyno_type_id].to_i), :onchange => "this.form.submit()" ) %> 
+    <%= submit_tag 'List' %></p>
+</form>
+<% if @dyno_type -%>
+<p><%= link_to 'New page', :action => 'new', :dyno_type_id => params[:dyno_type_id] %></p>
+<% else -%>
+<p><%= link_to 'New page', :action => 'new' %></p>
+<% end -%>
+
+<% if @dyno_pages -%>
+<table>
+  <tr>
+    <th>Date</th>
+    <th>Title</th>
+    <th>Link</th>
+    <th colspan="3">Actions</th>
+  </tr>
+<% 
+  for dyno_page in @dyno_pages 
+      _this_link= "/pages/#{dyno_page.dyno_type.slug}/#{dyno_page.slug}"
+-%>
+  <tr>
+    <td><%= dyno_page.page_on.strftime("%m/%d/%y") %></td>
+    <td><%=h dyno_page.title %></td>
+    <td><%= link_to _this_link, _this_link %></td>
+    <td><%= link_to 'Images', :controller => 'dyno_images', :action => 'list', :dyno_page_id => dyno_page %></td>
+    <td><%= link_to 'Edit', :action => 'edit', :id => dyno_page %></td>
+    <td><%= link_to ( ( dyno_page.is_active ? 'deactivate' : 'activate' ), { :action => ( dyno_page.is_active ? 'deactivate' : 'activate' ), :id => dyno_page }, :method => :post )%></td></td>
+  </tr>
+<% end %>
+</table>
+
+<% end %>

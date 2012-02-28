@@ -1,0 +1,32 @@
+<% @page_title="Block Preorder Time Slots" -%>
+
+<% if session[:store_id] == "2" %>
+<h3>West University</h3>
+<% else %>
+<h3>Uptown Park</h3>
+<% end %>
+
+<p><%= link_to 'New Block', :action => 'new', :store_id => session[:store_id] %></p>
+
+<table>
+  <tr>
+    <th>Date</th>
+    <th>Start</th>
+    <th>End</th>
+    <th colspan="2">Date</th>
+  </tr>
+  
+<% for blocked_time in @blocked_times %>
+  <tr>
+    <td><%= blocked_time.block_on.strftime('%m/%d/%Y') %></td>
+    <td><%= HALF_HOUR_TIMES[ blocked_time.start_time ][0] %></td>
+    <td><%= HALF_HOUR_TIMES[ blocked_time.end_time ][0] %></td>
+    <td><%= link_to 'Edit', :action => 'edit', :id => blocked_time, :store_id => session[:store_id] %></td>
+    <td><%= link_to 'Destroy', { :action => 'destroy', :id => blocked_time, :store_id => session[:store_id] }, :confirm => 'Are you sure?', :method => :post %></td>
+  </tr>
+<% end %>
+</table>
+
+
+<p><%= render(:partial => "/paginate", :locals => {:collection => @blocked_times }) -%></p>
+ 

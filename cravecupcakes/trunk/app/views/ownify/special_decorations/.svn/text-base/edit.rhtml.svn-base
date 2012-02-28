@@ -1,0 +1,7 @@
+<% @page_title="Edit Special Decoration" -%>
+<p><%= link_to 'Back', :action => 'list' %></p>
+
+<% form_tag({:action => 'update', :id => @special_decoration}, :multipart => true ) do %>
+  <%= render :partial => 'form' %>
+  <%= submit_tag 'Save' %>
+<% end %>

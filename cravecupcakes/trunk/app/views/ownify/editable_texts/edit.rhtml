@@ -1,0 +1,14 @@
+<% @page_title = 'Edit Message' -%>
+<p><%= link_to 'Back', :action => 'list' %></p>
+<% form_tag({:action => 'update', :id => @editable_text}, :multipart => true, :method => 'post') do %>
+  <%= render :partial => 'form' %>
+  <br style="clear:both;"/>
+  <%= submit_tag 'Save' %>
+<% end %>
+
+<%# @file_exists = File::exists?("public/images/top_banner.jpg")
+#	if @editable_text.title == "top_banner" && @file_exists %>
+<%# form_tag({:action => 'delete', :id => @editable_text}, :method => 'post') do %>
+  <%#= submit_tag 'Delete Banner' %>
+<%# end %>
+<%# end %>

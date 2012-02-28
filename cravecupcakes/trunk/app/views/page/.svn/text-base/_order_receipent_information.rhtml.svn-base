@@ -1,0 +1,101 @@
+     <% unless (params[:delivery_method] && params[:delivery_method] == 'pickup')%>
+          <fieldset id="delivery-form"><!--recipient information-->
+            <legend>Recipient Information</legend>
+            <% unless params[:shipto_is_business] && params[:shipto_is_business] == 'true' %>
+              <span class="txt">Please ensure that someone will be at this address at the requested delivery time to accept the cupcakes. We cannot leave packages outside. Additional delivery fees will apply if we need to reschedule.</span>
+            <% end %>
+            <div class="field-wrap">
+              <label class="checkbox" for="shipto_is_business">Is this a business?</label>
+              <%= check_box_tag 'shipto_is_business', 'true', prev_vars[:shipto_is_business], {:class => 'checkbox', :onclick => 'isbusinessShow(this)'} %>
+            </div>
+
+
+            <div class="field-wrap" id="ship2biz" style="display:<%= (prev_vars[:shipto_is_business] || params[:shipto_is_business] == 'true')? 'block' : 'none' %>">
+              <label for="shipto_business">Business Name:</label>
+              <%= text_field_tag "shipto_business", prev_vars[:shipto_business], {:class => 'text-field',:onkeypress=>"Toggle('bussines','shipto_business');"} %>
+            </div>
+            <div class="field-wrap1" id="bussines" style="display:none;" align="right"> You must enter a business name.</div>
+            <div class="field-wrap">
+              <label for="shipto_first_name">Recipient&rsquo;s First Name:</label>
+              <%= text_field_tag "shipto_first_name", prev_vars[:shipto_first_name], {:class => 'text-field',:onkeypress=>"Toggle('sfname','shipto_first_name');"} %>
+            </div>
+            <div class="field-wrap1" id="sfname" style="display:none;" align="right"> You must enter a first name.</div>
+            <div class="field-wrap">
+              <label for="shipto_last_name">Recipient&rsquo;s Last Name:</label>
+              <%= text_field_tag "shipto_last_name", prev_vars[:shipto_last_name], {:class => 'text-field',:onkeypress=>"Toggle('slname','shipto_last_name');"} %>
+            </div>
+            <div class="field-wrap1" id="slname" style="display:none;" align="right"> You must enter a last name.</div>
+            <div class="field-wrap">
+              <label for="shipto_address_1">Address:</label>
+              <%= text_field_tag "shipto_address_1", prev_vars[:shipto_address_1], {:class => 'text-field',:onkeypress=>"Toggle('sadd','shipto_address_1');"} %>
+            </div>
+            <div class="field-wrap1" id="sadd" style="display:none;" align="right"> You must enter the address.</div>
+            <div class="field-wrap">
+              <label for="shipto_address_3">Suite #:</label>
+              <%= text_field_tag "shipto_address_3", prev_vars[:shipto_address_3], {:class => 'text-field short'} %>
+            </div>
+            <div class="field-wrap" style="height:30px;">
+              <label for="shipto_zip">Zip:</label>
+              <%= text_field_tag "shipto_zip", prev_vars[:shipto_zip], {:class => 'text-field',:onkeypress=>"Toggle('szip','shipto_zip');"} %>
+
+            </div>
+            <div class="field-wrap1" id="szip" style="display:none;" align="right"> You must enter the zipcode.</div>
+            <div class="field-wrap" style="height:53px;">
+              <label id="deli_fee">&nbsp;</label>
+              <input type="button" onclick="getDeliveryFee()" style="background-image:url('/images/btn_delivery_fee.jpg'); border:0px; height:36px; width:175px;" xvalue="Check Delivery Fee">
+              <input type="hidden" name="deli_fee_hidden" id="deli_fee_hidden" value="<%= prev_vars[:deli_fee_hidden] %>">
+            </div>
+            <div class="field-wrap">
+              <label for="shipto_phone">Recipient&rsquo;s Phone:</label>
+              <%= text_field_tag "shipto_phone", prev_vars[:shipto_phone], {:class => 'text-field'} %>
+            </div>
+
+            <script>
+                    function validateNumber(obj){
+                      if (isNaN(obj.value) || obj.value < 0) {
+                         if (obj.value != 0){
+                           alert('Please enter a valid amount.');
+                         }
+                         obj.value ='';
+                       }
+                    }
+
+            </script>
+
+            <%  if session[:user_name]!=nil %>
+            <div>
+                <label for="oversize_order_surcharge">Oversize Order Surcharge:</label>
+                <%= text_field_tag "oversize_order_surcharge", prev_vars[:oversize_order_surcharge], {:class => 'text-field', :onkeyup => "validateNumber(this)"} %>
+            </div>
+            <% end %>
+          </fieldset>
+        <% end %>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        

@@ -1,0 +1,19 @@
+<% @page_title = 'Messages' -%>
+
+<p><%= link_to 'New Message ', :action => 'new' %> &nbsp;&nbsp; (these must be programmed into the site before they are functional)</p>
+<table>
+  <tr>
+    <th>Title</th>
+    <th>Actions</th>
+  </tr>
+  
+<% for editable_text in @editable_texts %>
+  <tr>
+    <td><%=h editable_text.title %></td>
+    <td><%= link_to 'Edit', :action => 'edit', :id => editable_text %></td>
+  </tr>
+<% end %>
+</table>
+<p><%= link_to 'Previous page', { :page => @editable_text_pages.current.previous } if @editable_text_pages.current.previous %>
+<%= link_to 'Next page', { :page => @editable_text_pages.current.next } if @editable_text_pages.current.next %> 
+</p>

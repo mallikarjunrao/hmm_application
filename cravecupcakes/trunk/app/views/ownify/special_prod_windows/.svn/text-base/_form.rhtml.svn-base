@@ -1,0 +1,15 @@
+<%= error_messages_for 'product' %>
+
+<!--[form:product]-->
+<p><label for="product_product_type_id">Day</label>
+<%= select 'cupcake', 'day', @day_types  %></p>
+
+<p><label for="product_title">Time Slot</label>
+<%= select 'cupcake', 'prod_win_id', @time_types  %></p>
+
+
+
+<p><label for="product_price">Max Orders</label>
+<%= text_field 'cupcake', 'max_orders'  %></p>
+<!--[eoform:product]-->
+

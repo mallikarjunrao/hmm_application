@@ -1,0 +1,78 @@
+<link rel="stylesheet" href="/stylesheets/calendar.css" type="text/css" charset="utf-8" />
+<script src="/javascripts/calendar.js" type="text/javascript"></script>
+<script src="/javascripts/js_vlib.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+  function validateForm(){
+    
+  }
+
+</script>
+
+<% @page_title="Sales Report"%>
+
+<% if params[:store_id] == "2" %>
+<h3>West University</h3>
+<% else %>
+<h3>Uptown Park</h3>
+<% end %>
+
+<%
+today = Time.now 
+%>
+<br>
+	<form action="/ownify/sales/get_report" method="post" onsubmit="">
+		<div style="z-index:0; float:left; margin-right:10px;">
+			<span>Date: </span>
+			<span><input id=sales_date onfocus="ShowCalendar(this, '');" name=sales_date value="<%= (params[:sales_date] != nil)? params[:sales_date] : today.year.to_s + "-" + today.strftime("%m").to_s + "-" + today.strftime("%d")  %> " type=text readonly="readonly">&nbsp;</span>
+		</div>
+		<!--div style="z-index:0; height:5px;">&nbsp;</div-->
+		<div style="z-index:0; float:left; margin-right:10px;">
+			<span><input type="submit" value="Submit"></span>
+		</div>
+                <input type="hidden" name="store_id" value="<%= params[:store_id] %>">
+	</form>
+<br><br><br>
+<font color="red"><b><%= (@msg)? @msg : "" %></b></font>
+
+<div id="calendar">
+    <form name="calendar_form">
+          <div id="calendar_controllers">
+                  <input type="button" class="close_button" name="calendar_Close" onclick="HideCalendar();" value="" style="border:0px; height:13px; width:33px; background-image:url('/images/calender/closeButton_normal.gif');"><br/>
+                  <input type="button" class="ctrl_button" name="calendar_PrevMonth" onclick="calendar_prev_month();" value="" style="border:0px; height:20px; width:20px; background-image:url('/images/calender/monthBackward_normal.gif');">
+                  <select name="cal_month" onchange="Calendar_FillMonth();">
+                          <option value="1"<%= (1 == Time.now.month)?" selected":""; %>>January</option>
+                          <option value="2"<%= (2 == Time.now.month)?" selected":""; %>>February</option>
+                          <option value="3"<%= (3 == Time.now.month)?" selected":""; %>>March</option>
+                          <option value="4"<%= (4 == Time.now.month)?" selected":""; %>>April</option>
+                          <option value="5"<%= (5 == Time.now.month)?" selected":""; %>>May</option>
+                          <option value="6"<%= (6 == Time.now.month)?" selected":""; %>>June</option>
+                          <option value="7"<%= (7 == Time.now.month)?" selected":""; %>>July</option>
+                          <option value="8"<%= (8 == Time.now.month)?" selected":""; %>>August</option>
+                          <option value="9"<%= (9 == Time.now.month)?" selected":""; %>>September</option>
+                          <option value="10"<%= (10 == Time.now.month)?" selected":""; %>>October</option>
+                          <option value="11"<%= (11 == Time.now.month)?" selected":""; %>>November</option>
+                          <option value="12"<%= (12 == Time.now.month)?" selected":""; %>>December</option>
+                  </select>,
+                  <select name="year" onchange="Calendar_FillMonth();">
+                          <% (2000..2050).each do |@year| %>
+                                  <option value="<%= @year %>"<%= (@year == Time.now.year)?" selected":""; %>><%= @year %></option>
+                          <% end %>
+                  </select>
+                  <input type="button" class="ctrl_button" name="calendar_NextMonth" onclick="calendar_next_month();" value="" style="border:0px; height:20px; width:20px; background-image:url('/images/calender/monthForward_normal.gif');">
+          </div>
+          <div class="cal_head_row">
+                  <div class="cal_head">Sun</div>
+                  <div class="cal_head">Mon</div>
+                  <div class="cal_head">Tue</div>
+                  <div class="cal_head">Wed</div>
+                  <div class="cal_head">Thu</div>
+                  <div class="cal_head">Fri</div>
+                  <div class="cal_head">Sat</div>
+          </div>
+          <div class="cal_content" id="CalendarContent">
+          </div>
+    </form>
+</div>
+
+

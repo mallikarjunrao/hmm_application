@@ -1,0 +1,47 @@
+<% @page_title = @product_type ? " orders" : "orders" %>
+
+
+<table>
+  <tr>
+    <th>Date</th>
+    <th>Order ID</th>
+    <th>Store ID</th>
+    <th>Delivery Method</th>
+    <th>Order Date/Time</th>
+    <th colspan="1" >Order Total</th>
+    <th>&nbsp;</th>
+    <th>&nbsp;</th>
+  </tr>
+
+  <%
+  if @orders
+    for product in @orders
+    %>
+      <tr>
+        <td><%=h product.placed_on.strftime("%d/%m/%Y ") %></td>
+        <td><%= product.id %></td>
+        <td><%= product.store_id %></td>
+        <td><%= product.delivery_method %></td>
+        <td><%=  product.date_of_order %> /
+                <%
+                  time_slot = product.time_of_order
+                  for t in @order_times
+                    if t[1] == time_slot.to_i
+                    %><%= t[0] %><%
+                    end
+                  end
+                %>
+
+    <%#=  product.time_of_order %></td>
+        <td><%= product.order_total %></td>
+        <td><%= link_to 'Show', :action => 'show', :id => product %></td>
+        <td><%= link_to 'Destroy', { :action => 'destroy', :id => product }, :confirm => 'Are you sure?', :method => :post %></td>
+      </tr>
+    <%
+    end
+  end
+%>
+</table>
+<p><%= link_to 'Prev page', { :page => @order_page.current.previous } if @order_page.current.previous %>
+  &nbsp;&nbsp;&nbsp;&nbsp;
+<%= link_to 'Next page', { :page => @order_page.current.next } if @order_page.current.next %> </p>

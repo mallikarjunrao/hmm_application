@@ -1,0 +1,544 @@
+
+  <script type="text/javascript">
+    function isInteger(s){
+
+                return parseInt(s,10)==s;
+        }
+
+      function getTot(){
+        var cakeTot = 0;
+        var onlyCupCake = 0;
+        var onlyMiniCupCake = 0;
+
+<% 	if @specials
+  for cupcake in @specials %>
+         //var newValue=document.getElementById('first_name').value + document.getElementById('last_name').value
+         //document.getElementById('person_pic_order').value = newValue;
+         var CupCakeElem = document.getElementById('<%= "specials[#{ cupcake.id }]" %>');
+         var CupCakeinside = document.getElementById('sp_cup_total_<%= cupcake.id %>');
+         if (CupCakeElem != null) {
+           if (CupCakeElem.value.length>0) {
+             if (isNaN(CupCakeElem.value) || CupCakeElem.value <= 0 || !isInteger(CupCakeElem.value)) {
+               if (CupCakeElem.value != 0){
+                 alert('Please enter an integer greater than zero.');
+                 //document.getElementById('<%= "specials[#{ cupcake.id }]"  %>').focus(true, true);
+                 setTimeout("document.getElementById('specials[<%= cupcake.id %>]').focus();",10);
+               }
+               CupCakeElem.value='';
+               //cakeTot = 0;
+             }
+             else{
+               //alert( '<%= cupcake.id  %>' );
+               var aa = parseFloat(CupCakeElem.value) * parseInt(CupCakeinside.value);
+               cakeTot += aa ;
+             }
+           }
+         }
+  <% 		end
+end
+#--------- standard cupcakes start ------------
+if @cupcakes
+  for cupcake in @cupcakes %>
+             //var newValue=document.getElementById('first_name').value + document.getElementById('last_name').value
+             //document.getElementById('person_pic_order').value = newValue;
+             var CupCakeElem = document.getElementById('<%= "cupcakes[#{ cupcake.id }]" %>');
+             if (CupCakeElem != null) {
+               if (CupCakeElem.value.length>0) {
+                 if (isNaN(CupCakeElem.value) || CupCakeElem.value <= 0  || !isInteger(CupCakeElem.value)) {
+                   if (CupCakeElem.value != 0){
+                     alert('Please enter an integer greater than zero.');
+                     setTimeout("document.getElementById('cupcakes[<%= cupcake.id %>]').focus();",10);
+                   }
+                   CupCakeElem.value ='';
+                   //setTimeout("document.getElementById('cupcakes[<%= cupcake.id %>]').focus();",10);
+                   //cakeTot = 0;
+                   //onlyCupCake =0;
+                 }
+                 else{
+                   //alert( '<%= cupcake.id  %>' );
+                   var aa = parseInt(CupCakeElem.value);
+                   //cakeTot += aa ;
+                   onlyCupCake += aa;
+                 }
+               }
+             }
+  <% 		end
+end
+#--------- standrad cupcakes end ----------------
+
+#--------- mini cupcakes start ------------------
+if @mini_cupcakes
+  for cupcake in @mini_cupcakes %>
+             //var newValue=document.getElementById('first_name').value + document.getElementById('last_name').value
+             //document.getElementById('person_pic_order').value = newValue;
+             var CupCakeElem = document.getElementById('<%= "mini_cupcakes[#{ cupcake.id }]" %>');
+             if (CupCakeElem != null) {
+               if (CupCakeElem.value.length>0) {
+                 if (isNaN(CupCakeElem.value) || CupCakeElem.value <= 0) {
+                   if (CupCakeElem.value != 0){
+                     alert('Please enter a valid number.');
+                     setTimeout("document.getElementById('mini_cupcakes[<%= cupcake.id %>]').focus();",10);
+                   }
+                   CupCakeElem.value ='';
+                   //setTimeout("document.getElementById('cupcakes[<%= cupcake.id %>]').focus();",10);
+                   //cakeTot = 0;
+                   //onlyCupCake =0;
+                 }
+                 else{
+                   //alert( '<%= cupcake.id  %>' );
+                   var aa = parseInt(CupCakeElem.value);
+                   //cakeTot += aa ;
+                   onlyMiniCupCake += aa;
+                 }
+               }
+             }
+  <% 		end
+end
+
+# -------------- mini cupcakes end ------------------
+%>
+
+
+       //alert(onlyCupCake + " = " + cakeTot);
+       document.getElementById('no_of_orders_cake').value = onlyCupCake;
+       document.getElementById('only_cup_cakes').value = onlyCupCake;
+       document.getElementById('no_of_orders_sp_cake').value = cakeTot;
+       document.getElementById('only_sp_cup_cakes').value = cakeTot;
+       document.getElementById('no_of_orders_total_cake').value = cakeTot + onlyCupCake + onlyMiniCupCake;
+
+       document.getElementById('only_mini_cup_cakes').value = onlyMiniCupCake;
+       document.getElementById('no_of_orders_cake_mini').value = onlyMiniCupCake;
+
+       //alert( document.getElementById('only_cup_cakes').value );
+     }
+  </script>
+        <h3 style="width:650px; line-height: 2em; letter-spacing: 0.1em; text-transform: none;"> <br>CRAVE offers two cupcake sizes for advance orders. Our original standard size cupcakes, and mini cupcakes. Please scroll below to make your selection.</h3>
+
+        <fieldset class="qty"><!--items and quantities of order-->
+          <legend>Crave Original Size Cupcakes</legend>
+
+          <div class="field-wrap1" id="isordernumeric" style="display:none;" align="right"> One or more  quantity fields have invalid values. Please enter a number.</div>
+          <% if @cupcakes -%>
+            <span class="txt">Choose individual flavors from our <a href="/menu" target="_blank" title="View our full menu in a new browser window">daily menu</a>.<font style="font-weight:bold; font-size:11px;"> Minimum 1 dozen cupcakes.</font></span>
+            <span class="txt" style="font-weight:normal;">
+              SINGLE $<%= ["%.2f" % Price.find(:first, :conditions => "title = 'single' ").price.to_f] %><br />
+              DOZEN $<%= ["%.2f" % Price.find(:first, :conditions => "title = 'dozen' ").price.to_f] %><br />
+              BREAKFAST $<%= ["%.2f" % Price.find(:first, :conditions => "title = 'breakfast' ").price.to_f] %><br />
+              BREAKFAST DOZEN $<%= ["%.2f" % Price.find(:first, :conditions => "title = 'breakfast dozen' ").price.to_f] %><br />
+            </span>
+            <span class="txt">You are currently ordering for a <%= @day.title %>. </span><span class="txt">We bake the following original size cupcakes on <%= @day.title %>s.</span><!--day of week-->
+            <span class="txt" style="font-size:11px;">* For multiple delivery orders, please contact the store at 713.622.7283.</span>
+            <br>
+            <div class="field-wrap5" style="width:490px;"
+            <% if @request.env["HTTP_USER_AGENT"].include? "Chrome" %>
+                   style="width: 414px;"
+                 <% end %>
+
+                 id="ocupcakes2" style="display:none;" align="left"> </div>
+                 <%
+                 i = 9
+                 for cupcake in @cupcakes
+
+                   cupcake_value = prev_vars[:cupcakes] && prev_vars[:cupcakes][ cupcake.id.to_s ] ? prev_vars[:cupcakes][ cupcake.id.to_s ] : ''
+                   if cupcake_value == ''
+                     cupcake_value = params[:cupcakes] && params[:cupcakes][ cupcake.id.to_s ] ? params[:cupcakes][ cupcake.id.to_s ] : ''
+                   end
+                   i = i + 1
+
+                    cup_st_date = cupcake.available_start_date
+                    cup_en_date = cupcake.cutoff_date
+
+                    order_date = (Date.parse(params[:date_of_order][0,10]))
+
+                    #cup_vs_date = cupcake.visible_start_date
+                    #today = TZTime::LocalTime::Builder.new('Central Time (US & Canada)').now.strftime("%Y-%m-%d").to_date
+
+                    showcupcake = false
+
+                    if (cup_en_date == nil && cup_st_date == nil)
+                      showcupcake = true
+                    elsif (cup_en_date == nil && cup_st_date != nil && cup_st_date <= order_date )
+                      showcupcake = true
+                    elsif (cup_en_date != nil && cup_st_date == nil && cup_en_date >= order_date )
+                      showcupcake = true
+                    elsif (cup_en_date != nil && cup_st_date != nil && cup_en_date >= order_date && cup_st_date <= order_date )
+                      showcupcake = true
+                    end
+
+                    if showcupcake
+                      %>
+                      <div class="field-wrap">
+                          <div style="float:left;">
+                            <label for="cupcakes[<%= cupcake.id %>]"><%= "<span>Breakfast</span>" unless ! cupcake.is_breakfast %> <%= cupcake.title %></label>
+                            <%= text_field_tag "cupcakes[#{ cupcake.id }]", cupcake_value , {:class => 'text-field mini', :maxlength => 3 ,:onkeyup=>"getTot();" } %>
+                          </div>
+                          <input type="hidden" name="cc_display_order[<%= i %>]" value="<%= cupcake.id  %>">
+                          <div style="float:right;margin-top:-7px; _margin-top:-7px; *margin-top:-7px; padding-right:140px;">
+                              <% if cupcake.thumb_image!=nil %>
+                                  <a class="thumbnail" href="#thumb" tabIndex="-1" onmouseover="Tip('<img src=\'/images/cupcake/image_file/<%= cupcake.image_file_relative_path %> \' width=\'360\' height=\'540\' >' )"  onmouseout="UnTip()" ><img style="float:none;" src="/images/cupcake/thumb_image/<%= cupcake.thumb_image_relative_path  %>"  border="0" width="27" height="27"  /></a>
+                              <% end %>
+                          </div>
+                      </div>
+                      <%
+                    end
+
+                end %>
+
+
+            <br>
+
+            <% if @request.env["HTTP_USER_AGENT"].include? "Safari"
+              style="margin-top: -5px; margin-left: 97px; width: 155px;"
+            else
+              style="margin-top: -5px; margin-left: 82px; width: 155px;"
+            end              %>
+
+
+            <br>
+            <input type="hidden" id="only_mini_cup_cakes" name="only_mini_cup_cakes" value="<%= prev_vars[:only_mini_cup_cakes]   %>">
+            <input type="hidden" id="only_cup_cakes" name="only_cup_cakes" value="<%= prev_vars[:only_cup_cakes]   %>">
+            <input type="hidden" id="only_sp_cup_cakes" name="only_sp_cup_cakes" value="<%= prev_vars[:only_sp_cup_cakes]   %>">
+            <input type="hidden" id="no_of_tot_orders_cake" name="no_of_tot_orders_cake" value="<%= prev_vars[:no_of_tot_orders_cake]   %>">
+
+            <div class="field-wrap checkbox" style="padding-bottom:5px; *height:0px;">
+              <label class="checkbox" for="has_special_decorations" style="width: 373px;">I would like special decorations on my original size cupcakes.</label>
+              <%= check_box_tag 'has_special_decorations', 'true', prev_vars[:has_special_decorations], {:class => 'checkbox', :onclick => "checkCupcakesAvailability(); showHowToBoxed(this, 'sp_dec_div'); if(this.checked == false){clearSpDec();}"}  %>
+            </div>
+            <!--[if lte IE 7]>
+        <br clear="all"><br>
+      <![endif]-->
+
+            <!-- new special decoration start -->
+
+            <div id="sp_dec_div" style="<%= (prev_vars[:has_special_decorations])? ((prev_vars[:has_special_decorations] == 'true')? "display:block;" : "display:none;") : "display:none;" %> padding-left: 15px;">
+
+              <p style="line-height: 1.5em; *font-size: 12px; *padding-top: 5px;">Please choose one decoration for all regular cupcakes in your order. The decorations with a * indicate that you must choose two colors, one for the top and one for the base.</p>
+              <br>
+              <div class="field-wrap" style="padding-left: 0px;">
+                <a href="#" onclick="window.open('/special_decorations','Crave','left=200,top=50,height=800,width=900'); return false;">
+                  <img src="/images/btn_view_special_decorations.jpg" onmouseover="this.src='/images/btn_view_special_decorations_over.jpg';" onmouseout="this.src='/images/btn_view_special_decorations.jpg';" style="border:0px;" />
+                </a>
+                <br clear="all">
+              </div>
+              <div style="padding: 20px 0px 5px 0px;">
+
+                <style type="text/css">
+                  select optgroup{font-style:normal; font-weight:bold;}
+                </style>
+
+                <label style="width:200px; margin-top: -2px;" for="sp">Special Decoration:</label>
+                <select name="sp_dd" id="sp_dd" onchange="showColorOptions(this); Toggle('spe_dec_err_msg', 'sp_dd');">
+
+                  <option value="Select">Select</option>
+
+                  <%
+                    @sp_dec_for_standard = SpecialDecoration.find(
+                        :all,
+                        :order => "`group`  = 'Other' ASC," +
+                                    "`group`ASC, name ASC",
+                        :conditions => 'standard = 1'
+                    )
+                    sp_dec_group = ''
+                    for sp_dec in @sp_dec_for_standard
+                        if sp_dec_group == ''
+                          %><optgroup label="<%= sp_dec.group %>"><%
+                        end
+                        if sp_dec.group != sp_dec_group && sp_dec_group != ''
+                          %></optgroup><optgroup label="<%= sp_dec.group %>"><%
+                        end
+
+                        %><option value="<%= sp_dec.name %><%= sp_dec.colors == true ? "*" : "" %>" <%= prev_vars[:sp_dd] == (sp_dec.name + ((sp_dec.colors == true)? "*" : "") ) ? "selected='selected'" : "" %>><%= sp_dec.name %><%= sp_dec.colors == true ? "*" : "" %></option><%
+
+                        sp_dec_group = sp_dec.group
+
+                    end
+              %>
+                  </optgroup>
+
+                </select>
+                <div id="spe_dec_err_msg" class="field-wrap1" style="display: none; padding-left: 190px; width: 270px; *width: 300px;">Please select the special decoration details.<br><br></div>
+              </div>
+
+              <div id="num_dd" style="padding: 5px 0px 5px 0px; <%= (prev_vars[:number] && prev_vars[:number] != "Select")? "display:block;" : "display:none;" %>">
+                <label style="width:200px; margin-top: -2px;" for="number">Select the Number:</label>
+                <select name="number" id="number" onChange="Toggle('num_err_msg', 'number')">
+                  <option value="Select">Select</option>
+                  <% for num in (1..99) %>
+                    <option value="<%= num %>" <%= (prev_vars[:number] == num.to_s)? "selected='selected'" : "" %>><%= num %></option>
+                  <% end %>
+                </select>
+                <div id="num_err_msg" class="field-wrap1" style="display: none; padding-left: 190px; width: 270px;">Please select a number.<br><br></div>
+              </div>
+
+              <div id="let_dd" style="padding: 5px 0px 5px 0px; <%= (prev_vars[:letter] && prev_vars[:letter] != "Select")? "display:block;" : "display:none;" %>">
+                <label style="width:200px; margin-top: -2px;" for="letter">Select the Letter:</label>
+                <select name="letter" id="letter" onChange="Toggle('let_err_msg', 'letter')">
+                  <option value="Select">Select</option>
+                  <% for let in ('A'..'Z') %>
+                    <option value="<%= let %>" <%= (prev_vars[:letter] == let)? "selected='selected'" : "" %>><%= let %></option>
+                  <% end %>
+                </select>
+                <div id="let_err_msg" class="field-wrap1" style="display: none; padding-left: 190px; width: 270px;">Please select a letter.<br><br></div>
+              </div>
+
+              <div style="padding: 5px 0px 5px 0px;">
+                <label id="c_one" style="width:200px; margin-top: -2px;" for="clr_1"><%= (prev_vars[:clr_2] != "Select")? "Select Base Color" : " Select Color"  %>:</label>
+                <select name="clr_1" id="clr_1" onChange="if(document.getElementById('color_2').style.display == 'block' ){ if(this.value != 'Select' && document.getElementById('clr_2').value != 'Select'){Toggle('spe_dec_color_err_msg', 'clr_1');}else{this.style.border = '1px solid #C7C7C7';}}else{Toggle('spe_dec_color_err_msg', 'clr_1');}">
+                  <option value="Select">Select</option>
+
+                  <%
+                    @colors = Color.find(
+                        :all,
+                        :order => "id ASC"
+                    )
+                    for color in @colors
+
+
+                        %><option value="<%= color.name %>" <%= prev_vars[:clr_1] == color.name ? "selected='selected'" : "" %>><%= color.name %></option><%
+
+                        sp_dec_group = sp_dec.group
+
+                    end
+              %>
+
+                </select>
+              </div>
+              <div  style="padding: 5px 0px 5px 0px; <%= (prev_vars[:clr_2] != "Select")? "display:block;" : "display:none;" %>"  id="color_2">
+                <label id="color"style="width:200px; margin-top: -2px;" for="clr_2">Select Top Color:</label>
+                <select name="clr_2" id="clr_2" onChange="if(document.getElementById('clr_1').value != 'Select'){Toggle('spe_dec_color_err_msg', 'clr_2');}else{this.style.border = '1px solid #C7C7C7';}">
+                  <option value="Select">Select</option>
+
+                  <%
+                    for color in @colors
+                        %><option value="<%= color.name %>" <%= prev_vars[:clr_2] == color.name ? "selected='selected'" : "" %>><%= color.name %></option><%
+                        sp_dec_group = sp_dec.group
+                    end
+              %>
+                </select>
+              </div>
+              <div id="spe_dec_color_err_msg" class="field-wrap1" style="display: none; padding-left: 190px; width: 270px;">Please select special decoration color(s).<br><br></div>
+
+              <%if session[:user_name]!=nil %>
+
+                <span class="txt" style="margin-left: 0px;">If specifying more than one special decoration, DO NOT make selections in the above drop downs. Instead, enter all special decorations information into the box below.</span>
+
+                <label style="width:160px; padding-bottom:3px;">Special Decorations Notes:</label>
+                <textarea style="width: 465px;" rows="5" id="sp_dec_notes" name="sp_dec_notes"><%= prev_vars[:sp_dec_notes] %></textarea>
+              <% end %>
+              <br><br>
+            </div>
+
+            <!--[if lte IE 7]>
+             <br>
+           <![endif]-->
+
+            <script type="text/javascript">
+
+            function checkCupcakesAvailability(){
+              var com = document.getElementById('no_of_orders_cake');
+
+              if(isNaN(parseInt(com.value)) || com.value == 0){
+                alert("No cupcakes selected.");
+                document.getElementById("has_special_decorations").checked = false;
+                clearSpDec();
+                return false;
+              }
+              else if(com.value < 12){
+                alert("You must order at least 12 original size cupcakes to choose special decorations.");
+                document.getElementById("has_special_decorations").checked = false;
+                clearSpDec();
+                return false;
+              }
+            }
+
+            function clearSpDec(){
+              document.getElementById('sp_dd').selectedIndex = 0;
+              document.getElementById('clr_1').selectedIndex = 0;
+              document.getElementById('clr_2').selectedIndex = 0;
+              document.getElementById("number").selectedIndex = 0;
+              document.getElementById("letter").selectedIndex = 0;
+
+              if(document.getElementById("sp_dec_notes") != null){
+                document.getElementById("sp_dec_notes").value = "";
+              }
+            }
+
+            function showColorOptions(obj){
+
+
+     if(obj.value=="Holly-green leaf with red berries*")
+    {
+             document.getElementById('clr_1').style.visibility = 'hidden';
+               document.getElementById('clr_2').style.visibility = 'hidden';
+           document.getElementById('c_one').style.visibility = 'hidden';
+              document.getElementById('color').style.visibility = 'hidden';
+          document.getElementById('spe_dec_color_err_msg').style.display = 'none';
+           
+            }
+            else
+              {
+               document.getElementById('clr_1').style.visibility ='visible';
+               document.getElementById('clr_2').style.visibility = 'visible';
+           document.getElementById('c_one').style.visibility = 'visible';
+              document.getElementById('color').style.visibility = 'visible';
+
+
+
+              }
+              if(obj.value.split('*').length == 2){
+                document.getElementById('c_one').innerHTML = 'Select Base Color:';
+                document.getElementById('color_2').style.display = 'block';
+              }
+              else{
+                document.getElementById('c_one').innerHTML = 'Select Color:';
+                document.getElementById('color_2').style.display = 'none';
+                document.getElementById('clr_2').selectedIndex = 0;
+                document.getElementById('clr_2').style.border = '1px solid #C7C7C7';
+
+                if(document.getElementById('color_2').style.display == 'none' && document.getElementById('clr_1').value != "Select"){
+                  document.getElementById('spe_dec_color_err_msg').style.display = 'none';
+                }
+              }
+
+              if(obj.value == "Numbers*"){
+                document.getElementById("num_dd").style.display = "block";
+              }
+              else{
+                document.getElementById("num_dd").style.display = "none";
+                document.getElementById("number").selectedIndex = 0;
+              }
+
+              if(obj.value == "Letters*"){
+                document.getElementById("let_dd").style.display = "block";
+              }
+              else{
+                document.getElementById("let_dd").style.display = "none";
+                document.getElementById("letter").selectedIndex = 0;
+              }
+            }
+            </script>
+
+            <!-- new special decoration end -->
+
+
+            <!-- -------- packaging options start -->
+
+
+
+
+            <% ribbon_price1  = Price.find(:first, :conditions => ["title = 'ribbon' "])
+            if ribbon_price1 !=nil
+              ribbon_price = ribbon_price1.price
+            else
+              ribbon_price = 0.0
+            end %>
+            <% crave_blue_box1  = Configuration.find_by_name('packaging_gift_box_cost')
+            if crave_blue_box1 !=nil
+              crave_blue_box = crave_blue_box1.value.to_f
+            else
+              crave_blue_box = 0.0
+            end %>
+            <%#induvidual_box_price1  = Price.find(:first, :conditions => ["title = 'packaging_ individual_ box_cost' "])
+            #if induvidual_box_price1 !=nil
+            #induvidual_box_price = induvidual_box_price1.price
+            #else
+            # induvidual_box_price = 0.0
+            #end %>
+
+            <%
+            boxing_flavor_box_cost = Configuration.find_by_name('packaging_flavor_box_cost').value
+          %>
+
+
+            <div align="left"  style="padding-right:20px;">
+
+              <div  class="field-wrap" style="font-family:sans-serif; padding-left: 16px; width:350px; font-size:0.8em; color:#522C1B;">How would like your cupcakes to be boxed?</div>
+              <script type="text/javascript">
+              function gift_box_clicked(obj){
+                if(obj.checked == true){
+                  var com = document.getElementById('no_of_orders_cake');
+
+                  if(isNaN(parseInt(com.value)) || com.value == 0){
+                    alert("No cupcakes selected.");
+                    document.getElementById('cupcake_boxed_special_packed_in_standard_backary_box').checked = true;
+                  }else{
+                    if(com.value%12 != 0){
+                      document.getElementById('pack_err_msg').style.display = "block";
+                      document.getElementById('pack_err_msg').innerHTML = "Based on the number of individual cupcakes you have chosen, you will have <b>"+  parseInt(com.value/12) +"</b> CRAVE Blue gift Box(es). The remainder of your cupcakes will be boxed in CRAVE standard bakery box(es).";
+                    }
+                  }
+                }
+              }
+
+              function individual_box_clicked(obj){
+                if(obj.checked == true){
+                  var com = document.getElementById('no_of_orders_cake');
+
+                  if(isNaN(parseInt(com.value)) || com.value == 0){
+                    alert("No cupcakes selected.");
+                    document.getElementById('cupcake_boxed_special_packed_in_standard_backary_box').checked = true;
+                  }
+                }
+              }
+              </script>
+
+              <!-- --------------------- -->
+              <div style="width:450px; height:auto; clear:both;padding-top:10px;padding-left:20px;">
+                <div style="float:left;">
+                  <%= radio_button_tag "cupcake_boxed_special", "packed_in_standard_backary_box", (prev_vars[:cupcake_boxed_special] != nil)? (prev_vars[:cupcake_boxed_special] == 'packed_in_standard_backary_box') : true, {:class => 'radio', :onclick => "document.getElementById('pack_err_msg').style.display = 'none';"} %>
+                </div>
+                <div style="float:left;">
+                  <label for="cupcake_boxed_special_packed_in_standard_backary_box"  style=" width:350px; text-align:left;">Boxed in CRAVE standard bakery box(es).<br><br></label>
+                </div>
+              </div>
+              <div style="width:450px; height:auto; clear:both;padding-top:10px;padding-left:20px;">
+                <div style="float:left;">
+                  <%= radio_button_tag "cupcake_boxed_special", "packed_in_blue_box", prev_vars[:cupcake_boxed_special] == 'packed_in_blue_box', {:class => 'radio', :onclick => "document.getElementById('pack_err_msg').style.display = 'none';gift_box_clicked(this); "} %>
+                </div>
+                <div style="float:left;">
+                  <label for="cupcake_boxed_special_packed_in_blue_box" style=" width:350px; text-align:left;">Boxed in CRAVE Blue Gift Box(es).<em>(Additional $<%= ["%.2f" % crave_blue_box] %>/box)</em></label>
+                </div>
+              </div>
+              <div style="width:450px; height:auto; clear:both;padding-top:10px;padding-left:20px;">
+                <div style="float:left;">
+                  <%= radio_button_tag "cupcake_boxed_special", "packed_in_individual_box", prev_vars[:cupcake_boxed_special] == 'packed_in_individual_box', {:class => 'radio', :onclick => "individual_box_clicked(this);document.getElementById('pack_err_msg').style.display = 'none';"} %>
+                </div>
+                <div style="float:left;">
+                  <label for="cupcake_boxed_special_packed_in_individual_box" style=" width:350px; text-align:left;">Boxed in individual CRAVE gift box(es).<em>(Additional $<%= ["%.2f" % boxing_flavor_box_cost] %> fee/box)</em></label>
+                </div>
+              </div>
+
+
+<br /><br /><br />
+              <div  class="field-wrap" style="font-family:sans-serif; padding-left: 16px; width:350px; font-size:0.8em; color:#522C1B;">Would you like your cupcakes individually labeled?</div>
+   <!-- --------------------- -->
+              <div style="width:450px; clear:both;padding-left:20px;">
+                <div style="float:left;">
+                  <label for="cupcake_boxed_individually_labeled" style=" width:400px; text-align:left;">
+                    <input type="radio" name="labeled_cups" value="yes" <% if params[:labeled_cups] == "yes"%> checked <% end %>>Yes</input><br />
+                    <input type="radio" name="labeled_cups" value="no" <% if params[:labeled_cups] == "no"%> checked <% end %>>No</input></label>
+
+                </div>
+              </div>
+
+
+
+
+
+
+
+
+              <div style="position:absolute; margin-left:70px; z-index:0"> <img id="giftbox" src="../images/gift_box.gif" alt="Gift Box" />  </div>
+
+              <div class="field-wrap1" id="pack_err_msg" style="width: 420px; height:50px;padding: 10px 50px 10px 20px;display:none;" align="left"></div>
+
+            </div>
+
+
+            <!-- --------------------- -->
+
+          <% else %>
+            <span class="txt">You must choose the day your order will be fulfilled before you can select cupcakes.</span>
+          <% end %>
+
+        </fieldset>

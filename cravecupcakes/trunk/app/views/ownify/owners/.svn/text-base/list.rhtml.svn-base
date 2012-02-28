@@ -1,0 +1,66 @@
+<%
+
+def get_access_level(val)
+  if val == 1
+    return "Complete Access"
+  elsif val == 2
+    return "Place and View Orders"
+  else
+    return "Place Orders Only"
+  end
+end
+
+def replace_column_names(name)
+  if name == "first_name"
+    return "First Name";
+  elsif name == "last_name"
+    return "Last Name";
+  elsif name == "access_level"
+    return "Access Level";
+  else
+      return name.capitalize;
+  end
+end
+
+%>
+
+<% @page_title="Admin Users" -%>
+<p><%= link_to 'New Admin User', :action => 'new' %></p>
+<%
+
+columns_array = Array.new(6)
+
+columns_array[0] = "first_name"
+columns_array[1] = "last_name"
+columns_array[2] = "access_level"
+columns_array[3] = "username"
+columns_array[4] = "password"
+columns_array[5] = "email"
+
+%>
+
+<table>
+  <tr>
+  <% for column in columns_array %>
+    <th><%= replace_column_names(column) %></th>
+  <% end %>
+      <th colspan="2">Actions</th>
+  </tr>
+  
+<% for owner in @owners %>
+  <tr>
+  <% for column in columns_array %>
+    <td <%= (column == "access_level")? "align='center'" : "" %>>
+        <%=h (column != "access_level")? owner.send(column) : get_access_level(owner.send(column)) %>
+    </td>
+  <% end %>
+    <td><%= link_to 'Edit', :action => 'edit', :id => owner %></td>
+    <td><%= link_to 'Destroy', { :action => 'destroy', :id => owner }, :confirm => 'Are you sure?', :method => "post" %></td>
+  </tr>
+<% end %>
+</table>
+<p><%#= link_to 'Previous page', { :page => @owner_pages.current.previous } if @owner_pages.current.previous %>
+<%#= link_to 'Next page', { :page => @owner_pages.current.next } if @owner_pages.current.next %> </p>
+
+
+<p><%= render(:partial => "/paginate", :locals => {:collection => @owners}) -%></p>

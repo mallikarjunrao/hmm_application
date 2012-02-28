@@ -1,0 +1,25 @@
+<% @page_title = "Questions &amp; Answers &raquo; " %>
+<% @body_id = "answers" %>
+<% @body_class = "no-photo-w-content" %>
+ <div class="main">
+  <h3>Customer Questions &amp; Answers</h3>
+<% for q in @faqs -%>
+  <div class="question" id="q0<%= q.id %>"><a href="" onclick="hide_answer(); return false;" title="Get the answer to this question.">Q: <%= q.question %></a></div>
+    <div class="answer" id="a01" >
+      <p><%= to_bc(q.answer) %></p>
+    </div>
+<% end -%>
+
+  <script type="text/javascript">
+	function hide_answer(){
+		var compnts = document.getElementsByTagName('div');
+		var msg = "";
+		for(var i=0; i < compnts.length; i++){
+			if(compnts[i].className == 'answer'){
+				compnts[i].style.display = 'none';
+			}
+		}
+	}
+</script>
+
+ </div><!--end: main-->

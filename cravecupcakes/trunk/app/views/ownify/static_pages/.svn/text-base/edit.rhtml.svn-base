@@ -1,0 +1,10 @@
+<% 
+    @page_title="Edit Page" 
+-%>
+
+<%= render :partial => 'navigation' %>
+
+<% form_tag :action => 'update', :id => @dyno_page do %>
+  <%= render :partial => 'form' %>
+  <%= submit_tag 'Save', :class => 'clear' %>
+<% end %>

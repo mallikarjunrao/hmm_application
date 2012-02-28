@@ -1,0 +1,34 @@
+<% @page_title = @product_type ? "#{@product_type.title} Products" : "Products" %>
+
+<p><%= link_to 'Product Types List', :controller => 'product_types', :action => 'list' %></p>
+
+<p><%= link_to 'New Product', :action => 'new', :product_type_id => (@product_type ? @product_type.id : '') %></p>
+
+<table>
+  <tr>
+    <th>Title</th>
+    <th>Price</th>
+    <th>Sort</th>
+    <th>Exclude Tax</th>
+    <th>Admin Only</th>
+    <th colspan="2">Actions</th>
+  </tr>
+  
+<% 
+if @products
+for product in @products 
+%>
+  <tr>
+    <td><%=h product.title %></td>
+    <td><%= number_to_currency( product.price ) %></td>
+    <td><%= product.sort %></td>
+    <td align="center"><%= (product.exclude_tax)? "X" : "" %></td>
+    <td align="center"><%= (product.admin_only)? "X" : "" %></td>
+    <td><%= link_to 'Edit', :action => 'edit', :id => product %></td>
+    <td><%= link_to 'Destroy', { :action => 'destroy', :id => product }, :confirm => 'Are you sure?', :method => :post %></td>
+  </tr>
+<% 
+end
+end 
+%>
+</table>

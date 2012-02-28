@@ -1,0 +1,450 @@
+<script type="text/javascript">
+window.onload = function(){
+		new JsDatePick({
+			useMode:2,
+			target:"date_1"
+                       //target: "available_start_date"
+			//limitToToday:true <-- Add this should you want to limit the calendar until today.
+		});
+
+                new JsDatePick({
+			useMode:2,
+			//target:"cupcake_cutoff_date"
+                       target: "date_2"
+			//limitToToday:true <-- Add this should you want to limit the calendar until today.
+		});
+
+                 <%#*new JsDatePick({%>
+			<%#*useMode:2,%>
+			<%#*//target:"cupcake_cutoff_date"%>
+                       <%#*target: "cupcake_visible_start_date"%>
+			<%#*//limitToToday:true <-- Add this should you want to limit the calendar until today.%>
+		<%#*});%>
+	};
+
+</script>
+
+<% @page_title="Bake Sheet Report" -%>
+
+<%
+tomorrow = Time.now + 3600*24
+nex_day = tomorrow + 3600*24*7
+
+%>
+<br>
+  <form action="/ownify/bake_sheet/get_report" method="post">
+    <div><span>Start Date: </span><span><input id=date_1 name=date_1 value="<%= (params[:date_1] != nil)? params[:date_1] : tomorrow.year.to_s + "-" + tomorrow.strftime("%m").to_s + "-" + tomorrow.strftime("%d")  %> " type=text readonly="readonly">&nbsp;</span></div>
+    <div style="height:5px;">&nbsp;</div>
+    <div><span>End Date:&nbsp;&nbsp;</span><span><input id=date_2 name=date_2 value="<%= (params[:date_2] != nil)? params[:date_2] : nex_day.year.to_s + "-" + nex_day.strftime("%m").to_s + "-" + nex_day.strftime("%d") %>" type=text readonly="readonly">&nbsp;</span></div>
+    <div style="height:10px;">&nbsp;</div>
+    <div><span><input type="submit" value="Submit"></span></div>
+  </table>
+   </form>
+<hr>
+<h4>Selected Date Range</h4>
+<table>  
+<tr>
+
+<%
+
+for date in @dates
+    %><td><a href="?date=<%= date.date_of_order %>"><%= date.date_of_order %></a></td><%
+end
+
+%>
+</tr></table>
+<%
+
+time_slot_01 = ""
+time_slot_02 = ""
+time_slot_03 = ""
+time_slot_04 = ""
+time_slot_05 = ""
+time_slot_06 = ""
+all_order_ids = ""
+
+@orders = Order.find(:all, :conditions => ["date_of_order = ?", params[:date]])
+for order in @orders %><%
+
+  order_id = order.id
+  #order_date = order.date_of_order
+  order_time = order.time_of_order.to_i
+  #delivery_method = order.delivery_method
+
+  if order_time >= 17 && order_time < 21
+   time_slot_01 += order_id.to_s + ","
+  elsif order_time >= 21 && order_time < 25
+    time_slot_02 += order_id.to_s + ","
+  elsif order_time >= 25 && order_time < 29
+    time_slot_03 += order_id.to_s + ","
+  elsif order_time >= 29 && order_time < 33
+   time_slot_04 += order_id.to_s + ","
+  elsif order_time >= 33 && order_time < 37
+   time_slot_05 += order_id.to_s + ","
+  elsif order_time >= 37 && order_time < 41
+    time_slot_06 += order_id.to_s + ","
+  end
+
+  all_order_ids += order_id.to_s + ","
+
+%>
+<% end %>
+<br>
+<br>
+<b>Bake Sheet Report for [<%= params[:date] %>]</b>
+<br>
+<% # = time_slot_01 +"<hr>"+ time_slot_02 +"<hr>"+ time_slot_03 +"<hr>"+ time_slot_04 +"<hr>"+ time_slot_05 +"<hr>"+ time_slot_06 +"<hr>"%>
+<% all_ids = all_order_ids[0..(all_order_ids.length - 2)] %>
+
+<%
+
+if all_ids != ""
+  order_items = OrderItem.find(:all, :select => "DISTINCT item_id, cupcakes.title, cupcakes.is_breakfast",:order => "cupcakes.is_breakfast = 0 DESC, cupcakes.title", :joins => "JOIN cupcakes ON cupcakes.id = item_id", :conditions => "order_id IN ("+all_ids+") AND item_type = 2")
+
+  breakfast = true;
+
+  if order_items.empty?
+    %>
+    
+    <%
+  else
+
+    ts_01_total = 0
+    ts_02_total = 0
+    ts_03_total = 0
+    ts_04_total = 0
+    ts_05_total = 0
+    ts_06_total = 0
+
+    %>
+<br>
+    <table>
+        <th width="200">Cupcake Flavor</th>
+        <th>08.30am - 10.30am</th>
+        <th>10.30am - 12.30pm</th>
+        <th>12.30pm - 02.30pm</th>
+        <th>02.30pm - 04.30pm</th>
+        <th>04.30pm - 06.30pm</th>
+        <th>06.30pm - 08.30pm</th>
+      <%
+        for item in order_items
+          cupcake = Cupcake.find(:first, :conditions => ["id = ?", item.item_id])
+
+          if cupcake.is_breakfast && breakfast
+          %><tr><td colspan="7"><b>Breakfast Cupcakes</b></td></tr><%
+              breakfast = false;
+          end
+
+      %>
+       <tr>
+          <td><%= cupcake.title.to_s %><%= cupcake.is_breakfast == true ? " (Breakfast)" : ""  %></td>
+          <td>
+            <%
+               ids = time_slot_01[0..(time_slot_01.length - 2)]
+
+               if ids != ""
+               order_items1 = OrderItem.find(:all, :select => "item_id, SUM(qty) AS tot_qty", :group => "item_id", :conditions => "order_id IN ("+ids+") AND item_type = 2")
+
+                for item1 in order_items1
+                  if cupcake.id == item1.item_id
+                %><div align="center"><%= item1.tot_qty.to_s %></div><%
+                  ts_01_total += item1.tot_qty.to_i
+                  end
+                end
+
+               end
+             %>
+          </td>
+
+          <td>
+            <%
+               ids = time_slot_02[0..(time_slot_02.length - 2)]
+
+               if ids != ""
+               order_items1 = OrderItem.find(:all, :select => "item_id, SUM(qty) AS tot_qty", :group => "item_id", :conditions => "order_id IN ("+ids+") AND item_type = 2")
+
+                for item1 in order_items1
+                  if cupcake.id == item1.item_id
+                %><div align="center"><%= item1.tot_qty.to_s %></div><%
+                  ts_02_total += item1.tot_qty.to_i
+                  end
+                end
+
+               end
+             %>
+          </td>
+
+          <td>
+            <%
+               ids = time_slot_03[0..(time_slot_03.length - 2)]
+
+               if ids != ""
+               order_items1 = OrderItem.find(:all, :select => "item_id, SUM(qty) AS tot_qty", :group => "item_id", :conditions => "order_id IN ("+ids+") AND item_type = 2")
+
+                for item1 in order_items1
+                  if cupcake.id == item1.item_id
+                %><div align="center"><%= item1.tot_qty.to_s %></div><%
+                  ts_03_total += item1.tot_qty.to_i
+                  end
+                end
+
+               end
+             %>
+          </td>
+
+          <td>
+            <%
+               ids = time_slot_04[0..(time_slot_04.length - 2)]
+
+               if ids != ""
+               order_items1 = OrderItem.find(:all, :select => "item_id, SUM(qty) AS tot_qty", :group => "item_id", :conditions => "order_id IN ("+ids+") AND item_type = 2")
+
+                for item1 in order_items1
+                  if cupcake.id == item1.item_id
+                %><div align="center"><%= item1.tot_qty.to_s %></div><%
+                  ts_04_total += item1.tot_qty.to_i
+                  end
+                end
+
+               end
+             %>
+          </td>
+
+          <td>
+            <%
+               ids = time_slot_05[0..(time_slot_05.length - 2)]
+
+               if ids != ""
+               order_items1 = OrderItem.find(:all, :select => "item_id, SUM(qty) AS tot_qty", :group => "item_id", :conditions => "order_id IN ("+ids+") AND item_type = 2")
+
+                for item1 in order_items1
+                  if cupcake.id == item1.item_id
+                %><div align="center"><%= item1.tot_qty.to_s %></div><%
+                  ts_05_total += item1.tot_qty.to_i
+                  end
+                end
+
+               end
+             %>
+          </td>
+
+          <td>
+            <%
+               ids = time_slot_06[0..(time_slot_06.length - 2)]
+
+               if ids != ""
+               order_items1 = OrderItem.find(:all, :select => "item_id, SUM(qty) AS tot_qty", :group => "item_id", :conditions => "order_id IN ("+ids+") AND item_type = 2")
+
+                for item1 in order_items1
+                  if cupcake.id == item1.item_id
+                %><div align="center"><%= item1.tot_qty.to_s %></div><%
+                  ts_06_total += item1.tot_qty.to_i
+                  end
+                end
+
+               end
+             %>
+          </td>
+
+       </tr>       
+      <%
+        end
+
+    %>
+       <tr><td colspan="7" style="height:1px;"></td></tr>
+       <tr><td colspan="7" style="height:1px;"></td></tr>
+       <tr>
+         <td><b>Total</b></td>
+         <td align="center"><b><%= (ts_01_total != 0)? ts_01_total.to_s : "" %></b></td>
+         <td align="center"><b><%= (ts_02_total != 0)? ts_02_total.to_s : "" %></b></td>
+         <td align="center"><b><%= (ts_03_total != 0)? ts_03_total.to_s : "" %></b></td>
+         <td align="center"><b><%= (ts_04_total != 0)? ts_04_total.to_s : "" %></b></td>
+         <td align="center"><b><%= (ts_05_total != 0)? ts_05_total.to_s : "" %></b></td>
+         <td align="center"><b><%= (ts_06_total != 0)? ts_06_total.to_s : "" %></b></td>
+       </tr>
+       <tr>
+         <td><b>Trays</b></td>
+         <% tray = Configuration.find_by_name('cupcakes_per_tray') %>
+         <td align="center"><b><%= (ts_01_total != 0)? (ts_01_total/tray.value.to_f).ceil : "" %></b></td>
+         <td align="center"><b><%= (ts_02_total != 0)? (ts_02_total/tray.value.to_f).ceil : "" %></b></td>
+         <td align="center"><b><%= (ts_03_total != 0)? (ts_03_total/tray.value.to_f).ceil : "" %></b></td>
+         <td align="center"><b><%= (ts_04_total != 0)? (ts_04_total/tray.value.to_f).ceil : "" %></b></td>
+         <td align="center"><b><%= (ts_05_total != 0)? (ts_05_total/tray.value.to_f).ceil : "" %></b></td>
+         <td align="center"><b><%= (ts_06_total != 0)? (ts_06_total/tray.value.to_f).ceil : "" %></b></td>
+       </tr>
+       <tr><td colspan="7" style="height:1px;"></td></tr>
+       <tr><td colspan="7" style="height:1px;"></td></tr>
+      </table>
+    <%
+       end     
+
+  end
+%>
+
+<!-- Start of cake -->
+
+<%
+if all_ids != ""
+    order_items = OrderItem.find(:all, :select => "cake, SUM(tot_qty) AS tot FROM (SELECT item_id, c.title,c.cake as cake, SUM(qty) AS tot_qty", :joins => "JOIN cupcakes c ON item_id = c.id WHERE (order_id IN ("+all_ids+") AND item_type = 2) GROUP BY item_id) AS a", :group => "cake")
+    
+    if order_items.empty?
+
+    else
+      %>
+<br>
+<table>
+  <th width="200">Cake</th>
+  <th width="120">Qty</th>
+    <%
+        for item in order_items
+        %><tr><td><%= item.cake %></td><td align="center"><%= item.tot %></td><%
+        end
+        %></table><%
+    end
+end
+%>
+<!-- End of cake -->
+
+<%
+
+if all_ids != ""
+  order_items = OrderItem.find(:all, :select => "DISTINCT item_id", :conditions => "order_id IN ("+all_ids+") AND item_type = 1")
+
+  
+
+  if order_items.empty?
+    %>
+    
+    <%
+  else
+
+    %>
+<br>
+    <table>
+        <th width="200">Seasonal Cupcake Flavor</th>
+        <th>08.30am - 10.30am</th>
+        <th>10.30am - 12.30pm</th>
+        <th>12.30pm - 02.30pm</th>
+        <th>02.30pm - 04.30pm</th>
+        <th>04.30pm - 06.30pm</th>
+        <th>06.30pm - 08.30pm</th>
+      <%
+        for item in order_items
+          special = Special.find(:first, :conditions => ["id = ?", item.item_id])
+
+      %>
+       <tr>
+          <td><%= special.title.to_s %></td>
+          <td>
+            <%
+               ids = time_slot_01[0..(time_slot_01.length - 2)]
+
+               if ids != ""
+               order_items1 = OrderItem.find(:all, :select => "item_id, SUM(qty) AS tot_qty", :group => "item_id", :conditions => "order_id IN ("+ids+") AND item_type = 1")
+
+                for item1 in order_items1
+                  if special.id == item1.item_id
+                  %><div align="center"><%= item1.tot_qty.to_s %> <font size="1">box(es)</font></div><%
+                  end
+                end
+
+               end
+             %>
+          </td>
+
+          <td>
+            <%
+               ids = time_slot_02[0..(time_slot_02.length - 2)]
+
+               if ids != ""
+               order_items1 = OrderItem.find(:all, :select => "item_id, SUM(qty) AS tot_qty", :group => "item_id", :conditions => "order_id IN ("+ids+") AND item_type = 1")
+
+                for item1 in order_items1
+                  if special.id == item1.item_id
+                %><div align="center"><%= item1.tot_qty.to_s %> <font size="1">box(es)</font></div><%
+                  end
+                end
+
+               end
+             %>
+          </td>
+
+          <td>
+            <%
+               ids = time_slot_03[0..(time_slot_03.length - 2)]
+
+               if ids != ""
+               order_items1 = OrderItem.find(:all, :select => "item_id, SUM(qty) AS tot_qty", :group => "item_id", :conditions => "order_id IN ("+ids+") AND item_type = 1")
+
+                for item1 in order_items1
+                  if special.id == item1.item_id
+                %><div align="center"><%= item1.tot_qty.to_s %> <font size="1">box(es)</font></div><%
+                  end
+                end
+
+               end
+             %>
+          </td>
+
+          <td>
+            <%
+               ids = time_slot_04[0..(time_slot_04.length - 2)]
+
+               if ids != ""
+               order_items1 = OrderItem.find(:all, :select => "item_id, SUM(qty) AS tot_qty", :group => "item_id", :conditions => "order_id IN ("+ids+") AND item_type = 1")
+
+                for item1 in order_items1
+                  if special.id == item1.item_id
+                %><div align="center"><%= item1.tot_qty.to_s %> <font size="1">box(es)</font></div><%
+                  end
+                end
+
+               end
+             %>
+          </td>
+
+          <td>
+            <%
+               ids = time_slot_05[0..(time_slot_05.length - 2)]
+
+               if ids != ""
+               order_items1 = OrderItem.find(:all, :select => "item_id, SUM(qty) AS tot_qty", :group => "item_id", :conditions => "order_id IN ("+ids+") AND item_type = 1")
+
+                for item1 in order_items1
+                  if special.id == item1.item_id
+                %><div align="center"><%= item1.tot_qty.to_s %> <font size="1">box(es)</font></div><%
+                  end
+                end
+
+               end
+             %>
+          </td>
+
+          <td>
+            <%
+               ids = time_slot_06[0..(time_slot_06.length - 2)]
+
+               if ids != ""
+               order_items1 = OrderItem.find(:all, :select => "item_id, SUM(qty) AS tot_qty", :group => "item_id", :conditions => "order_id IN ("+ids+") AND item_type = 1")
+
+                for item1 in order_items1
+                  if special.id == item1.item_id
+                %><div align="center"><%= item1.tot_qty.to_s %> <font size="1">box(es)</font></div><%
+                  end
+                end
+
+               end
+             %>
+          </td>
+
+       </tr>
+      <%
+        end
+
+       end
+      %>
+      </table>
+    <%
+
+  end
+%>

@@ -1,0 +1,251 @@
+
+
+
+        <script type="text/javascript">
+          function countCandles(){
+            var chkNull='';
+            var ProductElem;
+ <% 	for product in @product_types_candles
+
+          if session[:user_name]!= nil
+   %>
+           //alert(product.id );
+
+           ProductElem = document.getElementById('<%= "products[#{ product.id }]"    %>');
+
+           // alert(ProductElem);
+           if (ProductElem.value!=null){
+             if (ProductElem.value.length>0){
+               if (isNaN(ProductElem.value) || parseFloat(ProductElem.value) <= 0){
+                 if (ProductElem.value != 0){
+                   alert('Please enter an integer greater than zero.');
+                   //document.getElementById('<%= "products[#{ product.id }]"  %>').focus();
+                   setTimeout("document.getElementById('products[<%= product.id %>]').focus();",10);
+                 }
+                 ProductElem.value = "";
+                 chkNull = '';
+               }
+               else {
+                 //alert('<%= "products[#{ product.id }]"    %>');
+                 //alert(document.getElementById('<%= "products[#{ product.id }]"    %>').value);
+                 chkNull += 1;
+               }
+             }
+           }
+  <%
+          elsif product.admin_only == false
+              %>
+           //alert(product.id );
+
+           ProductElem = document.getElementById('<%= "products[#{ product.id }]"    %>');
+
+           // alert(ProductElem);
+           if (ProductElem.value!=null){
+             if (ProductElem.value.length>0){
+               if (isNaN(ProductElem.value) || parseFloat(ProductElem.value) <= 0){
+                 if (ProductElem.value != 0){
+                   alert('Please enter an integer greater than zero.');
+                   //document.getElementById('<%= "products[#{ product.id }]"  %>').focus();
+                   setTimeout("document.getElementById('products[<%= product.id %>]').focus();",10);
+                 }
+                 ProductElem.value = "";
+                 chkNull = '';
+               }
+               else {
+                 //alert('<%= "products[#{ product.id }]"    %>');
+                 //alert(document.getElementById('<%= "products[#{ product.id }]"    %>').value);
+                 chkNull += 1;
+               }
+             }
+           }
+  <%
+          end
+
+        end
+
+%>
+       if(chkNull !=''){
+         document.getElementById("check_options").style.display='block';
+         document.getElementById("candle_display").value= chkNull;
+         //alert (document.getElementById("candle_display").value);
+       }
+       else{
+         document.getElementById("check_options").style.display='none';
+         document.getElementById('candle_method_placed_on_the_cupcakes').checked = false
+         document.getElementById('candle_method_packaged_on_the_side').checked = false
+         document.getElementById("candle_display").value= '';
+       }
+     }
+
+     function CountRemainingCharsForDescription(TextArea){
+        var browserName=navigator.appName;
+
+       if (TextArea.value.replace(/(\r\n|\n|\r)/gm,"").length > 150){
+
+         document.getElementById('CharRemaining').innerHTML = '0';
+
+          if (browserName=="Microsoft Internet Explorer")
+           {
+              TextArea.value = TextArea.value.substring(0, (150+(2*lineBreakCount(TextArea.value))));
+           }
+           else{
+              TextArea.value = TextArea.value.substring(0, (150+lineBreakCount(TextArea.value)));
+           }
+       }
+       else{
+         document.getElementById('CharRemaining').innerHTML = 150 - TextArea.value.replace(/(\r\n|\n|\r)/gm,"").length;
+       }
+     }
+
+    function lineBreakCount(str){
+      /* counts \n */
+      try {
+        return((str.match(/[^\n]*\n[^\n]*/gi).length));
+      } catch(e) {
+        return 0;
+      }
+    }
+
+
+        </script>
+
+
+        <script type="text/javascript">
+            function LinkToggle(id){
+              var situation= document.getElementById(id).style.display;
+              //alert(situation);
+              if (situation=='none'){
+                divToggleOpen(id);
+              }
+              else{
+                divToggleClose(id);
+              }
+            }
+        </script>
+
+        <fieldset class="qty" style="width:546px;"><!--candles-->
+          <legend>Other Products</legend>
+          <span class="txt">The following items can optionally be added to your order.<br>To purchase only these products, please call the store.</span>
+          <% 	for type in @product_types %>
+            <!-- Add for Toggling the Div  janath. -->
+            <table cellpadding="0" cellspacing="0" border="0" class="candles">
+              <tr>
+                <th class="candle-type" style="width:72%;" onclick="LinkToggle('<%= type.title.gsub("'", "").gsub('"', "") %>');" >
+                  <a style="cursor:pointer"><%= type.title %> </a>
+                </th>
+                <th class="candle-price" style="width:13%;">
+                  <div style="float:right;margin-top:-7px; _margin-top:-7px; *margin-top:-1px; padding-right:20px;">
+                    <% if type.thumb_image!=nil %>
+                      <a class="thumbnail" href="#thumb" tabIndex="-1" onmouseover="Tip('<img src=\'/images/product_type/image_file/<%= type.image_file_relative_path %> \' width=\'200\' height=\'200\' >' )"  onmouseout="UnTip()" >
+                        <img style="float:none;" src="/images/product_type/thumb_image/<%= type.thumb_image_relative_path  %>"  border="0" width="27" height="27"  />
+                      </a>
+                    <% end %>
+                  </div>
+                  <% 		@pval=''
+
+                  for product in type.products
+                    product_value = prev_vars[:products] && prev_vars[:products][ product.id.to_s ] ? prev_vars[:products][ product.id.to_s ] : ''
+                    if product_value!=''
+                      @pval=product_value
+
+                    end
+                  end %>
+                </th>
+                <th class="candle-qty" style="width:15%;">
+                  <div  <% if @pval=='' %>  style="display:block;margin-top:-6px; _margin-top:-6px; *margin-top:-2px;" <%else %> style="display:none" <% end %> onclick="divToggleOpen('<%= type.title.gsub("'", "").gsub('"', "") %>');" id='<%= type.title.gsub("'", "").gsub('"', "") %>.open' >
+                    <a style="cursor:pointer"> <img src="/images/ui/forms/down.jpg" border="0" style="padding: 0px 65px 0px 0px;" /> </a>
+                  </div>
+                  <div <% if @pval=='' %>  style="display:none;margin-top:-6px; _margin-top:-6px; *margin-top:-2px;" <%else %> style="display:block;margin-top:-6px; _margin-top:-6px; *margin-top:-2px;" <% end %> onclick="divToggleClose('<%= type.title.gsub("'", "").gsub('"', "") %>');" id='<%= type.title.gsub("'", "").gsub('"', "") %>.close'>
+                    <a style="cursor:pointer"> <img src="/images/ui/forms/up.jpg" border="0" style="padding: 0px 65px 0px 0px;" /> </a>
+                  </div>
+                </th>
+              </tr>
+            </table>
+            <!-- end of Toggling the Div  janath. -->
+            <div id="<%= type.title.gsub("'", "").gsub('"', "") %>"  <% if @pval=='' %>  style="display:none;width:546px;" <% end %>  >
+              <table cellpadding="0" cellspacing="0" border="1" class="candles" width="546px;">
+                <tr style="width:546px;">
+                  <th class="candle-type" style="width:150px;" >&nbsp;</th>
+                  <th class="candle-price" style="width:150px;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Price&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th>
+                  <th class="candle-qty" style="width:146px;">Amount</th>
+                </tr>
+                <% 	row_hilite = true
+
+                if session[:user_name]==nil
+                  products = type.products.find(:all, :order => "sort ASC", :conditions => "admin_only = 0")
+                else
+                  products = type.products.find(:all, :order => "sort ASC")
+                end
+
+                for product in products
+                  row_hilite = ! row_hilite
+                  product_value = prev_vars[:products] && prev_vars[:products][ product.id.to_s ] ? prev_vars[:products][ product.id.to_s ] : '' %>
+                  <tr <%= "class=\"even\"" if row_hilite %>>
+                    <td><label><%= product.title %> <%#= product_value %></label></td>
+                    <td>(<%= number_to_currency( product.price ) %> each)</td>
+                    <td>
+                      <%= text_field_tag "products[#{ product.id }]", product_value , {:class => 'text-field', :maxlength => 3,  :style => "font-size:13px", :ONCHANGE=>"countCandles();", :onKeyUp=>"if(event.keyCode != 9 && event.keyCode != 8 && !isInteger(this.value)){this.value = ''; alert('Please enter an integer greater than zero.')}" } %>
+                    </td>
+                    <td>
+                      <div style="float:right;margin-top:-7px; _margin-top:-7px; *margin-top:-1px; width:70px;">
+                        <% 	if product.thumb_image!=nil %>
+                          <a class="thumbnail" href="#thumb" tabIndex="-1" onmouseover="Tip('<img src=\'/images/product/image_file/<%= product.image_file_relative_path %> \' width=\'200\' height=\'200\' >' )"  onmouseout="UnTip()" >
+                            <img style="float:none;" src="/images/product/thumb_image/<%= product.thumb_image_relative_path  %>"  border="0" width="27" height="27"  />
+                          </a>
+                        <% 	end %>
+                      </div>
+                      <input type="hidden"  name="pro_display_order[<%= product.title + product.id.to_s %>]" value="<%= product.id  %>"
+                    </td>
+                  </tr>
+                <% 	end %>
+              </table>
+            </div>
+
+
+
+          <% 	end %>
+          <input type="hidden"  name="candle_display" id="candle_display" value="<%= prev_vars[:candle_display] %>"  >
+          <div class="field-wrap" id="check_options" style="margin-top:10px; <% if prev_vars[:candle_method]==nil  %>display:none;<%else %>display:block; height:50px; padding-top:15px;<% end %>">
+            <label class="radio" style="width:200px;">Would you like your candles:</label>
+            <label style="margin-left:0px; margin-top:1px; width:166px;">  <%= radio_button_tag "candle_method", "placed on the cupcakes", prev_vars[:candle_method] == 'placed on the cupcakes', {:class => 'radio'} %> Placed on the cupcakes</label>
+            <label style="margin-left:215px; margin-top:6px; width:151px;">  <%= radio_button_tag "candle_method", "packaged on the side", prev_vars[:candle_method] == 'packaged on the side', {:class => 'radio'} %> Packaged on the side</label>
+            <!--table>
+			<tr>
+				<td>
+				</td><td>
+				</td>
+			</tr>
+		</table-->
+          </div>
+          <% if prev_vars[:candle_method]==nil %>
+            <br/>
+          <% end %>
+          <div class="field-wrap1" id="candlemethod" style="display:none; text-align:left; margin-left:31px; height:50px;" align="right"> You are ordering one or more candles. Would you like your candles placed on the cupcakes or packaged on the side?</div>
+          <div align="left" id="gift_msg_box" style="padding-right:20px;">
+            <span class="txt" style="width:500px;">If you are ordering greeting cards or gift cards and would like to include a personalized message, please enter it here (Maximum of 150 characters. Optional): For Multiple cards with multiple notes please call 713-622-7283.</span>
+            <div style="padding-left:25px;">
+              <textarea name="gift_msg" id="gift_msg" rows="5" style="width:465px;" onkeyup="CountRemainingCharsForDescription(this);"><%=  prev_vars[:gift_msg] != nil ? prev_vars[:gift_msg] : params[:gift_msg] %></textarea>
+              <br/>
+              <div>
+                <div  class="txt_new" style="float:left;" > Number of characters remaining: </div>
+                <div id="CharRemaining" class="txt1" style="width:50px; float:left;" >
+                  <% if prev_vars[:gift_msg] == nil %>150<% else %><%= (150 - (prev_vars[:gift_msg].gsub(/\r\n/,"").length)) %><% end %>
+                </div>
+              </div>
+            </div>
+          </div>
+          <img id="merch" src="../images/merch.gif" alt="Give the gifts people crave: Crave Cupcake gift cards, t-shirts and hats. Available in-store." />
+        </fieldset>
+
+
+
+        <script type="text/javascript">
+          // window.onload=countCandles();
+
+          function AutoFill(){
+            var newValue=document.getElementById('first_name').value + " " + document.getElementById('last_name').value;
+            if(document.getElementById('person_pic_order') != null){
+              document.getElementById('person_pic_order').value = newValue;
+            }
+          }
+        </script>

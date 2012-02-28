@@ -1,0 +1,1224 @@
+<% @page_title = "Place your order with " 
+ @body_id = "order" 
+   @form_styles = %q{
+<link type="text/css" rel="stylesheet" href="styles/forms.css?d=20090605" media="screen, print" />
+<link type="text/css" rel="stylesheet" href="styles/jquery-ui-1.7.1.custom.css?d=20090605" media="screen" />
+}
+%>
+
+<script type="text/javascript" src="/javascripts/jquery-ui-1.7.1.custom.min.js"></script>
+<!-- eqx added CC Validation script -->
+<script type="text/javascript" src="/javascripts/creditcard.js"></script>
+<script type="text/javascript">
+  function Toggle(id1,id2) {
+    obj=document.getElementById(id1);
+    obj2=document.getElementById(id2);
+
+   if ((obj.style.display=='block') || obj2.style.border!='1px solid #C7C7C7'){
+    obj.style.display='none';
+    obj2.style.border='1px solid #C7C7C7';
+   }
+
+  }
+
+  function divToggleOpen(id){
+
+     obj=document.getElementById(id);
+     obj.style.display='block';
+     document.getElementById(id+'.open').style.display='none';
+     document.getElementById(id+'.close').style.display='block';
+
+    
+  }
+  function divToggleClose(id){
+
+     obj=document.getElementById(id);
+     obj.style.display='none';
+     document.getElementById(id+'.open').style.display='block';
+     document.getElementById(id+'.close').style.display='none';
+
+
+  }
+
+  $(function() {
+    $("#date_of_order").datepicker({
+   onSelect: function(dateText) {setAnchor('timing'); this.form.submit(); },
+   defaultDate: +1,
+   duration: 'fast',
+   minDate: +<%= Time.now.hour > 18 ? 2 : 1 %>  <% if @params[:delivery_method] == "delivery" %>, 
+   beforeShowDay: $.datepicker.noWeekends
+<% end -%>
+});
+});
+
+ function validateForm( frm ){
+    var errMsg = "";
+
+    var store1 = document.getElementById("store1").checked
+    var store2 = document.getElementById("store2").checked
+    
+    if( (store1 == false) && (store2 == false)) {
+      document.getElementById("store").style.display='block';
+     // document.getElementById("store1").focus();
+      //document.getElementById("last_name").style.border='1px solid red';
+      errMsg += "store1,";
+    }
+    else {
+      document.getElementById("store").style.display='none';
+    }
+
+    var pick_up = document.getElementById("delivery_method_pickup").checked
+    var delivery = document.getElementById("delivery_method_delivery").checked
+    if((pick_up == false) && (delivery == false)) {
+      document.getElementById("dmethod").style.display='block';
+     // document.getElementById("delivery_method_pickup").focus();
+      errMsg += "delivery_method_pickup,";
+    }
+    else {
+      document.getElementById("dmethod").style.display='none';
+    }
+
+    var time_of_order = document.getElementById("time_of_order").value
+    if( time_of_order == "Select" ) {
+      document.getElementById("tdorder").style.display='block';
+      //document.getElementById("time_of_order").focus();
+       errMsg += "time_of_order,";
+    }
+    else {
+      document.getElementById("tdorder").style.display='none';
+    }
+
+    // enforce next day order before 6pm
+    var date_of_order = document.getElementById("date_of_order").value
+    var tomorrow = new Date();
+    tomorrow.setTime(tomorrow.getTime() + (1000*3600*24));
+    //alert( + " - " + );
+    var orderDate = date_of_order.substring(0,10);
+    tomorrow = ((tomorrow.getMonth()+1) < 10 ? ("0"+(tomorrow.getMonth()+1)) : (tomorrow.getMonth()+1)) + "/"+ (tomorrow.getDate() < 10 ? "0"+tomorrow.getDate() : tomorrow.getDate())+"/"+ (tomorrow.getYear()+1900)
+    //var curTime = new Date()
+    //var curr_hour = curTime.getHours();
+    <%
+    t = Time.now
+    cst = (t.gmtime) - (60*60*6)
+    %>
+    if(orderDate == tomorrow && <%= cst.hour %> > 17 ){
+      document.getElementById("dorder").style.display='block';
+     // document.getElementById("dorder").focus();
+     errMsg += "date_of_order,";
+    }
+
+    // counting specials
+   var totalSpecials = 0;
+
+   for (var i = 0; i < frm.elements.length; i++) {
+     if (frm.elements[i].type == "text" && frm.elements[i].name.indexOf("specials") != -1 && (! isNaN(parseInt(frm.elements[i].value)))) {
+       totalSpecials += parseInt(frm.elements[i].value);
+     }
+   }
+
+   // if specials are not selected count cupcakes
+   if(totalSpecials == 0){
+     var totalCupcakes = 0;
+
+     for (var i = 0; i < frm.elements.length; i++) {
+       if (frm.elements[i].type == "text" && frm.elements[i].name.indexOf("cupcakes") != -1 && (! isNaN(parseInt(frm.elements[i].value)))) {
+         totalCupcakes += parseInt(frm.elements[i].value);
+       }
+     }
+
+     if( totalCupcakes < 12 ){
+       if (document.getElementById("ocupcakes") ){
+
+       document.getElementById("ocupcakes").style.display='block';
+      // document.getElementById("ocupcakes").focus();
+       errMsg += "specials[1],";
+      }
+       //errMsg += "* You must order at least 12 cupcakes (or a seasonal box, if available).\n";
+     }
+     else {
+       if (document.getElementById("ocupcakes") ){
+       document.getElementById("ocupcakes").style.display='none';
+       }
+     }
+   }
+   else {
+     if (document.getElementById("ocupcakes") ){
+       document.getElementById("ocupcakes").style.display='none';
+       }
+   }
+    
+
+        // calling function chk all quantities are numerical
+   if(chk_qtys() == true){
+
+     if (document.getElementById("isordernumeric") ){
+
+       document.getElementById("isordernumeric").style.display='block';
+       //document.getElementById("shipto_first_name").focus();
+       errMsg += "specials[2],";
+      }
+       //errMsg += "* You must order at least 12 cupcakes (or a seasonal box, if available).\n";
+     }
+     else {
+       if (document.getElementById("isordernumeric") ){
+       document.getElementById("isordernumeric").style.display='none';
+       
+       }
+     }
+
+
+   //confirm minimum 12 in order
+
+    // if is_how_to_boxed clicked then how_to_boxed is required
+     var com = document.getElementById("is_how_to_boxed");
+     if (com != null){
+       var is_how_to_boxed = document.getElementById("is_how_to_boxed").checked;
+       var how_to_boxed = document.getElementById("how_to_boxed").value;
+
+        if( is_how_to_boxed == true && how_to_boxed.length == 0) {
+          document.getElementById("howbox").style.display='block';
+          document.getElementById("how_to_boxed").style.border='1px solid red';
+         // document.getElementById("how_to_boxed").focus();
+          errMsg += "how_to_boxed,";
+          
+        }
+        else {
+          document.getElementById("howbox").style.display='none';
+          document.getElementById("how_to_boxed").style.border='1px solid #C7C7C7';
+        }
+     }  
+   
+    var firstName = document.getElementById("first_name").value;
+    if( firstName.length == 0 ) {
+      //document.getElementById("a").value="* Please enter your first name.\n"
+      document.getElementById("fname").style.display='block';
+      document.getElementById("first_name").style.border='1px solid red';
+     // document.getElementById("first_name").focus();
+      errMsg += "first_name,";
+    }
+    else{
+      document.getElementById("fname").style.display='none';
+      document.getElementById("first_name").style.border='1px solid #C7C7C7';
+    }
+    var lastName = document.getElementById("last_name").value;
+    if( lastName.length == 0 ) {
+      document.getElementById("lname").style.display='block';
+      document.getElementById("last_name").style.border='1px solid red';
+      //document.getElementById("last_name").focus();
+      errMsg += "last_name,";
+    }
+    else {
+      document.getElementById("lname").style.display='none';
+      document.getElementById("last_name").style.border='1px solid #C7C7C7';
+    }
+    var emAddress = document.getElementById("email").value;
+    if((emAddress.indexOf('@') == -1) || (emAddress.indexOf('.') == -1)) {
+      document.getElementById("cemail").style.display='block';
+      document.getElementById("email").style.border='1px solid red';
+     // document.getElementById("email").focus();
+      errMsg += "email,";
+    }
+    else {
+      document.getElementById("cemail").style.display='none';
+      document.getElementById("email").style.border='1px solid #C7C7C7';
+    }
+    var phone = document.getElementById("primary_phone").value + document.getElementById("alt_phone").value;
+    if( phone.length == 0 ) {
+      document.getElementById("phone").style.display='block';
+      document.getElementById("primary_phone").style.border='1px solid red';
+      //document.getElementById("primary_phone").focus();
+      errMsg += "primary_phone,";
+    }
+    else {
+      document.getElementById("phone").style.display='none';
+      document.getElementById("primary_phone").style.border='1px solid #C7C7C7';
+    }
+    //confirm delivery address
+    var isDelivery = document.getElementById("delivery_method_delivery").checked == true;
+   if (isDelivery ) {
+
+    // if shipto_is_business clicked then shipto_business required
+    var shipto_biz = document.getElementById("shipto_is_business").checked==true;
+    if(shipto_biz && document.getElementById("shipto_business").value == ""){
+     
+      document.getElementById("bussines").style.display='block';
+      document.getElementById("shipto_business").style.border='1px solid red';
+      //document.getElementById("shipto_business").focus();
+      errMsg += "shipto_business,";
+    }
+    else {
+      document.getElementById("bussines").style.display='none';
+      document.getElementById("shipto_business").style.border='1px solid #C7C7C7';
+    }
+
+    var shipto_first = document.getElementById("shipto_first_name").value;
+    var shipto_last = document.getElementById("shipto_last_name").value;
+    var shipto_addr = document.getElementById("shipto_address_1").value;
+    var shipto_zip = document.getElementById("shipto_zip").value;
+    var isDeliveryInfoComplete = shipto_first == "" | shipto_last == "" | shipto_addr == "" | shipto_zip == "";
+
+     //if (isDeliveryInfoComplete) {
+       //errMsg += "* You have indicated that this order will be delivered. Please fill in the delivery address fields: first and last name, street address, and zip are required.\n";
+     //}
+     if (shipto_first==""){
+       document.getElementById("sfname").style.display='block';
+      document.getElementById("shipto_first_name").style.border='1px solid red';
+      //document.getElementById("shipto_first_name").focus();
+      errMsg += "shipto_first_name,";
+     }
+     else {
+       document.getElementById("sfname").style.display='none';
+      document.getElementById("shipto_first_name").style.border='1px solid #C7C7C7';
+     }
+
+     if (shipto_last==""){
+       document.getElementById("slname").style.display='block';
+      document.getElementById("shipto_last_name").style.border='1px solid red';
+      //document.getElementById("shipto_first_name").focus();
+      errMsg += "shipto_last_name,";
+     }
+     else {
+       document.getElementById("slname").style.display='none';
+      document.getElementById("shipto_last_name").style.border='1px solid #C7C7C7';
+     }
+
+     if (shipto_addr==""){
+       document.getElementById("sadd").style.display='block';
+      document.getElementById("shipto_address_1").style.border='1px solid red';
+      //document.getElementById("shipto_first_name").focus();
+      errMsg += "shipto_address_1,";
+     }
+     else {
+       document.getElementById("sadd").style.display='none';
+      document.getElementById("shipto_address_1").style.border='1px solid #C7C7C7';
+     }
+
+     if (shipto_zip==""){
+       document.getElementById("szip").style.display='block';
+      document.getElementById("shipto_zip").style.border='1px solid red';
+      //document.getElementById("shipto_first_name").focus();
+      errMsg += "shipto_zip,";
+     }
+     else {
+       document.getElementById("szip").style.display='none';
+      document.getElementById("shipto_zip").style.border='1px solid #C7C7C7';
+     }
+   }
+   
+
+     //errMsg += "* One or more of the quantity fields have invalid values. Please enter a number or leave blank.\n";
+     
+
+   <!-- bof Billing info valication -->
+   
+   
+    var b_fname = document.getElementById("b_fname").value;
+    if( b_fname.length == 0 ) {
+      document.getElementById("bfname").style.display='block';
+      document.getElementById("b_fname").style.border='1px solid red';
+     // document.getElementById("b_fname").focus();
+      errMsg += "b_fname,";
+    }
+    else {
+      document.getElementById("bfname").style.display='none';
+      document.getElementById("b_fname").style.border='1px solid #C7C7C7';
+    }
+
+    var b_lname = document.getElementById("b_lname").value;
+    if( b_lname.length == 0 ) {
+       document.getElementById("blname").style.display='block';
+      document.getElementById("b_lname").style.border='1px solid red';
+      //document.getElementById("b_lname").focus();
+      errMsg += "b_lname,";
+    }
+    else {
+      document.getElementById("blname").style.display='none';
+      document.getElementById("b_lname").style.border='1px solid #C7C7C7';
+      //errMsg += "* Please enter the billing last name.\n";
+    }
+
+     var b_adrs = document.getElementById("b_adrs").value;
+    if( b_adrs.length == 0 ) {
+       document.getElementById("badd").style.display='block';
+      document.getElementById("b_adrs").style.border='1px solid red';
+     // document.getElementById("b_adrs").focus();
+      errMsg += "b_adrs,";
+    }
+    else {
+      document.getElementById("badd").style.display='none';
+      document.getElementById("b_adrs").style.border='1px solid #C7C7C7';
+      //errMsg += "* Please enter the billing street address.\n";
+    }
+
+     var b_city = document.getElementById("b_city").value;
+    if( b_city.length == 0 ) {
+      document.getElementById("bcity").style.display='block';
+      document.getElementById("b_city").style.border='1px solid red';
+      //document.getElementById("b_city").focus();
+      errMsg += "b_city,";
+    }
+    else {
+      document.getElementById("bcity").style.display='none';
+      document.getElementById("b_city").style.border='1px solid #C7C7C7';
+      //errMsg += "* Please enter the billing city.\n";
+    }
+
+     var b_state = document.getElementById("b_state").value;
+    if( b_state.length == 0 ) {
+      document.getElementById("bstate").style.display='block';
+      document.getElementById("b_state").style.border='1px solid red';
+     // document.getElementById("b_state").focus();
+      errMsg += "b_state,";
+    }
+    else {
+      document.getElementById("bstate").style.display='none';
+      document.getElementById("b_state").style.border='1px solid #C7C7C7';
+      //errMsg += "* Please enter the billing state.\n";
+    }
+
+     var b_zip = document.getElementById("b_zip").value;
+    if( b_zip.length == 0 ) {
+      document.getElementById("bzip").style.display='block';
+      document.getElementById("b_zip").style.border='1px solid red';
+      //document.getElementById("b_zip").focus();
+      errMsg += "b_zip,";
+    }
+    else {
+      document.getElementById("bzip").style.display='none';
+      document.getElementById("b_zip").style.border='1px solid #C7C7C7';
+      //errMsg += "* Please enter the billing zip code.\n";
+    }
+
+     var b_phone = document.getElementById("b_phone").value;
+    if( b_phone.length == 0 ) {
+      document.getElementById("bphone").style.display='block';
+      document.getElementById("b_phone").style.border='1px solid red';
+      //document.getElementById("b_phone").focus();
+      errMsg += "b_phone,";
+    }
+    else {
+      document.getElementById("bphone").style.display='none';
+      document.getElementById("b_phone").style.border='1px solid #C7C7C7';
+      //errMsg += "* Please enter the billing phone number.\n";
+    }
+
+     var b_email = document.getElementById("b_email").value;
+    if( (b_email.length == 0) ||((b_email.indexOf('@') == -1) || (b_email.indexOf('.') == -1)) ) {
+      document.getElementById("bemail").style.display='block';
+      document.getElementById("b_email").style.border='1px solid red';
+      //document.getElementById("b_email").focus();
+      errMsg += "b_email,";
+    }
+    else {
+      document.getElementById("bemail").style.display='none';
+      document.getElementById("b_email").style.border='1px solid #C7C7C7';
+      //errMsg += "* Please enter the billing email address.\n";
+    }
+
+
+    
+    //else if((b_email.indexOf('@') == -1) || (b_email.indexOf('.') == -1)) {
+      //errMsg += "* Please enter a valid billing email address.\n";
+    //}
+
+    var cc_type = document.getElementById("cc_type").value;
+    if( cc_type == "Select" ) {
+      document.getElementById("cctype").style.display='block';
+      document.getElementById("cc_type").style.border='1px solid red';
+     // document.getElementById("cc_type").focus();
+      errMsg += "cc_type,";
+    }
+    else {
+      document.getElementById("cctype").style.display='none';
+      document.getElementById("cc_type").style.border='1px solid #C7C7C7';
+      //errMsg += "* Please select a credit card type.\n";
+    }
+
+    var ccn = document.getElementById("ccn").value;
+
+    if(cc_type != "Select"){
+      myCardType = document.getElementById('cc_type').value;
+      if (checkCreditCard (ccn, myCardType)) {
+        document.getElementById("ccnumber").style.display='none';
+        document.getElementById("ccn").style.border='1px solid #C7C7C7';
+        
+      }
+      else {
+        document.getElementById("ccnumber").style.display='block';
+        document.getElementById("ccn").style.border='1px solid red';
+        document.getElementById("ccnumber").innerHTML= ccErrors[ccErrorNo];
+        //document.getElementById("ccn").focus();
+        errMsg += "ccn,";
+        //errMsg += ccErrors[ccErrorNo] + "\n";
+      }
+    }    
+
+    var ccv = document.getElementById("ccv").value;
+    if( ccv.length == 0 ) {
+      document.getElementById("ccvery").style.display='block';
+      document.getElementById("ccv").style.border='1px solid red';
+      errMsg += "ccv";
+    }
+    else {
+      document.getElementById("ccvery").style.display='none';
+      document.getElementById("ccv").style.border='1px solid #C7C7C7';
+      //errMsg += "* Please enter the credit card verification code.\n";
+    }
+
+    var exp_month = document.getElementById("exp_month").value;
+    var exp_year = document.getElementById("exp_year").value;
+    if( (exp_month == "Month") ||(exp_year == "Year") ) {
+      document.getElementById("expymonth").style.display='block';
+      document.getElementById("expymonth").innerHTML='Please select the credit card expiration month/year.';
+      if( (exp_month == "Month")&& (exp_year == "Year")){
+        document.getElementById("exp_month").style.border='1px solid red';
+        document.getElementById("exp_year").style.border='1px solid red';
+        errMsg += "exp_month,";
+      }
+      else {
+      if (exp_month == "Month"){
+      document.getElementById("exp_month").style.border='1px solid red';
+      document.getElementById("exp_year").style.border='1px solid #C7C7C7';
+      errMsg += "exp_month,";
+      }
+      else {
+      document.getElementById("exp_year").style.border='1px solid red';
+      document.getElementById("exp_month").style.border='1px solid #C7C7C7';
+      errMsg += "exp_month,";
+      }
+      
+    }
+    }
+    else {
+
+     if(exp_month < <%= Time.now.month %> && exp_year <= '<%= Time.now.year %>'){
+      document.getElementById("expymonth").style.display='block';
+      document.getElementById("expymonth").innerHTML='Invalid Credit Card expiration.';
+      document.getElementById("exp_month").style.border='1px solid red';
+     document.getElementById("exp_year").style.border='1px solid red';
+      errMsg += "exp_month,";
+    }
+    else {
+     document.getElementById("expymonth").style.display='none';
+     document.getElementById("exp_month").style.border='1px solid #C7C7C7';
+     document.getElementById("exp_year").style.border='1px solid #C7C7C7';
+      //errMsg += "* Invalid Credit Card expiration.\n";
+    }
+
+      //document.getElementById("expymonth").style.display='none';
+      //document.getElementById("exp_month").style.border='';
+      //document.getElementById("exp_year").style.border='';
+      //errMsg += "* Please select the credit card expiration month.\n";
+    }
+
+    
+    //if(exp_month < <%= Time.now.month %> && exp_year <= '<%= Time.now.year %>'){
+      //document.getElementById("expymonth").style.display='block';
+     // document.getElementById("exp_month").style.border='1px solid red';
+     // document.getElementById("exp_year").style.border='1px solid red';
+    //  errMsg += "aa";
+   // }
+   // else {
+    //  document.getElementById("expymonth").style.display='none';
+     // document.getElementById("exp_month").style.border='';
+    //  document.getElementById("exp_year").style.border='';
+      //errMsg += "* Invalid Credit Card expiration.\n";
+    //}
+    
+    var tnc = document.getElementById("tnc").checked;
+    if( tnc != true ) {
+      document.getElementById("termsncon").style.display='block';
+      //document.getElementById("exp_year").style.border='1px solid red';
+      errMsg += "tnc,";
+    }
+    else {
+      document.getElementById("termsncon").style.display='none';
+     // document.getElementById("exp_year").style.border='';
+      //errMsg += "* You must agree to the Crave Cupcakes terms and conditions.\n";
+    }
+
+   <!-- eof Billing info valication-->
+   
+   if( errMsg.length > 0 ){
+     myArray = errMsg.split(",");
+     //alert( myArray[0] );
+     document.getElementById(myArray[0]).focus();
+     return false;
+   } else {
+     return true;
+   }
+ }
+
+ // func. Show/Hide element by id
+ function showHowToBoxed(obj, id){
+   if (obj.checked == true){
+     document.getElementById(id).style.display = "block"
+   }
+   else{
+     document.getElementById(id).style.display = "none"
+   }
+ }
+
+// getting delivery fee Ajax
+function getDeliveryFee(obj){
+	var xmlhttp;
+	if (window.XMLHttpRequest){
+	  xmlhttp=new XMLHttpRequest();
+	}
+	else if (window.ActiveXObject){
+	  xmlhttp=new ActiveXObject("Microsoft.XMLHTTP");
+	}
+	else{
+	  alert("Your browser does not support XMLHTTP!");
+	}
+
+	xmlhttp.onreadystatechange=function(){
+		if(xmlhttp.readyState==4){
+		  document.getElementById("deli_fee").innerHTML = xmlhttp.responseText != "0" ?  xmlhttp.responseText : "<font color='red'>We're sorry.<br>That zip code is outside our delivery area.</font>";
+		}
+	}
+
+	var url="/delivery";
+
+	xmlhttp.open("POST",url,true);
+	xmlhttp.setRequestHeader(
+		'Content-Type',
+		'application/x-www-form-urlencoded; charset=UTF-8'
+	);
+
+        var store = document.getElementById("store1").checked == true ? 1 : 2;
+	xmlhttp.send("store=" + store + "&zip=" + document.getElementById("shipto_zip").value);
+}
+
+// set anchor when submit
+function setAnchor(id){
+  document.getElementById("order-cupcakes").action = "/order#" + id;
+}
+
+// func. for set Store data and hide store not selected msg
+function setStoreData(obj){
+  document.getElementById('store_data').innerHTML = (obj.value == "Uptown Park") ?  "Store name/location:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<b>Uptown Park</b>" : "Store name/location:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<b>West University</b>";
+  document.getElementById("if_not_d_n_t").style.display = "none";
+}
+
+// func. for check invalid qtys
+function chk_qtys(){
+  var frm = document.getElementById('order-cupcakes');
+  var totalSpecials = "";
+  for (var i = 0; i < frm.elements.length; i++) {
+     if (frm.elements[i].type == "text" && (frm.elements[i].name.indexOf("specials") != -1 || frm.elements[i].name.indexOf("cupcakes") != -1 || frm.elements[i].name.indexOf("products") != -1) && (isNaN(parseInt(frm.elements[i].value)))) {
+       totalSpecials += frm.elements[i].value;
+     }
+  }
+  return totalSpecials != "" ? true : false;
+}
+
+function popitup() {
+    newwindow=window.open("/privacy",'Crave','left=300,top=100,height=400,width=500');
+    return false;
+}
+
+
+  </script>
+ <% if session[:vars] != nil
+      prev_vars = session[:vars]
+    else
+      prev_vars = ""
+    end
+ %>
+<style>
+  .txt{
+    font-size:13px;
+    font-weight:bold;
+    margin:10px 12px 10px 15px;
+    line-height:1.5em;
+    display:block;
+    color:#522C1B;
+  }
+</style>
+<!-- css for onmouseover effect of a thumbnail.  janath-->
+<style type="text/css">
+
+
+.thumbnail{
+position: relative;
+z-index: 0;
+
+}
+
+.thumbnail:hover{
+background-color: transparent;
+z-index: 1;
+
+}
+
+.thumbnail span{ /*CSS for enlarged image*/
+position: absolute;
+background-color: #C5E9E8;
+padding: 0px;
+left: -1000px;
+border: 0px ;
+visibility: hidden;
+color: black;
+text-decoration: none;
+width:200px;
+height:200px;
+font-family:Futura,Geneva,"Century Gothic","News Gothic MT",Helvetica,Arial,Verdana,sans-serif;
+font-size:0.8em;
+font-weight:600;
+z-index:-100;
+
+
+
+}
+
+.thumbnail span img{ /*CSS for enlarged image*/
+border-width: 0;
+padding:0;
+width:200px;
+height:200px;
+z-index:-100;
+
+
+}
+
+.thumbnail:hover span{ /*CSS for enlarged image on hover*/
+visibility: visible;
+top: 0;
+left: 50px; /*position where enlarged image should offset horizontally */
+z-index:-100;
+}
+
+</style>
+
+<!--end of css for onmouseover effect of a thumbnail. janath -->
+ <script type="text/javascript" charset="utf-8" src="/javascripts/wz_tooltip.js"></script>
+ <div class="main">
+      <div id="details">
+        <div id="order-instructions">
+          <h2>Order Crave Cupcakes</h2>
+          <p>Every day we serve up a unique collection of cupcake flavors. We bake in small batches throughout the day. This ensures the cupcakes are the absolute freshest. However, it also means we, on occasion, do sell out of certain flavors. Order at least 24 hours in advance, and we&rsquo;ll make sure your favorite daily flavors (minimum: one dozen) are boxed and ready for pickup or delivery.</p>
+        </div><!--end: instructions-->
+
+        <div id="download-buttons">
+          <h6><a title="Click to download this PDF document to your desktop. Depending on the browser you are using, you may be asked to save this file." class="fir" id="download-menu" href="/downloads/crave_cupcakes_menu.pdf">Download Menu</a></h6>
+          <h6><a title="Click to download this PDF document to your desktop. Depending on the browser you are using, you may be asked to save this file." class="fir" id="download-decor" href="/downloads/special_decorations.pdf">Download Special Decorations</a></h6>
+        </div>
+       <hr class="fir" id="dots" />
+       <!--[if lte IE 7]>
+         <p id="failover-dots">horizontal rule</p>
+       <![endif]-->
+       <div id="order-form">
+             <%
+                if(@deli_error)
+                %>
+         <div class="txt" style="color:red;"><%= @deli_error %></div>
+                <%
+                end
+             %>
+         <h3 style="width:600px;">ONLINE ORDERS FOR THE NEXT DAY MUST BE PLACED PRIOR TO 6PM.</h3>
+         <h3>For merchandise only orders, please call the store.</h3>
+
+         <form method="post" action="/order" id="order-cupcakes">
+
+           <!-- Start of Select a store -->
+           <fieldset id="select_store">
+             <legend>Select a Store</legend>
+             <span class="txt">You must choose a store before selecting a date and time.</span>
+             <div>
+               <div class="field-wrap2" id="store" style="display:none;" align="center"> Please select a store.</div>
+               <div class="field-wrap">                 
+                 <label for="store1">Uptown Park</label>
+                 <input type="radio" name="store" id="store1" value="Uptown Park" <%= params[:store] == "Uptown Park" ? "checked='checked'" : "" %> onclick="setStoreData(this); showHowToBoxed(this, 'd_n_t')">
+               </div>
+               <div class="field-wrap">
+                 <label for="store2">West University<br><em style="font-size:11px;">Coming in Spring 2010</em></label>
+                 <input disabled type="radio" name="store" id="store2" value="West University" <%= params[:store] == "West University" ? "checked='checked'" : "" %> onclick="setStoreData(this); showHowToBoxed(this, 'd_n_t')">
+               </div>
+             </div>
+           </fieldset>
+           <!-- End of Select a store -->
+
+           <fieldset id="timing"><!--date and time of order-->
+             <legend>Date &amp; Time</legend>
+             <div style="display:<%= params[:store].to_s != "" ? "block" : "none" %>;" id="d_n_t">
+               <span style="display:none;" class="txt">Pick up times are 8:30am-7:30pm (Monday - Friday), 9:30am-7:30pm (Saturday), and 10:30am-6:30pm (Sunday) and delivery times are 9:30am-5pm (Monday-Friday only).<br>
+  Delivery is not available on weekends.</span>
+               <span class="txt">Delivery is not available on weekends.</span>
+
+            <div class="field-wrap">
+              <label style="text-align:left; padding-left:180px; width:300px;" id="store_data">Store name/location:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<%= params[:store] == "Uptown Park" ? "<b>Uptown Park</b>" : "<b>West University</b>" %></label>
+            </div>
+               <div class="field-wrap2" id="dmethod" style="display:none;" align="right"> Please select delivery or pickup.</div>
+
+               <div class="field-wrap" style="height:90px;">
+             <label class="radio" for="delivery_method_pickup">This order is for <b>pickup</b>.</label>
+             <%= radio_button_tag "delivery_method", "pickup", params[:delivery_method] == 'pickup', {:class => 'radio', :onclick => 'setAnchor(\'timing\'); this.form.submit()'} %>
+            <div style="display:block; float:right; padding-right:15px; width:190px;">
+              <p style="font-size:13px;line-height:1.5em;">Pick up times are:<br>
+              8:30am-7:30pm Monday - Friday<br>
+              9:30am-7:30pm Saturday<br>
+              10:30am-6:30pm Sunday</p>
+            </div>
+
+           </div>
+           <div class="field-wrap" style="padding-bottom:30px; height:70px;">
+             <label class="radio" for="delivery_method_delivery">This order is for <b>delivery</b>. <br/>
+             Houston area only.</label>
+             <%= radio_button_tag "delivery_method", "delivery", params[:delivery_method] == 'delivery', {:class => 'radio', :onclick => 'setAnchor(\'timing\'); this.form.submit()'} %>
+             <div style="display:block; float:right; padding-right:15px; width:190px;">
+               <p style="font-size:13px;line-height:1.5em;">Delivery times are:<br>
+                9:30am-5:30pm Monday - Friday<br>
+                Delivery is not available on weekends.<br></p>
+             </div>
+
+           </div>
+               <div class="field-wrap2" id="tdorder" style="display:none;" align="right"> Please select a date and time of pickup/delivery.</div>
+             <div class="field-wrap">
+               <label for="date_of_order">Date of order:</label>
+               <%= text_field_tag "date_of_order", "#{params[:date_of_order]} #{@day.title if @day}", {:class => 'text-field1'} %>
+             </div>
+               
+           <noscript>
+             <div class="field-wrap1" id="dorder" style="display:none;" align="right"> Online orders for  the next day must be placed prior to 6PM CST.</div>
+           <div class="field-wrap">
+               <label for="time_of_order">Set Delivery Date:</label>
+               <input type="submit" name="settor_of_date" value="Set Date"/>
+               
+           </div>
+           </noscript>
+             <div class="field-wrap">
+               <label for="time_of_order">Time of <%= params[:delivery_method] ? params[:delivery_method] : "pickup/delivery" %>:</label>
+               <%= select_tag "time_of_order", options_for_select( @order_times, params[:time_of_order] ? params[:time_of_order].to_i : 0) %>
+             </div>
+<% if Time.now.hour > 18 %>            
+             <h4><strong>After 6pm</strong> please place your order for <strong>tomorrow</strong> with us directly at the bakery at 713.622.7283.</h4>
+<% end %>            
+
+<% if @no_time_msg && ! @no_time_msg.empty? -%>
+<div id="blocked_times"><%= @no_time_msg %></div>
+<% end -%>
+              
+<% if @blocked_messages && ! @blocked_messages.empty? -%>
+<div id="blocked_times"><%= @blocked_messages %></div>
+<% end -%>
+          </div>
+             <div style="display:<%= params[:store].to_s != "" ? "none" : "block" %>;" id="if_not_d_n_t">
+               <span class="txt">You must choose a store before selecting a date and time.</span>
+             </div>
+           </fieldset>           
+
+       <!-- Start of da Special section -->
+       <fieldset class="qty" style="display:<%= @show_specials.to_i == 1 ? "block" : "none" %>"><!--items and quantities of order-->
+         <legend>Seasonal</legend>
+         
+
+         <% if @specials -%>
+         <span class="txt"><%= @intro_specials %></span><!--day of week-->
+         <div class="field-wrap2" id="ocupcakes" style="display:none;" align="right"> You must order at least 12 cupcakes (or a seasonal box, if available).</div>
+            <% for special in @specials              
+              special_value = prev_vars[:specials] && prev_vars[:specials][ special.id.to_s ] ? prev_vars[:specials][ special.id.to_s ] : ''
+              
+              if special_value == ''
+                special_value = params[:specials] && params[:specials][ special.id.to_s ] ? params[:specials][ special.id.to_s ] : ''
+              end
+           
+              sp_obj = nil
+              sp_obj = Special.find(:first, :conditions => ["id = ?", special.id])
+
+            %>
+         
+           <div class="field-wrap" style="padding:10px 0px 10px 20px; width:510px; height:180px;">
+             <div style="width:120px; float:left;">
+               <img src="/images/special/image_file/<%= sp_obj.image_file_relative_path %>" height="180">
+             </div>
+             <div style="width:385px; float:left;" class="checkbox">
+               <div align="right" style="margin-bottom:10px;">
+                 <p style=" width:360px; padding-bottom:10px; font-family:Arial,Verdana,sans-serif; font-size:13px; line-height:1.5em;">
+                    <%= sp_obj.description %>
+                 </p>                 
+                 <p style="font-family:Arial,Verdana,sans-serif; font-size:13px;"><b>Price</b> $<%= ["%.2f" % sp_obj.price] %></p>
+               </div>
+               <label style="width:250px; padding-top:10px;" for="specials[<%= special.id %>]"><%= special.title %></label>
+               <p style="padding-top:10px;">
+                  <%= text_field_tag "specials[#{ special.id }]", special_value, {:class => 'text-field mini', :maxlength => 3, :style => "font-size:13px; margin-right:10px;"} %>&nbsp;&nbsp;<span style="font-family:Arial,Verdana,sans-serif; font-size:13px;">Box(es)</span>
+               </p> 
+             </div>             
+           </div>
+         
+             <% end %>
+         <% else %>
+             <span class="txt">You must choose the day your order will be fulfilled before you can select cupcakes.</span>
+         <% end %>
+       </fieldset>
+       <!-- End of da special section -->
+
+           <fieldset class="qty"><!--items and quantities of order-->
+             <legend>Itemize your order</legend>
+             <div class="field-wrap1" id="isordernumeric" style="display:none;" align="right"> One or more  quantity fields have invalid values. Please enter a number.</div>
+             <% if @cupcakes -%>
+             <span class="txt">Flavors vary by weekday. <a href="/menu" target="_blank" title="View our full menu in a new browser window">See full menu</a>.</span>
+             <span class="txt">Please determine the quantity of your&nbsp;order. You are currently ordering for a <%= @day.title %>. The following cupcakes are available on <%= @day.title %>s. How many cupcakes would you like to order (minimum: one dozen required)?  </span><!--day of week-->
+             <span class="txt">If you would like to place multiple delivery orders, please contact the store at 713.62.CRAVE (713.622.7283).</span>
+             <br>
+              <% 
+              i = 9
+             for cupcake in @cupcakes
+                cupcake_value = prev_vars[:cupcakes] && prev_vars[:cupcakes][ cupcake.id.to_s ] ? prev_vars[:cupcakes][ cupcake.id.to_s ] : ''
+                if cupcake_value == ''
+                  cupcake_value = params[:cupcakes] && params[:cupcakes][ cupcake.id.to_s ] ? params[:cupcakes][ cupcake.id.to_s ] : ''
+                end
+                i = i + 1
+              %>
+            <%if cupcake.cutoff_date > Date.today %>
+            
+             <div class="field-wrap">
+               <label for="cupcakes[<%= cupcake.id %>]"><%= "<span>Breakfast</span>" unless ! cupcake.is_breakfast %> <%= cupcake.title %></label>
+               <%= text_field_tag "cupcakes[#{ cupcake.id }]", cupcake_value , {:class => 'text-field mini', :maxlength => 3 } %>
+               
+               <input type="hidden" name="cc_display_order[<%= i %>]" value="<%= cupcake.id  %>">
+               
+               <!-- displaying thumb image & onmouseover large image.  janath -->
+               <% if cupcake.thumb_image!=nil %>
+               <a class="thumbnail" href="#thumb"><img style="float:none;" src="/images/cupcake/thumb_image/<%= cupcake.thumb_image_relative_path  %>"  border="0" width="40" height="20" /><span><img src="/images/cupcake/image_file/<%= cupcake.image_file_relative_path %>" width="200" height="200" /><br /><%= cupcake.title  %></span></a>
+
+               <% end %>
+               
+               <!-- end of displaying thumb image & onmouseover large image.  janath -->
+             </div>
+             <%
+             end end
+             %>
+             <div class="field-wrap checkbox" style="padding-bottom:25px;">
+               <label class="checkbox" for="has_special_decorations">I would like special decorations on my cupcakes. <em>You will be contacted to discuss the specifics of your needs.</em></label>
+               <%= check_box_tag 'has_special_decorations', 'true', prev_vars[:has_special_decorations], {:class => 'checkbox'} %>
+             </div>
+             
+             <div class="field-wrap checkbox">
+               <label class="checkbox" for="is_how_to_boxed">I have specific instructions on how my cupcakes should be boxed.</label>
+               <%= check_box_tag 'is_how_to_boxed', 'true', prev_vars[:is_how_to_boxed] != nil ? prev_vars[:is_how_to_boxed] : params[:is_how_to_boxed], {:class => 'checkbox', :onclick => "showHowToBoxed(this, \'how2boxed\')"} %>
+             </div>
+             
+             <div align="left" id="how2boxed" style="padding-right:20px; display:<%= (params[:is_how_to_boxed] == "true") || (prev_vars[:is_how_to_boxed] == "true") ? "block" : "none" %>;">
+               <label style="width:320px;"><em style="padding-left:20px;">Please list the cupcakes you would like in each box</em><br></label>
+               <div style="padding-left:25px;"><textarea name="how_to_boxed" id="how_to_boxed" rows="5" style="width:465px;" onkeypress="Toggle('howbox','how_to_boxed');"><%=  prev_vars[:how_to_boxed] != nil ? prev_vars[:how_to_boxed] : params[:how_to_boxed] %></textarea></div>
+             </div>
+             <div class="field-wrap2" id="howbox" style="display:none;" align="right"> Please enter specific instructions on how your cupcakes should be boxed.</div>
+        <!--[if lte IE 7]>
+          <br /><p>&nbsp;</p>
+        <![endif]-->
+             <% else %>
+             <span class="txt">You must choose the day your order will be fulfilled before you can select cupcakes.</span>
+             <% end %>
+           </fieldset>
+
+           <fieldset><!--customer information and profile-->
+             <legend>Your Information</legend>
+           
+             <div class="field-wrap">
+               
+                <label for="first_name">Your First Name:</label> 
+               <%= text_field_tag "first_name", prev_vars[:first_name] != nil ? prev_vars[:first_name] : params[:first_name], {:class => 'text-field',:onkeypress=>"Toggle('fname','first_name');" } %>
+
+             
+             </div>
+                        
+            <div class="field-wrap1" id="fname" style="display:none;" align="right"> Please enter your first name.</div>
+             <div class="field-wrap">
+               <label for="last_name">Your Last Name:</label>
+               <%= text_field_tag "last_name", prev_vars[:last_name] != nil ? prev_vars[:last_name] : params[:last_name], {:class => 'text-field',:onkeypress=>"Toggle('lname','last_name');"} %>
+             </div>
+            <div class="field-wrap1" id="lname" style="display:none;"  align="right"> Please enter your last name.</div>
+            
+             <div class="field-wrap">
+               <label for="email">E-mail Address:</label>
+               <%= text_field_tag "email", prev_vars[:email] != nil ? prev_vars[:email] : params[:email], {:class => 'text-field',:onkeypress=>"Toggle('cemail','email');"} %>
+             </div>
+            <div class="field-wrap1" id="cemail" style="display:none;" align="right"> Please enter a valid e-mail address.</div>
+            
+             <div class="field-wrap">
+               <label for="primary_phone">Phone:</label>
+               <%= text_field_tag "primary_phone", prev_vars[:primary_phone] != nil ? prev_vars[:primary_phone] : params[:primary_phone], {:class => 'text-field', :maxlength => 12,:onkeypress=>"Toggle('phone','primary_phone');"} %>
+             </div>
+             <div class="field-wrap">
+               <label for="alt_phone">Alternate Phone:</label>
+               <%= text_field_tag "alt_phone", prev_vars[:alt_phone] != nil ? prev_vars[:alt_phone] : params[:alt_phone], {:class => 'text-field', :maxlength => 12,:onkeypress=>"Toggle('phone','primary_phone');"} %>
+             </div>
+            <div class="field-wrap1" id="phone" style="display:none;" align="right"> Please enter your phone number.</div>
+
+             <img id="merch" src="../images/merch.gif" alt="Give the gifts people crave: Crave Cupcake gift cards, t-shirts and hats. Available in-store." />
+           </fieldset>
+
+<% unless (params[:delivery_method] && params[:delivery_method] == 'pickup')%>
+           <fieldset id="delivery-form"><!--recipient information-->
+             <legend>Recipient Information</legend>
+<% unless params[:shipto_is_business] && params[:shipto_is_business] == 'true' %>
+             <span class="txt">Please ensure someone will be at this residence to accept the cupcakes at the requested delivery time.  We can not leave packages outside.  Additional delivery fees will apply if we need to reschedule.</span>
+<% end %>
+             <div class="field-wrap">
+               <label class="checkbox" for="shipto_is_business">Is this a business?</label>
+               <%= check_box_tag 'shipto_is_business', 'true', params[:shipto_is_business], {:class => 'checkbox', :onclick => 'showHowToBoxed(this, \'ship2biz\')'} %>
+             </div>
+<% #if params[:shipto_is_business] && params[:shipto_is_business] == 'true' %>
+             
+             <div class="field-wrap" id="ship2biz" style="display:<%= (params[:shipto_is_business] && params[:shipto_is_business] == 'true') ? "block" : "none" %>;">
+               <label for="shipto_business">Business Name:</label>
+               <%= text_field_tag "shipto_business", params[:shipto_business], {:class => 'text-field',:onkeypress=>"Toggle('bussines','shipto_business');"} %>
+             </div>
+      <div class="field-wrap1" id="bussines" style="display:none;" align="right"> You must enter a business name.</div>
+             <div class="field-wrap">
+               <label for="shipto_first_name">Recipient&rsquo;s First Name:</label>
+               <%= text_field_tag "shipto_first_name", prev_vars[:shipto_first_name], {:class => 'text-field',:onkeypress=>"Toggle('sfname','shipto_first_name');"} %>
+             </div>
+      <div class="field-wrap1" id="sfname" style="display:none;" align="right"> You must enter a first name.</div>
+             <div class="field-wrap">
+               <label for="shipto_last_name">Recipient&rsquo;s Last Name:</label>
+               <%= text_field_tag "shipto_last_name", prev_vars[:shipto_last_name], {:class => 'text-field',:onkeypress=>"Toggle('slname','shipto_last_name');"} %>
+             </div>
+      <div class="field-wrap1" id="slname" style="display:none;" align="right"> You must enter a last name.</div>
+             <div class="field-wrap">
+               <label for="shipto_address_1">Address &ndash; 1:</label>
+               <%= text_field_tag "shipto_address_1", prev_vars[:shipto_address_1], {:class => 'text-field',:onkeypress=>"Toggle('sadd','shipto_address_1');"} %>
+             </div>
+      <div class="field-wrap1" id="sadd" style="display:none;" align="right"> You must enter the address.</div>
+             <div class="field-wrap">
+               <label for="shipto_address_3">Suite #:</label>
+               <%= text_field_tag "shipto_address_3", prev_vars[:shipto_address_3], {:class => 'text-field short'} %>
+             </div>
+             <div class="field-wrap" style="height:30px;">
+               <label for="shipto_zip">Zip:</label>
+               <%= text_field_tag "shipto_zip", prev_vars[:shipto_zip], {:class => 'text-field',:onkeypress=>"Toggle('szip','shipto_zip');"} %>
+               
+             </div>
+      <div class="field-wrap1" id="szip" style="display:none;" align="right"> You must enter the zipcode.</div>
+             <div class="field-wrap">
+               <label id="deli_fee">&nbsp;</label>
+               <input type="button" onclick="getDeliveryFee()" value="Check Delivery Fee">
+               <input type="hidden" name="deli_fee_hidden" id="deli_fee_hidden" value="<%= prev_vars[:deli_fee_hidden] %>">
+             </div>             
+             <div class="field-wrap">
+               <label for="shipto_phone">Recipient&rsquo;s Phone:</label>
+               <%= text_field_tag "shipto_phone", prev_vars[:shipto_phone], {:class => 'text-field'} %>
+             </div>
+           </fieldset>
+<% end %>
+       <fieldset><!--gift wrap information-->
+             <legend>Packaging Options <b>(optional)</b></legend>
+             <div class="field-wrap checkbox">
+               <label class="checkbox" for="has_giftbox">My cupcakes are a gift and I would like to have them packaged in the CRAVE Blue Gift Box. <em>$10 extra</em></label>
+               <%= check_box_tag 'has_giftbox', 'true', prev_vars[:has_giftbox], {:class => 'checkbox'} %>
+             </div>
+             <div class="field-wrap checkbox">
+               <label class="checkbox" for="has_ribbon">I would like to have my cupcakes packaged in our standard white dozen box and wrapped with a white ribbon. <em>$2 extra</em></label>
+               <%= check_box_tag 'has_ribbon', 'true', prev_vars[:has_ribbon], {:class => 'checkbox'} %>
+             </div>
+             <img id="giftbox" src="../images/gift_box.gif" alt="Gift Box" />
+           </fieldset>
+
+           <fieldset class="qty"><!--candles-->
+             <legend>Other Products</legend>
+             <span class="txt">The following items can optionally be added to your order.<br>To purchase only these products, please call the store.</span>
+             <%            
+             for type in @product_types
+             %>
+              <!-- Add for Toggling the Div  janath. -->
+             <table cellpadding="0" cellspacing="0" border="0" class="candles">
+               <tr>
+              
+                 <th class="candle-type"><%= type.title %></th>
+                 <th class="candle-price" >
+                   <% if type.thumb_image!=nil %>
+               <a class="thumbnail" href="#thumb"><img style="float:none;" src="/images/product_type/thumb_image/<%= type.thumb_image_relative_path  %>"  border="0" width="40" height="20" /><span><img src="/images/product_type/image_file/<%= type.image_file_relative_path %>" /><br /><%= type.title  %></span></a>
+
+               <% end %>
+
+               <%
+                  @pval=''
+                  for product in type.products
+                  product_value = prev_vars[:products] && prev_vars[:products][ product.id.to_s ] ? prev_vars[:products][ product.id.to_s ] : ''
+                   if product_value!=''
+                     @pval=product_value
+                   end
+                  end
+
+               %>
+
+                 </th>
+                 <th class="candle-qty"><div <% if @pval=='' %>  style="display:block" <%else %> style="display:none" <% end %> onclick="divToggleOpen('<%= type.title %>');" id='<%= type.title %>.open' ><a style="cursor:pointer"> <img src="/images/ui/forms/down.jpg" border="0" /> </a></div>
+                   <div <% if @pval=='' %>  style="display:none" <%else %> style="display:block" <% end %> onclick="divToggleClose('<%= type.title %>');" id='<%= type.title %>.close'><a style="cursor:pointer"> <img src="/images/ui/forms/up.jpg" border="0" /> </a></div>
+
+                 </th>
+                 
+               </tr>
+             </table>
+
+              <!-- end of Toggling the Div  janath. -->
+              
+                <div id="<%= type.title %>" <% if @pval=='' %>  style="display:none" <% end %> >
+                
+              <table cellpadding="0" cellspacing="0" border="0" class="candles">
+                <tr>
+                  <th class="candle-type">&nbsp;</th>
+                  <th class="candle-price">Price</th>
+                 <th class="candle-qty">Amount</th>
+                </tr>
+               
+              <%
+
+                  row_hilite = true
+                  for product in type.products
+                  row_hilite = ! row_hilite
+                  product_value = prev_vars[:products] && prev_vars[:products][ product.id.to_s ] ? prev_vars[:products][ product.id.to_s ] : ''
+               %>
+               
+                 <tr <%= "class=\"even\"" if row_hilite %>>
+                   <td><label><%= product.title %> <%= product_value %>
+                   </label>
+                 </td>
+                 <td width="395"><em>(<%= number_to_currency( product.price ) %> each)</em></td>
+                 <td >
+                                 
+                   
+<a href="index.htm" onmouseover="Tip('<img src=\'/images/product/image_file/<%= product.image_file_relative_path %> \' >' )"  onmouseout="UnTip()">Homepage </a>
+
+
+                   
+                    <%= text_field_tag "products[#{ product.id }]", product_value , {:class => 'text-field', :maxlength => 3,  :style => "font-size:13px" } %>
+                 </td><td>
+                   <% if product.thumb_image!=nil %>
+                   <div style="z-index:0"><a class="thumbnail"  href="#thumb" ><img style="float:none;" src="/images/product/thumb_image/<%= product.thumb_image_relative_path  %>"  border="0" width="40" height="20"  /><span ><img src="/images/product/image_file/<%= product.image_file_relative_path %>" /><br /><%= product.title  %></span></a> </div>
+                   <% end %>
+                   <input type="hidden"  name="pro_display_order[<%= product.title + product.id.to_s %>]" value="<%= product.id  %>"
+                 </td>
+               </tr> 
+               <% end %>
+             </table></div>
+               <% end %>
+
+             <div align="left" id="gift_msg_box" style="padding-right:20px;">
+               <span class="txt" style="width:500px;">If you are ordering greeting cards or gift cards and would like to include a personalized message, please enter it here (Optional):<br></span>
+               <div style="padding-left:25px;"><textarea name="gift_msg" id="gift_msg" rows="5" style="width:465px;"><%=  prev_vars[:gift_msg] != nil ? prev_vars[:gift_msg] : params[:gift_msg] %></textarea></div>
+             </div>
+           </fieldset>
+
+           <% #-------------BOF Billing Info----------------- %>
+           
+           <fieldset class=""><!--candles-->
+             <legend>Payment Information</legend>
+             
+               <div class="field-wrap">
+                  <label>First Name:</label>
+                  <%= text_field_tag "b_fname", prev_vars[:b_fname],:class => 'text-field',:onkeypress=>"Toggle('bfname','b_fname');" %> <%#:onClick=>"Toggle('bfname','b_fname');" %>
+                </div>
+             <div class="field-wrap1" id="bfname" style="display:none;" align="right"> Please enter the  first name.</div>
+                <div class="field-wrap">
+                  <label>Last Name:</label>
+                  <%= text_field_tag "b_lname", prev_vars[:b_lname], {:class => 'text-field',:onkeypress=>"Toggle('blname','b_lname');"} %>
+                </div>
+             <div class="field-wrap1" id="blname" style="display:none;" align="right"> Please enter the  last name.</div>
+                <div class="field-wrap">
+                  <label>Address:</label>
+                  <%= text_field_tag "b_adrs", prev_vars[:b_adrs], {:class => 'text-field',:onkeypress=>"Toggle('badd','b_adrs');"} %>
+                </div>
+             <div class="field-wrap1" id="badd" style="display:none;" align="right"> Please enter the  address.</div>
+                <div class="field-wrap">
+                  <label>City:</label>
+                  <%= text_field_tag "b_city", prev_vars[:b_city], {:class => 'text-field',:onkeypress=>"Toggle('bcity','b_city');"} %>
+                </div>
+             <div class="field-wrap1" id="bcity" style="display:none;" align="right"> Please enter the city name.</div>
+                <div class="field-wrap">
+                  <label>State:</label>
+                  <%= text_field_tag "b_state", prev_vars[:b_state], {:class => 'text-field',:onkeypress=>"Toggle('bstate','b_state');"} %>
+                </div>
+             <div class="field-wrap1" id="bstate" style="display:none;" align="right"> Please enter the state name.</div>
+                <div class="field-wrap">
+                  <label>Zip Code:</label>
+                  <%= text_field_tag "b_zip", prev_vars[:b_zip], {:class => 'text-field',:onkeypress=>"Toggle('bzip','b_zip');"} %>
+                </div>
+             <div class="field-wrap1" id="bzip" style="display:none;" align="right"> Please enter the zipcode.</div>
+                <div class="field-wrap">
+                  <label>Phone:</label>
+                  <%= text_field_tag "b_phone", prev_vars[:b_phone], {:class => 'text-field',:onkeypress=>"Toggle('bphone','b_phone');"} %>
+                </div>
+             <div class="field-wrap1" id="bphone" style="display:none;" align="right"> Please enter the phone.</div>
+                <div class="field-wrap">
+                  <label>Email:</label>
+                  <%= text_field_tag "b_email", prev_vars[:b_email], {:class => 'text-field',:onkeypress=>"Toggle('bemail','b_email');"} %>
+                </div>
+             <div class="field-wrap1" id="bemail" style="display:none;" align="right"> Please enter valid Email.</div>
+                <div class="field-wrap">
+                  <label>Card Type:</label>
+                  <SELECT name="cc_type" id="cc_type" style="width:180px;" onchange="Toggle('cctype','cc_type');">
+                      <option value="Select">Select</option>
+                      <option value="visa" <%= prev_vars[:cc_type] == "VISA"? "selected='selected'" : "" %>>VISA</option>
+                      <option value="master" <%= prev_vars[:cc_type] == "MasterCard"? "selected='selected'" : "" %>>MasterCard</option>
+                      <option value="american_express" <%= prev_vars[:cc_type] == "American Express"? "selected='selected'" : "" %>>American Express</option>
+                    </SELECT>
+                </div>
+             <div class="field-wrap1" id="cctype" style="display:none;" align="right"> Please select credit card type.</div>
+                <div class="field-wrap">
+                  <label>Credit Card No:</label>
+                  <%= text_field_tag "ccn", prev_vars[:ccn], {:class => 'text-field',:onkeypress=>"Toggle('ccnumber','ccn');"} %>
+                </div>
+             <div class="field-wrap1" id="ccnumber" style="display:none;" align="right">  Please enter valid credit card number.</div>
+                <div class="field-wrap">
+                  <label>CCV #:</label>
+                  <%= text_field_tag "ccv", prev_vars[:ccv], {:class => 'text-field',:onkeypress=>"Toggle('ccvery','ccv');"} %>
+                </div>
+             <div class="field-wrap1" id="ccvery" style="display:none;" align="right">  Please enter the credit card verification code.</div>
+
+                <div class="field-wrap">
+                  <label>Expiration:</label>                  
+                  <select name="exp_month" id="exp_month" style="width:120px;" onchange="Toggle('expymonth','exp_month');">
+                      <option value="Month">Month</option>
+                      <option value="1" <%= prev_vars[:exp_month] == "January"? "selected='selected'" : "" %>>January</option>
+                      <option value="2" <%= prev_vars[:exp_month] == "February"? "selected='selected'" : "" %>>February</option>
+                      <option value="3" <%= prev_vars[:exp_month] == "March"? "selected='selected'" : "" %>>March</option>
+                      <option value="4" <%= prev_vars[:exp_month] == "April"? "selected='selected'" : "" %>>April</option>
+                      <option value="5" <%= prev_vars[:exp_month] == "May"? "selected='selected'" : "" %>>May</option>
+                      <option value="6" <%= prev_vars[:exp_month] == "June"? "selected='selected'" : "" %>>June</option>
+                      <option value="7" <%= prev_vars[:exp_month] == "July"? "selected='selected'" : "" %>>July</option>
+                      <option value="8" <%= prev_vars[:exp_month] == "August"? "selected='selected'" : "" %>>August</option>
+                      <option value="9" <%= prev_vars[:exp_month] == "September"? "selected='selected'" : "" %>>September</option>
+                      <option value="10" <%= prev_vars[:exp_month] == "October"? "selected='selected'" : "" %>>October</option>
+                      <option value="11" <%= prev_vars[:exp_month] == "November"? "selected='selected'" : "" %>>November</option>
+                      <option value="12" <%= prev_vars[:exp_month] == "December"? "selected='selected'" : "" %>>December</option>
+                    </select>
+                    <select name="exp_year" id="exp_year" onchange="Toggle('expymonth','exp_year');">
+                      <option value="Year">Year</option>
+                      <%
+                        curr_year = Time.new.year
+                        for y in curr_year..curr_year+10
+                      %>
+                        <option value="<%= y %>" <%= y.to_s == prev_vars[:exp_year] ? "selected='selected'" : "" %>><%= y %></option>
+                      <% end %>
+                    </select>
+                </div>
+             <div class="field-wrap1" id="expymonth" style="display:none;" align="right"> </div>
+
+             <div class="field-wrap" align="right">
+               <div class="txt" style="font-weight:normal;width:320px;">
+                 <input type="checkbox" name="tnc" id="tnc" onchange="Toggle('termsncon','tnc');">&nbsp;I agree to the CRAVE Terms and Conditions.<br>
+                 <p align="left" style="padding-left:60px; *padding-left:40px; font-size:11px;">Click <a href="##" onclick="popitup()">here</a> to read the terms and conditions.</p>
+               </div>
+               
+             </div>
+             <br>
+             <div class="field-wrap2" id="termsncon" style="display:none;" align="right"> You must agree to the Crave Cupcakes terms and conditions.</div>
+             <br>
+           </fieldset>
+           <% #----------------EOF billing info----------- %>
+           <p><span id="biz-rule">Click submit to review your order.<br>
+           <b>Your credit card will not be charged until you review and confirm your order on the next page.</b></span></p>
+
+          <div id="submit-button">
+            <input type="image" src="/images/ui/forms/button_submit.gif" value="true" alt="Submit" title="Submit" name="submit_button" id="submit_button" onClick="return validateForm( this.form );"/>
+          </div>
+         </form><!--end: form-->
+         
+       </div><!--end: order form-->
+
+       </div><!--end: details-->
+
+ </div><!--end: main-->
+ 

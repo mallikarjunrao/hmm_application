@@ -1,0 +1,7 @@
+<% @page_title="Edit Configuration" -%>
+<p><%= link_to 'Back', :action => 'list' %></p>
+
+<% form_tag({:action => 'update', :id => @configuration}, :multipart => true ) do %>
+  <%= render :partial => 'form' %>
+  <%= submit_tag 'Save' %>
+<% end %>

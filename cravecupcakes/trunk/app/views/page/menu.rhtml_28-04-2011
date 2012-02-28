@@ -1,0 +1,128 @@
+<% require 'tztime' %>
+<% @page_title = "Flavors of the Day (full menu) &raquo; " 
+ @body_id = "menu" %>
+
+ <div class="main" style="margin-bottom: 0px;" >
+    <div id="weekly-1">
+
+    <div class="weekday-list" id="tagline">
+      <h4 style="line-height: 15px; margin-bottom: 15px;">Freshly baked cupcakes every day of the week</h4>
+      <p class="disclaimer">We do on occasion sell out of certain flavors. <a href="/order" title="Order">Order at least 24 hours in advance</a> to ensure we have your favorite daily flavors.</p>
+      <br>
+      <table>
+      <% for price in @prices -%>
+              <tr> <td style="font-weight:600"><%= price.title %> </td>
+              <td style="padding-left:15px; font-weight:600"><%= number_to_currency( price.price ) %> </td></tr>
+      <% end -%>
+      </table>
+    </div>
+<% for _day in @days -%>
+    <div class="weekday-list" id="<%= _day.title.downcase %>">
+      <h3><%= _day.title %></h3>
+      <ul>
+       
+<!-- standrad cupcakes start -->
+<% for cake in _day.cupcakes -%>
+        <!--<li><%= '<strong>Breakfast:</strong> ' if cake.is_breakfast %><a href="/cupcake/<%= cake.slug %>"><%= cake.title %></a></li>-->
+
+        <%
+               
+               today = TZTime::LocalTime::Builder.new('Central Time (US & Canada)').now.strftime("%Y-%m-%d").to_date
+               
+               cup_st_date = cake.available_start_date
+               cup_en_date = cake.cutoff_date
+               cup_vs_date = cake.visible_start_date
+               showcake = false
+
+              if (cup_en_date == nil && cup_vs_date == nil)
+                showcake = true
+              elsif (cup_en_date == nil && cup_vs_date != nil && cup_vs_date <= today)
+                showcake = true
+              elsif (cup_en_date != nil && cup_vs_date == nil && cup_en_date >= today )
+                showcake = true
+              elsif (cup_en_date != nil && cup_vs_date != nil && cup_en_date >= today &&  cup_vs_date <= today )
+                showcake = true              
+              end
+
+              if (showcake) %>
+              <li><%= '<strong>Breakfast:</strong> ' if cake.is_breakfast %><a href="/cupcake/<%= cake.slug %>"><%= cake.title %></a></li>
+              <% end %>
+
+<% end -%>
+<!-- standrad cupcakes end -->
+                <li>&nbsp;</li>
+<!-- mini cupcakes start -->
+
+<% 
+m_c = 0
+for cake in _day.mini_cupcakes
+
+   today = TZTime::LocalTime::Builder.new('Central Time (US & Canada)').now.strftime("%Y-%m-%d").to_date
+
+   cup_st_date = cake.available_start_date
+   cup_en_date = cake.cutoff_date
+   cup_vs_date = cake.visible_start_date
+   showcake = false
+
+   if (cup_en_date == nil && cup_vs_date == nil)
+    showcake = true
+  elsif (cup_en_date == nil && cup_vs_date != nil && cup_vs_date <= today)
+    showcake = true
+  elsif (cup_en_date != nil && cup_vs_date == nil && cup_en_date >= today )
+    showcake = true
+  elsif (cup_en_date != nil && cup_vs_date != nil && cup_en_date >= today &&  cup_vs_date <= today )
+    showcake = true
+  end
+
+  if (showcake) 
+      m_c = m_c + 1
+  end
+end
+
+if m_c != 0 %>
+            <li style="line-height: 1.6em;"><strong style="color:#43C3BD; line-height: 1.6em; letter-spacing:0.12em;">Mini cupcakes are only available by preorder</strong></li>
+<% end 
+for cake in _day.mini_cupcakes 
+%>
+        
+        <%
+
+               today = TZTime::LocalTime::Builder.new('Central Time (US & Canada)').now.strftime("%Y-%m-%d").to_date
+
+               cup_st_date = cake.available_start_date
+               cup_en_date = cake.cutoff_date
+               cup_vs_date = cake.visible_start_date
+               showcake = false
+
+              if (cup_en_date == nil && cup_vs_date == nil)
+                showcake = true
+              elsif (cup_en_date == nil && cup_vs_date != nil && cup_vs_date <= today)
+                showcake = true
+              elsif (cup_en_date != nil && cup_vs_date == nil && cup_en_date >= today )
+                showcake = true
+              elsif (cup_en_date != nil && cup_vs_date != nil && cup_en_date >= today &&  cup_vs_date <= today )
+                showcake = true
+              end
+
+              if (showcake) 
+                  m_c 
+              %>
+              <li><strong style="color:#43C3BD;">Mini:</strong> <a href="/mini_cupcake/<%= cake.slug %>"><%= cake.title %></a></li>
+              <% end %>
+
+<% end -%>
+<!-- mini cupcakes end -->
+
+      </ul>
+    </div><!--end: weekday div-->
+    
+<% if _day.title == "Wednesday" -%>
+    </div><!--end: week wrapper / row 1-->
+    <div id="weekly-2">
+<% end -%>
+
+    
+<% end -%>
+
+  </div><!--end: week wrapper / row 2-->
+ </div><!--end: main-->

@@ -1,0 +1,53 @@
+<%= error_messages_for 'owner' %>
+
+<!--[form:owner]-->
+<p>
+  <label style="*padding-bottom: 5px;">Access Level</label>
+<div style="padding-bottom: 5px;">
+  <span style="float:left;"><%= radio_button("owner", "access_level", "1") %><!-- <input type="radio" id="level_1" name="access_level" value="1">--></span>
+  <span style="float:left;"><label for="owner_access_level_1">Complete Access&nbsp;&nbsp;</label></span>
+
+  <span style="float:left;"><%= radio_button("owner", "access_level", "2") %><!-- <input type="radio" id="level_2" name="access_level" value="2">--></span>
+  <span style="float:left;"><label for="owner_access_level_2">Place and View Orders&nbsp;&nbsp;</label></span>
+
+  <span style="float:left;"><%= radio_button("owner", "access_level", "3") %><!--<input type="radio" id="level_3" name="access_level" value="3"> --></span>
+  <span style="float:left;"><label for="owner_access_level_3">Place Orders Only</label></span>
+</div>
+</p>
+<br clear="all"/>
+<p>
+  Place and View Orders permissions:<br>
+  &nbsp;&nbsp;- Place an order via the admin order page<br>
+  &nbsp;&nbsp;- View the orders grid (not able to delete orders)<br>
+  &nbsp;&nbsp;- View individual order details<br>
+  &nbsp;&nbsp;- View the Bake Sheet<br>
+  &nbsp;&nbsp;- View the Sales Report<br>
+
+  <br>
+  Place Orders Only permissions:<br>
+  &nbsp;&nbsp;- Place an order via the admin order page<br>
+</p>
+<br>
+ 
+  <label for="owner_lastname">Restrict Payment Types:&nbsp;<%= check_box 'owner', 'payment_type_restricted' %></label>
+<p>     (This will restrict the payment types made available on the admin order page to: <em>Pay with a credit card</em>, <em>Pay with a CRAVE gift card</em>.)<br>
+  (If un-checked, or overridden by a manager, all payment types will be available. They are: <em>Pre-paid with a credit card</em>, <em>Pre-paid in cash</em>,<br><em>Payment on delivery</em>, <em>Pay with a credit card</em>, <em>Pay with a CRAVE gift card</em>, <em>COMP (no charge)</em> and <em>Employee Payment at POS</em>.)
+  
+</p>
+<br>
+<p>
+  <label for="owner_firstname">First Name</label>
+<%= text_field 'owner', 'first_name'  %></p>
+<p><label for="owner_lastname">Last Name</label>
+<%= text_field 'owner', 'last_name'  %></p>
+
+<p><label for="owner_username">Username</label>
+<%= text_field 'owner', 'username'  %></p>
+
+<p><label for="owner_password">Password</label>
+<%= password_field 'owner', 'password'  %></p>
+
+<p><label for="owner_email">Email</label>
+  <%= text_field 'owner', 'email'  %> (Optional)</p>
+<!--[eoform:owner]-->
+

@@ -1,0 +1,68 @@
+<% @page_title = "SEO Settings" -%>
+<p><%= link_to 'New SEO Setting', :action => 'new' %></p>
+
+<form method="post">
+Search: <%= text_field_tag 'search_term', params[:search_term] %>
+<%= submit_tag 'Search!' %>
+</form>
+<br>
+<br>
+<p><strong>Search Engine Optimization:</strong> This section allows you to add custom page titles, keywords and page descriptions to your content. This information will show up in the search results of your site on Google, MSN and Yahoo.<br> It is important for search engines to associate your site with its content. These settings reinforce your content.</p>
+
+<p><em>Keywords can be separated by a comma or space.</em></p>
+
+<p>'Destroying' a page here will not remove a page from your site &mdash; it will merely remove the custom page title, keywords and page description settings.</p>
+
+<table>
+  <tr>
+    <th>Path</th>
+    <th>Title</th>
+    <th colspan="2">Actions</th>
+  </tr>
+  
+<% for seo_setting in @seo_settings %>
+  <tr>
+    <td><%= seo_setting.path.empty? ? "/" : seo_setting.path %></td>
+    <td><%= seo_setting.page_title %></td>
+    <td><%= link_to 'Edit', :action => 'edit', :id => seo_setting %></td>
+    <td><%= link_to 'Destroy', { :action => 'destroy', :id => seo_setting }, :confirm => 'Are you sure?', :method => :post %></td>
+  </tr>
+<% end %>
+</table>
+
+<% collection = @seo_settings -%>
+
+<% if collection.page_count != collection.first_page -%>
+<div class="pagination">
+  <ul>
+  <% if collection.previous_page? -%>
+         <li class="nextpage">
+           <%= link_to '&#171; prev', { :page => collection.previous_page, :search_term => params[:search_term] } %>
+        </li>
+    <% else -%>
+         <li class="disablepage">&#171; prev</li>
+    <% end -%>
+ 
+    <% last_page = 0 -%>
+    <% windowed_pagination_links(collection, :window_size => 2, :link_to_current_page => true, :always_show_anchors => true) do |n| -%>
+       <% if collection.page == n -%>
+            <li class="currentpage"><%= n %></li>
+       <% else -%>
+            <li><%= "..." if last_page+1 < n %>
+             <%= link_to n, :page => n, :search_term => params[:search_term] %>
+            </li>
+         <% end -%>
+        <% last_page = n -%>
+    <% end -%>
+ 
+    <% if collection.next_page? -%>
+     <li class="nextpage">
+        <%=  link_to 'next &#187;', { :page => collection.next_page, :search_term => params[:search_term] } %>
+     </li>
+    <% else -%>
+      <li class="disablepage">next  &#187;</li>
+    <% end -%>
+
+  </ul>
+</div>
+<% end -%>

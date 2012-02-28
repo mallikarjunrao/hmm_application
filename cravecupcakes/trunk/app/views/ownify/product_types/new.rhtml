@@ -1,0 +1,7 @@
+<% @page_title = "New Product Type" %>
+<p><%= link_to 'Back', :action => 'list' %></p>
+
+<% form_tag( {:action => 'create'}, :multipart => true ) do %>
+  <%= render :partial => 'form' %>
+  <%= submit_tag "Create" %>
+<% end %>

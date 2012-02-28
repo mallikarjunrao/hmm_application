@@ -1,0 +1,27 @@
+<% @page_title="Configurations" -%>
+<p><%= link_to 'New Configuration Value', :action => 'new' %></p>
+
+<table>
+  <tr>
+    <th>Name</th>
+    <th>Value</th>
+    <th>Description</th>
+    <th colspan="2">Actions</th>
+  </tr>
+  
+<% for configuration in @configurations %>
+  <tr>
+    <td valign="top"><%=h configuration.name %></td>
+    <td valign="top" align="right"><%= ((configuration.value).length > 20) ? ((configuration.value)[0..20] + "...") : configuration.value %></td>
+    <td valign="top"><%= shorten(configuration.description.gsub("\n", "<br/>"), 200, false) %></td>
+    <td><%= link_to 'Edit', :action => 'edit', :id => configuration %></td>
+    <td><%= link_to 'Destroy', { :action => 'destroy', :id => configuration }, :confirm => 'Are you sure?', :method => :post %></td>
+  </tr>  
+<% end %>
+</table>
+
+<p><%= render(:partial => "/paginate", :locals => {:collection => @configurations }) -%></p>
+
+<br />
+
+

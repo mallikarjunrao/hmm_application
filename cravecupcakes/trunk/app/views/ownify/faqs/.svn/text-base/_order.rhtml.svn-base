@@ -1,0 +1,13 @@
+<ul id="sort_list">
+<% for item in @faqs %>
+  <li id="item_<%= item.id %>">
+    <%= link_to 'edit', :action => 'edit', :id => item %> &nbsp;&nbsp;
+    <%= link_to 'remove', :action => 'destroy', :id => item %> &nbsp;&nbsp;
+      <%= item.question %>
+      </li>
+<% end %>
+</ul>
+<%= sortable_element 'sort_list', 
+      :update => 'sort_content',  
+      :complete => visual_effect(:highlight, 'sort_list'), 
+      :url => { :action => "order" } %>

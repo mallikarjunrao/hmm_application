@@ -1,0 +1,617 @@
+<link rel="stylesheet" href="/stylesheets/calendar.css" type="text/css" charset="utf-8" />
+<script src="/javascripts/calendar.js" type="text/javascript"></script>
+<script src="/javascripts/js_vlib.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+  function validateForm(){
+    /*
+    var SDate = document.getElementById('date_1').value.trim();
+    var EDate = document.getElementById('date_2').value.trim();
+    var msg = "";
+
+    if(EDate < SDate){
+        msg += "Start Date must be lower than or equal to the End Date.\n";
+    }
+
+    if(msg != ""){
+      alert(msg);
+      return false;
+    }
+    else{
+      return true;
+    }
+    */
+  }
+
+</script>
+
+<% @page_title="Bake Sheet for Pre-orders" -%>
+
+<% if params[:store_id] == "2" %>
+<h3>West University</h3>
+<% else %>
+<h3>Uptown Park</h3>
+<% end %>
+
+<%
+tomorrow = Time.now + 3600*24
+nex_day = tomorrow + 3600*24*6
+
+
+store_id = session[:store_id]
+
+%>
+
+<br>
+<form action="/ownify/bake_sheet/get_report?store_id=<%= session[:store_id] %>" method="post" onsubmit="return validateForm()">
+		<div style="z-index:0; float:left; margin-right:10px;">
+			<span>Date: </span>
+			<span><input id=date_1 name=date_1 onfocus="ShowCalendar(this, '');" value="<%= session[:date_1]  %> " type=text readonly="readonly">&nbsp;</span>
+		</div>
+		<!--div style="height:5px;">&nbsp;</div-->
+                <!--
+		<div style="z-index:0; float:left; margin-right:10px;">
+			<span>End Date: </span>
+			<span><input id=date_2 name=date_2 onfocus="ShowCalendar(this, '');" value="<%= session[:date_2] %>" type=text readonly="readonly">&nbsp;</span>
+		</div>
+                -->
+		<!--div style="height:10px;">&nbsp;</div-->
+		<div style="z-index:0; float:left; margin-right:10px;">
+			<span><input type="submit" value="Submit"></span>
+		</div>
+	</form>
+<br/><br/>
+<hr/>
+<!--
+<h4>Selected Date Range</h4>
+<span>
+      <%
+
+      row_count = 1
+
+      if @dates != nil
+        for date in @dates
+        #Tue 06/15, 2010
+    %><a href="?date=<%= date.date_of_order %>&store_id=<%= session[:store_id] %>"><%= date.date_of_order.strftime("%a") + " " + date.date_of_order.strftime("%b") + " " + date.date_of_order.strftime("%d").to_i.to_s + ", " + date.date_of_order.strftime("%Y") %></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<%
+
+            if row_count % 12 == 0
+              %><br><br><%
+            end
+            row_count = row_count + 1
+            
+        end
+      end
+      %>
+</span>
+-->
+<%
+
+time_slot_01 = ""
+time_slot_02 = ""
+time_slot_03 = ""
+time_slot_04 = ""
+time_slot_05 = ""
+time_slot_06 = ""
+all_order_ids = ""
+
+@orders = Order.find(:all, :conditions => ["store_id = ? AND date_of_order = ?", store_id, params[:date]])
+
+if !@orders.empty? || @orders != nil
+
+    for order in @orders
+
+        order_id = order.id
+        order_time = order.time_of_order.to_i
+
+        if order_time >= 17 && order_time < 21
+         time_slot_01 += order_id.to_s + ","
+        elsif order_time >= 21 && order_time < 25
+          time_slot_02 += order_id.to_s + ","
+        elsif order_time >= 25 && order_time < 29
+          time_slot_03 += order_id.to_s + ","
+        elsif order_time >= 29 && order_time < 33
+         time_slot_04 += order_id.to_s + ","
+        elsif order_time >= 33 && order_time < 37
+         time_slot_05 += order_id.to_s + ","
+        elsif order_time >= 37 && order_time < 41
+          time_slot_06 += order_id.to_s + ","
+        end
+
+        all_order_ids += order_id.to_s + ","
+
+     end
+end
+%>
+
+<br>
+<%
+  rep_date = Date.parse(params[:date].to_s)
+  #padding-left:445px;*padding-left:455px;
+%>
+
+<script type="text/javascript">
+  function create_popup(id){
+
+    newwindow = window.open("",'','height=500,width=1070,menubar=yes,status=no,screenX=100,screenY=50,scrollbars=yes');
+    newdocument = newwindow.document;
+    
+    var css = "";
+    css += '<link rel="stylesheet" href="/stylesheets/order_confirm.css" type="text/css" charset="utf-8" />';
+    css += '<link rel="stylesheet" href="/stylesheets/admin.css" type="text/css" charset="utf-8" />';
+    //css += '<link rel="stylesheet" href="/stylesheets/scaffold.css" type="text/css" charset="utf-8" />';
+    var content = '<html><body><div style="margin: 30px;">\n';
+    content += '<style type="text/css">@media print {  .btn  { display:none; }} th{ font-size:11px;}</style>';
+    content += '<button style="float:left;" class="btn" onclick="window.print()">Print</button><br><br>';
+    content += '<h3><%= (session[:store_id].to_i == 2)? "West University" : "Uptown Park" %></h3>';
+    content += "<b>Bake Sheet for Pre-orders: <%= rep_date.strftime("%a") + " " + rep_date.strftime("%b") + " " + rep_date.strftime("%d").to_i.to_s + ", " + rep_date.strftime("%Y") %></b>";
+
+    content += document.getElementById(id).innerHTML;
+    content += "</div>\n";
+    //content += "<script type='text/javascript'>window.print();<\/script>";
+    newdocument.write(css + content);
+    newdocument.title = "Print Preview";   
+
+    var browser=navigator.appName;
+    if (browser=='Microsoft Internet Explorer'){
+     setTimeout("newdocument.execCommand('Stop')",2000);
+    }
+    else{      
+      setTimeout("newwindow.stop()",2000);      
+    }
+    
+    if (window.focus) {newwindow.focus();}
+    newwindow.print();
+    newwindow.document.close();
+  }
+</script>
+<br>  
+<div>
+  <div style="float:left; width:950px; *width:960px;">
+      <b>Bake Sheet for Pre-orders: <%= rep_date.strftime("%a") + " " + rep_date.strftime("%b") + " " + rep_date.strftime("%d").to_i.to_s + ", " + rep_date.strftime("%Y") %></b>
+  </div>
+  <div style="float:left;">
+      <button style="float:left;" onclick="create_popup('report')">Print</button>
+  </div>
+</div>
+   
+ <div id="report">
+
+<!-- Start of cupcakes -->
+<%
+
+all_ids = all_order_ids[0..(all_order_ids.length - 2)]
+
+if all_ids != ""
+  order_items = OrderItem.find(:all, :select => "DISTINCT item_id, item_type, item_title, is_breakfast, IF(is_breakfast = 0, CONVERT(is_core, BINARY), 0) AS is_cor, is_core", :order => "is_breakfast = 0 DESC, is_cor = 1 DESC, item_title ASC", :group => "item_title", :conditions => "order_id IN ("+all_ids+") AND (item_type = 2 OR item_type = 4 OR item_type = 5)")
+
+  breakfast = true;
+  core = true
+  rotating = true
+
+  if order_items.empty?
+
+  else
+
+    ts_01_total = 0
+    ts_02_total = 0
+    ts_03_total = 0
+    ts_04_total = 0
+    ts_05_total = 0
+    ts_06_total = 0
+
+    tray = Configuration.find_by_name('cupcakes_per_tray')
+
+    %>
+<br>
+<br clear="all">
+<table style="width:1000px;">
+        <th width="200">Cupcake Flavor</th>
+        <th>08.30am - 10.30am</th>
+        <th>10.30am - 12.30pm</th>
+        <th>12.30pm - 02.30pm</th>
+        <th>02.30pm - 04.30pm</th>
+        <th>04.30pm - 06.30pm</th>
+        <th>06.30pm - 08.30pm</th>
+        <th style="width:80px; background-color:">Total</th>
+      <%
+        for item in order_items
+          
+        count_qty = OrderItem.find(:all, :select => "SUM(qty) AS s", :conditions => "order_id IN ("+all_ids+") AND item_id = "+item.item_id.to_s + " AND item_type = "+item.item_type.to_s, :group => "item_id")
+        for a in count_qty
+          if a.s.to_i != 0
+
+          #cupcake = Cupcake.find(:first, :conditions => ["id = ?", item.item_id])
+
+          if item.is_breakfast && breakfast
+          %><tr><td colspan="7"><b>Breakfast Cupcakes</b></td><td style="background-color:#EEEEEE;">&nbsp;</td></tr><%
+              breakfast = false;
+          end
+          if !item.is_breakfast && item.is_core == true && core
+          %><tr><td colspan="7"><b>Core Cupcakes</b></td><td style="background-color:#EEEEEE;">&nbsp;</td></tr><%
+              core = false;
+          end
+          if !item.is_breakfast && item.is_core != true && rotating
+          %><tr><td colspan="7"><b>Rotating Cupcakes</b></td><td style="background-color:#EEEEEE;">&nbsp;</td></tr><%
+              rotating = false;
+          end
+
+          horizental_total = 0
+
+                 
+
+      %>
+           <tr>
+              <td><%= item.item_title.to_s %><%= item.is_breakfast == true ? " (Breakfast)" : ""  %></td>
+              <td>
+                <%
+
+                   ids = time_slot_01[0..(time_slot_01.length - 2)]
+
+                   if ids != ""
+
+                      order_items1 = OrderItem.find(:all, :select => "item_id, SUM(qty) AS tot_qty, item_type, IF(item_type = 5, CONCAT(item_id, ' ', item_type), item_id) AS grp", :group => "grp", :conditions => "order_id IN ("+ids+") AND (item_type = 2 OR item_type = 4 OR item_type = 5)")
+
+                      for item1 in order_items1
+                        if item.item_id == item1.item_id && item.item_type == item1.item_type
+                          %><div align="center"><%= (item1.tot_qty.to_i != 0)? item1.tot_qty.to_s : "" %></div><%
+                          ts_01_total += item1.tot_qty.to_i
+                          horizental_total += item1.tot_qty.to_i
+                        end
+                      end
+                   end
+                 %>
+              </td>
+              <td>
+                <%
+                    ids = time_slot_02[0..(time_slot_02.length - 2)]
+
+                    if ids != ""
+
+                      order_items1 = OrderItem.find(:all, :select => "item_id, SUM(qty) AS tot_qty, item_type, IF(item_type = 5, CONCAT(item_id, ' ', item_type), item_id) AS grp", :group => "grp", :conditions => "order_id IN ("+ids+") AND (item_type = 2 OR item_type = 4 OR item_type = 5)")
+
+                      for item1 in order_items1
+                        if item.item_id == item1.item_id && item.item_type == item1.item_type
+                          %><div align="center"><%= (item1.tot_qty.to_i != 0)? item1.tot_qty.to_s : "" %></div><%
+                          ts_02_total += item1.tot_qty.to_i
+                          horizental_total += item1.tot_qty.to_i
+                        end
+                      end
+                    end
+                 %>
+              </td>
+              <td>
+                <%
+
+                    ids = time_slot_03[0..(time_slot_03.length - 2)]
+
+                    if ids != ""
+
+                      order_items1 = OrderItem.find(:all, :select => "item_id, SUM(qty) AS tot_qty, item_type, IF(item_type = 5, CONCAT(item_id, ' ', item_type), item_id) AS grp", :group => "grp", :conditions => "order_id IN ("+ids+") AND (item_type = 2 OR item_type = 4 OR item_type = 5)")
+
+                      for item1 in order_items1
+                        if item.item_id == item1.item_id && item.item_type == item1.item_type
+                          %><div align="center"><%= (item1.tot_qty.to_i != 0)? item1.tot_qty.to_s : "" %></div><%
+                          ts_03_total += item1.tot_qty.to_i
+                          horizental_total += item1.tot_qty.to_i
+                        end
+                      end
+                    end
+                 %>
+              </td>
+              <td>
+                <%
+                   ids = time_slot_04[0..(time_slot_04.length - 2)]
+
+                   if ids != ""
+
+                      order_items1 = OrderItem.find(:all, :select => "item_id, SUM(qty) AS tot_qty, item_type, IF(item_type = 5, CONCAT(item_id, ' ', item_type), item_id) AS grp", :group => "grp", :conditions => "order_id IN ("+ids+") AND (item_type = 2 OR item_type = 4 OR item_type = 5)")
+
+                      for item1 in order_items1
+                        if item.item_id == item1.item_id && item.item_type == item1.item_type
+                          %><div align="center"><%= (item1.tot_qty.to_i != 0)? item1.tot_qty.to_s : "" %></div><%
+                          ts_04_total += item1.tot_qty.to_i
+                          horizental_total += item1.tot_qty.to_i
+                        end
+                      end
+                   end
+                 %>
+              </td>
+              <td>
+                <%
+                   ids = time_slot_05[0..(time_slot_05.length - 2)]
+
+                   if ids != ""
+
+                      order_items1 = OrderItem.find(:all, :select => "item_id, SUM(qty) AS tot_qty, item_type, IF(item_type = 5, CONCAT(item_id, ' ', item_type), item_id) AS grp", :group => "grp", :conditions => "order_id IN ("+ids+") AND (item_type = 2 OR item_type = 4 OR item_type = 5)")
+
+                      for item1 in order_items1
+                        if item.item_id == item1.item_id && item.item_type == item1.item_type
+                          %><div align="center"><%= (item1.tot_qty.to_i != 0)? item1.tot_qty.to_s : "" %></div><%
+                          ts_05_total += item1.tot_qty.to_i
+                          horizental_total += item1.tot_qty.to_i
+                        end
+                      end
+                   end
+                 %>
+              </td>
+              <td>
+                <%
+                   ids = time_slot_06[0..(time_slot_06.length - 2)]
+
+                   if ids != ""
+
+                      order_items1 = OrderItem.find(:all, :select => "item_id, SUM(qty) AS tot_qty, item_type, IF(item_type = 5, CONCAT(item_id, ' ', item_type), item_id) AS grp", :group => "grp", :conditions => "order_id IN ("+ids+") AND (item_type = 2 OR item_type = 4 OR item_type = 5)")
+
+                      for item1 in order_items1
+                        if item.item_id == item1.item_id && item.item_type == item1.item_type
+                            %><div align="center"><%= (item1.tot_qty.to_i != 0)? item1.tot_qty.to_s : "" %></div><%
+                            ts_06_total += item1.tot_qty.to_i
+                            horizental_total += item1.tot_qty.to_i
+                        end
+                      end
+                   end
+                 %>
+              </td>
+              <td align="center" style="background-color:#EEEEEE;"><b><%= (horizental_total != 0)? horizental_total : "" %>&nbsp;</b></td>
+           </tr>
+          <%
+          end
+         end
+       end
+      %>
+       
+       
+       <tr>
+         <td style="background-color: #EEEEEE;"><b>Total</b></td>
+         <td align="center" style="background-color: #EEEEEE;"><b><%= (ts_01_total != 0)? ts_01_total.to_s : "" %></b></td>
+         <td align="center" style="background-color: #EEEEEE;"><b><%= (ts_02_total != 0)? ts_02_total.to_s : "" %></b></td>
+         <td align="center" style="background-color: #EEEEEE;"><b><%= (ts_03_total != 0)? ts_03_total.to_s : "" %></b></td>
+         <td align="center" style="background-color: #EEEEEE;"><b><%= (ts_04_total != 0)? ts_04_total.to_s : "" %></b></td>
+         <td align="center" style="background-color: #EEEEEE;"><b><%= (ts_05_total != 0)? ts_05_total.to_s : "" %></b></td>
+         <td align="center" style="background-color: #EEEEEE;"><b><%= (ts_06_total != 0)? ts_06_total.to_s : "" %></b></td>
+         <td align="center" style="background-color: #EEEEEE;"><b><%= (ts_01_total + ts_02_total + ts_03_total + ts_04_total + ts_05_total + ts_06_total) %></b></td>
+       </tr>
+       
+       
+     </table>
+    <%
+       end
+
+  end
+%>
+<!-- End of cupcakes -->
+
+<!-- Start of cake -->
+<%
+if all_ids != ""
+    flavors = OrderItem.find(:all, :select => "cake, SUM(tot_qty) AS tot FROM (SELECT item_id, item_title, cake as cake, SUM(qty) AS tot_qty", :joins => " WHERE (order_id IN ("+all_ids+") AND (item_type = 2 OR item_type = 4 OR item_type = 5)) GROUP BY cake) AS a", :group => "cake")
+
+    if flavors.empty?
+
+    else
+      %>
+  <br><br>
+  <table style="width:1000px;">
+    <th width="200">Cake</th>
+    <th>08.30am - 10.30am</th>
+    <th>10.30am - 12.30pm</th>
+    <th>12.30pm - 02.30pm</th>
+    <th>02.30pm - 04.30pm</th>
+    <th>04.30pm - 06.30pm</th>
+    <th>06.30pm - 08.30pm</th>
+    <th style="width:80px; background-color:">Total</th>
+    <%
+
+      cake_01_total = 0
+      cake_02_total = 0
+      cake_03_total = 0
+      cake_04_total = 0
+      cake_05_total = 0
+      cake_06_total = 0
+
+      for flavor in flavors
+
+
+      ts_01_total = 0
+      ts_02_total = 0
+      ts_03_total = 0
+      ts_04_total = 0
+      ts_05_total = 0
+      ts_06_total = 0
+
+      horizental_total = 0
+
+      count_qty = OrderItem.find(:all, :select => "SUM(qty) AS s", :conditions => "order_id IN ("+all_ids+") AND cake = '"+flavor.cake.to_s+ "'" , :group => "cake")
+        for a in count_qty
+          if a.s.to_i != 0
+          
+
+    %>
+                <tr>
+                  <td><%= flavor.cake %></td>
+                  <td>
+                    <%
+                       ids = time_slot_01[0..(time_slot_01.length - 2)]
+
+                       if ids != ""
+                        order_items1 = OrderItem.find(:all, :select => "item_id, qty, item_title, cake", :conditions => "order_id IN ("+ids+") AND (item_type = 2 OR item_type = 4 OR item_type = 5)")
+
+                        for item1 in order_items1
+                          if flavor.cake.to_s == item1.cake.to_s
+                            ts_01_total += item1.qty.to_i
+                            horizental_total += item1.qty.to_i
+                          end
+                        end
+
+                      %><div align="center"><%= (ts_01_total != 0)? ts_01_total.to_s : "" %></div><%
+                          cake_01_total += ts_01_total
+                       end
+                     %>
+                  </td>
+                  <td>
+                    <%
+                       ids = time_slot_02[0..(time_slot_02.length - 2)]
+
+                       if ids != ""
+                        order_items1 = OrderItem.find(:all, :select => "item_id, qty, item_title, cake", :conditions => "order_id IN ("+ids+") AND (item_type = 2 OR item_type = 4 OR item_type = 5)")
+
+                        for item1 in order_items1
+                          if flavor.cake.to_s == item1.cake.to_s
+                            ts_02_total += item1.qty.to_i
+                            horizental_total += item1.qty.to_i
+                          end
+                        end
+
+                      %><div align="center"><%= (ts_02_total != 0)? ts_02_total.to_s : "" %></div><%
+                          cake_02_total += ts_02_total
+                       end
+                     %>
+                  </td>
+                  <td>
+                    <%
+                       ids = time_slot_03[0..(time_slot_03.length - 2)]
+
+                       if ids != ""
+                        order_items1 = OrderItem.find(:all, :select => "item_id, qty, item_title, cake", :conditions => "order_id IN ("+ids+") AND (item_type = 2 OR item_type = 4 OR item_type = 5)")
+
+                        for item1 in order_items1
+                          if flavor.cake.to_s == item1.cake.to_s
+                            ts_03_total += item1.qty.to_i
+                            horizental_total += item1.qty.to_i
+                          end
+                        end
+
+                      %><div align="center"><%= (ts_03_total != 0)? ts_03_total.to_s : "" %></div><%
+                          cake_03_total += ts_03_total
+                       end
+                     %>
+                  </td>
+                  <td>
+                    <%
+                       ids = time_slot_04[0..(time_slot_04.length - 2)]
+
+                       if ids != ""
+                        order_items1 = OrderItem.find(:all, :select => "item_id, qty, item_title, cake", :conditions => "order_id IN ("+ids+") AND (item_type = 2 OR item_type = 4 OR item_type = 5)")
+
+                        for item1 in order_items1
+                          if flavor.cake.to_s == item1.cake.to_s
+                            ts_04_total += item1.qty.to_i
+                            horizental_total += item1.qty.to_i
+                          end
+                        end
+
+                      %><div align="center"><%= (ts_04_total != 0)? ts_04_total.to_s : "" %></div><%
+                          cake_04_total += ts_04_total
+                       end
+                     %>
+                  </td>
+                  <td>
+                    <%
+                       ids = time_slot_05[0..(time_slot_05.length - 2)]
+
+                       if ids != ""
+                       order_items1 = OrderItem.find(:all, :select => "item_id, qty, item_title, cake", :conditions => "order_id IN ("+ids+") AND (item_type = 2 OR item_type = 4 OR item_type = 5)")
+
+                        for item1 in order_items1
+                          if flavor.cake.to_s == item1.cake.to_s
+                            ts_05_total += item1.qty.to_i
+                            horizental_total += item1.qty.to_i
+                          end
+                        end
+
+                      %><div align="center"><%= (ts_05_total != 0)? ts_05_total.to_s : "" %></div><%
+                          cake_05_total += ts_05_total
+                       end
+                     %>
+                  </td>
+                  <td>
+                    <%
+                       ids = time_slot_06[0..(time_slot_06.length - 2)]
+
+                       if ids != ""
+                        order_items1 = OrderItem.find(:all, :select => "item_id, qty, item_title, cake", :conditions => "order_id IN ("+ids+") AND (item_type = 2 OR item_type = 4 OR item_type = 5)")
+
+                        for item1 in order_items1
+                          if flavor.cake.to_s == item1.cake.to_s
+                            ts_06_total += item1.qty.to_i
+                            horizental_total += item1.qty.to_i
+                          end
+                        end
+
+                      %><div align="center"><%= (ts_06_total != 0)? ts_06_total.to_s : "" %></div><%
+                          cake_06_total += ts_06_total
+                       end
+                     %>
+                  </td>
+                  <td align="center" style="background-color:#EEEEEE;"><b><%= (horizental_total != 0)? horizental_total : "" %></b> <%= (! flavor.cake.include?("BFAST"))? ((horizental_total != 0)? "(<b>" + (horizental_total/tray.value.to_f).ceil.to_s + "</b> trays)" : "") : "" %>&nbsp;</td>
+                </tr>
+              <%
+      end
+    end
+
+        end
+
+%>
+  <!--
+    <tr><td colspan="7" style="height:1px;"></td></tr>
+    <tr><td colspan="7" style="height:1px;"></td></tr>
+    <tr>
+      <td><b>Total</b></td>
+      <td align="center"><b><%#= (cake_01_total != 0)? cake_01_total : "" %></b></td>
+      <td align="center"><b><%#= (cake_02_total != 0)? cake_02_total : "" %></b></td>
+      <td align="center"><b><%#= (cake_03_total != 0)? cake_03_total : "" %></b></td>
+      <td align="center"><b><%#= (cake_04_total != 0)? cake_04_total : "" %></b></td>
+      <td align="center"><b><%#= (cake_05_total != 0)? cake_05_total : "" %></b></td>
+      <td align="center"><b><%#= (cake_06_total != 0)? cake_06_total : "" %></b></td>
+    </tr>    
+    
+    <tr><td colspan="7" style="height:1px;"></td></tr>
+    <tr><td colspan="7" style="height:1px;"></td></tr>
+  -->
+</table>
+<%
+    end
+end
+%>
+<!-- End of cake -->
+</div>
+<div id="calendar">
+    <form name="calendar_form">
+          <div id="calendar_controllers">
+                  <input type="button" class="close_button" name="calendar_Close" onclick="HideCalendar();" value="" style="border:0px; height:13px; width:33px; background-image:url('/images/calender/closeButton_normal.gif');"><br/>
+                  <input type="button" class="ctrl_button" name="calendar_PrevMonth" onclick="calendar_prev_month();" value="" style="border:0px; height:20px; width:20px; background-image:url('/images/calender/monthBackward_normal.gif');">
+                  <select name="cal_month" onchange="Calendar_FillMonth();">
+                          <option value="1"<%= (1 == Time.now.month)?" selected":""; %>>January</option>
+                          <option value="2"<%= (2 == Time.now.month)?" selected":""; %>>February</option>
+                          <option value="3"<%= (3 == Time.now.month)?" selected":""; %>>March</option>
+                          <option value="4"<%= (4 == Time.now.month)?" selected":""; %>>April</option>
+                          <option value="5"<%= (5 == Time.now.month)?" selected":""; %>>May</option>
+                          <option value="6"<%= (6 == Time.now.month)?" selected":""; %>>June</option>
+                          <option value="7"<%= (7 == Time.now.month)?" selected":""; %>>July</option>
+                          <option value="8"<%= (8 == Time.now.month)?" selected":""; %>>August</option>
+                          <option value="9"<%= (9 == Time.now.month)?" selected":""; %>>September</option>
+                          <option value="10"<%= (10 == Time.now.month)?" selected":""; %>>October</option>
+                          <option value="11"<%= (11 == Time.now.month)?" selected":""; %>>November</option>
+                          <option value="12"<%= (12 == Time.now.month)?" selected":""; %>>December</option>
+                  </select>,
+                  <select name="year" onchange="Calendar_FillMonth();">
+                          <% (2000..2050).each do |@year| %>
+                                  <option value="<%= @year %>"<%= (@year == Time.now.year)?" selected":""; %>><%= @year %></option>
+                          <% end %>
+                  </select>
+                  <input type="button" class="ctrl_button" name="calendar_NextMonth" onclick="calendar_next_month();" value="" style="border:0px; height:20px; width:20px; background-image:url('/images/calender/monthForward_normal.gif');">
+          </div>
+          <div class="cal_head_row">
+                  <div class="cal_head">Sun</div>
+                  <div class="cal_head">Mon</div>
+                  <div class="cal_head">Tue</div>
+                  <div class="cal_head">Wed</div>
+                  <div class="cal_head">Thu</div>
+                  <div class="cal_head">Fri</div>
+                  <div class="cal_head">Sat</div>
+          </div>
+          <div class="cal_content" id="CalendarContent">
+          </div>
+    </form>
+</div>
+

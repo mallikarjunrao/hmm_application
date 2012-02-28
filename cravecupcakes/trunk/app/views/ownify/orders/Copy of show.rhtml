@@ -1,0 +1,341 @@
+
+<% @page_title = "Show orders" %>
+
+<p><%= link_to 'Back', :action => 'list' %></p>
+
+<%#*<p><label for="product_product_type_id">Ordered Items :&nbsp;%>
+
+<%# if @order_items
+    for product in @order_items %>
+      
+     <%# if product.item_type=='1'
+     @item_name = Special.find(:first,:conditions=>["id=?",product.item_id])
+     if @item_name!=nil
+     %>#
+        <%#= @item_name.title %>,
+       
+     <%# end
+     elsif product.item_type=='2'
+        @item_name = Cupcake.find(:first,:conditions=>["id=?",product.item_id])
+        if @item_name!=nil
+      %>#
+                  <%#= @item_name.title %>,
+
+         <%# end
+         elsif product.item_type=='3'
+        @item_name = Product.find(:first,:conditions=>["id=?",product.item_id])
+      if @item_name!=nil
+     %>#
+          <%#= @item_name.title %>
+     <%# end end
+
+    end
+   end %></label>
+<%#*</p>%>
+
+
+
+<%#*<p><label for="product_product_type_id">Delivery Date :&nbsp;<%= @one_order.date_of_order  %></label>%>
+<%#*</p>%>
+<%#*<p><label for="product_product_type_id">Delivery Method :&nbsp;<%= @one_order.delivery_method  %></label>%>
+<%#*</p>%>
+<%#*<p><label for="product_product_type_id">Has GiftBox : &nbsp;<%=%>
+    <%#*if  @one_order.has_giftbox=='1'%>
+      <%#*"YES"%>
+    <%#*else%>
+      <%#*"NO"%>
+    <%#*end%>
+  %>#</label>
+<%#*</p>%>
+<%#*<p><label for="product_product_type_id">Has Ribbon :&nbsp;<%=%>
+<%#*if  @one_order.has_ribbon=='1'%>
+      <%#*"YES"%>
+    <%#*else%>
+      <%#*"NO"%>
+    <%#*end%>
+%>#</label>
+<%#*</p>%>
+<%#*<p><label for="product_product_type_id">Order Custommer Name :&nbsp;<%= @one_order.first_name + "  " +@one_order.last_name  %></label>%>
+<%#*</p>%>
+<%#*<p><label for="product_product_type_id">How to Boxed :&nbsp;<%= @one_order.how_to_boxed  %></label>%>
+<%#*</p>%>
+<%#*<p><label for="product_product_type_id">Phone :&nbsp;<%= @one_order.primary_phone  %></label>%>
+<%#*</p>%>
+<%#*<p><label for="product_product_type_id">Email :&nbsp;<%= @one_order.email  %></label>%>
+<%#*</p>%>
+<%#*<p><label for="product_product_type_id">Reciever's Name :&nbsp;<%= @one_order.shipto_first_name + "  " +@one_order.shipto_last_name  %></label>%>
+<%#*</p>%>
+<%#*<p><label for="product_product_type_id">Reciever's Phone :&nbsp;<%= @one_order.shipto_phone  %></label>%>
+<%#*</p>%>
+<%#*<p><label for="product_product_type_id">Reciever's Zipcode :&nbsp;<%= @one_order.shipto_zip  %></label>%>
+<%#*</p>%>
+<%#*<p><label for="product_product_type_id">Reciever's Address 1 :&nbsp;<%= @one_order.shipto_address_1  %></label>%>
+<%#*</p>%>
+<%#*<p><label for="product_product_type_id">Reciever's Address 2:&nbsp;<%= @one_order.shipto_address_3  %></label>%>
+<%#*</p>%>
+  <%#*<p><label for="product_product_type_id">Billing Customer Name :&nbsp;<%= @one_order.b_fname + "  " +@one_order.b_lname  %></label>%>
+<%#*</p>%>
+<%#*<p><label for="product_product_type_id">Billing Customer Address :&nbsp;<%= @one_order.b_adrs  %></label>%>
+<%#*</p>%>
+<%#*<p><label for="product_product_type_id">Reciever's City :&nbsp;<%= @one_order.b_city %></label>%>
+<%#*</p>%>
+<%#*<p><label for="product_product_type_id">Reciever's ZipCode :&nbsp;<%= @one_order.b_zip  %></label>%>
+<%#*</p>%>
+<%#*<p><label for="product_product_type_id">Reciever's Phone :&nbsp;<%= @one_order.b_phone  %></label>%>
+<%#*</p>%>
+<%#*<p><label for="product_product_type_id">Reciever's Email :&nbsp;<%= @one_order.b_email  %></label>%>
+<%#*</p>%>
+<%#*<p><label for="product_product_type_id">Shipping Charges :&nbsp;<%= @one_order.order_shipping  %></label>%>
+<%#*</p>%>
+<%#*<p><label for="product_product_type_id">Total Value :&nbsp;<%= @one_order.order_total  %></label>%>
+<%#*</p>%>
+<%#*<p><label for="product_product_type_id">Discount :&nbsp;<%= @one_order.order_discount  %></label>%>
+<%#*</p>%>
+<%#*<p><label for="product_product_type_id">Order Placed On :&nbsp;<%= @one_order.placed_on.strftime("%m/%d/%Y")  %></label>%>
+<%#*</p>%>
+
+
+
+<body >
+<div id="wrapper">
+	<!-- main container start -->
+	<div class="main_container">
+    	
+    	<div class="main_container_left">
+			<!-- Delivery Information start -->
+			<div class="info">
+			<fieldset class="order_info fieldset">
+			<legend class="legend">Delivery Information</legend>
+				<div class="order_content">
+				<table width="425" border="0" cellspacing="0" cellpadding="0">
+					<tr>
+						<td width="140"><span class="order_content_bold">Date of order</span></td>
+						<td width="285"><%= @one_order.date_of_order  %></td>
+					</tr>
+					<tr>
+						<td height="10" colspan="2"></td>
+					</tr>
+					<tr>
+						<td><span class="order_content_bold">Time</span></td>
+						<td><%
+                                              time_slot = @one_order.time_of_order
+                                              for t in @order_times
+                                                if t[1] == time_slot.to_i
+                                                  %><%= t[0] %><%
+                                                end
+                                              end
+                                            %></td>
+					</tr>
+				</table>
+                </div>
+			</fieldset>
+			</div>
+			<!-- Delivery Information end -->
+
+			<!-- Special Instructions start -->
+			<div class="info">
+			<fieldset class="order_info fieldset">
+			<legend class="legend">Special Instructions</legend>
+				<div class="order_content">
+				<table width="425" border="0" cellspacing="0" cellpadding="0">
+				  <tr>
+					<td width="389" valign="top"><%=
+    if  @one_order.has_giftbox=='1'
+      "Need GiftBox."
+    
+    end
+  %><br />
+  <%=
+    if  @one_order.has_ribbon=='1'
+      "Need Ribbon."
+
+    end%><br />
+    how  cupcakes should be boxed :
+				    <span class="order_content_bold"><%=
+    if  @one_order.how_to_boxed!='N/A'
+      @one_order.how_to_boxed
+
+    end%></span></td>
+					</tr>
+				</table>
+				</div>
+			</fieldset>
+			</div>
+			<!-- Special Instructions end -->
+
+			<!-- Item Information start -->
+			<div class="info">
+			<fieldset class="order_info fieldset">
+			<legend class="legend">Item Information</legend>
+			<div class="order_content">
+			  <table width="425" border="0" cellspacing="0" cellpadding="0">
+                <tr>
+                  <td width="255">&nbsp;</td>
+                  <td width="29" align="right"><span class="order_content_bold">Qty.</span></td>
+                  <td width="141" align="right"><span class="order_content_bold">Amount</span></td>
+                </tr>
+                <tr>
+                  <td height="10" colspan="3"></td>
+                </tr>
+                <tr>
+                  <td colspan="3"><span class="order_content_bold">Cupcakes</span></td>
+                </tr>
+                <tr>
+                  <td>Peanut Butter Chocolate</td>
+                  <td align="right">10</td>
+                  <td align="right">$20.00</td>
+                </tr>
+                <tr>
+                  <td>Chocolate Coconut</td>
+                  <td align="right">5</td>
+                  <td align="right">$10.00</td>
+                </tr>
+                <tr>
+                  <td colspan="3"><div class="order_content_seperater"><img src="images/seperater.gif" /></div></td>
+                </tr>
+                <tr>
+                  <td colspan="3"><span class="order_content_bold">Packaging Options</span></td>
+                </tr>
+                <tr>
+                  <td>CRAVE Blue Gift Box</td>
+                  <td align="right">&nbsp;</td>
+                  <td align="right">$10.00</td>
+                </tr>
+                <tr>
+                  <td>White Dozen Box</td>
+                  <td align="right">&nbsp;</td>
+                  <td align="right">$2.00</td>
+                </tr>
+                <tr>
+                  <td colspan="3"><div class="order_content_seperater"><img src="images/seperater.gif" /></div></td>
+                </tr>
+                <tr>
+                  <td colspan="3"><span class="order_content_bold">Other Products</span></td>
+                </tr>
+                <tr>
+                  <td>GREEN CANDLE</td>
+                  <td align="right">2</td>
+                  <td align="right">$1.00</td>
+                </tr>
+                <tr>
+                  <td>ROYAL BLUE CANDLE</td>
+                  <td align="right">4</td>
+                  <td align="right">$2.00</td>
+                </tr>
+                <tr>
+                  <td colspan="3"><div class="order_content_seperater"><img src="images/seperater.gif" /></div></td>
+                </tr>
+                <tr>
+                  <td>Delivery Fee</td>
+                  <td align="right">&nbsp;</td>
+                  <td align="right">$10.00</td>
+                </tr>
+                <tr>
+                  <td colspan="3"><div class="order_content_seperater"><img src="images/seperater.gif" /></div></td>
+                </tr>
+                <tr>
+                  <td><strong>Total</strong></td>
+                  <td align="right">&nbsp;</td>
+                  <td align="right"><strong>$55.00</strong></td>
+                </tr>
+              </table>
+			</div>
+			</fieldset>
+			</div>
+			<!-- Item Information end -->
+
+        </div>
+      <div class="main_container_right">
+			<!-- Recipient Information start -->
+			<div class="info">
+			<fieldset class="order_info fieldset">
+			<legend class="legend">Recipient Information</legend>
+				<div class="order_content">
+				<table width="425" border="0" cellspacing="0" cellpadding="0">
+					<tr>
+						<td width="155" valign="top"><span class="order_content_bold">Business Address</span></td>
+						<td width="270" valign="top">(Business)<br />
+						  Crave Cupcakes<br />
+						  1151-06 Uptown Park Blvd.<br />
+					    Houston, TX 77056</td>
+					</tr>
+					<tr>
+						<td height="10" colspan="2"></td>
+					</tr>
+					<tr>
+						<td><span class="order_content_bold">Phone</span></td>
+						<td>310-555-1212</td>
+					</tr>
+				</table>
+                </div>
+			</fieldset>
+			</div>
+			<!-- Recipient Information end -->
+
+			<!-- Your Information start -->
+			<div class="info">
+			<fieldset class="order_info fieldset">
+			<legend class="legend">Customer Information</legend>
+				<div class="order_content">
+				<table width="425" border="0" cellspacing="0" cellpadding="0">
+					<tr>
+						<td width="155"><span class="order_content_bold">Name</span></td>
+						<td width="270"><%= @one_order.first_name + "  " +@one_order.last_name  %></td>
+					</tr>
+					<tr>
+						<td height="10" colspan="2"></td>
+					</tr>
+					<tr>
+						<td><span class="order_content_bold">Email Address</span></td>
+						<td><%= @one_order.email %></td>
+					</tr>
+					<tr>
+					  <td height="10" colspan="2"></td>
+				  </tr>
+					<tr>
+					  <td><span class="order_content_bold">Phone</span></td>
+					  <td><%= @one_order.primary_phone  %></td>
+				  </tr>
+					<tr>
+					  <td height="10" colspan="2"></td>
+				  </tr>
+					<tr>
+					  <td><span class="order_content_bold">Alternate Phone</span></td>
+					  <td><%= @one_order.alt_phone  %></td>
+				  </tr>
+				</table>
+                </div>
+			</fieldset>
+			</div>
+			<!-- Your Information end -->
+
+			<!-- Payment Details start -->
+			<div class="info">
+			<fieldset class="order_info fieldset">
+			<legend class="legend">Payment Details</legend>
+				<div class="order_content">
+				<table width="425" border="0" cellspacing="0" cellpadding="0">
+					
+					<tr>
+						<td height="10" colspan="2"></td>
+					</tr>
+					
+					
+					<tr>
+                                          <td valign="top" width="150"><span class="order_content_bold">Billing Address</span></td>
+					  <td valign="top"><%= @one_order.b_fname + "  " +@one_order.b_lname  %><br />
+					    <%= @one_order.b_city %><br />
+				      <%= @one_order.b_state %>, <%= @one_order.b_zip %></td>
+				  </tr>
+				</table>
+                </div>
+			</fieldset>
+			</div>
+			<!-- Payment Details end -->
+
+      </div>
+		
+    </div>
+	<!-- main container end -->
+</div>
+</body>

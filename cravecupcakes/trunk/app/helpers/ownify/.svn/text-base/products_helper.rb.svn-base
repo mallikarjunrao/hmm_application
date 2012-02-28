@@ -1,0 +1,2 @@
+module Ownify::ProductsHelper
+end

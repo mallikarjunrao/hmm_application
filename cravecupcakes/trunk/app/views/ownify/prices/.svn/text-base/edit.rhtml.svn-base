@@ -1,0 +1,7 @@
+<% @page_title="Edit Price" -%>
+<p><%= link_to 'Back', :action => 'list' %></p>
+
+<% form_tag :action => 'update', :id => @price do %>
+  <%= render :partial => 'form' %>
+  <%= submit_tag 'Save' %>
+<% end %>

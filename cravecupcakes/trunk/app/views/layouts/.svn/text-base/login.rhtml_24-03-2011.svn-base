@@ -1,0 +1,110 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+	<head>
+		<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+		<title>Ownify! your cravecupcakes.com [ <%= @page_title || controller.action_name %> ]</title>
+		<%= javascript_include_tag :defaults %>
+		<link rel="stylesheet" href="/stylesheets/scaffold.css" type="text/css" charset="utf-8" />
+		<link rel="stylesheet" href="/stylesheets/admin.css" type="text/css" charset="utf-8" />
+		<link rel="stylesheet" href="/stylesheets/order_confirm.css" type="text/css" charset="utf-8" />  
+		<link rel="stylesheet" href="/stylesheets/jsDatePick.css" type="text/css" media="all"/>  
+	</head>
+	<body class="<%= @body_id || controller.action_name %>">
+		<style>
+			hr.nav_sep{
+				border:1px solid #CCCCCC;
+				width:140px;
+				float:left;
+                                margin: 10px 0px 5px 0px;
+                                *margin: 10px 0px -8px -8px;
+			}
+                        
+		</style>
+		<div id="main">
+			<div id="header">
+				<h1>cravecupcakes.com <strong>[ <%= @page_title || controller.action_name %> ]</strong></h1>
+			</div>
+                  <div id="page" style="width:1550px;">
+
+
+                              <div id="navigation" style="float:left; width: 150px; padding-top:15px;">
+                                  <% if session[:user_id] != nil %>
+                                    <% owner = Owner.find(:first, :conditions => ["id = ?", session[:user_id]] )  %>
+                                    <% access_level = owner.access_level %>
+                                    <% if session[:user_id] -%>
+                                          <ul>
+                                            <% if access_level == 1 || access_level == 2 %>
+                                              <li><a href="/ownify/orders/" class="strong">Orders</a></li>                                              
+                                              <li><a href="/order/" class="strong" target="_blank">Place an Order</a></li>
+                                              <li><span style="font-weight:normal;">Bake Sheet</span></li>
+                                             
+                                                  <li>&nbsp;&nbsp;&nbsp;&nbsp;<a href="/ownify/bake_sheet/?store_id=1" class="strong">Uptown Park</a></li>
+                                                  <li>&nbsp;&nbsp;&nbsp;&nbsp;<a href="/ownify/bake_sheet/?store_id=2" class="strong">West University</a></li>
+                                              <li><span style="font-weight:normal;">Sales Report</span></li>
+                                             
+                                                  <li>&nbsp;&nbsp;&nbsp;&nbsp;<a href="/ownify/sales/?store_id=1" class="strong">Uptown Park</a></li>
+                                                  <li>&nbsp;&nbsp;&nbsp;&nbsp;<a href="/ownify/sales/?store_id=2" class="strong">West University</a></li>
+                                                
+                                              <li><hr class="nav_sep"/></li>
+                                            <% elsif access_level == 3 %>
+                                              <li><a href="/order/" class="strong" target="_blank">Place an Order</a></li>
+                                            <% end %>
+                                            <% if access_level == 1 %>
+                                              <li style="width:150px; float:left;"><span style="font-weight:normal;">Block Preorder Time Slots</span></li>
+                                              
+                                                  <li>&nbsp;&nbsp;&nbsp;&nbsp;<a href="/ownify/blocked_times/?store_id=1" class="strong">Uptown Park</a></li>
+                                                  <li>&nbsp;&nbsp;&nbsp;&nbsp;<a href="/ownify/blocked_times/?store_id=2" class="strong">West University</a></li>
+                                                
+                                              <li><span style="font-weight:normal;">Production Windows</span></li>
+                                              
+                                                  <li>&nbsp;&nbsp;&nbsp;&nbsp;<a href="/ownify/timeslot_window/?store_id=1" class="strong">Uptown Park</a></li>
+                                                  <li>&nbsp;&nbsp;&nbsp;&nbsp;<a href="/ownify/timeslot_window/?store_id=2" class="strong">West University</a></li>
+                                                
+                                              <!-- <li><a href="/ownify/special_prod_windows/" class="strong">Special Production Windows</a></li> -->
+                                              <li><hr class="nav_sep"/></li>
+                                              <li><a href="/ownify/cupcakes/" class="strong">Original Size Cupcakes</a></li>
+                                              <li><a href="/ownify/mini_cupcakes/" class="strong">Mini Cupcakes</a></li>
+                                              <li><a href="/ownify/special_decorations/" class="strong">Special Decorations</a></li>
+                                              <li><a href="/ownify/specials/" class="strong">Seasonal and Favorite Boxes</a></li>
+                                              <li><a href="/ownify/product_types/">Product Types</a></li>
+                                              <li><a href="/ownify/prices/" class="strong">Prices</a></li>
+                                              <li><span style="font-weight:normal;">Delivery Fees</span></li>
+                                                                                            
+                                                  <li>&nbsp;&nbsp;&nbsp;&nbsp;<a href="/ownify/delivery_fees/?store_id=1" class="strong">Uptown Park</a></li>
+                                                  <li>&nbsp;&nbsp;&nbsp;&nbsp;<a href="/ownify/delivery_fees/?store_id=2" class="strong">West University</a></li>
+                                             
+                                              <li><hr class="nav_sep"/></li>
+                                              <li><a href="/ownify/editable_texts/" class="strong">Messages</a></li>
+                                              <li><a href="/ownify/news/" class="strong">News</a> <!--a href="/ownify/news/new"><img src="/images/admin/new.gif"/></a--></li>
+                                              <li><a href="/ownify/faqs/" class="strong">FAQs</a> <!--a href="/ownify/faqs/new"><img src="/images/admin/new.gif"/></a--></li>
+                                              <li><a href="/ownify/static_pages/" class="strong">Pages</a></li>
+                                              <li><a href="/ownify/main_menu/">Seasonal Menu Image</a></li>
+                                              <li><hr class="nav_sep"/></li>
+                                              <li><a href="/ownify/owners/" class="strong">Admin Users</a> <!--a href="/ownify/owners/new"><img src="/images/admin/new.gif"/></a--></li>
+                                              <li><a href="/ownify/promotional_emails/" class="strong">Export Email Opt-ins</a></li>
+                                              <li><a href="/ownify/seo_settings/" class="strong">SEO Settings</a></li>
+                                              <li><a href="/ownify/configurations/" class="strong">Configuration</a></li>
+                                              <li><a href="/login/delete_caches" class="strong">Restart the Website</a></li>
+                                              <li><hr class="nav_sep"/></li>
+                                            <% end %>
+
+                                            <li><a href="/login/logout" class="strong">Logout</a></li>
+                                          </ul>
+                                    <% end -%>
+                                  <% end %>
+				</div>
+
+
+                                <div id="content" style="float:left; width:1350px; padding-top:15px;">
+					<p style="color: green"><%= flash[:notice] %></p>
+					<%= @content_for_layout %>                                       
+
+				</div><!-- / content -->
+
+                                
+				<div id="footer">&nbsp;</div>
+			</div> <!-- / page -->
+		</div> <!-- / body -->
+	</body>
+</html>

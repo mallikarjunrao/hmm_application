@@ -1,0 +1,29 @@
+<% 
+    @page_title="Pages"
+-%>
+
+<p><%= link_to 'New Page', :action => 'new' %></p>
+
+<table>
+  <tr>
+    <th>Date</th>
+    <th>Title</th>
+    <th>Link</th>
+    <th colspan="4">Actions</th>
+  </tr>
+<% 
+  for dyno_page in @dyno_pages 
+      _this_link= "/#{dyno_page.slug}"
+-%>
+  <tr>
+    <td><%= dyno_page.page_on.strftime("%m/%d/%y") %></td>
+    <td><%=h dyno_page.title %></td>
+    <td><%= link_to _this_link, _this_link %></td>
+    <td><%= link_to 'Images', :controller => 'dyno_images', :action => 'list', :dyno_page_id => dyno_page %></td>
+    <td><%= link_to 'SEO', :action => 'seo', :id => dyno_page %></td>
+    <td><%= link_to 'Edit', :action => 'edit', :id => dyno_page %></td>
+    <td><%= link_to ( ( dyno_page.is_active ? 'deactivate' : 'activate' ), { :action => ( dyno_page.is_active ? 'deactivate' : 'activate' ), :id => dyno_page }, :method => :post )%></td></td>
+  </tr>
+<% end %>
+</table>
+

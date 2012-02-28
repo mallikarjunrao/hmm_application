@@ -1,0 +1,8 @@
+<% @page_title="New Special Product Window" -%>
+<p><%= link_to 'Back', :action => 'list' %></p>
+
+
+<% form_tag( {:action => 'create'}, :multipart => true ) do %>
+  <%= render :partial => 'form' %>
+  <%= submit_tag "Create" %>
+<% end %>

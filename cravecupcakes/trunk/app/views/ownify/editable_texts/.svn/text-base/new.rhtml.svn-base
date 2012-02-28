@@ -1,0 +1,10 @@
+<% @page_title = 'New Message' -%>
+
+<p><%= link_to 'Back', :action => 'list' %></p>
+<% form_tag :action => 'create' do %>
+  <%= render :partial => 'form' %>
+  <br style="clear:both;"/>
+  <%= submit_tag "Create" %>
+<% end %>
+
+

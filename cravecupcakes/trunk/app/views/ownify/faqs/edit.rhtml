@@ -1,0 +1,7 @@
+<% @page_title = "Edit FAQ" %>
+<p><%= link_to 'Back', :action => 'list' %></p>
+
+<% form_tag :action => 'update', :id => @faq do %>
+  <%= render :partial => 'form' %>
+  <%= submit_tag 'Save', :class => 'clear' %>
+<% end %>

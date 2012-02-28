@@ -1,0 +1,14 @@
+<% 
+    @page_title="New News" 
+-%>
+<% if @dyno_page.dyno_type_id -%>
+<p><%= link_to 'Back', :action => 'list', :dyno_type_id => @dyno_page.dyno_type_id %></p>
+<% else -%>
+<p><%= link_to 'Back', :action => 'list' %></p>
+<% end -%>
+
+<% form_tag :action => 'create' do %>
+  <%= render :partial => 'form' %>
+  <%= submit_tag "Create", :class => 'clear' %>
+<% end %>
+

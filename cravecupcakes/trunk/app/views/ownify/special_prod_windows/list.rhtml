@@ -1,0 +1,28 @@
+<% @page_title="Special Production Windows" -%>
+<p><%= link_to 'New Production Window', :action => 'new' %></p>
+
+<table>
+  <tr>
+    <th>Day</th>
+    <th>Time Slot</th>
+    <th>Maximum Orders</th>
+    <th colspan="2">Actions</th>
+  </tr>
+  
+<% for cupcake in @timeslot %>
+  <% @timebelt = TimeslotWindow.find_by_id( cupcake.prod_win_id ) %>
+  <tr>
+    <td><%=h cupcake.day %></td>
+    <td><%= @timebelt['timeslot']  %></td>
+    <td><%= cupcake.max_orders %></td>
+    <td><%= link_to 'Edit', :action => 'edit', :id => cupcake %></td>
+    <td><%= link_to 'Destroy', { :action => 'destroy', :id => cupcake }, :confirm => 'Are you sure?', :method => :post %></td>
+  </tr>
+<% end %>
+</table>
+
+<p><%= render(:partial => "/paginate", :locals => {:collection => @timeslot }) -%></p>
+
+<br />
+
+

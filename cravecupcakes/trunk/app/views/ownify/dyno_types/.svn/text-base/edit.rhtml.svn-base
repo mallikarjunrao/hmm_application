@@ -1,0 +1,9 @@
+<h1>Editing dyno_type</h1>
+
+<% form_tag :action => 'update', :id => @dyno_type do %>
+  <%= render :partial => 'form' %>
+  <%= submit_tag 'Edit' %>
+<% end %>
+
+<%= link_to 'Show', :action => 'show', :id => @dyno_type %> |
+<%= link_to 'Back', :action => 'list' %>

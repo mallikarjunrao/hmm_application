@@ -1,0 +1,9 @@
+<% @page_title="New Price" -%>
+<p><%= link_to 'Back', :action => 'list' %></p>
+
+<% form_tag :action => 'create' do %>
+  <%= render :partial => 'form' %>
+  <%= submit_tag "Create" %>
+<% end %>
+
+

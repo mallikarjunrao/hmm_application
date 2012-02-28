@@ -1,0 +1,7 @@
+<% @page_title="New Configuration" -%>
+<p><%= link_to 'Back', :action => 'list' %></p>
+
+<% form_tag( {:action => 'create'}, :multipart => true ) do %>
+  <%= render :partial => 'form' %>
+  <%= submit_tag "Create" %>
+<% end %>

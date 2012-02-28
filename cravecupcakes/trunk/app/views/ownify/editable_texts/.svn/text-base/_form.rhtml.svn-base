@@ -1,0 +1,35 @@
+<%= error_messages_for 'editable_text' %>
+
+<!--[form:editable_text]-->
+<p><label for="editable_text_title">Title</label>
+<%= text_field 'editable_text', 'title'  %></p>
+
+	<% if @editable_text.title == "top_banner" %>
+
+<p><label for="editable_text_html_body">Upload image</label>
+<input type="file" name="top_banner" style="display:inline;" /> (width: 773px &nbsp; height: 64px &nbsp; File type: jpg)
+<input type="hidden" name="old_editable_text[html_body]" value="<img src='/images/top_banner.jpg' height='64' width='773' />" /></p>
+
+<p><label for="link">Link</label>
+<input type="text" name="editable_text[html_body]" value="<%= @editable_text.html_body %>" size="60" /></p>
+
+<p><label for="editable_text_html_body">Current Banner:</label>
+<% @file_exists = File::exists?("public/images/top_banner.jpg")
+	if @file_exists %>
+<img src='/images/top_banner.jpg' height='64' width='773' /><br/>
+<a href="/ownify/editable_texts/delete/<%= @editable_text.id %>">Delete Banner</a>
+<% else %>
+<b>None</b>
+<% end %>
+</p>
+
+	<% else %>
+
+<p><label for="editable_text_html_body">Html body</label>
+<%= text_area 'editable_text', 'html_body', {:rows => 30, :style => "width:600px"}   %></p>
+
+	<% end %>
+
+<%= render(:partial => '/ownify/markdown' ) %>
+<!--[eoform:editable_text]-->
+

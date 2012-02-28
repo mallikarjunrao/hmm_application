@@ -1,0 +1,326 @@
+<% @page_title = @product_type ? " Orders" : "Orders" %>
+<%#= session[:sort_col] %>
+<%#= @c %>
+<%#= params[:reset] %>
+
+<br />
+
+<style>
+	table.noborder{
+		border:none;
+	}
+	table.noborder tr td{
+		border:none;
+	}
+</style>
+
+<link rel="stylesheet" href="/stylesheets/calendar.css" type="text/css" charset="utf-8" />
+<script src="/javascripts/calendar.js" type="text/javascript"></script>
+<script src="/javascripts/js_vlib.js" type="text/javascript"></script>
+<script>
+	function ValidateDates(context){
+		var start_date_1 = document.filter_form.start_date_1.value;
+		var end_date_1 = document.filter_form.end_date_1.value;
+		var start_date_2 = document.filter_form.start_date_2.value;
+		var end_date_2 = document.filter_form.end_date_2.value;
+		if (context == "start_date_1"){
+			if (end_date_1 == "" || compare_date_strings(start_date_1, end_date_1)){
+				document.filter_form.end_date_1.value = start_date_1;
+			}
+		}
+		else if (context == "end_date_1"){
+			if (start_date_1 == "" || compare_date_strings(start_date_1, end_date_1)){
+				document.filter_form.start_date_1.value = end_date_1;
+			}
+		}
+		else if (context == "start_date_2"){
+			if (end_date_2 == "" || compare_date_strings(start_date_2, end_date_2)){
+				document.filter_form.end_date_2.value = start_date_2;
+			}
+		}
+		else if (context == "end_date_2"){
+			if (start_date_2 == "" || compare_date_strings(start_date_2, end_date_2)){
+				document.filter_form.start_date_2.value = end_date_2;
+			}
+		}
+		//document.filter_form.submit();
+	}
+	function compare_date_strings(date1, date2){
+		date1 = date1.split("-");
+		date2 = date2.split("-");
+		var dt1 = new Date(date1[0], parseInt(date1[1])-1, date1[2]);
+		var dt2 = new Date(date2[0], parseInt(date2[1])-1, date2[2]);
+		return dt1>dt2;
+	}
+</script>
+
+<form name="filter_form" action="" method="post">
+<% 	def option_selected(param_name, exp_value)
+		""
+		if session[param_name] != nil
+			if session[param_name] == exp_value
+				"selected='selected'"
+			end
+		#else
+		#	if params[param_name] == exp_value
+		#		"selected='selected'"
+		#	end
+		end
+	end %>
+	<table class="noborder">
+		<tr>
+			<td>
+				<span>Store: </span>
+			</td><td>
+				<select name="store_id" id="store_id" onchange="document.filter_form.submit();">
+					<option value="" <%= option_selected(:store_id, nil) %>>Select</option>
+					<option value="1" <%= option_selected(:store_id, "1") %>>Uptown Park</option>
+					<option value="2" <%= option_selected(:store_id, "2") %>>West University</option>
+				</select>
+			</td><td> &nbsp; &nbsp; </td><td>
+				<span>Method: </span>
+			</td><td>
+				<select name="delivery_method" id="delivery_method" onchange="document.filter_form.submit();">
+					<option value="" <%= option_selected(:delivery_method, nil) %>>Select</option>
+					<option value="pickup" <%= option_selected(:delivery_method, "pickup") %>>Pickup</option>
+					<option value="delivery" <%= option_selected(:delivery_method, "delivery") %>>Delivery</option>
+				</select>
+			</td><td> &nbsp; &nbsp; </td><td>
+				<span>Payment Type: </span>
+			</td><td>
+				<select name="payment_type" id="payment_type" onchange="document.filter_form.submit();">
+					<option value="" <%= option_selected(:payment_type, nil) %>>Select</option>
+          
+            <option value="VISA" <%= option_selected(:payment_type, "VISA") %>>VISA</option>
+            <option value="MasterCard" <%= option_selected(:payment_type, "MasterCard") %>>MasterCard</option>
+            <option value="American Express" <%= option_selected(:payment_type, "American Express") %>>American Express</option>
+            <option value="Discover" <%= option_selected(:payment_type, "Discover") %>>Discover</option>
+          
+					<option value="prepaid_creditcard" <%= option_selected(:payment_type, "prepaid_creditcard") %>>Pre-paid with a credit card</option>
+					<option value="prepaid_cash" <%= option_selected(:payment_type, "prepaid_cash") %>>Pre-paid in cash</option>
+					<option value="payment_on_delivery" <%= option_selected(:payment_type, "payment_on_delivery") %>>Payment on delivery</option>
+					<option value="Pay_with_a_credit_card" <%= option_selected(:payment_type, "Pay_with_a_credit_card") %>>Pay with a credit card</option>
+					<option value="Pay_with_a_CRAVE_gift_card" <%= option_selected(:payment_type, "Pay_with_a_CRAVE_gift_card") %>>Pay with a CRAVE gift card</option>
+					<option value="no_charge" <%= option_selected(:payment_type, "no_charge") %>>COMP (no charge)</option>
+				</select>
+			</td><td> &nbsp; &nbsp; </td><td>
+				<span>Search: </span>
+			</td><td>
+				<input type="text" name="query" value="<%= session[:query] %>" />
+			</td><td>
+				<input type="submit" value="Search" />
+			</td><td>
+				<input type="submit" name="reset" value="Reset" xonclick="document.filter_form.submit();">
+			</td>
+		</tr>
+	</table>
+	&nbsp;<br/>
+        <!--
+	<table class="noborder">
+		<tr>
+			<td colspan="5" align="center">
+				<b>Order Placed</b>
+			</td>
+			<td></td>
+			<td colspan="5" align="center">
+				<b>Order Date/Time</b>
+			</td>
+		</tr>
+		<tr>
+			<td>
+				<span>Start Date: </span>
+			</td>
+			<td>
+				<input type="text" name="start_date_1" class="date_field" xreadonly="true" onfocus="ShowCalendar(this, 'ValidateDates(\'start_date_1\');');" value="<%= (session[:start_date_1] != nil)?session[:start_date_1]:""; %>" />
+			</td>
+			<td> &nbsp; &nbsp; </td>
+			<td>
+				<span>End Date: </span>
+			</td>
+			<td>
+				<input type="text" name="end_date_1" class="date_field" xdisabled="true" onfocus="ShowCalendar(this, 'ValidateDates(\'end_date_1\');');" value="<%= (session[:end_date_1] != nil)?session[:end_date_1]:""; %>" />
+			</td>
+			<td> &nbsp; &nbsp; </td>
+			<td>
+				<span>Start Date: </span>
+			</td>
+			<td>
+				<input type="text" name="start_date_2" class="date_field" xdisabled="true" onfocus="ShowCalendar(this, 'ValidateDates(\'start_date_2\');');" value="<%= (session[:start_date_2] != nil)?session[:start_date_2]:""; %>" />
+			</td>
+			<td> &nbsp; &nbsp; </td>
+			<td>
+				<span>End Date: </span>
+			</td>
+			<td>
+				<input type="text" name="end_date_2" class="date_field" xdisabled="true" onfocus="ShowCalendar(this, 'ValidateDates(\'end_date_2\');');" value="<%= (session[:end_date_2] != nil)?session[:end_date_2]:""; %>" />
+			</td>
+		</tr>
+	</table>-->
+        <fieldset>
+          <legend style="color:#522C1B">Order Placed</legend>
+          <table class="noborder">
+            <tr><td colspan="5">&nbsp;</td></tr>
+            <tr>
+			<td>
+				<span>Start Date: </span>
+			</td>
+			<td>
+				<input type="text" name="start_date_1" class="date_field" xreadonly="true" onfocus="ShowCalendar(this, 'ValidateDates(\'start_date_1\');');" value="<%= (session[:start_date_1] != nil)?session[:start_date_1]:""; %>" />
+			</td>
+			<td> &nbsp; &nbsp; </td>
+			<td>
+				<span>End Date: </span>
+			</td>
+			<td>
+				<input type="text" name="end_date_1" class="date_field" xdisabled="true" onfocus="ShowCalendar(this, 'ValidateDates(\'end_date_1\');');" value="<%= (session[:end_date_1] != nil)?session[:end_date_1]:""; %>" />
+			</td>                        
+            </tr>
+            <tr><td colspan="5">&nbsp;</td></tr>
+          </table>
+        </fieldset>
+
+        <fieldset>
+          <legend style="color:#522C1B">Order Date/Time</legend>
+          <table class="noborder">
+            <tr><td colspan="5">&nbsp;</td></tr>
+            <tr>
+              <td>
+				<span>Start Date: </span>
+			</td>
+			<td>
+				<input type="text" name="start_date_2" class="date_field" xdisabled="true" onfocus="ShowCalendar(this, 'ValidateDates(\'start_date_2\');');" value="<%= (session[:start_date_2] != nil)?session[:start_date_2]:""; %>" />
+			</td>
+			<td> &nbsp; &nbsp; </td>
+			<td>
+				<span>End Date: </span>
+			</td>
+			<td>
+				<input type="text" name="end_date_2" class="date_field" xdisabled="true" onfocus="ShowCalendar(this, 'ValidateDates(\'end_date_2\');');" value="<%= (session[:end_date_2] != nil)?session[:end_date_2]:""; %>" />
+			</td>                        
+            </tr>
+            <tr><td colspan="5">&nbsp;</td></tr>
+          </table>
+        </fieldset>
+</form>
+
+<br /><br clear="all" />
+<% 	def sortorder(colname)
+		#if (params[:name] == colname && params[:order] == "asc") || (session[:name] == colname && session[:order] == "asc")
+		if session[:sort_col] == colname && session[:sort_order] == "asc"
+			"desc"
+		else
+			"asc"
+		end
+	end
+
+	def time_slot_str(slot_id)
+		for t in @order_times
+			if t[1] == slot_id
+				time = t[0].upcase
+			end
+		end
+		time
+	end %>
+<table>
+	<tr>
+		<th>Order ID</th>
+                <th><a style="background-color:#EEEEEE;" href="?sort_col=placed_on&sort_order=<%= sortorder("placed_on") %>">Order Placed</a></th>
+		<th>Store</th>
+		<th>Method</th>
+		<th><a style="background-color:#EEEEEE;" href="?sort_col=date_of_order&sort_order=<%= sortorder("date_of_order") %>">Order Date/Time</a></th>
+		<th>Order Total</th>
+                <th>Cupcake Total</th>
+		<th>Payment Type</th>
+		<th><a style="background-color:#EEEEEE;" href="?sort_col=first_name&sort_order=<%= sortorder("first_name") %>">Customer Name</a></th>
+		<th>Phone</th>
+		<th>Alternate</th>
+		<th><a style="background-color:#EEEEEE;" href="?sort_col=b_fname&sort_order=<%= sortorder("b_fname") %>">Billing Name</a></th>
+		<th>&nbsp;</th>
+		<% if @access_l == 1 %><th>&nbsp;</th><% end %>
+	</tr>
+<% 	if @orders
+		for product in @orders %>
+	<tr>
+		<td><%= product.id %> <% if product.admin_name !=nil %> (a) <%end%></td>
+		<!--<td><%=h product.placed_on.strftime("%Y-%m-%d / %I:%M%p ") %></td>-->
+		<td><%= product.placed_on.strftime("%a") + " " + product.placed_on.strftime("%b") + " " + product.placed_on.strftime("%d").to_i.to_s + ", " + product.placed_on.strftime("%Y") %> /
+<%= product.placed_on.strftime("%I:%M")+product.placed_on.strftime("%p") %></td>
+		<td><% if  product.store_id== 1 %>Uptown Park<% else %>West University<% end %></td>
+		<td><%= product.delivery_method.capitalize %></td>
+		<td><%= product.date_of_order.strftime("%a") + " " + product.date_of_order.strftime("%b") + " " + product.date_of_order.strftime("%d").to_i.to_s + ", " + product.date_of_order.strftime("%Y") %> /
+<%= time_slot_str(product.time_of_order.to_i) %></td>
+		<td align="right">$<%= sprintf('%.2f', product.order_total) %></td>
+                <td align="right"><%= (product.no_of_sp_cupcakes.to_i + product.induvidual_box.to_i + product.no_of_mini_cupcakes.to_i).to_s %></td>
+<% 	@payment_method=''
+	 if product.payment_type == 'prepaid_creditcard'
+      @payment_method=' Pre-paid with a credit card '
+  elsif product.payment_type == 'prepaid_cash'
+      @payment_method='Pre-paid in cash'
+  elsif product.payment_type == 'payment_on_delivery'
+      @payment_method='<font color="red";> <b> Payment on delivery </b>'
+  elsif product.payment_type == 'Pay_with_a_credit_card'
+       @payment_method='Pay with a Credit Card'
+  elsif product.payment_type == 'Pay_with_a_CRAVE_gift_card'
+      @payment_method='Pay with a CRAVE gift card'
+  elsif product.payment_type == 'no_charge'
+      @payment_method='COMP (no charge)'
+  else
+      @payment_method = product.payment_type
+  end
+
+%>
+		<td><%= @payment_method %></td>
+		<td><a href="mailto:<%= product.email   %>"><%= shorten(product.first_name << " " << product.last_name, 20, true) %> </a></td>
+		<td><%= product.primary_phone %></td>
+		<td><%= product.alt_phone %></td>
+		<td><%= shorten(product.b_fname << " " << product.b_lname, 20, false) %> </td>
+		<td><%= link_to 'View', :action => 'show', :id => product %></td>
+		<% if @access_l == 1 %>
+                  <td><%= link_to 'Destroy', { :action => 'destroy', :id => product }, :confirm => 'Are you sure?', :method => :post %></td>
+                <% end %>
+	</tr>
+<% 		end
+	end %>
+</table>
+
+<p><%= render(:partial => "/paginate", :locals => {:collection => @orders }) -%></p>
+
+<div id="calendar">
+	<form name="calendar_form">
+		<div id="calendar_controllers">
+			<input type="button" class="close_button" name="calendar_Close" onclick="HideCalendar();" value="" style="border:0px; height:13px; width:33px; background-image:url('/images/calender/closeButton_normal.gif');"><br/>
+			<input type="button" class="ctrl_button" name="calendar_PrevMonth" onclick="calendar_prev_month();" value="" style="border:0px; height:20px; width:20px; background-image:url('/images/calender/monthBackward_normal.gif');">
+			<select name="cal_month" onchange="Calendar_FillMonth();">
+				<option value="1"<%= (1 == Time.now.month)?" selected":""; %>>January</option>
+				<option value="2"<%= (2 == Time.now.month)?" selected":""; %>>February</option>
+				<option value="3"<%= (3 == Time.now.month)?" selected":""; %>>March</option>
+				<option value="4"<%= (4 == Time.now.month)?" selected":""; %>>April</option>
+				<option value="5"<%= (5 == Time.now.month)?" selected":""; %>>May</option>
+				<option value="6"<%= (6 == Time.now.month)?" selected":""; %>>June</option>
+				<option value="7"<%= (7 == Time.now.month)?" selected":""; %>>July</option>
+				<option value="8"<%= (8 == Time.now.month)?" selected":""; %>>August</option>
+				<option value="9"<%= (9 == Time.now.month)?" selected":""; %>>September</option>
+				<option value="10"<%= (10 == Time.now.month)?" selected":""; %>>October</option>
+				<option value="11"<%= (11 == Time.now.month)?" selected":""; %>>November</option>
+				<option value="12"<%= (12 == Time.now.month)?" selected":""; %>>December</option>
+			</select>, 
+			<select name="year" onchange="Calendar_FillMonth();">
+				<% (2000..2050).each do |@year| %>
+					<option value="<%= @year %>"<%= (@year == Time.now.year)?" selected":""; %>><%= @year %></option>
+				<% end %>
+			</select>
+			<input type="button" class="ctrl_button" name="calendar_NextMonth" onclick="calendar_next_month();" value="" style="border:0px; height:20px; width:20px; background-image:url('/images/calender/monthForward_normal.gif');">
+		</div>
+		<div class="cal_head_row">
+			<div class="cal_head">Sun</div>
+			<div class="cal_head">Mon</div>
+			<div class="cal_head">Tue</div>
+			<div class="cal_head">Wed</div>
+			<div class="cal_head">Thu</div>
+			<div class="cal_head">Fri</div>
+			<div class="cal_head">Sat</div>
+		</div>
+		<div class="cal_content" id="CalendarContent">
+		</div>
+	</form>
+</div>

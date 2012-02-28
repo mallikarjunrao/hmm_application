@@ -1,0 +1,9 @@
+<div class="main">
+<% for @image in @dyno_page.dyno_images -%>
+  <img id="hero" src="<%= "/images/dyno_image/image/#{@image.image_relative_path}" %>" alt="<%= @image.caption %>"  />
+<% end -%>
+
+  <div id="details">
+<%= to_bc(@dyno_page.page_HTML) %>
+  </div><!--end: main-->
+</div><!--end: main-->

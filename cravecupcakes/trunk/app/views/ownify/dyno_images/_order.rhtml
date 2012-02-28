@@ -1,0 +1,14 @@
+
+<ul id="sort_list">
+<% for dyno_image in @dyno_images %>
+  <li id="item_<%= dyno_image.id %>" >
+    <%= link_to 'Edit', :action => 'edit', :id => dyno_image %> :: 
+    <%= link_to 'Delete', { :action => 'destroy', :id => dyno_image }, :confirm => 'Are you sure?', :method => "post" %>
+      &nbsp; <strong><%= dyno_image.caption %></strong>
+      </li>
+<% end %>
+</ul>
+<%= sortable_element 'sort_list', 
+      :update => 'sort_content',  
+      :complete => visual_effect(:highlight, 'sort_list'), 
+      :url => { :action => "order", :dyno_page_id => @dyno_page.id } %>

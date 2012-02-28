@@ -1,0 +1,18 @@
+<fieldset id="select_store">
+  <legend>Select a Store</legend>
+  <span class="txt">You must choose a store before selecting a date and time.</span>
+  <div>
+    <div class="field-wrap2" id="store" style="display:none;" align="center"> Please select a store.</div>
+    <div class="field-wrap">
+      <label for="store1">Uptown Park</label>
+      <input type="radio" name="store" id="store1" value="Uptown Park" <%= params[:store] == "Uptown Park" ? "checked='checked'" : "" %> onclick="setStoreData(this); showHowToBoxed(this, 'd_n_t'); this.form.submit();">
+    </div>
+    <div class="field-wrap">
+      <label for="store2">West University<br><!--<em style="font-size:11px;">Coming in Summer 2010</em>--></label>
+      <input type="radio" name="store" id="store2" value="West University" <%= params[:store] == "West University" ? "checked='checked'" : "" %> onclick="setStoreData(this); showHowToBoxed(this, 'd_n_t');this.form.submit();">
+      <!-- disabled="disabled" -->
+    </div>
+
+    <input type="hidden" name="order_page" value="true">
+  </div>
+</fieldset>

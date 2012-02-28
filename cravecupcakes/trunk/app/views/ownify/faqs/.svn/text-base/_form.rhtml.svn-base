@@ -1,0 +1,11 @@
+<%= error_messages_for 'faq' %>
+
+<!--[form:faq]-->
+<p><label for="faq_question">Question</label>
+<%= text_area 'faq', 'question', :rows => 3  %></p>
+
+<p><label for="faq_answer">Answer</label>
+<%= text_area 'faq', 'answer'  %></p>
+
+<%= render(:partial => '/ownify/markdown' ) %>
+<!--[eoform:faq]-->

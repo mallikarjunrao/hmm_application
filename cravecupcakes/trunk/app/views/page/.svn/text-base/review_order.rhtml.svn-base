@@ -1,0 +1,1347 @@
+<% vars = session[:vars]
+
+@page_title = "Place your order with "
+#------------- Order calculations -  original code
+ #@aa=Price.find_by_sql("select count(*) from information_schema.columns where table_name = prices and column_name=ribbon")
+
+
+
+ ribbon_price1  = Price.find(:first, :conditions => ["title = 'ribbon' "])
+ if ribbon_price1 !=nil
+  ribbon_price = ribbon_price1.price
+ else
+   ribbon_price = 0.0
+ end
+
+ breakfast1  = Price.find(:first, :conditions => ["title = 'breakfast' "])
+ if breakfast1 !=nil
+  breakfast = breakfast1.price
+ else
+   breakfast = 0.0
+ end
+
+ single1  = Price.find(:first, :conditions => ["title = 'single' "])
+ if single1 !=nil
+  single = single1.price
+ else
+   single = 0.0
+ end
+ 
+ dozen1  = Price.find(:first, :conditions => ["title = 'dozen' "])
+ if dozen1 !=nil
+  dozen = dozen1.price
+ else
+   dozen = 0.0
+ end
+
+ breakfast_dozen1  = Price.find(:first, :conditions => ["title = 'breakfast dozen' "])
+ if breakfast_dozen1 !=nil
+  breakfast_dozen = breakfast_dozen1.price
+ else
+   breakfast_dozen = 0.0
+ end
+#if @aa >0
+#ribbon_price = Price.find_by_title('ribbon').price
+#end
+pretotal = 0.00
+#breakfast = Price.find_by_title('breakfast').price
+#single = Price.find_by_title('single').price
+#dozen = Price.find_by_title('dozen').price
+#breakfast_dozen = Price.find_by_title('breakfast dozen').price
+
+#cup_cake_value = vars[:has_giftbox]
+#is_giftbox = vars[:has_giftbox] && vars[:has_giftbox] == 'true'
+#is_ribbon = vars[:has_ribbon] && vars[:has_ribbon] == 'true'
+is_bluebox =  vars[:cupcake_boxed_special]
+potion_box =  vars[:remainder_cupcakes]
+patial_induvidual = vars[:noof_induv_cupcake].to_i
+
+if(session[:user_name]!=nil)
+weekendsurcharge = vars[:delivery_surcharge].to_f
+
+end
+
+giftbox_price1  = Configuration.find_by_name('packaging_gift_box_cost')
+ if giftbox_price1 !=nil
+  giftbox_price = giftbox_price1.value.to_f
+ else
+   giftbox_price = 0.0
+ end
+
+induvidual_price1  = Configuration.find_by_name('packaging_flavor_box_cost')
+ if induvidual_price1 !=nil
+  induvidual_price = induvidual_price1.value.to_f
+ else
+   induvidual_price = 0.0
+ end
+
+#giftbox_price = Price.find_by_title('packaging_gift_box_cost').price
+#induvidual_price= Price.find_by_title('packaging_ individual_ box_cost').price
+
+count_breakfast = 0
+count_cupcakes = 0
+
+vars[:cupcakes].each_pair{|key, value|
+  _quantity = value.to_i
+  if _quantity > 0
+    cupcake = Cupcake.find( key )
+    #	_price = cupcake.is_breakfast ? breakfast : single
+    if cupcake.is_breakfast
+      count_breakfast += _quantity
+    else
+      count_cupcakes += _quantity
+    end
+  end
+}
+boxes = 0
+totcupcakes = (count_breakfast + count_cupcakes);
+# divmod splits counts into array of quotient and modulus
+boxes = ( (count_breakfast + count_cupcakes ) / 12.0 ).to_i
+cupcake_packages = count_cupcakes.divmod( 12 )
+breakfast_packages = count_breakfast.divmod( 12 )
+dozens_cupcakes = cupcake_packages[0]
+dozens_breakfast = breakfast_packages[0]
+singles_cupcakes = cupcake_packages[1]
+singles_breakfast = breakfast_packages[1]
+
+# cupcake dozens first
+if dozens_cupcakes > 0
+  pretotal += dozens_cupcakes * dozen
+end
+
+
+# breakfast dozens
+if dozens_breakfast > 0
+  pretotal += dozens_breakfast * breakfast_dozen
+end
+
+#mixed dozen weird discount
+total_singles = singles_cupcakes + singles_breakfast
+mixed_dozen_price = singles_cupcakes * single + breakfast * ( total_singles > 11 ? 12 - singles_cupcakes : singles_breakfast )
+if mixed_dozen_price > dozen
+  mixed_discount = mixed_dozen_price - dozen
+  pretotal -= mixed_discount
+end
+
+# remaining cakes
+if singles_cupcakes > 0
+  pretotal += singles_cupcakes * single
+end
+if singles_breakfast > 0
+  pretotal += singles_breakfast * breakfast
+end
+
+if is_bluebox =='packed_in_blue_box'
+  pretotal += ( boxes * giftbox_price )
+end
+if is_bluebox =='packed_in_individual_box'
+  pretotal += ( totcupcakes * induvidual_price )
+end
+=begin
+if is_bluebox =='packed_in_standard_box'
+  pretotal += ( boxes * ribbon_price )
+end
+if is_bluebox =='packed_in_individual_box'
+  pretotal += ( totcupcakes * induvidual_price )
+end
+if is_bluebox =='portion_of_my_order'
+
+  pretotal += ( patial_induvidual * induvidual_price )
+  partial_boxes = ( (totcupcakes - patial_induvidual ) / 12.0 ).ceil
+
+  if potion_box == 'Crave_Blue_Gift_Box'
+    pretotal += ( partial_boxes * giftbox_price )
+  end
+  if potion_box == 'white_gift_box_with_ribbon'
+    pretotal += ( partial_boxes * ribbon_price )
+  end
+end
+=end
+
+# calculating specials total
+spc_price = 0.0
+
+if vars[:specials] !=  nil
+
+  vars[:specials].each_pair{|key, value|
+    _qty = value.to_i
+    if _qty > 0
+      spcls = Special.find( key )
+
+      spc_price += _qty * spcls.price
+
+    end
+  }
+
+  pretotal += spc_price
+end
+
+# end specials
+
+# mini cupcakes start
+
+ mini_dozen = (Price.find_by_title('two dozen mini')).price.to_f
+if vars[:mini_cupcakes] !=  nil
+params[:mini_cupcakes].each_pair{|key, value|
+  quantity = value.to_i
+  if quantity > 0
+    pretotal += mini_dozen * (quantity/24)
+  end
+}
+end
+# mini cupcakes end
+
+params[:products].each_pair{|key, value|
+  quantity = value.to_i
+  if quantity > 0
+    product = Product.find( key )
+    pretotal += product.price * quantity
+  end
+} -%>
+<!-- eqx template start -->
+
+<script type="text/javascript">
+  <!--
+  function MM_swapImgRestore() { //v3.0
+    var i,x,a=document.MM_sr; for(i=0;a&&i<a.length&&(x=a[i])&&x.oSrc;i++) x.src=x.oSrc;
+  }
+  function MM_preloadImages() { //v3.0
+    var d=document; if(d.images){ if(!d.MM_p) d.MM_p=new Array();
+      var i,j=d.MM_p.length,a=MM_preloadImages.arguments; for(i=0; i<a.length; i++)
+        if (a[i].indexOf("#")!=0){ d.MM_p[j]=new Image; d.MM_p[j++].src=a[i];}}
+    }
+
+    function MM_findObj(n, d) { //v4.01
+      var p,i,x;  if(!d) d=document; if((p=n.indexOf("?"))>0&&parent.frames.length) {
+        d=parent.frames[n.substring(p+1)].document; n=n.substring(0,p);}
+      if(!(x=d[n])&&d.all) x=d.all[n]; for (i=0;!x&&i<d.forms.length;i++) x=d.forms[i][n];
+      for(i=0;!x&&d.layers&&i<d.layers.length;i++) x=MM_findObj(n,d.layers[i].document);
+      if(!x && d.getElementById) x=d.getElementById(n); return x;
+    }
+
+    function MM_swapImage() { //v3.0
+      var i,j=0,x,a=MM_swapImage.arguments; document.MM_sr=new Array; for(i=0;i<(a.length-2);i+=3)
+        if ((x=MM_findObj(a[i]))!=null){document.MM_sr[j++]=x; if(!x.oSrc) x.oSrc=x.src; x.src=a[i+2];}
+    }
+    //-->
+</script>
+<link type="text/css" rel="stylesheet" href="styles/order_confirm.css" media="screen" />
+
+<div id="wrapper">
+  <!-- main container start -->
+
+
+
+  <% form_for :person, "", :url => { :action => "order" } do |f| %>
+    <div class="main_container" style="background-color:white;">
+      <div class="main_head" style="padding:20px 0px 20px 240px;">Review Your Order</div>
+      <div class="main_container_left" style="margin-top:50px;">
+        <!-- Delivery Information start -->
+        <div class="info">
+          <fieldset class="order_info fieldset">
+            <legend class="legend">Delivery Information</legend>
+
+            <div class="order_content">
+              <table width="425" border="0" cellspacing="0" cellpadding="0">
+                <tr>
+                  <td width="140"><span class="order_content_bold">Store</span></td>
+                  <td width="285">
+                    <%= vars['store'] %>
+                    <input type="hidden" name="store" value="<%= vars['store'] %>">
+                    <input type="hidden" name="no_of_orders_cake" value="<%= vars['no_of_orders_cake'] %>">
+                  </td>
+                </tr>
+                <tr>
+                  <td height="10" colspan="2"></td>
+                </tr>
+                <tr>
+                  <td width="140"><span class="order_content_bold">Date of order</span></td>
+                  <td width="285">
+                    <%= vars['date_of_order'] %>
+                    <input type="hidden" name="date_of_order" value="<%= vars['date_of_order'] %>">
+                  </td>
+                </tr>
+                <tr>
+                  <td height="10" colspan="2"></td>
+                </tr>
+                <tr>
+                  <td width="140"><span class="order_content_bold">Delivery method</span></td>
+                  <td width="285">
+                    <%= vars['delivery_method'].capitalize %>
+                    <input type="hidden" name="delivery_method" value="<%= vars['delivery_method'] %>">
+                    <input type="hidden" name="no_of_boxes" value="<%= boxes %>">
+                    <input type="hidden" name="no_of_spec" value="<%= (count_breakfast + count_cupcakes ) %>">
+
+                  </td>
+                </tr>
+                <tr>
+                  <td height="10" colspan="2"></td>
+                </tr>
+                <tr>
+                  <td><span class="order_content_bold">Time</span></td>
+                  <td>
+                    <%
+                    time_slot = vars['time_of_order']
+                    for t in @order_times
+                      if t[1] == time_slot.to_i
+                      %><%= t[0] %><%
+                      end
+                    end
+                  %>
+                    <input type="hidden" name="time_of_order" value="<%= vars['time_of_order'] %>">
+                  </td>
+                </tr>
+              </table>
+            </div>
+          </fieldset>
+        </div>
+        <!-- Delivery Information end -->
+
+        <!-- Special Instructions start -->
+        <div class="info">
+          <fieldset class="order_info fieldset">
+            <legend class="legend">Special Instructions</legend>
+            <div class="order_content">
+
+              <div>
+                <div align="left" style="width:25px;float:left; ;padding-top:4px;">
+
+                <!--  <input type="checkbox" name="has_special_decorations" id="has_special_decorations" <%= vars['has_special_decorations'] == "true"? "checked='checked'" : "" %>  disabled="disabled" /> -->
+
+
+                   <% if  vars['has_special_decorations'] == "true" %>
+<img src="/images/ui/forms/check_selected.jpg" border="0" />
+                <% else %>
+<img src="/images/ui/forms/un_check_selected.jpg" border="0" />
+                <%end%>
+
+
+
+                </div>
+
+
+
+               <div align="left" style="width:390px;float:left;">
+                  I would like special decorations on my original size cupcakes.<br />
+
+
+         <% if vars[:sp_dd] == "Holly-green leaf with red berries*"
+
+                   name = vars[:sp_dd].split("*")
+
+             @sp_dec = SpecialDecoration.find_by_name(name[0])
+             @sp_dec_value = @sp_dec.name + " [" + @sp_dec.group.capitalize + "]  "
+             %>
+                  <em><i>    <%= @sp_dec_value %></i></em><br>
+
+
+                  <%else%>
+
+
+
+
+
+
+                  <%                @sp_dec_value = ""
+                if vars[:has_special_decorations] == "true"
+        
+                    name = vars[:sp_dd].split("*")
+                    
+                    if name[0] != "Select"
+                        @sp_dec = SpecialDecoration.find_by_name(name[0])                            
+                        
+                        @sp_dec_value = @sp_dec.name + " [" + @sp_dec.group.capitalize + "] - " + ((vars[:clr_2] == "Select")? vars[:clr_1] : ("Base: " + vars[:clr_1] + ", Top: " + vars[:clr_2]))
+                    
+              %>
+            
+                  <em><i><%= @sp_dec_value %>
+
+
+
+                 <%= (vars[:number] != "Select")? ("<br>Number: " + vars[:number]) : "" %>
+             <%= (vars[:letter] != "Select")? ("<br>Letter: " + vars[:letter]) : "" %>
+                    </i></em> <br>
+                  <% end %>
+
+                  <% if vars[:sp_dec_notes] != nil && vars[:sp_dec_notes] != "" %>
+                  <p style="height:10px;">&nbsp;</p>
+                  <div>Special Decorations Notes:</div><em> <%= vars[:sp_dec_notes] %><br></em>
+                  <% end %>
+                  <% end %>
+                  <br>
+       <% end %>
+                </div>
+              </div>
+
+
+
+
+              
+              <!-- mini cupcake sp dec info start -->
+              <div>
+                <div align="left" style="width:25px;float:left; ;padding-top:4px;">
+
+                <!--  <input type="checkbox" name="has_special_decorations" id="has_special_decorations" <%= vars['has_special_decorations_mini'] == "true"? "checked='checked'" : "" %>  disabled="disabled" /> -->
+
+
+                   <% if  vars['has_special_decorations_mini'] == "true" %>
+<img src="/images/ui/forms/check_selected.jpg" border="0" />
+                <% else %>
+<img src="/images/ui/forms/un_check_selected.jpg" border="0" />
+                <%end%>
+                  
+                </div>
+                <div align="left" style="width:390px;float:left;">
+                  I would like special decorations on my mini cupcakes.<br />
+                  
+                  <%
+                @sp_dec_value = ""
+                if vars[:has_special_decorations_mini] == "true"
+        
+                    name = vars[:sp_dd_mini].split("*")
+                    
+                    if name[0] != "Select"
+                        @sp_dec = SpecialDecoration.find_by_name(name[0])                            
+                        
+                        @sp_dec_value = @sp_dec.name + " [" + @sp_dec.group.capitalize + "] - " + ((vars[:clr_2_mini] == "Select")? vars[:clr_1_mini] : ("Base: " + vars[:clr_1_mini] + ", Top: " + vars[:clr_2_mini]))
+                    
+              %>
+                  <em><i><%= @sp_dec_value %></i><%= (vars[:number_mini] != "Select")? ("<br>Number: " + vars[:number_mini]) : "" %><%= (vars[:letter_mini] != "Select")? ("<br>Letter: " + vars[:letter_mini]) : "" %></i></em> <br>
+                  <% end %>
+                  <% if vars[:sp_dec_notes_mini] != nil && vars[:sp_dec_notes_mini] != "" %>
+                  <p style="height:10px;">&nbsp;</p>
+                  <div>Special Decorations Notes:</div><em> <%= vars[:sp_dec_notes_mini] %><br></em>
+                  <% end %>
+                  <%
+
+                end
+              %>
+                  <br>
+                                  
+                </div>
+              </div>
+              <!-- mini cupcakes sp dec info end -->             
+              
+              <div style="float:left;">
+                <div align="left" style="width:25px; float:left;;padding-top:4px;">
+
+                <!--  <input type="checkbox" name="gift_msg" id="gift_msg" <%= vars['gift_msg'] != ""? "checked='checked'" : "" %>  disabled="disabled" /> -->
+
+
+                  <% if  vars['gift_msg'] != "" %>
+<img src="/images/ui/forms/check_selected.jpg" border="0" />
+                <% else %>
+<img src="/images/ui/forms/un_check_selected.jpg" border="0" />
+                <%end%>
+
+                </div>
+                <div align="left" style="width:390px;float:left;">
+                  I am ordering greeting cards/gift cards and I would like to include this personal message.
+                  <div style="clear:both;float:left;">
+                    <div align="left" style="width:25px; float:left;">
+
+                      &nbsp;
+                    </div>
+                    <div align="left" style="width:325px;float:left;">
+                      <% if vars['gift_msg'] != "" %>
+
+
+
+                        <em><%= vars['gift_msg'] %></em>
+
+
+                      <% end %>
+                    </div>
+                  </div>
+                </div>
+
+ <% if vars['candle_method'] != nil %>
+                <div align="left" style="width:25px; float:left;">
+
+                  &nbsp;
+                </div>
+
+                <div align="left" style="width:390px;float:left;">
+                <span class="order_content_bold"> I Would like My candles: </span>
+                  <div style="clear:both;float:left;">
+                    <div align="left" style="width:25px; float:left;">
+
+                      &nbsp;
+                    </div>
+                   
+                    <div align="left" style="width:325px;float:left;">
+                     
+
+
+
+                        <em> <%= vars['candle_method'] %></em>
+
+
+                     
+                    </div>
+                  </div>
+                </div>
+
+ <% end %>
+
+                
+              </div>
+
+            </div>
+          </fieldset>
+        </div>
+        <!-- Special Instructions end -->
+
+        <!-- Special Instructions start -->
+        <div class="info">
+          <fieldset class="order_info fieldset">
+            <legend class="legend">Packaging Options</legend>
+            <div class="order_content">
+              <table width="425" border="0" cellspacing="0" cellpadding="0">
+                <tr>
+                  <td width="36" valign="top">
+
+                    
+                  </td>
+                  <td width="389" valign="top">
+
+                    <% if is_bluebox =='packed_in_standard_backary_box' %>
+                      Boxed in CRAVE standard bakery box(es).
+                    <% end %>
+                      
+                    <% if is_bluebox =='packed_in_blue_box' %>
+                      Boxed in CRAVE Blue Gift Box(es).<br>(Additional $<%= ["%.2f" % giftbox_price]  %>/box)
+                    <% end %>
+
+                    <% if is_bluebox =='packed_in_individual_box' %>
+                      Boxed in individual CRAVE gift box(es).<br>(Additional $<%= ["%.2f" % induvidual_price] %> fee/box)
+                    <% end %>
+
+                      </br></br>
+
+
+              <div  class="field-wrap" > 
+
+                   <%  if params[:labeled_cups]=="yes" %>
+                 I would you like your cupcakes individually labeled.
+                 <% else %>
+                   <% end %>
+              </div>
+
+                     <input type="hidden" name="sp_dd" value="<%= params[:sp_dd] %>" />
+                     <input type="hidden" name="labeled_cups" value="<%= params[:labeled_cups] %>" />
+                  </td>
+                </tr>
+                <tr>
+                  <td height="10" colspan="2"></td>
+                </tr>
+
+
+
+                
+              </table>
+            </div>
+          </fieldset>
+        </div>
+        
+        <div class="info">
+          <fieldset class="order_info fieldset">
+            <legend class="legend">Item Information</legend>
+            <div class="order_content">
+              <table width="425" border="0" cellspacing="0" cellpadding="0">
+                <tr>
+                  <td width="255">&nbsp;</td>
+                  <td width="66" align="left"><div align="right"><span class="order_content_bold">Qty.</span></div></td>
+                  <td width="104" align="right"><div align="right"><span class="order_content_bold">Amount</span></div></td>
+                </tr>
+
+                <tr>
+                  <td height="10" colspan="3"></td>
+                </tr>
+                <% if vars['specials'] !=  nil %>
+                  <tr>
+                    <td height="25" colspan="3"><span class="order_content_bold">CRAVE Seasonal and Favorite Boxes</span></td>
+                  </tr>
+                <% end %>
+                <%
+                has_specials = false;
+
+                product_wise_total = 0.0
+                totseasonal=0
+
+                seasonal_packaging_total_qty = 0
+                seasonal_packaging_tax = 0
+
+                if vars['specials'] !=  nil
+
+                  for one_of_spc in vars['specials']
+
+                  %>
+                    <% if one_of_spc[1].to_i != 0 %>
+                      <tr>
+
+                        <% sp_cake = Special.find(:first, :conditions => ["id = ?", one_of_spc[0]]) %>
+		<td>
+			<%= sp_cake.title %>
+			<% if session[:user_id] %><br/><small style="font-size:8pt;"><%= sp_cake.description %></small><% end %>
+		</td>
+                        <td align="left"><div align="right"><%= one_of_spc[1] %>&nbsp;&nbsp;</div></td>
+
+                        <%
+
+                        sp_cupcakes = SpecialCupcake.find(:all, :conditions => ["special_id = ?", sp_cake.id])
+                        total_cups = 0
+                        for one_of_cup in sp_cupcakes
+                            total_cups += one_of_cup.qty.to_i
+                        end
+
+                        sub_total = 0.0
+                        sub_total = (one_of_spc[1].to_i) * sp_cake.price
+                        sub_totseasonal= (one_of_spc[1].to_i) * total_cups
+                        product_wise_total += sub_total
+                        totseasonal += sub_totseasonal
+                        has_specials = true;
+
+                        if sp_cake.incl_gif_box == true
+                            seasonal_packaging_total_qty += one_of_spc[1].to_i
+                        end
+
+                      %>
+                        <td align="right"><div align="right">$<%= ["%.2f" % sub_total] %></div></td>
+                      </tr>
+                    <% end %>
+                  <% end %>
+                      <% if vars['no_of_orders_sp_cake'].to_i > 0 %>
+                      <tr><td colspan="3">&nbsp;</td></tr>
+                      <tr>
+                        <td>Number of cupcakes in seasonal boxes:</td><td><div align="right"><%= vars['no_of_orders_sp_cake'] %>&nbsp;&nbsp;</div></td><td></td>
+                      </tr>
+                      <% end %>
+                     
+
+                   <% if seasonal_packaging_total_qty != 0 %>
+                    <%
+
+                    seasonal_giftbox1  = Configuration.find_by_name('packaging_gift_box_cost')
+                   if seasonal_giftbox1 !=nil
+                    seasonal_giftbox = seasonal_giftbox1.value.to_f
+                   else
+                    seasonal_giftbox = 0.0
+                    end
+
+                    
+
+                      #seasonal_giftbox = Price.find_by_title('packaging_gift_box_cost').price
+                      tax_rate = (Configuration.find_by_name("tax_rate")).value
+
+                      seasonal_packaging_tax = (seasonal_giftbox * seasonal_packaging_total_qty * tax_rate.to_f)/100
+                      seasonal_packaging_tax = (seasonal_packaging_tax * 100).round / 100.0
+                    %>
+                    <tr><td colspan="3">&nbsp;</td></tr>
+                    <tr>
+                      <td>Sales Tax - Packaging Only (<%= ["%.2f" % tax_rate] %>%) </td>
+                      <td align="left">&nbsp;</td>
+                      <td align="right">
+                        <div align="right">$<%= ["%.2f" % seasonal_packaging_tax] %></div>
+                        <input type="hidden" name="sales_tax_seasonal_packaging" value="<%= ["%.2f" % seasonal_packaging_tax] %>">
+                      </td>
+                    </tr>
+                <% end %>
+
+                  <%if has_specials == false %>
+                    <tr><td colspan="3">- No -</td></tr>
+                  <% end %>
+
+
+
+                  <tr>
+                    <td colspan="3"><div class="order_content_seperater"><img src="images/seperater.gif" /></div></td>
+                  </tr>
+                  <!-- end of showing Specials -->
+                <% end %>
+                <!--  Start of showing how Cupcakes  -->
+                <tr>
+                  <td height="25" colspan="3"><span class="order_content_bold">Original Size Cupcakes</span></td>
+                </tr>
+
+                <%
+                has_cupcakes = false;
+                cupcakes = vars['cupcakes']
+
+                for order in vars['cc_display_order'].sort
+                  if cupcakes[order[1]].to_i != 0
+                  %>
+                    <tr>
+                      <% c_cake = Cupcake.find(:first, :conditions => ["id = ?", order[1]]) %>
+                      <td><%= c_cake.title %><%= c_cake.is_breakfast == true ? " (Breakfast)" : ""  %></td>
+                      <td align="left"><div align="right"><%= cupcakes[order[1]] %>&nbsp;&nbsp;</div></td>
+                      <%
+                      c_price = c_cake.is_breakfast ? breakfast : single
+
+                      sub_total = (cupcakes[order[1]].to_i)*c_price
+                      product_wise_total += sub_total
+                      has_cupcakes = true;
+                    %>
+                      <td align="right"><div align="right">$<%= ["%.2f" % sub_total] %></div></td>
+                    </tr>
+                  <%
+                  end
+                end
+              %>
+                <% if has_cupcakes == true %>
+                    <tr><td>&nbsp;</td></tr>
+                    <tr>
+                      <td>Number of itemized original size cupcakes</td>
+                      <td align="left"><div align="right"><%=(count_breakfast + count_cupcakes ) %>&nbsp;&nbsp;</div></td>
+                      <td align="right"><div align="right">&nbsp;</div></td>
+                    </tr>
+                <% end %>
+
+                <%if has_cupcakes == false %>
+                  <tr><td colspan="3">- No -</td></tr>
+                <% end %>           
+
+                <!-- mini cupcakes start -->                
+                <%                
+             count_of_mini_cupcakes = 0                
+              if vars[:mini_cupcakes] !=  nil     
+                %>                
+                <tr>
+                    <td colspan="3"><div class="order_content_seperater"><img src="images/seperater.gif" /></div></td>
+                  </tr>               
+                <tr>
+                  <td height="25" colspan="3"><span class="order_content_bold">Mini Cupcakes</span></td>
+                </tr>
+                <%
+             
+                
+                has_mini_cupcakes = false
+                mini_cupcakes = vars['mini_cupcakes']
+                
+   
+                for order in vars['mini_cc_display_order'].sort
+                  if mini_cupcakes[order[1]].to_i != 0
+                  %>
+                    <tr>
+                      <% c_cake = MiniCupcake.find(:first, :conditions => ["id = ?", order[1]]) %>
+                      <td><b>Mini:</b> <%= c_cake.title %></td>
+                      <td align="left"><div align="right"><%= mini_cupcakes[order[1]] %>&nbsp;&nbsp;</div></td>
+                      <%
+                      sub_total = ((mini_cupcakes[order[1]].to_i)/24) * mini_dozen
+                      count_of_mini_cupcakes += mini_cupcakes[order[1]].to_i
+                      product_wise_total += sub_total
+                      has_mini_cupcakes = true
+                    %>
+                      <td align="right"><div align="right">$<%= ["%.2f" % sub_total] %></div></td>
+                    </tr>
+                  <%
+                  end
+                end
+              %>
+                <% if has_mini_cupcakes == true %>
+                    <tr><td>&nbsp;</td></tr>
+                    <tr>
+                      <td>Number of itemized mini cupcakes</td>
+                      <td align="left"><div align="right"><%= count_of_mini_cupcakes %>&nbsp;&nbsp;</div></td>
+                      <td align="right"><div align="right">&nbsp;</div></td>
+                    </tr>
+                <% end %>
+
+                <%if has_mini_cupcakes == false %>
+                  <tr><td colspan="3">- No -</td></tr>
+                <% end %>  
+                <tr>
+                    <td colspan="3"><div class="order_content_seperater"><img src="images/seperater.gif" /></div></td>
+                  </tr>       
+            <% end %>
+                <!-- mini cupcakes end -->
+                  
+                <% if has_cupcakes == true || vars['no_of_orders_sp_cake'].to_i > 0 || count_of_mini_cupcakes > 0 %>                  
+                  <tr>
+                    <td>Total number of cupcakes in your order</td>
+                    <td align="left"><div align="right"><%=  (vars['no_of_orders_sp_cake'].to_i + count_breakfast + count_cupcakes + count_of_mini_cupcakes ) %>&nbsp;&nbsp;</div></td>
+                    <td align="right"><div align="right">&nbsp;</div> <input type="hidden" name="no_of_cupcake" value="<%=(count_breakfast + count_cupcakes + totseasonal + (count_of_mini_cupcakes) ) %>"></td>
+                  </tr>
+                <% end %>
+                <!-- packaging fees display start -->
+
+               <%
+                 packaging_tax = 0
+                 pakaging_fee = 0.0
+                 patial_pack_free = 0.0
+                 patial_pack_box_free = 0.0
+
+                if is_bluebox =='packed_in_blue_box'
+                  pakaging_fee = ( boxes * giftbox_price )
+                end
+
+                #if is_bluebox == 'packed_in_standard_box'
+                #  pakaging_fee += ( boxes * ribbon_price )
+                #end
+
+                if is_bluebox == 'packed_in_individual_box'
+                  pakaging_fee += (totcupcakes * induvidual_price )
+                end
+
+                #if is_bluebox == 'portion_of_my_order'
+                #  pakaging_fee += (patial_induvidual * induvidual_price )
+                # patial_pack_free = (patial_induvidual * induvidual_price )
+
+                #  if potion_box == 'Crave_Blue_Gift_Box'
+                #    pakaging_fee += ( partial_boxes * giftbox_price )
+                #    patial_pack_box_free = ( partial_boxes * giftbox_price )
+                #  end
+                #  if potion_box == 'white_gift_box_with_ribbon'
+                #    pakaging_fee += ( partial_boxes * ribbon_price )
+                #    patial_pack_box_free = ( partial_boxes * ribbon_price )
+                #  end
+
+                #end
+              %>
+
+                <tr>
+                  <td>
+                 <input type="hidden" name="patial_pack_free" value="<%= ["%.2f" % patial_pack_free] %>">
+                  <input type="hidden" name="patial_pack_box_free" value="<%= ["%.2f" % patial_pack_box_free] %>">
+                  </td>
+                  </tr>
+                
+                <% if is_bluebox =='packed_in_blue_box' || is_bluebox == "packed_in_individual_box" %>
+                <tr><td>&nbsp;</td></tr>
+                  <tr>
+                    <td height="25" colspan="3"><span class="order_content_bold">Packaging Fees</span></td>
+                  </tr>
+                  <% if is_bluebox =='packed_in_blue_box' %>
+                    <tr><td>Blue Crave Gift Box</td><td align="right"><div align="right"><%= boxes %>&nbsp;&nbsp;</div></td><td align="right"><div align="right"><%= number_to_currency( boxes * giftbox_price ) %></div></td></tr>
+                  <% end %>                  
+
+                  <% if is_bluebox == "packed_in_individual_box" %>
+                    <tr><td>Individual cupcake boxes</td><td align="right"><div align="right"><%= totcupcakes %>&nbsp;&nbsp;</div></td><td align="right"><div align="right"><%= number_to_currency( totcupcakes * induvidual_price ) %></div></td></tr>
+                  <% end %>                 
+
+                <% end %>
+                
+                <% if pakaging_fee != 0 %>
+                  <%
+                    tax_rate = (Configuration.find_by_name("tax_rate")).value
+                    packaging_tax = (["%.2f" % pakaging_fee][0].to_f * tax_rate.to_f)/100
+                    packaging_tax = (packaging_tax * 100).round / 100.0
+                  %>
+                  <tr><td colspan="3">&nbsp;</td></tr>
+                  <tr>
+                    <td>Sales Tax - Packaging Only (<%= ["%.2f" % tax_rate] %>%) </td>
+                    <td align="left">&nbsp;</td>
+                    <td align="right">
+                      <div align="right">$<%= ["%.2f" % packaging_tax] %></div>
+                      <input type="hidden" name="sales_tax_packaging" value="<%= ["%.2f" % packaging_tax] %>">
+                    </td>
+                  </tr>
+                <% end %>
+                  
+                <!-- packaging fees display end -->
+
+                <!-- End of showing Cupcakes -->
+
+                <!-- Show Other products if Exists -->
+
+                <tr>
+                  <td colspan="3"><div class="order_content_seperater"><img src="images/seperater.gif" /></div></td>
+                </tr>
+                <tr>
+                  <td><span class="order_content_bold">Merchandise</span></td>
+                  <td align="left">&nbsp;</td>
+                  <td align="right">&nbsp;</td>
+                </tr>
+                <%
+                products = vars['products']
+                has_products = false
+
+                other_product_total = 0
+                other_product_total_for_tax = 0
+                tax_amount = 0
+
+                for pro_order in vars['pro_display_order'].sort	#("sort")
+                  if products[pro_order[1]].to_i != 0
+                  %>
+                    <tr>
+                      <% product = Product.find(:first, :conditions => ["id = ?", pro_order[1]]) %>
+                      <td><%= product.title %></td>
+
+                      <td align="left"><div align="right"><%= products[pro_order[1]] %>&nbsp;&nbsp;</div></td>
+                      <%
+                      sub_total = 0.0
+                      sub_total = (products[pro_order[1]].to_i)*(product.price)
+                      product_wise_total += sub_total
+
+                      other_product_total += sub_total
+
+                      if product.exclude_tax != true
+                        other_product_total_for_tax += sub_total
+                      end
+
+                      has_products = true
+                    %>
+                      <td align="right"><div align="right">$<%= ["%.2f" % sub_total] %></div></td>
+                    </tr>
+                  <% end %>
+                <%
+
+                end
+
+              %>
+
+                <% if has_products == true %>
+                    <tr><td colspan="3">&nbsp;</td></tr>
+                    <tr>
+                      <td>Merchandise Total</td>
+                      <td align="left">&nbsp;</td>
+                      <td align="right"><div align="right">$<%= ["%.2f" % other_product_total] %></div></td>
+                    </tr>
+
+                    <%
+                    tax_rate = (Configuration.find_by_name("tax_rate")).value
+
+                    tax_amount = (["%.2f" % other_product_total_for_tax][0].to_f * tax_rate.to_f)/100
+                    #tax_amount = ["%.2f" % tax_amount][0].to_f
+                    tax_amount = (tax_amount * 100).round / 100.0
+                    %>
+                    <% if tax_amount > 0 %>
+                    <tr>
+                      <td>Sales Tax - Merchandise Only (<%= ["%.2f" % tax_rate] %>%) </td>
+                      <td align="left">&nbsp;</td>
+                      <td align="right">
+                        <div align="right">$<%= ["%.2f" % tax_amount] %></div>
+                        <input type="hidden" name="sales_tax" value="<%= ["%.2f" % tax_amount] %>">                        
+                      </td>
+                    </tr>
+                    <% else %>
+                    <input type="hidden" name="sales_tax" value="0">
+                    <% end %>
+               <% end %>
+
+                <%if has_products == false %>
+                  <tr><td colspan="3">- No -</td></tr>
+                <% end %>
+                <!-- end of showing Other products -->
+                <tr>
+                  <td colspan="3"><div class="order_content_seperater"><img src="images/seperater.gif" /></div></td>
+                </tr>
+               
+                <tr>
+                  <td>Sub Total</td>
+                  <td align="left">&nbsp;</td>
+                  <td align="right"><div align="right">$<%= ["%.2f" % (product_wise_total + pakaging_fee + tax_amount + packaging_tax + seasonal_packaging_tax)] %></div></td>
+                </tr>
+                <tr><td colspan="3">&nbsp;</td></tr>
+                <%
+                    discount = ((product_wise_total + pakaging_fee) - pretotal)
+                %>
+                <% if discount != 0 && session[:user_name]!=nil %>
+                  <tr>
+                    <td>Discount</td>
+                    <td align="left">&nbsp;</td>
+                    <td align="right">
+                      <div align="right">- $<%= ["%.2f" % discount] %></div>                                            
+                    </td>
+                  </tr>
+                <% end %>
+
+                <% if discount != 0 %>
+                      <input type="hidden" name="order_discount" value="<%= ["%.2f" % discount] %>">
+                <% end %>
+                
+                <input type="hidden" name="order_gross_tot" value="<%= ["%.2f" % (product_wise_total - discount + pakaging_fee + tax_amount + packaging_tax + seasonal_packaging_tax)] %>">
+                <input type="hidden" name="order_pack_fee" value="<%= ["%.2f" % pakaging_fee] %>">
+                      <input type="hidden" name="order_sub_tot" value="<%= ["%.2f" % (product_wise_total + pakaging_fee + tax_amount + packaging_tax + seasonal_packaging_tax)] %>">
+               <!--
+               <tr>
+                  <td colspan="3"><div class="order_content_seperater"><img src="images/seperater.gif" /></div></td>
+                </tr>
+               -->
+                <!--
+                 <tr>
+                   <td>Pakaging Fee</td>
+                     <td align="left">&nbsp;</td>
+                     <td align="right"><div align="right">$<%= ["%.2f" % pakaging_fee] %></div></td>
+                 </tr>
+                -->
+                <% if @deli_fee!= 0.00 %>
+                <tr>
+                  <td>Delivery Fee</td>
+                  <td align="left">&nbsp;</td>
+                  <td align="right">
+                    <div align="right">$<%= ["%.2f" % @deli_fee] %></div>
+                    <input type="hidden" name="order_shipping" value="<%= ["%.2f" % @deli_fee] %>">
+                  </td>
+                </tr>                
+                <%end%>
+                
+                <% if(session[:user_name]!=nil && weekendsurcharge!=0.00) %>
+                <tr>
+                  <td>Weekend Delivery Surcharge</td>
+                  <td align="left">&nbsp;</td>
+                  <td align="right">
+                    <div align="right">$<%= ["%.2f" % weekendsurcharge] %></div>
+                    <input type="hidden" name="order_weekend" value="<%= ["%.2f" % weekendsurcharge] %>">
+                  </td>
+                </tr>
+                
+                <% end %>
+
+
+                <% if(session[:user_name]!=nil && (vars['oversize_order_surcharge'] != "" && vars['oversize_order_surcharge'].to_f != 0)) %>
+                  <tr>
+                    <td>Oversize&nbsp;Order&nbsp;Surcharge&nbsp;&nbsp;</td>
+                    <td align="left">&nbsp;</td>
+                    <td align="right">
+                      <div align="right">$<%= ["%.2f" % vars['oversize_order_surcharge']] %></div>
+                    </td>
+                  </tr>
+                <% end %>
+
+                <tr>
+                  <td colspan="3"><div class="order_content_seperater"><img src="images/seperater.gif" /></div></td>
+                </tr>
+                <tr>
+                  <td><strong>Total</strong></td>
+                  <td align="left">&nbsp;</td>
+                  <td><div align="right">
+                       <% if(session[:user_name]!=nil) %>
+                      <strong>
+                        $<%= ["%.2f" % (pretotal + @deli_fee + weekendsurcharge + tax_amount + packaging_tax + seasonal_packaging_tax + vars['oversize_order_surcharge'].to_f)] %>
+                      </strong>
+                      <% else %>
+                      <strong>
+                        $<%= ["%.2f" % (pretotal + @deli_fee + tax_amount + packaging_tax + seasonal_packaging_tax)] %>
+                      </strong>
+                      <% end %>
+                    </div>
+                     <% if(session[:user_name]!=nil) %>
+                        <input type="hidden" name="order_total" value="<%= ["%.2f" % (pretotal + @deli_fee + weekendsurcharge + tax_amount + packaging_tax + seasonal_packaging_tax + vars['oversize_order_surcharge'].to_f)] %>">
+                        <% session[:final_order_total] = ["%.2f" % (pretotal + @deli_fee + weekendsurcharge + tax_amount + packaging_tax + seasonal_packaging_tax + vars['oversize_order_surcharge'].to_f)] %>
+                    <% else %>
+                        <input type="hidden" name="order_total" value="<%= ["%.2f" % (pretotal + @deli_fee + tax_amount + packaging_tax + seasonal_packaging_tax)] %>">
+                        <% session[:final_order_total] = ["%.2f" % (pretotal + @deli_fee + tax_amount + packaging_tax + seasonal_packaging_tax)] %>
+                    <% end %>
+                  </td>
+                </tr>
+                <tr>
+                  <td colspan="3"></td>
+                </tr>
+              </table>
+            </div>
+          </fieldset>
+        </div>
+        <!-- Item Information end -->
+
+      </div>
+      <div class="main_container_right" style="margin-top:50px;">
+
+        <!-- Recipient Information start -->
+        <div class="info">
+          <fieldset class="order_info fieldset">
+            <legend class="legend">Recipient Information</legend>
+            <div class="order_content">
+              <% if vars['shipto_first_name'] != nil %>
+                <table width="425" border="0" cellspacing="0" cellpadding="0">
+                  <tr>
+                    <td width="155" valign="top"><span class="order_content_bold"><%= vars['shipto_is_business'] != nil ? "Business Address" : "Address" %></span></td>
+                    <td width="270" valign="top">
+                      <% if vars['shipto_is_business'] != nil %>
+                        <%= vars['shipto_business'] %><br>
+                        <input type="hidden" name="shipto_is_business" value="<%= vars['shipto_is_business'] %>">
+                        <input type="hidden" name="shipto_business" value="<%= vars['shipto_business'] %>">
+
+                      <% end %>
+                      <%= vars['shipto_first_name'] %> <%= vars['shipto_last_name'] %><br />
+                      <%= vars['shipto_address_1'] %>,<br />
+                    <%= vars['shipto_address_3'] %> <%= vars['shipto_zip'] %></td>
+                  </tr>
+                  <tr>
+                    <td height="10" colspan="2"></td>
+                  </tr>
+                  <tr>
+                    <td><span class="order_content_bold">Phone</span></td>
+                    <td><%= vars['shipto_phone'] != "" ? vars['shipto_phone'] : "N/A" %></td>
+                  </tr>
+                </table>
+              <% else %>
+                <%= "- N/A -" %>
+              <% end %>
+            </div>
+          </fieldset>
+        </div>
+        <!-- Recipient Information end -->
+
+        <!-- Your Information start -->
+        <div class="info">
+          <fieldset class="order_info fieldset">
+            <legend class="legend">Your Information</legend>
+            <div class="order_content">
+              <table width="425" border="0" cellspacing="0" cellpadding="0">
+                <tr>
+                  <td width="155"><span class="order_content_bold">Name</span></td>
+                  <td width="270"><%= vars['first_name'] %> <%= vars['last_name'] %></td>
+                </tr>
+                <tr>
+                  <td height="10" colspan="2"></td>
+                </tr>
+                <tr>
+                  <td><span class="order_content_bold">Email Address</span></td>
+                  <td>
+                    <%= vars['email'] %>
+                    <input type="hidden" name="email" value="<%= vars['email'] %>">
+                  </td>
+                </tr>
+                <tr>
+                  <td height="10" colspan="2"></td>
+                </tr>
+                <tr>
+                  <td><span class="order_content_bold">Phone</span></td>
+                  <td><%= vars['primary_phone'] %></td>
+                </tr>
+                <tr>
+                  <td height="10" colspan="2"></td>
+                </tr>
+                <tr>
+                  <td><span class="order_content_bold">Alternate Phone</span></td>
+                  <td><%= vars['alt_phone'] != "" ? vars['alt_phone'] : "N/A" %></td>
+                </tr>
+                <tr>
+                  <td height="10" colspan="2"></td>
+                </tr>
+                <tr>
+                  <td colspan="2">
+                    <div style="float:left; width:20px; padding-top:2px;">
+                        <% if  vars['promotional'] == "true" %>
+                            <img src="/images/ui/forms/check_selected.jpg" border="0" />
+                        <% else %>
+                            <img src="/images/ui/forms/un_check_selected.jpg" border="0" />
+                        <%end%>
+                    </div>
+                    <span style="line-height: 18px;">
+                        Receive promotional email from Crave Cupcakes.<br />
+                        <span style="font-size:10px; padding-left:20px; *padding-left:0px;">(We will never share your email address with third parties.)</span>
+                    </span>                   
+                    <input type="hidden" name="promotional" value="<%= (vars['promotional'] == "true")? "true" : "false" %>">
+                  </td>
+                </tr>
+                
+
+              </table>
+            </div>
+          </fieldset>
+        </div>
+        <!-- Your Information end -->
+
+        <!-- Payment Details start -->
+        <%if session[:user_name]==nil %>
+          <div class="info">
+            <fieldset class="order_info fieldset">
+              <legend class="legend">Payment Information</legend>
+              <div class="order_content">
+                <table width="425" border="0" cellspacing="0" cellpadding="0">
+                  <tr>
+                    <td><span class="order_content_bold">Credit Card Type</span></td>
+                    <td><%= vars['cc_type'] %></td>
+                  </tr>
+                  <tr>
+                    <td colspan="2" height="10"></td>
+                  </tr>
+                  <tr>
+                    <td width="155"><span class="order_content_bold">Credit Card</span></td>
+                    <td width="270"><%= vars['ccn'] %><br></td>
+                  </tr>
+                  <tr>
+                    <td height="10" colspan="2"></td>
+                  </tr>
+
+                  <tr>
+                    <td><span class="order_content_bold">Expiration</span></td>
+                    <td><%= vars['exp_month'].to_s + " - " +  vars['exp_year'] %></td>
+                  </tr>
+                  <tr>
+                    <td height="10" colspan="2"></td>
+                  </tr>
+                  <tr>
+                    <td valign="top"><span class="order_content_bold">Billing Address</span></td>
+                    <td valign="top">
+                      <%= vars['b_fname'] %> <%= vars['b_lname'] %><br />
+                      <%= vars['b_adrs'] %>,<br />
+                      <%= vars['b_city'] %>, <%= vars['b_state'] %> <%= vars['b_zip'] %>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td height="10" colspan="2"></td>
+                  </tr>
+                  
+                </table>
+              </div>
+            </fieldset>
+          </div>
+
+        <% else %>
+
+
+          <div class="info">
+            <% admin_name = Owner .find(:first, :conditions =>["username = ? ", vars['admin_name']])
+              if vars['payment_type']=='prepaid_creditcard'
+                  @payment_method='Pre-paid with a credit card'
+              elsif vars['payment_type']=='prepaid_cash'
+                  @payment_method='Pre-paid in cash'
+              elsif vars['payment_type']=='payment_on_delivery'
+                  @payment_method='Payment on delivery'
+              elsif vars['payment_type']=='Pay_with_a_credit_card'
+                  @payment_method='Pay with a credit card'
+              elsif vars['payment_type']=='Pay_with_a_CRAVE_gift_card'
+                  @payment_method='Pay with a CRAVE gift card'
+              elsif vars['payment_type']=='emp_payment_at_pos'
+                  @payment_method='Employee Payment at POS'
+              else
+                  @payment_method='COMP (no charge)'
+              end
+          %>
+            <% if vars['other_notes'] != "" %>
+                  <fieldset class="order_info fieldset">
+                    <legend class="legend">Other Order Notes</legend>
+                     <div class="order_content">
+                        <%= vars['other_notes'] %>
+                     </div>
+                  </fieldset>                    
+             <% end %>
+
+            <fieldset class="order_info fieldset">
+              <legend class="legend">Payment Information</legend>
+              <div class="order_content">
+                <table width="425" border="0" cellspacing="0" cellpadding="0">
+                  <tr>
+                    <td><span class="order_content_bold">Payment Type</span></td>
+                    <td><%=  @payment_method %></td>
+                  </tr>
+                  <tr>
+                    <td colspan="2" height="10"></td>
+                  </tr>
+                  <tr>
+                    <td width="175"><span class="order_content_bold">Customer representative</span></td>
+                    <td width="250"><%= admin_name.first_name%> <%= admin_name.last_name%><br></td>
+                  </tr>
+                  <tr>
+                    <td height="10" colspan="2"></td>
+                  </tr>                  
+<% if vars['ccn']!='' && vars['ccv']!='' %>
+                  <tr>
+                    <td><span class="order_content_bold">Credit Card Type</span></td>
+                    <td><%= vars['cc_type'] %></td>
+                  </tr>
+                  <tr>
+                    <td colspan="2" height="10"></td>
+                  </tr>
+                  <tr>
+                    <td width="155"><span class="order_content_bold">Credit Card</span></td>
+                    <td width="270"><%= vars['ccn'] %><br></td>
+                  </tr>
+                  <tr>
+                    <td height="10" colspan="2"></td>
+                  </tr>
+
+                  <tr>
+                    <td><span class="order_content_bold">Expiration</span></td>
+                    <td><%= vars['exp_month'] %> - <%= vars['exp_year'] %></td>
+                  </tr>
+                  <tr>
+                    <td height="10" colspan="2"></td>
+                  </tr>
+                  <tr>
+                    <td valign="top"><span class="order_content_bold">Billing Address</span></td>
+                    <td valign="top">
+                      <%= vars['b_fname'] %> <%= vars['b_lname'] %><br />
+                      <%= vars['b_adrs'] %>,<br />
+                      <%= vars['b_city'] %>, <%= vars['b_state'] %> <%= vars['b_zip'] %>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td height="10" colspan="2"></td>
+                  </tr>
+                  <!--
+                  <tr>
+                    <td><span class="order_content_bold">Email</span></td>
+                    <td><%= vars['b_email'] %></td>
+                  </tr>
+                  <tr>
+                    <td height="10" colspan="2"></td>
+                  </tr>
+                  <tr>
+                    <td><span class="order_content_bold">Phone</span></td>
+                    <td><%= vars['b_phone'] %></td>
+                  </tr>
+                  -->
+                  <% end %>
+
+                </table>
+              </div>
+            </fieldset>
+          </div>
+<!--
+          <div class="info">
+            <fieldset class="order_info fieldset">
+              <legend class="legend">Order Checking</legend>
+              <div class="order_content">
+                <table width="425" border="0" cellspacing="0" cellpadding="0">
+                  <tr>
+                    <td colspan="2" height="10"></td>
+                  </tr>
+                  <tr>
+                    <td><span class="order_content_bold">Order completed and Packaged by:</span></td>
+                    <td>...............................................</td>
+                  </tr>
+
+
+
+
+                </table>
+              </div>
+            </fieldset>
+          </div>
+-->
+
+
+        <% end %>
+        <!-- Payment Details end -->
+
+      </div>
+
+      <script type="text/javascript">
+
+         var com = document.forms[0];
+         com.onsubmit = function()
+          {
+            if(document.getElementById("order_review").value == "true"){
+              document.getElementById("btn_submit_div").innerHTML = "<img src='images/btn_submit_disable.jpg' />";
+            }
+          }
+     </script>
+
+<img style="display:none;" src='images/btn_submit_disable.jpg' />
+      <input type="hidden" name="order_review" id="order_review" value="false">
+
+      <div style="width:934px; float:left;">
+        <span class="order_content_bold" style="float:right;"><br>Your credit card will be charged when you click SUBMIT ORDER.</span>
+      </div>
+      <div class="btn_bar">
+        <div class="btn_submit" id="btn_submit_div"><input onclick="document.getElementById('order_review').value = 'true';" type="image" src="images/btn_submit.jpg" value="true" alt="Submit Order" title="Submit Order" name="submit_order" id="submit_order"  onmouseout="MM_swapImgRestore()" onmouseover="MM_swapImage('submit_order','','images/btn_submit_over.jpg',1)" /></div>
+        <!--<div class="btn_submit"><a href="" onmouseout="MM_swapImgRestore()" onmouseover="MM_swapImage('Image5','','images/btn_submit_over.jpg',1)"><img src="images/btn_submit.jpg" name="Image5" width="173" height="38" border="0" id="Image5" /></a></div>-->
+        <div class="btn_edit"><input onclick="document.getElementById('order_review').value = 'false';" type="image"  onmouseout="MM_swapImgRestore()" onmouseover="MM_swapImage('Image6','','images/btn_edit_over.jpg',1)" src="images/btn_edit.jpg" name="edit" id="Image6" /></div>
+
+        <%if session[:user_name] %>
+
+          <div id="backtoadmin" style="float:right;margin:0 0 0 0; width:200px; height:20px ; position:relative; padding-top:16px;">
+            <a href="/login" id="backtoadmin">Back to Admin</a>
+          </div>
+        <% end %>
+      </div>
+    </div>
+    <!-- main container end -->
+    <input type="hidden" name="tax_rate" value="<%= ["%.2f" % (Configuration.find_by_name("tax_rate")).value] %>">
+  </div>
+<% end %>
+

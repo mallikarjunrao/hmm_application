@@ -1,0 +1,2051 @@
+<% @page_title = "Place your order with "
+@body_id = "order"
+@form_styles = %q{
+<link type="text/css" rel="stylesheet" href="styles/forms.css?d=20090605" media="screen, print" />
+<link type="text/css" rel="stylesheet" href="styles/jquery-ui-1.7.1.custom.css?d=20090605" media="screen" />
+}
+%>
+
+<!--<script type="text/javascript" src="/javascripts/jquery-ui-1.7.1.custom.min.js"></script>  -->
+
+<script type="text/javascript">
+  jQuery.ui||(function(c){var i=c.fn.remove,d=c.browser.mozilla&&(parseFloat(c.browser.version)<1.9);c.ui={version:"1.7.1",plugin:{add:function(k,l,n){var m=c.ui[k].prototype;for(var j in n){m.plugins[j]=m.plugins[j]||[];m.plugins[j].push([l,n[j]])}},call:function(j,l,k){var n=j.plugins[l];if(!n||!j.element[0].parentNode){return}for(var m=0;m<n.length;m++){if(j.options[n[m][0]]){n[m][1].apply(j.element,k)}}}},contains:function(k,j){return document.compareDocumentPosition?k.compareDocumentPosition(j)&16:k!==j&&k.contains(j)},hasScroll:function(m,k){if(c(m).css("overflow")=="hidden"){return false}var j=(k&&k=="left")?"scrollLeft":"scrollTop",l=false;if(m[j]>0){return true}m[j]=1;l=(m[j]>0);m[j]=0;return l},isOverAxis:function(k,j,l){return(k>j)&&(k<(j+l))},isOver:function(o,k,n,m,j,l){return c.ui.isOverAxis(o,n,j)&&c.ui.isOverAxis(k,m,l)},keyCode:{BACKSPACE:8,CAPS_LOCK:20,COMMA:188,CONTROL:17,DELETE:46,DOWN:40,END:35,ENTER:13,ESCAPE:27,HOME:36,INSERT:45,LEFT:37,NUMPAD_ADD:107,NUMPAD_DECIMAL:110,NUMPAD_DIVIDE:111,NUMPAD_ENTER:108,NUMPAD_MULTIPLY:106,NUMPAD_SUBTRACT:109,PAGE_DOWN:34,PAGE_UP:33,PERIOD:190,RIGHT:39,SHIFT:16,SPACE:32,TAB:9,UP:38}};if(d){var f=c.attr,e=c.fn.removeAttr,h="http://www.w3.org/2005/07/aaa",a=/^aria-/,b=/^wairole:/;c.attr=function(k,j,l){var m=l!==undefined;return(j=="role"?(m?f.call(this,k,j,"wairole:"+l):(f.apply(this,arguments)||"").replace(b,"")):(a.test(j)?(m?k.setAttributeNS(h,j.replace(a,"aaa:"),l):f.call(this,k,j.replace(a,"aaa:"))):f.apply(this,arguments)))};c.fn.removeAttr=function(j){return(a.test(j)?this.each(function(){this.removeAttributeNS(h,j.replace(a,""))}):e.call(this,j))}}c.fn.extend({remove:function(){c("*",this).add(this).each(function(){c(this).triggerHandler("remove")});return i.apply(this,arguments)},enableSelection:function(){return this.attr("unselectable","off").css("MozUserSelect","").unbind("selectstart.ui")},disableSelection:function(){return this.attr("unselectable","on").css("MozUserSelect","none").bind("selectstart.ui",function(){return false})},scrollParent:function(){var j;if((c.browser.msie&&(/(static|relative)/).test(this.css("position")))||(/absolute/).test(this.css("position"))){j=this.parents().filter(function(){return(/(relative|absolute|fixed)/).test(c.curCSS(this,"position",1))&&(/(auto|scroll)/).test(c.curCSS(this,"overflow",1)+c.curCSS(this,"overflow-y",1)+c.curCSS(this,"overflow-x",1))}).eq(0)}else{j=this.parents().filter(function(){return(/(auto|scroll)/).test(c.curCSS(this,"overflow",1)+c.curCSS(this,"overflow-y",1)+c.curCSS(this,"overflow-x",1))}).eq(0)}return(/fixed/).test(this.css("position"))||!j.length?c(document):j}});c.extend(c.expr[":"],{data:function(l,k,j){return !!c.data(l,j[3])},focusable:function(k){var l=k.nodeName.toLowerCase(),j=c.attr(k,"tabindex");return(/input|select|textarea|button|object/.test(l)?!k.disabled:"a"==l||"area"==l?k.href||!isNaN(j):!isNaN(j))&&!c(k)["area"==l?"parents":"closest"](":hidden").length},tabbable:function(k){var j=c.attr(k,"tabindex");return(isNaN(j)||j>=0)&&c(k).is(":focusable")}});function g(m,n,o,l){function k(q){var p=c[m][n][q]||[];return(typeof p=="string"?p.split(/,?\s+/):p)}var j=k("getter");if(l.length==1&&typeof l[0]=="string"){j=j.concat(k("getterSetter"))}return(c.inArray(o,j)!=-1)}c.widget=function(k,j){var l=k.split(".")[0];k=k.split(".")[1];c.fn[k]=function(p){var n=(typeof p=="string"),o=Array.prototype.slice.call(arguments,1);if(n&&p.substring(0,1)=="_"){return this}if(n&&g(l,k,p,o)){var m=c.data(this[0],k);return(m?m[p].apply(m,o):undefined)}return this.each(function(){var q=c.data(this,k);(!q&&!n&&c.data(this,k,new c[l][k](this,p))._init());(q&&n&&c.isFunction(q[p])&&q[p].apply(q,o))})};c[l]=c[l]||{};c[l][k]=function(o,n){var m=this;this.namespace=l;this.widgetName=k;this.widgetEventPrefix=c[l][k].eventPrefix||k;this.widgetBaseClass=l+"-"+k;this.options=c.extend({},c.widget.defaults,c[l][k].defaults,c.metadata&&c.metadata.get(o)[k],n);this.element=c(o).bind("setData."+k,function(q,p,r){if(q.target==o){return m._setData(p,r)}}).bind("getData."+k,function(q,p){if(q.target==o){return m._getData(p)}}).bind("remove",function(){return m.destroy()})};c[l][k].prototype=c.extend({},c.widget.prototype,j);c[l][k].getterSetter="option"};c.widget.prototype={_init:function(){},destroy:function(){this.element.removeData(this.widgetName).removeClass(this.widgetBaseClass+"-disabled "+this.namespace+"-state-disabled").removeAttr("aria-disabled")},option:function(l,m){var k=l,j=this;if(typeof l=="string"){if(m===undefined){return this._getData(l)}k={};k[l]=m}c.each(k,function(n,o){j._setData(n,o)})},_getData:function(j){return this.options[j]},_setData:function(j,k){this.options[j]=k;if(j=="disabled"){this.element[k?"addClass":"removeClass"](this.widgetBaseClass+"-disabled "+this.namespace+"-state-disabled").attr("aria-disabled",k)}},enable:function(){this._setData("disabled",false)},disable:function(){this._setData("disabled",true)},_trigger:function(l,m,n){var p=this.options[l],j=(l==this.widgetEventPrefix?l:this.widgetEventPrefix+l);m=c.Event(m);m.type=j;if(m.originalEvent){for(var k=c.event.props.length,o;k;){o=c.event.props[--k];m[o]=m.originalEvent[o]}}this.element.trigger(m,n);return !(c.isFunction(p)&&p.call(this.element[0],m,n)===false||m.isDefaultPrevented())}};c.widget.defaults={disabled:false};c.ui.mouse={_mouseInit:function(){var j=this;this.element.bind("mousedown."+this.widgetName,function(k){return j._mouseDown(k)}).bind("click."+this.widgetName,function(k){if(j._preventClickEvent){j._preventClickEvent=false;k.stopImmediatePropagation();return false}});if(c.browser.msie){this._mouseUnselectable=this.element.attr("unselectable");this.element.attr("unselectable","on")}this.started=false},_mouseDestroy:function(){this.element.unbind("."+this.widgetName);(c.browser.msie&&this.element.attr("unselectable",this._mouseUnselectable))},_mouseDown:function(l){l.originalEvent=l.originalEvent||{};if(l.originalEvent.mouseHandled){return}(this._mouseStarted&&this._mouseUp(l));this._mouseDownEvent=l;var k=this,m=(l.which==1),j=(typeof this.options.cancel=="string"?c(l.target).parents().add(l.target).filter(this.options.cancel).length:false);if(!m||j||!this._mouseCapture(l)){return true}this.mouseDelayMet=!this.options.delay;if(!this.mouseDelayMet){this._mouseDelayTimer=setTimeout(function(){k.mouseDelayMet=true},this.options.delay)}if(this._mouseDistanceMet(l)&&this._mouseDelayMet(l)){this._mouseStarted=(this._mouseStart(l)!==false);if(!this._mouseStarted){l.preventDefault();return true}}this._mouseMoveDelegate=function(n){return k._mouseMove(n)};this._mouseUpDelegate=function(n){return k._mouseUp(n)};c(document).bind("mousemove."+this.widgetName,this._mouseMoveDelegate).bind("mouseup."+this.widgetName,this._mouseUpDelegate);(c.browser.safari||l.preventDefault());l.originalEvent.mouseHandled=true;return true},_mouseMove:function(j){if(c.browser.msie&&!j.button){return this._mouseUp(j)}if(this._mouseStarted){this._mouseDrag(j);return j.preventDefault()}if(this._mouseDistanceMet(j)&&this._mouseDelayMet(j)){this._mouseStarted=(this._mouseStart(this._mouseDownEvent,j)!==false);(this._mouseStarted?this._mouseDrag(j):this._mouseUp(j))}return !this._mouseStarted},_mouseUp:function(j){c(document).unbind("mousemove."+this.widgetName,this._mouseMoveDelegate).unbind("mouseup."+this.widgetName,this._mouseUpDelegate);if(this._mouseStarted){this._mouseStarted=false;this._preventClickEvent=(j.target==this._mouseDownEvent.target);this._mouseStop(j)}return false},_mouseDistanceMet:function(j){return(Math.max(Math.abs(this._mouseDownEvent.pageX-j.pageX),Math.abs(this._mouseDownEvent.pageY-j.pageY))>=this.options.distance)},_mouseDelayMet:function(j){return this.mouseDelayMet},_mouseStart:function(j){},_mouseDrag:function(j){},_mouseStop:function(j){},_mouseCapture:function(j){return true}};c.ui.mouse.defaults={cancel:null,distance:1,delay:0}})(jQuery);;
+<%
+t = @cst_houston
+%>
+  var curr_date = new Date("<%= t.strftime("%B") %> <%= t.day %>, <%= t.year %> <%= t.hour %>:<%= t.min %>:<%= t.sec %>");;
+
+  (function($){$.extend($.ui,{datepicker:{version:"1.7.1"}});var PROP_NAME="datepicker";function Datepicker(){this.debug=false;this._curInst=null;this._keyEvent=false;this._disabledInputs=[];this._datepickerShowing=false;this._inDialog=false;this._mainDivId="ui-datepicker-div";this._inlineClass="ui-datepicker-inline";this._appendClass="ui-datepicker-append";this._triggerClass="ui-datepicker-trigger";this._dialogClass="ui-datepicker-dialog";this._disableClass="ui-datepicker-disabled";this._unselectableClass="ui-datepicker-unselectable";this._currentClass="ui-datepicker-current-day";this._dayOverClass="ui-datepicker-days-cell-over";this.regional=[];this.regional[""]={closeText:"Done",prevText:"Prev",nextText:"Next",currentText:"Today",monthNames:["January","February","March","April","May","June","July","August","September","October","November","December"],monthNamesShort:["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"],dayNames:["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"],dayNamesShort:["Sun","Mon","Tue","Wed","Thu","Fri","Sat"],dayNamesMin:["Su","Mo","Tu","We","Th","Fr","Sa"],dateFormat:"mm/dd/yy",firstDay:0,isRTL:false};this._defaults={showOn:"focus",showAnim:"show",showOptions:{},defaultDate:null,appendText:"",hideIfNoPrevNext:false,navigationAsDateFormat:false,gotoCurrent:false,changeMonth:false,changeYear:false,showMonthAfterYear:false,yearRange:"-10:+10",showOtherMonths:false,calculateWeek:this.iso8601Week,shortYearCutoff:"+10",minDate:null,maxDate:null,duration:"normal",beforeShowDay:null,beforeShow:null,onSelect:null,onChangeMonthYear:null,onClose:null,numberOfMonths:1,showCurrentAtPos:0,stepMonths:1,stepBigMonths:12,altField:"",altFormat:"",constrainInput:true,showButtonPanel:false};$.extend(this._defaults,this.regional[""]);this.dpDiv=$('<div id="'+this._mainDivId+'" class="ui-datepicker ui-widget ui-widget-content ui-helper-clearfix ui-corner-all ui-helper-hidden-accessible"></div>')}$.extend(Datepicker.prototype,{markerClassName:"hasDatepicker",log:function(){if(this.debug){console.log.apply("",arguments)}},setDefaults:function(settings){extendRemove(this._defaults,settings||{});return this},_attachDatepicker:function(target,settings){var inlineSettings=null;for(var attrName in this._defaults){var attrValue=target.getAttribute("date:"+attrName);if(attrValue){inlineSettings=inlineSettings||{};try{inlineSettings[attrName]=eval(attrValue)}catch(err){inlineSettings[attrName]=attrValue}}}var nodeName=target.nodeName.toLowerCase();var inline=(nodeName=="div"||nodeName=="span");if(!target.id){target.id="dp"+(++this.uuid)}var inst=this._newInst($(target),inline);inst.settings=$.extend({},settings||{},inlineSettings||{});if(nodeName=="input"){this._connectDatepicker(target,inst)}else{if(inline){this._inlineDatepicker(target,inst)}}},_newInst:function(target,inline){var id=target[0].id.replace(/([:\[\]\.])/g,"\\\\$1");return{id:id,input:target,selectedDay:0,selectedMonth:0,selectedYear:0,drawMonth:0,drawYear:0,inline:inline,dpDiv:(!inline?this.dpDiv:$('<div class="'+this._inlineClass+' ui-datepicker ui-widget ui-widget-content ui-helper-clearfix ui-corner-all"></div>'))}},_connectDatepicker:function(target,inst){var input=$(target);inst.trigger=$([]);if(input.hasClass(this.markerClassName)){return}var appendText=this._get(inst,"appendText");var isRTL=this._get(inst,"isRTL");if(appendText){input[isRTL?"before":"after"]('<span class="'+this._appendClass+'">'+appendText+"</span>")}var showOn=this._get(inst,"showOn");if(showOn=="focus"||showOn=="both"){input.focus(this._showDatepicker)}if(showOn=="button"||showOn=="both"){var buttonText=this._get(inst,"buttonText");var buttonImage=this._get(inst,"buttonImage");inst.trigger=$(this._get(inst,"buttonImageOnly")?$("<img/>").addClass(this._triggerClass).attr({src:buttonImage,alt:buttonText,title:buttonText}):$('<button type="button"></button>').addClass(this._triggerClass).html(buttonImage==""?buttonText:$("<img/>").attr({src:buttonImage,alt:buttonText,title:buttonText})));input[isRTL?"before":"after"](inst.trigger);inst.trigger.click(function(){if($.datepicker._datepickerShowing&&$.datepicker._lastInput==target){$.datepicker._hideDatepicker()}else{$.datepicker._showDatepicker(target)}return false})}input.addClass(this.markerClassName).keydown(this._doKeyDown).keypress(this._doKeyPress).bind("setData.datepicker",function(event,key,value){inst.settings[key]=value}).bind("getData.datepicker",function(event,key){return this._get(inst,key)});$.data(target,PROP_NAME,inst)},_inlineDatepicker:function(target,inst){var divSpan=$(target);if(divSpan.hasClass(this.markerClassName)){return}divSpan.addClass(this.markerClassName).append(inst.dpDiv).bind("setData.datepicker",function(event,key,value){inst.settings[key]=value}).bind("getData.datepicker",function(event,key){return this._get(inst,key)});$.data(target,PROP_NAME,inst);this._setDate(inst,this._getDefaultDate(inst));this._updateDatepicker(inst);this._updateAlternate(inst)},_dialogDatepicker:function(input,dateText,onSelect,settings,pos){var inst=this._dialogInst;if(!inst){var id="dp"+(++this.uuid);this._dialogInput=$('<input type="text" id="'+id+'" size="1" style="position: absolute; top: -100px;"/>');this._dialogInput.keydown(this._doKeyDown);$("body").append(this._dialogInput);inst=this._dialogInst=this._newInst(this._dialogInput,false);inst.settings={};$.data(this._dialogInput[0],PROP_NAME,inst)}extendRemove(inst.settings,settings||{});this._dialogInput.val(dateText);this._pos=(pos?(pos.length?pos:[pos.pageX,pos.pageY]):null);if(!this._pos){var browserWidth=window.innerWidth||document.documentElement.clientWidth||document.body.clientWidth;var browserHeight=window.innerHeight||document.documentElement.clientHeight||document.body.clientHeight;var scrollX=document.documentElement.scrollLeft||document.body.scrollLeft;var scrollY=document.documentElement.scrollTop||document.body.scrollTop;this._pos=[(browserWidth/2)-100+scrollX,(browserHeight/2)-150+scrollY]}this._dialogInput.css("left",this._pos[0]+"px").css("top",this._pos[1]+"px");inst.settings.onSelect=onSelect;this._inDialog=true;this.dpDiv.addClass(this._dialogClass);this._showDatepicker(this._dialogInput[0]);if($.blockUI){$.blockUI(this.dpDiv)}$.data(this._dialogInput[0],PROP_NAME,inst);return this},_destroyDatepicker:function(target){var $target=$(target);var inst=$.data(target,PROP_NAME);if(!$target.hasClass(this.markerClassName)){return}var nodeName=target.nodeName.toLowerCase();$.removeData(target,PROP_NAME);if(nodeName=="input"){inst.trigger.remove();$target.siblings("."+this._appendClass).remove().end().removeClass(this.markerClassName).unbind("focus",this._showDatepicker).unbind("keydown",this._doKeyDown).unbind("keypress",this._doKeyPress)}else{if(nodeName=="div"||nodeName=="span"){$target.removeClass(this.markerClassName).empty()}}},_enableDatepicker:function(target){var $target=$(target);var inst=$.data(target,PROP_NAME);if(!$target.hasClass(this.markerClassName)){return}var nodeName=target.nodeName.toLowerCase();if(nodeName=="input"){target.disabled=false;inst.trigger.filter("button").each(function(){this.disabled=false}).end().filter("img").css({opacity:"1.0",cursor:""})}else{if(nodeName=="div"||nodeName=="span"){var inline=$target.children("."+this._inlineClass);inline.children().removeClass("ui-state-disabled")}}this._disabledInputs=$.map(this._disabledInputs,function(value){return(value==target?null:value)})},_disableDatepicker:function(target){var $target=$(target);var inst=$.data(target,PROP_NAME);if(!$target.hasClass(this.markerClassName)){return}var nodeName=target.nodeName.toLowerCase();if(nodeName=="input"){target.disabled=true;inst.trigger.filter("button").each(function(){this.disabled=true}).end().filter("img").css({opacity:"0.5",cursor:"default"})}else{if(nodeName=="div"||nodeName=="span"){var inline=$target.children("."+this._inlineClass);inline.children().addClass("ui-state-disabled")}}this._disabledInputs=$.map(this._disabledInputs,function(value){return(value==target?null:value)});this._disabledInputs[this._disabledInputs.length]=target},_isDisabledDatepicker:function(target){if(!target){return false}for(var i=0;i<this._disabledInputs.length;i++){if(this._disabledInputs[i]==target){return true}}return false},_getInst:function(target){try{return $.data(target,PROP_NAME)}catch(err){throw"Missing instance data for this datepicker"}},_optionDatepicker:function(target,name,value){var settings=name||{};if(typeof name=="string"){settings={};settings[name]=value}var inst=this._getInst(target);if(inst){if(this._curInst==inst){this._hideDatepicker(null)}extendRemove(inst.settings,settings);var date=new Date();extendRemove(inst,{rangeStart:null,endDay:null,endMonth:null,endYear:null,selectedDay:date.getDate(),selectedMonth:date.getMonth(),selectedYear:date.getFullYear(),currentDay:date.getDate(),currentMonth:date.getMonth(),currentYear:date.getFullYear(),drawMonth:date.getMonth(),drawYear:date.getFullYear()});this._updateDatepicker(inst)}},_changeDatepicker:function(target,name,value){this._optionDatepicker(target,name,value)},_refreshDatepicker:function(target){var inst=this._getInst(target);if(inst){this._updateDatepicker(inst)}},_setDateDatepicker:function(target,date,endDate){var inst=this._getInst(target);if(inst){this._setDate(inst,date,endDate);this._updateDatepicker(inst);this._updateAlternate(inst)}},_getDateDatepicker:function(target){var inst=this._getInst(target);if(inst&&!inst.inline){this._setDateFromField(inst)}return(inst?this._getDate(inst):null)},_doKeyDown:function(event){var inst=$.datepicker._getInst(event.target);var handled=true;var isRTL=inst.dpDiv.is(".ui-datepicker-rtl");inst._keyEvent=true;if($.datepicker._datepickerShowing){switch(event.keyCode){case 9:$.datepicker._hideDatepicker(null,"");break;case 13:var sel=$("td."+$.datepicker._dayOverClass+", td."+$.datepicker._currentClass,inst.dpDiv);if(sel[0]){$.datepicker._selectDay(event.target,inst.selectedMonth,inst.selectedYear,sel[0])}else{$.datepicker._hideDatepicker(null,$.datepicker._get(inst,"duration"))}return false;break;case 27:$.datepicker._hideDatepicker(null,$.datepicker._get(inst,"duration"));break;case 33:$.datepicker._adjustDate(event.target,(event.ctrlKey?-$.datepicker._get(inst,"stepBigMonths"):-$.datepicker._get(inst,"stepMonths")),"M");break;case 34:$.datepicker._adjustDate(event.target,(event.ctrlKey?+$.datepicker._get(inst,"stepBigMonths"):+$.datepicker._get(inst,"stepMonths")),"M");break;case 35:if(event.ctrlKey||event.metaKey){$.datepicker._clearDate(event.target)}handled=event.ctrlKey||event.metaKey;break;case 36:if(event.ctrlKey||event.metaKey){$.datepicker._gotoToday(event.target)}handled=event.ctrlKey||event.metaKey;break;case 37:if(event.ctrlKey||event.metaKey){$.datepicker._adjustDate(event.target,(isRTL?+1:-1),"D")}handled=event.ctrlKey||event.metaKey;if(event.originalEvent.altKey){$.datepicker._adjustDate(event.target,(event.ctrlKey?-$.datepicker._get(inst,"stepBigMonths"):-$.datepicker._get(inst,"stepMonths")),"M")}break;case 38:if(event.ctrlKey||event.metaKey){$.datepicker._adjustDate(event.target,-7,"D")}handled=event.ctrlKey||event.metaKey;break;case 39:if(event.ctrlKey||event.metaKey){$.datepicker._adjustDate(event.target,(isRTL?-1:+1),"D")}handled=event.ctrlKey||event.metaKey;if(event.originalEvent.altKey){$.datepicker._adjustDate(event.target,(event.ctrlKey?+$.datepicker._get(inst,"stepBigMonths"):+$.datepicker._get(inst,"stepMonths")),"M")}break;case 40:if(event.ctrlKey||event.metaKey){$.datepicker._adjustDate(event.target,+7,"D")}handled=event.ctrlKey||event.metaKey;break;default:handled=false}}else{if(event.keyCode==36&&event.ctrlKey){$.datepicker._showDatepicker(this)}else{handled=false}}if(handled){event.preventDefault();event.stopPropagation()}},_doKeyPress:function(event){var inst=$.datepicker._getInst(event.target);if($.datepicker._get(inst,"constrainInput")){var chars=$.datepicker._possibleChars($.datepicker._get(inst,"dateFormat"));var chr=String.fromCharCode(event.charCode==undefined?event.keyCode:event.charCode);return event.ctrlKey||(chr<" "||!chars||chars.indexOf(chr)>-1)}},_showDatepicker:function(input){input=input.target||input;if(input.nodeName.toLowerCase()!="input"){input=$("input",input.parentNode)[0]}if($.datepicker._isDisabledDatepicker(input)||$.datepicker._lastInput==input){return}var inst=$.datepicker._getInst(input);var beforeShow=$.datepicker._get(inst,"beforeShow");extendRemove(inst.settings,(beforeShow?beforeShow.apply(input,[input,inst]):{}));$.datepicker._hideDatepicker(null,"");$.datepicker._lastInput=input;$.datepicker._setDateFromField(inst);if($.datepicker._inDialog){input.value=""}if(!$.datepicker._pos){$.datepicker._pos=$.datepicker._findPos(input);$.datepicker._pos[1]+=input.offsetHeight}var isFixed=false;$(input).parents().each(function(){isFixed|=$(this).css("position")=="fixed";return !isFixed});if(isFixed&&$.browser.opera){$.datepicker._pos[0]-=document.documentElement.scrollLeft;$.datepicker._pos[1]-=document.documentElement.scrollTop}var offset={left:$.datepicker._pos[0],top:$.datepicker._pos[1]};$.datepicker._pos=null;inst.rangeStart=null;inst.dpDiv.css({position:"absolute",display:"block",top:"-1000px"});$.datepicker._updateDatepicker(inst);offset=$.datepicker._checkOffset(inst,offset,isFixed);inst.dpDiv.css({position:($.datepicker._inDialog&&$.blockUI?"static":(isFixed?"fixed":"absolute")),display:"none",left:offset.left+"px",top:offset.top+"px"});if(!inst.inline){var showAnim=$.datepicker._get(inst,"showAnim")||"show";var duration=$.datepicker._get(inst,"duration");var postProcess=function(){$.datepicker._datepickerShowing=true;if($.browser.msie&&parseInt($.browser.version,10)<7){$("iframe.ui-datepicker-cover").css({width:inst.dpDiv.width()+4,height:inst.dpDiv.height()+4})}};if($.effects&&$.effects[showAnim]){inst.dpDiv.show(showAnim,$.datepicker._get(inst,"showOptions"),duration,postProcess)}else{inst.dpDiv[showAnim](duration,postProcess)}if(duration==""){postProcess()}if(inst.input[0].type!="hidden"){inst.input[0].focus()}$.datepicker._curInst=inst}},_updateDatepicker:function(inst){var dims={width:inst.dpDiv.width()+4,height:inst.dpDiv.height()+4};var self=this;inst.dpDiv.empty().append(this._generateHTML(inst)).find("iframe.ui-datepicker-cover").css({width:dims.width,height:dims.height}).end().find("button, .ui-datepicker-prev, .ui-datepicker-next, .ui-datepicker-calendar td a").bind("mouseout",function(){$(this).removeClass("ui-state-hover");if(this.className.indexOf("ui-datepicker-prev")!=-1){$(this).removeClass("ui-datepicker-prev-hover")}if(this.className.indexOf("ui-datepicker-next")!=-1){$(this).removeClass("ui-datepicker-next-hover")}}).bind("mouseover",function(){if(!self._isDisabledDatepicker(inst.inline?inst.dpDiv.parent()[0]:inst.input[0])){$(this).parents(".ui-datepicker-calendar").find("a").removeClass("ui-state-hover");$(this).addClass("ui-state-hover");if(this.className.indexOf("ui-datepicker-prev")!=-1){$(this).addClass("ui-datepicker-prev-hover")}if(this.className.indexOf("ui-datepicker-next")!=-1){$(this).addClass("ui-datepicker-next-hover")}}}).end().find("."+this._dayOverClass+" a").trigger("mouseover").end();var numMonths=this._getNumberOfMonths(inst);var cols=numMonths[1];var width=17;if(cols>1){inst.dpDiv.addClass("ui-datepicker-multi-"+cols).css("width",(width*cols)+"em")}else{inst.dpDiv.removeClass("ui-datepicker-multi-2 ui-datepicker-multi-3 ui-datepicker-multi-4").width("")}inst.dpDiv[(numMonths[0]!=1||numMonths[1]!=1?"add":"remove")+"Class"]("ui-datepicker-multi");inst.dpDiv[(this._get(inst,"isRTL")?"add":"remove")+"Class"]("ui-datepicker-rtl");if(inst.input&&inst.input[0].type!="hidden"&&inst==$.datepicker._curInst){$(inst.input[0]).focus()}},_checkOffset:function(inst,offset,isFixed){var dpWidth=inst.dpDiv.outerWidth();var dpHeight=inst.dpDiv.outerHeight();var inputWidth=inst.input?inst.input.outerWidth():0;var inputHeight=inst.input?inst.input.outerHeight():0;var viewWidth=(window.innerWidth||document.documentElement.clientWidth||document.body.clientWidth)+$(document).scrollLeft();var viewHeight=(window.innerHeight||document.documentElement.clientHeight||document.body.clientHeight)+$(document).scrollTop();offset.left-=(this._get(inst,"isRTL")?(dpWidth-inputWidth):0);offset.left-=(isFixed&&offset.left==inst.input.offset().left)?$(document).scrollLeft():0;offset.top-=(isFixed&&offset.top==(inst.input.offset().top+inputHeight))?$(document).scrollTop():0;offset.left-=(offset.left+dpWidth>viewWidth&&viewWidth>dpWidth)?Math.abs(offset.left+dpWidth-viewWidth):0;offset.top-=(offset.top+dpHeight>viewHeight&&viewHeight>dpHeight)?Math.abs(offset.top+dpHeight+inputHeight*2-viewHeight):0;return offset},_findPos:function(obj){while(obj&&(obj.type=="hidden"||obj.nodeType!=1)){obj=obj.nextSibling}var position=$(obj).offset();return[position.left,position.top]},_hideDatepicker:function(input,duration){var inst=this._curInst;if(!inst||(input&&inst!=$.data(input,PROP_NAME))){return}if(inst.stayOpen){this._selectDate("#"+inst.id,this._formatDate(inst,inst.currentDay,inst.currentMonth,inst.currentYear))}inst.stayOpen=false;if(this._datepickerShowing){duration=(duration!=null?duration:this._get(inst,"duration"));var showAnim=this._get(inst,"showAnim");var postProcess=function(){$.datepicker._tidyDialog(inst)};if(duration!=""&&$.effects&&$.effects[showAnim]){inst.dpDiv.hide(showAnim,$.datepicker._get(inst,"showOptions"),duration,postProcess)}else{inst.dpDiv[(duration==""?"hide":(showAnim=="slideDown"?"slideUp":(showAnim=="fadeIn"?"fadeOut":"hide")))](duration,postProcess)}if(duration==""){this._tidyDialog(inst)}var onClose=this._get(inst,"onClose");if(onClose){onClose.apply((inst.input?inst.input[0]:null),[(inst.input?inst.input.val():""),inst])}this._datepickerShowing=false;this._lastInput=null;if(this._inDialog){this._dialogInput.css({position:"absolute",left:"0",top:"-100px"});if($.blockUI){$.unblockUI();$("body").append(this.dpDiv)}}this._inDialog=false}this._curInst=null},_tidyDialog:function(inst){inst.dpDiv.removeClass(this._dialogClass).unbind(".ui-datepicker-calendar")},_checkExternalClick:function(event){if(!$.datepicker._curInst){return}var $target=$(event.target);if(($target.parents("#"+$.datepicker._mainDivId).length==0)&&!$target.hasClass($.datepicker.markerClassName)&&!$target.hasClass($.datepicker._triggerClass)&&$.datepicker._datepickerShowing&&!($.datepicker._inDialog&&$.blockUI)){$.datepicker._hideDatepicker(null,"")}},_adjustDate:function(id,offset,period){var target=$(id);var inst=this._getInst(target[0]);if(this._isDisabledDatepicker(target[0])){return}this._adjustInstDate(inst,offset+(period=="M"?this._get(inst,"showCurrentAtPos"):0),period);this._updateDatepicker(inst)},_gotoToday:function(id){var target=$(id);var inst=this._getInst(target[0]);if(this._get(inst,"gotoCurrent")&&inst.currentDay){inst.selectedDay=inst.currentDay;inst.drawMonth=inst.selectedMonth=inst.currentMonth;inst.drawYear=inst.selectedYear=inst.currentYear}else{var date=new Date();inst.selectedDay=date.getDate();inst.drawMonth=inst.selectedMonth=date.getMonth();inst.drawYear=inst.selectedYear=date.getFullYear()}this._notifyChange(inst);this._adjustDate(target)},_selectMonthYear:function(id,select,period){var target=$(id);var inst=this._getInst(target[0]);inst._selectingMonthYear=false;inst["selected"+(period=="M"?"Month":"Year")]=inst["draw"+(period=="M"?"Month":"Year")]=parseInt(select.options[select.selectedIndex].value,10);this._notifyChange(inst);this._adjustDate(target)},_clickMonthYear:function(id){var target=$(id);var inst=this._getInst(target[0]);if(inst.input&&inst._selectingMonthYear&&!$.browser.msie){inst.input[0].focus()}inst._selectingMonthYear=!inst._selectingMonthYear},_selectDay:function(id,month,year,td){var target=$(id);if($(td).hasClass(this._unselectableClass)||this._isDisabledDatepicker(target[0])){return}var inst=this._getInst(target[0]);inst.selectedDay=inst.currentDay=$("a",td).html();inst.selectedMonth=inst.currentMonth=month;inst.selectedYear=inst.currentYear=year;if(inst.stayOpen){inst.endDay=inst.endMonth=inst.endYear=null}this._selectDate(id,this._formatDate(inst,inst.currentDay,inst.currentMonth,inst.currentYear));if(inst.stayOpen){inst.rangeStart=this._daylightSavingAdjust(new Date(inst.currentYear,inst.currentMonth,inst.currentDay));this._updateDatepicker(inst)}},_clearDate:function(id){var target=$(id);var inst=this._getInst(target[0]);inst.stayOpen=false;inst.endDay=inst.endMonth=inst.endYear=inst.rangeStart=null;this._selectDate(target,"")},_selectDate:function(id,dateStr){var target=$(id);var inst=this._getInst(target[0]);dateStr=(dateStr!=null?dateStr:this._formatDate(inst));if(inst.input){inst.input.val(dateStr)}this._updateAlternate(inst);var onSelect=this._get(inst,"onSelect");if(onSelect){onSelect.apply((inst.input?inst.input[0]:null),[dateStr,inst])}else{if(inst.input){inst.input.trigger("change")}}if(inst.inline){this._updateDatepicker(inst)}else{if(!inst.stayOpen){this._hideDatepicker(null,this._get(inst,"duration"));this._lastInput=inst.input[0];if(typeof(inst.input[0])!="object"){inst.input[0].focus()}this._lastInput=null}}},_updateAlternate:function(inst){var altField=this._get(inst,"altField");if(altField){var altFormat=this._get(inst,"altFormat")||this._get(inst,"dateFormat");var date=this._getDate(inst);dateStr=this.formatDate(altFormat,date,this._getFormatConfig(inst));$(altField).each(function(){$(this).val(dateStr)})}},noWeekends:function(date){var day=date.getDay();return[(day>0&&day<6),""]},iso8601Week:function(date){var checkDate=new Date(date.getFullYear(),date.getMonth(),date.getDate());var firstMon=new Date(checkDate.getFullYear(),1-1,4);var firstDay=firstMon.getDay()||7;firstMon.setDate(firstMon.getDate()+1-firstDay);if(firstDay<4&&checkDate<firstMon){checkDate.setDate(checkDate.getDate()-3);return $.datepicker.iso8601Week(checkDate)}else{if(checkDate>new Date(checkDate.getFullYear(),12-1,28)){firstDay=new Date(checkDate.getFullYear()+1,1-1,4).getDay()||7;if(firstDay>4&&(checkDate.getDay()||7)<firstDay-3){return 1}}}return Math.floor(((checkDate-firstMon)/86400000)/7)+1},parseDate:function(format,value,settings){if(format==null||value==null){throw"Invalid arguments"}value=(typeof value=="object"?value.toString():value+"");if(value==""){return null}var shortYearCutoff=(settings?settings.shortYearCutoff:null)||this._defaults.shortYearCutoff;var dayNamesShort=(settings?settings.dayNamesShort:null)||this._defaults.dayNamesShort;var dayNames=(settings?settings.dayNames:null)||this._defaults.dayNames;var monthNamesShort=(settings?settings.monthNamesShort:null)||this._defaults.monthNamesShort;var monthNames=(settings?settings.monthNames:null)||this._defaults.monthNames;var year=-1;var month=-1;var day=-1;var doy=-1;var literal=false;var lookAhead=function(match){var matches=(iFormat+1<format.length&&format.charAt(iFormat+1)==match);if(matches){iFormat++}return matches};var getNumber=function(match){lookAhead(match);var origSize=(match=="@"?14:(match=="y"?4:(match=="o"?3:2)));var size=origSize;var num=0;while(size>0&&iValue<value.length&&value.charAt(iValue)>="0"&&value.charAt(iValue)<="9"){num=num*10+parseInt(value.charAt(iValue++),10);size--}if(size==origSize){throw"Missing number at position "+iValue}return num};var getName=function(match,shortNames,longNames){var names=(lookAhead(match)?longNames:shortNames);var size=0;for(var j=0;j<names.length;j++){size=Math.max(size,names[j].length)}var name="";var iInit=iValue;while(size>0&&iValue<value.length){name+=value.charAt(iValue++);for(var i=0;i<names.length;i++){if(name==names[i]){return i+1}}size--}throw"Unknown name at position "+iInit};var checkLiteral=function(){if(value.charAt(iValue)!=format.charAt(iFormat)){throw"Unexpected literal at position "+iValue}iValue++};var iValue=0;for(var iFormat=0;iFormat<format.length;iFormat++){if(literal){if(format.charAt(iFormat)=="'"&&!lookAhead("'")){literal=false}else{checkLiteral()}}else{switch(format.charAt(iFormat)){case"d":day=getNumber("d");break;case"D":getName("D",dayNamesShort,dayNames);break;case"o":doy=getNumber("o");break;case"m":month=getNumber("m");break;case"M":month=getName("M",monthNamesShort,monthNames);break;case"y":year=getNumber("y");break;case"@":var date=new Date(getNumber("@"));year=date.getFullYear();month=date.getMonth()+1;day=date.getDate();break;case"'":if(lookAhead("'")){checkLiteral()}else{literal=true}break;default:checkLiteral()}}}if(year==-1){year=new Date().getFullYear()}else{if(year<100){year+=new Date().getFullYear()-new Date().getFullYear()%100+(year<=shortYearCutoff?0:-100)}}if(doy>-1){month=1;day=doy;do{var dim=this._getDaysInMonth(year,month-1);if(day<=dim){break}month++;day-=dim}while(true)}var date=this._daylightSavingAdjust(new Date(year,month-1,day));if(date.getFullYear()!=year||date.getMonth()+1!=month||date.getDate()!=day){throw"Invalid date"}return date},ATOM:"yy-mm-dd",COOKIE:"D, dd M yy",ISO_8601:"yy-mm-dd",RFC_822:"D, d M y",RFC_850:"DD, dd-M-y",RFC_1036:"D, d M y",RFC_1123:"D, d M yy",RFC_2822:"D, d M yy",RSS:"D, d M y",TIMESTAMP:"@",W3C:"yy-mm-dd",formatDate:function(format,date,settings){if(!date){return""}var dayNamesShort=(settings?settings.dayNamesShort:null)||this._defaults.dayNamesShort;var dayNames=(settings?settings.dayNames:null)||this._defaults.dayNames;var monthNamesShort=(settings?settings.monthNamesShort:null)||this._defaults.monthNamesShort;var monthNames=(settings?settings.monthNames:null)||this._defaults.monthNames;var lookAhead=function(match){var matches=(iFormat+1<format.length&&format.charAt(iFormat+1)==match);if(matches){iFormat++}return matches};var formatNumber=function(match,value,len){var num=""+value;if(lookAhead(match)){while(num.length<len){num="0"+num}}return num};var formatName=function(match,value,shortNames,longNames){return(lookAhead(match)?longNames[value]:shortNames[value])};var output="";var literal=false;if(date){for(var iFormat=0;iFormat<format.length;iFormat++){if(literal){if(format.charAt(iFormat)=="'"&&!lookAhead("'")){literal=false}else{output+=format.charAt(iFormat)}}else{switch(format.charAt(iFormat)){case"d":output+=formatNumber("d",date.getDate(),2);break;case"D":output+=formatName("D",date.getDay(),dayNamesShort,dayNames);break;case"o":var doy=date.getDate();for(var m=date.getMonth()-1;m>=0;m--){doy+=this._getDaysInMonth(date.getFullYear(),m)}output+=formatNumber("o",doy,3);break;case"m":output+=formatNumber("m",date.getMonth()+1,2);break;case"M":output+=formatName("M",date.getMonth(),monthNamesShort,monthNames);break;case"y":output+=(lookAhead("y")?date.getFullYear():(date.getYear()%100<10?"0":"")+date.getYear()%100);break;case"@":output+=date.getTime();break;case"'":if(lookAhead("'")){output+="'"}else{literal=true}break;default:output+=format.charAt(iFormat)}}}}return output},_possibleChars:function(format){var chars="";var literal=false;for(var iFormat=0;iFormat<format.length;iFormat++){if(literal){if(format.charAt(iFormat)=="'"&&!lookAhead("'")){literal=false}else{chars+=format.charAt(iFormat)}}else{switch(format.charAt(iFormat)){case"d":case"m":case"y":case"@":chars+="0123456789";break;case"D":case"M":return null;case"'":if(lookAhead("'")){chars+="'"}else{literal=true}break;default:chars+=format.charAt(iFormat)}}}return chars},_get:function(inst,name){return inst.settings[name]!==undefined?inst.settings[name]:this._defaults[name]},_setDateFromField:function(inst){var dateFormat=this._get(inst,"dateFormat");var dates=inst.input?inst.input.val():null;inst.endDay=inst.endMonth=inst.endYear=null;var date=defaultDate=this._getDefaultDate(inst);var settings=this._getFormatConfig(inst);try{date=this.parseDate(dateFormat,dates,settings)||defaultDate}catch(event){this.log(event);date=defaultDate}inst.selectedDay=date.getDate();inst.drawMonth=inst.selectedMonth=date.getMonth();inst.drawYear=inst.selectedYear=date.getFullYear();inst.currentDay=(dates?date.getDate():0);inst.currentMonth=(dates?date.getMonth():0);inst.currentYear=(dates?date.getFullYear():0);this._adjustInstDate(inst)},_getDefaultDate:function(inst){var date=this._determineDate(this._get(inst,"defaultDate"),new Date());var minDate=this._getMinMaxDate(inst,"min",true);var maxDate=this._getMinMaxDate(inst,"max");date=(minDate&&date<minDate?minDate:date);date=(maxDate&&date>maxDate?maxDate:date);return date},_determineDate:function(date,defaultDate){var offsetNumeric=function(offset){var date=new Date("<%= t.strftime("%B") %> <%= t.day %>, <%= t.year %> <%= t.hour %>:<%= t.min %>:<%= t.sec %>");date.setDate(date.getDate()+offset);return date};var offsetString=function(offset,getDaysInMonth){var date=new Date();var year=date.getFullYear();var month=date.getMonth();var day=date.getDate();var pattern=/([+-]?[0-9]+)\s*(d|D|w|W|m|M|y|Y)?/g;var matches=pattern.exec(offset);while(matches){switch(matches[2]||"d"){case"d":case"D":day+=parseInt(matches[1],10);break;case"w":case"W":day+=parseInt(matches[1],10)*7;break;case"m":case"M":month+=parseInt(matches[1],10);day=Math.min(day,getDaysInMonth(year,month));break;case"y":case"Y":year+=parseInt(matches[1],10);day=Math.min(day,getDaysInMonth(year,month));break}matches=pattern.exec(offset)}return new Date(year,month,day)};date=(date==null?defaultDate:(typeof date=="string"?offsetString(date,this._getDaysInMonth):(typeof date=="number"?(isNaN(date)?defaultDate:offsetNumeric(date)):date)));date=(date&&date.toString()=="Invalid Date"?defaultDate:date);if(date){date.setHours(0);date.setMinutes(0);date.setSeconds(0);date.setMilliseconds(0)}return this._daylightSavingAdjust(date)},_daylightSavingAdjust:function(date){if(!date){return null}date.setHours(date.getHours()>12?date.getHours()+2:0);return date},_setDate:function(inst,date,endDate){var clear=!(date);var origMonth=inst.selectedMonth;var origYear=inst.selectedYear;date=this._determineDate(date,new Date());inst.selectedDay=inst.currentDay=date.getDate();inst.drawMonth=inst.selectedMonth=inst.currentMonth=date.getMonth();inst.drawYear=inst.selectedYear=inst.currentYear=date.getFullYear();if(origMonth!=inst.selectedMonth||origYear!=inst.selectedYear){this._notifyChange(inst)}this._adjustInstDate(inst);if(inst.input){inst.input.val(clear?"":this._formatDate(inst))}},_getDate:function(inst){var startDate=(!inst.currentYear||(inst.input&&inst.input.val()=="")?null:this._daylightSavingAdjust(new Date(inst.currentYear,inst.currentMonth,inst.currentDay)));return startDate},_generateHTML:function(inst){var today=curr_date;today=this._daylightSavingAdjust(new Date(today.getFullYear(),today.getMonth(),today.getDate()));var isRTL=this._get(inst,"isRTL");var showButtonPanel=this._get(inst,"showButtonPanel");var hideIfNoPrevNext=this._get(inst,"hideIfNoPrevNext");var navigationAsDateFormat=this._get(inst,"navigationAsDateFormat");var numMonths=this._getNumberOfMonths(inst);var showCurrentAtPos=this._get(inst,"showCurrentAtPos");var stepMonths=this._get(inst,"stepMonths");var stepBigMonths=this._get(inst,"stepBigMonths");var isMultiMonth=(numMonths[0]!=1||numMonths[1]!=1);var currentDate=this._daylightSavingAdjust((!inst.currentDay?new Date(9999,9,9):new Date(inst.currentYear,inst.currentMonth,inst.currentDay)));var minDate=this._getMinMaxDate(inst,"min",true);var maxDate=this._getMinMaxDate(inst,"max");var drawMonth=inst.drawMonth-showCurrentAtPos;var drawYear=inst.drawYear;if(drawMonth<0){drawMonth+=12;drawYear--}if(maxDate){var maxDraw=this._daylightSavingAdjust(new Date(maxDate.getFullYear(),maxDate.getMonth()-numMonths[1]+1,maxDate.getDate()));maxDraw=(minDate&&maxDraw<minDate?minDate:maxDraw);while(this._daylightSavingAdjust(new Date(drawYear,drawMonth,1))>maxDraw){drawMonth--;if(drawMonth<0){drawMonth=11;drawYear--}}}inst.drawMonth=drawMonth;inst.drawYear=drawYear;var prevText=this._get(inst,"prevText");prevText=(!navigationAsDateFormat?prevText:this.formatDate(prevText,this._daylightSavingAdjust(new Date(drawYear,drawMonth-stepMonths,1)),this._getFormatConfig(inst)));var prev=(this._canAdjustMonth(inst,-1,drawYear,drawMonth)?'<a class="ui-datepicker-prev ui-corner-all" onclick="DP_jQuery.datepicker._adjustDate(\'#'+inst.id+"', -"+stepMonths+", 'M');\" title=\""+prevText+'"><span class="ui-icon ui-icon-circle-triangle-'+(isRTL?"e":"w")+'">'+prevText+"</span></a>":(hideIfNoPrevNext?"":'<a class="ui-datepicker-prev ui-corner-all ui-state-disabled" title="'+prevText+'"><span class="ui-icon ui-icon-circle-triangle-'+(isRTL?"e":"w")+'">'+prevText+"</span></a>"));var nextText=this._get(inst,"nextText");nextText=(!navigationAsDateFormat?nextText:this.formatDate(nextText,this._daylightSavingAdjust(new Date(drawYear,drawMonth+stepMonths,1)),this._getFormatConfig(inst)));var next=(this._canAdjustMonth(inst,+1,drawYear,drawMonth)?'<a class="ui-datepicker-next ui-corner-all" onclick="DP_jQuery.datepicker._adjustDate(\'#'+inst.id+"', +"+stepMonths+", 'M');\" title=\""+nextText+'"><span class="ui-icon ui-icon-circle-triangle-'+(isRTL?"w":"e")+'">'+nextText+"</span></a>":(hideIfNoPrevNext?"":'<a class="ui-datepicker-next ui-corner-all ui-state-disabled" title="'+nextText+'"><span class="ui-icon ui-icon-circle-triangle-'+(isRTL?"w":"e")+'">'+nextText+"</span></a>"));var currentText=this._get(inst,"currentText");var gotoDate=(this._get(inst,"gotoCurrent")&&inst.currentDay?currentDate:today);currentText=(!navigationAsDateFormat?currentText:this.formatDate(currentText,gotoDate,this._getFormatConfig(inst)));var controls=(!inst.inline?'<button type="button" class="ui-datepicker-close ui-state-default ui-priority-primary ui-corner-all" onclick="DP_jQuery.datepicker._hideDatepicker();">'+this._get(inst,"closeText")+"</button>":"");var buttonPanel=(showButtonPanel)?'<div class="ui-datepicker-buttonpane ui-widget-content">'+(isRTL?controls:"")+(this._isInRange(inst,gotoDate)?'<button type="button" class="ui-datepicker-current ui-state-default ui-priority-secondary ui-corner-all" onclick="DP_jQuery.datepicker._gotoToday(\'#'+inst.id+"');\">"+currentText+"</button>":"")+(isRTL?"":controls)+"</div>":"";var firstDay=parseInt(this._get(inst,"firstDay"),10);firstDay=(isNaN(firstDay)?0:firstDay);var dayNames=this._get(inst,"dayNames");var dayNamesShort=this._get(inst,"dayNamesShort");var dayNamesMin=this._get(inst,"dayNamesMin");var monthNames=this._get(inst,"monthNames");var monthNamesShort=this._get(inst,"monthNamesShort");var beforeShowDay=this._get(inst,"beforeShowDay");var showOtherMonths=this._get(inst,"showOtherMonths");var calculateWeek=this._get(inst,"calculateWeek")||this.iso8601Week;var endDate=inst.endDay?this._daylightSavingAdjust(new Date(inst.endYear,inst.endMonth,inst.endDay)):currentDate;var defaultDate=this._getDefaultDate(inst);var html="";for(var row=0;row<numMonths[0];row++){var group="";for(var col=0;col<numMonths[1];col++){var selectedDate=this._daylightSavingAdjust(new Date(drawYear,drawMonth,inst.selectedDay));var cornerClass=" ui-corner-all";var calender="";if(isMultiMonth){calender+='<div class="ui-datepicker-group ui-datepicker-group-';switch(col){case 0:calender+="first";cornerClass=" ui-corner-"+(isRTL?"right":"left");break;case numMonths[1]-1:calender+="last";cornerClass=" ui-corner-"+(isRTL?"left":"right");break;default:calender+="middle";cornerClass="";break}calender+='">'}calender+='<div class="ui-datepicker-header ui-widget-header ui-helper-clearfix'+cornerClass+'">'+(/all|left/.test(cornerClass)&&row==0?(isRTL?next:prev):"")+(/all|right/.test(cornerClass)&&row==0?(isRTL?prev:next):"")+this._generateMonthYearHeader(inst,drawMonth,drawYear,minDate,maxDate,selectedDate,row>0||col>0,monthNames,monthNamesShort)+'</div><table class="ui-datepicker-calendar"><thead><tr>';var thead="";for(var dow=0;dow<7;dow++){var day=(dow+firstDay)%7;thead+="<th"+((dow+firstDay+6)%7>=5?' class="ui-datepicker-week-end"':"")+'><span title="'+dayNames[day]+'">'+dayNamesMin[day]+"</span></th>"}calender+=thead+"</tr></thead><tbody>";var daysInMonth=this._getDaysInMonth(drawYear,drawMonth);if(drawYear==inst.selectedYear&&drawMonth==inst.selectedMonth){inst.selectedDay=Math.min(inst.selectedDay,daysInMonth)}var leadDays=(this._getFirstDayOfMonth(drawYear,drawMonth)-firstDay+7)%7;var numRows=(isMultiMonth?6:Math.ceil((leadDays+daysInMonth)/7));var printDate=this._daylightSavingAdjust(new Date(drawYear,drawMonth,1-leadDays));for(var dRow=0;dRow<numRows;dRow++){calender+="<tr>";var tbody="";for(var dow=0;dow<7;dow++){var daySettings=(beforeShowDay?beforeShowDay.apply((inst.input?inst.input[0]:null),[printDate]):[true,""]);var otherMonth=(printDate.getMonth()!=drawMonth);var unselectable=otherMonth||!daySettings[0]||(minDate&&printDate<minDate)||(maxDate&&printDate>maxDate);tbody+='<td class="'+((dow+firstDay+6)%7>=5?" ui-datepicker-week-end":"")+(otherMonth?" ui-datepicker-other-month":"")+((printDate.getTime()==selectedDate.getTime()&&drawMonth==inst.selectedMonth&&inst._keyEvent)||(defaultDate.getTime()==printDate.getTime()&&defaultDate.getTime()==selectedDate.getTime())?" "+this._dayOverClass:"")+(unselectable?" "+this._unselectableClass+" ui-state-disabled":"")+(otherMonth&&!showOtherMonths?"":" "+daySettings[1]+(printDate.getTime()>=currentDate.getTime()&&printDate.getTime()<=endDate.getTime()?" "+this._currentClass:"")+(printDate.getTime()==today.getTime()?" ui-datepicker-today":""))+'"'+((!otherMonth||showOtherMonths)&&daySettings[2]?' title="'+daySettings[2]+'"':"")+(unselectable?"":" onclick=\"DP_jQuery.datepicker._selectDay('#"+inst.id+"',"+drawMonth+","+drawYear+', this);return false;"')+">"+(otherMonth?(showOtherMonths?printDate.getDate():"&#xa0;"):(unselectable?'<span class="ui-state-default">'+printDate.getDate()+"</span>":'<a class="ui-state-default'+(printDate.getTime()==today.getTime()?" ui-state-highlight":"")+(printDate.getTime()>=currentDate.getTime()&&printDate.getTime()<=endDate.getTime()?" ui-state-active":"")+'" href="#">'+printDate.getDate()+"</a>"))+"</td>";printDate.setDate(printDate.getDate()+1);printDate=this._daylightSavingAdjust(printDate)}calender+=tbody+"</tr>"}drawMonth++;if(drawMonth>11){drawMonth=0;drawYear++}calender+="</tbody></table>"+(isMultiMonth?"</div>"+((numMonths[0]>0&&col==numMonths[1]-1)?'<div class="ui-datepicker-row-break"></div>':""):"");group+=calender}html+=group}html+=buttonPanel+($.browser.msie&&parseInt($.browser.version,10)<7&&!inst.inline?'<iframe src="javascript:false;" class="ui-datepicker-cover" frameborder="0"></iframe>':"");inst._keyEvent=false;return html},_generateMonthYearHeader:function(inst,drawMonth,drawYear,minDate,maxDate,selectedDate,secondary,monthNames,monthNamesShort){minDate=(inst.rangeStart&&minDate&&selectedDate<minDate?selectedDate:minDate);var changeMonth=this._get(inst,"changeMonth");var changeYear=this._get(inst,"changeYear");var showMonthAfterYear=this._get(inst,"showMonthAfterYear");var html='<div class="ui-datepicker-title">';var monthHtml="";if(secondary||!changeMonth){monthHtml+='<span class="ui-datepicker-month">'+monthNames[drawMonth]+"</span> "}else{var inMinYear=(minDate&&minDate.getFullYear()==drawYear);var inMaxYear=(maxDate&&maxDate.getFullYear()==drawYear);monthHtml+='<select class="ui-datepicker-month" onchange="DP_jQuery.datepicker._selectMonthYear(\'#'+inst.id+"', this, 'M');\" onclick=\"DP_jQuery.datepicker._clickMonthYear('#"+inst.id+"');\">";for(var month=0;month<12;month++){if((!inMinYear||month>=minDate.getMonth())&&(!inMaxYear||month<=maxDate.getMonth())){monthHtml+='<option value="'+month+'"'+(month==drawMonth?' selected="selected"':"")+">"+monthNamesShort[month]+"</option>"}}monthHtml+="</select>"}if(!showMonthAfterYear){html+=monthHtml+((secondary||changeMonth||changeYear)&&(!(changeMonth&&changeYear))?"&#xa0;":"")}if(secondary||!changeYear){html+='<span class="ui-datepicker-year">'+drawYear+"</span>"}else{var years=this._get(inst,"yearRange").split(":");var year=0;var endYear=0;if(years.length!=2){year=drawYear-10;endYear=drawYear+10}else{if(years[0].charAt(0)=="+"||years[0].charAt(0)=="-"){year=drawYear+parseInt(years[0],10);endYear=drawYear+parseInt(years[1],10)}else{year=parseInt(years[0],10);endYear=parseInt(years[1],10)}}year=(minDate?Math.max(year,minDate.getFullYear()):year);endYear=(maxDate?Math.min(endYear,maxDate.getFullYear()):endYear);html+='<select class="ui-datepicker-year" onchange="DP_jQuery.datepicker._selectMonthYear(\'#'+inst.id+"', this, 'Y');\" onclick=\"DP_jQuery.datepicker._clickMonthYear('#"+inst.id+"');\">";for(;year<=endYear;year++){html+='<option value="'+year+'"'+(year==drawYear?' selected="selected"':"")+">"+year+"</option>"}html+="</select>"}if(showMonthAfterYear){html+=(secondary||changeMonth||changeYear?"&#xa0;":"")+monthHtml}html+="</div>";return html},_adjustInstDate:function(inst,offset,period){var year=inst.drawYear+(period=="Y"?offset:0);var month=inst.drawMonth+(period=="M"?offset:0);var day=Math.min(inst.selectedDay,this._getDaysInMonth(year,month))+(period=="D"?offset:0);var date=this._daylightSavingAdjust(new Date(year,month,day));var minDate=this._getMinMaxDate(inst,"min",true);var maxDate=this._getMinMaxDate(inst,"max");date=(minDate&&date<minDate?minDate:date);date=(maxDate&&date>maxDate?maxDate:date);inst.selectedDay=date.getDate();inst.drawMonth=inst.selectedMonth=date.getMonth();inst.drawYear=inst.selectedYear=date.getFullYear();if(period=="M"||period=="Y"){this._notifyChange(inst)}},_notifyChange:function(inst){var onChange=this._get(inst,"onChangeMonthYear");if(onChange){onChange.apply((inst.input?inst.input[0]:null),[inst.selectedYear,inst.selectedMonth+1,inst])}},_getNumberOfMonths:function(inst){var numMonths=this._get(inst,"numberOfMonths");return(numMonths==null?[1,1]:(typeof numMonths=="number"?[1,numMonths]:numMonths))},_getMinMaxDate:function(inst,minMax,checkRange){var date=this._determineDate(this._get(inst,minMax+"Date"),null);return(!checkRange||!inst.rangeStart?date:(!date||inst.rangeStart>date?inst.rangeStart:date))},_getDaysInMonth:function(year,month){return 32-new Date(year,month,32).getDate()},_getFirstDayOfMonth:function(year,month){return new Date(year,month,1).getDay()},_canAdjustMonth:function(inst,offset,curYear,curMonth){var numMonths=this._getNumberOfMonths(inst);var date=this._daylightSavingAdjust(new Date(curYear,curMonth+(offset<0?offset:numMonths[1]),1));if(offset<0){date.setDate(this._getDaysInMonth(date.getFullYear(),date.getMonth()))}return this._isInRange(inst,date)},_isInRange:function(inst,date){var newMinDate=(!inst.rangeStart?null:this._daylightSavingAdjust(new Date(inst.selectedYear,inst.selectedMonth,inst.selectedDay)));newMinDate=(newMinDate&&inst.rangeStart<newMinDate?inst.rangeStart:newMinDate);var minDate=newMinDate||this._getMinMaxDate(inst,"min");var maxDate=this._getMinMaxDate(inst,"max");return((!minDate||date>=minDate)&&(!maxDate||date<=maxDate))},_getFormatConfig:function(inst){var shortYearCutoff=this._get(inst,"shortYearCutoff");shortYearCutoff=(typeof shortYearCutoff!="string"?shortYearCutoff:new Date().getFullYear()%100+parseInt(shortYearCutoff,10));return{shortYearCutoff:shortYearCutoff,dayNamesShort:this._get(inst,"dayNamesShort"),dayNames:this._get(inst,"dayNames"),monthNamesShort:this._get(inst,"monthNamesShort"),monthNames:this._get(inst,"monthNames")}},_formatDate:function(inst,day,month,year){if(!day){inst.currentDay=inst.selectedDay;inst.currentMonth=inst.selectedMonth;inst.currentYear=inst.selectedYear}var date=(day?(typeof day=="object"?day:this._daylightSavingAdjust(new Date(year,month,day))):this._daylightSavingAdjust(new Date(inst.currentYear,inst.currentMonth,inst.currentDay)));return this.formatDate(this._get(inst,"dateFormat"),date,this._getFormatConfig(inst))}});function extendRemove(target,props){$.extend(target,props);for(var name in props){if(props[name]==null||props[name]==undefined){target[name]=props[name]}}return target}function isArray(a){return(a&&(($.browser.safari&&typeof a=="object"&&a.length)||(a.constructor&&a.constructor.toString().match(/\Array\(\)/))))}$.fn.datepicker=function(options){if(!$.datepicker.initialized){$(document).mousedown($.datepicker._checkExternalClick).find("body").append($.datepicker.dpDiv);$.datepicker.initialized=true}var otherArgs=Array.prototype.slice.call(arguments,1);if(typeof options=="string"&&(options=="isDisabled"||options=="getDate")){return $.datepicker["_"+options+"Datepicker"].apply($.datepicker,[this[0]].concat(otherArgs))}return this.each(function(){typeof options=="string"?$.datepicker["_"+options+"Datepicker"].apply($.datepicker,[this].concat(otherArgs)):$.datepicker._attachDatepicker(this,options)})};$.datepicker=new Datepicker();$.datepicker.initialized=false;$.datepicker.uuid=new Date().getTime();$.datepicker.version="1.7.1";window.DP_jQuery=$})(jQuery);;
+</script>
+
+
+
+
+<!-- eqx added CC Validation script -->
+<script type="text/javascript" src="/javascripts/creditcard.js"></script>
+<script type="text/javascript">
+
+      //window.onload=candleDisplay();
+      function candleDisplay(){
+        //alert(document.getElementById('candle_display').value);
+        if (document.getElementById('candle_display').value !='') {
+
+          document.getElementById('check_options').style.display='block'
+        }
+      }
+
+      function adminCrediCard(){
+
+        if ((document.getElementById('paymenttype').style.display=='block') || document.getElementById('payment_type').style.border!='1px solid #C7C7C7'){
+          document.getElementById('paymenttype').style.display='none';
+          document.getElementById('payment_type').style.border='1px solid #C7C7C7';
+        }
+
+        if (document.getElementById('payment_type').value == 'Pay_with_a_credit_card'){
+
+          document.getElementById('adminCC').style.display='block'
+          document.getElementById('hiddenVal').style.display='none'
+
+        }
+        else{
+          document.getElementById('b_fname').value=''
+          document.getElementById('b_lname').value=''
+          document.getElementById('b_adrs').value=''
+          document.getElementById('b_city').value=''
+          document.getElementById('b_state').value=''
+          document.getElementById('b_zip').value=''
+          //document.getElementById('b_phone').value=''
+          //document.getElementById('b_email').value=''
+          document.getElementById('ccn').value=''
+          document.getElementById('ccv').value=''
+          document.getElementById('cc_type').value='Select'
+          document.getElementById('exp_month').value='Month'
+          document.getElementById('exp_year').value='Year'
+
+
+          document.getElementById('adminCC').style.display='none'
+          document.getElementById('hiddenVal').style.display='block'
+        }
+
+      }
+
+
+      function Toggle(id1,id2) {
+        obj=document.getElementById(id1);
+        obj2=document.getElementById(id2);
+        if ((obj.style.display=='block') || obj2.style.border!='1px solid #C7C7C7'){
+          obj.style.display='none';
+          obj2.style.border='1px solid #C7C7C7';
+        }
+      }
+
+      function Hideerror(id) {
+        obj=document.getElementById(id);
+        if( document.getElementById("remainder_cupcakes_crave_blue_gift_box").checked == true || document.getElementById("remainder_cupcakes_white_gift_box_with_ribbon").checked == true || document.getElementById("remainder_cupcakes_standared_backery_box").checked == true ) {
+          if(document.getElementById("remainder_cupcakes_crave_blue_gift_box").checked == true){
+            document.getElementById("remainder_cupcakes_crave_blue_gift_box").checked = false;
+            return false;
+          }
+        }
+        if (obj.style.display=='block'){
+          if( document.getElementById("remainder_cupcakes_crave_blue_gift_box").checked == true || document.getElementById("remainder_cupcakes_white_gift_box_with_ribbon").checked == true || document.getElementById("remainder_cupcakes_standared_backery_box").checked == true ) {
+            if(document.getElementById("remainder_cupcakes_crave_blue_gift_box").checked == true){
+              document.getElementById("remainder_cupcakes_crave_blue_gift_box").checked = false;
+              return false;
+            }
+            else{
+              obj.style.display='none';
+            }
+          }
+        }
+      }
+
+      function HideerrorMessage(id) {
+        obj=document.getElementById(id);
+        if (obj.style.display=='block'){
+          if( document.getElementById("noof_induv_cupcake").value != '' ) {
+            obj.style.display='none';
+          }
+        }
+      }
+
+      function HideerrorMessageNew(id) {
+        obj=document.getElementById(id);
+        var remaincupcakes_box =(( parseFloat(document.getElementById('only_cup_cakes').value) - parseFloat(document.getElementById('noof_induv_cupcake').value) )%12.0);
+        if (remaincupcakes_box != 0 ){
+          alert('Your cupcake order is not in multiples of a dozen and would result in a partially filled CRAVE Blue Gift Box. Our gift boxes cannot be partially filled; they must contain a dozen cupcakes each. Please change the number of cupcakes in your order to multiples of a dozen. Alternately, you may opt to box the cupcakes in a standard white bakery box (these can be partially filled)');
+          document.getElementById("remainder_cupcakes_crave_blue_gift_box").checked = false;
+          return false;
+        }
+        if (obj.style.display=='block') {
+          if( document.getElementById("noof_induv_cupcake").value != '' ) {
+            obj.style.display='none';
+          }
+        }
+      }
+
+      function divToggleOpen(id){
+        obj=document.getElementById(id);
+        obj.style.display='block';
+        document.getElementById(id+'.open').style.display='none';
+        document.getElementById(id+'.close').style.display='block';
+      }
+
+      function divToggleClose(id){
+        obj=document.getElementById(id);
+        obj.style.display='none';
+        document.getElementById(id+'.open').style.display='block';
+        document.getElementById(id+'.close').style.display='none';
+      }
+
+      function delevarySercharge(){
+        if (isNaN(document.getElementById('delivery_surcharge').value) ){
+          alert("Please enter a number (you may enter 0).");
+          document.getElementById('delivery_surcharge').value = '';
+          //document.getElementById("delivery_surcharge").focus();
+          setTimeout("document.getElementById('delivery_surcharge').focus();",10);
+        }
+        else{
+          if(document.getElementById('deliverysurcharge').style.display =='block'){
+            document.getElementById('deliverysurcharge').style.display='none';
+            document.getElementById("delivery_surcharge").style.border='1px solid #C7C7C7';
+            //document.getElementById("delivery_surcharge").focus();
+          }
+        }
+      }
+
+      //trim function
+      function trim(str) {
+        if (str != null) {
+          var i;
+          for (i=0; i<str.length; i++) {
+            if (str.charAt(i)!=" ") {
+              str=str.substring(i,str.length);
+              break;
+            }
+          }
+
+          for (i=str.length-1; i>=0; i--) {
+            if (str.charAt(i)!=" ") {
+              str=str.substring(0,i+1);
+              break;
+            }
+          }
+
+          if (str.charAt(0)==" ") {
+            return "";
+          } else {
+            return str;
+          }
+        }
+      }
+
+
+
+
+      $(function(){
+        $("#date_of_order").datepicker({
+          onSelect: function(dateText){
+            setAnchor('timing'); this.form.submit();
+          },
+         
+          showOn: 'both',
+          duration: 'fast',
+<% if session[:user_name]==nil  %>
+          minDate: +<%= Time.now.hour > 18 ? 2 : 1 %>
+<% else %>
+          minDate:0
+<% end %>
+<% if @params[:delivery_method] == "delivery" &&  session[:user_name]==nil  %>,
+            beforeShowDay: $.datepicker.noWeekends
+<% end -%>
+        });
+      });
+
+      function validateForm( frm ){
+        //alert(document.getElementById("date_of_order").value)
+    
+        
+        var errMsg = "";
+        var store1 = document.getElementById("store1").checked;
+        var store2 = document.getElementById("store2").checked;
+        if((store1 == false) && (store2 == false)){
+          document.getElementById("store").style.display='block';
+          // document.getElementById("store1").focus();
+          //document.getElementById("last_name").style.border='1px solid red';
+          errMsg += "store1,";
+        }
+        else{
+          document.getElementById("store").style.display='none';
+        }
+
+        if( errMsg.length > 0 ){
+          myArray = errMsg.split(",");
+          //alert( myArray[0] );
+          document.getElementById(myArray[0]).focus();
+          return false;
+        } else {
+          //checkCupcakesAvailabilityforSpDec();
+          //return true;
+        }
+
+
+        var pick_up = document.getElementById("delivery_method_pickup").checked
+        var delivery = document.getElementById("delivery_method_delivery").checked
+        if((pick_up == false) && (delivery == false)){
+          document.getElementById("dmethod").style.display='block';
+          // document.getElementById("delivery_method_pickup").focus();
+          errMsg += "store1,";
+        }
+        else{
+          document.getElementById("dmethod").style.display='none';
+        }
+
+        if(document.getElementById("check_options").style.display=='block'){
+          var candle_up = document.getElementById("candle_method_placed_on_the_cupcakes").checked
+          var candle = document.getElementById("candle_method_packaged_on_the_side").checked
+          if((candle_up == false) && (candle == false)){
+            document.getElementById("candlemethod").style.display='block';
+            errMsg += "candle_method_placed_on_the_cupcakes,";
+          }
+          else{
+            document.getElementById("candlemethod").style.display='none';
+          }
+        }
+
+        var time_of_order = document.getElementById("time_of_order").value
+        if( time_of_order == "Select" ) {
+          document.getElementById("tdorder").style.display='block';
+          //document.getElementById("time_of_order").focus();
+          errMsg += "store1,";
+        }
+        else {
+
+          var date_of_order = document.getElementById("date_of_order").value;
+          date_of_order= trim(date_of_order);
+          //alert(date_of_order.length);
+          //var datelen=date_of_order.trim();
+          if(date_of_order.length== 0 ) {
+            //alert(date_of_order.length);
+            document.getElementById("tdorder").style.display='block';
+            //document.getElementById("time_of_order").focus();
+            errMsg += "store1,";
+          }
+          else{
+            document.getElementById("tdorder").style.display='none';
+          }}
+
+
+
+
+        // enforce next day order before 6pm
+        var date_of_order = document.getElementById("date_of_order").value
+        //alert(date_of_order.length);
+        if (date_of_order.length == 1){
+          //alert("get it");
+          //errMsg += "date_of_order,";
+          //return false;
+        }
+
+
+        var orderDate = date_of_order.substring(0,10);
+
+        //var curTime = new Date()
+        //var curr_hour = curTime.getHours();
+<%
+#t = Time.now
+#cst = (t.gmtime) - (60*60*6)
+cst = @cst_houston
+cst_2moro = cst + (60 * 60 * 24)
+%>
+
+      if(document.getElementById("time_of_order").value != "Select" && orderDate == <%= cst_2moro.strftime("%m/%d/%Y") %> && <%= cst.hour %> >= 17 ){// must be 17
+        document.getElementById("dorder").style.display='block';
+        // document.getElementById("dorder").focus();
+        errMsg += "store1,";
+      }
+
+      // counting specials
+      var totalSpecials = 0;
+
+      for (var i = 0; i < frm.elements.length; i++) {
+        if (frm.elements[i].type == "text" && frm.elements[i].name.indexOf("specials") != -1 && (! isNaN(parseInt(frm.elements[i].value)))) {
+          totalSpecials += parseInt(frm.elements[i].value);
+        }
+      }
+
+
+       if(document.getElementById('no_of_orders_cake_mini') && document.getElementById('no_of_orders_cake_mini').value == 0){
+            clearSpDecMini();
+            document.getElementById('has_special_decorations_mini').checked = false;
+       }
+
+      // if specials are not selected count cupcakes
+      if(totalSpecials == 0){
+        var totalCupcakes = 0;
+
+        for (var i = 0; i < frm.elements.length; i++){
+          if (frm.elements[i].type == "text" && frm.elements[i].name.indexOf("cupcakes") != -1 && (! isNaN(parseInt(frm.elements[i].value)))){
+            totalCupcakes += parseInt(frm.elements[i].value);
+          }
+        }
+
+        var totalMiniCupcakes = 0;
+        <%
+        m_c = 0
+        if @mini_cupcakes
+          for cupcake in @mini_cupcakes
+            m_c = m_c + 1
+          end
+        end
+        if m_c != 0
+        %>
+        for (var i = 0; i < frm.elements.length; i++){
+          if (frm.elements[i].type == "text" && frm.elements[i].name.indexOf("mini_cupcakes") != -1 && (! isNaN(parseInt(frm.elements[i].value)))){
+            totalMiniCupcakes += parseInt(frm.elements[i].value);
+          }
+        }
+
+
+
+        <% end %>
+
+        if( totalCupcakes < 12 && totalMiniCupcakes < 24){
+          if (document.getElementById("ocupcakes") ){
+
+
+              <% if @show_specials.to_i == 1 %>
+
+                  document.getElementById("ocupcakes").style.display='block';
+                  //document.getElementById("ocupcakes").innerHTML = 'You must order at least 12 cupcakes (or a seasonal box, if available).';
+                  document.getElementById("ocupcakes").innerHTML = 'You must order at least 12 standard cupcakes, 24 mini cupcakes, or a seasonal box (if available).';
+                  // document.getElementById("ocupcakes").focus();
+                  errMsg += "time_of_order,";
+              <% else %>
+                    document.getElementById("ocupcakes2").style.display='block';
+                    //document.getElementById('ocupcakes2').innerHTML = 'You must order at least 12 cupcakes (or a seasonal box, if available).';
+                    document.getElementById("ocupcakes").innerHTML = 'You must order at least 12 standard cupcakes, 24 mini cupcakes, or a seasonal box (if available).';
+                    errMsg += "ocupcakes2,";
+              <% end %>
+
+              }
+              //errMsg += "* You must order at least 12 cupcakes (or a seasonal box, if available).\n";
+            }
+            else{
+              if (document.getElementById("ocupcakes") ){
+                document.getElementById("ocupcakes").style.display='none';
+              }
+              if (document.getElementById("ocupcakes2") ){
+                document.getElementById("ocupcakes2").style.display='none';
+              }
+            }
+          }
+          else{
+            if (document.getElementById("ocupcakes") ){
+              document.getElementById("ocupcakes").style.display='none';
+            }
+            if (document.getElementById("ocupcakes2") ){
+              document.getElementById("ocupcakes2").style.display='none';
+            }
+          }
+
+          // calling function chk all quantities are numerical
+          if(chk_qtys() == true){
+            if (document.getElementById("isordernumeric") ){
+              document.getElementById("isordernumeric").style.display='block';
+              //document.getElementById("shipto_first_name").focus();
+              errMsg += "isordernumeric,";
+            }
+            //errMsg += "* You must order at least 12 cupcakes (or a seasonal box, if available).\n";
+          }
+          else{
+            if (document.getElementById("isordernumeric") ){
+              document.getElementById("isordernumeric").style.display='none';
+            }
+          }
+
+
+      var date_of_order = document.getElementById("date_of_order").value
+      if (date_of_order.length >= 10){
+        var has_special_decorations = document.getElementById('has_special_decorations');
+        if(has_special_decorations.checked == true){
+          var spe_dec = document.getElementById('sp_dd');
+          if(spe_dec.value == "Select"){
+            spe_dec.style.border='1px solid red';
+            document.getElementById('spe_dec_err_msg').style.display = "block";
+            errMsg += "has_special_decorations,";
+          }
+        }
+
+        
+        if(has_special_decorations.checked == true){
+          var clr_1 = document.getElementById('clr_1');
+         
+          	
+          if(clr_1.value == "Select" && frm.sp_dd.value !='Holly-green leaf with red berries*'){
+          	 
+          	  	  clr_1.style.border='1px solid red';
+            document.getElementById('spe_dec_color_err_msg').style.display = "block";
+            errMsg += "has_special_decorations,";
+          
+          }
+                    	  
+        }
+
+            
+        
+        if(has_special_decorations.checked == true){
+          var color_2 = document.getElementById('color_2');
+          var clr_2 = document.getElementById('clr_2');
+   
+          if(color_2.style.display != 'none' && clr_2.value == "Select" && frm.sp_dd.value !='Holly-green leaf with red berries*'){
+          	 
+            clr_2.style.border='1px solid red';
+            document.getElementById('spe_dec_color_err_msg').style.display = "block";
+            errMsg += "has_special_decorations,";
+       
+          }
+        }
+
+        if(has_special_decorations.checked == true){
+          var spe_dec = document.getElementById('sp_dd');
+          var num = document.getElementById('number');
+          if(spe_dec.value == "Numbers*" && num.value == "Select"){
+            num.style.border='1px solid red';
+            document.getElementById('num_err_msg').style.display = "block";
+            errMsg += "has_special_decorations,";
+          }
+        }
+
+        if(has_special_decorations.checked == true){
+          var spe_dec = document.getElementById('sp_dd');
+          var let = document.getElementById('letter');
+          if(spe_dec.value == "Letters*" && let.value == "Select"){
+            let.style.border='1px solid red';
+            document.getElementById('let_err_msg').style.display = "block";
+            errMsg += "has_special_decorations,";
+          }
+        }
+
+        /* mini cupcake sp dec start */
+      <%
+        m_c = 0
+        if @mini_cupcakes
+          for cupcake in @mini_cupcakes
+            m_c = m_c + 1
+          end
+        end
+        if m_c != 0
+        %>
+        var has_special_decorations_mini = document.getElementById('has_special_decorations_mini');
+
+        if(has_special_decorations_mini.checked == true){
+          var spe_dec_mini = document.getElementById('sp_dd_mini');
+          if(spe_dec_mini.value == "Select"){
+            spe_dec_mini.style.border='1px solid red';
+            document.getElementById('spe_dec_mini_err_msg').style.display = "block";
+            errMsg += "has_special_decorations_mini,";
+          }
+        }
+
+        if(has_special_decorations_mini.checked == true){
+          var clr_1_mini = document.getElementById('clr_1_mini');
+          if(clr_1_mini.value == "Select"){
+            clr_1_mini.style.border='1px solid red';
+            document.getElementById('spe_dec_mini_color_err_msg').style.display = "block";
+            errMsg += "has_special_decorations_mini,";
+          }
+        }
+
+        if(has_special_decorations_mini.checked == true){
+          var color_2_mini = document.getElementById('color_2_mini');
+          var clr_2_mini = document.getElementById('clr_2_mini');
+
+          if(color_2_mini.style.display != 'none' && clr_2_mini.value == "Select"){
+            clr_2_mini.style.border='1px solid red';
+            document.getElementById('spe_dec_mini_color_err_msg').style.display = "block";
+            errMsg += "has_special_decorations_mini,";
+          }
+        }
+
+        if(has_special_decorations_mini.checked == true){
+          var spe_dec = document.getElementById('sp_dd_mini');
+          var num = document.getElementById('number_mini');
+          if(spe_dec.value == "Numbers" && num.value == "Select"){
+            num.style.border='1px solid red';
+            document.getElementById('num_err_msg_mini').style.display = "block";
+            errMsg += "has_special_decorations_mini,";
+          }
+        }
+
+        if(has_special_decorations_mini.checked == true){
+          var spe_dec = document.getElementById('sp_dd_mini');
+          var let = document.getElementById('letter_mini');
+          if(spe_dec.value == "Letters" && let.value == "Select"){
+            let.style.border='1px solid red';
+            document.getElementById('let_err_msg_mini').style.display = "block";
+            errMsg += "has_special_decorations_mini,";
+          }
+        }
+
+
+        <% end %>
+        /* mini cupcake sp dec end */
+
+      }
+
+
+      //confirm delivery address
+      var isDelivery = document.getElementById("delivery_method_delivery").checked == true;
+      if (isDelivery ) {
+
+        // if shipto_is_business clicked then shipto_business required
+        var shipto_biz = document.getElementById("shipto_is_business").checked==true;
+        if(shipto_biz && document.getElementById("shipto_business").value == ""){
+
+          document.getElementById("bussines").style.display='block';
+          document.getElementById("shipto_business").style.border='1px solid red';
+          //document.getElementById("shipto_business").focus();
+          errMsg += "shipto_business,";
+        }
+        else {
+          document.getElementById("bussines").style.display='none';
+          document.getElementById("shipto_business").style.border='1px solid #C7C7C7';
+        }
+
+        var shipto_first = document.getElementById("shipto_first_name").value;
+        var shipto_last = document.getElementById("shipto_last_name").value;
+        var shipto_addr = document.getElementById("shipto_address_1").value;
+        var shipto_zip = document.getElementById("shipto_zip").value;
+        var isDeliveryInfoComplete = shipto_first == "" | shipto_last == "" | shipto_addr == "" | shipto_zip == "";
+
+        //if (isDeliveryInfoComplete) {
+        //errMsg += "* You have indicated that this order will be delivered. Please fill in the delivery address fields: first and last name, street address, and zip are required.\n";
+        //}
+        if (shipto_first==""){
+          document.getElementById("sfname").style.display='block';
+          document.getElementById("shipto_first_name").style.border='1px solid red';
+          //document.getElementById("shipto_first_name").focus();
+          errMsg += "shipto_first_name,";
+        }
+        else {
+          document.getElementById("sfname").style.display='none';
+          document.getElementById("shipto_first_name").style.border='1px solid #C7C7C7';
+        }
+
+        if (shipto_last==""){
+          document.getElementById("slname").style.display='block';
+          document.getElementById("shipto_last_name").style.border='1px solid red';
+          //document.getElementById("shipto_first_name").focus();
+          errMsg += "shipto_last_name,";
+        }
+        else {
+          document.getElementById("slname").style.display='none';
+          document.getElementById("shipto_last_name").style.border='1px solid #C7C7C7';
+        }
+
+        if (shipto_addr==""){
+          document.getElementById("sadd").style.display='block';
+          document.getElementById("shipto_address_1").style.border='1px solid red';
+          //document.getElementById("shipto_first_name").focus();
+          errMsg += "shipto_address_1,";
+        }
+        else {
+          document.getElementById("sadd").style.display='none';
+          document.getElementById("shipto_address_1").style.border='1px solid #C7C7C7';
+        }
+
+        if (shipto_zip==""){
+          document.getElementById("szip").style.display='block';
+          document.getElementById("shipto_zip").style.border='1px solid red';
+          //document.getElementById("shipto_first_name").focus();
+          errMsg += "shipto_zip,";
+        }
+        else {
+          document.getElementById("szip").style.display='none';
+          document.getElementById("shipto_zip").style.border='1px solid #C7C7C7';
+        }
+      }
+
+
+      //errMsg += "* One or more of the quantity fields have invalid values. Please enter a number or leave blank.\n";
+
+
+      var firstName = document.getElementById("first_name").value;
+      if( firstName.length == 0 ) {
+        //document.getElementById("a").value="* Please enter your first name.\n"
+        document.getElementById("fname").style.display='block';
+        document.getElementById("first_name").style.border='1px solid red';
+        // document.getElementById("first_name").focus();
+        errMsg += "first_name,";
+      }
+      else{
+        document.getElementById("fname").style.display='none';
+        document.getElementById("first_name").style.border='1px solid #C7C7C7';
+      }
+      var lastName = document.getElementById("last_name").value;
+      if( lastName.length == 0 ) {
+        document.getElementById("lname").style.display='block';
+        document.getElementById("last_name").style.border='1px solid red';
+        //document.getElementById("last_name").focus();
+        errMsg += "last_name,";
+      }
+      else {
+        document.getElementById("lname").style.display='none';
+        document.getElementById("last_name").style.border='1px solid #C7C7C7';
+      }
+      var emAddress = document.getElementById("email").value;
+      if((emAddress.indexOf('@') == -1) || (emAddress.indexOf('.') == -1)) {
+        document.getElementById("cemail").style.display='block';
+        document.getElementById("email").style.border='1px solid red';
+        // document.getElementById("email").focus();
+        errMsg += "email,";
+      }
+      else {
+        document.getElementById("cemail").style.display='none';
+        document.getElementById("email").style.border='1px solid #C7C7C7';
+      }
+      var phone = document.getElementById("primary_phone").value;
+      if( phone.length == 0 ) {
+        document.getElementById("phone").style.display='block';
+        document.getElementById("primary_phone").style.border='1px solid red';
+        //document.getElementById("primary_phone").focus();
+        errMsg += "primary_phone,";
+      }
+      else {
+        document.getElementById("phone").style.display='none';
+        document.getElementById("primary_phone").style.border='1px solid #C7C7C7';
+      }
+
+
+      <!-- bof Billing info validation -->
+
+
+      var b_fname = document.getElementById("b_fname").value;
+      if( b_fname.length == 0 ) {
+        document.getElementById("bfname").style.display='block';
+        document.getElementById("b_fname").style.border='1px solid red';
+        // document.getElementById("b_fname").focus();
+        errMsg += "b_fname,";
+      }
+      else {
+        document.getElementById("bfname").style.display='none';
+        document.getElementById("b_fname").style.border='1px solid #C7C7C7';
+      }
+
+      var b_lname = document.getElementById("b_lname").value;
+      if( b_lname.length == 0 ) {
+        document.getElementById("blname").style.display='block';
+        document.getElementById("b_lname").style.border='1px solid red';
+        //document.getElementById("b_lname").focus();
+        errMsg += "b_lname,";
+      }
+      else {
+        document.getElementById("blname").style.display='none';
+        document.getElementById("b_lname").style.border='1px solid #C7C7C7';
+        //errMsg += "* Please enter the billing last name.\n";
+      }
+
+      var b_adrs = document.getElementById("b_adrs").value;
+      if( b_adrs.length == 0 ) {
+        document.getElementById("badd").style.display='block';
+        document.getElementById("b_adrs").style.border='1px solid red';
+        // document.getElementById("b_adrs").focus();
+        errMsg += "b_adrs,";
+      }
+      else {
+        document.getElementById("badd").style.display='none';
+        document.getElementById("b_adrs").style.border='1px solid #C7C7C7';
+        //errMsg += "* Please enter the billing street address.\n";
+      }
+
+      var b_city = document.getElementById("b_city").value;
+      if( b_city.length == 0 ) {
+        document.getElementById("bcity").style.display='block';
+        document.getElementById("b_city").style.border='1px solid red';
+        //document.getElementById("b_city").focus();
+        errMsg += "b_city,";
+      }
+      else {
+        document.getElementById("bcity").style.display='none';
+        document.getElementById("b_city").style.border='1px solid #C7C7C7';
+        //errMsg += "* Please enter the billing city.\n";
+      }
+
+      var b_state = document.getElementById("b_state").value;
+      if( b_state.length == 0 ) {
+        document.getElementById("bstate").style.display='block';
+        document.getElementById("b_state").style.border='1px solid red';
+        // document.getElementById("b_state").focus();
+        errMsg += "b_state,";
+      }
+      else {
+        document.getElementById("bstate").style.display='none';
+        document.getElementById("b_state").style.border='1px solid #C7C7C7';
+        //errMsg += "* Please enter the billing state.\n";
+      }
+
+      var b_zip = document.getElementById("b_zip").value;
+      if( b_zip.length == 0 ) {
+        document.getElementById("bzip").style.display='block';
+        document.getElementById("b_zip").style.border='1px solid red';
+        //document.getElementById("b_zip").focus();
+        errMsg += "b_zip,";
+      }
+      else {
+        document.getElementById("bzip").style.display='none';
+        document.getElementById("b_zip").style.border='1px solid #C7C7C7';
+        //errMsg += "* Please enter the billing zip code.\n";
+      }
+      
+        var cc_type = document.getElementById("cc_type").value;
+        if( cc_type == "Select" ) {
+          document.getElementById("cctype").style.display='block';
+          document.getElementById("cc_type").style.border='1px solid red';
+          // document.getElementById("cc_type").focus();
+          errMsg += "cc_type,";
+        }
+        else {
+          document.getElementById("cctype").style.display='none';
+          document.getElementById("cc_type").style.border='1px solid #C7C7C7';
+          //errMsg += "* Please select a credit card type.\n";
+        }
+
+        var ccn = document.getElementById("ccn").value;
+
+        if(cc_type != "Select"){
+          myCardType = document.getElementById('cc_type').value;
+          if (checkCreditCard (ccn, myCardType)) {
+            document.getElementById("ccnumber").style.display='none';
+            document.getElementById("ccn").style.border='1px solid #C7C7C7';
+
+          }
+          else {
+            document.getElementById("ccnumber").style.display='block';
+            document.getElementById("ccn").style.border='1px solid red';
+            document.getElementById("ccnumber").innerHTML= ccErrors[ccErrorNo];
+            //document.getElementById("ccn").focus();
+            errMsg += "ccn,";
+            //errMsg += ccErrors[ccErrorNo] + "\n";
+          }
+        }
+
+        var ccv = document.getElementById("ccv").value;
+        if( ccv.length == 0 ) {
+          document.getElementById("ccvery").style.display='block';
+          document.getElementById("ccv").style.border='1px solid red';
+          errMsg += "ccv,";
+        }
+        else {
+          document.getElementById("ccvery").style.display='none';
+          document.getElementById("ccv").style.border='1px solid #C7C7C7';
+          //errMsg += "* Please enter the credit card verification code.\n";
+        }
+
+
+
+
+        var exp_month = document.getElementById("exp_month").value;
+        var exp_year = document.getElementById("exp_year").value;
+        if( (exp_month == "Month") ||(exp_year == "Year") ) {
+          document.getElementById("expymonth").style.display='block';
+          document.getElementById("expymonth").innerHTML='Please select the credit card expiration month/year.';
+          if( (exp_month == "Month")&& (exp_year == "Year")){
+            document.getElementById("exp_month").style.border='1px solid red';
+            document.getElementById("exp_year").style.border='1px solid red';
+            errMsg += "exp_month,";
+          }
+          else {
+            if (exp_month == "Month"){
+              document.getElementById("exp_month").style.border='1px solid red';
+              document.getElementById("exp_year").style.border='1px solid #C7C7C7';
+              errMsg += "exp_month,";
+            }
+            else {
+              document.getElementById("exp_year").style.border='1px solid red';
+              document.getElementById("exp_month").style.border='1px solid #C7C7C7';
+              errMsg += "exp_month,";
+            }
+
+          }
+        }
+        else {
+
+          if(exp_month < <%= Time.now.month %> && exp_year <= '<%= Time.now.year %>'){
+            document.getElementById("expymonth").style.display='block';
+            document.getElementById("expymonth").innerHTML='Invalid Credit Card expiration.';
+            document.getElementById("exp_month").style.border='1px solid red';
+            document.getElementById("exp_year").style.border='1px solid red';
+            errMsg += "exp_month,";
+          }
+          else {
+            document.getElementById("expymonth").style.display='none';
+            document.getElementById("exp_month").style.border='1px solid #C7C7C7';
+            document.getElementById("exp_year").style.border='1px solid #C7C7C7';
+            //errMsg += "* Invalid Credit Card expiration.\n";
+          }
+
+          //document.getElementById("expymonth").style.display='none';
+          //document.getElementById("exp_month").style.border='';
+          //document.getElementById("exp_year").style.border='';
+          //errMsg += "* Please select the credit card expiration month.\n";
+        }
+
+
+        var tnc = document.getElementById("tnc").checked;
+        if( tnc != true ) {
+          document.getElementById("termsncon").style.display='block';
+          //document.getElementById("exp_year").style.border='1px solid red';
+          errMsg += "tnc,";
+        }
+        else {
+          document.getElementById("termsncon").style.display='none';
+          // document.getElementById("exp_year").style.border='';
+          //errMsg += "* You must agree to the Crave Cupcakes terms and conditions.\n";
+        }
+
+        <!-- eof Billing info valication-->
+        // commented bcoz spe. dec. field is only for da admins
+
+
+        //
+        //return false;
+        //alert( errMsg );
+        if( errMsg.length > 0 ){
+          myArray = errMsg.split(",");
+          //alert( myArray[0] );
+          document.getElementById(myArray[0]).focus();
+          return false;
+        } else {
+          checkCupcakesAvailabilityforSpDec();
+          return true;
+        }
+      }
+
+
+
+      //validation for Admin order Submission.
+
+      function validateFormAdmin( frm ){
+
+        var errMsg = "";
+
+        var store1 = document.getElementById("store1").checked;
+        var store2 = document.getElementById("store2").checked;
+
+          
+        //alert(store1 + "-" + store2);
+        if( (store1 == false) && (store2 == false)) {
+
+          document.getElementById("store").style.display='block';
+          // document.getElementById("store1").focus();
+          //document.getElementById("last_name").style.border='1px solid red';
+          errMsg += "store1,";
+          //alert();
+          //document.getElementById("order-form").focus();
+          //return false;
+        }
+        else {
+          document.getElementById("store").style.display='none';
+        }
+
+        if( errMsg.length > 0 ){
+          myArray = errMsg.split(",");
+          //alert( myArray[0] );
+          document.getElementById(myArray[0]).focus();
+          return false;
+        } else {
+          //checkCupcakesAvailabilityforSpDec();
+          //return true;
+        }
+
+        var pick_up = document.getElementById("delivery_method_pickup").checked
+        var delivery = document.getElementById("delivery_method_delivery").checked
+        if((pick_up == false) && (delivery == false)) {
+          document.getElementById("dmethod").style.display='block';
+          // document.getElementById("delivery_method_pickup").focus();
+          errMsg += "store1,";
+        }
+        else {
+          document.getElementById("dmethod").style.display='none';
+        }
+
+        if(document.getElementById("check_options").style.display=='block'){
+
+
+
+
+          var candle_up = document.getElementById("candle_method_placed_on_the_cupcakes").checked
+          var candle = document.getElementById("candle_method_packaged_on_the_side").checked
+
+          if((candle_up == false) && (candle == false)) {
+            document.getElementById("candlemethod").style.display='block';
+
+            errMsg += "candle_method_placed_on_the_cupcakes,";
+          }
+          else {
+            document.getElementById("candlemethod").style.display='none';
+          }
+        }
+
+
+        var time_of_order = document.getElementById("time_of_order").value
+        if( time_of_order == "Select" ) {
+          document.getElementById("tdorder").style.display='block';
+          //document.getElementById("time_of_order").focus();
+          errMsg += "store1,";
+        }
+        else {
+
+          var date_of_order = document.getElementById("date_of_order").value;
+          date_of_order= trim(date_of_order);
+          //alert(date_of_order.length);
+          //var datelen=date_of_order.trim();
+          if(date_of_order.length== 0 ) {
+            //alert(date_of_order.length);
+            document.getElementById("tdorder").style.display='block';
+            //document.getElementById("time_of_order").focus();
+            errMsg += "store1,";
+          }
+          else{
+            document.getElementById("tdorder").style.display='none';
+          }}
+
+
+        // enforce next day order before 6pm
+
+        var date_of_order = document.getElementById("date_of_order").value
+        //alert(date_of_order.length);
+        //alert(date_of_order);
+        if (date_of_order.length == 1){
+          //alert("get it");
+          //errMsg += "date_of_order,";
+          //return false;
+        }
+
+
+          var totalSpecials = 0;
+
+        for (var i = 0; i < frm.elements.length; i++) {
+          if (frm.elements[i].type == "text" && frm.elements[i].name.indexOf("specials") != -1 && (! isNaN(parseInt(frm.elements[i].value)))) {
+            totalSpecials += parseInt(frm.elements[i].value);
+          }
+        }
+        
+        if(document.getElementById('no_of_orders_cake_mini') && document.getElementById('no_of_orders_cake_mini').value == 0){            
+            clearSpDecMini();
+            document.getElementById('has_special_decorations_mini').checked = false;
+       }
+
+        // if specials are not selected count cupcakes
+        if(totalSpecials == 0){
+          var totalCupcakes = 0;
+
+          for (var i = 0; i < frm.elements.length; i++) {
+            if (frm.elements[i].type == "text" && frm.elements[i].name.indexOf("cupcakes") != -1 && (! isNaN(parseInt(frm.elements[i].value)))) {
+              totalCupcakes += parseInt(frm.elements[i].value);
+            }
+          }
+
+          if( totalCupcakes =='' || totalCupcakes <= 0 ){
+            if (document.getElementById("ocupcakes") ){
+
+<% if @show_specials.to_i == 1 %>
+
+          document.getElementById("ocupcakes").style.display='block';
+          document.getElementById("ocupcakes").innerHTML = 'You must order at least 1 cupcake (or a seasonal box, if available).';
+          // document.getElementById("ocupcakes").focus();
+          errMsg += "time_of_order,";
+<% else %>
+
+          document.getElementById("ocupcakes2").style.display='block';
+          document.getElementById('ocupcakes2').innerHTML = 'You must order at least 1 cupcake (or a seasonal box, if available).';
+          errMsg += "ocupcakes2,";
+<% end %>
+
+            //document.getElementById("ocupcakes").style.display='block';
+            //document.getElementById("ocupcakes").innerHTML = 'You must order at least 1 cupcake (or a seasonal box, if available).'
+            //document.getElementById("ocupcakes").focus();
+            //errMsg += "ocupcakes,";
+          }
+          //errMsg += "* You must order at least 1 cupcake (or a seasonal box, if available).\n";
+        }
+        else {
+          if (document.getElementById("ocupcakes") ){
+            document.getElementById("ocupcakes").style.display='none';
+          }
+          if (document.getElementById("ocupcakes2") ){
+            document.getElementById("ocupcakes2").style.display='none';
+          }
+        }
+      }
+      else {
+        if (document.getElementById("ocupcakes") ){
+          document.getElementById("ocupcakes").style.display='none';
+        }
+        if (document.getElementById("ocupcakes2") ){
+          document.getElementById("ocupcakes2").style.display='none';
+        }
+      }
+
+
+      // calling function chk all quantities are numerical
+      if(chk_qtys() == true){
+
+        if (document.getElementById("isordernumeric") ){
+
+          document.getElementById("isordernumeric").style.display='block';
+
+          //document.getElementById("shipto_first_name").focus();
+          errMsg += "isordernumeric,";
+        }
+        //errMsg += "* You must order at least 12 cupcakes (or a seasonal box, if available).\n";
+      }
+      else {
+        if (document.getElementById("isordernumeric") ){
+          document.getElementById("isordernumeric").style.display='none';
+
+        }
+      }
+      if (document.getElementById("del_surcharge")!=null){
+        if(document.getElementById("del_surcharge").style.display=='block'){
+          if(document.getElementById("delivery_surcharge").value =='') {
+            document.getElementById("deliverysurcharge").style.display='block';
+            document.getElementById("delivery_surcharge").style.border='1px solid red';
+            // document.getElementById("how_to_boxed").focus();
+            errMsg += "del_surcharge,";
+
+          }
+          else {
+            document.getElementById("deliverysurcharge").style.display='none';
+            document.getElementById("delivery_surcharge").style.border='1px solid #C7C7C7';
+          }
+        }
+
+        else{
+
+          document.getElementById("delivery_surcharge").value =''
+        }
+      }
+
+var date_of_order = document.getElementById("date_of_order").value
+      if (date_of_order.length >= 10){
+
+        var has_special_decorations = document.getElementById('has_special_decorations');
+
+        if(has_special_decorations.checked == true){
+
+          var spe_dec = document.getElementById('sp_dd');
+          var clr_1 = document.getElementById('clr_1');
+          var color_2 = document.getElementById('color_2');
+          var clr_2 = document.getElementById('clr_2');
+          var num = document.getElementById('number');
+          var let = document.getElementById('letter');
+
+          if(trim(document.getElementById('sp_dec_notes').value) == ""){
+
+            if(spe_dec.value == "Select"){
+              spe_dec.style.border='1px solid red';
+              document.getElementById('spe_dec_err_msg').style.display = "block";
+              errMsg += "has_special_decorations,";
+            }
+
+            if(clr_1.value == "Select"){
+              clr_1.style.border='1px solid red';
+              document.getElementById('spe_dec_color_err_msg').style.display = "block";
+              errMsg += "has_special_decorations,";
+            }
+
+            if(color_2.style.display != 'none' && clr_2.value == "Select"){
+              clr_2.style.border='1px solid red';
+              document.getElementById('spe_dec_color_err_msg').style.display = "block";
+              errMsg += "has_special_decorations,";
+            }
+
+            if(spe_dec.value == "Numbers*" && num.value == "Select"){
+              num.style.border='1px solid red';
+              document.getElementById('num_err_msg').style.display = "block";
+              errMsg += "has_special_decorations,";
+            }
+
+            if(spe_dec.value == "Letters*" && let.value == "Select"){
+              let.style.border='1px solid red';
+              document.getElementById('let_err_msg').style.display = "block";
+              errMsg += "has_special_decorations,";
+            }
+          }
+          else if(trim(document.getElementById('sp_dec_notes').value) != "" && (spe_dec.value != "Select" || clr_1.value != "Select" || (color_2.style.display != 'none' && clr_2.value != "Select"))){
+            if(spe_dec.value == "Select"){
+              spe_dec.style.border='1px solid red';
+              document.getElementById('spe_dec_err_msg').style.display = "block";
+              errMsg += "has_special_decorations,";
+            }
+
+            if(clr_1.value == "Select"){
+              clr_1.style.border='1px solid red';
+              document.getElementById('spe_dec_color_err_msg').style.display = "block";
+              errMsg += "has_special_decorations,";
+            }
+
+            if(color_2.style.display != 'none' && clr_2.value == "Select"){
+              clr_2.style.border='1px solid red';
+              document.getElementById('spe_dec_color_err_msg').style.display = "block";
+              errMsg += "has_special_decorations,";
+            }
+
+            if(spe_dec.value == "Numbers*" && num.value == "Select"){
+              num.style.border='1px solid red';
+              document.getElementById('num_err_msg').style.display = "block";
+              errMsg += "has_special_decorations,";
+            }
+
+            if(spe_dec.value == "Letters*" && let.value == "Select"){
+              let.style.border='1px solid red';
+              document.getElementById('let_err_msg').style.display = "block";
+              errMsg += "has_special_decorations,";
+            }
+          }
+          else if(trim(document.getElementById('sp_dec_notes').value) != "" && (spe_dec.value == "Select" && clr_1.value == "Select" || (color_2.style.display != 'none' && clr_2.value != "Select"))){
+            spe_dec.style.border='1px solid #C7C7C7';
+            document.getElementById('spe_dec_err_msg').style.display = "none";
+
+            clr_1.style.border='1px solid #C7C7C7';
+            document.getElementById('spe_dec_color_err_msg').style.display = "none";
+
+            clr_2.style.border='1px solid #C7C7C7';
+            document.getElementById('spe_dec_color_err_msg').style.display = "none";
+          }
+        }
+        
+        /* mini cupcakes  sp dec start */
+        <%
+        m_c = 0
+        if @mini_cupcakes
+          for cupcake in @mini_cupcakes
+            m_c = m_c + 1
+          end
+        end
+        if m_c != 0 
+        %>
+        var has_special_decorations_mini = document.getElementById('has_special_decorations_mini');
+        
+        if(has_special_decorations_mini.checked == true){
+
+          var spe_dec_mini = document.getElementById('sp_dd_mini');
+          var clr_1_mini = document.getElementById('clr_1_mini');
+
+          if(trim(document.getElementById('sp_dec_notes_mini').value) == ""){
+
+            if(spe_dec_mini.value == "Select"){
+              spe_dec_mini.style.border='1px solid red';
+              document.getElementById('spe_dec_mini_err_msg').style.display = "block";
+              errMsg += "has_special_decorations_mini,";
+            }
+
+            var spe_dec = document.getElementById('sp_dd_mini');
+            var num = document.getElementById('number_mini');
+            if(spe_dec.value == "Numbers" && num.value == "Select"){
+              num.style.border='1px solid red';
+              document.getElementById('num_err_msg_mini').style.display = "block";
+              errMsg += "has_special_decorations_mini,";
+            }
+
+            var spe_dec = document.getElementById('sp_dd_mini');
+            var let = document.getElementById('letter_mini');
+            if(spe_dec.value == "Letters" && let.value == "Select"){
+              let.style.border='1px solid red';
+              document.getElementById('let_err_msg_mini').style.display = "block";
+              errMsg += "has_special_decorations_mini,";
+            }
+
+            if(clr_1_mini.value == "Select"){
+              clr_1_mini.style.border='1px solid red';
+              document.getElementById('spe_dec_mini_color_err_msg').style.display = "block";
+              errMsg += "has_special_decorations_mini,";
+            }
+
+            var color_2_mini = document.getElementById('color_2_mini');
+            var clr_2_mini = document.getElementById('clr_2_mini');
+
+            if(color_2_mini.style.display != 'none' && clr_2_mini.value == "Select"){
+              clr_2_mini.style.border='1px solid red';
+              document.getElementById('spe_dec_mini_color_err_msg').style.display = "block";
+              errMsg += "has_special_decorations_mini,";
+            }
+            
+
+          }
+          else if(trim(document.getElementById('sp_dec_notes_mini').value) != "" && (spe_dec_mini.value != "Select" || clr_1_mini.value != "Select" )){
+            if(spe_dec_mini.value == "Select"){
+              spe_dec_mini.style.border='1px solid red';
+              document.getElementById('spe_dec_mini_err_msg').style.display = "block";
+              errMsg += "has_special_decorations_mini,";
+            }
+
+            if(clr_1_mini.value == "Select"){
+              clr_1_mini.style.border='1px solid red';
+              document.getElementById('spe_dec_mini_color_err_msg').style.display = "block";
+              errMsg += "has_special_decorations_mini,";
+            }
+          }
+          else if(trim(document.getElementById('sp_dec_notes_mini').value) != "" && (spe_dec_mini.value == "Select" && clr_1_mini.value == "Select")){
+            spe_dec_mini.style.border='1px solid #C7C7C7';
+            document.getElementById('spe_dec_mini_err_msg').style.display = "none";
+
+            clr_1_mini.style.border='1px solid #C7C7C7';
+            document.getElementById('spe_dec_mini_color_err_msg').style.display = "none";            
+          }
+        }
+        <% end %>
+        /* mini cupcakes sp dec end */
+      }
+
+
+
+      //confirm delivery address
+      var isDelivery = document.getElementById("delivery_method_delivery").checked == true;
+      if (isDelivery ) {
+
+        // if shipto_is_business clicked then shipto_business required
+        var shipto_biz = document.getElementById("shipto_is_business").checked==true;
+        if(shipto_biz && document.getElementById("shipto_business").value == ""){
+
+          document.getElementById("bussines").style.display='block';
+          document.getElementById("shipto_business").style.border='1px solid red';
+          //document.getElementById("shipto_business").focus();
+          errMsg += "shipto_business,";
+        }
+        else {
+          document.getElementById("bussines").style.display='none';
+          document.getElementById("shipto_business").style.border='1px solid #C7C7C7';
+        }
+
+        var shipto_first = document.getElementById("shipto_first_name").value;
+        var shipto_last = document.getElementById("shipto_last_name").value;
+        var shipto_addr = document.getElementById("shipto_address_1").value;
+        var shipto_zip = document.getElementById("shipto_zip").value;
+        var isDeliveryInfoComplete = shipto_first == "" | shipto_last == "" | shipto_addr == "" | shipto_zip == "";
+
+        //if (isDeliveryInfoComplete) {
+        //errMsg += "* You have indicated that this order will be delivered. Please fill in the delivery address fields: first and last name, street address, and zip are required.\n";
+        //}
+        if (shipto_first==""){
+          document.getElementById("sfname").style.display='block';
+          document.getElementById("shipto_first_name").style.border='1px solid red';
+          //document.getElementById("shipto_first_name").focus();
+          errMsg += "shipto_first_name,";
+        }
+        else {
+          document.getElementById("sfname").style.display='none';
+          document.getElementById("shipto_first_name").style.border='1px solid #C7C7C7';
+        }
+
+        if (shipto_last==""){
+          document.getElementById("slname").style.display='block';
+          document.getElementById("shipto_last_name").style.border='1px solid red';
+          //document.getElementById("shipto_first_name").focus();
+          errMsg += "shipto_last_name,";
+        }
+        else {
+          document.getElementById("slname").style.display='none';
+          document.getElementById("shipto_last_name").style.border='1px solid #C7C7C7';
+        }
+
+        if (shipto_addr==""){
+          document.getElementById("sadd").style.display='block';
+          document.getElementById("shipto_address_1").style.border='1px solid red';
+          //document.getElementById("shipto_first_name").focus();
+          errMsg += "shipto_address_1,";
+        }
+        else {
+          document.getElementById("sadd").style.display='none';
+          document.getElementById("shipto_address_1").style.border='1px solid #C7C7C7';
+        }
+
+        if (shipto_zip==""){
+          document.getElementById("szip").style.display='block';
+          document.getElementById("shipto_zip").style.border='1px solid red';
+          //document.getElementById("shipto_first_name").focus();
+          errMsg += "shipto_zip,";
+        }
+        else {
+          document.getElementById("szip").style.display='none';
+          document.getElementById("shipto_zip").style.border='1px solid #C7C7C7';
+        }
+      }
+
+
+      var firstName = document.getElementById("first_name").value;
+      if( firstName.length == 0 ) {
+        //document.getElementById("a").value="* Please enter your first name.\n"
+        document.getElementById("fname").style.display='block';
+        document.getElementById("first_name").style.border='1px solid red';
+        // document.getElementById("first_name").focus();
+        errMsg += "first_name,";
+      }
+      else{
+        document.getElementById("fname").style.display='none';
+        document.getElementById("first_name").style.border='1px solid #C7C7C7';
+      }
+      var lastName = document.getElementById("last_name").value;
+      if( lastName.length == 0 ) {
+        document.getElementById("lname").style.display='block';
+        document.getElementById("last_name").style.border='1px solid red';
+        //document.getElementById("last_name").focus();
+        errMsg += "last_name,";
+      }
+      else {
+        document.getElementById("lname").style.display='none';
+        document.getElementById("last_name").style.border='1px solid #C7C7C7';
+      }
+      //var emAddress = document.getElementById("email").value;
+      //if((emAddress.indexOf('@') == -1) || (emAddress.indexOf('.') == -1)) {
+      //document.getElementById("cemail").style.display='block';
+      //document.getElementById("email").style.border='1px solid red';
+      // document.getElementById("email").focus();
+      // errMsg += "email,";
+      // }
+      //else {
+      // document.getElementById("cemail").style.display='none';
+      //document.getElementById("email").style.border='1px solid #C7C7C7';
+      // }
+      var phone = document.getElementById("primary_phone").value;
+      if( phone.length == 0 ) {
+        document.getElementById("phone").style.display='block';
+        document.getElementById("primary_phone").style.border='1px solid red';
+        //document.getElementById("primary_phone").focus();
+        errMsg += "primary_phone,";
+      }
+      else {
+        document.getElementById("phone").style.display='none';
+        document.getElementById("primary_phone").style.border='1px solid #C7C7C7';
+      }
+
+
+      //errMsg += "* One or more of the quantity fields have invalid values. Please enter a number or leave blank.\n";
+
+
+      <!-- bof Billing info validation -->
+
+
+      var paytype = document.getElementById("payment_type").value;
+
+      if(paytype == ""){
+        document.getElementById("paymenttype").style.display='block';
+        document.getElementById("payment_type").style.border='1px solid red';
+        errMsg += "payment_type,";
+      }
+      else if(paytype == "manager_override"){
+        var override_user = document.getElementById("override_user").value;
+        if(override_user == ""){
+          document.getElementById("override_usr_err").style.display='block';
+          document.getElementById("override_user").style.border='1px solid red';
+          errMsg += "override_user,";
+        }
+        else {
+          document.getElementById("override_usr_err").style.display='none';
+          document.getElementById("override_user").style.border='1px solid #C7C7C7';
+        }
+        var override_psw = document.getElementById("override_psw").value;
+        if(override_psw == ""){
+          document.getElementById("override_psw_err").style.display='block';
+          document.getElementById("override_psw").style.border='1px solid red';
+          errMsg += "override_psw,";
+        }
+        else {
+          document.getElementById("override_psw_err").style.display='none';
+          document.getElementById("override_psw").style.border='1px solid #C7C7C7';
+          //errMsg += "* Please enter the credit card verification code.\n";
+        }
+      }
+      else {
+        document.getElementById("paymenttype").style.display='none';
+        document.getElementById("payment_type").style.border='1px solid #C7C7C7';
+        //errMsg += "* Please enter the credit card verification code.\n";
+      }
+
+      var adminname = document.getElementById("admin_name").value;
+
+      if(adminname == ""){
+        document.getElementById("adminname").style.display='block';
+        document.getElementById("admin_name").style.border='1px solid red';
+        errMsg += "admin_name,";
+      }
+      else {
+        document.getElementById("adminname").style.display='none';
+        document.getElementById("admin_name").style.border='1px solid #C7C7C7';
+        //errMsg += "* Please enter the credit card verification code.\n";
+      }
+
+
+
+
+      ///////////////////////////////////////////////////////////////////////////////////////////
+
+      <!-- bof Billing info validation -->
+
+      if ( document.getElementById("adminCC").style.display=='block'){
+
+        var b_fname = document.getElementById("b_fname").value;
+        if( b_fname.length == 0 ) {
+          document.getElementById("bfname").style.display='block';
+          document.getElementById("b_fname").style.border='1px solid red';
+          // document.getElementById("b_fname").focus();
+          errMsg += "b_fname,";
+        }
+        else {
+          document.getElementById("bfname").style.display='none';
+          document.getElementById("b_fname").style.border='1px solid #C7C7C7';
+        }
+
+        var b_lname = document.getElementById("b_lname").value;
+        if( b_lname.length == 0 ) {
+          document.getElementById("blname").style.display='block';
+          document.getElementById("b_lname").style.border='1px solid red';
+          //document.getElementById("b_lname").focus();
+          errMsg += "b_lname,";
+        }
+        else {
+          document.getElementById("blname").style.display='none';
+          document.getElementById("b_lname").style.border='1px solid #C7C7C7';
+          //errMsg += "* Please enter the billing last name.\n";
+        }
+
+        var b_adrs = document.getElementById("b_adrs").value;
+        if( b_adrs.length == 0 ) {
+          document.getElementById("badd").style.display='block';
+          document.getElementById("b_adrs").style.border='1px solid red';
+          // document.getElementById("b_adrs").focus();
+          errMsg += "b_adrs,";
+        }
+        else {
+          document.getElementById("badd").style.display='none';
+          document.getElementById("b_adrs").style.border='1px solid #C7C7C7';
+          //errMsg += "* Please enter the billing street address.\n";
+        }
+
+        var b_city = document.getElementById("b_city").value;
+        if( b_city.length == 0 ) {
+          document.getElementById("bcity").style.display='block';
+          document.getElementById("b_city").style.border='1px solid red';
+          //document.getElementById("b_city").focus();
+          errMsg += "b_city,";
+        }
+        else {
+          document.getElementById("bcity").style.display='none';
+          document.getElementById("b_city").style.border='1px solid #C7C7C7';
+          //errMsg += "* Please enter the billing city.\n";
+        }
+
+        var b_state = document.getElementById("b_state").value;
+        if( b_state.length == 0 ) {
+          document.getElementById("bstate").style.display='block';
+          document.getElementById("b_state").style.border='1px solid red';
+          // document.getElementById("b_state").focus();
+          errMsg += "b_state,";
+        }
+        else {
+          document.getElementById("bstate").style.display='none';
+          document.getElementById("b_state").style.border='1px solid #C7C7C7';
+          //errMsg += "* Please enter the billing state.\n";
+        }
+
+        var b_zip = document.getElementById("b_zip").value;
+        if( b_zip.length == 0 ) {
+          document.getElementById("bzip").style.display='block';
+          document.getElementById("b_zip").style.border='1px solid red';
+          //document.getElementById("b_zip").focus();
+          errMsg += "b_zip,";
+        }
+        else {
+          document.getElementById("bzip").style.display='none';
+          document.getElementById("b_zip").style.border='1px solid #C7C7C7';
+          //errMsg += "* Please enter the billing zip code.\n";
+        }
+
+
+            var cc_type = document.getElementById("cc_type").value;
+            if( cc_type == "Select" ) {
+              document.getElementById("cctype").style.display='block';
+              document.getElementById("cc_type").style.border='1px solid red';
+              // document.getElementById("cc_type").focus();
+              errMsg += "cc_type,";
+            }
+            else {
+              document.getElementById("cctype").style.display='none';
+              document.getElementById("cc_type").style.border='1px solid #C7C7C7';
+              //errMsg += "* Please select a credit card type.\n";
+            }
+
+            var ccn = document.getElementById("ccn").value;
+
+            if(cc_type != "Select"){
+              myCardType = document.getElementById('cc_type').value;
+              if (checkCreditCard (ccn, myCardType)) {
+                document.getElementById("ccnumber").style.display='none';
+                document.getElementById("ccn").style.border='1px solid #C7C7C7';
+
+              }
+              else {
+                document.getElementById("ccnumber").style.display='block';
+                document.getElementById("ccn").style.border='1px solid red';
+                document.getElementById("ccnumber").innerHTML= ccErrors[ccErrorNo];
+                //document.getElementById("ccn").focus();
+                errMsg += "ccn,";
+                //errMsg += ccErrors[ccErrorNo] + "\n";
+              }
+            }
+
+            var ccv = document.getElementById("ccv").value;
+            if( ccv.length == 0 ) {
+              document.getElementById("ccvery").style.display='block';
+              document.getElementById("ccv").style.border='1px solid red';
+              errMsg += "ccv,";
+            }
+            else {
+              document.getElementById("ccvery").style.display='none';
+              document.getElementById("ccv").style.border='1px solid #C7C7C7';
+              //errMsg += "* Please enter the credit card verification code.\n";
+            }
+
+
+
+
+            var exp_month = document.getElementById("exp_month").value;
+            var exp_year = document.getElementById("exp_year").value;
+            if( (exp_month == "Month") ||(exp_year == "Year") ) {
+              document.getElementById("expymonth").style.display='block';
+              document.getElementById("expymonth").innerHTML='Please select the credit card expiration month/year.';
+              if( (exp_month == "Month")&& (exp_year == "Year")){
+                document.getElementById("exp_month").style.border='1px solid red';
+                document.getElementById("exp_year").style.border='1px solid red';
+                errMsg += "exp_month,";
+              }
+              else {
+                if (exp_month == "Month"){
+                  document.getElementById("exp_month").style.border='1px solid red';
+                  document.getElementById("exp_year").style.border='1px solid #C7C7C7';
+                  errMsg += "exp_month,";
+                }
+                else {
+                  document.getElementById("exp_year").style.border='1px solid red';
+                  document.getElementById("exp_month").style.border='1px solid #C7C7C7';
+                  errMsg += "exp_month,";
+                }
+
+              }
+            }
+            else {
+
+              if(exp_month < <%= Time.now.month %> && exp_year <= '<%= Time.now.year %>'){
+                document.getElementById("expymonth").style.display='block';
+                document.getElementById("expymonth").innerHTML='Invalid Credit Card expiration.';
+                document.getElementById("exp_month").style.border='1px solid red';
+                document.getElementById("exp_year").style.border='1px solid red';
+                errMsg += "exp_month,";
+              }
+              else {
+                document.getElementById("expymonth").style.display='none';
+                document.getElementById("exp_month").style.border='1px solid #C7C7C7';
+                document.getElementById("exp_year").style.border='1px solid #C7C7C7';
+                //errMsg += "* Invalid Credit Card expiration.\n";
+              }
+
+              //document.getElementById("expymonth").style.display='none';
+              //document.getElementById("exp_month").style.border='';
+              //document.getElementById("exp_year").style.border='';
+              //errMsg += "* Please select the credit card expiration month.\n";
+            }
+          }
+          //////////////////////////////////////////////////////////////
+
+
+          var tnc = document.getElementById("tnc").checked;
+          if( tnc != true ) {
+            document.getElementById("termsncon").style.display='block';
+            //document.getElementById("exp_year").style.border='1px solid red';
+            errMsg += "tnc,";
+          }
+          else {
+            document.getElementById("termsncon").style.display='none';
+            // document.getElementById("exp_year").style.border='';
+            //errMsg += "* You must agree to the Crave Cupcakes terms and conditions.\n";
+          }
+
+          <!-- eof Billing info valication-->
+
+
+          //alert( errMsg );
+          if( errMsg.length > 0 ){
+            myArray = errMsg.split(",");
+            //alert( myArray[0] );
+            document.getElementById(myArray[0]).focus();
+            return false;
+          } else {
+            checkCupcakesAvailabilityforSpDec();
+            return true;
+          }
+        }
+
+
+        function checkCupcakesAvailabilityforSpDec(){
+          var com = document.getElementById('no_of_orders_cake');
+
+          if(isNaN(parseInt(com.value)) || com.value == 0){
+            document.getElementById("has_special_decorations").checked = false;
+            clearSpDec();
+            return false;
+          }
+        }
+
+
+
+        function isbusinessShow(obj){
+
+          if (obj.checked == true){
+            document.getElementById('ship2biz').style.display = "block"
+          }
+          else{
+            document.getElementById('ship2biz').style.display = "none"
+            document.getElementById('shipto_business').value = ''
+          }
+
+        }
+
+        // func. Show/Hide element by id
+        function showHowToBoxed(obj, id){
+          if (obj.checked == true){
+            document.getElementById(id).style.display = "block"
+          }
+          else{
+            document.getElementById(id).style.display = "none"
+          }
+        }
+
+        function hideHowToBoxed(obj, id){
+
+          if (obj.checked == true){
+            document.getElementById(id).style.display = "none"
+            document.getElementById('howtoboxed_special').style.display = "none"
+            document.getElementById('howbox_remainderof_order').style.display = "none"
+            document.getElementById('noof_induv_cupcake').value = ''
+            document.getElementById('remainder_cupcakes_crave_blue_gift_box').checked = false
+            document.getElementById('remainder_cupcakes_white_gift_box_with_ribbon').checked = false
+            document.getElementById('remainder_cupcakes_standared_backery_box').checked = false
+          }
+          else{
+            document.getElementById(id).style.display = "none"
+          }
+        }
+
+        function hideHowToBoxedMore(obj, id){
+
+          if (obj.checked == true){
+            document.getElementById(id).style.display = "none"
+            document.getElementById('howtoboxed_special').style.display = "none"
+            document.getElementById('howbox_remainderof_order').style.display = "none"
+            document.getElementById('noof_induv_cupcake').value = ''
+            document.getElementById('remainder_cupcakes_crave_blue_gift_box').checked = false
+            document.getElementById('remainder_cupcakes_white_gift_box_with_ribbon').checked = false
+            document.getElementById('remainder_cupcakes_standared_backery_box').checked = false
+
+            var remaincupcakes =(( parseFloat(document.getElementById('only_cup_cakes').value))%12.0);
+
+            if (remaincupcakes != 0 ){
+              alert('Your cupcake order is not in multiples of a dozen and would result in a partially filled CRAVE Blue Gift Box. Our gift boxes cannot be partially filled; they must contain a dozen cupcakes each. Please change the number of cupcakes in your order to multiples of a dozen. Alternately, you may opt to box the cupcakes in a standard white bakery box (these can be partially filled)')
+              obj.checked = false;
+
+
+            }
+
+          }
+          else{
+            document.getElementById(id).style.display = "none"
+          }
+        }
+
+        // getting delivery fee Ajax
+        function getDeliveryFee(obj){
+          var xmlhttp;
+          if (window.XMLHttpRequest){
+            xmlhttp=new XMLHttpRequest();
+          }
+          else if (window.ActiveXObject){
+            xmlhttp=new ActiveXObject("Microsoft.XMLHTTP");
+          }
+          else{
+            alert("Your browser does not support XMLHTTP!");
+          }
+
+          xmlhttp.onreadystatechange=function(){
+            if(xmlhttp.readyState==4){
+              document.getElementById("deli_fee").innerHTML = xmlhttp.responseText != "0" ?  xmlhttp.responseText : "<font color='red'>We're sorry.<br>That zip code is outside our delivery area.</font>";
+            }
+          }
+
+          var url="/delivery";
+
+          xmlhttp.open("POST",url,true);
+          xmlhttp.setRequestHeader(
+          'Content-Type',
+          'application/x-www-form-urlencoded; charset=UTF-8'
+        );
+
+          var store = document.getElementById("store1").checked == true ? 1 : 2;
+          xmlhttp.send("store=" + store + "&zip=" + document.getElementById("shipto_zip").value);
+        }
+
+        // set anchor when submit
+        function setAnchor(id){
+          document.getElementById("order-cupcakes").action = "/order#" + id;
+        }
+
+        // func. for set Store data and hide store not selected msg
+        function setStoreData(obj){
+          document.getElementById('store_data').innerHTML = (obj.value == "Uptown Park") ?  "Store name/location:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<b>Uptown Park</b>" : "Store name/location:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<b>West University</b>";
+          document.getElementById("if_not_d_n_t").style.display = "none";
+        }
+
+        // func. for check invalid qtys
+        function chk_qtys(){
+          var frm = document.getElementById('order-cupcakes');
+          var totalSpecials = "";
+          for (var i = 0; i < frm.elements.length; i++) {
+            if (frm.elements[i].type == "text" && (frm.elements[i].name.indexOf("specials") != -1 || frm.elements[i].name.indexOf("cupcakes") != -1 || frm.elements[i].name.indexOf("products") != -1) && (isNaN(parseInt(frm.elements[i].value)))) {
+              totalSpecials += frm.elements[i].value;
+            }
+          }
+          return totalSpecials != "" ? true : false;
+        }
+
+        function popitup() {
+          newwindow=window.open("/privacy",'Crave','left=300,top=100,height=400,width=500');
+          return false;
+        }
+
+
+
+</script>
+
+
+<% if session[:vars] != nil
+  prev_vars = session[:vars]
+else
+  prev_vars = ""
+end
+%>
+
+
+
+
+
+<style>
+  .txt{
+    font-size:13px;
+    font-weight:bold;
+    margin:10px 12px 10px 15px;
+    line-height:1.5em;
+    display:block;
+    color:#522C1B;
+  }
+
+  .txt_new{
+    font-size:13px;
+    font-weight:bold;
+    margin:10px 12px 10px 1px;
+    line-height:1.5em;
+    display:block;
+    color:#522C1B;
+  }
+
+  .txt1{
+    font-size:13px;
+    font-weight:bold;
+    margin:11px 12px 10px -6px;
+    line-height:1.5em;
+    display:block;
+    color:#522C1B;
+  }
+</style>
+<!-- css for onmouseover effect of a thumbnail.  janath-->
+<style type="text/css">
+
+
+  .thumbnail{
+    position: relative;
+    z-index: 0;
+
+  }
+
+  .thumbnail:hover{
+    background-color: transparent;
+    z-index: 1;
+
+  }
+
+  .thumbnail span{ /*CSS for enlarged image*/
+                   position: absolute;
+                   background-color: #C5E9E8;
+                   padding: 0px;
+                   left: -1000px;
+                   border: 0px ;
+                   visibility: hidden;
+                   color: black;
+                   text-decoration: none;
+                   width:200px;
+                   height:200px;
+                   font-family:Futura,Geneva,"Century Gothic","News Gothic MT",Helvetica,Arial,Verdana,sans-serif;
+                   font-size:0.8em;
+                   font-weight:600;
+                   z-index:-100;
+
+
+
+  }
+
+  .thumbnail span img{ /*CSS for enlarged image*/
+                       border-width: 0;
+                       padding:0;
+                       width:200px;
+                       height:200px;
+                       z-index:-100;
+
+
+  }
+
+  .thumbnail:hover span{ /*CSS for enlarged image on hover*/
+                         visibility: visible;
+                         top: 0;
+                         left: 50px; /*position where enlarged image should offset horizontally */
+                         z-index:-100;
+  }
+
+  button.ui-datepicker-trigger{
+
+    background-image:url("../images/cal.jpg") ;
+    background-repeat:no-repeat;
+    margin-top:-7px;
+
+    padding-top:26px;
+    *padding-top:50px;
+    width:32px;
+    height:28px;
+    border:0;
+    margin-left:4px;
+    float:left;
+  }
+
+</style>
+
+<!--end of css for onmouseover effect of a thumbnail. janath -->
+
+<div class="main">
+  <div id="details">
+    <div id="order-instructions">
+      <h2>Order Crave Cupcakes</h2>
+      <p>Every day we serve up a unique collection of cupcake flavors. We bake in small batches throughout the day. This ensures the cupcakes are the absolute freshest. However, it also means we, on occasion, do sell out of certain flavors. Order at least 24 hours in advance, and we&rsquo;ll make sure your favorite daily flavors (minimum: one dozen) are boxed and ready for pickup or delivery.</p>
+    </div><!--end: instructions-->
+
+    <div id="download-buttons">
+      <h6><a title="Click to download this PDF document to your desktop. Depending on the browser you are using, you may be asked to save this file." target="_blank" class="fir" id="download-menu" href="/menu_download">Download Menu</a></h6>
+      <center><h6>VIEW SPECIAL DECORATIONS</h6></center>
+      <h6 style="margin-top: 5px;"><a title="View special decorations for origi
+                                      nal size cupcakes" class="fir" id="download-sp-decor" onClick="window.open('/special_decorations','Crave','left=200,top=50,height=800,width=900'); return false;" href="#">Download Special Decorations</a></h6>
+      <h6 style="margin-top: 5px;"><a title="View special decorations for mini cupcakes" class="fir" id="download-mini-decor" onCLick="window.open('/mini_special_decorations','Crave','left=200,top=50,height=800,width=900'); return false;" href="#">Download Menu</a></h6>
+    </div>
+    <hr class="fir" id="dots" />
+    <!--[if lte IE 7]>
+      <p id="failover-dots">horizontal rule</p>
+    <![endif]-->
+    <div id="order-form">
+      <%
+      if(@deli_error)
+      %>
+        <div class="txt" style="color:red;"><%= @deli_error %></div>
+      <%
+      end
+    %>
+        
+
+      <h3 style="width:600px;">ONLINE ORDERS FOR THE NEXT DAY MUST BE PLACED PRIOR TO 5PM.</h3>
+      <h3 style="width:900px;">TO CANCEL AN EXISTING ORDER YOU MUST DO SO AT LEAST 24 HOURS IN ADVANCE AT 713-622-7283.</h3>
+      <h3>For merchandise only orders, please call the store.</h3>
+
+      <form method="post" action="/order" id="order-cupcakes">
+
+        <!-- Start of Select a store -->
+     <%= render :partial=>'order_store' %>
+        <!-- End of Select a store -->
+
+        
+        
+        
+        
+      <!--date and time of order-->
+      
+      <%= render :partial=>'order_date_time' ,:locals =>{:day => @day, :prev_vars => prev_vars} %>
+      <!--End of date and time of order-->
+     
+      
+      
+      
+      
+        <!-- Start of da Special section -->
+        <%= render :partial => 'order_special_section', :locals => {:prev_vars => prev_vars} %>
+        <!-- End of da special section -->
+       
+         
+        
+        
+        
+        <!-- Start of Crave original cup cakes -->
+        
+         <%= render :partial => 'order_crave_original_cupcakes', :locals => {:prev_vars => prev_vars} %>
+       
+        <!-- ------packaging end ------- -->
+        
+        
+        
+        
+       
+        <!-- Start of mini cupcake section start -->
+       <%= render :partial => 'order_mini_cupcakes', :locals => {:prev_vars => prev_vars} %>
+        
+        <!-- End of mini cupcake section end -->
+
+
+         
+        
+             
+        
+        <!-- Start of cupcake order start -->
+       <%= render :partial => 'order_cupcakes', :locals => {:prev_vars => prev_vars,:m_c => m_c} %>
+        
+        <!-- End of cupcake order end -->
+
+
+        
+        
+             <!-- Start of  Order products start -->
+       <%= render :partial => 'order_products', :locals => {:prev_vars => prev_vars} %>
+        
+        <!-- End of Order products end -->
+
+
+        
+
+
+
+    
+        
+        <!-- Start of  Order receipent information start -->
+       <%= render :partial => 'order_receipent_information', :locals => {:prev_vars => prev_vars} %>
+        
+        <!-- End of Order  receipent information end -->
+
+
+        
+     
+          <!-- Start of  Order information start -->
+       <%= render :partial => 'order_information', :locals => {:prev_vars => prev_vars} %>
+        
+        <!-- End of Order information end -->
+
+        
+        
+        
+        
+
+        <!-- Start of  Order payment information start -->
+    
+        <%if session[:user_name]==nil %>
+         <%= render :partial => 'order_payment_information', :locals => {:prev_vars => prev_vars} %>
+          <p></p> <br><br>
+
+        <% end %>
+        
+        <!-- End of Order payment information end -->
+
+
+        
+      
+        
+
+        <%if session[:user_name]==nil %>
+          <div id="submit-button">
+            <input type="image" src="/images/ui/forms/button_submit.gif" value="true" alt="Submit" title="Submit" name="submit_button" id="submit_button" onClick="return validateForm( this.form );"/>
+          </div>
+        <% else %>
+          <br/>
+          <div id="submit-button1">
+
+            <div id="backtoadmin" align="left" style="float:left;margin:0 0 0 40px; width:200px; height:20px ; position:relative; padding-top:16px;">
+              <a href="/login" id="backtoadmin">
+                
+                <img src="/images/btn_back_to_admin.jpg" onmouseover="this.src='/images/btn_back_to_admin_over.jpg';" onmouseout="this.src='/images/btn_back_to_admin.jpg';" style="border:0px;" />
+              </a>
+            </div>
+            <div style="float:left;">
+              <p>
+                <span id="biz-rule1">Submit to review Order </span>
+              </p>
+            </div>
+            <div style="float:left; padding-right:40px; padding-top:8px;">
+              <input type="image" src="/images/ui/forms/button_submit.gif" value="true" alt="Submit" title="Submit" name="submit_button" id="submit_button" onClick="return validateFormAdmin( this.form );"/>
+            </div>
+
+          </div>
+        <% end %>
+        <input type="hidden" name="max_order" id="max_order" value="ass">
+      </form>
+
+    </div>
+
+  </div>
+
+</div>
+
+<script type="text/javascript">
+
+      window.onload=candleDisplay();
+</script> 

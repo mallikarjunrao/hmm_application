@@ -1,0 +1,347 @@
+
+<fieldset class="">
+            <legend>Payment Information</legend>
+
+            <% if params[:delivery_method] == "delivery" %>
+              <div class="field-wrap" style="margin-bottom: 20px; *margin-bottom: 25px;">
+                <label>Same as:</label>
+                <div style="width: 150px; float: left;">
+                  <input type="checkbox" id="res_to_pay" onClick="setRespInfoToPayment(this)" style="margin: 0px 5px 0px 3px; *margin: 0px 5px 0px 0px;"><span class="chkbox_right_text">Recipient Information</span>
+                  <input type="checkbox" id="urs_to_pay" onClick="setYoursInfoToPayment(this)" style="margin: 0px 5px 0px 3px; *margin: 0px 5px 0px 0px;"><span class="chkbox_right_text">Your Information</span>
+                </div>
+              </div>
+            <% else%>
+              <div class="field-wrap">
+                <label>Same as:</label>
+                <input type="checkbox" onClick="setYoursInfoToPayment(this)" style="margin: 0px 5px 0px 3px; *margin: 0px 5px 0px 0px;"><span class="chkbox_right_text">Your Information</span>
+              </div>
+            <% end %>
+
+
+            <div class="field-wrap">
+              <label>First Name:</label>
+              <%= text_field_tag "b_fname", prev_vars[:b_fname],:class => 'text-field',:onkeypress=>"Toggle('bfname','b_fname');" %>
+            </div>
+            <div class="field-wrap1" id="bfname" style="display:none;" align="right"> Please enter the  first name.</div>
+            <div class="field-wrap">
+              <label>Last Name:</label>
+              <%= text_field_tag "b_lname", prev_vars[:b_lname], {:class => 'text-field',:onkeypress=>"Toggle('blname','b_lname');"} %>
+            </div>
+            <div class="field-wrap1" id="blname" style="display:none;" align="right"> Please enter the  last name.</div>
+            <div class="field-wrap">
+              <label>Address:</label>
+              <%= text_field_tag "b_adrs", prev_vars[:b_adrs], {:class => 'text-field',:onkeypress=>"Toggle('badd','b_adrs');"} %>
+            </div>
+            <div class="field-wrap1" id="badd" style="display:none;" align="right"> Please enter the  address.</div>
+            <div class="field-wrap">
+              <label>City:</label>
+              <%= text_field_tag "b_city", prev_vars[:b_city], {:class => 'text-field',:onkeypress=>"Toggle('bcity','b_city');"} %>
+            </div>
+            <div class="field-wrap1" id="bcity" style="display:none;" align="right"> Please enter the city name.</div>
+            <div class="field-wrap">
+              <label>State:</label>
+              <%= text_field_tag "b_state", prev_vars[:b_state], {:class => 'text-field',:onkeypress=>"Toggle('bstate','b_state');"} %>
+            </div>
+            <div class="field-wrap1" id="bstate" style="display:none;" align="right"> Please enter the state name.</div>
+            <div class="field-wrap">
+              <label>Zip Code:</label>
+              <%= text_field_tag "b_zip", prev_vars[:b_zip], {:class => 'text-field',:onkeypress=>"Toggle('bzip','b_zip');"} %>
+            </div>
+            <div class="field-wrap1" id="bzip" style="display:none;" align="right"> Please enter the zipcode.</div>
+
+
+
+            <div class="field-wrap">
+              <label>Card Type:</label>
+              <SELECT name="cc_type" id="cc_type" style="width:180px;" onchange="Toggle('cctype','cc_type');">
+                <option value="Select">Select</option>
+                <option value="visa" <%= prev_vars[:cc_type] == "VISA"? "selected='selected'" : "" %>>VISA</option>
+                <option value="master" <%= prev_vars[:cc_type] == "MasterCard"? "selected='selected'" : "" %>>MasterCard</option>
+                <option value="american_express" <%= prev_vars[:cc_type] == "American Express"? "selected='selected'" : "" %>>American Express</option>
+                <option value="Discover" <%= prev_vars[:cc_type] == "Discover"? "selected='selected'" : "" %>>Discover</option>
+              </SELECT>
+            </div>
+            <div class="field-wrap1" id="cctype" style="display:none;" align="right"> Please select credit card type.</div>
+            <div class="field-wrap">
+              <label>Credit Card No:</label>
+              <%= text_field_tag "ccn", prev_vars[:ccn], {:class => 'text-field',:onkeypress=>"Toggle('ccnumber','ccn');"} %>
+            </div>
+            <div class="field-wrap1" id="ccnumber" style="display:none;" align="right">  Please enter valid credit card number.</div>
+            <div class="field-wrap">
+              <label>CCV #:</label>
+              <%= text_field_tag "ccv", prev_vars[:ccv], {:class => 'text-field',:onkeypress=>"Toggle('ccvery','ccv');"} %>
+            </div>
+            <div class="field-wrap1" id="ccvery" style="display:none;" align="right">  Please enter the credit card verification code.</div>
+
+            <div class="field-wrap">
+              <label>Expiration:</label>
+              <select name="exp_month" id="exp_month" style="width:120px;" onchange="Toggle('expymonth','exp_month');">
+                <option value="Month">Month</option>
+                <option value="1" <%= prev_vars[:exp_month] == "January"? "selected='selected'" : "" %>>January</option>
+                <option value="2" <%= prev_vars[:exp_month] == "February"? "selected='selected'" : "" %>>February</option>
+                <option value="3" <%= prev_vars[:exp_month] == "March"? "selected='selected'" : "" %>>March</option>
+                <option value="4" <%= prev_vars[:exp_month] == "April"? "selected='selected'" : "" %>>April</option>
+                <option value="5" <%= prev_vars[:exp_month] == "May"? "selected='selected'" : "" %>>May</option>
+                <option value="6" <%= prev_vars[:exp_month] == "June"? "selected='selected'" : "" %>>June</option>
+                <option value="7" <%= prev_vars[:exp_month] == "July"? "selected='selected'" : "" %>>July</option>
+                <option value="8" <%= prev_vars[:exp_month] == "August"? "selected='selected'" : "" %>>August</option>
+                <option value="9" <%= prev_vars[:exp_month] == "September"? "selected='selected'" : "" %>>September</option>
+                <option value="10" <%= prev_vars[:exp_month] == "October"? "selected='selected'" : "" %>>October</option>
+                <option value="11" <%= prev_vars[:exp_month] == "November"? "selected='selected'" : "" %>>November</option>
+                <option value="12" <%= prev_vars[:exp_month] == "December"? "selected='selected'" : "" %>>December</option>
+              </select>
+              <select name="exp_year" id="exp_year" onchange="Toggle('expymonth','exp_year');">
+                <option value="Year">Year</option>
+                <%
+                curr_year = Time.new.year
+                for y in curr_year..curr_year+10
+                %>
+                  <option value="<%= y %>" <%= y.to_s == prev_vars[:exp_year] ? "selected='selected'" : "" %>><%= y %></option>
+                <% end %>
+              </select>
+            </div>
+            <div class="field-wrap1" id="expymonth" style="display:none;" align="right"> </div>
+
+            <div class="field-wrap" align="right">
+              <div class="txt" style="font-weight:normal;width:320px;">
+                <input type="checkbox" name="tnc" id="tnc" onchange="Toggle('termsncon','tnc');">&nbsp;I agree to the CRAVE Terms and Conditions.<br>
+                <p align="left" style="padding-left:60px; *padding-left:40px; font-size:11px;">Click <a href="##" onclick="popitup()">here</a> to read the terms and conditions.</p>
+              </div>
+
+            </div>
+            <br>
+            <div class="field-wrap8" id="termsncon" style="display:none;" align="right"> You must agree to the Crave Cupcakes terms and conditions.</div>
+            <br>
+          </fieldset>
+          <p><span id="biz-rule">Click submit to review your order.</span></p>
+          <p><span id="biz-rule" style="font-weight:bold"> Your credit card will not be charged until you review and confirm your order on the next page. </span></p>
+
+          <!--when Admin loging bypass the payment gateway.-->
+        <% else %>
+
+
+          <fieldset>
+            <legend>Other Order Notes</legend>
+            <div class="field-wrap" style="height:120px; *height:105px;">
+              <!--<label style="text-align:left; padding-left:25px;">Other Order Notes:</label>-->
+              <div style="padding: 10px 0px 0px 25px;">
+                <textarea style="width:465px;" name="other_notes" rows="5"><%= prev_vars[:other_notes] %></textarea>
+              </div>
+            </div>
+          </fieldset>
+
+          <script type="text/javascript">
+            function showAutoFill(obj){
+              if(obj.value == "Pay_with_a_credit_card"){
+                document.getElementById('auto_fill').style.display = "block";
+              }
+              else{
+                document.getElementById('auto_fill').style.display = "none";
+              }
+            }
+        </script>
+
+          <fieldset class="" id="override_anchor"><!--candles-->
+            <legend>Payment Information</legend>
+            <div id="hiddenVal" style="display:block;">
+              <input type="hidden" name="admin" value="admin">
+
+              <input type="hidden" name="admin_email" value="<%=  session[:user_email] %>">
+
+            </div>
+
+            <% if params[:delivery_method] == "delivery" %>
+              <div class="field-wrap" style="margin-bottom: 20px; *margin-bottom: 25px; display:none;" id="auto_fill">
+                <label>Same as:</label>
+                <div style="width: 150px; float: left;">
+                  <input type="checkbox" id="res_to_pay"  onClick="setRespInfoToPayment(this)" style="margin: 0px 5px 0px 3px; *margin: 0px 5px 0px 0px;"><span class="chkbox_right_text">Recipient Information</span>
+                  <input type="checkbox" id="urs_to_pay"  onClick="setYoursInfoToPayment(this)" style="margin: 0px 5px 0px 3px; *margin: 0px 5px 0px 0px;"><span class="chkbox_right_text">Your Information</span>
+                </div>
+              </div>
+            <% else%>
+              <div class="field-wrap" id="auto_fill" style="display:none;">
+                <label>Same as:</label>
+                <input type="checkbox" onClick="setYoursInfoToPayment(this)" style="margin: 0px 5px 0px 3px; *margin: 0px 5px 0px 0px;"><span class="chkbox_right_text">Your Information</span>
+              </div>
+            <% end %>
+
+            <div class="field-wrap">
+              <label>Customer Service Representative:</label>
+              <SELECT name="admin_name" id="admin_name" style="width:180px;" onchange="Toggle('adminname','admin_name');">
+                <option value="">Select</option>
+                <% for admin in @admin_users %>
+                  <option value="<%= admin.username %>" <%= prev_vars[:admin_name] != nil ?  (prev_vars[:admin_name] == admin.username ? "selected='selected'" : "") : (params[:admin_name]== admin.username ? "selected='selected'" : "") %>><%= admin.first_name %> <%= admin.last_name %></option>
+                <% end %>
+              </SELECT>
+            </div>
+            <div class="field-wrap1" id="adminname" style="display:none;" align="right">  Please select representative name.</div>
+
+            <script type="text/javascript">
+                  function showOverrideBox(obj){
+                    if(obj.value == "manager_override"){
+                      document.getElementById('override_box').style.display = "block";
+                    }
+                    else{
+                      document.getElementById('override_box').style.display = "none";
+                    }
+                  }
+            </script>
+
+            <div class="field-wrap">
+              <label>Payment Type:</label>
+              <SELECT name="payment_type" id="payment_type" style="width:180px;"  onchange="adminCrediCard(); showOverrideBox(this); showAutoFill(this);">
+                <option value="">Select</option>
+                <% if session[:restricted] == false || session[:user_overrode] == true %>
+                  <option value="prepaid_creditcard" <%=  prev_vars[:payment_type] != nil ? ( prev_vars[:payment_type]== "prepaid_creditcard"? "selected='selected'" : "" ) : (params[:payment_type]== "prepaid_creditcard"? "selected='selected'" : "") %> >Pre-paid with a credit card</option>
+                  <option value="prepaid_cash" <%=  prev_vars[:payment_type] != nil ? ( prev_vars[:payment_type]== "prepaid_cash"? "selected='selected'" : "") : (params[:payment_type]== "prepaid_cash"? "selected='selected'" : "") %>>Pre-paid in cash</option>
+                  <option value="payment_on_delivery" <%= prev_vars[:payment_type] != nil ? ( prev_vars[:payment_type]== "payment_on_delivery"? "selected='selected'" : "") : (params[:payment_type]== "payment_on_delivery"? "selected='selected'" : "") %>>Payment on delivery</option>
+                <% end %>
+                <option value="Pay_with_a_credit_card" <%= prev_vars[:payment_type] != nil ? ( prev_vars[:payment_type]== "Pay_with_a_credit_card"? "selected='selected'" : "") : (params[:payment_type]== "Pay_with_a_credit_card"? "selected='selected'" : "") %>>Pay with a credit card</option>
+                <option value="Pay_with_a_CRAVE_gift_card" <%= prev_vars[:payment_type] != nil ? ( prev_vars[:payment_type]== "Pay_with_a_CRAVE_gift_card"? "selected='selected'" : "") : (params[:payment_type]== "Pay_with_a_CRAVE_gift_card"? "selected='selected'" : "") %>>Pay with a CRAVE gift card</option>
+                <% if session[:restricted] == false || session[:user_overrode] == true %>
+                  <option value="no_charge" <%= prev_vars[:payment_type] != nil ? ( prev_vars[:payment_type]== "no_charge"? "selected='selected'" : "") : (params[:payment_type]== "no_charge"? "selected='selected'" : "") %>>COMP (no charge)</option>
+                  <option value="emp_payment_at_pos" <%= prev_vars[:payment_type] != nil ? ( prev_vars[:payment_type]== "emp_payment_at_pos"? "selected='selected'" : "") : (params[:payment_type]== "emp_payment_at_pos"? "selected='selected'" : "") %>>Employee Payment at POS</option>
+                <% end %>
+                <% if session[:user_overrode] == false && session[:restricted] == true %>
+                  <option value="manager_override" <%= prev_vars[:payment_type] != nil ? ( prev_vars[:payment_type] == "manager_override"? "selected='selected'" : "") : (params[:payment_type]== "manager_override"? "selected='selected'" : "") %>>MANAGER OVERRIDE</option>
+                <% end %>
+              </SELECT>
+            </div>
+            <div class="field-wrap1" id="paymenttype" style="display:none;" align="right"> Please select payment type.</div>
+
+
+            <fieldset class="field-wrap" id="override_box" style="display:<%= ((@override_msg != "") || (prev_vars[:payment_type] == "manager_override" &&  session[:user_overrode] == false))? "block" : "none" %>; width: 300px; margin-left:200px; ">
+              <legend>Manager Override:</legend><br>
+              <div class="field-wrap">
+                <label style="width:100px;">User Name:</label>
+                <%= text_field_tag "override_user", "",:class => 'text-field', :onkeyup => "Toggle('override_usr_err','override_user');" %> <br>
+              </div>
+              <div class="field-wrap1" id="override_usr_err" style="width: 300px; display:none;" align="right">Please enter the override user name.</div>
+              <div class="field-wrap">
+                <label style="width:100px;">Password:</label>
+                <%= password_field_tag "override_psw", "",:class => 'text-field', :onkeyup => "Toggle('override_psw_err','override_psw');" %>
+              </div>
+              <div class="field-wrap1" id="override_psw_err" style="width: 300px; display:none;" align="right">Please enter the override user password.</div>
+              <div class="field-wrap">
+                <label style="width:100px;">&nbsp;</label>
+                <input type="image" src="/images/btn_override.jpg" onClick="setAnchor('override_anchor')"  onmouseover="this.src='/images/btn_override_over.jpg';" onmouseout="this.src='/images/btn_override.jpg';"  value="override" alt="Override" title="Override" name="override_button" id="override_button" />
+                <br clear="all">
+              </div>
+            </fieldset>
+
+            <% if @override_msg != "" %>
+              <div class="field-wrap1" align="right"><%= @override_msg %></div>
+            <% end %>
+
+            <% if (session[:user_overrode] != nil && session[:user_overrode] == true) %>
+              <p align="left" style="padding-left: 68px; font-size: 13px;">Payment type restrictions overridden by: &nbsp;&nbsp;&nbsp;<strong><%= session[:overridden_user]  %></strong></p>
+              <input type="hidden" name="overridden_user" value="<%= session[:overridden_user]  %>">
+              <div class="field-wrap">
+                <label style="width:300px;">&nbsp;</label>
+                <input style="padding-top: 10px;" type="image" src="/images/btn_reset.jpg" onClick="setAnchor('override_anchor')"  onmouseover="this.src='/images/btn_reset_over.jpg';" onmouseout="this.src='/images/btn_reset.jpg';"  value="reset_over" alt="reset_over" title="Reset Override" name="reset_override_button" id="reset_override_button" />
+              </div>
+              <br>
+            <% end %>
+            <div id="adminCC" <% if prev_vars[:payment_type]== "Pay_with_a_credit_card"  %> style="display:block;"  <% else %> style="padding-top: 10px; display:none;" <% end %> >
+
+
+              <div class="field-wrap">
+                <label>First Name:</label>
+                <%= text_field_tag "b_fname", prev_vars[:b_fname],:class => 'text-field',:onkeypress=>"Toggle('bfname','b_fname');" %>
+              </div>
+              <div class="field-wrap1" id="bfname" style="display:none;" align="right"> Please enter the  first name.</div>
+              <div class="field-wrap">
+                <label>Last Name:</label>
+                <%= text_field_tag "b_lname", prev_vars[:b_lname], {:class => 'text-field',:onkeypress=>"Toggle('blname','b_lname');"} %>
+              </div>
+              <div class="field-wrap1" id="blname" style="display:none;" align="right"> Please enter the  last name.</div>
+              <div class="field-wrap">
+                <label>Address:</label>
+                <%= text_field_tag "b_adrs", prev_vars[:b_adrs], {:class => 'text-field',:onkeypress=>"Toggle('badd','b_adrs');"} %>
+              </div>
+              <div class="field-wrap1" id="badd" style="display:none;" align="right"> Please enter the  address.</div>
+              <div class="field-wrap">
+                <label>City:</label>
+                <%= text_field_tag "b_city", prev_vars[:b_city], {:class => 'text-field',:onkeypress=>"Toggle('bcity','b_city');"} %>
+              </div>
+              <div class="field-wrap1" id="bcity" style="display:none;" align="right"> Please enter the city name.</div>
+              <div class="field-wrap">
+                <label>State:</label>
+                <%= text_field_tag "b_state", prev_vars[:b_state], {:class => 'text-field',:onkeypress=>"Toggle('bstate','b_state');"} %>
+              </div>
+              <div class="field-wrap1" id="bstate" style="display:none;" align="right"> Please enter the state name.</div>
+              <div class="field-wrap">
+                <label>Zip Code:</label>
+                <%= text_field_tag "b_zip", prev_vars[:b_zip], {:class => 'text-field',:onkeypress=>"Toggle('bzip','b_zip');"} %>
+              </div>
+              <div class="field-wrap1" id="bzip" style="display:none;" align="right"> Please enter the zipcode.</div>
+
+
+
+              <div class="field-wrap">
+                <label>Card Type:</label>
+                <SELECT name="cc_type" id="cc_type" style="width:180px;" onchange="Toggle('cctype','cc_type');">
+                  <option value="Select">Select</option>
+                  <option value="visa" <%= prev_vars[:cc_type] == "VISA"? "selected='selected'" : "" %>>VISA</option>
+                  <option value="master" <%= prev_vars[:cc_type] == "MasterCard"? "selected='selected'" : "" %>>MasterCard</option>
+                  <option value="american_express" <%= prev_vars[:cc_type] == "American Express"? "selected='selected'" : "" %>>American Express</option>
+                  <option value="Discover" <%= prev_vars[:cc_type] == "Discover"? "selected='selected'" : "" %>>Discover</option>
+                </SELECT>
+              </div>
+              <div class="field-wrap1" id="cctype" style="display:none;" align="right"> Please select credit card type.</div>
+              <div class="field-wrap">
+                <label>Credit Card No:</label>
+                <%= text_field_tag "ccn", prev_vars[:ccn], {:class => 'text-field',:onkeypress=>"Toggle('ccnumber','ccn');"} %>
+              </div>
+              <div class="field-wrap1" id="ccnumber" style="display:none;" align="right">  Please enter valid credit card number.</div>
+              <div class="field-wrap">
+                <label>CCV #:</label>
+                <%= text_field_tag "ccv", prev_vars[:ccv], {:class => 'text-field',:onkeypress=>"Toggle('ccvery','ccv');"} %>
+              </div>
+              <div class="field-wrap1" id="ccvery" style="display:none;" align="right">  Please enter the credit card verification code.</div>
+
+              <div class="field-wrap">
+                <label>Expiration:</label>
+                <select name="exp_month" id="exp_month" style="width:120px;" onchange="Toggle('expymonth','exp_month');">
+                  <option value="Month">Month</option>
+                  <option value="1" <%= prev_vars[:exp_month] == "January"? "selected='selected'" : "" %>>January</option>
+                  <option value="2" <%= prev_vars[:exp_month] == "February"? "selected='selected'" : "" %>>February</option>
+                  <option value="3" <%= prev_vars[:exp_month] == "March"? "selected='selected'" : "" %>>March</option>
+                  <option value="4" <%= prev_vars[:exp_month] == "April"? "selected='selected'" : "" %>>April</option>
+                  <option value="5" <%= prev_vars[:exp_month] == "May"? "selected='selected'" : "" %>>May</option>
+                  <option value="6" <%= prev_vars[:exp_month] == "June"? "selected='selected'" : "" %>>June</option>
+                  <option value="7" <%= prev_vars[:exp_month] == "July"? "selected='selected'" : "" %>>July</option>
+                  <option value="8" <%= prev_vars[:exp_month] == "August"? "selected='selected'" : "" %>>August</option>
+                  <option value="9" <%= prev_vars[:exp_month] == "September"? "selected='selected'" : "" %>>September</option>
+                  <option value="10" <%= prev_vars[:exp_month] == "October"? "selected='selected'" : "" %>>October</option>
+                  <option value="11" <%= prev_vars[:exp_month] == "November"? "selected='selected'" : "" %>>November</option>
+                  <option value="12" <%= prev_vars[:exp_month] == "December"? "selected='selected'" : "" %>>December</option>
+                </select>
+                <select name="exp_year" id="exp_year" onchange="Toggle('expymonth','exp_year');">
+                  <option value="Year">Year</option>
+                  <%
+                  curr_year = Time.new.year
+                  for y in curr_year..curr_year+10
+                  %>
+                    <option value="<%= y %>" <%= y.to_s == prev_vars[:exp_year] ? "selected='selected'" : "" %>><%= y %></option>
+                  <% end %>
+                </select>
+              </div>
+              <div class="field-wrap1" id="expymonth" style="display:none;" align="right"> </div>
+
+            </div>
+
+
+
+            <br>
+            <div class="field-wrap" align="right">
+              <div class="txt" style="font-weight:normal;width:320px;">
+                <input type="checkbox" name="tnc" id="tnc" onchange="Toggle('termsncon','tnc');">&nbsp;I agree to the CRAVE Terms and Conditions.<br>
+                <p align="left" style="padding-left:60px; *padding-left:40px; font-size:11px;">Click <a href="##" onclick="popitup()">here</a> to read the terms and conditions.</p>
+              </div>
+
+            </div>
+            <br>
+            <div class="field-wrap8" id="termsncon" style="display:none;" align="right"> You must agree to the Crave Cupcakes terms and conditions.</div>
+            <br>
+          </fieldset>

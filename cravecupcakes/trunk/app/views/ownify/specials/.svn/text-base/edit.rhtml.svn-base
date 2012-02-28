@@ -1,0 +1,47 @@
+<% @page_title="Edit Seasonal and Favorite Boxes" -%>
+<p><%= link_to 'Back', :action => 'list' %></p>
+<!--<h4><span style="color:red;font-style:italic;">Your image must be 360 pixels wide and 540 pixels tall.</span></h4>-->
+
+<% form_tag({:action => 'update', :id => @special}, :multipart => true ) do %>
+  <%= render :partial => 'form' %>
+  <%= submit_tag 'Save' %>
+<% end %>
+<div id="calendar">
+    <form name="calendar_form">
+          <div id="calendar_controllers">
+                  <input type="button" class="close_button" name="calendar_Close" onclick="HideCalendar();" value="" style="border:0px; height:13px; width:33px; background-image:url('/images/calender/closeButton_normal.gif');"><br/>
+                  <input type="button" class="ctrl_button" name="calendar_PrevMonth" onclick="calendar_prev_month();" value="" style="border:0px; height:20px; width:20px; background-image:url('/images/calender/monthBackward_normal.gif');">
+                  <select name="cal_month" onchange="Calendar_FillMonth();">
+                          <option value="1"<%= (1 == Time.now.month)?" selected":""; %>>January</option>
+                          <option value="2"<%= (2 == Time.now.month)?" selected":""; %>>February</option>
+                          <option value="3"<%= (3 == Time.now.month)?" selected":""; %>>March</option>
+                          <option value="4"<%= (4 == Time.now.month)?" selected":""; %>>April</option>
+                          <option value="5"<%= (5 == Time.now.month)?" selected":""; %>>May</option>
+                          <option value="6"<%= (6 == Time.now.month)?" selected":""; %>>June</option>
+                          <option value="7"<%= (7 == Time.now.month)?" selected":""; %>>July</option>
+                          <option value="8"<%= (8 == Time.now.month)?" selected":""; %>>August</option>
+                          <option value="9"<%= (9 == Time.now.month)?" selected":""; %>>September</option>
+                          <option value="10"<%= (10 == Time.now.month)?" selected":""; %>>October</option>
+                          <option value="11"<%= (11 == Time.now.month)?" selected":""; %>>November</option>
+                          <option value="12"<%= (12 == Time.now.month)?" selected":""; %>>December</option>
+                  </select>,
+                  <select name="year" onchange="Calendar_FillMonth();">
+                          <% (2000..2050).each do |@year| %>
+                                  <option value="<%= @year %>"<%= (@year == Time.now.year)?" selected":""; %>><%= @year %></option>
+                          <% end %>
+                  </select>
+                  <input type="button" class="ctrl_button" name="calendar_NextMonth" onclick="calendar_next_month();" value="" style="border:0px; height:20px; width:20px; background-image:url('/images/calender/monthForward_normal.gif');">
+          </div>
+          <div class="cal_head_row">
+                  <div class="cal_head">Sun</div>
+                  <div class="cal_head">Mon</div>
+                  <div class="cal_head">Tue</div>
+                  <div class="cal_head">Wed</div>
+                  <div class="cal_head">Thu</div>
+                  <div class="cal_head">Fri</div>
+                  <div class="cal_head">Sat</div>
+          </div>
+          <div class="cal_content" id="CalendarContent">
+          </div>
+    </form>
+</div>

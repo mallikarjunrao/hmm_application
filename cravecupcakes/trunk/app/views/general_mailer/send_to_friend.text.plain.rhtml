@@ -1,0 +1,17 @@
+Hello, <%= @to_name %>,
+
+<%= @from_name %> sent you the following message:
+
+"<%= @message %>"
+
+about the following cravecupcakes.com product:
+
+..........................................................
+
+<%= @product.brand.title + ' ' + @product.title %>
+
+<http://www.cravecupcakes.com<%= @product.public_link %>>
+
+..........................................................
+
+http://www.cravecupcakes.com

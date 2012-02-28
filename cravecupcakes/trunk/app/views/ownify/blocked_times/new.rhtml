@@ -1,0 +1,10 @@
+<% @page_title="New Block Preorder Time Slot" -%>
+<p><%= link_to 'Back', :action => 'list', :store_id => params[:store_id] %></p>
+
+
+<% form_tag :action => 'create', :store_id => params[:store_id] do %>
+  <%= render :partial => 'form' %>
+  <%= submit_tag "Create" %>
+<% end %>
+
+

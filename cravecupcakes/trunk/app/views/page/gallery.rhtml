@@ -1,0 +1,13 @@
+<% @body_id = "gallery" %>
+ <div class="main">
+  <a href="#" onclick="return false;"><img id="prev" src="/images/ui/button_prev.png" border="0" alt="&laquo; Previous image" /></a>
+  <a href="#" onclick="return false;"><img id="next" src="/images/ui/button_next.png" border="0" alt="Next image &raquo;" /></a>
+  <div id="gallery" class="pics">
+<% for @image in @dyno_page.dyno_images -%>
+    <div class="photo" id="hero-<%= @image.id %>">
+     <img src="<%= "/images/dyno_image/image/#{@image.image_relative_path}" %>" alt="<%= @image.caption %>"  />
+    </div>
+    
+<% end %>
+  </div><!--end: gallery-->
+ </div><!--end: main-->

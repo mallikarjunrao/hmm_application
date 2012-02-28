@@ -1,0 +1,27 @@
+<% @lightbox = "true" %><div class="main">
+  <% #@page_title = "News &amp; Press Releases &raquo;" %>
+    <div id="details">
+      <h3 style="margin-left: 190px;"><a href="/news">News &amp; Press Releases</a></h3>
+
+      <div class="story">
+          <div class="teaser-img"><!--begin lightbox-->
+<% if @dyno_page.first_image_path && ! @dyno_page.first_image_path.blank? %>
+            <a href="<%= @dyno_page.first_image_path %>" title="<%= @dyno_page.title %> (simply press ESC to close this image)" rel="lightbox"><img border="0" src="<%= @dyno_page.thumb_path %>" alt="<%= @dyno_page.title %>" /></a>
+            <p style="display: block; clear: both; padding: 5px 0 0 5px !important;">To see a larger image, click the thumbnail above.</p>
+<% else %><img border="0" src="<%= @dyno_page.thumb_path %>" alt="<%= @dyno_page.title %>" />
+<% end %>
+          </div><!--eo: lightbox-->
+
+          <div class="story-teaser">
+            <h5 class="timestamp"><%= @dyno_page.page_on.strftime('%B %d, %Y') %></h5>
+            <h4 class="media-source"><%= @dyno_page.sub_title %></h4>
+
+            <h4><%= @dyno_page.title %></h4>
+            <p><%= to_bc( @dyno_page.page_HTML ) %></p>
+            <div id="brand-statement"><%= to_bc( EditableText.display('news_footer') ) %></div>
+          </div>
+        </div><!--end: story-->
+
+    </div><!--end: details-->
+
+  </div><!--end: main-->

@@ -1,0 +1,27 @@
+<%= error_messages_for 'subscriber' %>
+
+<!--[form:subscriber]-->
+<p><label for="subscriber_first_name">First name</label>
+<%= text_field 'subscriber', 'first_name'  %></p>
+
+<p><label for="subscriber_last_name">Last name</label>
+<%= text_field 'subscriber', 'last_name'  %></p>
+
+<p><label for="subscriber_email_address">Email</label>
+<%= text_field 'subscriber', 'email_address'  %></p>
+
+<p><label for="subscriber_address1">Address</label>
+<%= text_field 'subscriber', 'address1'  %></p>
+
+<p><label for="subscriber_address2">Address</label>
+<%= text_field 'subscriber', 'address2'  %></p>
+
+<p><label for="subscriber_city">City</label>
+<%= text_field 'subscriber', 'city'  %></p>
+
+<p><label for="subscriber_state">State</label>
+<%= text_field 'subscriber', 'state', {:maxlength => 2, :size => 2} %></p>
+
+<p><label for="subscriber_zip">Zip</label>
+<%= text_field 'subscriber', 'zip', {:size => '15', :maxlength => '15'}  %></p>
+<!--[eoform:subscriber]-->

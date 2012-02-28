@@ -1,0 +1,27 @@
+<h1>Listing dyno_types</h1>
+
+<table>
+  <tr>
+  <% for column in DynoType.content_columns %>
+    <th><%= column.human_name %></th>
+  <% end %>
+  </tr>
+  
+<% for dyno_type in @dyno_types %>
+  <tr>
+  <% for column in DynoType.content_columns %>
+    <td><%=h dyno_type.send(column.name) %></td>
+  <% end %>
+    <td><%= link_to 'Show', :action => 'show', :id => dyno_type %></td>
+    <td><%= link_to 'Edit', :action => 'edit', :id => dyno_type %></td>
+    <td><%= link_to 'Destroy', { :action => 'destroy', :id => dyno_type }, :confirm => 'Are you sure?', :method => :post %></td>
+  </tr>
+<% end %>
+</table>
+
+<%= link_to 'Previous page', { :page => @dyno_type_pages.current.previous } if @dyno_type_pages.current.previous %>
+<%= link_to 'Next page', { :page => @dyno_type_pages.current.next } if @dyno_type_pages.current.next %> 
+
+<br />
+
+<%= link_to 'New dyno_type', :action => 'new' %>

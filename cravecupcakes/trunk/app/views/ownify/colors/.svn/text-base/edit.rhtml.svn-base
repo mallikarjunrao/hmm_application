@@ -1,0 +1,7 @@
+<% @page_title="Edit Color" -%>
+<p><%= link_to 'Back', :controller => "special_decorations", :action => 'list' %></p>
+
+<% form_tag({:action => 'update', :id => @color}, :multipart => true ) do %>
+  <%= render :partial => 'form' %>
+  <%= submit_tag 'Save' %>
+<% end %>

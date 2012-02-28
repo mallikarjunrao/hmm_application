@@ -1,0 +1,30 @@
+
+        <% if @cupcakes -%>
+          <fieldset>
+            <legend>Your Cupcake Order</legend>
+            <!--[if lte IE 7]>
+             <br>
+           <![endif]-->
+            <div>
+              <label>Number of cupcakes in seasonal boxes:</label>
+              <%= text_field_tag "no_of_orders_sp_cake", prev_vars[:no_of_orders_sp_cake] , { :size => 4 ,:readonly=>true} %>
+            </div>
+            <div>
+              <label>Number of itemized original size cupcakes:</label>
+              <%= text_field_tag "no_of_orders_cake", prev_vars[:no_of_orders_cake] , { :size => 4 ,:readonly=>true} %>
+            </div>
+            <% if m_c != 0 %>
+            <div>
+              <label>Number of itemized mini cupcakes:</label>
+              <%= text_field_tag "no_of_orders_cake_mini", prev_vars[:no_of_orders_cake_mini] , { :size => 4 ,:readonly=>true} %>
+            </div>
+            <% end %>
+            <div style="padding: 0px 0px 15px 120px;"><img src="/images/seperater.gif"></div>
+            <div>
+              <label>Total number of cupcakes in your order:</label>
+              <%= text_field_tag "no_of_orders_total_cake", (prev_vars[:no_of_orders_cake].to_i + prev_vars[:no_of_orders_sp_cake].to_i + prev_vars[:no_of_orders_cake_mini].to_i).to_s , { :size => 4 ,:readonly=>true} %>
+            </div>
+          </fieldset>
+        <% end %>
+
+

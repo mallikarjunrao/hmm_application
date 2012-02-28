@@ -1,0 +1,54 @@
+<% @page_title = 'Subscribers' %>
+<p><%= link_to 'New subscriber', :action => 'new' %></p>
+<p>Use the filters below to create a list of subscribers. People and Date / Location filters narrow your results. (If you enter a last name and state, you will get a list of pople from that state with that last name. )</p>
+<p>You may view a list of subscribers, export a text file ro export a CSV file.</p>
+<div class="blocky">
+<form method="post">
+<fieldset>
+<legend>people filters</legend>
+<p>
+<label>last, first</label>
+  <%= text_field_tag 'last', params[:last] %>, <%= text_field_tag 'first', params[:first] %>
+  </p>
+<p>
+<label>email</label>
+  <%= text_field_tag 'email', params[:email] %>
+  </p>
+</fieldset>
+<fieldset>
+<legend>date / location filters</legend>
+<p>
+<label>date range (ex. 12/10/1999)</label>
+  <%= text_field_tag 'start_date', params[:start_date] %> - <%= text_field_tag 'end_date', params[:end_date] %>
+  </p>
+  
+</fieldset>
+<fieldset class="clear">
+<legend>actions</legend>
+  <%= submit_tag 'view list' %>
+  <%= submit_tag 'export list (excel)', {:onclick => "this.form.action='/ownify/subscribers/export_excel'"} %>
+  <%= submit_tag 'export list (text)', {:onclick => "this.form.action='/ownify/subscribers/export_text'"} %>
+</fieldset>
+</form>
+</div>
+
+<table class="clear">
+  <tr>
+    <th>name</th>
+    <th>email</th>
+    <th>date</th>
+    <th colspan="2">actions</th>
+  </tr>
+  
+<% for subscriber in @subscribers  %>
+  <tr>
+    <td><%= (subscriber.last_name ? subscriber.last_name : '') + (subscriber.first_name ? ', ' + subscriber.first_name : '')%></td>
+    <td><%= subscriber.email_address %></td>
+    <td><%= subscriber.subscribed_on.strftime("%m/%d/%Y") if subscriber.subscribed_on %></td>
+    <td><%= link_to 'Edit', {:action => 'edit', :id => subscriber, :params => @list_filters} %></td>
+    <td><%= link_to 'Destroy', { :action => 'destroy', :id => subscriber, :params => @list_filters }, :confirm => 'Are you sure?', :method => :post %></td>
+  </tr>
+<% end %>
+</table>
+
+<p><%= render(:partial => "/paginate", :locals => {:collection => @subscribers }) -%></p>

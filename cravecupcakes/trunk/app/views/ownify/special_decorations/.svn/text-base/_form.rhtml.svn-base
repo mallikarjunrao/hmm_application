@@ -1,0 +1,24 @@
+<%= error_messages_for 'special_decoration' %>
+
+<!--[form:cupcake]-->
+<p><label for="specialdecoration_title">Name</label>
+<%= text_field 'special_decoration', 'name'  %></p>
+
+<p><label for="special_decoration_group">Group</label>
+<%
+  groups = ['Select', 'Baby Shower', 'Birthdays', 'Christmas', 'Fall', 'Halloween', 'Religious', 'Rodeo', 'Sports', 'Spring', 'Valentine\'s Day', 'Other']
+%>
+<%= select("special_decoration", "group", groups, {:include_blank => false})  %></p>
+
+<p><label for="special_decoration_colors">Requires Two Colors: <%= check_box 'special_decoration', 'colors' %></label></p>
+
+<p><label for="special_decoration_standard">Available for Original Size: <%= check_box 'special_decoration', 'standard' %></label></p>
+
+<p><label for="special_decoration_mini">Available for Minis: <%= check_box 'special_decoration', 'mini' %></label></p>
+
+
+<!--[eoform:cupcake]-->
+
+
+<!-- products/_form.rhtml -->
+

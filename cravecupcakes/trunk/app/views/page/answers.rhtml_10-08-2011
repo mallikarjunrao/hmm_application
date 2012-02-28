@@ -1,0 +1,12 @@
+<% @page_title = "Questions &amp; Answers &raquo; " %>
+<% @body_id = "answers" %>
+<% @body_class = "no-photo-w-content" %>
+ <div class="main">
+  <h3>Customer Questions &amp; Answers</h3>
+<% for q in @faqs -%>
+  <div class="question" id="q0<%= q.id %>"><a href="" onclick="return false;" title="Get the answer to this question."><%= q.question %></a></div>
+    <div class="answer" id="a01">
+      <p><%= to_bc(q.answer) %></p>
+    </div>
+<% end -%>
+ </div><!--end: main-->

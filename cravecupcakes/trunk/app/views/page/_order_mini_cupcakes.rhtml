@@ -1,0 +1,302 @@
+
+ <%
+        m_c = 0
+        if @mini_cupcakes
+          for cupcake in @mini_cupcakes
+            m_c = m_c + 1
+          end
+        end
+        %>
+
+        <% if @mini_cupcakes && params[:date_of_order][0,10] != "" %>
+        <fieldset class="qty">
+          <legend>Crave Mini Cupcakes</legend>
+          <div>
+            <% if @mini_cupcakes && m_c != 0 -%>
+            <span class="txt">Choose individual flavors from our <a href="/menu" target="_blank" title="View our full menu in a new browser window">daily menu</a>.<br><font style="font-weight:bold; font-size:11px;"> Minimum 1 dozen cupcakes per flavor.</font></span>
+            <span class="txt" style="font-weight:normal;">
+              ONE DOZEN $<%= ["%.2f" % Price.find_by_title('one dozen mini').price.to_f] %><br />
+            </span>
+            <span class="txt">You are currently ordering for a <%= @day.title %>. </span><span class="txt">We bake the following mini cupcakes on <%= @day.title %>s.</span><!--day of week-->
+            <span class="txt" style="font-size:11px;">* For multiple delivery orders, please contact the store at 713.622.7283.</span>
+            <br>
+            <div class="field-wrap5"
+            <% if @request.env["HTTP_USER_AGENT"].include? "Chrome" %>
+                   style="width: 414px;"
+                 <% end %>
+                 id="ocupcakes2" style="display:none;" align="left"> </div>
+                 <%
+                 i = 9
+                 minis_available = false
+                 for cupcake in @mini_cupcakes
+
+                   cupcake_value = prev_vars[:mini_cupcakes] && prev_vars[:mini_cupcakes][ cupcake.id.to_s ] ? prev_vars[:mini_cupcakes][ cupcake.id.to_s ] : ''
+                   if cupcake_value == ''
+                     cupcake_value = params[:mini_cupcakes] && params[:mini_cupcakes][ cupcake.id.to_s ] ? params[:mini_cupcakes][ cupcake.id.to_s ] : ''
+                   end
+                   i = i + 1
+
+                    cup_st_date = cupcake.available_start_date
+                    cup_en_date = cupcake.cutoff_date
+
+                    order_date = (Date.parse(params[:date_of_order][0,10]))
+
+                    #cup_vs_date = cupcake.visible_start_date
+                    #today = TZTime::LocalTime::Builder.new('Central Time (US & Canada)').now.strftime("%Y-%m-%d").to_date
+
+                    showcupcake = false
+
+                    if (cup_en_date == nil && cup_st_date == nil)
+                      showcupcake = true
+                    elsif (cup_en_date == nil && cup_st_date != nil && cup_st_date <= order_date )
+                      showcupcake = true
+                    elsif (cup_en_date != nil && cup_st_date == nil && cup_en_date >= order_date )
+                      showcupcake = true
+                    elsif (cup_en_date != nil && cup_st_date != nil && cup_en_date >= order_date && cup_st_date <= order_date )
+                      showcupcake = true
+                    end
+
+                    if showcupcake
+                      minis_available = true
+                      %>
+                      <div class="field-wrap">
+                          <div style="float:left;">
+                            <label for="mini_cupcakes[<%= cupcake.id %>]"><span>Mini</span> <%= cupcake.title %></label>
+                            <%= text_field_tag "mini_cupcakes[#{ cupcake.id }]", cupcake_value , {:class => 'text-field mini', :maxlength => 3 ,:onkeyup=>"getTot();", :onblur=>"checkMiniCupcakeQuantity(this)" } %>
+                          </div>
+                          <input type="hidden" name="mini_cc_display_order[<%= i %>]" value="<%= cupcake.id  %>">
+                          <div style="float:right;margin-top:-7px; _margin-top:-7px; *margin-top:-7px; padding-right:140px;">
+                              <% if cupcake.thumb_image!=nil %>
+                                  <a class="thumbnail" href="#thumb" tabIndex="-1" onmouseover="Tip('<img src=\'/images/mini_cupcake/image_file/<%= cupcake.image_file_relative_path %> \' width=\'360\' height=\'540\' >' )"  onmouseout="UnTip()" ><img style="float:none;" src="/images/mini_cupcake/thumb_image/<%= cupcake.thumb_image_relative_path  %>"  border="0" width="27" height="27"  /></a>
+                              <% end %>
+                          </div>
+                      </div>
+                      <%
+                    end
+
+                end %>
+                <%= (minis_available == false)? "<span class='txt'>No mini cupcakes available.</span>" : "" %>
+
+            <br>
+
+            <% if @request.env["HTTP_USER_AGENT"].include? "Safari"
+              style="margin-top: -5px; margin-left: 97px; width: 155px;"
+            else
+              style="margin-top: -5px; margin-left: 82px; width: 155px;"
+            end              %>
+
+
+            <div class="field-wrap checkbox" style="padding-bottom:5px; *height:0px;">
+              <label class="checkbox" style="width:326px;" for="has_special_decorations">I would like special decorations on my mini cupcakes.</label>
+              <%= check_box_tag 'has_special_decorations_mini', 'true', prev_vars[:has_special_decorations_mini], {:class => 'checkbox', :onclick => "checkMiniCupcakesAvailability(); showHowToBoxed(this, 'sp_dec_mini_div'); if(this.checked == false){clearSpDecMini();}"}  %>
+            </div>
+            <!--[if lte IE 7]>
+        <br clear="all"><br>
+      <![endif]-->
+
+            <!-- new special decoration start -->
+            <div id="sp_dec_mini_div" style="<%= (prev_vars[:has_special_decorations_mini])? ((prev_vars[:has_special_decorations_mini] == 'true')? "display:block;" : "display:none;") : "display:none;" %> padding-left: 15px;">
+
+              <p style="line-height: 1.5em; *font-size: 12px; *padding-top: 5px;">Please choose one decoration for all mini cupcakes in your order.</p>
+              <br>
+              <div class="field-wrap" style="padding-left: 0px;">
+                <a href="#" onclick="window.open('/mini_special_decorations','Crave','left=200,top=50,height=800,width=900'); return false;">
+                  <img src="/images/btn_view_special_decorations_mini.jpg" onmouseover="this.src='/images/btn_view_special_decorations_mini_over.jpg';" onmouseout="this.src='/images/btn_view_special_decorations_mini.jpg';" style="border:0px;" />
+                </a>
+                <br clear="all">
+              </div>
+              <div style="padding: 20px 0px 5px 0px;">
+
+                <style type="text/css">
+                  select optgroup{font-style:normal; font-weight:bold;}
+                </style>
+
+                <label style="width:200px; margin-top: -2px;" for="sp_dd_mini">Special Decoration:</label>
+                <select name="sp_dd_mini" id="sp_dd_mini" onChange="showColorOptionsMini(this); Toggle('spe_dec_mini_err_msg', 'sp_dd_mini');">
+                  <option value="Select">Select</option>
+
+                  <%
+                    @sp_dec_for_standard = SpecialDecoration.find(
+                        :all,
+                        :order => "`group`  = 'Other' ASC," +
+                                    "`group`ASC, name ASC",
+                        :conditions => 'mini = 1 OR name = "Numbers" OR name = "Letters"'
+                    )
+                    sp_dec_group = ''
+                    for sp_dec in @sp_dec_for_standard
+                        if sp_dec_group == ''
+                          %><optgroup label="<%= sp_dec.group %>"><%
+                        end
+                        if sp_dec.group != sp_dec_group && sp_dec_group != ''
+                          %></optgroup><optgroup label="<%= sp_dec.group %>"><%
+                        end
+
+                        %><option value="<%= sp_dec.name %><%= sp_dec.colors == true ? "*" : "" %>" <%= prev_vars[:sp_dd_mini] == (sp_dec.name) ? "selected='selected'" : "" %>><%= sp_dec.name %><%= sp_dec.colors == true ? "*" : "" %></option><%
+
+                        sp_dec_group = sp_dec.group
+
+                    end
+              %>
+                  </optgroup>
+                </select>
+
+
+                <div id="spe_dec_mini_err_msg" class="field-wrap1" style="display: none; padding-left: 190px; width: 270px; *width: 300px;">Please select the special decoration details.<br><br></div>
+              </div>
+
+              <div id="num_dd_mini" style="padding: 5px 0px 5px 0px; <%= (prev_vars[:number_mini] && prev_vars[:number_mini] != "Select")? "display:block;" : "display:none;" %>">
+                <label style="width:270px; margin-top: -2px;" for="number_mini">Select the Number:</label>
+                <select name="number_mini" id="number_mini" onChange="Toggle('num_err_msg_mini', 'number_mini')">
+                  <option value="Select">Select</option>
+                  <% for num in (1..99) %>
+                    <option value="<%= num %>" <%= (prev_vars[:number_mini] == num.to_s)? "selected='selected'" : "" %>><%= num %></option>
+                  <% end %>
+                </select>
+                <div id="num_err_msg_mini" class="field-wrap1" style="display: none; padding-left: 190px; width: 270px;">Please select a number.<br><br></div>
+              </div>
+
+              <div id="let_dd_mini" style="padding: 5px 0px 5px 0px; <%= (prev_vars[:letter_mini] && prev_vars[:letter_mini] != "Select")? "display:block;" : "display:none;" %>">
+                <label style="width:270px; margin-top: -2px;" for="letter_mini">Select the Letter:</label>
+                <select name="letter_mini" id="letter_mini" onChange="Toggle('let_err_msg_mini', 'letter_mini')">
+                  <option value="Select">Select</option>
+                  <% for let in ('A'..'Z') %>
+                    <option value="<%= let %>" <%= (prev_vars[:letter_mini] == let)? "selected='selected'" : "" %>><%= let %></option>
+                  <% end %>
+                </select>
+                <div id="let_err_msg_mini" class="field-wrap1" style="display: none; padding-left: 190px; width: 270px;">Please select a letter.<br><br></div>
+              </div>
+
+              <div style="padding: 5px 0px 5px 0px;">
+                <label id="c_one_mini" style="width:270px; margin-top: -2px;" for="clr_1_mini"><%= (prev_vars[:clr_1_mini] != "Select")? "Select Base Color" : " Select Color"  %>:</label>
+                <select name="clr_1_mini" id="clr_1_mini" onChange="if(document.getElementById('color_2_mini').style.display == 'block' ){ if(this.value != 'Select' && document.getElementById('clr_2_mini').value != 'Select'){Toggle('spe_dec_mini_color_err_msg', 'clr_1_mini');}else{this.style.border = '1px solid #C7C7C7';}}else{Toggle('spe_dec_mini_color_err_msg', 'clr_1_mini');}">
+                  <option value="Select">Select</option>
+
+                  <%
+                    for color in @colors
+                        %><option value="<%= color.name %>" <%= prev_vars[:clr_1_mini] == color.name ? "selected='selected'" : "" %>><%= color.name %></option><%
+                        sp_dec_group = sp_dec.group
+                    end
+              %>
+                </select>
+              </div>
+              <div  style="padding: 5px 0px 5px 0px; <%= (prev_vars[:clr_2_mini] != "Select")? "display:block;" : "display:none;" %>"  id="color_2_mini">
+                <label style="width:270px; margin-top: -2px;" for="clr_2_mini">Select Top Color:</label>
+                <select name="clr_2_mini" id="clr_2_mini" onChange="if(document.getElementById('clr_1_mini').value != 'Select'){Toggle('spe_dec_mini_color_err_msg', 'clr_2_mini');}else{this.style.border = '1px solid #C7C7C7';}">
+                  <option value="Select">Select</option>
+
+                  <%
+                    for color in @colors
+                        %><option value="<%= color.name %>" <%= prev_vars[:clr_2_mini] == color.name ? "selected='selected'" : "" %>><%= color.name %></option><%
+                        sp_dec_group = sp_dec.group
+                    end
+              %>
+                </select>
+              </div>
+              <div id="spe_dec_mini_color_err_msg" class="field-wrap1" style="display: none; padding-left: 190px; width: 270px;">Please select special decoration color(s).<br><br></div>
+
+              <%if session[:user_name]!=nil %>
+
+                <span class="txt" style="margin-left: 0px;">If specifying more than one special decoration, DO NOT make selections in the above drop downs. Instead, enter all special decorations information into the box below.</span>
+
+                <label style="width:160px; padding-bottom:3px;">Special Decorations Notes:</label>
+                <textarea style="width: 465px;" rows="5" id="sp_dec_notes_mini" name="sp_dec_notes_mini"><%= prev_vars[:sp_dec_notes_mini] %></textarea>
+              <% end %>
+            </div>
+
+              <div class="field-wrap1" style="width:545px;">
+              <span class="txt" style="font-weight: normal;">All mini cupcakes are boxed in standard CRAVE bakery boxes, 2 dozen to a box.</span>
+              </div>
+
+            <!--[if lte IE 7]>
+             <br>
+           <![endif]-->
+
+            <script type="text/javascript">
+
+            function checkMiniCupcakeQuantity(obj){
+                if(obj.value % 12 != 0){
+                    alert("Please enter mini cupcakes in increments of dozen.");
+                    obj.value = '';
+                    getTot();
+                    setTimeout("document.getElementById('"+obj.id+"').focus();",10);
+                }
+            }
+
+            function checkMiniCupcakesAvailability(){
+              var com = document.getElementById('no_of_orders_cake_mini');
+
+              if(isNaN(parseInt(com.value)) || com.value == 0){
+                alert("No mini cupcakes selected.");
+                document.getElementById("has_special_decorations_mini").checked = false;
+                clearSpDecMini();
+                return false;
+              }
+            }
+
+            function clearSpDecMini(){
+              document.getElementById('sp_dd_mini').selectedIndex = 0;
+              document.getElementById('clr_1_mini').selectedIndex = 0;
+              document.getElementById('number_mini').selectedIndex = 0;
+              document.getElementById('letter_mini').selectedIndex = 0;
+
+              if(document.getElementById("sp_dec_notes_mini") != null){
+                document.getElementById("sp_dec_notes_mini").value = "";
+              }
+            }
+
+            function showColorOptionsMini(obj){
+                /*if(document.getElementById('color_2').style.display == 'none' && document.getElementById('clr_1').value != "Select"){
+                  document.getElementById('spe_dec_color_err_msg').style.display = 'none';
+                }*/
+
+              if(obj.value.split('*').length == 2){
+                document.getElementById('c_one_mini').innerHTML = 'Select Base Color:';
+                document.getElementById('color_2_mini').style.display = 'block';
+              }
+              else{
+                document.getElementById('c_one_mini').innerHTML = 'Select Color:';
+                document.getElementById('color_2_mini').style.display = 'none';
+                document.getElementById('clr_2_mini').selectedIndex = 0;
+                document.getElementById('clr_2_mini').style.border = '1px solid #C7C7C7';
+
+                if(document.getElementById('color_2_mini').style.display == 'none' && document.getElementById('clr_1_mini').value != "Select"){
+                  document.getElementById('spe_dec_mini_color_err_msg').style.display = 'none';
+                }
+              }
+
+                if(obj.value == "Numbers*"){
+                  document.getElementById("num_dd_mini").style.display = "block";
+                }
+                else{
+                  document.getElementById("num_dd_mini").style.display = "none";
+                  document.getElementById("number_mini").selectedIndex = 0;
+                }
+
+                if(obj.value == "Letters*"){
+                  document.getElementById("let_dd_mini").style.display = "block";
+                }
+                else{
+                  document.getElementById("let_dd_mini").style.display = "none";
+                  document.getElementById("letter_mini").selectedIndex = 0;
+                }
+
+            }
+            </script>
+
+            <!-- new special decoration end -->
+          <% else %>
+            <span class="txt">No Crave Mini Cupcakes are available for this day.</span>
+          <% end %>
+
+          </div>
+        </fieldset>
+        <% end %>
+
+        <% if @mini_cupcakes == nil %>
+        <fieldset class="qty">
+          <legend>Crave Mini Cupcakes</legend>
+          <div>
+           <span class="txt">You must choose the day your order will be fulfilled before you can select cupcakes.</span>
+            </div>
+        </fieldset>
+        <%end %>

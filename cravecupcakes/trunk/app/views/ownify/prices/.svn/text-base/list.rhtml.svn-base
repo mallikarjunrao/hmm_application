@@ -1,0 +1,21 @@
+<% @page_title="Prices" -%>
+<p><%= link_to 'New Price', :action => 'new' %></p>
+
+<table>
+  <tr>
+    <th>Title</th>
+    <th>Price</th>
+    <th colspan="2">Actions</th>
+  </tr>
+  
+<% for price in @prices %>
+  <tr>
+    <td><%=h price.title %></td>
+    <td align="right"><%=h ["%.2f" % price.price] %></td>
+    <td><%= link_to 'Edit', :action => 'edit', :id => price %></td>
+    <td><%= link_to 'Destroy', { :action => 'destroy', :id => price }, :confirm => 'Are you sure?', :method => :post %></td>
+  </tr>
+<% end %>
+</table>
+<p><%= link_to 'Previous page', { :page => @price_pages.current.previous } if @price_pages.current.previous %>
+<%= link_to 'Next page', { :page => @price_pages.current.next } if @price_pages.current.next %> </p>

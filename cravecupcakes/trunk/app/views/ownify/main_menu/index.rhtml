@@ -1,0 +1,21 @@
+
+
+<% @page_title="Seasonal Menu Image" -%>
+<!--p><%= link_to 'Back', :action => 'list' %></p-->
+
+<br>
+<font color="green"><b><%= (@msg)? @msg + "<br>" : "" %></b></font>
+<br>
+
+<%= start_form_tag({:action => 'upload_image'}, :multipart => true) %>
+  <span>Image:</span>  <%= file_field 'upload', 'menu_file' %> <%= submit_tag "Upload" %>
+  <p style="padding-left: 36px; margin: 0px;">(Image should be 530px by 400px)</p>
+  
+  <br />
+  
+<%= end_form_tag %>
+ 
+<br/>
+<p>Current menu image</p>
+<img border="1" src="/images/ui/navigation.gif">
+

@@ -1,0 +1,215 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head><% @version_release = "?d=20090827" %>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+  
+ 
+  <title><%= @seo_title || @page_title || controller.action_name %> Crave Cupcakes (Houston, Texas)</title>
+  <!-- home-->
+  <link type="text/css" rel="stylesheet" href="/styles/base.css<%= @version_release %>" media="screen, print" />
+  <link type="text/css" rel="stylesheet" href="/styles/forms.css<%= @version_release %>" media="screen, print" />
+   
+  <link rel="shortcut icon" href="images/favicon.ico" type="image/x-icon">
+  <%= @form_styles unless @form_styles.blank? %>
+  <!--[if IE 7]>
+    <link rel="stylesheet" type="text/css" href="/styles/base.ie7.css<%= @version_release %>" media="screen" />
+  <![endif]-->
+  <!--[if lt IE 7]>
+    <link rel="stylesheet" type="text/css" href="/styles/base.ie6.css<%= @version_release %>" />
+    <meta http-equiv="imagetoolbar" content="no" />  
+  <![endif]-->
+  <script type="text/javascript" charset="utf-8" src="/javascripts/jquery_1.3.2.min.js"></script>
+  <script type="text/javascript" charset="utf-8" src="/javascripts/jquery.cycle.all.min.js"></script>
+  <script type="text/javascript" charset="utf-8" src="/javascripts/jquery_fx.js<%= @version_release %>"></script>
+  <script type="text/javascript" charset="utf-8" src="/javascripts/browser.sniff.js<%= @version_release %>"></script>
+  <script type="text/javascript" charset="utf-8" src="/javascripts/addr.js<%= @version_release %>"></script>
+ 
+
+<% if ! @lightbox.blank? -%>
+  <script type="text/javascript" charset="utf-8" src="/javascripts/prototype.js<%= @version_release %>"></script>
+  <script type="text/javascript" charset="utf-8" src="/javascripts/scriptaculous.js?load=effects,builder"></script>
+  <script type="text/javascript" charset="utf-8" src="/javascripts/lightbox.js<%= @version_release %>"></script>
+<% end -%>
+  <meta http-equiv="Content-Language" content="en-us" />
+  <% if ! @meta_keywords.blank? -%><meta name="keywords" content="<%= @meta_keywords %>" /><% end %>
+  <% if ! @meta_description.blank? -%><meta name="description" content="<%= @meta_description %>" /><% end %>
+  <meta name="robots" content="all" />
+  <%= @head_tags -%>
+</head>
+<body<% if ! @body_id.blank? -%> id="<%= @body_id %>-page"<% end %><% if ! @body_class.blank? -%> class="<%= @body_class %>"<% end %><% if ! @on_load.blank? -%> onload="<%= @on_load %>"<% end %>>
+  <script type="text/javascript" charset="utf-8" src="/javascripts/wz_tooltip.js"></script>
+  <div id="wrapper">
+    <div id="logo">
+      <h1><a href="/" class="fir" title="Crave Cupcakes">Crave Cupcakes. Baked Fresh Daily. Houston, Texas.</a></h1>
+    </div><!--end: logo-->
+  <!--[if lt IE 7]>
+  <div id="ie6-logo">
+   <a href="/" title="Crave Cupcakes are baked fresh daily in Houston, Texas."><img src="/images/ui/crave_logo.png" alt="Crave Cupcakes" border="0" /></a>
+  </div>
+  <![endif]-->
+
+    <div id="header">
+      <div id="top_banner">
+    <% @file_exists = File::exists?("public/images/top_banner.jpg")
+	@top_banner = EditableText.display('top_banner')
+	if @body_id != "order" && @file_exists
+		if @top_banner == "" %>
+	<img src="/images/top_banner.jpg" height="64" width="773" />
+<%		else %>
+	<a href="<%= @top_banner %>"><img src="/images/top_banner.jpg" height="64" width="773" /></a>
+<%		end %>
+    <% end %>
+<% if session[:user_id] -%>
+        <%#*<a href="/login" style="color:#522C1B">Back to Admin</a>%>
+<% else %>
+<% end %>
+      </div>
+     <div id="site-nav">
+      <ul>
+<% if DynoPage.find_by_slug( 'about' ).is_active -%>
+        <li id="about"><a href="/about" title="About Our Bakery">About</a></li>
+<% end -%>
+<% if DynoPage.find_by_slug( 'seasonal' ).is_active -%>
+        <li id="promo"><a href="/seasonal" title="Seasonal Promotions">Seasonal</a></li>
+<% end -%>
+        <li id="menu"><a href="/menu" title="Cupcakes Menu">Menu</a></li>
+<% if DynoPage.find_by_slug( 'events' ).is_active -%>
+        <li id="weddings-events"><a href="/events" title="Weddings &amp; Events">Weddings &amp; Events</a></li>
+<% end -%>
+<% if DynoPage.find_by_slug( 'coffee' ).is_active -%>
+        <li id="coffee"><a href="/coffee" title="Crave Coffee: stop by &amp; grab a cup to-go">Crave Coffee</a></li>
+<% end -%>
+        <li id="order"><a href="/order" title="Order">Order</a></li>
+      </ul>
+  
+    </div><!--end: site nav-->
+    </div><!--end: header-->
+
+    <%= @content_for_layout %>
+
+    <div id="daily-flavors">
+      <h2><a class='fir open-menu' href='/menu' onclick='return false' title='See today&rsquo;s flavors'>Baked Fresh Daily</a></h2>
+      <h4><a class='open-menu' href='/menu' onclick='return false' title='See today&rsquo;s flavors'>See today&rsquo;s flavors &raquo;</a></h4>
+  <% cache(:controller => "cupcake", :action => "today") do %>
+     <div id="mini-menu">
+      <p class="close-menu"><a class="close-menu" href="" onclick="return false" title="Close this Menu">x</a></p>
+<% @day = Day.today  -%>   
+      <h3><%= @day.title %></h3>
+      <p id="see-all"><a href="/menu" title="Complete Menu listings">See all flavors of the week &raquo;</a></p> 
+
+      <ul>
+
+      <% require 'tztime' %>
+        
+        <!-- standard cupcakes start -->
+        <% for cake in @day.cupcakes
+                              
+                cup_st_date = cake.available_start_date
+                cup_en_date = cake.cutoff_date
+
+                #cup_vs_date = cake.visible_start_date
+                
+                today = TZTime::LocalTime::Builder.new('Central Time (US & Canada)').now.strftime("%Y-%m-%d").to_date
+
+                showcupcake = false
+
+                if (cup_en_date == nil && cup_st_date == nil)
+                  showcupcake = true
+                elsif (cup_en_date == nil && cup_st_date != nil && cup_st_date <= today )
+                  showcupcake = true
+                elsif (cup_en_date != nil && cup_st_date == nil && cup_en_date >= today )
+                  showcupcake = true
+                elsif (cup_en_date != nil && cup_st_date != nil && cup_en_date >= today && cup_st_date <= today )
+                  showcupcake = true
+                end
+
+                if showcupcake              
+               %>
+                    <li><%= '<strong>Breakfast:</strong> ' if cake.is_breakfast %><a href="/cupcake/<%= cake.slug %>"><%= cake.title %></a></li>
+                  <% end %>
+      <% end  %>
+       <!-- standard cupcakes end -->
+       
+        <!-- mini cupcakes start -->
+        <% for cake in @day.mini_cupcakes
+
+                cup_st_date = cake.available_start_date
+                cup_en_date = cake.cutoff_date
+
+                #cup_vs_date = cake.visible_start_date
+
+                today = TZTime::LocalTime::Builder.new('Central Time (US & Canada)').now.strftime("%Y-%m-%d").to_date
+
+                showcupcake = false
+
+                if (cup_en_date == nil && cup_st_date == nil)
+                  showcupcake = true
+                elsif (cup_en_date == nil && cup_st_date != nil && cup_st_date <= today )
+                  showcupcake = true
+                elsif (cup_en_date != nil && cup_st_date == nil && cup_en_date >= today )
+                  showcupcake = true
+                elsif (cup_en_date != nil && cup_st_date != nil && cup_en_date >= today && cup_st_date <= today )
+                  showcupcake = true
+                end
+
+                if showcupcake
+               %>
+                    <li><span style="font-weight:bold;"><strong>Mini:</strong></span> <a href="/mini_cupcake/<%= cake.slug %>"><%= cake.title %></a></li>
+                  <% end %>
+      <% end  %>
+         <!-- mini cupcakes end -->
+       
+      </ul>
+     </div><!--end: mini menu-->
+<% end -%>
+    </div>
+
+    <div id="footer">
+    <% if @body_id == "home" -%>
+      <div id="callout"><%= to_bc( EditableText.display('footer_callout') ) %><a href="http://twitter.com/CRAVEHouston" id="twitter" target="_blank">twitter</a><a href="http://www.facebook.com/pages/Crave-Cupcakes/21695197345" id="facebook" target="_blank">facebook</a></div>
+    <% end %>
+      <ul>
+        <li id="news"><a href="/news" title="News">News</a></li>
+        <li id="signup"><a href="/sign_up" title="Sign-up to receive updates and our enewsletter">Sign-Up</a></li>
+<% if DynoPage.find_by_slug( 'contact' ).is_active -%>
+        <li id="contact"><a href="/contact" title="Contact Us">Contact</a></li>
+<% end -%>
+        <li id="faq"><a href="/answers" title="Frequently Asked Questions &amp; Answers">FAQ</a></li>
+      </ul>
+	  <% if @body_id != "home" -%>
+	  <div id="socnet"><a href="http://twitter.com/CRAVEHouston" id="twitter" target="_blank">twitter</a><a href="http://www.facebook.com/pages/Crave-Cupcakes/21695197345" id="facebook" target="_blank">facebook</a></div>
+	  <% end %>
+    </div><!--end: footer-->
+
+  </div><!--end: wrapper-->
+
+<!--start: goog/urchin tag-->
+<script type="text/javascript">
+var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+</script>
+<script type="text/javascript">
+try {
+var pageTracker = _gat._getTracker("UA-734182-25");
+pageTracker._trackPageview();
+} catch(err) {}</script>
+
+<!-- Added new Google Analytics code 07-05-2010 -->
+
+<% if @google_code %>
+   <%= @google_code %>
+<% else %>
+  <script type="text/javascript">
+    var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+    document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+  </script>
+  <script type="text/javascript">
+    try {
+      var pageTracker = _gat._getTracker("UA-18013795-1");
+      pageTracker._trackPageview();
+    } catch(err) {}</script>
+<% end %>
+<!-- end -->
+</body>
+</html>

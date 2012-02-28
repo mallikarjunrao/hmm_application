@@ -1,0 +1,29 @@
+<% @page_title="Seasonal and Favorite Boxes" -%>
+<p><%= link_to 'New Seasonal and Favorite Boxes Item', :action => 'new' %></p>
+
+<table>
+  <tr>
+    <th>Product Name</th>
+    <th>Price</th>
+    <th>Includes a gift box</th>
+    <th>Enable</th>
+    <th colspan="2">Actions</th>
+  </tr>
+  
+<% for special in @specials %>
+  <tr>
+    <td><%=h special.title %></td>
+    <td align="right"><%= ["%.2f" % special.price] %></td>
+    <td align="center"><%= 'X' if special.incl_gif_box  %></td>
+    <td align="center"><%= 'X' if special.is_enable  %></td>
+    <td><%= link_to 'Edit', :action => 'edit', :id => special %></td>
+    <td><%= link_to 'Destroy', { :action => 'destroy', :id => special }, :confirm => 'Are you sure?', :method => :post %></td>
+  </tr>
+<% end %>
+</table>
+
+<p><%= render(:partial => "/paginate", :locals => {:collection => @specials }) -%></p>
+
+<br />
+
+

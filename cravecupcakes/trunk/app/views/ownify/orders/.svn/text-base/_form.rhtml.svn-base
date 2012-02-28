@@ -1,0 +1,13 @@
+<%= error_messages_for 'product' %>
+
+<!--[form:product]-->
+<p><label for="product_product_type_id">Delivery Method</label>
+<%= text_field 'product', 'delivery_method'  %></p>
+
+<p><label for="product_title">How to boxed</label>
+<%= text_field 'product', 'how_to_boxed'  %></p>
+
+<p><label for="product_price">Email</label>
+<%= text_field 'product', 'email'  %></p>
+<!--[eoform:product]-->
+

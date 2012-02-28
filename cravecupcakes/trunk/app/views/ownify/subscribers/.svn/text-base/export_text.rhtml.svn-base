@@ -1,0 +1,20 @@
+<% 
+      c_idx = 0
+        line = ''
+    for column in @columns 
+          line += (c_idx > 0 ? ", " : "" ) + column
+            c_idx += 1
+    end 
+-%>
+<%= line %>
+<% 
+  for record in @records
+      c_idx = 0
+        line = ''
+    for column in @columns 
+          line += (c_idx > 0 ? ", " : "" ) + (record.send(column) ? record.send(column).to_s : "" )
+            c_idx += 1
+    end 
+-%>
+<%= line %>
+<% end -%>

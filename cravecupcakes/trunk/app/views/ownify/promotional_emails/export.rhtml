@@ -1,0 +1,124 @@
+<link rel="stylesheet" href="/stylesheets/calendar.css" type="text/css" charset="utf-8" />
+<script src="/javascripts/calendar.js" type="text/javascript"></script>
+<script src="/javascripts/js_vlib.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+  function validateForm(){
+    var SDate = document.getElementById('date_1').value.trim();
+    var msg = "";  
+
+    if(SDate == ""){
+      msg = "Please select a date.";
+    }
+
+    if(msg != ""){
+      alert(msg);
+      return false;
+    }
+    else{
+      return true;
+    }
+  }
+
+</script>
+
+<% @page_title="Export Email Opt-ins" -%>
+<!--p><%= link_to 'Back', :action => 'list' %></p-->
+<%
+tomorrow = Time.now + 3600*24
+nex_day = tomorrow + 3600*24*7
+%>
+<br>
+<form action="/ownify/promotional_emails/export" method="post" onsubmit="return validateForm()">
+		<div style="z-index:0; float:left; margin-right:10px;">
+			<span>Export email opt-ins starting with: </span>
+			<span><input id=date_1 name=date_1  onfocus="ShowCalendar(this, '');" value="<%= session[:date_1]  %>" type=text readonly="readonly">&nbsp;</span>
+		</div>		
+		<!--div style="height:10px;">&nbsp;</div-->
+		<div style="z-index:0; float:left; margin-right:10px;">
+			<span><input type="submit" value="Export"></span>
+		</div>
+	</form>
+<br/><br/>
+<hr/>
+<br />
+Right click <a href="/export.csv">here</a> and select "Save Target As/Save Link As" to download the CSV file.
+<br /><br />
+<table>
+  <th>First Name</th>
+  <th>Last Name</th>
+  <th>Email Address</th>
+  <th>Opt-In Date and Time</th>
+
+  <%
+  file_content = "First Name,Last Name,Email Address,Opt-In Date and Time\n"
+  for pro_email in @pro_emails_page
+    %><tr>
+      <td><%= pro_email.fname %></td>
+      <td><%= pro_email.lname %></td>
+      <td><%= pro_email.email %></td>
+      <%
+        a = pro_email.submitted_on.strftime("%a") + " " + pro_email.submitted_on.strftime("%b") + " " + pro_email.submitted_on.strftime("%d").to_i.to_s + ", " + pro_email.submitted_on.strftime("%Y") + " / " + pro_email.submitted_on.strftime("%I:%M") + pro_email.submitted_on.strftime("%p")
+
+      %>
+      <td align="right"><%= a %><%#= pro_email.submitted_on.to_date %> <%#= pro_email.submitted_on.strftime("%H:%M:%S") %></td>
+    </tr><%
+  end
+
+  %>
+</table>
+<p><%= render(:partial => "/paginate", :locals => {:collection => @pro_emails_page }) -%></p>
+<%
+  
+ for pro_email in @pro_emails_exp
+
+   a = pro_email.submitted_on.strftime("%a") + " " + pro_email.submitted_on.strftime("%b") + " " + pro_email.submitted_on.strftime("%d").to_i.to_s + " " + pro_email.submitted_on.strftime("%Y") + " / " + pro_email.submitted_on.strftime("%I:%M") + pro_email.submitted_on.strftime("%p")
+
+   file_content += pro_email.fname + "," + pro_email.lname + "," + pro_email.email + "," + a + "\n"
+ end
+
+
+ file = File.open("public/export.csv", "w")
+ file.write(file_content)
+ file.close
+
+%>
+<div id="calendar">
+    <form name="calendar_form">
+          <div id="calendar_controllers">
+                  <input type="button" class="close_button" name="calendar_Close" onclick="HideCalendar();" value="" style="border:0px; height:13px; width:33px; background-image:url('/images/calender/closeButton_normal.gif');"><br/>
+                  <input type="button" class="ctrl_button" name="calendar_PrevMonth" onclick="calendar_prev_month();" value="" style="border:0px; height:20px; width:20px; background-image:url('/images/calender/monthBackward_normal.gif');">
+                  <select name="cal_month" onchange="Calendar_FillMonth();">
+                          <option value="1"<%= (1 == Time.now.month)?" selected":""; %>>January</option>
+                          <option value="2"<%= (2 == Time.now.month)?" selected":""; %>>February</option>
+                          <option value="3"<%= (3 == Time.now.month)?" selected":""; %>>March</option>
+                          <option value="4"<%= (4 == Time.now.month)?" selected":""; %>>April</option>
+                          <option value="5"<%= (5 == Time.now.month)?" selected":""; %>>May</option>
+                          <option value="6"<%= (6 == Time.now.month)?" selected":""; %>>June</option>
+                          <option value="7"<%= (7 == Time.now.month)?" selected":""; %>>July</option>
+                          <option value="8"<%= (8 == Time.now.month)?" selected":""; %>>August</option>
+                          <option value="9"<%= (9 == Time.now.month)?" selected":""; %>>September</option>
+                          <option value="10"<%= (10 == Time.now.month)?" selected":""; %>>October</option>
+                          <option value="11"<%= (11 == Time.now.month)?" selected":""; %>>November</option>
+                          <option value="12"<%= (12 == Time.now.month)?" selected":""; %>>December</option>
+                  </select>,
+                  <select name="year" onchange="Calendar_FillMonth();">
+                          <% (2000..2050).each do |@year| %>
+                                  <option value="<%= @year %>"<%= (@year == Time.now.year)?" selected":""; %>><%= @year %></option>
+                          <% end %>
+                  </select>
+                  <input type="button" class="ctrl_button" name="calendar_NextMonth" onclick="calendar_next_month();" value="" style="border:0px; height:20px; width:20px; background-image:url('/images/calender/monthForward_normal.gif');">
+          </div>
+          <div class="cal_head_row">
+                  <div class="cal_head">Sun</div>
+                  <div class="cal_head">Mon</div>
+                  <div class="cal_head">Tue</div>
+                  <div class="cal_head">Wed</div>
+                  <div class="cal_head">Thu</div>
+                  <div class="cal_head">Fri</div>
+                  <div class="cal_head">Sat</div>
+          </div>
+          <div class="cal_content" id="CalendarContent">
+          </div>
+    </form>
+</div>

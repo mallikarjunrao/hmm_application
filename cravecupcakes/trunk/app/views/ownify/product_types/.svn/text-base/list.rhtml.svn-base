@@ -1,0 +1,9 @@
+<% @page_title = "Product Types" %>
+<p><%= link_to 'New Product Section', :action => 'new' %></p>
+
+<% if @product_types && @product_types.length > 0 -%>
+
+<div id="sort_content">
+  <%= render :partial => 'order' %>
+</div>
+<% end -%>

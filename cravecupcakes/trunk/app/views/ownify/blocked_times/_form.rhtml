@@ -1,0 +1,17 @@
+<%= error_messages_for 'blocked_time' %>
+
+<!--[form:blocked_time]-->
+<p><label for="blocked_time_start_time">Start time</label>
+<%= select 'blocked_time', 'start_time', HALF_HOUR_TIMES  %></p>
+
+<p><label for="blocked_time_end_time">End time</label>
+<%= select 'blocked_time', 'end_time', HALF_HOUR_TIMES  %></p>
+
+<p><label for="blocked_time_page_on">Date</label>
+<%= date_select 'blocked_time', 'block_on'  %></p>
+
+<p><label for="blocked_time_page_on">Custom error message</label>
+<%= text_area 'blocked_time', 'error_message', {:rows => 3, :cols => 60}  %></p>
+<!--[eoform:blocked_time]-->
+
+<input type="hidden" name="blocked_time[store_id]" value="<%= params[:store_id] %>">

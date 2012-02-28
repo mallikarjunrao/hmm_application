@@ -1,0 +1,8 @@
+<% for column in DynoPage.content_columns %>
+<p>
+  <b><%= column.human_name %>:</b> <%=h @dyno_page.send(column.name) %>
+</p>
+<% end %>
+
+<%= link_to 'Edit', :action => 'edit', :id => @dyno_page %> |
+<%= link_to 'Back', :action => 'list' %>

@@ -1,0 +1,23 @@
+
+
+    <div id="daily-flavors">
+      <h2><a class='fir open-menu' href='/menu' onclick='return false' title='See today&rsquo;s flavors'>Baked Fresh Daily</a></h2>
+      <h4><a class='open-menu' href='/menu' onclick='return false' title='See today&rsquo;s flavors'>See today&rsquo;s flavors &raquo;</a></h4>
+  <% cache(:controller => "page", :action => "cupcake", :action_suffix => "today") do %>
+     <div id="mini-menu">
+      <p class="close-menu"><a class="close-menu" href="" onclick="return false" title="Close this Menu">x</a></p>
+<% _day = Time.now.wday
+ _day = 7 if _day == 0
+	@day = Day.find(:first, :conditions => {:id => _day}, :include => :cupcakes )
+	-%>   
+      <h3><%= @day.title %></h3>
+      <p id="see-all"><a href="/menu" title="Complete Menu listings">See all flavors of the week &raquo;</a></p> 
+
+      <ul>
+<% for cake in @day.cupcakes -%>
+        <li><%= '<strong>Breakfast:</strong> ' if cake.is_breakfast %><a href="/cupcake/<%= cake.slug %>"><%= cake.title %></a></li>
+<% end -%>
+      </ul>
+     </div><!--end: mini menu-->
+<% end -%>
+   </div>

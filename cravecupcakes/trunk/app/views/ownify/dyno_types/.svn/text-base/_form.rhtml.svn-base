@@ -1,0 +1,10 @@
+<%= error_messages_for 'dyno_type' %>
+
+<!--[form:dyno_type]-->
+<p><label for="dyno_type_title">Title</label><br/>
+<%= text_field 'dyno_type', 'title'  %></p>
+
+<p><label for="dyno_type_slug">Slug</label><br/>
+<%= text_field 'dyno_type', 'slug'  %></p>
+<!--[eoform:dyno_type]-->
+

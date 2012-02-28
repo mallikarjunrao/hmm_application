@@ -1,0 +1,40 @@
+<script type="text/javascript">
+  /*
+  function init(){
+    // create default slug
+    $('configuration_title').onchange=function (){
+            if ($('special_slug').value==''){
+                name=$('special_title').value.toLowerCase();
+                var exps = [/ /, /\W/, /__/ ];
+                var subs = ["_", "", "_"];
+                for(i=0; i < exps.length; i++){
+                    while( name.search(exps[i]) != -1){
+                        name = name.replace(exps[i], subs[i]);
+                    }
+                }
+                $('special_slug').value = name
+            }
+    }
+  }
+  window.onload=init
+  */
+</script>
+
+<%= error_messages_for 'configuration' %>
+
+<!--[form:cupcake]-->
+<p><label for="configuration_title">Name</label>
+<%= text_field 'configuration', 'name'  %></p>
+
+<p><label for="configuration_price">Value</label>
+<%= text_area 'configuration', 'value', :rows => 8  %></p>
+
+<p><label for="configuration_description">Description</label>
+<%= text_area 'configuration', 'description', :rows => 8  %></p>
+
+
+<!--[eoform:cupcake]-->
+
+
+<!-- products/_form.rhtml -->
+

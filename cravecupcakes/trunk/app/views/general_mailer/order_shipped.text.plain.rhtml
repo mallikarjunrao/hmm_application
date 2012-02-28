@@ -1,0 +1,56 @@
+<%
+customer = @order.customer
+shipping_address = @order.address || customer.shipping_address
+-%>
+Hello, <%= customer.first_name + ' ' + customer.last_name %>,
+Your order has has been shipped.
+You can access details about your order online at 
+<http://www.cravecupcakes.com/account>.
+
+The details of your order:
+
+Order date: <%= @order.ordered_at.strftime('%m/%d/%Y') %>
+Order Number: <%= @order.id %>
+<%= @order.shipping_method %>
+<%= @order.shipping_time %>
+
+..........................................................
+shipping address
+..........................................................
+<% if shipping_address.phone && ! shipping_address.phone.empty? -%>
+
+Phone: <%= shipping_address.phone %>
+<% end -%>
+<% if shipping_address.alt_phone && ! shipping_address.alt_phone.empty? -%>
+Alt: <%= shipping_address.alt_phone %>
+<% end -%>
+<%= shipping_address.address %>
+<%= "#{shipping_address.address2}" if shipping_address.address2 %>
+<%= shipping_address.city %> <%= ", #{shipping_address.state.abbreviation}" if shipping_address.state %>
+<%=  "#{shipping_address.postal_code}" if shipping_address.postal_code %>
+<%=  "#{shipping_address.region}" if shipping_address.region %>
+<%= shipping_address.country %>
+
+..........................................................
+order details
+..........................................................
+
+#  Price  Item   
+<% for item in @order.line_items -%>
+<%= item.quantity %> <%= number_to_currency item.price %> <%= item.size + ' ' + item.brand + ' ' + item.title%>
+<% end # end of cart item loop -%>
+
+Sub-total: <%= number_to_currency @order.pretax_total %>
+tax:       <%= number_to_currency @order.tax_amount %>
+shipping:  <%= number_to_currency(@order.shipping_cost) %>
+<% if @order.coupon_savings && @order.coupon_savings != 0.0 -%>
+coupon savings:  <%= number_to_currency(@order.coupon_savings) %>
+<% end -%>
+Total:     <%= number_to_currency(@order.order_total) %>
+
+<http://www.cravecupcakes.com/account>
+
+..........................................................
+
+http://www.cravecupcakes.com
+ 

@@ -1,0 +1,135 @@
+<% @body_id = "signup" %>
+
+    <div class="main">
+      <img src="images/heroes/medium/paper_trays.jpg" alt="A gourmet twist on a nostalgic favorite" />
+
+      <div id="details">
+        <h3>Sign up for Crave&nbsp;Updates</h3>
+
+		      <form name="form" method="post" target="_blank" action="http://oi.vresp.com?fid=048e6e8feb" >
+
+		  <div class="fields">
+		    <p>Required fields are marked with *</p>
+
+		    <div class="field-wrap" style="margin-top: 20px;">
+		      <label for="first-name">First Name:<span>*</span></label>
+		      <input id="first-name" name="first_name" size="15" class="text-field"/>
+		    </div>
+
+		    <div class="field-wrap">
+		      <label for="last-name">Last Name:<span>*</span></label>
+		      <input id="last-name" name="last_name" size="15" class="text-field"/>
+		    </div>
+
+		    <div class="field-wrap">
+		      <label for="email-addr">Email Address:<span>*</span></label>
+		      <input id="email-addr" name="email_address" size="15" class="text-field"/>
+		    </div>
+
+		    <div class="field-wrap">
+		      <label for="addr-1">Address (1):</label>
+		      <input id="addr-1" name="address_1" size="15" class="text-field"/>
+		    </div>
+
+		    <div class="field-wrap">
+		      <label for="addr-2">Address (2):</label>
+		      <input id="addr-2" name="address_2" size="15" class="text-field"/>
+		    </div>
+
+		    <div class="field-wrap">
+		      <label for="city">City:</label>
+		      <input id="city" name="city" size="15" class="text-field"/>
+		    </div>
+
+		    <div class="field-wrap">
+			  <label for="state">State: <span>*</span></label>
+		      <select id="state" name="state" class="text-field" style="margin-top: 5px; width: 140px">
+		        <option value=''></option>
+		        <option value="_1">--United States--</option>
+		        <option value="AL">Alabama</option>
+		        <option value="AK">Alaska</option>
+		        <option value="AS">American Samoa</option>
+		        <option value="AZ">Arizona</option>
+		        <option value="AR">Arkansas</option>
+		        <option value="CA">California</option>
+		        <option value="CO">Colorado</option>
+		        <option value="CT">Connecticut</option>
+		        <option value="DE">Delaware</option>
+		        <option value="DC">District of Columbia</option>
+		        <option value="FL">Florida</option>
+		        <option value="GA">Georgia</option>
+		        <option value="GU">Guam</option>
+		        <option value="HI">Hawaii</option>
+		        <option value="ID">Idaho</option>
+		        <option value="IL">Illinois</option>
+		        <option value="IN">Indiana</option>
+		        <option value="IA">Iowa</option>
+		        <option value="KS">Kansas</option>
+		        <option value="KY">Kentucky</option>
+		        <option value="LA">Louisiana</option>
+		        <option value="ME">Maine</option>
+		        <option value="MD">Maryland</option>
+		        <option value="MA">Massachusetts</option>
+		        <option value="MI">Michigan</option>
+		        <option value="MN">Minnesota</option>
+		        <option value="MS">Mississippi</option>
+		        <option value="MO">Missouri</option>
+		        <option value="MT">Montana</option>
+		        <option value="NE">Nebraska</option>
+		        <option value="NV">Nevada</option>
+		        <option value="NH">New Hampshire</option>
+		        <option value="NJ">New Jersey</option>
+		        <option value="NM">New Mexico</option>
+		        <option value="NY">New York</option>
+		        <option value="NC">North Carolina</option>
+		        <option value="ND">North Dakota</option>
+		        <option value="OH">Ohio</option>
+		        <option value="OK">Oklahoma</option>
+		        <option value="OR">Oregon</option>
+		        <option value="PA">Pennsylvania</option>
+		        <option value="PR">Puerto Rico</option>
+		        <option value="RI">Rhode Island</option>
+		        <option value="SC">South Carolina</option>
+		        <option value="SD">South Dakota</option>
+		        <option value="TN">Tennessee</option>
+		        <option value="TX">Texas</option>
+		        <option value="UT">Utah</option>
+		        <option value="VT">Vermont</option>
+		        <option value="VI">Virgin Islands</option>
+		        <option value="VA">Virginia</option>
+		        <option value="WA">Washington</option>
+		        <option value="WV">West Virginia</option>
+		        <option value="WI">Wisconsin</option>
+		        <option value="WY">Wyoming</option>
+		        <option value="_2">--Canada--</option>
+		        <option value="AB">Alberta</option>
+		        <option value="BC">British Columbia</option>
+		        <option value="MB">Manitoba</option>
+		        <option value="NB">New Brunswick</option>
+		        <option value="NL">Newfoundland</option>
+		        <option value="NT">North West Territory</option>
+		        <option value="NS">Nova Scotia</option>
+		        <option value="NU">Nunavut</option>
+		        <option value="ON">Ontario</option>
+		        <option value="PE">Prince Edward Island</option>
+		        <option value="QC">Quebec</option>
+		        <option value="SK">Saskatchewan</option>
+		        <option value="YT">Yukon Territory</option>
+		        <option value="_3">Not Applicable</option>
+		      </select>
+		    </div>
+
+		    <div class="field-wrap">
+		      <label for="zipcode">Zip Code: <span>*</span></label>
+		      <input id="zipcode" maxlength="5" name="postalcode" size="15" class="text-field short"/>
+		    </div>
+
+		  </div><!--end: form-->
+		  <div id="submit-button">
+      <input type="image" src="images/ui/forms/button_submit.gif" name="yes" value="yes" />
+		  </div>
+		</form>
+
+      </div><!--end: details-->
+  
+  </div><!--end: main-->

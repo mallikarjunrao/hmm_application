@@ -1,0 +1,30 @@
+<%= error_messages_for 'product' %>
+
+<!--[form:product]-->
+<p><label for="product_product_type_id">Type</label>
+<%= select 'product', 'product_type_id', @product_types  %></p>
+
+<p><label for="product_title">Title</label>
+<%= text_field 'product', 'title'  %></p>
+
+<p><label for="product_type_title">Image File</label>
+  <%= file_column_field 'product', 'image_file'  %>
+<%#= text_field 'product_type', 'image_file'  %></p>
+
+<p><label for="product_type_title">Thumb Image&nbsp;(image should be 20px by 20px) </label>
+  <%= file_column_field 'product', 'thumb_image'  %>
+<%#= text_field 'product_type', 'thumb_image'  %></p>
+
+<p><label for="product_price">Price</label>
+<%= text_field 'product', 'price'  %></p>
+
+<p><label for="product_sort">Sort</label>
+<%= text_field 'product', 'sort'  %></p>
+
+<p><label for="product_exclude_tax">Exclude Tax&nbsp;<%= check_box 'product', 'exclude_tax' %></label>
+</p>
+
+<p><label for="product_admin_only">Admin Only&nbsp;<%= check_box 'product', 'admin_only' %></label>
+</p>
+<!--[eoform:product]-->
+

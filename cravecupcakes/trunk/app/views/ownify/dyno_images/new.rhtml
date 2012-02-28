@@ -1,0 +1,6 @@
+<% @page_title ='New image' %>
+<p><%= link_to 'Back', :action => 'list', :dyno_page_id => params[:dyno_page_id] %></p>
+<% form_tag({:action => 'create'}, :multipart => true ) do %>
+  <%= render :partial => 'form' %>
+  <%= submit_tag "Create" %>
+<% end %>

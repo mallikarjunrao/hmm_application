@@ -1,0 +1,34 @@
+<% @page_title="Delivery Fees" -%>
+
+<% if session[:store_id] == "2" %>
+<h3>West University</h3>
+<% else %>
+<h3>Uptown Park</h3>
+<% end %>
+
+<p><%= link_to 'New Delivery Fee', :action => 'new', :store_id => session[:store_id] %></p>
+
+<table>
+  <tr>
+    <!--<th>Store ID</th>-->
+    <th>Zip Code</th>
+    <th>Delivery Fee</th>
+    <th colspan="2">Actions</th>
+  </tr>
+  
+<% for deliveryfee in @deliveryfees %>
+  <tr>
+    <!--<td align="center"><%=h deliveryfee.store_id %></td>-->
+    <td align="right"><%= deliveryfee.zip %></td>
+    <td align="right"><%= ["%.2f" %deliveryfee.delivery_fee] %></td>
+    <td><%= link_to 'Edit', :action => 'edit', :id => deliveryfee, :store_id => session[:store_id] %></td>
+    <td><%= link_to 'Destroy', { :action => 'destroy', :id => deliveryfee, :store_id => session[:store_id] }, :confirm => 'Are you sure?', :method => :post %></td>
+  </tr>
+<% end %>
+</table>
+
+<p><%= render(:partial => "/paginate", :locals => {:collection => @deliveryfees }) -%></p>
+
+<br />
+
+

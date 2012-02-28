@@ -1,0 +1,6 @@
+<% @body_id = "home" %>
+ <div class="main" id="photo-gallery">
+<% for @image in @dyno_page.dyno_images -%>
+  <img src="<%= "/images/dyno_image/image/#{@image.image_relative_path}" %>" alt="<%= @image.caption %>"  />
+<% end %>
+ </div><!--end: main-->

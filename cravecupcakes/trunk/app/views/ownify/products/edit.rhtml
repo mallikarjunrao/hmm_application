@@ -1,0 +1,9 @@
+<% @page_title = "Edit Product" %>
+
+<p><%= link_to 'Back', :action => 'list', :product_type_id =>  session[:product_type_id] %></p>
+
+<%# form_tag :action => 'update', :id => @product do %>
+<% form_tag({:action => 'update', :id => @product}, :multipart => true) do %>
+  <%= render :partial => 'form' %>
+  <%= submit_tag 'Save' %>
+<% end %>

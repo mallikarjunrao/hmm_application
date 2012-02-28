@@ -1,0 +1,8 @@
+<% @page_title = 'Edit Subscriber' %>
+<p><%= link_to 'Back', :action => 'list' %></p>
+<% form_tag :action => 'update', :id => @subscriber do %>
+  <%= render :partial => 'form' %>
+  <div class="btn">
+  <%= submit_tag 'Save' %>
+  </div>
+<% end %>

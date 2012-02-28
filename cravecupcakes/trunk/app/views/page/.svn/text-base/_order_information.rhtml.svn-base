@@ -1,0 +1,101 @@
+
+
+        <fieldset><!--customer information and profile-->
+          <legend>Your Information</legend>
+          <% if params[:delivery_method] == "delivery" || params[:delivery_method] == nil  %>
+            <div class="field-wrap">
+              <label>Same as:</label>
+              <input type="checkbox" onClick="setRespInfoToYours(this)" style="margin: 0px 5px 0px 3px; *margin: 0px 5px 0px 0px;"><span class="chkbox_right_text">Recipient Information</span>
+            </div>
+          <% end %>
+
+          <div class="field-wrap">
+            <label for="first_name">Your First Name:</label>
+            <%= text_field_tag "first_name", prev_vars[:first_name] != nil ? prev_vars[:first_name] : params[:first_name], {:class => 'text-field',:onkeypress=>"Toggle('fname','first_name');" } %>
+          </div>
+
+          <div class="field-wrap1" id="fname" style="display:none;" align="right"> Please enter your first name.</div>
+          <div class="field-wrap">
+            <label for="last_name">Your Last Name:</label>
+            <%= text_field_tag "last_name", prev_vars[:last_name] != nil ? prev_vars[:last_name] : params[:last_name], {:class => 'text-field',:onkeypress=>"Toggle('lname','last_name');" , :onkeyup=>"AutoFill();"} %>
+          </div>
+          <div class="field-wrap1" id="lname" style="display:none;"  align="right"> Please enter your last name.</div>
+
+          <div class="field-wrap">
+            <label for="email">E-mail Address:</label>
+            <%= text_field_tag "email", prev_vars[:email] != nil ? prev_vars[:email] : params[:email], {:class => 'text-field',:onkeypress=>"Toggle('cemail','email');"} %>
+          </div>
+          <div class="field-wrap1" id="cemail" style="display:none;" align="right"> Please enter a valid e-mail address.</div>
+          <div class="field-wrap">
+            <label for="promotional">Receive promotional email from Crave Cupcakes:<br /><font style="font-size:10px; width:250px;">(We will never share your email address with third parties.)<br><br></font></label>
+
+            <input type="checkbox" value="true" id="promotional" name="promotional"
+            <%
+            checked = ""
+            if params[:promotional]
+              checked = (prev_vars[:promotional] == "true")? "checked='checked'" : ""
+            %><%= checked %><%
+            else
+                   %>checked='checked'<%
+                   end
+                 %>
+                   >
+          </div>
+          <div class="field-wrap">
+            <label for="primary_phone">Phone:</label>
+            <%= text_field_tag "primary_phone", prev_vars[:primary_phone] != nil ? prev_vars[:primary_phone] : params[:primary_phone], {:class => 'text-field', :maxlength => 12,:onkeypress=>"Toggle('phone','primary_phone');"} %>
+          </div>
+          <div class="field-wrap">
+            <label for="alt_phone">Alternate Phone:</label>
+            <%= text_field_tag "alt_phone", prev_vars[:alt_phone] != nil ? prev_vars[:alt_phone] : params[:alt_phone], {:class => 'text-field', :maxlength => 12,:onkeypress=>"Toggle('phone','primary_phone');"} %>
+          </div>
+          <div class="field-wrap1" id="phone" style="display:none;" align="right"> Please enter your phone number.</div>
+
+          <% if  params[:delivery_method] == 'pickup'%>
+            <div class="field-wrap">
+              <label for="alt_phone">Person Picking Up the Order:</label>
+              <%= text_field_tag "person_pic_order", prev_vars[:person_pic_order] != nil ? prev_vars[:person_pic_order] : params[:person_pic_order], {:class => 'text-field'} %>
+            </div>
+          <% end %>
+
+        </fieldset>
+
+
+        <script type="text/javascript">
+            function setRespInfoToYours(obj){
+              if(obj.checked == true){
+                document.getElementById('first_name').value = document.getElementById('shipto_first_name').value;
+                document.getElementById('last_name').value = document.getElementById('shipto_last_name').value;
+                document.getElementById('primary_phone').value = document.getElementById('shipto_phone').value;
+              }
+            }
+
+            function setRespInfoToPayment(obj){
+              if(obj.checked == true){
+                document.getElementById('b_fname').value = document.getElementById('shipto_first_name').value;
+                document.getElementById('b_lname').value = document.getElementById('shipto_last_name').value;
+
+                document.getElementById('urs_to_pay').checked = false;
+              }
+            }
+
+            function setYoursInfoToPayment(obj){
+              if(obj.checked == true){
+                document.getElementById('b_fname').value = document.getElementById('first_name').value;
+                document.getElementById('b_lname').value = document.getElementById('last_name').value;
+                if(document.getElementById('res_to_pay') != null){
+                  document.getElementById('res_to_pay').checked = false;
+                }
+              }
+            }
+        </script>
+
+        <style type="text/css">
+          .chkbox_right_text{
+            font-family: Arial,Verdana,sans-serif !important;
+            font-size: 0.8em;
+            color: #522C1B;
+          }
+        </style>
+
+        

@@ -1,0 +1,1162 @@
+<link rel="stylesheet" href="/stylesheets/calendar.css" type="text/css" charset="utf-8" />
+<script src="/javascripts/calendar.js" type="text/javascript"></script>
+<script src="/javascripts/js_vlib.js" type="text/javascript"></script>
+<%
+rep_date = Date.parse(session[:sales_date].to_s)
+
+sales_date = rep_date.strftime("%a") + " " + rep_date.strftime("%b") + " " + rep_date.strftime("%d").to_i.to_s + ", " + rep_date.strftime("%Y")
+%>
+<script type="text/javascript">
+  function create_popup(id){
+
+    newwindow = window.open("",'','height=500,width=1070,menubar=yes,status=no,screenX=100,screenY=50,scrollbars=yes');
+    newdocument = newwindow.document;
+
+    var css = "";
+    css += '<link rel="stylesheet" href="/stylesheets/order_confirm.css" type="text/css" charset="utf-8" />';
+    css += '<link rel="stylesheet" href="/stylesheets/admin.css" type="text/css" charset="utf-8" />';
+    //css += '<link rel="stylesheet" href="/stylesheets/scaffold.css" type="text/css" charset="utf-8" />';
+    var content = '<html><body><div style="margin: 30px;">\n';
+    content += '<style type="text/css">@media print {  .btn  { display:none; }} th{ font-size:11px;}</style>';
+    content += '<button style="float:left;" class="btn" onclick="window.print()">Print</button><br><br>';
+    content += '<h3><%= (session[:store_id].to_i == 2)? "West University" : "Uptown Park" %></h3>';
+    content += "<b>Sales Report: <%= rep_date.strftime("%a") + " " + rep_date.strftime("%b") + " " + rep_date.strftime("%d").to_i.to_s + ", " + rep_date.strftime("%Y") %></b>";
+
+    content += document.getElementById(id).innerHTML;
+    content += '<style type="text/css">.separator{ margin-top: 10px; margin-bottom: 10px; *margin-bottom: -5px; border-top: 1px solid #522C1B; height: 1px; width: 500px;}'
+    content += "</div>\n";
+    //content += "<script type='text/javascript'>window.print();<\/script>";
+    newdocument.write(css + content);
+    newdocument.title = "Print Preview";
+
+    var browser=navigator.appName;
+    if (browser=='Microsoft Internet Explorer'){
+      setTimeout("newdocument.execCommand('Stop')",2000);
+    }
+    else{
+      setTimeout("newwindow.stop()",2000);
+    }
+
+    if (window.focus) {newwindow.focus();}
+    newwindow.print();
+    newwindow.document.close();
+  }
+</script>
+
+<%
+
+def set_thou_sep(str)
+  return str[0].gsub(/(\d)(?=\d{3}+(\.\d*)?$)/, '\1,')
+end
+
+%>
+
+<% @page_title="Sales Report: " + sales_date -%>
+
+<% if params[:store_id] == "2" %>
+  <h3>West University</h3>
+<% else %>
+  <h3>Uptown Park</h3>
+<% end %>
+
+<br>
+<form action="/ownify/sales/get_report?store_id=<%= session[:store_id] %>" method="post" onsubmit="return validateForm()">
+  <div style="z-index:0; float:left; margin-right:10px;">
+    <span>Date: </span>
+    <span><input id=sales_date name=sales_date  onfocus="ShowCalendar(this, '');" value="<%= session[:sales_date] %>" type=text readonly="readonly">&nbsp;</span>
+  </div>
+  <div style="z-index:0; float:left; margin-right:10px;">
+    <span><input type="submit" value="Submit"></span>
+  </div>
+</form>
+<br/><br/>
+<hr/>
+<br>
+<%
+cupcake_sales_tottal = 0
+retail_sales_tottal = 0
+grand_total = 0
+%>
+
+<div>
+  <div style="float:left; width:350px; *width:360px;">
+    <b>Sales Report: <%= sales_date %></b>
+  </div>
+  <div style="float:left;">
+    <a style="float:left; margin-right:10px;" href="/ownify/sales/get_ext_report?store_id=<%= session[:store_id] %>">View Extended</a>
+    <button style="float:left;" onclick="create_popup('report')">Print</button>    
+  </div>
+</div>
+<br clear="all">
+
+<div id="report">
+
+  <style type="text/css">
+    table.noborder{
+      border:none;
+    }
+    table.noborder tr td{
+      border:none;
+    }
+    .separator{
+      margin-top: 10px;
+      margin-bottom: 10px;
+      border-top: 1px solid #522C1B;
+      height: 1px;
+      width: 500px;
+    }
+    .separator2{
+      margin-top: 2px;
+      margin-bottom: 2px;
+      border-top: 1px solid #522C1B;
+      height: 1px;
+      width: 500px;
+    }
+    h2{
+      margin-top: 25px;
+      font-size: 16px;
+    }
+    .visa_mc{
+      /*color: maroon;*/
+    }
+  </style>
+
+  <h2>Cupcake Sales</h2>
+  <div class="separator"></div>
+
+  <%
+  visa_plus_mc = 0
+  visa_plus_mc_dis = 0
+%>
+
+  <% if @cupcakes_visa.empty? == false %>
+
+    <% cupcake_visa = 0 %>
+
+    <%
+    for item in @cupcakes_visa
+    %>
+
+      <% if item.includes_a_giftbox != true
+
+        cupcake_sales_tottal += (item.price.to_f * item.p_total.to_i)
+        cupcake_visa += (item.price.to_f * item.p_total.to_i)
+      else
+        giftbox_price = 0
+        giftbox_price  = Configuration.find_by_name('packaging_gift_box_cost')
+        giftbox_price = giftbox_price.value.to_f
+
+        cupcake_sales_tottal += (item.price.to_f - giftbox_price)* item.p_total.to_i
+        cupcake_visa += (item.price.to_f - giftbox_price)* item.p_total.to_i
+      end
+
+    end
+
+    dis_visa = 0
+    if @other_visa.empty? == false
+      if @other_visa[0].order_discount.to_f > 0
+        dis_visa += @other_visa[0].order_discount.to_f
+      end
+    end
+
+    visa_plus_mc_dis = dis_visa
+    visa_plus_mc = cupcake_visa
+
+  %>
+<!--
+    <table width="500" class="noborder"><tr><td  width="70%"><b>VISA</b></td><td width="15%" align="right">$<%= set_thou_sep(["%.2f"%cupcake_visa]) %></td><td width="15%" align="right">(-$<%= ["%.2f"%dis_visa] %>)</td></tr></table>
+    <div class="separator"></div>
+-->
+  <% end %>
+
+
+  <% if @cupcakes_mc.empty? == false %>
+
+    <% cupcake_mc = 0 %>
+
+
+    <%
+    for item in @cupcakes_mc
+
+      if item.includes_a_giftbox != true
+
+        cupcake_sales_tottal += (item.price.to_f * item.p_total.to_i)
+        cupcake_mc += (item.price.to_f * item.p_total.to_i)
+      else
+        giftbox_price = 0
+        giftbox_price  = Configuration.find_by_name('packaging_gift_box_cost')
+        giftbox_price = giftbox_price.value.to_f
+
+
+        cupcake_sales_tottal += (item.price.to_f - giftbox_price)* item.p_total.to_i
+        cupcake_mc += (item.price.to_f - giftbox_price)* item.p_total.to_i
+      end
+
+
+    end
+  %>
+
+
+    <%
+    dis_mc = 0
+    if @other_mc.empty? == false
+      if @other_mc[0].order_discount.to_f > 0
+        dis_mc += @other_mc[0].order_discount.to_f
+      end
+    end
+
+    visa_plus_mc_dis += dis_mc
+    visa_plus_mc += cupcake_mc
+
+  %>
+<!--
+    <table width="500" class="noborder"><tr><td  width="70%"><b>MasterCard</b></td><td width="15%" align="right">$<%= set_thou_sep(["%.2f"%cupcake_mc]) %></td><td width="15%" align="right">(-$<%= ["%.2f"%dis_mc] %>)</td></tr></table>
+    <div class="separator"></div>
+-->
+  <% end %>
+
+  <% if visa_plus_mc != 0 %>
+    <table width="500" class="noborder"><tr><td class="visa_mc" width="85%"><b>VISA + MasterCard</b></td><td width="15%" align="right" class="visa_mc">$<%= set_thou_sep(["%.2f"%visa_plus_mc]) %></td></tr></table>
+    <div class="separator"></div>
+  <% end %>
+
+  <% if @cupcakes_ae.empty? == false %>
+
+    <% cupcake_ae = 0 %>
+
+    <%
+    for item in @cupcakes_ae
+
+      if item.includes_a_giftbox != true
+
+        cupcake_sales_tottal += (item.price.to_f * item.p_total.to_i)
+        cupcake_ae += (item.price.to_f * item.p_total.to_i)
+      else
+        giftbox_price = 0
+        giftbox_price  = Configuration.find_by_name('packaging_gift_box_cost')
+        giftbox_price = giftbox_price.value.to_f
+
+
+        cupcake_sales_tottal += (item.price.to_f - giftbox_price)* item.p_total.to_i
+        cupcake_ae += (item.price.to_f - giftbox_price)* item.p_total.to_i
+      end
+
+
+    end
+  %>
+
+    <%
+    dis_ae = 0
+    if @other_ae.empty? == false
+      if @other_ae[0].order_discount.to_f > 0
+        dis_ae += @other_ae[0].order_discount.to_f
+      end
+    end
+  %>
+    <table width="500" class="noborder"><tr><td  width="85%"><b>American Express</b></td><td width="15%" align="right">$<%= set_thou_sep(["%.2f"%cupcake_ae]) %></td></tr></table>
+    <div class="separator"></div>
+  <% end %>
+
+  <% if @cupcakes_discover.empty? == false %>
+
+    <% cupcake_discover = 0 %>
+
+
+    <%
+    for item in @cupcakes_discover
+
+      if item.includes_a_giftbox != true
+
+        cupcake_sales_tottal += (item.price.to_f * item.p_total.to_i)
+        cupcake_discover += (item.price.to_f * item.p_total.to_i)
+      else
+        giftbox_price = 0
+        giftbox_price  = Configuration.find_by_name('packaging_gift_box_cost')
+        giftbox_price = giftbox_price.value.to_f
+
+
+        cupcake_sales_tottal += (item.price.to_f - giftbox_price)* item.p_total.to_i
+        cupcake_discover += (item.price.to_f - giftbox_price)* item.p_total.to_i
+      end
+
+
+    end
+  %>
+
+    <%
+    dis_disc = 0
+    if @other_discover.empty? == false
+      if @other_discover[0].order_discount.to_f > 0
+        dis_disc += @other_discover[0].order_discount.to_f
+      end
+    end
+  %>
+    <table width="500" class="noborder"><tr><td  width="85%"><b>Discover</b></td><td width="15%" align="right">$<%= set_thou_sep(["%.2f"%cupcake_discover]) %></td></tr></table>
+    <div class="separator"></div>
+  <% end %>
+  
+  <%
+
+=begin
+  discounts = 0
+  if @other_visa.empty? == false
+    if @other_visa[0].order_discount.to_f > 0
+      cupcake_sales_tottal -= @other_visa[0].order_discount.to_f
+      discounts += @other_visa[0].order_discount.to_f
+    end
+  end
+
+  if @other_mc.empty? == false
+    if @other_mc[0].order_discount.to_f > 0
+      cupcake_sales_tottal -= @other_mc[0].order_discount.to_f
+      discounts += @other_mc[0].order_discount.to_f
+    end
+  end
+
+  if @other_ae.empty? == false
+    if @other_ae[0].order_discount.to_f > 0
+      cupcake_sales_tottal -= @other_ae[0].order_discount.to_f
+      discounts += @other_ae[0].order_discount.to_f
+    end
+  end
+
+  if @other_discover.empty? == false
+    if @other_discover[0].order_discount.to_f > 0
+      cupcake_sales_tottal -= @other_discover[0].order_discount.to_f
+      discounts += @other_discover[0].order_discount.to_f
+    end
+  end
+
+  if @other_prepaid_creditcard.empty? == false
+    if @other_prepaid_creditcard[0].order_discount.to_f > 0
+      cupcake_sales_tottal -= @other_prepaid_creditcard[0].order_discount.to_f
+      discounts += @other_prepaid_creditcard[0].order_discount.to_f
+    end
+  end
+
+  if @other_prepaid_cash.empty? == false
+    if @other_prepaid_cash[0].order_discount.to_f > 0
+      cupcake_sales_tottal -= @other_prepaid_cash[0].order_discount.to_f
+      discounts += @other_prepaid_cash[0].order_discount.to_f
+    end
+  end
+
+  if @other_no_charge.empty? == false
+    if @other_no_charge[0].order_discount.to_f > 0
+      cupcake_sales_tottal -= @other_no_charge[0].order_discount.to_f
+      discounts += @other_no_charge[0].order_discount.to_f
+    end
+  end
+
+  if @other_payment_on_delivery.empty? == false
+    if @other_payment_on_delivery[0].order_discount.to_f > 0
+      cupcake_sales_tottal -= @other_payment_on_delivery[0].order_discount.to_f
+      discounts += @other_payment_on_delivery[0].order_discount.to_f
+    end
+  end
+
+  if @other_Pay_with_a_CRAVE_gift_card.empty? == false
+    if @other_Pay_with_a_CRAVE_gift_card[0].order_discount.to_f > 0
+      cupcake_sales_tottal -= @other_Pay_with_a_CRAVE_gift_card[0].order_discount.to_f
+      discounts += @other_Pay_with_a_CRAVE_gift_card[0].order_discount.to_f
+    end
+  end
+
+=end
+
+%>
+
+
+  <% if cupcake_sales_tottal != 0 %>
+    <table width="500" class="noborder">
+      <tr>
+        <td align="right" width="85%" style="padding:3px;"><font size="3"><b>Total</b></font></td>
+        <td align="right" width="15%"><font size="3"><b>$<%= set_thou_sep(["%.2f" % cupcake_sales_tottal]) %></b></font></td>
+      </tr>
+    </table>
+  <% else %>
+    <font color="red"><b>No cupcake sales available for this day.</b></font><br><br>
+  <% end %>
+
+
+
+  <h2>Retail Sales</h2>
+  <div class="separator"></div>
+
+  <%
+  visa_plus_mc = 0
+  visa_plus_mc_tax = 0
+  tax_fee_total = 0
+  ret_visa = 0
+%>
+
+  <% if @retail_visa.empty? == false
+    for item in @retail_visa
+
+      if item.includes_a_giftbox != true
+
+        retail_sales_tottal += (item.price.to_f * item.p_total.to_i)
+        ret_visa += (item.price.to_f * item.p_total.to_i)
+      else
+        giftbox_price = 0
+        giftbox_price  = Configuration.find_by_name('packaging_gift_box_cost')
+        giftbox_price = giftbox_price.value.to_f
+
+
+        retail_sales_tottal += (giftbox_price)* item.p_total.to_i
+        ret_visa += (giftbox_price)* item.p_total.to_i
+      end
+
+
+    end
+  end
+
+  if @other_visa.empty? == false
+
+    if @other_visa[0].pack_fee.to_f > 0
+      if @retail_visa.empty? == true
+
+      end
+
+      retail_sales_tottal += @other_visa[0].pack_fee.to_f
+      ret_visa += @other_visa[0].pack_fee.to_f
+
+    end
+  end
+
+  if ret_visa != 0
+    visa_plus_mc = ret_visa
+  %>
+  <!--
+    <table width="500" class="noborder"><tr><td  width="85%"><b>VISA</b></td><td width="15%" align="right">$<%= set_thou_sep(["%.2f"%ret_visa]) %></td></tr></table>
+  -->
+  <%
+  end
+
+  tax_visa = 0
+
+  if @other_visa.empty? == false
+    if @other_visa[0].sales_tax_seasonal_packaging.to_f > 0 || @other_visa[0].sales_tax_packaging.to_f > 0 || @other_visa[0].sales_tax.to_f > 0
+
+
+      for item in @other_visa
+        if item.sales_tax_seasonal_packaging.to_f > 0
+
+          tax_fee_total += item.sales_tax_seasonal_packaging.to_f
+          tax_visa += item.sales_tax_seasonal_packaging.to_f
+
+        end
+        if item.sales_tax_packaging.to_f >  0
+
+          tax_fee_total += item.sales_tax_packaging.to_f
+          tax_visa += item.sales_tax_packaging.to_f
+
+        end
+        if item.sales_tax.to_f >  0
+
+          tax_fee_total += item.sales_tax.to_f
+          tax_visa += item.sales_tax.to_f
+
+        end
+      end
+
+      if tax_visa != 0
+        visa_plus_mc_tax = tax_visa
+      %>
+      <!--
+        <table width="500" class="noborder"><tr><td  width="85%"><b>Tax</b></td><td width="15%" align="right">$<%= set_thou_sep(["%.2f"%tax_visa]) %></td></tr></table>
+      -->
+      <%
+      end
+    end
+  end
+%>
+  <% if (ret_visa + tax_visa) != 0 %>
+    <!--<div class="separator"></div>-->
+  <% end %>
+
+
+  <% ret_mc = 0
+  if @retail_mc.empty? == false
+    for item in @retail_mc
+      if item.includes_a_giftbox != true
+
+        retail_sales_tottal += (item.price.to_f * item.p_total.to_i)
+        ret_mc += (item.price.to_f * item.p_total.to_i)
+      else
+        giftbox_price = 0
+        giftbox_price  = Configuration.find_by_name('packaging_gift_box_cost')
+        giftbox_price = giftbox_price.value.to_f
+
+
+        retail_sales_tottal += (giftbox_price)* item.p_total.to_i
+        ret_mc += (giftbox_price)* item.p_total.to_i
+      end
+
+
+    end
+  end
+  if @other_mc.empty? == false
+    if @other_mc[0].pack_fee.to_f > 0
+      if @retail_mc.empty? == true
+
+      end
+      retail_sales_tottal += @other_mc[0].pack_fee.to_f
+      ret_mc += @other_mc[0].pack_fee.to_f
+    end
+  end
+
+%>
+
+  <% if ret_mc != 0 %>
+    <% visa_plus_mc += ret_mc %>
+    <!--
+    <table width="500" class="noborder"><tr><td  width="85%"><b>MasterCard</b></td><td width="15%" align="right">$<%= set_thou_sep(["%.2f"%ret_mc]) %></td></tr></table>
+    -->
+  <% end %>
+
+  <% tax_mc = 0
+
+  if @other_mc.empty? == false
+    if @other_mc[0].sales_tax_seasonal_packaging.to_f > 0 || @other_mc[0].sales_tax_packaging.to_f > 0 || @other_mc[0].sales_tax.to_f > 0
+
+
+      for item in @other_mc
+        if item.sales_tax_seasonal_packaging.to_f > 0
+
+          tax_fee_total += item.sales_tax_seasonal_packaging.to_f
+          tax_mc += item.sales_tax_seasonal_packaging.to_f
+
+        end
+        if item.sales_tax_packaging.to_f >  0
+
+          tax_fee_total += item.sales_tax_packaging.to_f
+          tax_mc += item.sales_tax_packaging.to_f
+
+        end
+        if item.sales_tax.to_f >  0
+
+          tax_fee_total += item.sales_tax.to_f
+          tax_mc += item.sales_tax.to_f
+
+        end
+      end
+
+      if tax_mc != 0
+        visa_plus_mc_tax += tax_mc %>
+        <!--
+        <table width="500" class="noborder"><tr><td  width="85%"><b>Tax</b></td><td width="15%" align="right">$<%= set_thou_sep(["%.2f"%tax_mc]) %></td></tr></table>
+        -->
+      <%
+      end
+    end
+  end
+%>
+  <% if (ret_mc + tax_mc) != 0 %>
+    <!--<div class="separator"></div>-->
+  <% end %>
+
+
+  <% if visa_plus_mc != 0 %>
+    <table width="500" class="noborder"><tr><td class="visa_mc" width="85%"><b>VISA + MasterCard</b></td><td class="visa_mc" width="15%" align="right">$<%= set_thou_sep(["%.2f"%visa_plus_mc]) %></td></tr></table>
+    <% if visa_plus_mc_tax != 0 %>
+      <table width="500" class="noborder"><tr><td class="visa_mc" width="85%"><b>Tax</b></td><td width="15%" align="right" class="visa_mc">$<%= set_thou_sep(["%.2f"%visa_plus_mc_tax]) %></td></tr></table>
+    <% end %>
+    <div class="separator"></div>
+  <% end %>
+
+
+  <% ret_ae = 0
+  if @retail_ae.empty? == false
+    for item in @retail_ae
+      if item.includes_a_giftbox != true
+
+        retail_sales_tottal += (item.price.to_f * item.p_total.to_i)
+        ret_ae += (item.price.to_f * item.p_total.to_i)
+      else
+        giftbox_price = 0
+        giftbox_price  = Configuration.find_by_name('packaging_gift_box_cost')
+        giftbox_price = giftbox_price.value.to_f
+
+        retail_sales_tottal += (giftbox_price)* item.p_total.to_i
+        ret_ae += (giftbox_price)* item.p_total.to_i
+      end
+
+    end
+  end
+  if @other_ae.empty? == false
+    if @other_ae[0].pack_fee.to_f > 0
+      if @retail_ae.empty? == true
+
+      end
+      retail_sales_tottal += @other_ae[0].pack_fee.to_f
+      ret_ae += @other_ae[0].pack_fee.to_f
+    end
+  end
+
+%>
+
+
+  <% if ret_ae != 0 %>
+    <table width="500" class="noborder"><tr><td  width="85%"><b>American Express</b></td><td width="15%" align="right">$<%= set_thou_sep(["%.2f"%ret_ae]) %></td></tr></table>
+  <% end %>
+
+  <%
+  tax_ae = 0
+  if @other_ae.empty? == false
+    if @other_ae[0].sales_tax_seasonal_packaging.to_f > 0 || @other_ae[0].sales_tax_packaging.to_f > 0 || @other_ae[0].sales_tax.to_f > 0
+
+
+      for item in @other_ae
+        if item.sales_tax_seasonal_packaging.to_f > 0
+
+          tax_fee_total += item.sales_tax_seasonal_packaging.to_f
+          tax_ae += item.sales_tax_seasonal_packaging.to_f
+
+        end
+        if item.sales_tax_packaging.to_f >  0
+
+          tax_fee_total += item.sales_tax_packaging.to_f
+          tax_ae += item.sales_tax_packaging.to_f
+
+        end
+        if item.sales_tax.to_f >  0
+
+          tax_fee_total += item.sales_tax.to_f
+          tax_ae += item.sales_tax.to_f
+
+        end
+      end
+
+      if tax_ae != 0 %>
+        <table width="500" class="noborder"><tr><td  width="85%"><b>Tax</b></td><td width="15%" align="right">$<%= set_thou_sep(["%.2f"%tax_ae]) %></td></tr></table>
+      <%
+      end
+    end
+  end
+%>
+
+  <% if (ret_ae + tax_ae) != 0 %>
+    <div class="separator"></div>
+  <% end %>
+
+  <% ret_dis = 0
+  if @retail_discover.empty? == false
+
+    for item in @retail_discover
+      if item.includes_a_giftbox != true
+        retail_sales_tottal += (item.price.to_f * item.p_total.to_i)
+        ret_dis += (item.price.to_f * item.p_total.to_i)
+      else
+        giftbox_price = 0
+        giftbox_price  = Configuration.find_by_name('packaging_gift_box_cost')
+        giftbox_price = giftbox_price.value.to_f
+
+        retail_sales_tottal += (giftbox_price)* item.p_total.to_i
+        ret_dis += (giftbox_price)* item.p_total.to_i
+      end
+
+    end
+  end
+  if @other_discover.empty? == false
+    if @other_discover[0].pack_fee.to_f > 0
+      if @retail_discover.empty? == true
+
+      end
+      retail_sales_tottal += @other_discover[0].pack_fee.to_f
+      ret_dis += @other_discover[0].pack_fee.to_f
+    end
+  end
+
+%>
+
+
+  <% if ret_dis != 0 %>
+    <table width="500" class="noborder"><tr><td width="85%"><b>Discover</b></td><td width="15%" align="right">$<%= set_thou_sep(["%.2f"%ret_dis]) %></td></tr></table>
+  <% end %>
+
+  <%
+  tax_dis = 0
+
+  if @other_discover.empty? == false
+    if @other_discover[0].sales_tax_seasonal_packaging.to_f > 0 || @other_discover[0].sales_tax_packaging.to_f > 0 || @other_discover[0].sales_tax.to_f > 0
+
+
+      for item in @other_discover
+        if item.sales_tax_seasonal_packaging.to_f > 0
+
+          tax_fee_total += item.sales_tax_seasonal_packaging.to_f
+          tax_dis += item.sales_tax_seasonal_packaging.to_f
+
+        end
+        if item.sales_tax_packaging.to_f >  0
+
+          tax_fee_total += item.sales_tax_packaging.to_f
+          tax_dis += item.sales_tax_packaging.to_f
+
+        end
+        if item.sales_tax.to_f >  0
+
+          tax_fee_total += item.sales_tax.to_f
+          tax_dis += item.sales_tax.to_f
+
+        end
+      end
+
+      if tax_dis != 0 %>
+        <table width="500" class="noborder"><tr><td  width="85%"><b>Tax</b></td><td width="15%" align="right">$<%= set_thou_sep(["%.2f"%tax_dis]) %></td></tr></table>
+      <%
+      end
+    end
+  end
+%>
+
+  <% if (ret_dis + tax_dis) != 0 %>
+    <div class="separator"></div>
+  <% end %>  
+
+  <% if retail_sales_tottal != 0 %>
+    <table width="500" class="noborder"><tr><td align="right" width="85%" style="padding:3px;"><font size="3"><b>Total</b></font></td><td align="right" width="15%"><font size="3"><b>$<%= set_thou_sep(["%.2f" % retail_sales_tottal]) %></b></font></td></tr></table>
+    <table width="500" class="noborder"><tr><td align="right" width="85%"><b>Tax</b></td><td width="15%" align="right">$<%= set_thou_sep(["%.2f"%tax_fee_total]) %></td></tr></table>
+  <% else %>
+    <font color="red"><b>No retail sales available for this day.</b></font><br><br>
+  <% end %>
+ 
+
+  <h2>Delivery Charges</h2>
+  <div class="separator"></div>
+  <%
+  delivery_fee_total = 0
+
+  visa_plus_mc = 0
+%>
+
+
+  <% if @other_visa.empty? == false
+    if @other_visa[0].order_shipping.to_f > 0 || @other_visa[0].delivery_surcharge.to_f > 0 %>
+
+      <% del_visa = 0 %>
+
+
+      <%
+      for item in @other_visa
+        if item.order_shipping.to_f > 0
+          delivery_fee_total += item.order_shipping.to_f
+          del_visa += item.order_shipping.to_f
+        end
+        if item.delivery_surcharge.to_f >  0
+          delivery_fee_total += item.delivery_surcharge.to_f
+          del_visa += item.delivery_surcharge.to_f
+        end
+        if item.oversize_order_surcharge.to_f >  0
+          delivery_fee_total += item.oversize_order_surcharge.to_f
+          del_visa += item.oversize_order_surcharge.to_f
+        end
+      end
+    %>
+
+      <% if del_visa != 0 %>
+        <% visa_plus_mc = del_visa %>
+  <!--
+        <table width="500" class="noborder"><tr><td  width="85%"><b>VISA</b></td><td width="15%" align="right">$<%= set_thou_sep(["%.2f"%del_visa]) %></td></tr></table>
+        <div class="separator"></div>
+  -->
+      <% end %>
+
+    <% end
+
+  end %>
+
+
+  <% if @other_mc.empty? == false
+    if @other_mc[0].order_shipping.to_f > 0 || @other_mc[0].delivery_surcharge.to_f > 0 %>
+
+      <% del_mc = 0 %>
+
+
+      <%
+      for item in @other_mc
+        if item.order_shipping.to_f > 0
+          delivery_fee_total += item.order_shipping.to_f
+          del_mc += item.order_shipping.to_f
+        end
+        if item.delivery_surcharge.to_f >  0
+          delivery_fee_total += item.delivery_surcharge.to_f
+          del_mc += item.delivery_surcharge.to_f
+        end
+        if item.oversize_order_surcharge.to_f >  0
+          delivery_fee_total += item.oversize_order_surcharge.to_f
+          del_mc += item.oversize_order_surcharge.to_f
+        end
+      end
+    %>
+
+      <% if del_mc != 0 %>
+        <% visa_plus_mc += del_mc %>
+  <!--
+        <table width="500" class="noborder"><tr><td  width="85%"><b>MasterCard</b></td><td width="15%" align="right">$<%= set_thou_sep(["%.2f"%del_mc]) %></td></tr></table>
+        <div class="separator"></div>
+  -->
+      <% end %>
+    <% end
+
+  end %>
+
+
+  <% if visa_plus_mc != 0 %>
+    <table width="500" class="noborder"><tr><td class="visa_mc" width="85%"><b>VISA + MasterCard</b></td><td width="15%" align="right" class="visa_mc">$<%= set_thou_sep(["%.2f"%visa_plus_mc]) %></td></tr></table>
+    <div class="separator"></div>
+  <% end %>
+
+  <% if @other_ae.empty? == false
+    if @other_ae[0].order_shipping.to_f > 0 || @other_ae[0].delivery_surcharge.to_f > 0 %>
+
+      <% del_ae = 0 %>
+
+
+
+      <%
+      for item in @other_ae
+        if item.order_shipping.to_f > 0
+          delivery_fee_total += item.order_shipping.to_f
+          del_ae += item.order_shipping.to_f
+        end
+        if item.delivery_surcharge.to_f > 0
+          delivery_fee_total += item.delivery_surcharge.to_f
+          del_ae += item.delivery_surcharge.to_f
+        end
+        if item.oversize_order_surcharge.to_f >  0
+          delivery_fee_total += item.oversize_order_surcharge.to_f
+          del_ae += item.oversize_order_surcharge.to_f
+        end
+      end
+    %>
+
+      <% if del_ae != 0 %>
+        <table width="500" class="noborder"><tr><td  width="85%"><b>American Express</b></td><td width="15%" align="right">$<%= set_thou_sep(["%.2f"%del_ae]) %></td></tr></table>
+        <div class="separator"></div>
+      <% end %>
+    <% end
+
+  end %>
+
+
+  <% if @other_discover.empty? == false
+    if @other_discover[0].order_shipping.to_f > 0 || @other_discover[0].delivery_surcharge.to_f > 0 %>
+
+      <% del_dis = 0 %>
+
+
+      <%
+      for item in @other_discover
+        if item.order_shipping.to_f > 0
+          delivery_fee_total += item.order_shipping.to_f
+          del_dis += item.order_shipping.to_f
+        end
+        if item.delivery_surcharge.to_f >  0
+          delivery_fee_total += item.delivery_surcharge.to_f
+          del_dis += item.delivery_surcharge.to_f
+        end
+        if item.oversize_order_surcharge.to_f >  0
+          delivery_fee_total += item.oversize_order_surcharge.to_f
+          del_dis += item.oversize_order_surcharge.to_f
+        end
+      end
+    %>
+
+      <% if del_dis != 0 %>
+        <table width="500" class="noborder"><tr><td  width="85%"><b>Discover</b></td><td width="15%" align="right">$<%= set_thou_sep(["%.2f"%del_dis]) %></td></tr></table>
+        <div class="separator"></div>
+      <% end %>
+    <% end
+
+  end %>
+  
+
+  <% if delivery_fee_total != 0 %>
+    <table width="500" class="noborder"><tr><td align="right" width="85%" style="padding:3px;"><font size="3"><b>Total</b></font></td><td align="right" width="15%"><font size="3"><b>$<%= set_thou_sep(["%.2f" % delivery_fee_total]) %></b></font></td></tr></table>
+  <% else %>
+    <font color="red"><b>No delivery fees available for this day.</b></font><br><br>
+  <% end %>
+
+
+  <!--
+  <h2>Tax</h2>
+  <div class="separator"></div>-->
+  <%
+  tax_fee_total = 0
+  visa_plus_mc = 0
+%>
+
+
+  <% if @other_visa.empty? == false
+    if @other_visa[0].sales_tax_seasonal_packaging.to_f > 0 || @other_visa[0].sales_tax_packaging.to_f > 0 || @other_visa[0].sales_tax.to_f > 0 %>
+      <% tax_visa = 0 %>
+      <!--
+    <b>VISA</b>
+    <table width="500" class="noborder">
+      <%
+      for item in @other_visa
+        if item.sales_tax_seasonal_packaging.to_f > 0
+        %>
+                    <tr>
+                        <td width="85%" width="85%">Sales Tax for Seasonal - Packaging Only</td><td align="right" width="15%" ><%= ["%.2f" % item.sales_tax_seasonal_packaging] %>&nbsp;</td>
+          <% tax_fee_total += item.sales_tax_seasonal_packaging.to_f
+          tax_visa += item.sales_tax_seasonal_packaging.to_f%>
+                    </tr>
+        <%
+        end
+        if item.sales_tax_packaging.to_f >  0
+        %>
+                    <tr>
+                        <td width="85%">Sales Tax for Cupcakes - Packaging Only</td><td align="right" width="15%" ><%= ["%.2f" % item.sales_tax_packaging] %>&nbsp;</td>
+          <% tax_fee_total += item.sales_tax_packaging.to_f
+          tax_visa += item.sales_tax_packaging.to_f %>
+                    </tr>
+        <%
+        end
+        if item.sales_tax.to_f >  0
+        %>
+                    <tr>
+                        <td>Sales Tax - Merchandise Only</td><td align="right" width="15%"><%= ["%.2f" % item.sales_tax] %>&nbsp;</td>
+          <% tax_fee_total += item.sales_tax.to_f
+          tax_visa += item.sales_tax.to_f %>
+                    </tr>
+        <%
+        end
+      end
+    %>
+    </table><br>-->
+      <% if tax_visa != 0 %>
+        <% visa_plus_mc = tax_visa %>
+        <!--
+        <table width="500" class="noborder"><tr><td  width="85%"><b>VISA</b></td><td width="15%" align="right">$<%= ["%.2f"%tax_visa] %></td></tr></table>
+        <div class="separator"></div>-->
+      <% end %>
+    <% end
+
+  end %>
+
+
+  <% if @other_mc.empty? == false
+    if @other_mc[0].sales_tax_seasonal_packaging.to_f > 0 || @other_mc[0].sales_tax_packaging.to_f > 0 || @other_mc[0].sales_tax.to_f > 0 %>
+
+      <% tax_mc = 0 %>
+      <!--
+    <b>MasterCard</b>
+    <table width="500" class="noborder">
+      <%
+      for item in @other_mc
+        if item.sales_tax_seasonal_packaging.to_f > 0
+        %>
+                    <tr>
+                        <td width="85%" width="85%">Sales Tax for Seasonal - Packaging Only</td><td align="right" width="15%" ><%= ["%.2f" % item.sales_tax_seasonal_packaging] %>&nbsp;</td>
+          <% tax_fee_total += item.sales_tax_seasonal_packaging.to_f
+          tax_mc += item.sales_tax_seasonal_packaging.to_f %>
+                    </tr>
+        <%
+        end
+        if item.sales_tax_packaging.to_f >  0
+        %>
+                    <tr>
+                        <td width="85%">Sales Tax for Cupcakes - Packaging Only</td><td align="right" width="15%" ><%= ["%.2f" % item.sales_tax_packaging] %>&nbsp;</td>
+          <% tax_fee_total += item.sales_tax_packaging.to_f
+          tax_mc += item.sales_tax_packaging.to_f %>
+                    </tr>
+        <%
+        end
+        if item.sales_tax.to_f >  0
+        %>
+                    <tr>
+                        <td>Sales Tax - Merchandise Only</td><td align="right" width="15%"><%= ["%.2f" % item.sales_tax] %>&nbsp;</td>
+          <% tax_fee_total += item.sales_tax.to_f
+          tax_mc += item.sales_tax.to_f %>
+                    </tr>
+        <%
+        end
+      end
+    %>
+    </table><br>-->
+      <% if tax_mc != 0 %>
+        <% visa_plus_mc += tax_mc %>
+        <!--
+        <table width="500" class="noborder"><tr><td  width="85%"><b>MasterCard</b></td><td width="15%" align="right">$<%= ["%.2f"%tax_mc] %></td></tr></table>
+        <div class="separator"></div>
+        -->
+      <% end %>
+    <% end
+
+  end %>
+
+  <% if visa_plus_mc != 0 %>
+    <!--
+    <table width="500" class="noborder"><tr><td  width="85%"><b>VISA + MasterCard</b></td><td width="15%" align="right">$<%= ["%.2f"%visa_plus_mc] %></td></tr></table>
+    <div class="separator"></div>
+    -->
+  <% end %>
+
+
+  <% if @other_ae.empty? == false
+    if @other_ae[0].sales_tax_seasonal_packaging.to_f > 0 || @other_ae[0].sales_tax_packaging.to_f > 0 || @other_ae[0].sales_tax.to_f > 0 %>
+
+      <% tax_ae = 0 %>
+      <!--
+    <b>American Express</b>
+    <table width="500" class="noborder">
+      <%
+      for item in @other_ae
+        if item.sales_tax_seasonal_packaging.to_f > 0
+        %>
+                    <tr>
+                        <td width="85%" width="85%">Sales Tax for Seasonal - Packaging Only</td><td align="right" width="15%" ><%= ["%.2f" % item.sales_tax_seasonal_packaging] %>&nbsp;</td>
+          <% tax_fee_total += item.sales_tax_seasonal_packaging.to_f
+          tax_ae += item.sales_tax_seasonal_packaging.to_f               %>
+                    </tr>
+        <%
+        end
+        if item.sales_tax_packaging.to_f >  0
+        %>
+                    <tr>
+                        <td width="85%">Sales Tax for Cupcakes - Packaging Only</td><td align="right" width="15%" ><%= ["%.2f" % item.sales_tax_packaging] %>&nbsp;</td>
+          <% tax_fee_total += item.sales_tax_packaging.to_f
+          tax_ae += item.sales_tax_packaging.to_f             %>
+                    </tr>
+        <%
+        end
+        if item.sales_tax.to_f >  0
+        %>
+                    <tr>
+                        <td>Sales Tax - Merchandise Only</td><td align="right" width="15%"><%= ["%.2f" % item.sales_tax] %>&nbsp;</td>
+          <% tax_fee_total += item.sales_tax.to_f
+          tax_ae += item.sales_tax.to_f%>
+                    </tr>
+        <%
+        end
+      end
+    %>
+    </table><br>-->
+      <% if tax_ae != 0 %>
+        <!--
+        <table width="500" class="noborder"><tr><td  width="85%"><b>American Express</b></td><td width="15%" align="right">$<%= ["%.2f"%tax_ae] %></td></tr></table>
+        <div class="separator"></div>
+        -->
+      <% end %>
+    <% end
+
+  end %>
+
+  <% if @other_discover.empty? == false
+    if @other_discover[0].sales_tax_seasonal_packaging.to_f > 0 || @other_discover[0].sales_tax_packaging.to_f > 0 || @other_discover[0].sales_tax.to_f > 0 %>
+
+      <% tax_dis = 0 %>
+      <!--
+    <b>Discover</b>
+    <table width="500" class="noborder">
+      <%
+      for item in @other_discover
+        if item.sales_tax_seasonal_packaging.to_f > 0
+        %>
+                    <tr>
+                        <td width="85%" width="85%">Sales Tax for Seasonal - Packaging Only</td><td align="right" width="15%" ><%= ["%.2f" % item.sales_tax_seasonal_packaging] %>&nbsp;</td>
+          <% tax_fee_total += item.sales_tax_seasonal_packaging.to_f
+          tax_dis += item.sales_tax_seasonal_packaging.to_f%>
+                    </tr>
+        <%
+        end
+        if item.sales_tax_packaging.to_f >  0
+        %>
+                    <tr>
+                        <td width="85%">Sales Tax for Cupcakes - Packaging Only</td><td align="right" width="15%" ><%= ["%.2f" % item.sales_tax_packaging] %>&nbsp;</td>
+          <% tax_fee_total += item.sales_tax_packaging.to_f
+          tax_dis += item.sales_tax_packaging.to_f%>
+                    </tr>
+        <%
+        end
+        if item.sales_tax.to_f >  0
+        %>
+                    <tr>
+                        <td>Sales Tax - Merchandise Only</td><td align="right" width="15%"><%= ["%.2f" % item.sales_tax] %>&nbsp;</td>
+          <% tax_fee_total += item.sales_tax.to_f
+          tax_dis += item.sales_tax.to_f%>
+                    </tr>
+        <%
+        end
+      end
+    %>
+    </table><br>-->
+      <% if tax_dis != 0 %>
+        <!--
+        <table width="500" class="noborder"><tr><td  width="85%"><b>Discover</b></td><td width="15%" align="right">$<%= ["%.2f"%tax_dis] %></td></tr></table>
+        <div class="separator"></div>
+        -->
+      <% end %>
+    <% end
+
+  end %>
+
+
+
+  <!--
+  <% if tax_fee_total != 0 %>
+        <table width="500" class="noborder"><tr><td align="right" width="85%" style="padding:3px;"><font size="3"><b>Total</b></font></td><td align="right" width="15%"><font size="3"><b>$<%= ["%.2f" % tax_fee_total] %></b></font></td></tr></table>
+  <% else %>
+          <font color="red"><b>No tax available for this day.</b></font><br><br>
+  <% end %>
+  -->
+
+  <br>
+<!--
+  <% if cupcake_sales_tottal != 0 || retail_sales_tottal != 0 %>
+    <div class="separator2"></div>
+    <table width="500" class="noborder">
+      <tr><td colspan="2" style="height:1px;"></td></tr>
+      <tr style="background-color:#EEEEEE;">
+        <td align="right" width="85%" style="padding:5px;"><font size="3"><b>Grand Total</b></font></td>
+        <td align="right" width="15%"><font size="3"><b>$<%= set_thou_sep(["%.2f" % (cupcake_sales_tottal + retail_sales_tottal + delivery_fee_total + tax_fee_total)]) %></b></font></td>
+      </tr>
+      <tr><td colspan="2" style="height:1px;"></td></tr>
+    </table>
+    <div class="separator2"></div>
+  <% end %>
+-->
+</div>
+<div id="calendar">
+    <form name="calendar_form">
+          <div id="calendar_controllers">
+                  <input type="button" class="close_button" name="calendar_Close" onclick="HideCalendar();" value="" style="border:0px; height:13px; width:33px; background-image:url('/images/calender/closeButton_normal.gif');"><br/>
+                  <input type="button" class="ctrl_button" name="calendar_PrevMonth" onclick="calendar_prev_month();" value="" style="border:0px; height:20px; width:20px; background-image:url('/images/calender/monthBackward_normal.gif');">
+                  <select name="cal_month" onchange="Calendar_FillMonth();">
+                          <option value="1"<%= (1 == Time.now.month)?" selected":""; %>>January</option>
+                          <option value="2"<%= (2 == Time.now.month)?" selected":""; %>>February</option>
+                          <option value="3"<%= (3 == Time.now.month)?" selected":""; %>>March</option>
+                          <option value="4"<%= (4 == Time.now.month)?" selected":""; %>>April</option>
+                          <option value="5"<%= (5 == Time.now.month)?" selected":""; %>>May</option>
+                          <option value="6"<%= (6 == Time.now.month)?" selected":""; %>>June</option>
+                          <option value="7"<%= (7 == Time.now.month)?" selected":""; %>>July</option>
+                          <option value="8"<%= (8 == Time.now.month)?" selected":""; %>>August</option>
+                          <option value="9"<%= (9 == Time.now.month)?" selected":""; %>>September</option>
+                          <option value="10"<%= (10 == Time.now.month)?" selected":""; %>>October</option>
+                          <option value="11"<%= (11 == Time.now.month)?" selected":""; %>>November</option>
+                          <option value="12"<%= (12 == Time.now.month)?" selected":""; %>>December</option>
+                  </select>,
+                  <select name="year" onchange="Calendar_FillMonth();">
+                          <% (2000..2050).each do |@year| %>
+                                  <option value="<%= @year %>"<%= (@year == Time.now.year)?" selected":""; %>><%= @year %></option>
+                          <% end %>
+                  </select>
+                  <input type="button" class="ctrl_button" name="calendar_NextMonth" onclick="calendar_next_month();" value="" style="border:0px; height:20px; width:20px; background-image:url('/images/calender/monthForward_normal.gif');">
+          </div>
+          <div class="cal_head_row">
+                  <div class="cal_head">Sun</div>
+                  <div class="cal_head">Mon</div>
+                  <div class="cal_head">Tue</div>
+                  <div class="cal_head">Wed</div>
+                  <div class="cal_head">Thu</div>
+                  <div class="cal_head">Fri</div>
+                  <div class="cal_head">Sat</div>
+          </div>
+          <div class="cal_content" id="CalendarContent">
+          </div>
+    </form>
+</div>
+

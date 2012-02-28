@@ -1,0 +1,59 @@
+<% @page_title = "Special Decorations" %>
+<p><%= link_to 'Upload Special Decoration Popup Images', :action => 'upload' %></p>
+
+<style>
+  .clr_box{
+      border: 1px solid lightgrey;
+      width: 50px;
+      height: 20px;
+      margin: 4px;
+  }
+</style>
+<div style="width: 680px; float: left;">
+      <p><%= link_to 'New Special Decoration', :action => 'new' %></p>
+      <table>
+        <tr>
+          <th width="28%">Decoration Name</th>
+          <th width="17%">Group</th>
+          <th width="20%">Requires Two Colors</th>
+          <th width="13%">Original Size</th>
+          <th width="7%">Mini</th>
+          <th width="15%" colspan="2">Actions</th>
+        </tr>
+        
+      <% for sp_decoration in @sp_decorations %>
+        <tr>
+          <td><%=h sp_decoration.name %></td>
+          <td align="center"><%= sp_decoration.group %></td>
+          <td align="center"><%= (sp_decoration.colors)? "X" : "" %></td>
+          <td align="center"><%= (sp_decoration.standard)? "X" : "" %></td>
+          <td align="center"><%= (sp_decoration.mini)? "X" : "" %></td>
+          <td align="center"><%= link_to 'Edit', :action => 'edit', :id => sp_decoration %></td>
+          <td align="center"><%= link_to 'Destroy', { :action => 'destroy', :id => sp_decoration }, :confirm => 'Are you sure?', :method => :post %></td>
+        </tr>  
+      <% end %>
+      </table>
+
+      <p><%= render(:partial => "/paginate", :locals => {:collection => @sp_decorations }) -%></p>
+</div>
+<div style="width: 350px; float: left;">
+      <p><%= link_to 'New Color', :controller => "colors", :action => 'new' %></p>
+      <table>
+        <tr>
+          <th>Color Name</th>
+          <th>&nbsp;</th>
+          <th colspan="2">Actions</th>
+        </tr>
+        
+      <% for color in @colors %>
+        <tr>
+          <td><%=h color.name %></td>
+          <td><div class="clr_box" style="background-color:<%= color.code %>"></div></td>
+          <td><%= link_to 'Edit', :controller => "colors", :action => 'edit', :id => color %></td>
+          <td><%= link_to 'Destroy', { :controller => "colors", :action => 'destroy', :id => color }, :confirm => 'Are you sure?', :method => :post %></td>
+        </tr>  
+      <% end %>
+      </table>
+</div>
+
+<br />

@@ -1,0 +1,65 @@
+<% @page_title="Production Windows" -%>
+
+<% if params[:store_id] == "2" %>
+<h3>West University</h3>
+<% else %>
+<h3>Uptown Park</h3>
+<% end %>
+
+<p><%#= link_to 'New cupcake', :action => 'new' %></p>
+<%
+col_total_1 = 0
+col_total_2 = 0
+col_total_3 = 0
+col_total_4 = 0
+col_total_5 = 0
+col_total_6 = 0
+col_total_7 = 0
+%>
+<table>
+  <tr>
+    <th>Time Slot</th>
+    <th>Mon</th>
+    <th>Tue</th>
+    <th>Wed</th>
+    <th>Thu</th>
+    <th>Fri</th>
+    <th>Sat</th>
+    <th>Sun</th>
+
+    <th colspan="1">Actions</th>
+  </tr>
+  
+<% for cupcake in @timeslot %>
+  <tr>
+    <td><%=h cupcake.timeslot %></td>
+    <td align="right"><%=cupcake.mon  %><% col_total_1 += cupcake.mon.to_i  %></td>
+    <td align="right"><%=cupcake.tue  %><% col_total_2 += cupcake.tue.to_i  %></td>
+    <td align="right"><%=cupcake.wed  %><% col_total_3 += cupcake.wed.to_i  %></td>
+    <td align="right"><%=cupcake.thu  %><% col_total_4 += cupcake.thu.to_i  %></td>
+    <td align="right"><%=cupcake.fri  %><% col_total_5 += cupcake.fri.to_i  %></td>
+    <td align="right"><%=cupcake.sat  %><% col_total_6 += cupcake.sat.to_i  %></td>
+    <td align="right"><%=cupcake.sun  %><% col_total_7 += cupcake.sun.to_i  %></td>
+   
+    <td><%= link_to 'Edit', :action => 'edit', :id => cupcake %></td>
+    <%#= link_to 'Destroy', { :action => 'destroy', :id => cupcake }, :confirm => 'Are you sure?', :method => :post %>
+  </tr>
+<% end %>
+  <tr>
+    <td><b>Total</b></td>
+    <td align="right"><b><%= col_total_1.to_s %></b></td>
+    <td align="right"><b><%= col_total_2.to_s %></b></td>
+    <td align="right"><b><%= col_total_3.to_s %></b></td>
+    <td align="right"><b><%= col_total_4.to_s %></b></td>
+    <td align="right"><b><%= col_total_5.to_s %></b></td>
+    <td align="right"><b><%= col_total_6.to_s %></b></td>
+    <td align="right"><b><%= col_total_7.to_s %></b></td>
+    <td align="right">&nbsp;</td>
+  </tr>
+</table>
+
+<p><%= render(:partial => "/paginate", :locals => {:collection => @timeslot }) -%></p>
+
+<br />
+
+

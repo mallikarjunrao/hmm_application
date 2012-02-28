@@ -1,0 +1,131 @@
+html,body,div,span,
+applet,object,iframe,embed,object,
+h1,h2,h3,h4,h5,h6,p,blockquote,pre,
+a,abbr,acronym,address,big,cite,code,
+del,dfn,em,font,img,ins,kbd,q,s,samp,
+small,strike,strong,sub,sup,tt,var,
+dl,dt,dd,ol,ul,li,
+fieldset,form,label,legend,
+table,caption,tbody,tfoot,thead,tr,th,td {
+  font-family: "Century Gothic", "News Gothic MT", Helvetica, Arial, Verdana, sans-serif;
+}
+h1,h2,h3,h4,h5,h6 {
+  font-weight: 600 !important;
+  letter-spacing: 0.055em !important;
+}
+h1,h2,h3,h4,h5,h6,
+p,li,span,blockquote,input,
+legend,dl,dd,th,td,em,a {
+  font-family: Arial, Verdana, Tahoma, sans-serif !important;
+}
+#home-page #wrapper .main {
+  height: 300px;
+  position: relative; z-index: 1;
+}
+#mini-menu {
+  overflow: visible;
+}
+#daily-flavors, #mini-menu {
+  z-index: 4;
+}
+
+/* presentational layout fixes */
+#product-detail-page #details {
+  position: relative; left: 360px;
+  margin-top: -540px;  
+}
+table#avail td.yes {
+  text-indent: -400px;
+  padding-top: 5px; height /**/: 5px;
+  background: url("../images/ui/calendar_yes.gif") no-repeat 15px 5px;
+}
+#product-detail-page #pricing {
+  margin-top: 25px;
+}
+
+/** about photo gal **/
+#gallery {
+ left: 3px;
+}
+
+/** weddings and events **/
+#events-more-page img#prev,
+#events-more-page img#next,
+#events3-page img#prev,
+#gallery-page img#prev,
+#gallery-page img#next {
+  top: 265px;
+}
+#events-page #details img {
+  top: -88px;
+}
+#events-page p img#events1-bg {
+  top: -5px;
+}
+#events-page #details a {
+  letter-spacing: 0.05em;
+}
+
+#weekly-1,#weekly-2 {
+  height: 70%;
+}
+#weekly-1 {
+  padding-top: 100px;
+  padding-bottom: 30px;
+}
+#weekly-2 {
+  clear: left;
+  padding-top: 0;
+  padding-bottom: 20px;
+}
+#menu-page #footer {
+  position: relative;
+}
+#menu-page #daily-flavors,
+#menu-page #footer {
+  top: -20px;
+}
+#news-page .main,
+#menu-page .main,
+#events-more-page .main,
+#order-page .main,
+#story-page .main {
+  height: 100%;
+  padding-bottom: 20px;
+}
+#events-more-page .main {
+  padding-bottom: 0;
+}
+#events-more-page #details img {
+  width: 300px;
+  margin: -20px 0 0 0; padding: 0;
+}
+hr#dots {
+  display: none; visibility: hidden;
+}
+p#failover-dots {
+  clear: left; text-indent: -3000px;
+  border: 0 none;
+  width: 893px;
+  padding-top: 39px; height /**/: 39px;
+  background: url("../images/ui/hr_dots.gif") 0 15px repeat-x;
+  margin: 0 0 -35px 0;
+}
+  #menu-page #footer { padding-top: 35px; }
+#footer div#callout {
+  padding: 0; margin: 0;
+  position: relative;
+  top: -17px; left: 0;
+}
+#footer div#callout p { margin: 10px 0 0 45px; }
+/* form fixes */
+div.checkbox { /* for div's that wrap checkboxes with lots of copy */
+  height: 100%;
+  padding-bottom: 10px;
+}
+
+/* Social Networking buttons - Added by Grady Noonen */
+
+a#facebook, a#twitter {
+	margin-top:4px;
+}

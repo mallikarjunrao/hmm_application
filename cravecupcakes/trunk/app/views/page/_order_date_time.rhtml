@@ -1,0 +1,90 @@
+
+
+        <fieldset id="timing">
+          <legend>Date &amp; Time</legend>
+          <div style="display:<%= params[:store].to_s != "" ? "block" : "none" %>;" id="d_n_t">
+            <span style="display:none;" class="txt">Pick up times are 8:30am-7:30pm (Monday - Friday), 9:30am-7:30pm (Saturday), and 10:30am-6:30pm (Sunday) and delivery times are 9:30am-5pm (Monday-Friday only).<br>
+              Delivery is not available on weekends.</span>
+            <span class="txt">Delivery is not available on weekends.</span>
+
+            <div class="field-wrap">
+              <label style="text-align:left; padding-left:180px; width:300px;" id="store_data">Store name/location:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<%= params[:store] == "Uptown Park" ? "<b>Uptown Park</b>" : "<b>West University</b>" %></label>
+            </div>
+            <div class="field-wrap3" id="dmethod" style="display:none;" align="right"> Please select delivery or pickup.</div>
+
+            <div class="field-wrap" style="height:90px;">
+              <label class="radio" for="delivery_method_pickup">This order is for <b>pickup</b>.</label>
+              <%= radio_button_tag "delivery_method", "pickup", params[:delivery_method] == 'pickup', {:class => 'radio', :onclick => 'setAnchor(\'timing\'); this.form.submit()'} %>
+              <div style="display:block; float:right; padding-right:15px; width:190px;">
+                <p style="font-size:13px;line-height:1.5em;">Pick up times are:<br>
+                  8:30am-7:30pm Monday - Friday<br>
+                  9:30am-7:30pm Saturday<br>
+                  10:30am-6:30pm Sunday</p>
+              </div>
+
+            </div>
+            <div class="field-wrap" style="padding-bottom:30px; height:auto;">
+              <label class="radio" for="delivery_method_delivery">This order is for <b>delivery</b>. <br/>
+                Houston area only.</label>
+              <%= radio_button_tag "delivery_method", "delivery", params[:delivery_method] == 'delivery', {:class => 'radio', :onclick => 'setAnchor(\'timing\'); this.form.submit()'} %>
+              <div style="display:block; float:right; padding-right:15px; width:190px;">
+                <p style="font-size:13px;line-height:1.5em;">Delivery times are:<br>
+                  9:30am-5:30pm Monday - Friday<br>
+                  Delivery is not available on weekends.<br></p>
+
+                <% if params[:delivery_method] == 'delivery' && @delivery_order_notice.strip != "" %>
+                  <p style="font-size:13px;line-height:1.5em; color:#B00000;"><%= @delivery_order_notice.strip %></p>
+                <% end  %>
+                  <br>
+              </div>
+
+            </div>
+            <div class="field-wrap4" id="tdorder" style="display:none;" align="right"> Please select date and time.</div>
+            <div class="field-wrap">
+              <div style="float:left;"> <label for="date_of_order">Date of <%= params[:delivery_method] ? params[:delivery_method] : "pickup/delivery" %>:</label> </div>
+              <div style="float:left;"> <%= text_field_tag "date_of_order", "#{params[:date_of_order]} #{(day && params[:date_of_order].length == 10)? day.title : "" }", {:class => 'text-field1',:readonly => 'readonly', :style=>"float:left"} %> </div>
+
+            </div>
+            <div class="field-wrap1" id="dorder" style="display:none;" align="right"> Online orders for  the next day must be placed prior to 5PM Central Time.</div>
+            <noscript>
+              <div class="field-wrap">
+                <label for="time_of_order">Set Delivery Date:</label>
+                <input type="submit" name="settor_of_date" value="Set Date"/>
+              </div>
+
+            </noscript>
+            <div class="field-wrap">
+              <label for="time_of_order">Time of <%= params[:delivery_method] ? params[:delivery_method] : "pickup/delivery" %>:</label>
+              <%= select_tag "time_of_order", options_for_select( @order_times, params[:time_of_order] ? params[:time_of_order].to_i : 0), :onchange => 'setAnchor(\'timing\'); this.form.submit()' %>
+            </div>
+
+            <% if day  %>
+              <div class="field-wrap" id="del_surcharge" style=" <% if ( params[:delivery_method] =='delivery' && session[:user_name]!=nil)  && (day.title=='Sunday' || day.title=='Saturday')   %>display:block; <% else %>display:none; <% end %>">
+                <label for="date_of_order">Weekend Delivery Surcharge:</label>
+                <%= text_field_tag "delivery_surcharge", prev_vars[:delivery_surcharge] != nil ? prev_vars[:delivery_surcharge] : params[:delivery_surcharge], {:class => 'text-field',:onChange=>"delevarySercharge();"} %>
+              </div>
+            <% end %>
+            <div class="field-wrap1" id="deliverysurcharge" style="display:none;"  align="right"> The delivery surcharge is required (you may enter 0).</div>
+
+
+
+
+            <% #if Time.now.hour > 18 %>
+            <!-- <h4><strong>After 6pm</strong> please place your order for <strong>tomorrow</strong> with us directly at the bakery at 713.622.7283.</h4>-->
+            <% #end %>
+
+            <% if @no_time_msg && ! @no_time_msg.empty? -%>
+              <div id="blocked_times"><%= @no_time_msg %></div>
+            <% end -%>
+
+            <% if @blocked_messages && ! @blocked_messages.empty? -%>
+              <div id="blocked_times"><%= @blocked_messages %></div>
+            <% end -%>
+          </div>
+          <div style="display:<%= params[:store].to_s != "" ? "none" : "block" %>;" id="if_not_d_n_t">
+            <span class="txt">You must choose a store before selecting a date and time.</span>
+          </div>
+        </fieldset>
+
+
+        

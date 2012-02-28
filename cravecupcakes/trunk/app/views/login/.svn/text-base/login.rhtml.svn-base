@@ -1,0 +1,22 @@
+<%
+    @page_title="login"
+  @body_id="login"
+-%> 
+
+    <% form_tag(:action => 'login') do %>
+
+      <% if flash[:destination] -%>
+      <input type="hidden" name="destination" value="<%= flash[:destination] %>" />
+      <% end -%>
+      
+      <p><label for="employee_username">Username</label>
+        <%= text_field 'owner', 'username'  %></p>
+      
+      <p><label for="employee_password">Password</label>
+        <%= password_field 'owner', 'password'  %></p>
+      
+      <p><div class="btn">
+    <%= submit_tag "Login" %> 
+    </div></p>
+    <% end %>
+

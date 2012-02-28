@@ -1,0 +1,15 @@
+<%= error_messages_for 'dyno_image' %>
+<%= hidden_field 'dyno_image', 'dyno_page_id'  %>
+
+<!--[form:dyno_image]-->
+<p><label for="dyno_image_caption">Caption</label>
+<%= text_field 'dyno_image', 'caption'  %></p>
+
+<p><!--Use thumb for news items.--></p>
+<p><label for="dyno_image_thumb">Thumb <%= link_to 'view', '/images'+url_for_file_column('dyno_image', 'thumb') if url_for_file_column('dyno_image', 'thumb') %></label>
+<%= file_column_field 'dyno_image', 'thumb'  %></p>
+
+<p>Sizes are as follows. Home page images need to be 974px by 529px.  All other pages should be 569px by 529px. </p>
+<p><label for="dyno_image_image">Image <%= link_to 'view', '/images'+url_for_file_column('dyno_image', 'image') if url_for_file_column('dyno_image', 'image') %></label>
+<%= file_column_field 'dyno_image', 'image'  %></p>
+<!--[eoform:dyno_image]-->

@@ -1,0 +1,332 @@
+
+<fieldset class="qty" id="sea" style="display:<%= @show_specials.to_i == 1 ? "block" : "none" %>"><!--items and quantities of order-->
+          <legend>CRAVE Seasonal and Favorite Boxes</legend>
+
+
+
+          <% if @specials -%>
+            <span class="txt" id="intro"><%= @intro_specials %></span><!--day of week-->
+            <div class="field-wrap5" style="width:490px;"
+            <% if @request.env["HTTP_USER_AGENT"].include? "Chrome" %>
+                   style="width: 414px;"
+                 <% end %>
+
+                 id="ocupcakes" style="display:none;" align="left"> </div>
+                 <% for special in @specials
+                   special_value = prev_vars[:specials] && prev_vars[:specials][ special.id.to_s ] ? prev_vars[:specials][ special.id.to_s ] : ''
+
+                   if special_value == ''
+                     special_value = params[:specials] && params[:specials][ special.id.to_s ] ? params[:specials][ special.id.to_s ] : ''
+                   end
+
+                   #sp_obj = nil
+                   #sp_obj = Special.find(:first, :conditions => ["id = ?", special.id])
+
+                   # Sandun start -  Seasonal Items Availability Controls - 04-05-2010
+                   order_date = (Date.parse(params[:date_of_order][0,10]))
+                   today = @cst_houston.strftime("%Y-%m-%d").to_date
+                   st_date = special.available_start_date
+                   en_date = (special.cutoff_date != nil)? (special.cutoff_date) : special.cutoff_date
+                   vs_date = special.visible_start_date
+
+                   cst = @cst_houston
+                   now = cst.strftime("%H:%M:%S")
+                   six =  Time.parse('18:00:00').strftime("%H:%M:%S")
+
+               if (st_date == nil && en_date == nil && vs_date == nil)
+                 seasonals_exists = true
+                   %>
+                <div class="field-wrap" style="padding:10px 0px 10px 20px; width:510px; height:180px;">
+                  <div style="width:120px; float:left;">
+                    <img src="/images/special/image_file/<%= special.image_file_relative_path %>" height="180">
+                  </div>
+                  <div style="width:385px; float:left;" class="checkbox">
+                    <div align="right" style="margin-bottom:10px;">
+                      <p style=" width:360px; padding-bottom:10px; font-family:Arial,Verdana,sans-serif; font-size:13px; line-height:1.5em;">
+                        <%= special.description %>
+                      </p>
+                      <p style="font-family:Arial,Verdana,sans-serif; font-size:13px;"><b>Price</b> $<%= ["%.2f" % special.price] %></p>
+                    </div>
+                    <label style="width:250px; padding-top:10px;" for="specials[<%= special.id %>]"><%= special.title %></label>
+                    <p style="padding-top:10px;">
+                      <%= text_field_tag "specials[#{ special.id }]", special_value, {:class => 'text-field mini', :maxlength => 3, :style => "font-size:13px; margin-right:10px;"  ,:onkeyup=>"getTot();"} %>&nbsp;&nbsp;<span style="font-family:Arial,Verdana,sans-serif; font-size:13px;">Box(es)</span>
+                    </p>
+                    <%
+                    sp_cupcakes = SpecialCupcake.find(:all, :conditions => ["special_id = ?", special.id])
+                    total_cups = 0
+                    for one_of_cup in sp_cupcakes
+                      total_cups += one_of_cup.qty.to_i
+                    end
+                  %>
+                    <input type="hidden" id="sp_cup_total_<%= special.id %>" name="sp_cup_total_<%= special.id %>" value="<%= total_cups %>">
+                  </div>
+                </div>
+              <%
+              elsif (st_date == nil && en_date == nil && vs_date != nil && (vs_date <= today))
+                seasonals_exists = true
+              %>
+                <div class="field-wrap" style="padding:10px 0px 10px 20px; width:510px; height:180px;">
+                  <div style="width:120px; float:left;">
+                    <img src="/images/special/image_file/<%= special.image_file_relative_path %>" height="180">
+                  </div>
+                  <div style="width:385px; float:left;" class="checkbox">
+                    <div align="right" style="margin-bottom:10px;">
+                      <p style=" width:360px; padding-bottom:10px; font-family:Arial,Verdana,sans-serif; font-size:13px; line-height:1.5em;">
+                        <%= special.description %>
+                      </p>
+                      <p style="font-family:Arial,Verdana,sans-serif; font-size:13px;"><b>Price</b> $<%= ["%.2f" % special.price] %></p>
+                    </div>
+                    <% if (vs_date <= today) %>
+                      <label style="width:250px; padding-top:10px;" for="specials[<%= special.id %>]"><%= special.title %></label>
+                      <p style="padding-top:10px;">
+                        <%= text_field_tag "specials[#{ special.id }]", special_value, {:class => 'text-field mini', :maxlength => 3, :style => "font-size:13px; margin-right:10px;"  ,:onkeyup=>"getTot();"} %>&nbsp;&nbsp;<span style="font-family:Arial,Verdana,sans-serif; font-size:13px;">Box(es)</span>
+                      </p>
+                    <% else %>
+                      <p align="right"><%= special.title %></p>
+                    <% end %>
+                    <%
+                    sp_cupcakes = SpecialCupcake.find(:all, :conditions => ["special_id = ?", special.id])
+                    total_cups = 0
+                    for one_of_cup in sp_cupcakes
+                      total_cups += one_of_cup.qty.to_i
+                    end
+                  %>
+                    <input type="hidden" id="sp_cup_total_<%= special.id %>" name="sp_cup_total_<%= special.id %>" value="<%= total_cups %>">
+                  </div>
+                </div>
+              <%
+              elsif (st_date == nil && en_date != nil && vs_date == nil && ((en_date >= today) && en_date >= order_date))
+                seasonals_exists = true
+              %>
+                <div class="field-wrap" style="padding:10px 0px 10px 20px; width:510px; height:180px;">
+                  <div style="width:120px; float:left;">
+                    <img src="/images/special/image_file/<%= special.image_file_relative_path %>" height="180">
+                  </div>
+                  <div style="width:385px; float:left;" class="checkbox">
+                    <div align="right" style="margin-bottom:10px;">
+                      <p style=" width:360px; padding-bottom:10px; font-family:Arial,Verdana,sans-serif; font-size:13px; line-height:1.5em;">
+                        <%= special.description %>
+                      </p>
+                      <p style="font-family:Arial,Verdana,sans-serif; font-size:13px;"><b>Price</b> $<%= ["%.2f" % special.price] %></p>
+                    </div>
+                    <label style="width:250px; padding-top:10px;" for="specials[<%= special.id %>]"><%= special.title %></label>
+                    <p style="padding-top:10px;">
+                      <%= text_field_tag "specials[#{ special.id }]", special_value, {:class => 'text-field mini', :maxlength => 3, :style => "font-size:13px; margin-right:10px;"  ,:onkeyup=>"getTot();"} %>&nbsp;&nbsp;<span style="font-family:Arial,Verdana,sans-serif; font-size:13px;">Box(es)</span>
+                    </p>
+                    <%
+                    sp_cupcakes = SpecialCupcake.find(:all, :conditions => ["special_id = ?", special.id])
+                    total_cups = 0
+                    for one_of_cup in sp_cupcakes
+                      total_cups += one_of_cup.qty.to_i
+                    end
+                  %>
+                    <input type="hidden" id="sp_cup_total_<%= special.id %>" name="sp_cup_total_<%= special.id %>" value="<%= total_cups %>">
+                  </div>
+                </div>
+              <%
+              elsif (st_date == nil && en_date != nil && vs_date != nil && ((en_date >= today) && en_date >= order_date) && (vs_date <= today) )
+                seasonals_exists = true
+              %>
+                <div class="field-wrap" style="padding:10px 0px 10px 20px; width:510px; height:180px;">
+                  <div style="width:120px; float:left;">
+                    <img src="/images/special/image_file/<%= special.image_file_relative_path %>" height="180">
+                  </div>
+                  <div style="width:385px; float:left;" class="checkbox">
+                    <div align="right" style="margin-bottom:10px;">
+                      <p style=" width:360px; padding-bottom:10px; font-family:Arial,Verdana,sans-serif; font-size:13px; line-height:1.5em;">
+                        <%= special.description %>
+                      </p>
+                      <p style="font-family:Arial,Verdana,sans-serif; font-size:13px;"><b>Price</b> $<%= ["%.2f" % special.price] %></p>
+                    </div>
+                    <label style="width:250px; padding-top:10px;" for="specials[<%= special.id %>]"><%= special.title %></label>
+                    <p style="padding-top:10px;">
+                      <%= text_field_tag "specials[#{ special.id }]", special_value, {:class => 'text-field mini', :maxlength => 3, :style => "font-size:13px; margin-right:10px;"  ,:onkeyup=>"getTot();"} %>&nbsp;&nbsp;<span style="font-family:Arial,Verdana,sans-serif; font-size:13px;">Box(es)</span>
+                    </p>
+                    <%
+                    sp_cupcakes = SpecialCupcake.find(:all, :conditions => ["special_id = ?", special.id])
+                    total_cups = 0
+                    for one_of_cup in sp_cupcakes
+                      total_cups += one_of_cup.qty.to_i
+                    end
+                  %>
+                    <input type="hidden" id="sp_cup_total_<%= special.id %>" name="sp_cup_total_<%= special.id %>" value="<%= total_cups %>">
+                  </div>
+                </div>
+              <%
+              elsif (st_date != nil && en_date == nil && vs_date == nil)
+                seasonals_exists = true
+              %>
+                <div class="field-wrap" style="padding:10px 0px 10px 20px; width:510px; height:180px;">
+                  <div style="width:120px; float:left;">
+                    <img src="/images/special/image_file/<%= special.image_file_relative_path %>" height="180">
+                  </div>
+                  <div style="width:385px; float:left;" class="checkbox">
+                    <div align="right" style="margin-bottom:10px;">
+                      <p style=" width:360px; padding-bottom:10px; font-family:Arial,Verdana,sans-serif; font-size:13px; line-height:1.5em;">
+                        <%= special.description %>
+                      </p>
+                      <p style="font-family:Arial,Verdana,sans-serif; font-size:13px;"><b>Price</b> $<%= ["%.2f" % special.price] %></p>
+                    </div>
+                    <% if (st_date <= today || st_date <= order_date) %>
+                      <label style="width:250px; padding-top:10px;" for="specials[<%= special.id %>]"><%= special.title %></label>
+                      <p style="padding-top:10px;">
+                        <%= text_field_tag "specials[#{ special.id }]", special_value, {:class => 'text-field mini', :maxlength => 3, :style => "font-size:13px; margin-right:10px;"  ,:onkeyup=>"getTot();"} %>&nbsp;&nbsp;<span style="font-family:Arial,Verdana,sans-serif; font-size:13px;">Box(es)</span>
+                      </p>
+                    <% else %>
+                      <p align="right"><%= special.title %></p>
+                    <% end %>
+                    <%
+                    sp_cupcakes = SpecialCupcake.find(:all, :conditions => ["special_id = ?", special.id])
+                    total_cups = 0
+                    for one_of_cup in sp_cupcakes
+                      total_cups += one_of_cup.qty.to_i
+                    end
+                  %>
+                    <input type="hidden" id="sp_cup_total_<%= special.id %>" name="sp_cup_total_<%= special.id %>" value="<%= total_cups %>">
+                  </div>
+                </div>
+              <%
+              elsif (st_date != nil && en_date == nil && vs_date != nil && (vs_date <= today || st_date <= order_date) )
+                seasonals_exists = true
+              %>
+                <div class="field-wrap" style="padding:10px 0px 10px 20px; width:510px; height:180px;">
+                  <div style="width:120px; float:left;">
+                    <img src="/images/special/image_file/<%= special.image_file_relative_path %>" height="180">
+                  </div>
+                  <div style="width:385px; float:left;" class="checkbox">
+                    <div align="right" style="margin-bottom:10px;">
+                      <p style=" width:360px; padding-bottom:10px; font-family:Arial,Verdana,sans-serif; font-size:13px; line-height:1.5em;">
+                        <%= special.description %>
+                      </p>
+                      <p style="font-family:Arial,Verdana,sans-serif; font-size:13px;"><b>Price</b> $<%= ["%.2f" % special.price] %></p>
+                    </div>
+                    <% if (st_date <= order_date) %>
+                      <label style="width:250px; padding-top:10px;" for="specials[<%= special.id %>]"><%= special.title %></label>
+                      <p style="padding-top:10px;">
+                        <%= text_field_tag "specials[#{ special.id }]", special_value, {:class => 'text-field mini', :maxlength => 3, :style => "font-size:13px; margin-right:10px;"  ,:onkeyup=>"getTot();"} %>&nbsp;&nbsp;<span style="font-family:Arial,Verdana,sans-serif; font-size:13px;">Box(es)</span>
+                      </p>
+                    <% else %>
+                      <p align="right"><%= special.title %></p>
+                    <% end %>
+                    <%
+                    sp_cupcakes = SpecialCupcake.find(:all, :conditions => ["special_id = ?", special.id])
+                    total_cups = 0
+                    for one_of_cup in sp_cupcakes
+                      total_cups += one_of_cup.qty.to_i
+                    end
+                  %>
+                    <input type="hidden" id="sp_cup_total_<%= special.id %>" name="sp_cup_total_<%= special.id %>" value="<%= total_cups %>">
+                  </div>
+                </div>
+              <%
+              elsif (st_date != nil && en_date != nil && vs_date == nil && ((en_date >= today) && en_date >= order_date))
+                seasonals_exists = true
+              %>
+                <div class="field-wrap" style="padding:10px 0px 10px 20px; width:510px; height:180px;">
+                  <div style="width:120px; float:left;">
+                    <img src="/images/special/image_file/<%= special.image_file_relative_path %>" height="180">
+                  </div>
+                  <div style="width:385px; float:left;" class="checkbox">
+                    <div align="right" style="margin-bottom:10px;">
+                      <p style=" width:360px; padding-bottom:10px; font-family:Arial,Verdana,sans-serif; font-size:13px; line-height:1.5em;">
+                        <%= special.description %>
+                      </p>
+                      <p style="font-family:Arial,Verdana,sans-serif; font-size:13px;"><b>Price</b> $<%= ["%.2f" % special.price] %></p>
+                    </div>
+                    <% if (st_date <= order_date)  %>
+                      <label style="width:250px; padding-top:10px;" for="specials[<%= special.id %>]"><%= special.title %></label>
+                      <p style="padding-top:10px;">
+                        <%= text_field_tag "specials[#{ special.id }]", special_value, {:class => 'text-field mini', :maxlength => 3, :style => "font-size:13px; margin-right:10px;"  ,:onkeyup=>"getTot();"} %>&nbsp;&nbsp;<span style="font-family:Arial,Verdana,sans-serif; font-size:13px;">Box(es)</span>
+                      </p>
+                    <% else %>
+                      <p align="right"><%= special.title %></p>
+                    <% end %>
+                    <%
+                    sp_cupcakes = SpecialCupcake.find(:all, :conditions => ["special_id = ?", special.id])
+                    total_cups = 0
+                    for one_of_cup in sp_cupcakes
+                      total_cups += one_of_cup.qty.to_i
+                    end
+                  %>
+                    <input type="hidden" id="sp_cup_total_<%= special.id %>" name="sp_cup_total_<%= special.id %>" value="<%= total_cups %>">
+                  </div>
+                </div>
+              <%
+              elsif (st_date != nil && en_date != nil && vs_date != nil)
+
+                #if (vs_date <= today && (st_date <= order_date && en_date >= order_date))
+                if (st_date <= order_date && en_date >= order_date)
+                    seasonals_exists = true
+                  %>
+                      <div class="field-wrap" style="padding:10px 0px 10px 20px; width:510px; height:180px;">
+                      <div style="width:120px; float:left;">
+                        <img src="/images/special/image_file/<%= special.image_file_relative_path %>" height="180">
+                      </div>
+                      <div style="width:385px; float:left;" class="checkbox">
+                        <div align="right" style="margin-bottom:10px;">
+                          <p style=" width:360px; padding-bottom:10px; font-family:Arial,Verdana,sans-serif; font-size:13px; line-height:1.5em;">
+                            <%= special.description %>
+                          </p>
+                          <p style="font-family:Arial,Verdana,sans-serif; font-size:13px;"><b>Price</b> $<%= ["%.2f" % special.price] %></p>
+                        </div>
+                          <label style="width:250px; padding-top:10px;" for="specials[<%= special.id %>]"><%= special.title %></label>
+                          <p style="padding-top:10px;">
+                            <%= text_field_tag "specials[#{ special.id }]", special_value, {:class => 'text-field mini', :maxlength => 3, :style => "font-size:13px; margin-right:10px;"  ,:onkeyup=>"getTot();"} %>&nbsp;&nbsp;<span style="font-family:Arial,Verdana,sans-serif; font-size:13px;">Box(es)</span>
+                          </p>
+                        <%
+                        sp_cupcakes = SpecialCupcake.find(:all, :conditions => ["special_id = ?", special.id])
+                        total_cups = 0
+                        for one_of_cup in sp_cupcakes
+                          total_cups += one_of_cup.qty.to_i
+                        end
+                      %>
+                    <input type="hidden" id="sp_cup_total_<%= special.id %>" name="sp_cup_total_<%= special.id %>" value="<%= total_cups %>">
+                  </div>
+                </div>
+                  <%
+                #elsif (vs_date <= today && st_date > order_date)
+                elsif (vs_date <= today && st_date > today && (en_date >= order_date))
+                    seasonals_exists = true
+                    %>
+                    <div class="field-wrap" style="padding:10px 0px 10px 20px; width:510px; height:180px;">
+                    <div style="width:120px; float:left;">
+                      <img src="/images/special/image_file/<%= special.image_file_relative_path %>" height="180">
+                    </div>
+                    <div style="width:385px; float:left;" class="checkbox">
+                      <div align="right" style="margin-bottom:10px;">
+                        <p style=" width:360px; padding-bottom:10px; font-family:Arial,Verdana,sans-serif; font-size:13px; line-height:1.5em;">
+                          <%= special.description %>
+                        </p>
+                        <p style="font-family:Arial,Verdana,sans-serif; font-size:13px;"><b>Price</b> $<%= ["%.2f" % special.price] %></p>
+                      </div>
+                        <p align="right"><%= special.title %></p>
+                      <%
+                      sp_cupcakes = SpecialCupcake.find(:all, :conditions => ["special_id = ?", special.id])
+                      total_cups = 0
+                      for one_of_cup in sp_cupcakes
+                        total_cups += one_of_cup.qty.to_i
+                      end
+                    %>
+                      <input type="hidden" id="sp_cup_total_<%= special.id %>" name="sp_cup_total_<%= special.id %>" value="<%= total_cups %>">
+                    </div>
+                  </div>
+                    <%
+                 end
+              %>
+
+              <%
+              end
+
+              # Sandun end -  Seasonal Items Availability Controls - 04-05-2010
+
+            end %>
+
+            <% if !seasonals_exists %>
+              <script type="text/javascript">document.getElementById('intro').innerHTML = "";</script>
+              <p class="txt"><font color="red">No seasonal cupcake boxes are available.</font></p>
+            <% end %>
+
+          <% else %>
+            <span class="txt">You must choose the day your order will be fulfilled before you can select cupcakes.</span>
+          <% end %>
+        </fieldset>

@@ -1,0 +1,148 @@
+<%  @body_id = 'product-detail' %>
+
+<%
+require 'tztime'
+today = TZTime::LocalTime::Builder.new('Central Time (US & Canada)').now.strftime("%Y-%m-%d").to_date
+
+if(@slug == 'first')
+  @cupcake = @cupcakes[0]
+else
+  for cupcake in @cupcakes
+    if @slug == cupcake.slug
+      @cupcake = cupcake
+      break
+    end
+  end
+end
+
+if @cupcake != nil
+
+  @page_title = @cupcake.title + " - "
+
+  cup_st_date = @cupcake.available_start_date if @cupcake != nil
+  cup_en_date = @cupcake.cutoff_date if @cupcake != nil
+  cup_vs_date = @cupcake.visible_start_date if @cupcake != nil
+  show_main_cake = false
+
+  if (cup_en_date == nil && cup_vs_date == nil)
+    show_main_cake = true
+  elsif (cup_en_date == nil && cup_vs_date != nil && cup_vs_date <= today)
+    show_main_cake = true
+  elsif (cup_en_date != nil && cup_vs_date == nil && cup_en_date >= today )
+    show_main_cake = true
+  elsif (cup_en_date != nil && cup_vs_date != nil && cup_en_date >= today &&  cup_vs_date <= today )
+    show_main_cake = true
+  end
+
+end
+
+if (show_main_cake) && @cupcake != nil
+
+    %>
+
+    <div class="main">
+      <div id="product-photo">
+        <img style="background-image: url('/images/cupcake/no_image.gif');" src="/images/cupcake/image_file/<%= @cupcake.image_file_relative_path %>" alt="We bake our cupcakes fresh daily. (Shown: <%= @cupcake.title %> cupcakes.)" width="360" height="540" />
+      </div>
+
+      <div id="details">
+        <div id="details-1">
+          <div id="product-name">
+            <h3><%= @cupcake.title %></h3>
+            <%
+            
+            today = TZTime::LocalTime::Builder.new('Central Time (US & Canada)').now.strftime("%Y-%m-%d").to_date
+            %>
+            <% if @cupcake.available_start_date != nil && today < @cupcake.available_start_date %>
+                <p>Available starting <b><%= (@cupcake.available_start_date).to_date.strftime("%b&nbsp;%d,&nbsp;%Y") %></b></p><br>
+            <% end %>
+            <p><%= @cupcake.description %></p>
+          </div><!--end: name and info-->
+
+          <table cellspacing="0" id="avail">
+            <tr>
+              <th colspan="7">Freshly baked on</th>
+            </tr>
+            <tr id="days">
+              <th>Mon</th><th>Tue</th>
+              <th>Wed</th><th>Thur</th>
+              <th>Fri</th><th>Sat</th>
+              <th>Sun</th>
+            </tr>
+
+            <tr>
+              <% for _day in Day.find(:all)
+                if @cupcake.days.include?(_day)
+                %>
+                  <td class="yes"><img src="/images/ui/calendar_yes.gif" title="yes" alt="yes"/></td>
+                <%   else -%>
+                  <td>&nbsp;</td>
+                <%   end
+              end -%>
+            </tr>
+          </table><!--end: weekly availability calendar-->
+
+          <div id="pricing">
+            <p style="margin-bottom: 10px;text-transform:uppercase;"><a href="/menu" title="view flavors by day-of-week">View Daily Flavors &raquo;</a></p>
+
+            <table>
+              <% for price in @prices -%>
+                  <% if price.title != 'two dozen mini' %>
+                <tr> <td style="font-weight:600"><%= price.title %> </td>
+                  <td style="padding-left:15px; font-weight:600"><%= number_to_currency( price.price ) %> </td></tr>
+                  <% end %>
+                <% end -%>
+            </table>
+          </div><!--end: pricing-->
+        </div><!--end: details column 1 of 2-->
+
+        <div id="details-2">
+
+          <ul>
+            <%
+
+
+            for cupcake in @cupcakes
+
+              today = TZTime::LocalTime::Builder.new('Central Time (US & Canada)').now.strftime("%Y-%m-%d").to_date
+
+              cup_st_date = cupcake.available_start_date
+              cup_en_date = cupcake.cutoff_date
+              cup_vs_date = cupcake.visible_start_date
+              showcake = false
+
+              if (cup_en_date == nil && cup_vs_date == nil)
+                showcake = true
+              elsif (cup_en_date == nil && cup_vs_date != nil && cup_vs_date <= today)
+                showcake = true
+              elsif (cup_en_date != nil && cup_vs_date == nil && cup_en_date >= today )
+                showcake = true
+              elsif (cup_en_date != nil && cup_vs_date != nil && cup_en_date >= today &&  cup_vs_date <= today )
+                showcake = true
+              end
+
+              if (showcake)
+              %>
+                <li><a href="/<%= (cupcake.cup == '2')? "mini_": ""%>cupcake/<%= cupcake.slug %>"><%= cupcake.title %></a><%= (cupcake.cup == '2')? "<span> Mini</span>": ""%><% if cupcake.is_breakfast %><span>Breakfast</span><% end %></li>
+              <%
+              end
+            end
+          %>
+
+          </ul>
+
+        </div><!--end: details column 2 of 2-->
+
+      </div><!--end: details-->
+
+    </div><!--end: main-->
+<% else %>
+    
+     <div class="main">
+   <div style="padding:30px 10px 10px 260px; *padding:30px 10px 35px 260px;">
+
+          <h4>Cupcake not available.</h4>
+   </div>
+
+ </div>
+<% end %>

@@ -1,0 +1,49 @@
+
+
+
+ 
+      <table>
+  <tr>
+    <th>Id</th>
+    <th>Product Section</th>
+    <th> No. of Products </th>
+    <th> Sort Order </th>
+    <th> Show in Tear Sheet </th>
+    <th colspan="3">Actions</th>
+  </tr>
+ 
+<%
+ for item in @product_types 
+   
+  @product_count = Product.find(:all , :select=>" COUNT(product_type_id) as total", :conditions=>["product_type_id=? ", item.id])
+
+%>
+
+  <tr>
+
+    
+    <td><%=item.id  %></td>
+    <td><%= item.title %></td>
+    <td><%= @product_count[0].total.to_i %></td>
+    <td><%= item.position %></td>
+    <td align="center"><%= (item.show_in_tear_sheet)? 'X' : '' %></td>
+    <td><%= link_to 'List Products', :controller => 'products', :action => 'list', :product_type_id => item %></td>
+    <td><%= link_to 'Edit', :action => 'edit', :id => item %></td>
+    <td><%= link_to 'Destroy', { :action => 'destroy', :id => item }, :confirm => 'Are you sure?', :method => :post %></td>
+  </tr>
+     
+<%
+end
+
+%>
+     
+</table> 
+
+
+
+
+
+<%= sortable_element 'sort_list', 
+      :update => 'sort_content',  
+      :complete => visual_effect(:highlight, 'sort_list'), 
+      :url => { :action => "order" } %>

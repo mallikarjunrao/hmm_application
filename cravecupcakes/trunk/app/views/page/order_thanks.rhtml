@@ -1,0 +1,41 @@
+<% @page_title = "Place your order with " 
+ @body_id = "order" 
+	 @form_styles = %q{
+}
+%>
+
+ <div class="main">
+   <div style="padding:20px 10px 10px 260px; *padding:20px 10px 35px 260px;">
+        
+          <h2>Order Confirmation</h2>               
+       
+
+   </div><!--end: details-->
+   <div id="details">
+      <div style="padding:0px 10px 50px 225px;">
+       
+        <h4>Thank you for your order. Your order details have been emailed to you.</h4>
+        <br>
+        <!--
+        <% if session[:vars][:has_special_decorations] == "true" && !session[:user_name] %>
+        <h4>You will be contacted to discuss the special decorations for your cupcakes within twelve hours.</h4>
+        <% end %>
+       -->
+      </div>
+     <%if session[:user_name] %>
+
+            <div id="backtoadmin" style="float:right;margin:0 0 0 0; width:200px; height:20px ; position:relative; padding-top:16px;">
+        <a href="/login" id="backtoadmin">Back to Admin</a>
+      </div>
+            <% end %>
+   </div>
+
+ </div><!--end: main-->
+ <%
+ # finally delete the session
+  #session.delete
+  session[:vars]=nil
+  session[:user_overrode] = false
+  session[:overridden_by] = 0
+  #session[:restricted] = true
+ %>

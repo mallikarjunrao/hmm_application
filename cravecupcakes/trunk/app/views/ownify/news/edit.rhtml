@@ -1,0 +1,12 @@
+<% 
+    @page_title="Edit News" 
+-%>
+<p><%= link_to 'Back', :action => 'list', :dyno_type_id => @dyno_page.dyno_type_id %></p>
+
+<p> <%= link_to 'Edit', :controller => '/ownify/dyno_pages', :action => 'edit', :id => @dyno_page %> :: 
+    <%= link_to 'Images', :controller => '/ownify/dyno_images', :action => 'list', :dyno_page_id => @dyno_page %> </p>
+
+<% form_tag :action => 'update', :id => @dyno_page do %>
+  <%= render :partial => 'form' %>
+  <%= submit_tag 'Edit', :class => 'clear' %>
+<% end %>

@@ -1,0 +1,8 @@
+<% @page_title="Edit Production Window" -%>
+<p><%= link_to 'Back', :action => 'list' %></p>
+
+
+<% form_tag({:action => 'update', :id => @cupcake}, :multipart => true ) do %>
+  <%= render :partial => 'form' %>
+  <%= submit_tag 'Save' %>
+<% end %>

@@ -1,0 +1,7 @@
+<% @page_title ='Edit image' %>
+<p><%= link_to 'Back', :action => 'list', :dyno_page_id => @dyno_image.dyno_page_id %></p>
+
+<% form_tag({ :action => 'update', :id => @dyno_image}, :multipart => true ) do %>
+  <%= render :partial => 'form' %>
+  <%= submit_tag 'Save' %>
+<% end %>
